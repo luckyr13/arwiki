@@ -7,12 +7,22 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './home/home.component';
 import { SharedModule } from './shared/shared.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { SearchEngineComponent } from './search-engine/search-engine.component';
+import { FooterComponent } from './footer/footer.component';
+import { MainToolbarComponent } from './main-toolbar/main-toolbar.component';
+import { PageComponent } from './page/page.component';
+import { MainPageComponent } from './main-page/main-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    SearchEngineComponent,
+    FooterComponent,
+    MainToolbarComponent,
+    PageComponent,
+    MainPageComponent
   ],
   imports: [
     BrowserModule,

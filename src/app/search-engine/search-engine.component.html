@@ -1,0 +1,29 @@
+<div class="search-engine">
+	<form [formGroup]="searchForm" (ngSubmit)="onSubmitSearch()">
+		<mat-form-field >
+		  <mat-label>Search the arwiki</mat-label>
+		  <input 
+		  	matInput 
+		  	required 
+		  	formControlName="query"
+		  	placeholder="Ex. The Canterbury Tales">
+		</mat-form-field>
+		<div class="row row-settings">
+			<p class="col text-left">
+				Default language: <a mat-button routerLink="/EN">EN</a>
+			</p>
+			<p class="col text-right">
+				<a mat-button >Select language</a>
+			</p>
+		</div>
+		<div class="text-center">
+			<button 
+				[disabled]="!searchForm.valid"
+				mat-raised-button 
+				class="go-button"
+				color="primary">
+				<mat-icon>search</mat-icon> Go!
+			</button>
+		</div>
+	</form>
+</div>

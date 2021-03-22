@@ -1,4 +1,7 @@
-<h1 class="text-center">
-  arwiki
-</h1>
-<router-outlet></router-outlet>
+<app-main-toolbar></app-main-toolbar>
+<mat-sidenav-container class="main-menu-container">
+  <mat-sidenav mode="side" opened="false">Sidenav content</mat-sidenav>
+  <mat-sidenav-content>
+		<router-outlet></router-outlet>
+	</mat-sidenav-content>
+</mat-sidenav-container>
