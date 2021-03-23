@@ -1,6 +1,6 @@
 {
 	"HOME": {
-		"SECONDARY_TITLE": "The decentralized encyclopedia." 
+		"SECONDARY_TITLE": "The decentralized encyclopedia."
 	},
 	"MAIN_MENU": {
 
@@ -18,12 +18,17 @@
 
 	},
 	"SEARCH_ENGINE": {
-
+		"INPUT_SEARCH_LABEL": "Search the arwiki",
+		"INPUT_SEARCH_PLACEHOLDER": "Example: The Canterbury Tales",
+		"LBL_DEFAULT_LANG": "Default language",
+		"LBL_SELECT_LANG":" Select language",
+		"BTN_TXT_GO": "Go!"
 	},
 	"FOOTER": {
-
+		"LBL_POWERED": "Powered by"
 	},
 	"DIALOGS": {
-
+		"TITLE_SELECT_LANG": "Select language",
+		"TXT_CLOSE": "Close"
 	}
 }

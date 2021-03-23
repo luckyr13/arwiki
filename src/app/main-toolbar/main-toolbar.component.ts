@@ -61,6 +61,7 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
     }
   }
 
+
   /*
   *  @dev Destroy session
   */

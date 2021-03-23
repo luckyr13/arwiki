@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import {TranslateService} from '@ngx-translate/core';
 declare const window: any;
 
 @Injectable({
@@ -7,7 +8,7 @@ declare const window: any;
 })
 export class UserSettingsService {
 	_defaultTheme: string = '';
-	_defaultLang: string = '';
+	_defaultLang: any = '';
 
 	// Observable string sources
   private routePath = new Subject<string>();
@@ -19,9 +20,12 @@ export class UserSettingsService {
   	this.routePath.next(_path);
   }
 
-  constructor() {
+  constructor(
+    private _translate: TranslateService
+   ) {
   	const dtheme = window.sessionStorage.getItem('defaultTheme');
-  	const dlang = window.sessionStorage.getItem('defaultLang');
+  	const dlang = JSON.parse(window.sessionStorage.getItem('defaultLang'));
+
 
   	// Default settings
   	if (dtheme) {
@@ -32,7 +36,7 @@ export class UserSettingsService {
   	if (dlang) {
   		this.setDefaultLang(dlang);
   	} else {
-  		this.setDefaultLang('EN');
+  		this.setDefaultLang(this.getBaseLang());
   	}
   }
 
@@ -52,15 +56,23 @@ export class UserSettingsService {
   	}
   }
 
-  setDefaultLang(_lang: string) {
+  setDefaultLang(_lang: any) {
   	if (_lang) {
-  		this._defaultLang = _lang;
-    	window.sessionStorage.setItem('defaultLang', this._defaultLang);
+      let def = '';
+      try {
+        def = JSON.stringify(_lang);
+        this._defaultLang = _lang;
+      } catch (err) {
+        def = JSON.stringify(this.getBaseLang());
+        this._defaultLang = this.getBaseLang();
+      }
+    	window.sessionStorage.setItem('defaultLang', def);
+      this._translate.use(this._defaultLang.code);
   	}
   }
 
   resetUserSettings() {
-  	this._defaultLang = 'EN';
+  	this._defaultLang = this.getBaseLang();
   	this._defaultTheme = 'arwiki-light';
   	window.sessionStorage.removeItem('defaultTheme');
   	window.sessionStorage.removeItem('defaultLang');
@@ -90,5 +102,16 @@ export class UserSettingsService {
       break;
     }
 
+  }
+
+  getBaseLang() {
+    return {
+      "code": "en",
+      "iso_name": "English",
+      "native_name": "English",
+      "numPages": 0,
+      "writing_system": "LTR",
+      "contract": ""
+    };
   }
 }

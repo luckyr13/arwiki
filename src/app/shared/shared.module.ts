@@ -15,6 +15,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatListModule} from '@angular/material/list';
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
   declarations: [DialogSelectLanguageComponent],
@@ -23,7 +24,8 @@ import {MatListModule} from '@angular/material/list';
     MatDialogModule,
     MatButtonModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    TranslateModule
   ],
   exports: [
   	MatFormFieldModule,

@@ -1,0 +1,34 @@
+{
+	"HOME": {
+		"SECONDARY_TITLE": "La enciclopedia descentralizada."
+	},
+	"MAIN_MENU": {
+
+	},
+	"MAIN_TOOLBAR": {
+
+	},
+	"MAIN_PAGE": {
+
+	},
+	"PAGE": {
+
+	},
+	"NOT_FOUND": {
+
+	},
+	"SEARCH_ENGINE": {
+		"INPUT_SEARCH_LABEL": "Buscar en arwiki",
+		"INPUT_SEARCH_PLACEHOLDER": "Ejemplo: Los Cuentos de Canterbury",
+		"LBL_DEFAULT_LANG": "Idioma default",
+		"LBL_SELECT_LANG":"Seleccionar idioma",
+		"BTN_TXT_GO": "Vamos!"
+	},
+	"FOOTER": {
+		"LBL_POWERED": "Energizado por"
+	},
+	"DIALOGS": {
+		"TITLE_SELECT_LANG": "Seleccionar idioma",
+		"TXT_CLOSE": "Cerrar"
+	}
+}

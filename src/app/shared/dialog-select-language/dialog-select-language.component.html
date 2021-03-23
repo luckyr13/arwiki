@@ -1,4 +1,4 @@
-<h2 class="title">Select language</h2>
+<h2 class="title">{{ 'DIALOGS.TITLE_SELECT_LANG' | translate }}</h2>
 <mat-dialog-content class="text-center">
 	<mat-spinner class="loader" *ngIf="loading"></mat-spinner>
 	<div *ngIf="!loading && !error">
@@ -18,5 +18,5 @@
 	</div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button [mat-dialog-close]="" cdkFocusInitial>Cancel</button>
+  <button mat-button [mat-dialog-close]="" cdkFocusInitial>{{ 'DIALOGS.TXT_CLOSE' | translate }}</button>
 </mat-dialog-actions>

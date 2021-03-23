@@ -1,0 +1,34 @@
+{
+	"HOME": {
+		"SECONDARY_TITLE": "Die dezentrale Enzyklopädie."
+	},
+	"MAIN_MENU": {
+
+	},
+	"MAIN_TOOLBAR": {
+
+	},
+	"MAIN_PAGE": {
+
+	},
+	"PAGE": {
+
+	},
+	"NOT_FOUND": {
+
+	},
+	"SEARCH_ENGINE": {
+		"INPUT_SEARCH_LABEL": "Durchsuche das Arwiki",
+		"INPUT_SEARCH_PLACEHOLDER": "Beispiel: Die Canterbury Tales",
+		"LBL_DEFAULT_LANG": "Standardsprache",
+		"LBL_SELECT_LANG":"Sprache auswählen",
+		"BTN_TXT_GO": "Los!"
+	},
+	"FOOTER": {
+		"LBL_POWERED": "Unterstützt von"
+	},
+	"DIALOGS": {
+		"TITLE_SELECT_LANG": "Sprache auswählen",
+		"TXT_CLOSE": "Schließen"
+	}
+}

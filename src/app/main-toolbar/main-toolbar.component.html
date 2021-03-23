@@ -26,17 +26,6 @@
     *ngIf="isLoggedIn">
     <mat-icon>logout</mat-icon>
   </button>
-  <button 
-  		[matMenuTriggerFor]="langMenu"
-  		mat-icon-button 
-      class="translate-icon"
-      matTooltip="Select language"
-  		aria-label="Select language">
-    <mat-icon>language</mat-icon>
-  </button>
-  <mat-menu #langMenu="matMenu">
-	  <button mat-menu-item>English</button>
-	</mat-menu>
 	<button 
   		[matMenuTriggerFor]="themeMenu"
   		mat-icon-button 

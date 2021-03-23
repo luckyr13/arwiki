@@ -1,0 +1,34 @@
+{
+	"HOME": {
+		"SECONDARY_TITLE": "विकेंद्रीकृत विश्वकोश।"
+	},
+	"MAIN_MENU": {
+
+	},
+	"MAIN_TOOLBAR": {
+
+	},
+	"MAIN_PAGE": {
+
+	},
+	"PAGE": {
+
+	},
+	"NOT_FOUND": {
+
+	},
+	"SEARCH_ENGINE": {
+		"INPUT_SEARCH_LABEL": "अरवी की खोज करो",
+		"INPUT_SEARCH_PLACEHOLDER": "उदाहरण: कैंटरबरी टेल्स",
+		"LBL_DEFAULT_LANG": "डिफ़ॉल्ट भाषा",
+		"LBL_SELECT_LANG":" भाषा का चयन करें",
+		"BTN_TXT_GO": "जाओ!"
+	},
+	"FOOTER": {
+		"LBL_POWERED": "द्वारा संचालित"
+	},
+	"DIALOGS": {
+		"TITLE_SELECT_LANG": "भाषा का चयन करें",
+		"TXT_CLOSE": "बंद करे"
+	}
+}

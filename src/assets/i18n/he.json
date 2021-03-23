@@ -1,0 +1,34 @@
+{
+	"HOME": {
+		"SECONDARY_TITLE": "האנציקלופדיה המבוזרת."
+	},
+	"MAIN_MENU": {
+
+	},
+	"MAIN_TOOLBAR": {
+
+	},
+	"MAIN_PAGE": {
+
+	},
+	"PAGE": {
+
+	},
+	"NOT_FOUND": {
+
+	},
+	"SEARCH_ENGINE": {
+		"INPUT_SEARCH_LABEL": "חפש בארוויקי",
+		"INPUT_SEARCH_PLACEHOLDER": "דוגמה: סיפורי קנטרברי",
+		"LBL_DEFAULT_LANG": "שפת ברירת מחדל",
+		"LBL_SELECT_LANG":" בחר שפה",
+		"BTN_TXT_GO": "ללכת!"
+	},
+	"FOOTER": {
+		"LBL_POWERED": "נתמך על ידי"
+	},
+	"DIALOGS": {
+		"TITLE_SELECT_LANG": "בחר שפה",
+		"TXT_CLOSE": "סגור"
+	}
+}

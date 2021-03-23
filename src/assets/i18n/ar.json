@@ -1,0 +1,34 @@
+{
+	"HOME": {
+		"SECONDARY_TITLE": "الموسوعة اللامركزية."
+	},
+	"MAIN_MENU": {
+
+	},
+	"MAIN_TOOLBAR": {
+
+	},
+	"MAIN_PAGE": {
+
+	},
+	"PAGE": {
+
+	},
+	"NOT_FOUND": {
+
+	},
+	"SEARCH_ENGINE": {
+		"INPUT_SEARCH_LABEL": "ابحث في arwiki",
+		"INPUT_SEARCH_PLACEHOLDER": "مثال: حكايات كانتربري",
+		"LBL_DEFAULT_LANG": "اللغة الافتراضية",
+		"LBL_SELECT_LANG":"حدد اللغة",
+		"BTN_TXT_GO": "انطلق!"
+	},
+	"FOOTER": {
+		"LBL_POWERED": "مشغل بواسطة"
+	},
+	"DIALOGS": {
+		"TITLE_SELECT_LANG": "حدد اللغة",
+		"TXT_CLOSE": "أغلق"
+	}
+}

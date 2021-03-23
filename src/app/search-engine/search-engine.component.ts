@@ -4,6 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { 
   DialogSelectLanguageComponent 
 } from '../shared/dialog-select-language/dialog-select-language.component';
+import { UserSettingsService } from '../auth/user-settings.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-search-engine',
@@ -16,17 +18,22 @@ export class SearchEngineComponent implements OnInit {
 	});
   defaultLang: any;
   
-  constructor(private _dialog: MatDialog) { }
+  constructor(
+    private _dialog: MatDialog,
+    private _userSettings: UserSettingsService,
+    private _snackBar: MatSnackBar
+  ) { }
 
   ngOnInit(): void {
-    this.defaultLang = {
-      "code": "en",
-      "iso_name": "English",
-      "native_name": "English",
-      "numPages": 0,
-      "writing_system": "LTR",
-      "contract": ""
-    };
+
+    const tmp_lang = this._userSettings.getDefaultLang();
+
+    if (tmp_lang) {
+      this.defaultLang = tmp_lang;
+    } else {
+      this.defaultLang = this._userSettings.getBaseLang();
+
+    }
 
   }
 
@@ -42,10 +49,34 @@ export class SearchEngineComponent implements OnInit {
     dialogRef.afterClosed().subscribe(lang => {
       if (lang) {
         this.defaultLang = lang;
+        this.setMainLang(this.defaultLang);
       }
 
     });
   }
 
+  /*
+  *
+  */
+  setMainLang(lang: any) {
+    try {
+      this._userSettings.setDefaultLang(lang);
+    } catch (err) {
+      this.message(`Error: ${err}`, 'error');
+    }
+  }
+
+
+  /*
+  *  Custom snackbar message
+  */
+  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
+    this._snackBar.open(msg, 'X', {
+      duration: 5000,
+      horizontalPosition: 'center',
+      verticalPosition: verticalPosition,
+      panelClass: panelClass
+    });
+  }
 
 }

@@ -1,7 +1,7 @@
 <div class="search-engine">
 	<form [formGroup]="searchForm" (ngSubmit)="onSubmitSearch()">
 		<mat-form-field >
-		  <mat-label>Search the arwiki</mat-label>
+		  <mat-label>{{ 'SEARCH_ENGINE.INPUT_SEARCH_LABEL' | translate }}</mat-label>
 		  <input 
 		  	matInput 
 		  	required 
@@ -11,13 +11,13 @@
 		</mat-form-field>
 		<div class="row row-settings">
 			<p class="col text-left">
-				Default language: <a mat-button routerLink="/{{ defaultLang.code }}">{{ defaultLang.native_name }}</a>
+				{{ 'SEARCH_ENGINE.LBL_DEFAULT_LANG' | translate }} <a mat-button routerLink="/{{ defaultLang.code }}">{{ defaultLang.native_name }}</a>
 			</p>
 			<p class="col text-right">
 				<button 
 					mat-button
 					(click)="openSelectLanguageDialog()">
-					Select language
+					{{ 'SEARCH_ENGINE.LBL_SELECT_LANG' | translate }}
 				</button>
 			</p>
 		</div>
@@ -27,7 +27,7 @@
 				mat-raised-button 
 				class="go-button"
 				color="primary">
-				<mat-icon>search</mat-icon> Go!
+				<mat-icon>search</mat-icon> {{ 'SEARCH_ENGINE.BTN_TXT_GO' | translate }}
 			</button>
 		</div>
 	</form>
