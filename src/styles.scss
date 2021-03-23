@@ -9,20 +9,28 @@ body {
 }
 
 h1 {
+  font-family: "Roboto Mono", monospace;
   font-size: 2.5rem;
+  font-weight: bold !important;
   color: #222326;
   line-height: 1.2; }
 
 h2 {
+  font-family: "Roboto Mono", monospace;
   font-size: 1.5rem;
+  font-weight: bold !important;
   font-weight: 400;
   color: #222326; }
 
 h3 {
+  font-family: "Roboto Mono", monospace;
   font-size: 1.3rem;
+  font-weight: bold !important;
   color: #222326; }
 
 h4 {
+  font-family: "Roboto Mono", monospace;
+  font-weight: bold !important;
   font-size: 1rem; }
 
 p {
@@ -40,4 +48,145 @@ p {
 
 .text-right {
 	text-align: right;
+}
+
+/* FADE IN */
+.fadeIn {
+  -webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein 1s; /* Firefox < 16 */
+  -ms-animation: fadein 1s; /* Internet Explorer */
+  -o-animation: fadein 1s; /* Opera < 12.1 */
+  animation: fadein 1s;
+
+}
+
+.fadeInTransparent {
+  -webkit-animation: fadeintransparent 1s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadeintransparent 1s; /* Firefox < 16 */
+  -ms-animation: fadeintransparent 1s; /* Internet Explorer */
+  -o-animation: fadeintransparent 1s; /* Opera < 12.1 */
+  animation: fadeintransparent 1s;
+
+}
+
+/* FADE IN */
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* /FADE IN */
+
+
+/* FADE IN */
+@keyframes fadeintransparent {
+    from { opacity: 0; }
+    to   { opacity: 0.95; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadeintransparent {
+    from { opacity: 0; }
+    to   { opacity: 0.95; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadeintransparent {
+    from { opacity: 0; }
+    to   { opacity: 0.95; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadeintransparent {
+    from { opacity: 0; }
+    to   { opacity: 0.95; }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes fadeintransparent {
+    from { opacity: 0; }
+    to   { opacity: 0.95; }
+}
+
+/* /FADE IN */
+
+/* COLORS */
+.blue {
+  color: #32edff;
+}
+
+.red {
+  color: #ff6868;
+}
+
+.purple {
+  color: #eca6fc;
+}
+
+.white {
+  color: #FFF;
+}
+
+.yellow {
+  color: #F2B92F;
+}
+
+.green {
+  color: #69f0ae;
+}
+
+.blue-navy {
+  color: #000079;
+}
+
+.blue-happy {
+  color: #1E72B5;
+}
+
+.pink {
+  color: #F7B2AB;
+}
+
+
+/* GLOBAL STYLES FOR MATERIAL COMPONENTS */
+.mat-snack-bar-container.error{
+  background-color: #f44336;
+  color: #FFF;
+}
+
+.mat-snack-bar-container.success{
+  background-color: #69f0ae;
+  color: rgba(0,0,0,.87);
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.bold {
+  font-weight: bold;
 }

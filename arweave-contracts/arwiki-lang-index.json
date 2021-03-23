@@ -1,0 +1,29 @@
+{
+	"langs": {
+		"en": {
+			"iso_name": "English",
+			"numPages": 0,
+			"writing_system": "LTR",
+			"contract": ""
+		},
+		"es": {
+			"iso_name": "Spanish",
+			"numPages": 0,
+			"writing_system": "LTR",
+			"contract": ""
+		},
+		"de": {
+			"iso_name": "German",
+			"numPages": 0,
+			"writing_system": "LTR",
+			"contract": ""
+		},
+		"hi": {
+			"iso_name": "Hindi",
+			"numPages": 0,
+			"writing_system": "LTR",
+			"contract": ""
+		}
+	}
+}
+

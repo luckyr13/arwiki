@@ -1,0 +1,22 @@
+<h2 class="title">Select language</h2>
+<mat-dialog-content class="text-center">
+	<mat-spinner class="loader" *ngIf="loading"></mat-spinner>
+	<div *ngIf="!loading && !error">
+	  <div class="row">
+	  	<a mat-button 
+	  		class="col" 
+	  		*ngFor="let lang of langCodes"
+	  		[mat-dialog-close]="lang">
+		  	{{ lang }}
+			</a>
+		</div>
+	</div>
+	<div *ngIf="!loading && error">
+	  <p>
+	  	{{ error }}
+		</p>
+	</div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="" cdkFocusInitial>Cancel</button>
+</mat-dialog-actions>

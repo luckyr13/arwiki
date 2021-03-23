@@ -1,1 +1,53 @@
-<p *ngIf="routePath !== 'home'">main-toolbar works!</p>
+<mat-toolbar *ngIf="routePath !== 'home'" color="primary" class="fadeIn">
+  <button 
+    mat-icon-button 
+    class="menu-icon" 
+    (click)="toggleSideMenu()"
+    matTooltip="Show menu"
+    aria-label="Menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <span class="logo-text">arwiki</span>
+  <span class="menu-spacer"></span>
+  <button 
+    mat-icon-button 
+    (click)="login()"
+    aria-label="Login"
+    matTooltip="Login"
+    *ngIf="!isLoggedIn">
+    <mat-icon>login</mat-icon>
+  </button>
+  <button 
+    mat-icon-button 
+    (click)="logout()"
+    aria-label="Logout"
+    matTooltip="Logout"
+    *ngIf="isLoggedIn">
+    <mat-icon>logout</mat-icon>
+  </button>
+  <button 
+  		[matMenuTriggerFor]="langMenu"
+  		mat-icon-button 
+      class="translate-icon"
+      matTooltip="Select language"
+  		aria-label="Select language">
+    <mat-icon>language</mat-icon>
+  </button>
+  <mat-menu #langMenu="matMenu">
+	  <button mat-menu-item>English</button>
+	</mat-menu>
+	<button 
+  		[matMenuTriggerFor]="themeMenu"
+  		mat-icon-button 
+      class="theme-icon"
+      matTooltip="Select theme"
+  		aria-label="Select theme">
+    <mat-icon>format_color_fill</mat-icon>
+  </button>
+  <mat-menu #themeMenu="matMenu">
+	  <button mat-menu-item (click)="setMainTheme('indigo-pink')">Light theme</button>
+	  <button mat-menu-item (click)="setMainTheme('pink-bluegrey')">Dark theme</button>
+	</mat-menu>
+
+</mat-toolbar>

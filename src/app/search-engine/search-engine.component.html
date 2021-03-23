@@ -5,15 +5,20 @@
 		  <input 
 		  	matInput 
 		  	required 
+		  	autocomplete="off" 
 		  	formControlName="query"
 		  	placeholder="Ex. The Canterbury Tales">
 		</mat-form-field>
 		<div class="row row-settings">
 			<p class="col text-left">
-				Default language: <a mat-button routerLink="/EN">EN</a>
+				Default language: <a mat-button routerLink="/{{ defaultLang }}">{{ defaultLang }}</a>
 			</p>
 			<p class="col text-right">
-				<a mat-button >Select language</a>
+				<button 
+					mat-button
+					(click)="openSelectLanguageDialog()">
+					Select language
+				</button>
 			</p>
 		</div>
 		<div class="text-center">

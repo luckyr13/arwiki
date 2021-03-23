@@ -6,7 +6,9 @@ import { UserSettingsService } from '../auth/user-settings.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  constructor(private _userSettings: UserSettingsService) { }
+  constructor(
+    private _userSettings: UserSettingsService
+  ) { }
 
   ngOnInit(): void {
   	// This helps to hide the main toolbar
