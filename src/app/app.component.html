@@ -1,7 +1,13 @@
-<app-main-toolbar></app-main-toolbar>
-<mat-sidenav-container class="main-menu-container">
-  <mat-sidenav mode="side" opened="false">Sidenav content</mat-sidenav>
+<mat-sidenav-container class="main-container">
+  <mat-sidenav 
+  		mode="over" 
+      autoFocus="false"
+      [(opened)]="opened">
+  	<app-main-menu [(opened)]="opened"></app-main-menu>
+  </mat-sidenav>
   <mat-sidenav-content>
+		<app-main-toolbar [(opened)]="opened"></app-main-toolbar>
 		<router-outlet></router-outlet>
-	</mat-sidenav-content>
+    <app-footer></app-footer>
+  </mat-sidenav-content>
 </mat-sidenav-container>

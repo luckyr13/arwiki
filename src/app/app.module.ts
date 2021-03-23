@@ -12,6 +12,7 @@ import { FooterComponent } from './footer/footer.component';
 import { MainToolbarComponent } from './main-toolbar/main-toolbar.component';
 import { PageComponent } from './page/page.component';
 import { MainPageComponent } from './main-page/main-page.component';
+import { MainMenuComponent } from './main-menu/main-menu.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { MainPageComponent } from './main-page/main-page.component';
     FooterComponent,
     MainToolbarComponent,
     PageComponent,
-    MainPageComponent
+    MainPageComponent,
+    MainMenuComponent
   ],
   imports: [
     BrowserModule,

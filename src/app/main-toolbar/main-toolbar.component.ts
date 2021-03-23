@@ -55,7 +55,7 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   */
   setMainTheme(theme: string) {
     try {
-
+      this._userSettings.setTheme(theme);
     } catch (err) {
       this.message(`Error: ${err}`, 'error');
     }
@@ -65,7 +65,8 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   *  @dev Destroy session
   */
   logout() {
-    
+    this._auth.logout();
+    this.isLoggedIn = false;
     window.location.reload();
   }
 

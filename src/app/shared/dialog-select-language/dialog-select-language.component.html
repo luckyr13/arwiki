@@ -5,9 +5,9 @@
 	  <div class="row">
 	  	<a mat-button 
 	  		class="col" 
-	  		*ngFor="let lang of langCodes"
-	  		[mat-dialog-close]="lang">
-		  	{{ lang }}
+	  		*ngFor="let code of langCodes;"
+	  		[mat-dialog-close]="langs[code]">
+		  	{{ langs[code].native_name }}
 			</a>
 		</div>
 	</div>

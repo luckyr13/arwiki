@@ -19,7 +19,15 @@ export class SearchEngineComponent implements OnInit {
   constructor(private _dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.defaultLang = 'en';
+    this.defaultLang = {
+      "code": "en",
+      "iso_name": "English",
+      "native_name": "English",
+      "numPages": 0,
+      "writing_system": "LTR",
+      "contract": ""
+    };
+
   }
 
   onSubmitSearch() {

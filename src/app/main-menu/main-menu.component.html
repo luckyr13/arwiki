@@ -1,0 +1,19 @@
+<mat-nav-list>
+  <div mat-subheader>Menu</div>
+  <a mat-list-item (click)="toggleSideMenu()" routerLink="/home" routerLinkActive="active">
+    <mat-icon mat-list-icon>home</mat-icon>
+    <div mat-line>Home</div>
+  </a>
+  <a mat-list-item (click)="toggleSideMenu()" routerLink="/dashboard" routerLinkActive="active">
+    <mat-icon mat-list-icon>dashboard</mat-icon>
+    <div mat-line>Dashboard</div>
+  </a>
+  <a mat-list-item (click)="toggleSideMenu()" routerLink="/courses" routerLinkActive="active">
+    <mat-icon mat-list-icon>school</mat-icon>
+    <div mat-line>Courses</div>
+  </a>
+  <a mat-list-item (click)="toggleSideMenu()" routerLink="/about" routerLinkActive="active">
+    <mat-icon mat-list-icon>info</mat-icon>
+    <div mat-line>About</div>
+  </a>
+</mat-nav-list>
