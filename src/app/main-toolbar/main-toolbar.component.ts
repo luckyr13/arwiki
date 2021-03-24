@@ -25,6 +25,7 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   @Output() openedChange = new EventEmitter<boolean>();
   isLoggedIn: boolean = false;
   langsCopy: any;
+  loadingLangs: boolean = false;
 
   constructor(
     private _auth: AuthService,
@@ -40,8 +41,10 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   		this.routePath = path;
   	});
 
-    this._langContract.getLangsLocalCopy().subscribe((langs: any) => {
+    this.loadingLangs = true;
+    this._langContract.getState(this._arweave.arweave).subscribe((langs: any) => {
       this.langsCopy = langs.langs;
+      this.loadingLangs = false;
     });
 
   }

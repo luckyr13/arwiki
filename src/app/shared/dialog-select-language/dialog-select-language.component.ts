@@ -24,7 +24,7 @@ export class DialogSelectLanguageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
   	this.loading = true;
   	this.langsSubscription = this._arwikiLangIndex
-  		.getLangsLocalCopy()
+  		.getState(this._arweave.arweave)
   		.subscribe({
   			next: (state: any) => {
 	  			this.langs = state.langs;

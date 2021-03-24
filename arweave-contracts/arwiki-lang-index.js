@@ -1,7 +1,7 @@
 /*
 *	Language list based on ISO 639-1 Code
 */
-export function handle(state, action)
+export async function handle(state, action)
 {	
 	const _msgSender = SmartWeave.transaction.owner;
 	const _to = SmartWeave.transaction.target;
