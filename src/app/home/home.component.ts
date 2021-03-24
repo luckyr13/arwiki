@@ -12,13 +12,9 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-  	// This helps to hide the main toolbar
-  	this._userSettings.updatePath('home');
   }
 
   ngOnDestroy() {
-  	// This helps to hide the main toolbar
-  	this._userSettings.updatePath('');
   }
 
 }

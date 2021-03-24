@@ -20,32 +20,54 @@ export class UserSettingsService {
   	this.routePath.next(_path);
   }
 
+  // Observable string sources
+  private routeLang = new Subject<string>();
+
+  // Observable string streams
+  public routeLang$ = this.routeLang.asObservable();
+
+  public updatePathLang(_path: string) {
+    this.routeLang.next(_path);
+  }
+
+  // Observable string sources
+  private langObservable = new Subject<any>();
+
+  // Observable string streams
+  public langObservable$ = this.langObservable.asObservable();
+
+  public updateLangObservable(_lang: any) {
+    this.langObservable.next(_lang);
+  }
+
   constructor(
     private _translate: TranslateService
    ) {
-  	const dtheme = window.sessionStorage.getItem('defaultTheme');
-  	const dlang = JSON.parse(window.sessionStorage.getItem('defaultLang'));
-
-
-  	// Default settings
-  	if (dtheme) {
-  		this.setTheme(dtheme);
-  	} else {
-  		this.setTheme('arwiki-light');
-  	}
-  	if (dlang) {
-  		this.setDefaultLang(dlang);
-  	} else {
-  		this.setDefaultLang(this.getBaseLang());
-  	}
+  	this.initSettings();
   }
 
+  initSettings() {
+    const dtheme = window.sessionStorage.getItem('defaultTheme');
+    const dlang = JSON.parse(window.sessionStorage.getItem('defaultLang'));
+
+    // Default settings
+    if (dtheme) {
+      this.setTheme(dtheme);
+    } else {
+      this.setTheme('arwiki-light');
+    }
+    if (dlang && dlang.code) {
+      this.setDefaultLang(dlang);
+    } else {
+      this.setDefaultLang(this.getBaseLang());
+    }
+  }
 
   getDefaultTheme(): string {
   	return this._defaultTheme;
   }
 
-  getDefaultLang(): string {
+  getDefaultLang(): any {
   	return this._defaultLang;
   }
 
@@ -68,6 +90,7 @@ export class UserSettingsService {
       }
     	window.sessionStorage.setItem('defaultLang', def);
       this._translate.use(this._defaultLang.code);
+      this.updateLangObservable(this._defaultLang);
   	}
   }
 
@@ -114,4 +137,5 @@ export class UserSettingsService {
       "contract": ""
     };
   }
+
 }

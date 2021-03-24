@@ -7,6 +7,8 @@ import { AuthService } from '../auth/auth.service';
 import { ArweaveService } from '../auth/arweave.service';
 import { Subscription, EMPTY, Observable } from 'rxjs';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {ArwikiLangIndexContract} from '../arwiki-contracts/arwiki-lang-index';
+import { FormControl } from '@angular/forms';
 declare const window: any;
 
 @Component({
@@ -22,12 +24,14 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   @Input() opened!: boolean;
   @Output() openedChange = new EventEmitter<boolean>();
   isLoggedIn: boolean = false;
+  langsCopy: any;
 
   constructor(
     private _auth: AuthService,
     private _arweave: ArweaveService,
     private _snackBar: MatSnackBar,
-    private _userSettings: UserSettingsService
+    private _userSettings: UserSettingsService,
+    private _langContract: ArwikiLangIndexContract
   ) {}
 
 
@@ -35,6 +39,10 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   	this._userSettings.routePath$.subscribe((path) => {
   		this.routePath = path;
   	});
+
+    this._langContract.getLangsLocalCopy().subscribe((langs: any) => {
+      this.langsCopy = langs.langs;
+    });
 
   }
 
@@ -56,6 +64,17 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   setMainTheme(theme: string) {
     try {
       this._userSettings.setTheme(theme);
+    } catch (err) {
+      this.message(`Error: ${err}`, 'error');
+    }
+  }
+
+  /*
+  *  Set default language
+  */
+  setLanguage(langCode: string) {
+    try {
+      this._userSettings.setDefaultLang(this.langsCopy[langCode]);
     } catch (err) {
       this.message(`Error: ${err}`, 'error');
     }

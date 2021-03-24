@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { UserSettingsService } from '../auth/user-settings.service';
 
 @Component({
   selector: 'app-main-menu',
@@ -8,10 +9,17 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class MainMenuComponent implements OnInit {
 	@Input() opened!: boolean;
 	@Output() openedChange = new EventEmitter();
+  routerLang: string = '';
 
-  constructor() { }
+  constructor(
+      private _userSettings: UserSettingsService
+    ) { }
 
   ngOnInit(): void {
+
+    this._userSettings.routeLang$.subscribe((data) => {
+      this.routerLang = data;
+    });
   }
 
   toggleSideMenu() {

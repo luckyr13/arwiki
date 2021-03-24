@@ -1,10 +1,22 @@
 <mat-sidenav-container class="main-container">
   <mat-sidenav 
+    *ngIf="menuPosition == 'start'"
   		mode="over" 
+      position="start"
       autoFocus="false"
       [(opened)]="opened">
   	<app-main-menu [(opened)]="opened"></app-main-menu>
   </mat-sidenav>
+
+  <mat-sidenav 
+    *ngIf="menuPosition == 'end'"
+      mode="over" 
+      position="end"
+      autoFocus="false"
+      [(opened)]="opened">
+    <app-main-menu [(opened)]="opened"></app-main-menu>
+  </mat-sidenav>
+
   <mat-sidenav-content>
 		<app-main-toolbar [(opened)]="opened"></app-main-toolbar>
 		<router-outlet></router-outlet>

@@ -3,13 +3,17 @@
 		"SECONDARY_TITLE": "Die dezentrale Enzyklopädie."
 	},
 	"MAIN_MENU": {
-
+		"HOME": "Hauptseite",
+		"ABOUT": "Über"
 	},
 	"MAIN_TOOLBAR": {
 
 	},
 	"MAIN_PAGE": {
-
+		"TITLE_L1": "Willkommen zu",
+		"TITLE_L2": "die dezentrale Enzyklopädie",
+		"SUBTITLE_L1": "ist eine Enzyklopädie, die auf aufgebaut ist",
+		"SUBTITLE_L2": "Hier kann jeder Seiten erstellen und Änderungen vornehmen."
 	},
 	"PAGE": {
 

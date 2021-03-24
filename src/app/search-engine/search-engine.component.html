@@ -7,7 +7,7 @@
 		  	required 
 		  	autocomplete="off" 
 		  	formControlName="query"
-		  	placeholder="Ex. The Canterbury Tales">
+		  	placeholder="{{ 'SEARCH_ENGINE.INPUT_SEARCH_PLACEHOLDER' | translate }}">
 		</mat-form-field>
 		<div class="row row-settings">
 			<p class="col text-left">
@@ -16,6 +16,7 @@
 			<p class="col text-right">
 				<button 
 					mat-button
+					type="button"
 					(click)="openSelectLanguageDialog()">
 					{{ 'SEARCH_ENGINE.LBL_SELECT_LANG' | translate }}
 				</button>
@@ -23,6 +24,7 @@
 		</div>
 		<div class="text-center">
 			<button 
+				type="submit"
 				[disabled]="!searchForm.valid"
 				mat-raised-button 
 				class="go-button"

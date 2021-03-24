@@ -1,4 +1,4 @@
-<mat-toolbar *ngIf="routePath !== 'home'" color="primary" class="fadeIn">
+<mat-toolbar *ngIf="routePath !== '/'" color="primary" class="fadeIn">
   <button 
     mat-icon-button 
     class="menu-icon" 
@@ -10,6 +10,7 @@
 
   <span class="logo-text">arwiki</span>
   <span class="menu-spacer"></span>
+
   <button 
     mat-icon-button 
     (click)="login()"
@@ -26,6 +27,23 @@
     *ngIf="isLoggedIn">
     <mat-icon>logout</mat-icon>
   </button>
+  <button 
+      [matMenuTriggerFor]="langMenu"
+      mat-icon-button 
+      class="theme-icon"
+      matTooltip="Select language"
+      aria-label="Select language">
+    <mat-icon>language</mat-icon>
+  </button>
+  <mat-menu #langMenu="matMenu">
+    <button mat-menu-item (click)="setLanguage('ar')">Arabic</button>
+    <button mat-menu-item (click)="setLanguage('en')">English</button>
+    <button mat-menu-item (click)="setLanguage('de')">German</button>
+    <button mat-menu-item (click)="setLanguage('he')">Hebrew</button>
+    <button mat-menu-item (click)="setLanguage('hi')">Hindi</button>
+    <button mat-menu-item (click)="setLanguage('es')">Spanish</button>
+  </mat-menu>
+
 	<button 
   		[matMenuTriggerFor]="themeMenu"
   		mat-icon-button 
@@ -38,5 +56,20 @@
 	  <button mat-menu-item (click)="setMainTheme('arwiki-light')">Light theme</button>
 	  <button mat-menu-item (click)="setMainTheme('arwiki-dark')">Dark theme</button>
 	</mat-menu>
+  <button 
+      [matMenuTriggerFor]="searchMenu"
+      mat-icon-button 
+      class="theme-icon"
+      matTooltip="Search the arwiki"
+      aria-label="Search the arwiki">
+    <mat-icon>search</mat-icon>
+  </button>
+  <mat-menu #searchMenu="matMenu" >
+    <mat-form-field (click)="$event.stopPropagation();" style="padding: 10px; width: 240px">
+      <mat-label>Search the arwiki</mat-label>
+      <input matInput placeholder="Ex. Sherlock Holmes" required>
+    </mat-form-field>
+  </mat-menu>
+
 
 </mat-toolbar>

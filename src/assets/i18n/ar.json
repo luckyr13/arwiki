@@ -3,13 +3,17 @@
 		"SECONDARY_TITLE": "الموسوعة اللامركزية."
 	},
 	"MAIN_MENU": {
-
+		"HOME": "الصفحة الرئيسية",
+		"ABOUT": "حول"
 	},
 	"MAIN_TOOLBAR": {
 
 	},
 	"MAIN_PAGE": {
-
+		"TITLE_L1": "مرحبا بك في",
+		"TITLE_L2": "الموسوعة اللامركزية",
+		"SUBTITLE_L1": "is an encyclopedia built on top of",
+		"SUBTITLE_L2": "where anyone can create pages and make changes."
 	},
 	"PAGE": {
 

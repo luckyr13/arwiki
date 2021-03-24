@@ -58,7 +58,7 @@ export class ArwikiLangIndexContract
 			"iso_name": "Hebrew",
 			"native_name": "עברית",
 			"numPages": 0,
-			"writing_system": "LTR",
+			"writing_system": "RTL",
 			"contract": ""
 		}
 	}

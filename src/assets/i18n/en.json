@@ -3,13 +3,17 @@
 		"SECONDARY_TITLE": "The decentralized encyclopedia."
 	},
 	"MAIN_MENU": {
-
+		"HOME": "Home",
+		"ABOUT": "About"
 	},
 	"MAIN_TOOLBAR": {
 
 	},
 	"MAIN_PAGE": {
-
+		"TITLE_L1": "Welcome to",
+		"TITLE_L2": "the decentralized encyclopedia",
+		"SUBTITLE_L1": "is an encyclopedia built on top of",
+		"SUBTITLE_L2": "where anyone can create pages and make changes."
 	},
 	"PAGE": {
 

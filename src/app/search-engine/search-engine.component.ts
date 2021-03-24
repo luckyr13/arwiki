@@ -6,6 +6,7 @@ import {
 } from '../shared/dialog-select-language/dialog-select-language.component';
 import { UserSettingsService } from '../auth/user-settings.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search-engine',
@@ -17,11 +18,16 @@ export class SearchEngineComponent implements OnInit {
 		'query': new FormControl('', [Validators.required])
 	});
   defaultLang: any;
+
+  get query() {
+    return this.searchForm.get('query');
+  }
   
   constructor(
     private _dialog: MatDialog,
     private _userSettings: UserSettingsService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private _router: Router
   ) { }
 
   ngOnInit(): void {
@@ -38,6 +44,8 @@ export class SearchEngineComponent implements OnInit {
   }
 
   onSubmitSearch() {
+    const query = encodeURI(this.query!.value);
+    this._router.navigate([`${this.defaultLang.code}/search/${query}`]);
   }
 
   openSelectLanguageDialog(): void {

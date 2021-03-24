@@ -3,13 +3,17 @@
 		"SECONDARY_TITLE": "La enciclopedia descentralizada."
 	},
 	"MAIN_MENU": {
-
+		"HOME": "Página principal",
+		"ABOUT": "Acerca de"
 	},
 	"MAIN_TOOLBAR": {
 
 	},
 	"MAIN_PAGE": {
-
+		"TITLE_L1": "Bienvenido a",
+		"TITLE_L2": "la enciclopedia descentralizada",
+		"SUBTITLE_L1": "es una enciclopedia construída encima de",
+		"SUBTITLE_L2": "donde cualquiera puede crear páginas y hacer cambios."
 	},
 	"PAGE": {
 
@@ -22,7 +26,7 @@
 		"INPUT_SEARCH_PLACEHOLDER": "Ejemplo: Los Cuentos de Canterbury",
 		"LBL_DEFAULT_LANG": "Idioma default",
 		"LBL_SELECT_LANG":"Seleccionar idioma",
-		"BTN_TXT_GO": "Vamos!"
+		"BTN_TXT_GO": "¡Vamos!"
 	},
 	"FOOTER": {
 		"LBL_POWERED": "Energizado por"

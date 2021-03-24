@@ -3,13 +3,17 @@
 		"SECONDARY_TITLE": "האנציקלופדיה המבוזרת."
 	},
 	"MAIN_MENU": {
-
+		"HOME": "עמוד ראשי",
+		"ABOUT": "על אודות"
 	},
 	"MAIN_TOOLBAR": {
 
 	},
 	"MAIN_PAGE": {
-
+		"TITLE_L1": "ברוך הבא ל",
+		"TITLE_L2": "האנציקלופדיה המבוזרת",
+		"SUBTITLE_L1": "is an encyclopedia built on top of",
+		"SUBTITLE_L2": "where anyone can create pages and make changes."
 	},
 	"PAGE": {
 
