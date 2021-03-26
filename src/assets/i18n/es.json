@@ -1,6 +1,6 @@
 {
 	"HOME": {
-		"SECONDARY_TITLE": "La enciclopedia descentralizada."
+		"SECONDARY_TITLE": "¡Bienvenido a la permaweb!"
 	},
 	"MAIN_MENU": {
 		"HOME": "Página principal",
@@ -10,10 +10,10 @@
 
 	},
 	"MAIN_PAGE": {
-		"TITLE_L1": "Bienvenido a",
-		"TITLE_L2": "la enciclopedia descentralizada",
-		"SUBTITLE_L1": "es una enciclopedia construída encima de",
-		"SUBTITLE_L2": "donde cualquiera puede crear páginas y hacer cambios."
+		"TITLE_L1": "¡Bienvenido a",
+		"TITLE_L2": "la permaweb!",
+		"SUBTITLE_L1": "te permite almacenar tus documentos y aplicaciones para siempre.",
+		"SUBTITLE_L2": "vuelve la permanencia de la información sostenible."
 	},
 	"PAGE": {
 
@@ -23,7 +23,7 @@
 	},
 	"SEARCH_ENGINE": {
 		"INPUT_SEARCH_LABEL": "Buscar en arwiki",
-		"INPUT_SEARCH_PLACEHOLDER": "Ejemplo: Los Cuentos de Canterbury",
+		"INPUT_SEARCH_PLACEHOLDER": "",
 		"LBL_DEFAULT_LANG": "Idioma default",
 		"LBL_SELECT_LANG":"Seleccionar idioma",
 		"BTN_TXT_GO": "¡Vamos!"

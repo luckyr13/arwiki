@@ -1,4 +1,7 @@
-<mat-toolbar *ngIf="routePath !== '/'" color="primary" class="fadeIn">
+<mat-toolbar 
+  *ngIf="routePath !== '/'" 
+  color="primary" 
+  class="fadeIn mat-elevation-z6">
   <button 
     mat-icon-button 
     class="menu-icon" 
@@ -8,7 +11,7 @@
     <mat-icon>menu</mat-icon>
   </button>
 
-  <span class="logo-text">arwiki</span>
+  <span class="logo-text">arweave</span>
   <span class="menu-spacer"></span>
 
   <button 
@@ -38,20 +41,14 @@
   <mat-menu #langMenu="matMenu">
     <mat-spinner *ngIf="loadingLangs"></mat-spinner>
     <div *ngIf="!loadingLangs">
-      <button mat-menu-item (click)="setLanguage('ar')">Arabic</button>
-      <button mat-menu-item (click)="setLanguage('en')">English</button>
-      <button mat-menu-item (click)="setLanguage('de')">German</button>
-      <button mat-menu-item (click)="setLanguage('he')">Hebrew</button>
-      <button mat-menu-item (click)="setLanguage('hi')">Hindi</button>
-      <button mat-menu-item (click)="setLanguage('es')">Spanish</button>
-      
-
+      <button 
+        mat-menu-item 
+        *ngFor="let langCode of langCodes"
+        (click)="setLanguage(langCode)">
+         {{ langsCopy[langCode].native_name }}
+      </button>
     </div>
-
-    
   </mat-menu>
-
-  
 
 	<button 
   		[matMenuTriggerFor]="themeMenu"
@@ -69,14 +66,14 @@
       [matMenuTriggerFor]="searchMenu"
       mat-icon-button 
       class="theme-icon"
-      matTooltip="Search the arwiki"
-      aria-label="Search the arwiki">
+      matTooltip="Search"
+      aria-label="Search ">
     <mat-icon>search</mat-icon>
   </button>
   <mat-menu #searchMenu="matMenu" >
     <mat-form-field (click)="$event.stopPropagation();" style="padding: 10px; width: 240px">
-      <mat-label>Search the arwiki</mat-label>
-      <input matInput placeholder="Ex. Sherlock Holmes" required>
+      <mat-label>Search</mat-label>
+      <input matInput autocomplete="off" placeholder="" required>
     </mat-form-field>
   </mat-menu>
 

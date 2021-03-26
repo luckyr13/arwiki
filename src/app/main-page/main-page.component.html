@@ -1,33 +1,24 @@
+<div class="text-center fadeIn main-logo">
+  <img 
+  	*ngIf="defaultTheme === 'arwiki-dark' " 
+  	width="140px" 
+  	src="./assets/img/arweave-light.png">
+  <img
+  	*ngIf="defaultTheme === 'arwiki-light' " 
+  	width="140px"
+  	src="./assets/img/arweave-dark.png">
+</div>
 <div class="container main-page-container fadeIn">
-	<h1 class="text-center">
+	<h1 class="text-center main-title">
 		{{ 'MAIN_PAGE.TITLE_L1' | translate }}
 		<br>
 		{{ 'MAIN_PAGE.TITLE_L2' | translate }}
 	</h1>
 	<div class="row">
 		<div class="col-12 text-center">
-			<strong>arwiki</strong> {{ 'MAIN_PAGE.SUBTITLE_L1' | translate }}<br>
+			<strong>arweave</strong> {{ 'MAIN_PAGE.SUBTITLE_L1' | translate }}<br>
 			<strong>arweave</strong> {{ 'MAIN_PAGE.SUBTITLE_L2' | translate }}
 		</div>
 	</div>
-	<h2 class="secondary-title">Top 10 articles</h2>
-	<div class="row" style="margin-top: 40px">
-		<div class="article-card col-12 col-md-6" *ngFor="let article of articles">
-			<mat-card class="">
-			  <mat-card-header>
-			    <mat-card-title>{{ article.title }}</mat-card-title>
-			  </mat-card-header>
-			  <mat-card-content>
-			    <p>
-			      {{ article.description }}
-			    </p>
-			  </mat-card-content>
-			  <mat-card-actions>
-			    <button mat-button>LIKE</button>
-			    <button mat-button>SHARE</button>
-			  </mat-card-actions>
-			</mat-card>
-		</div>
-		
-	</div>	
+	
 </div>

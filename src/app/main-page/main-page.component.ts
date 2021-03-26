@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserSettingsService } from '../auth/user-settings.service';
 
 @Component({
   selector: 'app-main-page',
@@ -23,10 +24,19 @@ export class MainPageComponent implements OnInit {
 			description: 'Description 3'
 		}
 	];
+	defaultTheme: string = '';
 
-  constructor() { }
+  constructor(
+    private _userSettings: UserSettingsService
+  ) { }
 
   ngOnInit(): void {
+  	this.defaultTheme = this._userSettings.getDefaultTheme();
+    this._userSettings.defaultThemeObservable$.subscribe(
+    	(theme) => {
+    		this.defaultTheme = theme;
+    	}
+    );
   }
 
 }

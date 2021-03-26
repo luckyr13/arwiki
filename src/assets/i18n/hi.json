@@ -1,6 +1,6 @@
 {
 	"HOME": {
-		"SECONDARY_TITLE": "विकेंद्रीकृत विश्वकोश।"
+		"SECONDARY_TITLE": "Permaweb में आपका स्वागत है!"
 	},
 	"MAIN_MENU": {
 		"HOME": "मुख्य पृष्ठ",
@@ -11,9 +11,9 @@
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "आपका स्वागत है",
-		"TITLE_L2": "विकेन्द्रीकृत विश्वकोश",
-		"SUBTITLE_L1": "के शीर्ष पर बनाया गया एक विश्वकोश है",
-		"SUBTITLE_L2": "जहाँ कोई भी पेज बना सकता है और बदलाव कर सकता है।"
+		"TITLE_L2": "परमिट!",
+		"SUBTITLE_L1": "आपको दस्तावेज़ और एप्लिकेशन हमेशा के लिए संग्रहीत करने में सक्षम बनाता है।",
+		"SUBTITLE_L2": "जानकारी को स्थायी बनाता है।"
 	},
 	"PAGE": {
 
@@ -23,7 +23,7 @@
 	},
 	"SEARCH_ENGINE": {
 		"INPUT_SEARCH_LABEL": "अरवी की खोज करो",
-		"INPUT_SEARCH_PLACEHOLDER": "उदाहरण: कैंटरबरी टेल्स",
+		"INPUT_SEARCH_PLACEHOLDER": "",
 		"LBL_DEFAULT_LANG": "डिफ़ॉल्ट भाषा",
 		"LBL_SELECT_LANG":" भाषा का चयन करें",
 		"BTN_TXT_GO": "जाओ!"

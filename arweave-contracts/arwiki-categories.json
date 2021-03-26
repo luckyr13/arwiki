@@ -1,0 +1,25 @@
+{
+	"categories": {
+		"learn": {
+			"code": "learn",
+			"label": "Learn",
+			"num_pages": 0
+		},
+		"get_involved": {
+			"code": "get_involved",
+			"label": "Get involved",
+			"num_pages": 0
+		},
+		"build": {
+			"code": "build",
+			"label": "Build",
+			"num_pages": 0
+		},
+		"mine": {
+			"code": "mine",
+			"label": "Mine",
+			"num_pages": 0
+		}
+	}
+}
+

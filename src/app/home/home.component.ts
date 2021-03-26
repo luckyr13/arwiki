@@ -6,12 +6,14 @@ import { UserSettingsService } from '../auth/user-settings.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  param: any = { value: 'world'}
+  defaultTheme: string = '';
+
   constructor(
     private _userSettings: UserSettingsService
   ) { }
 
   ngOnInit(): void {
+    this.defaultTheme = this._userSettings.getDefaultTheme();
   }
 
   ngOnDestroy() {

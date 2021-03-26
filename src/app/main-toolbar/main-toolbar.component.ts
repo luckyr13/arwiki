@@ -25,6 +25,7 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   @Output() openedChange = new EventEmitter<boolean>();
   isLoggedIn: boolean = false;
   langsCopy: any;
+  langCodes: string[] = [];
   loadingLangs: boolean = false;
 
   constructor(
@@ -44,6 +45,8 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
     this.loadingLangs = true;
     this._langContract.getState(this._arweave.arweave).subscribe((langs: any) => {
       this.langsCopy = langs.langs;
+      this.langCodes = Object.keys(this.langsCopy);
+      
       this.loadingLangs = false;
     });
 

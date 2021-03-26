@@ -1,5 +1,15 @@
+<div class="text-center fadeIn main-logo">
+  <img 
+  	*ngIf="defaultTheme === 'arwiki-dark' " 
+  	width="120px" 
+  	src="./assets/img/arweave-light.png">
+  <img
+  	*ngIf="defaultTheme === 'arwiki-light' " 
+  	width="120px"
+  	src="./assets/img/arweave-dark.png">
+</div>
 <h1 class="main-title text-center fadeIn">
-  arwiki
+  arweave
 </h1>
 <p class="secondary-title text-center fadeIn">
   {{ 'HOME.SECONDARY_TITLE' | translate }}

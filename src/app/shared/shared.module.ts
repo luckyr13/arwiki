@@ -17,6 +17,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatListModule} from '@angular/material/list';
 import {TranslateModule} from '@ngx-translate/core';
 import {MatCardModule} from '@angular/material/card';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [DialogSelectLanguageComponent],
@@ -43,7 +44,8 @@ import {MatCardModule} from '@angular/material/card';
     MatToolbarModule,
     MatMenuModule,
     MatListModule,
-    MatCardModule
+    MatCardModule,
+    MatProgressBarModule
   ],
   entryComponents: [DialogSelectLanguageComponent]
 })

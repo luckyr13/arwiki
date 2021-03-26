@@ -1,6 +1,6 @@
 {
 	"HOME": {
-		"SECONDARY_TITLE": "האנציקלופדיה המבוזרת."
+		"SECONDARY_TITLE": "ברוך הבא ל- permaweb!"
 	},
 	"MAIN_MENU": {
 		"HOME": "עמוד ראשי",
@@ -11,9 +11,9 @@
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "ברוך הבא ל",
-		"TITLE_L2": "האנציקלופדיה המבוזרת",
-		"SUBTITLE_L1": "is an encyclopedia built on top of",
-		"SUBTITLE_L2": "where anyone can create pages and make changes."
+		"TITLE_L2": "את permaweb!",
+		"SUBTITLE_L1": "מאפשר לך לאחסן מסמכים ויישומים לנצח.",
+		"SUBTITLE_L2": "הופך את הקביעות למידע לקיימת."
 	},
 	"PAGE": {
 
@@ -23,7 +23,7 @@
 	},
 	"SEARCH_ENGINE": {
 		"INPUT_SEARCH_LABEL": "חפש בארוויקי",
-		"INPUT_SEARCH_PLACEHOLDER": "דוגמה: סיפורי קנטרברי",
+		"INPUT_SEARCH_PLACEHOLDER": "",
 		"LBL_DEFAULT_LANG": "שפת ברירת מחדל",
 		"LBL_SELECT_LANG":" בחר שפה",
 		"BTN_TXT_GO": "ללכת!"

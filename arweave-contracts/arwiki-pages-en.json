@@ -1,4 +1,95 @@
 {
-	"pages": []
+	"pages": [
+		{
+			"id": 0,
+			"title": "What is Arweave?",
+			"slug": "what-is-arweave",
+			"summary": "Store data, permanently.",
+			"html_content_id": "",
+			"categories": ["learn"],
+			"rating": 0,
+			"external_link": ""
+		},
+		{
+			"id": 1,
+			"title": "Profit Sharing Communities",
+			"slug": "profit-sharing-communities",
+			"summary": "Your work, on your terms, with better financial upside.",
+			"html_content_id": "",
+			"categories": ["learn"],
+			"rating": 0,
+			"external_link": ""
+		},
+		{
+			"id": 2,
+			"title": "Technology",
+			"slug": "technology",
+			"summary": "Arweave is a network that connects those with disk space to spare with those who need permanent data storage.",
+			"html_content_id": "",
+			"categories": ["learn"],
+			"rating": 0,
+			"external_link": ""
+		},
+		{
+			"id": 3,
+			"title": "Community",
+			"slug": "get-involved",
+			"summary": "The Arweave community is decentralised, and growing.",
+			"html_content_id": "",
+			"categories": ["get_involved"],
+			"rating": 0,
+			"external_link": ""
+		},
+		{
+			"id": 4,
+			"title": "Grants and funding",
+			"slug": "grants-funding",
+			"summary": "Get paid to build on the permaweb.",
+			"html_content_id": "",
+			"categories": ["get_involved"],
+			"rating": 0,
+			"external_link": ""
+		},
+		{
+			"id": 5,
+			"title": "Arweave boost",
+			"slug": "arweave-boost",
+			"summary": "Get paid to build on the permaweb.",
+			"html_content_id": "",
+			"categories": ["get_involved"],
+			"rating": 0,
+			"external_link": "https://boost.arweave.org/"
+		},
+		{
+			"id": 6,
+			"title": "Open Web Fellowship",
+			"slug": "open-web-fellowship",
+			"summary": "Arweave Open Web Fellowship.",
+			"html_content_id": "",
+			"categories": ["get_involved"],
+			"rating": 0,
+			"external_link": ""
+		},
+		{
+			"id": 7,
+			"title": "Start",
+			"slug": "start-building",
+			"summary": "Arweave for developers.",
+			"html_content_id": "",
+			"categories": ["build"],
+			"rating": 0,
+			"external_link": ""
+		}
+	],
+	"slug_table": {
+		"what-is-arweave": true,
+		"profit-sharing-communities": true,
+		"technology": true,
+		"get_involved": true,
+		"grants-funding": true,
+		"arweave-boost": true,
+		"open-web-fellowship": true,
+		"start-building": true
+	}
 }
 

@@ -1,6 +1,6 @@
 {
 	"HOME": {
-		"SECONDARY_TITLE": "الموسوعة اللامركزية."
+		"SECONDARY_TITLE": "مرحبًا بكم في موقع Permaweb!"
 	},
 	"MAIN_MENU": {
 		"HOME": "الصفحة الرئيسية",
@@ -10,10 +10,10 @@
 
 	},
 	"MAIN_PAGE": {
-		"TITLE_L1": "مرحبا بك في",
-		"TITLE_L2": "الموسوعة اللامركزية",
-		"SUBTITLE_L1": "is an encyclopedia built on top of",
-		"SUBTITLE_L2": "where anyone can create pages and make changes."
+		"TITLE_L1": "Welcome to",
+		"TITLE_L2": "the permaweb!",
+		"SUBTITLE_L1": "enables you to store documents and applications forever.",
+		"SUBTITLE_L2": "makes information permanence sustainable."
 	},
 	"PAGE": {
 
@@ -23,7 +23,7 @@
 	},
 	"SEARCH_ENGINE": {
 		"INPUT_SEARCH_LABEL": "ابحث في arwiki",
-		"INPUT_SEARCH_PLACEHOLDER": "مثال: حكايات كانتربري",
+		"INPUT_SEARCH_PLACEHOLDER": "",
 		"LBL_DEFAULT_LANG": "اللغة الافتراضية",
 		"LBL_SELECT_LANG":"حدد اللغة",
 		"BTN_TXT_GO": "انطلق!"

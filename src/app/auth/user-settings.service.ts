@@ -40,6 +40,16 @@ export class UserSettingsService {
     this.langObservable.next(_lang);
   }
 
+  // Observable string sources
+  private defaultThemeObservable = new Subject<string>();
+
+  // Observable string streams
+  public defaultThemeObservable$ = this.defaultThemeObservable.asObservable();
+
+  public updateDefaultThemeObservable(_path: string) {
+    this.defaultThemeObservable.next(_path);
+  }
+
   constructor(
     private _translate: TranslateService
    ) {
@@ -75,6 +85,7 @@ export class UserSettingsService {
   	if (_theme) {
     	this._defaultTheme = _theme;
     	window.sessionStorage.setItem('defaultTheme', this._defaultTheme);
+      this.updateDefaultThemeObservable(this._defaultTheme);
   	}
   }
 
@@ -134,7 +145,7 @@ export class UserSettingsService {
       "native_name": "English",
       "numPages": 0,
       "writing_system": "LTR",
-      "contract": ""
+      "contract": "xnlTVtwU-fF8ModDyQy48Ed6k6FSFBL7yF_PtcT8zmk"
     };
   }
 

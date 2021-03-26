@@ -1,6 +1,6 @@
 {
 	"HOME": {
-		"SECONDARY_TITLE": "The decentralized encyclopedia."
+		"SECONDARY_TITLE": "Welcome to the permaweb!"
 	},
 	"MAIN_MENU": {
 		"HOME": "Home",
@@ -11,9 +11,9 @@
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "Welcome to",
-		"TITLE_L2": "the decentralized encyclopedia",
-		"SUBTITLE_L1": "is an encyclopedia built on top of",
-		"SUBTITLE_L2": "where anyone can create pages and make changes."
+		"TITLE_L2": "the permaweb!",
+		"SUBTITLE_L1": "enables you to store documents and applications forever.",
+		"SUBTITLE_L2": "makes information permanence sustainable."
 	},
 	"PAGE": {
 
@@ -23,7 +23,7 @@
 	},
 	"SEARCH_ENGINE": {
 		"INPUT_SEARCH_LABEL": "Search the arwiki",
-		"INPUT_SEARCH_PLACEHOLDER": "Example: The Canterbury Tales",
+		"INPUT_SEARCH_PLACEHOLDER": "",
 		"LBL_DEFAULT_LANG": "Default language",
 		"LBL_SELECT_LANG":" Select language",
 		"BTN_TXT_GO": "Go!"
