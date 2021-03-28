@@ -197,7 +197,7 @@ export async function handle(state, action)
   /**
    * @dev See {IERC721-isApprovedForAll}.
    */
-  if (action.input.function === "setApprovalForAll") {
+  if (action.input.function === "isApprovedForAll") {
   	return {
   		result: isApprovedForAll(action.input.owner, action.input.operator)
   	}
