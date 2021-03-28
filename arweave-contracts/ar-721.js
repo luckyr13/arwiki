@@ -145,7 +145,6 @@ export async function handle(state, action)
    * @dev See {IERC721-approve}.
    */
   if (action.input.function === "approve") {
-  	_modifier_validateInputNumber(action.input.tokenId);
   	const owner = ownerOf(action.input.tokenId);
   	if (_to == owner) {
   		throw new ContractError('AR721: approval to current owner');
