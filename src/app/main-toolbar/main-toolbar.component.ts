@@ -9,6 +9,9 @@ import { Subscription, EMPTY, Observable } from 'rxjs';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ArwikiLangIndexContract} from '../arwiki-contracts/arwiki-lang-index';
 import { FormControl } from '@angular/forms';
+import {MatBottomSheet} from '@angular/material/bottom-sheet';
+import { BottomSheetLoginComponent } from '../shared/bottom-sheet-login/bottom-sheet-login.component';
+
 declare const window: any;
 
 @Component({
@@ -33,7 +36,8 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
     private _arweave: ArweaveService,
     private _snackBar: MatSnackBar,
     private _userSettings: UserSettingsService,
-    private _langContract: ArwikiLangIndexContract
+    private _langContract: ArwikiLangIndexContract,
+    private _bottomSheet: MatBottomSheet,
   ) {}
 
 
@@ -48,6 +52,12 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
       this.langCodes = Object.keys(this.langsCopy);
       
       this.loadingLangs = false;
+    });
+
+    this._auth.account$.subscribe((_address: string) => {
+      if (_address) {
+        this.isLoggedIn = true;
+      }
     });
 
   }
@@ -113,6 +123,8 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   *  @dev Modal login (or bottom sheet)
   */
   login() {
-    
+    this._bottomSheet.open(BottomSheetLoginComponent, {
+      
+    });
   }
 }
