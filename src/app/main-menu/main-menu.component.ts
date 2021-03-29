@@ -21,6 +21,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   categories: any;
   category_slugs: any;
   pages: any;
+  defaultTheme: string = '';
 
   constructor(
       private _userSettings: UserSettingsService,
@@ -31,6 +32,8 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loading = true;
+
+    this.getDefaultTheme();
 
     this._userSettings.routeLang$.subscribe((data) => {
       this.routerLang = data;
@@ -65,6 +68,15 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     }
   }
 
+  getDefaultTheme() {
+    this.defaultTheme = this._userSettings.getDefaultTheme();
+    this._userSettings.defaultThemeObservable$.subscribe(
+      (theme) => {
+        this.defaultTheme = theme;
+      }
+    );
+  }
+
   toggleSideMenu() {
     this.opened = !this.opened;
     this.openedChange.emit(this.opened);
@@ -82,6 +94,28 @@ export class MainMenuComponent implements OnInit, OnDestroy {
               );
         })
       );
+  }
+
+  getSkeletonLoaderAnimationType() {
+    let type = 'progress';
+    if (this.defaultTheme === 'arwiki-dark') {
+      type = 'progress-dark';
+    }
+    return type;
+  }
+
+  getSkeletonLoaderThemeNgStyle() {
+    let ngStyle: any = {
+      'height.px': '32',
+      'width': '84%',
+      'margin-top': '10px',
+      'margin-left': '20px'
+    };
+    if (this.defaultTheme === 'arwiki-dark') {
+      ngStyle['background-color'] = '#3d3d3d';
+    }
+
+    return ngStyle;
   }
 
 

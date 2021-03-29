@@ -1,7 +1,7 @@
 <div class="container main-page-container fadeIn">
 	
 	<div class="row fadeIn">
-		<div class="col-12 col-md-6 text-center">
+		<div class="col-12 col-md-7 text-center">
 			 <img 
 			  	*ngIf="defaultTheme === 'arwiki-dark' " 
 			  	class="main-logo"
@@ -16,15 +16,31 @@
 			<h4 class="text-left secondary-title">
 				{{ 'MAIN_PAGE.SUBTITLE_L1' | translate }}
 			</h4>
+			<p class="title-p text-right">
+				6,277,831 articles in English
+			</p>
 			
 		</div>
-		<div class="col-12 col-md-6 text-center portals-column">
-			<h3 class="text-left">
+		<div class="col-1">
+		</div>
+		<div class="col-12 col-md-4 text-left portals-column">
+			<h2 class="text-left">
 				Portals
-			</h3>
-			<div class="row">
-				<div class="col-4" *ngFor="let catSlug of categoriesSlugs">
-					{{ catSlug }}
+			</h2>
+			<div class="row" *ngIf="!categoriesSlugs.length">
+				<div class="col-6 fadeIn portalBtnContainer" *ngFor="let i of [1, 2, 3, 4]">
+					<ngx-skeleton-loader 
+				  	count="1" 
+				  	[animation]="getSkeletonLoaderAnimationType()"
+				  	[theme]="getSkeletonLoaderThemeNgStyle()"
+				  	></ngx-skeleton-loader>
+				</div>
+			</div>
+			<div class="row" *ngIf="categoriesSlugs.length">
+				<div class="col-6 text-left fadeIn portalBtnContainer" *ngFor="let catSlug of categoriesSlugs">
+					<a mat-button routerLink="/category/{{catSlug}}">
+					{{ categories[catSlug].label }}
+					</a>
 				</div>
 			</div>
 		</div>
@@ -32,13 +48,13 @@
 	
 </div>
 
-<div class="container main-page-container fadeIn">
+<div class="container main-page-container-articles fadeIn">
 	
 	<div class="row">
-		<div class="col-12 col-md-6 text-center">
+		<div class="col-12 col-md-4">
 			<app-featured-article></app-featured-article>
 		</div>
-		<div class="col-12 col-md-6 text-center">
+		<div class="col-12 col-md-8">
 			<app-top-articles></app-top-articles>
 		</div>
 	</div>

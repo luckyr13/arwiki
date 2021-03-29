@@ -22,12 +22,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-  	this.defaultTheme = this._userSettings.getDefaultTheme();
-    this._userSettings.defaultThemeObservable$.subscribe(
-    	(theme) => {
-    		this.defaultTheme = theme;
-    	}
-    );
+  	this.getDefaultTheme();
 
     // Get categories (portals)
     this.categoriesSubscription = this._categoriesContract.getState(
@@ -44,10 +39,39 @@ export class MainPageComponent implements OnInit, OnDestroy {
   	});
   }
 
+  getDefaultTheme() {
+  	this.defaultTheme = this._userSettings.getDefaultTheme();
+    this._userSettings.defaultThemeObservable$.subscribe(
+    	(theme) => {
+    		this.defaultTheme = theme;
+    	}
+    );
+  }
+
   ngOnDestroy() {
   	if (this.categoriesSubscription) {
   		this.categoriesSubscription.unsubscribe();
   	}
+  }
+
+  getSkeletonLoaderAnimationType() {
+  	let type = 'progress';
+  	if (this.defaultTheme === 'arwiki-dark') {
+  		type = 'progress-dark';
+  	}
+  	return type;
+  }
+
+  getSkeletonLoaderThemeNgStyle() {
+  	let ngStyle: any = {
+  		'height.px': '30',
+  		'width': '100%'
+  	};
+  	if (this.defaultTheme === 'arwiki-dark') {
+  		ngStyle['background-color'] = '#3d3d3d';
+  	}
+
+  	return ngStyle;
   }
 
 }

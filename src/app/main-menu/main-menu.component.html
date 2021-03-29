@@ -1,16 +1,26 @@
 <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
 <mat-nav-list>
-  <div mat-subheader>Menu</div>
+  <div mat-subheader>MENU</div>
   <a mat-list-item 
     (click)="toggleSideMenu()"
     routerLink="{{ routerLang }}/"
     routerLinkActive="active"
     [routerLinkActiveOptions]="{exact:true}">
-    <mat-icon mat-list-icon>home</mat-icon>
     <div mat-line>{{ 'MAIN_MENU.HOME' | translate }}</div>
   </a>
+  <div 
+    style="margin-top: 10px"
+    mat-list-item 
+    *ngIf="loading">
+    <ngx-skeleton-loader 
+      count="5" 
+      [animation]="getSkeletonLoaderAnimationType()"
+      [theme]="getSkeletonLoaderThemeNgStyle()"
+      ></ngx-skeleton-loader>
+  </div>
+
   <div *ngFor="let cs of category_slugs">
-    <div mat-subheader *ngIf="menu[cs].length">{{ categories[cs].label }}</div>
+    <div mat-subheader *ngIf="menu[cs].length">{{ categories[cs].label | uppercase }}</div>
     <a mat-list-item 
       (click)="toggleSideMenu()" 
       routerLink="{{ routerLang }}/{{ page.slug }}" 
