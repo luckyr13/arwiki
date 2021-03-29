@@ -1,5 +1,6 @@
 /*
-*	Pages for the English language
+*	Pages structure (English language)
+* v2
 */
 export async function handle(state, action)
 {	
@@ -32,11 +33,34 @@ export async function handle(state, action)
 			action.input.summary, 'summary', 240
 		);
 		_modifier_validateInputString(
-			action.input.htmlContentId, 'htmlContentId', 43
+			action.input.content, 'content', 43
 		);
 		_modifier_validateInputString(
-			action.input.externalLink, 'externalLink', 240
+			action.input.img, 'img', 43
 		);
+		// Validate tags as array 
+		if (!Array.isArray(action.input.tags)) {
+			throw new ContractError('Tags must be an array');
+		}
+		// Validate tags less than 500 characters
+		let tagsCharLimit = 500;
+		let tagsCharCounter = 0;
+		const tagsList = [];
+		for (let tag of action.input.tags) {
+			tag = tag.trim();
+			if (typeof tag !== 'string' || 
+				(typeof tag === 'string' && tag.length === 0)) {
+				throw new ContractError('Tags must be non-empty strings');
+			}
+			// Validate against limit
+			if (tag.length > tagsCharLimit ||
+					tagsCharCounter + tag.length > tagsCharLimit) {
+					throw new ContractError('');
+			}
+			tagsCharCounter += tag.length;
+			tagsList.push(tag);
+		}
+
 		// Validate categories list
 		if (!Array.isArray(action.input.categories)) {
 			throw new ContractError('Categories is not an array');
@@ -55,24 +79,30 @@ export async function handle(state, action)
     // Validate slug 
     if (
     	Object.prototype.hasOwnProperty.call(
-    		state.slug_table, action.input.slug
+    		state.pages, action.input.slug
     	)
     ) {
     	throw new ContractError('slug already exists, please choose another one!');
     }
 
-		const newPage = {
-			"id": state.pages.length,
+    // Update state
+		state.pages[action.input.slug.trim()] = {
 			"title": action.input.title.trim(),
-			"slug": action.input.slug.trim(),
 			"summary": action.input.summary.trim(),
-			"html_content_id": action.input.htmlContentId.trim(),
+			"content": action.input.content.trim(),
 			"categories": action.input.categories,
-			"external_link": action.input.externalLink.trim(),
-			"rating": 0
+			"img": action.input.img.trim(),
+			"tags": tagsList,
+			"author": _msgSender,
+			"owner": _msgSender
 		};
+		/*
+		*	@dev Transfer the property of the page to a new owner
+		*/
+		if (action.input.function === "transfer") {
 
-		state.pages.push(newPage);
+		}
+
 
     return { state };
   }

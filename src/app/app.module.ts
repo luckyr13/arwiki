@@ -20,6 +20,9 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { SearchComponent } from './search/search.component';
 import { FeaturedArticleComponent } from './featured-article/featured-article.component';
 import { TopArticlesComponent } from './top-articles/top-articles.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { EditPageComponent } from './edit-page/edit-page.component';
+import { CreatePageComponent } from './create-page/create-page.component';
 
 
 // AoT requires an exported function for factories
@@ -40,7 +43,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     MainMenuComponent,
     SearchComponent,
     FeaturedArticleComponent,
-    TopArticlesComponent
+    TopArticlesComponent,
+    DashboardComponent,
+    EditPageComponent,
+    CreatePageComponent
   ],
   imports: [
     BrowserModule,

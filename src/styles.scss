@@ -193,3 +193,9 @@ p {
 .bold {
   font-weight: bold;
 }
+
+.sticky-progress-bar {
+  position: -webkit-sticky !important; /* Safari */
+  position: sticky !important;
+  top: 0;
+}

@@ -24,12 +24,26 @@
   </button>
   <button 
     mat-icon-button 
-    (click)="logout()"
-    aria-label="Logout"
-    matTooltip="Logout"
+    [matMenuTriggerFor]="accountMenu"
+    aria-label="Account menu"
+    matTooltip="Account menu"
     *ngIf="isLoggedIn">
-    <mat-icon>logout</mat-icon>
+    <mat-icon>account_circle</mat-icon>
   </button>
+  <mat-menu #accountMenu="matMenu">
+    <div>
+      <button 
+        mat-menu-item
+        routerLink="{{ routerLang }}/dashboard">
+         <mat-icon>dashboard</mat-icon> Dashboard
+      </button>
+      <button 
+        mat-menu-item
+        (click)="logout()">
+         <mat-icon>logout</mat-icon> Logout
+      </button>
+    </div>
+  </mat-menu>
   <button 
       [matMenuTriggerFor]="langMenu"
       mat-icon-button 

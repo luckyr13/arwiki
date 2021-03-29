@@ -30,6 +30,7 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   langsCopy: any;
   langCodes: string[] = [];
   loadingLangs: boolean = false;
+  routerLang: string = '';
 
   constructor(
     private _auth: AuthService,
@@ -42,10 +43,13 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
+    this.isLoggedIn = !!this._auth.getMainAddressSnapshot();
+    // Get the path 
   	this._userSettings.routePath$.subscribe((path) => {
   		this.routePath = path;
   	});
 
+    // Load languages from contract
     this.loadingLangs = true;
     this._langContract.getState(this._arweave.arweave).subscribe((langs: any) => {
       this.langsCopy = langs.langs;
@@ -54,10 +58,16 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
       this.loadingLangs = false;
     });
 
+    // Get main address from service
     this._auth.account$.subscribe((_address: string) => {
       if (_address) {
         this.isLoggedIn = true;
       }
+    });
+
+    // Get language from route
+    this._userSettings.routeLang$.subscribe((data) => {
+      this.routerLang = data;
     });
 
   }

@@ -54,7 +54,6 @@ export class BottomSheetLoginComponent implements OnInit, OnDestroy {
   		next: (res: any) => {
         this._bottomSheetRef.dismiss();
         this.loading = false;
-        this._router.navigate(['/dashboard']);
   		},
   		error: (error) => {
         this.message(`Error: ${error}`, 'error');
