@@ -21,7 +21,6 @@ import { SearchComponent } from './search/search.component';
 import { FeaturedArticleComponent } from './featured-article/featured-article.component';
 import { TopArticlesComponent } from './top-articles/top-articles.component';
 
-import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -57,7 +56,6 @@ export function HttpLoaderFactory(http: HttpClient) {
       },
       defaultLanguage: 'en'
     }),
-    NgxSkeletonLoaderModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

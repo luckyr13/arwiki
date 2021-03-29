@@ -11,5 +11,11 @@ mat-sidenav {
 }
 
 mat-sidenav-content {
-	padding-top: 70px;
+	padding-top: 56px;
+}
+
+@media (min-width: 600px) {
+	mat-sidenav-content {
+		padding-top: 64px;
+	}
 }

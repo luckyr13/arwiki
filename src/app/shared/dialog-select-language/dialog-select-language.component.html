@@ -1,10 +1,21 @@
-<h2 class="title">{{ 'DIALOGS.TITLE_SELECT_LANG' | translate }}</h2>
+<h2 class="title fadeIn">{{ 'DIALOGS.TITLE_SELECT_LANG' | translate }}</h2>
 <mat-dialog-content class="text-center">
-	<mat-spinner class="loader" *ngIf="loading"></mat-spinner>
+	<div *ngIf="loading">
+	  <div class="row">
+	  	<div class="col" *ngFor="let i of [1, 2, 3, 4, 5]">
+				<ngx-skeleton-loader 
+			  	count="1" 
+			  	[animation]="getSkeletonLoaderAnimationType()"
+			  	[theme]="getSkeletonLoaderThemeNgStyle()"
+			  	></ngx-skeleton-loader>
+			</div>
+
+		</div>
+	</div>
 	<div *ngIf="!loading && !error">
 	  <div class="row">
 	  	<a mat-button 
-	  		class="col" 
+	  		class="col fadeIn" 
 	  		*ngFor="let code of langCodes;"
 	  		[mat-dialog-close]="langs[code]">
 		  	{{ langs[code].native_name }}

@@ -3,6 +3,7 @@ import { ArwikiLangIndexContract } from '../../arwiki-contracts/arwiki-lang-inde
 import { Subscription, Observable } from 'rxjs'; 
 import { ArweaveService } from '../../auth/arweave.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { UserSettingsService } from '../../auth/user-settings.service';
 
 @Component({
   templateUrl: './dialog-select-language.component.html',
@@ -14,15 +15,19 @@ export class DialogSelectLanguageComponent implements OnInit, OnDestroy {
 	langsSubscription: Subscription = Subscription.EMPTY;
 	loading: boolean = false;
 	error: string = '';
+  defaultTheme: string = '';
 
   constructor(
   	private _arwikiLangIndex: ArwikiLangIndexContract,
   	private _arweave: ArweaveService,
-  	private _snackBar: MatSnackBar
+  	private _snackBar: MatSnackBar,
+    private _userSettings: UserSettingsService
   ) { }
 
   ngOnInit(): void {
   	this.loading = true;
+    this.getDefaultTheme();
+
   	this.langsSubscription = this._arwikiLangIndex
   		.getState(this._arweave.arweave)
   		.subscribe({
@@ -58,5 +63,34 @@ export class DialogSelectLanguageComponent implements OnInit, OnDestroy {
       verticalPosition: verticalPosition,
       panelClass: panelClass
     });
+  }
+
+  getSkeletonLoaderAnimationType() {
+    let type = 'progress';
+    if (this.defaultTheme === 'arwiki-dark') {
+      type = 'progress-dark';
+    }
+    return type;
+  }
+
+  getSkeletonLoaderThemeNgStyle() {
+    let ngStyle: any = {
+      'height.px': '30',
+      'width': '100%'
+    };
+    if (this.defaultTheme === 'arwiki-dark') {
+      ngStyle['background-color'] = '#3d3d3d';
+    }
+
+    return ngStyle;
+  }
+
+  getDefaultTheme() {
+    this.defaultTheme = this._userSettings.getDefaultTheme();
+    this._userSettings.defaultThemeObservable$.subscribe(
+      (theme) => {
+        this.defaultTheme = theme;
+      }
+    );
   }
 }

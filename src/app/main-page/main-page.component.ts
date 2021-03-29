@@ -14,6 +14,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
 	categoriesSlugs: string[] = [];
 	categoriesSubscription: Subscription = Subscription.EMPTY;
 	defaultTheme: string = '';
+	loading: boolean = false;
 
   constructor(
     private _userSettings: UserSettingsService,
@@ -23,6 +24,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
   	this.getDefaultTheme();
+  	this.loading = true;
 
     // Get categories (portals)
     this.categoriesSubscription = this._categoriesContract.getState(
@@ -31,9 +33,11 @@ export class MainPageComponent implements OnInit, OnDestroy {
     	next: (data) => {
     		this.categories = data.categories;
     		this.categoriesSlugs = Object.keys(this.categories);
+    		this.loading = false;
     	},
     	error: (error) => {
     		console.log('error categories', error);
+    		this.loading = false;
     	},
     	
   	});

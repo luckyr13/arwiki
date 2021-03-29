@@ -18,6 +18,7 @@ import {MatListModule} from '@angular/material/list';
 import {TranslateModule} from '@ngx-translate/core';
 import {MatCardModule} from '@angular/material/card';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
   declarations: [DialogSelectLanguageComponent],
@@ -27,7 +28,9 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     MatButtonModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
-    TranslateModule
+    TranslateModule,
+    MatProgressBarModule,
+    NgxSkeletonLoaderModule
   ],
   exports: [
   	MatFormFieldModule,
@@ -45,7 +48,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     MatMenuModule,
     MatListModule,
     MatCardModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    NgxSkeletonLoaderModule
   ],
   entryComponents: [DialogSelectLanguageComponent]
 })
