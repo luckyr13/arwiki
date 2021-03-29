@@ -1,23 +1,45 @@
-<div class="text-center fadeIn main-logo">
-  <img 
-  	*ngIf="defaultTheme === 'arwiki-dark' " 
-  	width="140px" 
-  	src="./assets/img/arweave-light.png">
-  <img
-  	*ngIf="defaultTheme === 'arwiki-light' " 
-  	width="140px"
-  	src="./assets/img/arweave-dark.png">
-</div>
 <div class="container main-page-container fadeIn">
-	<h1 class="text-center main-title">
-		{{ 'MAIN_PAGE.TITLE_L1' | translate }}
-		<br>
-		{{ 'MAIN_PAGE.TITLE_L2' | translate }}
-	</h1>
+	
+	<div class="row fadeIn">
+		<div class="col-12 col-md-6 text-center">
+			 <img 
+			  	*ngIf="defaultTheme === 'arwiki-dark' " 
+			  	class="main-logo"
+			  	src="./assets/img/arweave-light.png">
+			  <img
+			  	*ngIf="defaultTheme === 'arwiki-light' " 
+			  	class="main-logo"
+			  	src="./assets/img/arweave-dark.png">
+			<h1 class="text-left main-title">
+				{{ 'MAIN_PAGE.TITLE_L1' | translate }}
+			</h1>
+			<h4 class="text-left secondary-title">
+				{{ 'MAIN_PAGE.SUBTITLE_L1' | translate }}
+			</h4>
+			
+		</div>
+		<div class="col-12 col-md-6 text-center portals-column">
+			<h3 class="text-left">
+				Portals
+			</h3>
+			<div class="row">
+				<div class="col-4" *ngFor="let catSlug of categoriesSlugs">
+					{{ catSlug }}
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+<div class="container main-page-container fadeIn">
+	
 	<div class="row">
-		<div class="col-12 text-center">
-			<strong>arweave</strong> {{ 'MAIN_PAGE.SUBTITLE_L1' | translate }}<br>
-			<strong>arweave</strong> {{ 'MAIN_PAGE.SUBTITLE_L2' | translate }}
+		<div class="col-12 col-md-6 text-center">
+			<app-featured-article></app-featured-article>
+		</div>
+		<div class="col-12 col-md-6 text-center">
+			<app-top-articles></app-top-articles>
 		</div>
 	</div>
 	

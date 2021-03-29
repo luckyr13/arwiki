@@ -18,6 +18,8 @@ import {HttpClientModule, HttpClient} from '@angular/common/http';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { SearchComponent } from './search/search.component';
+import { FeaturedArticleComponent } from './featured-article/featured-article.component';
+import { TopArticlesComponent } from './top-articles/top-articles.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -35,7 +37,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     PageComponent,
     MainPageComponent,
     MainMenuComponent,
-    SearchComponent
+    SearchComponent,
+    FeaturedArticleComponent,
+    TopArticlesComponent
   ],
   imports: [
     BrowserModule,

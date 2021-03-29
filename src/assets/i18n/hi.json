@@ -10,10 +10,8 @@
 
 	},
 	"MAIN_PAGE": {
-		"TITLE_L1": "आपका स्वागत है",
-		"TITLE_L2": "परमिट!",
-		"SUBTITLE_L1": "आपको दस्तावेज़ और एप्लिकेशन हमेशा के लिए संग्रहीत करने में सक्षम बनाता है।",
-		"SUBTITLE_L2": "जानकारी को स्थायी बनाता है।"
+		"TITLE_L1": "Welcome to the permaweb!",
+		"SUBTITLE_L1": "arwiki is the decentralized wiki for arweave that anyone can edit."
 	},
 	"PAGE": {
 

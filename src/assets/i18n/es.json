@@ -10,10 +10,8 @@
 
 	},
 	"MAIN_PAGE": {
-		"TITLE_L1": "¡Bienvenido a",
-		"TITLE_L2": "la permaweb!",
-		"SUBTITLE_L1": "te permite almacenar tus documentos y aplicaciones para siempre.",
-		"SUBTITLE_L2": "vuelve la permanencia de la información sostenible."
+		"TITLE_L1": "Welcome to the permaweb!",
+		"SUBTITLE_L1": "arwiki is the decentralized wiki for arweave that anyone can edit."
 	},
 	"PAGE": {
 

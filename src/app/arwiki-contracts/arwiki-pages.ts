@@ -9,18 +9,23 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class ArwikiPagesENContract
+export class ArwikiPagesContract
 {
-	private _contractAddress: string = 'xnlTVtwU-fF8ModDyQy48Ed6k6FSFBL7yF_PtcT8zmk';
+	private _contractAddressDefaultLang: string = 'xnlTVtwU-fF8ModDyQy48Ed6k6FSFBL7yF_PtcT8zmk';
 
 	constructor() {
 	}
+
+
+
 	/*
 	*	@dev Get full contract state as Observable
 	*/
-	getState(arweave: any): Observable<any> {
+	getState(arweave: any, contractAddress: string = ''): Observable<any> {
+		const finalContract = contractAddress ? 
+			contractAddress : this._contractAddressDefaultLang;
 		const obs = new Observable((subscriber) => {
-			readContract(arweave, this._contractAddress).then((state) => {
+			readContract(arweave, finalContract).then((state) => {
 				subscriber.next(state);
 				subscriber.complete();
 			}).catch((error) => {
