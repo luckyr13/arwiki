@@ -190,5 +190,9 @@ export class CreatePageComponent implements OnInit {
     }
   }
 
+  updateSlug(s: string) {
+    this.slug!.setValue(s.replace(' ', '_'));
+  }
+
 
 }
