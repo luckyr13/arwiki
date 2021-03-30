@@ -199,3 +199,7 @@ p {
   position: sticky !important;
   top: 0;
 }
+
+#tags-input-container, #tags-input-container .mat-form-field-wrapper {
+  height: 200px !important;
+}

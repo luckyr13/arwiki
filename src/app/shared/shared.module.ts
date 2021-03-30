@@ -23,6 +23,7 @@ import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import { BottomSheetLoginComponent } from './bottom-sheet-login/bottom-sheet-login.component';
 import { ModalFileManagerComponent } from './modal-file-manager/modal-file-manager.component';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatChipsModule} from '@angular/material/chips';
 
 @NgModule({
   declarations: [DialogSelectLanguageComponent, BottomSheetLoginComponent, ModalFileManagerComponent],
@@ -58,7 +59,8 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatProgressBarModule,
     NgxSkeletonLoaderModule,
     MatBottomSheetModule,
-    MatTabsModule
+    MatTabsModule,
+    MatChipsModule
   ],
   entryComponents: [DialogSelectLanguageComponent]
 })

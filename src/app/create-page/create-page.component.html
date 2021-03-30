@@ -92,6 +92,29 @@
 				<h3>Content:</h3>
 				test
 			</div>
+			<div class="col-12">
+				<h3>Tags:</h3>
+				<mat-form-field id="tags-input-container" class="w70">
+				  <mat-label>Tags</mat-label>
+				  <mat-chip-list #chipList class="tags-input" aria-label="Add tags">
+				   	<mat-chip 
+					   	*ngFor="let tag of tags" 
+					   	[selectable]="selectable"
+	            [removable]="removable"
+	            (removed)="remove(tag)">
+	      				{{tag.name}}
+      				<mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+    				</mat-chip>
+				    <input placeholder="Add tag..."
+							[matChipInputFor]="chipList"
+							[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+							[matChipInputAddOnBlur]="addOnBlur"
+							(matChipInputTokenEnd)="add($event)">
+				  </mat-chip-list>
+	    		<mat-hint align="end"> / 500</mat-hint>
+	    		<mat-hint align="start">Separate tags by comma</mat-hint>
+				</mat-form-field>
+			</div>
 			
 			
 		</div>
