@@ -32,7 +32,14 @@
 				  	count="1" 
 				  	[animation]="getSkeletonLoaderAnimationType()"
 				  	[theme]="getSkeletonLoaderThemeNgStyle()"
+				  	*ngIf="!previewImgUrl"
 				  	></ngx-skeleton-loader>
+				  <img
+				  	*ngIf="previewImgUrl"
+				  	[src]="previewImgUrl"
+				  	width="100%"
+				  	>
+
 				</mat-card>
 				<div class="text-right">
 					<button 
