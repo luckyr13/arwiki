@@ -27,6 +27,7 @@
     "bootstrap": "^4.6.0",
     "ngx-skeleton-loader": "^2.9.1",
     "rxjs": "~6.6.0",
+    "simplemde": "^1.11.2",
     "smartweave": "^0.4.27",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.3"
@@ -37,6 +38,7 @@
     "@angular/compiler-cli": "~11.2.6",
     "@types/jasmine": "~3.6.0",
     "@types/node": "^12.11.1",
+    "@types/simplemde": "^1.11.7",
     "codelyzer": "^6.0.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",

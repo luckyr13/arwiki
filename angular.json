@@ -32,6 +32,7 @@
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap-grid.min.css",
+              "node_modules/simplemde/dist/simplemde.min.css",
               "src/styles.scss"
             ],
             "scripts": []

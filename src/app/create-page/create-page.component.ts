@@ -13,6 +13,10 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
+import * as SimpleMDE from 'simplemde';
+declare const document: any;
+
+
 
 @Component({
   selector: 'app-create-page',
@@ -30,13 +34,14 @@ export class CreatePageComponent implements OnInit {
 	});
 	txmessage: string = '';
   previewImgUrl: string = '';
-
+  simplemde: any;
   visible = true;
   selectable = true;
   removable = true;
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   tags: any[] = [];
+  contentTextareaObject: any;
 
   public get title() {
 		return this.frmNew.get('title');
@@ -64,6 +69,10 @@ export class CreatePageComponent implements OnInit {
 
   ngOnInit(): void {
   	this.getDefaultTheme();
+    this.contentTextareaObject = document.getElementById("create-page-textarea-simplemde-content");
+    this.simplemde = new SimpleMDE({
+      element: this.contentTextareaObject
+    });
   }
 
 
@@ -115,6 +124,12 @@ export class CreatePageComponent implements OnInit {
   	const title = this.title!.value;
   	const slug = this.slug!.value;
   	const summary = this.summary!.value;
+    const content = this.contentTextareaObject.value;
+
+    if (!content) {
+      alert('Please type some content :)');
+      return;
+    }
   	this.disableForm(true);
 
   	// Save data 
