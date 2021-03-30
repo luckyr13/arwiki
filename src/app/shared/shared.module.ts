@@ -21,9 +21,11 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import { BottomSheetLoginComponent } from './bottom-sheet-login/bottom-sheet-login.component';
+import { ModalFileManagerComponent } from './modal-file-manager/modal-file-manager.component';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @NgModule({
-  declarations: [DialogSelectLanguageComponent, BottomSheetLoginComponent],
+  declarations: [DialogSelectLanguageComponent, BottomSheetLoginComponent, ModalFileManagerComponent],
   imports: [
     CommonModule,
     MatDialogModule,
@@ -34,7 +36,8 @@ import { BottomSheetLoginComponent } from './bottom-sheet-login/bottom-sheet-log
     MatProgressBarModule,
     NgxSkeletonLoaderModule,
     MatListModule,
-    MatIconModule
+    MatIconModule,
+    MatTabsModule
   ],
   exports: [
   	MatFormFieldModule,
@@ -54,7 +57,8 @@ import { BottomSheetLoginComponent } from './bottom-sheet-login/bottom-sheet-log
     MatCardModule,
     MatProgressBarModule,
     NgxSkeletonLoaderModule,
-    MatBottomSheetModule
+    MatBottomSheetModule,
+    MatTabsModule
   ],
   entryComponents: [DialogSelectLanguageComponent]
 })

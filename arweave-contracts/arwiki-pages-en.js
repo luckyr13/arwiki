@@ -24,13 +24,13 @@ export async function handle(state, action)
     _modifier_validateAdmin(_msgSender, adminList);
     // Validate inputs
 		_modifier_validateInputString(
-			action.input.title, 'title', 120
+			action.input.title, 'title', 150
 		);
 		_modifier_validateInputString(
-			action.input.slug, 'slug', 100
+			action.input.slug, 'slug', 150
 		);
 		_modifier_validateInputString(
-			action.input.summary, 'summary', 240
+			action.input.summary, 'summary', 500
 		);
 		_modifier_validateInputString(
 			action.input.content, 'content', 43
@@ -38,6 +38,7 @@ export async function handle(state, action)
 		_modifier_validateInputString(
 			action.input.img, 'img', 43
 		);
+
 		// Validate tags as array 
 		if (!Array.isArray(action.input.tags)) {
 			throw new ContractError('Tags must be an array');

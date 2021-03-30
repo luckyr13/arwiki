@@ -1,1 +1,92 @@
-<p>create-page works!</p>
+<mat-progress-bar class="sticky-progress-bar" mode="indeterminate" *ngIf="loadingFrm"></mat-progress-bar>
+<div class="container page-container fadeIn">
+	<form class="frmNew" [formGroup]="frmNew" (ngSubmit)="onSubmit()">
+		<div class="row">
+			<h1 class="page-title col-9">
+				Create new arwiki page
+			</h1>
+			<div class="text-right page-title-buttons col-3">
+				<button 
+					type="submit" 
+					mat-mini-fab
+					[disabled]="!frmNew.valid ||  loadingFrm"
+					color="primary" 
+					matTooltip="Save" 
+					aria-label="Save">
+	        <mat-icon>save</mat-icon>
+	      </button>
+	      <button 
+			  	mat-mini-fab 
+			  	class="ml10" 
+			  	color="primary"
+			  	(click)="goBack()"
+			  	[disabled]="loadingFrm"
+			  	matTooltip="Go back"
+			  	aria-label="Go back">
+			    <mat-icon>navigate_before</mat-icon>
+			  </button>
+			</div>
+			<div class="col-12 col-md-6">
+				<mat-card class="card-img">
+					<ngx-skeleton-loader 
+				  	count="1" 
+				  	[animation]="getSkeletonLoaderAnimationType()"
+				  	[theme]="getSkeletonLoaderThemeNgStyle()"
+				  	></ngx-skeleton-loader>
+				</mat-card>
+				<div class="text-right">
+					<button 
+						class="btn-upload-file"
+			    	mat-flat-button
+			    	[disabled]="loadingFrm"
+			    	type="button"
+			    	(click)="openFileManager()"
+			    	color="primary">
+			    	<mat-icon>upload</mat-icon>
+			    	Upload file
+			    </button>
+				</div>
+			
+			</div>
+			<div class="col-12 col-md-6">
+				<mat-form-field class="w100" appearance="outline">
+				  <mat-label>Title</mat-label>
+				  <input
+				  	formControlName="title"
+				  	matInput
+				  	autocomplete="off"
+				  	maxlength="150">
+	    		<mat-hint align="end">{{title!.value.length}} / 150</mat-hint>
+				</mat-form-field>
+				<div class="author-address">
+					<strong>by</strong> {{ authorAddress }}
+				</div>
+				<mat-form-field class="w70" appearance="outline">
+				  <mat-label>Page slug</mat-label>
+				  <input
+				  	formControlName="slug"
+				  	matInput
+				  	autocomplete="off"
+				  	maxlength="150">
+	    		<mat-hint align="end">{{slug!.value.length}} / 150</mat-hint>
+				</mat-form-field>
+				
+				<mat-form-field class="w100" appearance="outline">
+				  <mat-label>Summary</mat-label>
+				  <textarea
+				  	formControlName="summary"
+				  	matInput
+				  	autocomplete="off"
+				  	maxlength="500"></textarea>
+	    		<mat-hint align="end">{{summary!.value.length}} / 500</mat-hint>
+				</mat-form-field>
+			</div>
+			<div class="col-12">
+				<h3>Content:</h3>
+				test
+			</div>
+			
+			
+		</div>
+	</form>
+</div>

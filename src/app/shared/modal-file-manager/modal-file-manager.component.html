@@ -1,0 +1,46 @@
+<h2 mat-dialog-title>Arweave File Manager</h2>
+<mat-dialog-content class="mat-typography">
+	<mat-tab-group mat-align-tabs="end">
+	  <mat-tab label="Upload file">
+	  	<div class="container">
+	  		<div class="row">
+	  			<div class="col mt20 mb20">
+						<div class="mb20">
+						  <label>Select an image or a video: </label>
+						  <input 
+						  	type="file" 
+						  	accept=".jpg,.mp4,.jpeg,.png,image/jpeg,image/png,video/mp4" 
+						  	[disabled]="loading"
+						  	(change)="uploadFile($event)">
+						</div>
+
+						<div class="mb20 mt20 text-center">
+							*The file will be uploaded directly to the permaweb so be careful!
+						</div>
+						<div class="text-center" *ngIf="transactionUploadUrl">
+							Transaction info: <a target="_blank" mat-button color="primary" href="{{ transactionUploadUrl }}" >{{ transactionUploadUrl }}</a>
+						</div>
+						<div class="mb20 text-center" *ngIf="fileUrl">
+							File Url: <a target="_blank" mat-button color="primary" href="{{ fileUrl }}" >{{ fileUrl }}</a>
+						</div>
+						<div class="mb20 text-center" *ngIf="fileUrl">
+							Insert link: <a [mat-dialog-close]="fileUrl" target="_blank" mat-button color="primary" > INSERT </a>
+						</div>
+						<div>
+							<mat-spinner style="margin: 0 auto" *ngIf="loading"></mat-spinner>
+						</div>
+
+		  		</div>
+		  	</div>
+	  	</div>
+	  </mat-tab>
+	  <mat-tab label="My files">
+	  	<ng-template matTabContent>
+		    Content 1 - Loaded: {{getTimeLoaded() | date:'full'}}
+		  </ng-template>
+	  </mat-tab>
+	</mat-tab-group>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>
