@@ -22,91 +22,38 @@ export async function handle(state, action)
     const adminList = settingsContractState.admin_list;
     // Validate _msgSender in admins list
     _modifier_validateAdmin(_msgSender, adminList);
-    // Validate inputs
-		_modifier_validateInputString(
-			action.input.title, 'title', 150
-		);
+    
 		_modifier_validateInputString(
 			action.input.slug, 'slug', 150
 		);
 		_modifier_validateInputString(
-			action.input.summary, 'summary', 500
-		);
-		_modifier_validateInputString(
-			action.input.content, 'content', 43
-		);
-		_modifier_validateInputString(
-			action.input.img, 'img', 43
+			action.input.content_id, 'content_id', 43
 		);
 
-		// Validate tags as array 
-		if (!Array.isArray(action.input.tags)) {
-			throw new ContractError('Tags must be an array');
-		}
-		// Validate tags less than 500 characters
-		let tagsCharLimit = 500;
-		let tagsCharCounter = 0;
-		const tagsList = [];
-		for (let tag of action.input.tags) {
-			tag = tag.trim();
-			if (typeof tag !== 'string' || 
-				(typeof tag === 'string' && tag.length === 0)) {
-				throw new ContractError('Tags must be non-empty strings');
-			}
-			// Validate against limit
-			if (tag.length > tagsCharLimit ||
-					tagsCharCounter + tag.length > tagsCharLimit) {
-					throw new ContractError('');
-			}
-			tagsCharCounter += tag.length;
-			tagsList.push(tag);
-		}
+		const slug = action.input.slug.trim();
+		const content_id = action.input.content_id.trim();
 
-		// Validate categories list
-		if (!Array.isArray(action.input.categories)) {
-			throw new ContractError('Categories is not an array');
-		}
-		// Validate categories
-		// Get the list of categories from Categories contract
-		const categoriesContractState = await SmartWeave.contracts.readContractState(
-			CATEGORIES_CONTRACT
-		);
-    const categoriesList = categoriesContractState.categories;
-    for (let cat of Object.keys(action.input.categories)) {
-			_modifier_validateCategory(
-				cat, categoriesList
-			);
-    }
-    // Validate slug 
+    // Validate page slug 
     if (
     	Object.prototype.hasOwnProperty.call(
-    		state.pages, action.input.slug
+    		state, action.input.slug
     	)
     ) {
-    	throw new ContractError('slug already exists, please choose another one!');
+    	throw new ContractError('Slug already taken, please choose another one!');
     }
 
     // Update state
-		state.pages[action.input.slug.trim()] = {
-			"title": action.input.title.trim(),
-			"summary": action.input.summary.trim(),
-			"content": action.input.content.trim(),
-			"categories": action.input.categories,
-			"img": action.input.img.trim(),
-			"tags": tagsList,
-			"author": _msgSender,
-			"owner": _msgSender
-		};
-		/*
-		*	@dev Transfer the property of the page to a new owner
-		*/
-		if (action.input.function === "transfer") {
-
-		}
-
+		state[slug] = content_id;
 
     return { state };
   }
+
+  /*
+	*	@dev Transfer the page property to a new owner
+	*/
+	if (action.input.function === "transfer") {
+		throw new ContractError('Not implemented!');
+	}
 
 	throw new ContractError('Invalid option!');
 }

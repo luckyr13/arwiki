@@ -39,7 +39,12 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+    this.consoleWelcomeMessage();
+  }
+
+  consoleWelcomeMessage() {
+    console.log('%cWelcome to the arwiki!', 'background: #000; color: #FFF; font-size: 32px; padding: 10px;');
+    console.log('%cPlease let us know if you find some interesting bug 😄', 'font-weight: bold;');
   }
 
 

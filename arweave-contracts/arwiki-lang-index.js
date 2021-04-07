@@ -8,37 +8,7 @@ export async function handle(state, action)
 	const _tags = SmartWeave.transaction.tags;
 	const SETTINGS_CONTRACT = 'O3dek5yOpnxdbyKSBQT-io7a_CzXim6jBZkyk8_KCSQ';
 
-	/*
-	*	@dev Anyone can update the number of pages for a language
-	*/
-	if (action.input.function === "updateLangNumPages") {
-		// Validate inputs
-		_modifier_validateInputString(
-			action.input.langCode, 'langCode', 2
-		);
-		// Validate if language exists in state
-		_modifier_validateIfLanguageExists(
-			action.input.langCode,
-			state.langs
-		);
-
-		// Get the number of pages from external contract
-		const pageContract = state.langs[action.input.langCode];
-		if (!pageContract) {
-			throw new ContractError(`Contract undefined for ${action.input.langCode}`);
-		}
-		const pageContractState = await SmartWeave.contracts.readContractState(
-			pageContract
-		);
-    const numPages = pageContractState.pages.length;
-
-    if (numPages > state.langs[action.input.langCode].numPages) {
-      state.langs[action.input.langCode].numPages = numPages;
-      return { state };
-    }
-
-    throw new ContractError(`Error updating language ${action.input.langCode}`);
-	}
+	
 	/*
 	*	@dev Update the contract address for a language
 	*/
@@ -112,7 +82,6 @@ export async function handle(state, action)
 			"code": action.input.langCode.trim(),
 			"iso_name": action.input.isoName.trim(),
 			"native_name": action.input.nativeName.trim(),
-			"numPages": 0,
 			"writing_system": action.input.writingSystem.trim(),
 			"contract": action.input.contract.trim()
 		};
