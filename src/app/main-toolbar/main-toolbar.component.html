@@ -11,7 +11,15 @@
     <mat-icon>menu</mat-icon>
   </button>
 
-  <span class="logo-text">arweave</span>
+  <ngx-skeleton-loader 
+      count="1" 
+      class="fadeIn"
+      [animation]="getSkeletonLoaderAnimationType()"
+      [theme]="getSkeletonLoaderThemeNgStyle()"
+      *ngIf="loadingSettings"
+      ></ngx-skeleton-loader>
+  <span class="logo-text fadeIn" *ngIf="!loadingSettings">{{ appName }}</span>
+
   <span class="menu-spacer"></span>
 
   <button 

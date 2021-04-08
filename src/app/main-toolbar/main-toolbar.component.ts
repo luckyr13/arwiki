@@ -11,7 +11,7 @@ import {ArwikiLangIndexContract} from '../arwiki-contracts/arwiki-lang-index';
 import { FormControl } from '@angular/forms';
 import {MatBottomSheet} from '@angular/material/bottom-sheet';
 import { BottomSheetLoginComponent } from '../shared/bottom-sheet-login/bottom-sheet-login.component';
-
+import { ArwikiSettingsContract } from '../arwiki-contracts/arwiki-settings';
 declare const window: any;
 
 @Component({
@@ -31,6 +31,14 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   langCodes: string[] = [];
   loadingLangs: boolean = false;
   routerLang: string = '';
+  loadingSettings: boolean = true;
+  defaultTheme: string = '';
+  appName: string = '';
+  // appLogoLight: string = './assets/img/arweave-light.png';
+  appLogoLight: string = '';
+  // appLogoDark: string = './assets/img/arweave-dark.png';
+  appLogoDark: string = '';
+  appSettingsSubscription: Subscription = Subscription.EMPTY;
 
   constructor(
     private _auth: AuthService,
@@ -39,10 +47,13 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
     private _userSettings: UserSettingsService,
     private _langContract: ArwikiLangIndexContract,
     private _bottomSheet: MatBottomSheet,
+    private _arwikiSettings: ArwikiSettingsContract,
   ) {}
 
 
   ngOnInit(): void {
+    this.defaultTheme = this._userSettings.getDefaultTheme();
+
     this.isLoggedIn = !!this._auth.getMainAddressSnapshot();
     // Get the path 
   	this._userSettings.routePath$.subscribe((path) => {
@@ -70,10 +81,27 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
       this.routerLang = data;
     });
 
+    this.appSettingsSubscription = this._arwikiSettings
+      .getState(this._arweave.arweave)
+      .subscribe({
+        next: (state) => {
+          this.appName = state.app_name;
+          this.appLogoLight = `${this._arweave.baseURL}${state.main_logo_light}`;
+          this.appLogoDark = `${this._arweave.baseURL}${state.main_logo_dark}`;
+          this.loadingSettings = false;
+        },
+        error: (error) => {
+          this.message(error, 'error');
+          this.loadingSettings = false;
+        }
+      });
+
   }
 
   ngOnDestroy() {
-
+    if (this.appSettingsSubscription) {
+      this.appSettingsSubscription.unsubscribe();
+    }
   }
 
   /*
@@ -136,5 +164,26 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
     this._bottomSheet.open(BottomSheetLoginComponent, {
       
     });
+  }
+
+  getSkeletonLoaderAnimationType() {
+    let type = 'progress';
+    if (this.defaultTheme === 'arwiki-dark') {
+      type = 'progress-dark';
+    }
+    return type;
+  }
+
+  getSkeletonLoaderThemeNgStyle() {
+    let ngStyle: any = {
+      'height.px': '30',
+      'width.px': '140',
+      'margin-top': '20px'
+    };
+    if (this.defaultTheme === 'arwiki-dark') {
+      ngStyle['background-color'] = '#3d3d3d';
+    }
+
+    return ngStyle;
   }
 }
