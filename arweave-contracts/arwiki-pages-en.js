@@ -51,19 +51,22 @@ export async function handle(state, action)
     	throw new ContractError('Category slug does not exists!');
     }
 
-    // Validate if page slug already exists
-    if (
-    	Object.prototype.hasOwnProperty.call(
-    		state, category_slug
-    	) &&
-    	Object.prototype.hasOwnProperty.call(
-    		state[category_slug], slug
-    	)
-    ) {
-    	throw new ContractError('Slug already taken, please choose another one!');
+    // Validate in all categories if page slug already exists
+    const currentCategories = Object.keys(state);
+    for (let c1 of currentCategories) {
+    	if (
+	    	Object.prototype.hasOwnProperty.call(
+	    		state, c1
+	    	) &&
+	    	Object.prototype.hasOwnProperty.call(
+	    		state[c1], slug
+	    	)
+	    ) {
+	    	throw new ContractError('Slug already taken, please choose another one!');
+	    }
     }
 
-    // IF is the first page for the category
+    // IF is the first page in the category
     if (
     	!Object.prototype.hasOwnProperty.call(
     		state, category_slug

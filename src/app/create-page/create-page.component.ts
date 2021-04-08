@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
 import { AuthService } from '../auth/auth.service';
 import { UserSettingsService } from '../auth/user-settings.service';
@@ -12,7 +12,11 @@ import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {MatChipInputEvent} from '@angular/material/chips';
+import { Subscription } from 'rxjs'; 
+import { ArwikiCategoriesContract } from '../arwiki-contracts/arwiki-categories';
+import { ArwikiPagesContract } from '../arwiki-contracts/arwiki-pages';
+import { ArwikiLangIndexContract } from '../arwiki-contracts/arwiki-lang-index';
+
 import * as SimpleMDE from 'simplemde';
 declare const document: any;
 
@@ -21,7 +25,7 @@ declare const document: any;
   templateUrl: './create-page.component.html',
   styleUrls: ['./create-page.component.scss']
 })
-export class CreatePageComponent implements OnInit {
+export class CreatePageComponent implements OnInit, OnDestroy {
 	public authorAddress: string = this._auth.getMainAddressSnapshot();
 	defaultTheme: string = '';
 	loadingFrm: boolean = false;
@@ -38,12 +42,13 @@ export class CreatePageComponent implements OnInit {
   selectable = true;
   removable = true;
   addOnBlur = true;
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  tags: any[] = [];
   contentTextareaObject: any;
   baseImgUrl: string = this._arweave.baseURL;
   categoryList: any[] = [];
   languageList: any[] = [];
+  categoryListSubscription: Subscription = Subscription.EMPTY;
+  languageListSubscription: Subscription = Subscription.EMPTY;
+
 
   public get title() {
 		return this.frmNew.get('title');
@@ -69,7 +74,9 @@ export class CreatePageComponent implements OnInit {
     private _auth: AuthService,
     public _dialog: MatDialog,
   	private _router: Router,
-  	private _snackBar: MatSnackBar
+  	private _snackBar: MatSnackBar,
+    private _langIndexContract: ArwikiLangIndexContract,
+    private _categoriesContract: ArwikiCategoriesContract
   ) { }
 
   ngOnInit(): void {
@@ -78,6 +85,45 @@ export class CreatePageComponent implements OnInit {
     this.simplemde = new SimpleMDE({
       element: this.contentTextareaObject
     });
+
+    this.categoryListSubscription = this._categoriesContract
+      .getState(this._arweave.arweave)
+      .subscribe({
+        next: (state) => {
+          this.categoryList = [];
+          for (const c0 of Object.keys(state)) {
+            this.categoryList.push({slug: c0, label: state[c0]});
+          }
+        },
+        error: (error) => {
+          this.message(error, 'error');
+        }
+      })
+
+    this.languageListSubscription = this._langIndexContract
+      .getState(this._arweave.arweave)
+      .subscribe({
+        next: (state) => {
+          this.languageList = [];
+          for (const l0 of Object.keys(state)) {
+            this.languageList.push({code: l0, label: state[l0].native_name});
+          }
+        },
+        error: (error) => {
+          this.message(error, 'error');
+        }
+      })
+
+
+  }
+
+  ngOnDestroy() {
+    if (this.categoryListSubscription) {
+      this.categoryListSubscription.unsubscribe();
+    }
+    if (this.languageListSubscription) {
+      this.languageListSubscription.unsubscribe();
+    }
   }
 
 
@@ -176,29 +222,6 @@ export class CreatePageComponent implements OnInit {
       this.previewImgUrl = `${this.baseImgUrl + imgUrl}`;
     }
 
-  }
-
-  add(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
-
-    // Add our tag
-    if ((value || '').trim()) {
-      this.tags.push({name: value.trim()});
-    }
-
-    // Reset the input value
-    if (input) {
-      input.value = '';
-    }
-  }
-
-  remove(tag: any): void {
-    const index = this.tags.indexOf(tag);
-
-    if (index >= 0) {
-      this.tags.splice(index, 1);
-    }
   }
 
   updateSlug(s: string) {
