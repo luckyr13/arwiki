@@ -36,7 +36,7 @@
 	  		<mat-progress-bar mode="indeterminate" *ngIf="loadingMyArFiles"></mat-progress-bar>
 		    <div class="row" *ngIf="files && files.length">
 		    	<div class="col-12 col-md-4" *ngFor="let file of files" >
-		    		<mat-card [mat-dialog-close]="file.node.id">
+		    		<mat-card class="card-myfiles" [mat-dialog-close]="file.node.id">
 		    			<img width="100%" src="{{ baseImgUrl + file.node.id }}" >
 		    		</mat-card>
 		    	</div>
