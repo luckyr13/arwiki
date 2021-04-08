@@ -1,17 +1,31 @@
 <div class="mt-main">
 </div>
 <mat-progress-bar class="sticky-progress-bar" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+<div class="mt-main-pgbsep" *ngIf="!loading">
+</div>
 <div class="container main-page-container fadeIn">
 	<div class="row">
 		<div class="col-12 col-md-7 text-center">
-			 <img 
-			  	*ngIf="defaultTheme === 'arwiki-dark' " 
-			  	class="main-logo"
-			  	src="./assets/img/arweave-light.png">
-			  <img
-			  	*ngIf="defaultTheme === 'arwiki-light' " 
-			  	class="main-logo"
-			  	src="./assets/img/arweave-dark.png">
+			<div *ngIf="loadingLogo" class="fadeIn">
+			  <div class="text-center">
+			    <ngx-skeleton-loader 
+			      count="1" 
+			      appearance="circle"
+			      [animation]="getSkeletonLoaderAnimationType()"
+			      [theme]="getSkeletonLoaderThemeNgStyle2()"
+			      ></ngx-skeleton-loader>
+			  </div>
+			</div>
+			<div *ngIf="!loadingLogo" class="fadeIn">
+			  <img 
+		      *ngIf="defaultTheme === 'arwiki-dark' && appLogoLight" 
+		      class="main-logo"
+		      [src]="appLogoLight">
+		    <img
+		      *ngIf=" defaultTheme === 'arwiki-light' && appLogoDark" 
+		      class="main-logo"
+		      [src]="appLogoDark">
+			</div>
 			<h1 class="text-left main-title">
 				{{ 'MAIN_PAGE.TITLE_L1' | translate }}
 			</h1>

@@ -27,11 +27,11 @@
 <div *ngIf="!loading" class="mt-home fadeIn">
   <div class="text-center main-logo">
     <img 
-      *ngIf="defaultTheme === 'arwiki-dark' " 
+      *ngIf="defaultTheme === 'arwiki-dark' && appLogoLight" 
       width="80px" 
       [src]="appLogoLight">
     <img
-      *ngIf=" defaultTheme === 'arwiki-light' " 
+      *ngIf=" defaultTheme === 'arwiki-light' && appLogoDark" 
       width="80px"
       [src]="appLogoDark">
   </div>
