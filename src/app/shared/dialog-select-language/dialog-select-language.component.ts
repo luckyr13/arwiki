@@ -32,8 +32,8 @@ export class DialogSelectLanguageComponent implements OnInit, OnDestroy {
   		.getState(this._arweave.arweave)
   		.subscribe({
   			next: (state: any) => {
-	  			this.langs = state.langs;
-	  			for (let s of Object.keys(state.langs)) {
+	  			this.langs = state;
+	  			for (let s of Object.keys(state)) {
 	  				this.langCodes.push(s)
 	  			}
 	  			this.langCodes = Array.prototype.sort.call(this.langCodes);

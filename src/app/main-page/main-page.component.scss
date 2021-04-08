@@ -1,3 +1,13 @@
+.mt-main {
+	margin-top: 64px;
+}
+
+@media (max-width: 600px) {
+	.mt-main {
+		margin-top: 56px;
+	}
+}
+
 .main-page-container {
 	margin-top: 40px;
 }

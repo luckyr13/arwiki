@@ -1,19 +1,49 @@
-<div class="text-center fadeIn main-logo">
-  <img 
-  	*ngIf="defaultTheme === 'arwiki-dark' " 
-  	width="80px" 
-  	src="./assets/img/arweave-light.png">
-  <img
-  	*ngIf="defaultTheme === 'arwiki-light' " 
-  	width="80px"
-  	src="./assets/img/arweave-dark.png">
+<mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+<div *ngIf="loading" class="mt-home fadeIn">
+  <div class="text-center main-logo">
+    <ngx-skeleton-loader 
+      count="1" 
+      appearance="circle"
+      [animation]="getSkeletonLoaderAnimationType()"
+      [theme]="getSkeletonLoaderThemeNgStyle()"
+      ></ngx-skeleton-loader>
+  </div>
+  <div class="text-center" style="margin-bottom: -8px">
+    <ngx-skeleton-loader 
+      count="1" 
+      [animation]="getSkeletonLoaderAnimationType()"
+      [theme]="getSkeletonLoaderThemeNgStyle2()"
+      ></ngx-skeleton-loader>
+  </div>
+  <div class="text-center">
+    <ngx-skeleton-loader 
+      count="1" 
+      [animation]="getSkeletonLoaderAnimationType()"
+      [theme]="getSkeletonLoaderThemeNgStyle3()"
+      ></ngx-skeleton-loader>
+  </div>
+  
 </div>
-<h1 class="main-title text-center fadeIn">
-  arweave
-</h1>
-<p class="secondary-title text-center fadeIn">
-  {{ 'HOME.SECONDARY_TITLE' | translate }}
-</p>
+<div *ngIf="!loading" class="mt-home fadeIn">
+  <div class="text-center main-logo">
+    <img 
+      *ngIf="defaultTheme === 'arwiki-dark' " 
+      width="80px" 
+      [src]="appLogoLight">
+    <img
+      *ngIf=" defaultTheme === 'arwiki-light' " 
+      width="80px"
+      [src]="appLogoDark">
+  </div>
+  <h1 class="main-title text-center">
+    {{ appName }}
+  </h1>
+  <p class="secondary-title text-center">
+    {{ 'HOME.SECONDARY_TITLE' | translate }}
+  </p>
+</div>
+
+
 <div class="container home-container fadeIn">
 	<div class="row">
 		<div class="col-12">

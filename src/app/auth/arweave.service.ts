@@ -10,6 +10,7 @@ declare const window: any;
 })
 export class ArweaveService {
   arweave: any = null;
+  public baseURL: string = 'https://arweave.net/';
 
   constructor() {
     this.arweave = Arweave.init({
