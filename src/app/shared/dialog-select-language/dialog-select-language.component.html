@@ -2,7 +2,7 @@
 <mat-dialog-content class="text-center">
 	<div *ngIf="loading">
 	  <div class="row">
-	  	<div class="col" *ngFor="let i of [1, 2, 3, 4, 5]">
+	  	<div class="col-6 col-md-4" *ngFor="let i of [1, 2, 3, 4, 5]">
 				<ngx-skeleton-loader 
 			  	count="1" 
 			  	[animation]="getSkeletonLoaderAnimationType()"
@@ -15,7 +15,7 @@
 	<div *ngIf="!loading && !error">
 	  <div class="row">
 	  	<a mat-button 
-	  		class="col fadeIn" 
+	  		class="col-6 col-md-4 fadeIn" 
 	  		*ngFor="let code of langCodes;"
 	  		[mat-dialog-close]="langs[code]">
 		  	{{ langs[code].native_name }}

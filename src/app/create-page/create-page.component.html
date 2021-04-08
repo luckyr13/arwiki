@@ -38,7 +38,7 @@
 				  <img
 				  	*ngIf="previewImgUrl"
 				  	[src]="previewImgUrl"
-				  	width="100%"
+				  	class="card-preview-img"
 				  	>
 
 				</mat-card>
@@ -76,31 +76,51 @@
 				  	formControlName="slug"
 				  	matInput
 				  	autocomplete="off"
-				  	readonly="true"
 				  	(change)="updateSlug(slug!.value)"
 				  	maxlength="150">
 	    		<mat-hint align="end">{{slug!.value.length}} / 150</mat-hint>
 				</mat-form-field>
-				
-				<mat-form-field class="w50" appearance="outline">
-				  <mat-label>Category</mat-label>
-				  <input
-				  	formControlName="language"
-				  	matInput
-				  	autocomplete="off"
-				  	maxlength="2">
-	    		<mat-hint align="end">{{slug!.value.length}} / 2</mat-hint>
+
+				<mat-form-field 
+					class="w50" 
+					appearance="outline" 
+					*ngIf="!categoryList || !categoryList.length">
+				  <mat-label>Loading ...</mat-label>
+				  <mat-select>
+				  </mat-select>
+				</mat-form-field>
+				<mat-form-field 
+					class="w50" 
+					style="padding-left: 20px;" 
+					appearance="outline" 
+					*ngIf="!languageList || !languageList.length">
+				  <mat-label>Loading ...</mat-label>
+				  <mat-select>
+				  </mat-select>
 				</mat-form-field>
 
-				<mat-form-field class="w50" style="padding-left: 20px;" appearance="outline">
+				
+				<mat-form-field class="w50" appearance="outline" *ngIf="categoryList && categoryList.length">
+				  <mat-label>Category</mat-label>
+				  <mat-label>Loading ...</mat-label>
+				  <mat-select 
+				  	formControlName="category"
+				  	*ngFor="let cat of categoryList">
+				    <mat-option [value]="cat">
+				      {{ cat }}
+				    </mat-option>
+				  </mat-select>
+				</mat-form-field>
+				<mat-form-field class="w50" style="padding-left: 20px;" appearance="outline" *ngIf="languageList && languageList.length">
 				  <mat-label>Language</mat-label>
-				  <input
-				  	formControlName="slug"
-				  	matInput
-				  	autocomplete="off"
-				  	(change)="updateSlug(slug!.value)"
-				  	maxlength="150">
-	    		<mat-hint align="end">{{slug!.value.length}} / 2</mat-hint>
+				  <mat-select
+				  	formControlName="language"
+				  	
+				  	*ngFor="let lang of languageList">
+				  	<mat-option [value]="lang">
+				      {{ lang }}
+				    </mat-option>
+				  </mat-select>
 				</mat-form-field>
 
 				

@@ -22,7 +22,7 @@ export class ModalFileManagerComponent implements OnInit, OnDestroy {
   loading: boolean = false;
   files: any[] = [];
   loadingMyArFiles: boolean = false;
-  baseImgUrl: string = 'https://arweave.net/';
+  baseImgUrl: string = this._arweave.baseURL;
 
   constructor(
   		private _selfDialog: MatDialogRef<ModalFileManagerComponent>,

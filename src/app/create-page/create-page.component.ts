@@ -16,8 +16,6 @@ import {MatChipInputEvent} from '@angular/material/chips';
 import * as SimpleMDE from 'simplemde';
 declare const document: any;
 
-
-
 @Component({
   selector: 'app-create-page',
   templateUrl: './create-page.component.html',
@@ -30,7 +28,8 @@ export class CreatePageComponent implements OnInit {
 	frmNew: FormGroup = new FormGroup({
 		title: new FormControl('', [Validators.required, Validators.maxLength(150)]),
 		slug: new FormControl('', [Validators.required, Validators.maxLength(150)]),
-		summary: new FormControl('', [Validators.required, Validators.maxLength(500)])
+    category: new FormControl('', [Validators.required]),
+    language: new FormControl('', [Validators.required])
 	});
 	txmessage: string = '';
   previewImgUrl: string = '';
@@ -42,7 +41,9 @@ export class CreatePageComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   tags: any[] = [];
   contentTextareaObject: any;
-  baseImgUrl: string = 'https://arweave.net/';
+  baseImgUrl: string = this._arweave.baseURL;
+  categoryList: any[] = [];
+  languageList: any[] = [];
 
   public get title() {
 		return this.frmNew.get('title');
@@ -50,9 +51,12 @@ export class CreatePageComponent implements OnInit {
 	public get slug() {
 		return this.frmNew.get('slug');
 	}
-	public get summary() {
-		return this.frmNew.get('summary');
+	public get category() {
+		return this.frmNew.get('category');
 	}
+  public get language() {
+    return this.frmNew.get('language');
+  }
 
 	goBack() {
   	this._location.back();
@@ -125,7 +129,7 @@ export class CreatePageComponent implements OnInit {
   onSubmit() {
   	const title = this.title!.value;
   	const slug = this.slug!.value;
-  	const summary = this.summary!.value;
+  	const category = this.category!.value;
     const content = this.contentTextareaObject.value;
 
     if (!content) {
@@ -143,12 +147,14 @@ export class CreatePageComponent implements OnInit {
   	if (disable) {
   		this.title!.disable();
 	  	this.slug!.disable();
-	  	this.summary!.disable();
+	  	this.category!.disable();
+      this.language!.disable();
       this.loadingFrm = true;
   	} else {
   		this.title!.enable();
 	  	this.slug!.enable();
-	  	this.summary!.enable();
+	  	this.category!.enable();
+      this.language!.enable();
       this.loadingFrm = false;
   	}
   }

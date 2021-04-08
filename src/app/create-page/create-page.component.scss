@@ -39,6 +39,7 @@
 .card-img {
 	padding: 20px;
 	margin-bottom: 10px;
+	text-align: center;
 }
 
 .btn-upload {
@@ -47,3 +48,6 @@
 	height: 40px;
 }
 
+.card-preview-img {
+	max-width: 100%;
+}
