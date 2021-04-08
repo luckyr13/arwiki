@@ -7,13 +7,13 @@
 		"ABOUT": "Über"
 	},
 	"MAIN_TOOLBAR": {
-		"TOOLTIP_LOGIN": "Login",
-		"TOOLTIP_LANGUAGE": "Select language",
-		"TOOLTIP_THEME": "Select theme",
-		"TOOLTIP_SEARCH": "Search",
-		"MENU_USER_DASHBOARD": "Dashboard",
-		"MENU_USER_CREATE": "Create page",
-		"MENU_USER_LOGOUT": "Logout"
+		"TOOLTIP_LOGIN": "Anmeldung",
+		"TOOLTIP_LANGUAGE": "Sprache auswählen",
+		"TOOLTIP_THEME": "Thema wählen",
+		"TOOLTIP_SEARCH": "Suche",
+		"MENU_USER_DASHBOARD": "Instrumententafel",
+		"MENU_USER_CREATE": "Seite erstellen",
+		"MENU_USER_LOGOUT": "Ausloggen"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "Willkommen im Permaweb!",

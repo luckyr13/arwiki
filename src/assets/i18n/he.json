@@ -7,13 +7,13 @@
 		"ABOUT": "על אודות"
 	},
 	"MAIN_TOOLBAR": {
-		"TOOLTIP_LOGIN": "Login",
-		"TOOLTIP_LANGUAGE": "Select language",
-		"TOOLTIP_THEME": "Select theme",
-		"TOOLTIP_SEARCH": "Search",
-		"MENU_USER_DASHBOARD": "Dashboard",
-		"MENU_USER_CREATE": "Create page",
-		"MENU_USER_LOGOUT": "Logout"
+		"TOOLTIP_LOGIN": "התחברות",
+		"TOOLTIP_LANGUAGE": "בחר שפה",
+		"TOOLTIP_THEME": "בחר נושא",
+		"TOOLTIP_SEARCH": "לחפש",
+		"MENU_USER_DASHBOARD": "לוּחַ מַחווָנִים",
+		"MENU_USER_CREATE": "צור עמוד",
+		"MENU_USER_LOGOUT": "להתנתק"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "ברוך הבא ל- permaweb!",

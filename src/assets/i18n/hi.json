@@ -7,13 +7,13 @@
 		"ABOUT": "के बारे में"
 	},
 	"MAIN_TOOLBAR": {
-		"TOOLTIP_LOGIN": "Login",
-		"TOOLTIP_LANGUAGE": "Select language",
-		"TOOLTIP_THEME": "Select theme",
-		"TOOLTIP_SEARCH": "Search",
-		"MENU_USER_DASHBOARD": "Dashboard",
-		"MENU_USER_CREATE": "Create page",
-		"MENU_USER_LOGOUT": "Logout"
+		"TOOLTIP_LOGIN": "लॉग इन करें",
+		"TOOLTIP_LANGUAGE": "भाषा का चयन करें",
+		"TOOLTIP_THEME": "चुनिंदा विषय",
+		"TOOLTIP_SEARCH": "खोज",
+		"MENU_USER_DASHBOARD": "डैशबोर्ड",
+		"MENU_USER_CREATE": "पेज बनाएं",
+		"MENU_USER_LOGOUT": "लॉग आउट"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "Permaweb में आपका स्वागत है!",

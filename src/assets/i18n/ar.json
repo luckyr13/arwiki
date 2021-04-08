@@ -7,13 +7,13 @@
 		"ABOUT": "حول"
 	},
 	"MAIN_TOOLBAR": {
-		"TOOLTIP_LOGIN": "Login",
-		"TOOLTIP_LANGUAGE": "Select language",
-		"TOOLTIP_THEME": "Select theme",
-		"TOOLTIP_SEARCH": "Search",
-		"MENU_USER_DASHBOARD": "Dashboard",
-		"MENU_USER_CREATE": "Create page",
-		"MENU_USER_LOGOUT": "Logout"
+		"TOOLTIP_LOGIN": "تسجيل الدخول",
+		"TOOLTIP_LANGUAGE": "اختار اللغة",
+		"TOOLTIP_THEME": "اختر نمطا",
+		"TOOLTIP_SEARCH": "بحث",
+		"MENU_USER_DASHBOARD": "لوحة القيادة",
+		"MENU_USER_CREATE": "إنشاء الصفحة",
+		"MENU_USER_LOGOUT": "تسجيل خروج"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "مرحبًا بكم في موقع Permaweb!",
