@@ -17,3 +17,7 @@ mat-sidenav-content {
 	mat-sidenav-content {
 	}
 }
+
+router-outlet {
+	min-height: 400px;
+}

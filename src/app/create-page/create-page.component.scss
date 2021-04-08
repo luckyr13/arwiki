@@ -1,5 +1,6 @@
 .page-container {
 	min-height: 600px;
+	margin-top: 60px;
 }
 
 .w70 {
@@ -24,6 +25,9 @@
 
 .author-address {
 	margin-bottom: 1.34375em;
+	white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .img-container {

@@ -178,7 +178,7 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
     let ngStyle: any = {
       'height.px': '30',
       'width.px': '140',
-      'margin-top': '20px'
+      'margin-top': '24px'
     };
     if (this.defaultTheme === 'arwiki-dark') {
       ngStyle['background-color'] = '#3d3d3d';

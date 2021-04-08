@@ -6,10 +6,10 @@
 	  		<div class="row">
 	  			<div class="col mt20 mb20">
 						<div class="mb20">
-						  <label>Select an image or a video: </label>
+						  <label>Select an image: </label>
 						  <input 
 						  	type="file" 
-						  	accept=".jpg,.mp4,.jpeg,.png,image/jpeg,image/png,video/mp4" 
+						  	accept=".jpg,.jpeg,.png,image/jpeg,image/png" 
 						  	[disabled]="loading"
 						  	(change)="uploadFile($event)">
 						</div>
@@ -39,6 +39,13 @@
 		    		<mat-card class="card-myfiles" [mat-dialog-close]="file.node.id">
 		    			<img width="100%" src="{{ baseImgUrl + file.node.id }}" >
 		    		</mat-card>
+		    	</div>
+		  	</div>
+		  	<div class="row" *ngIf="!loadingMyArFiles && (!files || !files.length)">
+		    	<div class="col-12" >
+		    		<p class="no-results text-center">
+		    			No results :)
+		    		</p>
 		    	</div>
 		  	</div>
 		  </ng-template>

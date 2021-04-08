@@ -205,7 +205,8 @@ export class ArweaveService {
     }, key);
 
     transaction.addTag('Content-Type', contentType);
-    transaction.addTag('ARWIKI', 'file');
+    transaction.addTag('Service', 'ArWiki');
+    transaction.addTag('ARWIKI_TYPE', 'file');
 
     // Sign transaction
     await this.arweave.transactions.sign(transaction, key);
