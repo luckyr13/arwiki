@@ -7,11 +7,20 @@
 		"ABOUT": "About"
 	},
 	"MAIN_TOOLBAR": {
-
+		"TOOLTIP_LOGIN": "Login",
+		"TOOLTIP_LANGUAGE": "Select language",
+		"TOOLTIP_THEME": "Select theme",
+		"TOOLTIP_SEARCH": "Search",
+		"MENU_USER_DASHBOARD": "Dashboard",
+		"MENU_USER_CREATE": "Create page",
+		"MENU_USER_LOGOUT": "Logout"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "Welcome to the permaweb!",
-		"SUBTITLE_L1": "arwiki is the decentralized wiki for arweave that anyone can edit."
+		"SUBTITLE_L1": "arwiki is the decentralized wiki for arweave that anyone can edit.",
+		"TITLE_L2": "Portals",
+		"TITLE_L3": "Featured article",
+		"TITLE_L4": "Top 10 articles"
 	},
 	"PAGE": {
 

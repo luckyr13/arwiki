@@ -7,8 +7,8 @@ export async function handle(state, action)
 	const _msgSender = SmartWeave.transaction.owner;
 	const _to = SmartWeave.transaction.target;
 	const _tags = SmartWeave.transaction.tags;
-	const SETTINGS_CONTRACT = 'O3dek5yOpnxdbyKSBQT-io7a_CzXim6jBZkyk8_KCSQ';
-	const CATEGORIES_CONTRACT = 'xPjZZ-02SLU2iubGCuyuD9cC_XwqkzA499cnX31eWwM';
+	const SETTINGS_CONTRACT = 'sGOPfJMI_TyQ632y1T0DwWNf6IPKRU9-tguBx0h8g9Q';
+	const CATEGORIES_CONTRACT = 'v-G-YU3rlqgPnSHGSoNXrAWCF1_Cvh4v6SUKfkgaxtE';
 
 	/*
 	*	@dev Create a new page
@@ -29,21 +29,51 @@ export async function handle(state, action)
 		_modifier_validateInputString(
 			action.input.content_id, 'content_id', 43
 		);
+		_modifier_validateInputString(
+			action.input.category_slug, 'category_slug', 120
+		);
 
 		const slug = action.input.slug.trim();
 		const content_id = action.input.content_id.trim();
+		const category_slug = action.input.category_slug.trim();
 
-    // Validate page slug 
+		// Validate category
+		const categoryContractState = await SmartWeave.contracts.readContractState(
+			CATEGORIES_CONTRACT
+		);
+		
+		// Validate category slug 
+    if (
+    	!Object.prototype.hasOwnProperty.call(
+    		categoryContractState, category_slug
+    	)
+    ) {
+    	throw new ContractError('Category slug does not exists!');
+    }
+
+    // Validate if page slug already exists
     if (
     	Object.prototype.hasOwnProperty.call(
-    		state, action.input.slug
+    		state, category_slug
+    	) &&
+    	Object.prototype.hasOwnProperty.call(
+    		state[category_slug], slug
     	)
     ) {
     	throw new ContractError('Slug already taken, please choose another one!');
     }
 
+    // IF is the first page for the category
+    if (
+    	!Object.prototype.hasOwnProperty.call(
+    		state, category_slug
+    	)
+    ) {
+    	state[category_slug] = {};
+    }
+
     // Update state
-		state[slug] = content_id;
+		state[category_slug][slug] = content_id;
 
     return { state };
   }
@@ -63,22 +93,10 @@ export async function handle(state, action)
 */
 function _modifier_validateInputString(_s, _strName, _maxStrLen)
 {
-	if (typeof _s !== "string" || _s.length > _maxStrLen) {
+	if (!_s || typeof _s !== "string" || 
+			(typeof _s === "string" && _s.trim().length > _maxStrLen)) {
 		throw new ContractError(
-			`${_strName} must be a string less or equal than ${_maxStrLen} characters`
-		);
-	}
-}
-
-
-/*
-*	@dev Validate if _n is a valid number
-*/
-function _modifier_validateInputNumber(_n, _nName)
-{
-	if (isNaN(_n) || !Number.isSafeInteger(_n)) {
-		throw new ContractError(
-			`${_nName} must be a number less than ${ Number.MAX_SAFE_INTEGER }`
+			`${_strName} must be a non-empty string less or equal than ${_maxStrLen} characters`
 		);
 	}
 }
@@ -89,7 +107,7 @@ function _modifier_validateInputNumber(_n, _nName)
 */
 function _modifier_validateAdmin(_owner, adminList)
 {
-	const isAdmin = (_owner in adminList);
+	const isAdmin = (adminList.indexOf(_owner) >= 0);
 
 	if (isAdmin) {
 		return true;
@@ -97,6 +115,7 @@ function _modifier_validateAdmin(_owner, adminList)
 
 	throw new ContractError(`${_owner} is not an admin!`);
 }
+
 
 /*
 *	@dev Validate if _categoryCode exists

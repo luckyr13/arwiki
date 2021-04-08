@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 })
 export class ArwikiSettingsContract
 {
-	private _contractAddress: string = 'O3dek5yOpnxdbyKSBQT-io7a_CzXim6jBZkyk8_KCSQ';
+	private _contractAddress: string = 'sGOPfJMI_TyQ632y1T0DwWNf6IPKRU9-tguBx0h8g9Q';
 
 	constructor() {
 	}

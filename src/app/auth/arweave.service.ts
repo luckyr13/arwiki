@@ -74,7 +74,7 @@ export class ArweaveService {
   errorHandler(
     error: any
   ) {
-    let errorMsg = 'Error connecting to Arweave network/wallet';
+    let errorMsg = 'Error!!';
     console.log('Debug', error);
     return throwError(errorMsg);
   }
@@ -230,6 +230,101 @@ export class ArweaveService {
     await this.arweave.transactions.sign(tx, jwk)
     await this.arweave.transactions.post(tx)
     return tx;
+  }
+
+  /*
+  * @dev
+  */
+  getMyArFiles(_address: string, _height: number): Observable<any> {
+    const owners = [_address];
+    const tags = [
+      {
+        name: 'Content-Type',
+        values: ['image/jpeg', 'image/png', 'image/jpg'],
+      },
+    ];
+
+    const obs = this.arweaveQuery(
+      owners,
+      tags,
+      _height
+    );
+
+    return obs;
+  }
+
+  /*
+  * @dev
+  */
+  arweaveQuery(
+    _owners: string[],
+    _tags: any[],
+    _height: number,
+    _max_request: number = 100
+  ): Observable<any> {
+
+    const obs = new Observable<any>((subscriber) => {
+      const query = `query Transactions($tags: [TagFilter!]!, $blockFilter: BlockFilter!, $first: Int!, $after: String, $owners: [String!]!) {
+    transactions(
+      tags: $tags, block: $blockFilter, first: $first,
+      sort: HEIGHT_ASC, after: $after, owners: $owners
+    ) {
+      pageInfo {
+        hasNextPage
+      }
+      edges {
+        node {
+          id
+          owner { address }
+          recipient
+          tags {
+            name
+            value
+          }
+          block {
+            height
+            id
+          }
+          fee { winston }
+          quantity { winston }
+          parent { id }
+        }
+        cursor
+      }
+    }
+  }`;
+    
+    const variables = {
+      tags: _tags,
+      blockFilter: {
+        max: _height,
+      },
+      first: _max_request,
+      owners: _owners
+
+    }
+
+    this.arweave.api.post('graphql', {
+      query,
+      variables,
+    }).then((_res: any) => {
+        if (_res.status !== 200) {
+         subscriber.error(`Unable to retrieve transactions. Arweave gateway responded with status ${_res.status}.`);
+        }
+
+        const data = _res.data;
+        const txs = data.data.transactions;
+
+        subscriber.next({response: _res, data: data, txs: txs});
+        subscriber.complete();
+      }).catch((error: any) => {
+        subscriber.error(error);
+      });
+    })
+
+    return obs.pipe(
+      catchError(this.errorHandler)
+    );
   }
 
 

@@ -19,13 +19,13 @@ export class ArwikiLangIndexContract
 				"native_name": "English",
 				"numPages": 0,
 				"writing_system": "LTR",
-				"contract": "xnlTVtwU-fF8ModDyQy48Ed6k6FSFBL7yF_PtcT8zmk"
+				"contract": ""
 			}
 		}
 	};
 
-  // private _contractAddress: string = 'bFCeTC5ikgoCgCPG0wgI2UVLFAhcbjceUBVzryQqnIg';
-	private _contractAddress: string = 'nj8kwCIDSiuv07GwTvLCcRIccjmbomoHO2r6dfyvsuM';
+  // private _contractAddress: string = 'nj8kwCIDSiuv07GwTvLCcRIccjmbomoHO2r6dfyvsuM';
+	private _contractAddress: string = 'lhStQhis30UBhSELWaGGd58DmERSdfnIl_zGoyBP1S0';
 
 	constructor() {
 

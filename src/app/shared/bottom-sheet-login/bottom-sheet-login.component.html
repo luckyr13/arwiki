@@ -6,12 +6,6 @@
     <span mat-line>*Recommended</span>
   </mat-list-item>
   <mat-list-item (click)="uploadFileListener(fileUploader)" >
-    <div style="visibility: hidden">
-      <input type="file" 
-          #fileUploader 
-          accept=".json,application/json" 
-          (change)="login('upload_file', $event)">
-    </div>
   	<mat-icon matListIcon>upload</mat-icon>
     <span mat-line>Upload your private key file</span>
     <span mat-line>*The key will always remain on your browser</span>
@@ -21,5 +15,10 @@
     <span mat-line>WaveID</span>
     <span mat-line>*Use your email address to generate a key</span>
   </mat-list-item>
-  
 </mat-nav-list>
+<div style="visibility: hidden">
+  <input type="file" 
+      #fileUploader 
+      accept=".json,application/json" 
+      (change)="login('upload_file', $event)">
+</div>

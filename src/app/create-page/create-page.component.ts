@@ -42,6 +42,7 @@ export class CreatePageComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   tags: any[] = [];
   contentTextareaObject: any;
+  baseImgUrl: string = 'https://arweave.net/';
 
   public get title() {
 		return this.frmNew.get('title');
@@ -115,8 +116,9 @@ export class CreatePageComponent implements OnInit {
       data: {}
     });
     refFileManager.afterClosed().subscribe(result => {
-      this.previewImgUrl = result;
-      this.previewImage(result);
+      if (result) {
+        this.previewImage(result);
+      }
     });
   }
 
@@ -164,7 +166,10 @@ export class CreatePageComponent implements OnInit {
   }
 
   previewImage(imgUrl: string) {
-    this.previewImgUrl = imgUrl;
+    if (imgUrl.length > 0) {
+      this.previewImgUrl = `${this.baseImgUrl + imgUrl}`;
+    }
+
   }
 
   add(event: MatChipInputEvent): void {

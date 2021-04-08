@@ -37,6 +37,9 @@ const routes: Routes = [
 				path: ':lang/search/:query', component: SearchComponent,
 			},
 			{
+				path: ':lang/category/:category', component: SearchComponent,
+			},
+			{
 				path: ':lang/:slug', component: PageComponent, 
 				canActivate: [AuthGuard],
 			},

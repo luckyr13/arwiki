@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>Arweave File Manager</h2>
 <mat-dialog-content class="mat-typography">
-	<mat-tab-group mat-align-tabs="end">
+	<mat-tab-group mat-align-tabs="end" dynamicHeight>
 	  <mat-tab label="Upload file">
 	  	<div class="container">
 	  		<div class="row">
@@ -20,11 +20,8 @@
 						<div class="text-center" *ngIf="transactionUploadUrl">
 							Transaction info: <a target="_blank" mat-button color="primary" href="{{ transactionUploadUrl }}" >{{ transactionUploadUrl }}</a>
 						</div>
-						<div class="mb20 text-center" *ngIf="fileUrl">
-							File Url: <a target="_blank" mat-button color="primary" href="{{ fileUrl }}" >{{ fileUrl }}</a>
-						</div>
-						<div class="mb20 text-center" *ngIf="fileUrl">
-							Insert link: <a [mat-dialog-close]="fileUrl" target="_blank" mat-button color="primary" > INSERT </a>
+						<div class="mb20 text-center" *ngIf="transactionId">
+							Insert image ID <a [mat-dialog-close]="transactionId" target="_blank" mat-button color="primary" > INSERT </a>
 						</div>
 						<div>
 							<mat-spinner style="margin: 0 auto" *ngIf="loading"></mat-spinner>
@@ -36,7 +33,14 @@
 	  </mat-tab>
 	  <mat-tab label="My files">
 	  	<ng-template matTabContent>
-		    Content 1 - Loaded: {{getTimeLoaded() | date:'full'}}
+	  		<mat-progress-bar mode="indeterminate" *ngIf="loadingMyArFiles"></mat-progress-bar>
+		    <div class="row" *ngIf="files && files.length">
+		    	<div class="col-12 col-md-4" *ngFor="let file of files" >
+		    		<mat-card [mat-dialog-close]="file.node.id">
+		    			<img width="100%" src="{{ baseImgUrl + file.node.id }}" >
+		    		</mat-card>
+		    	</div>
+		  	</div>
 		  </ng-template>
 	  </mat-tab>
 	</mat-tab-group>

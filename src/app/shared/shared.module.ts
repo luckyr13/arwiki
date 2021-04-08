@@ -38,7 +38,8 @@ import {MatChipsModule} from '@angular/material/chips';
     NgxSkeletonLoaderModule,
     MatListModule,
     MatIconModule,
-    MatTabsModule
+    MatTabsModule,
+    MatCardModule
   ],
   exports: [
   	MatFormFieldModule,

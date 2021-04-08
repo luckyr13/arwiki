@@ -16,19 +16,16 @@
 			<h4 class="text-left secondary-title">
 				{{ 'MAIN_PAGE.SUBTITLE_L1' | translate }}
 			</h4>
-			<p class="title-p text-right">
-				6,277,831 articles in English
-			</p>
 			
 		</div>
 		<div class="col-1">
 		</div>
 		<div class="col-12 col-md-4 text-left portals-column">
 			<h2 class="text-left">
-				Portals
+				{{ 'MAIN_PAGE.TITLE_L2' | translate }}
 			</h2>
 			<div class="row" *ngIf="!categoriesSlugs.length">
-				<div class="col-6 fadeIn portalBtnContainer" *ngFor="let i of [1, 2, 3, 4]">
+				<div class="col-12 fadeIn portalBtnContainer" *ngFor="let i of [1, 2, 3, 4]">
 					<ngx-skeleton-loader 
 				  	count="1" 
 				  	[animation]="getSkeletonLoaderAnimationType()"
@@ -37,9 +34,9 @@
 				</div>
 			</div>
 			<div class="row" *ngIf="categoriesSlugs.length">
-				<div class="col-6 text-left fadeIn portalBtnContainer" *ngFor="let catSlug of categoriesSlugs">
-					<a mat-button routerLink="/category/{{catSlug}}">
-					{{ categories[catSlug].label }}
+				<div class="col-12 text-left fadeIn portalBtnContainer" *ngFor="let catSlug of categoriesSlugs">
+					<a mat-button routerLink="../category/{{catSlug}}">
+					{{ categories[catSlug] }}
 					</a>
 				</div>
 			</div>

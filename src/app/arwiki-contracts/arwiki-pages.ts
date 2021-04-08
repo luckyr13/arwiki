@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 })
 export class ArwikiPagesContract
 {
-	private _contractAddressDefaultLang: string = 'xnlTVtwU-fF8ModDyQy48Ed6k6FSFBL7yF_PtcT8zmk';
+	private _contractAddressDefaultLang: string = 'YVKvK-MrbBJRnxpkdvK6sj3aqvK59t3Ax6xDcu9FWCE';
 
 	constructor() {
 	}

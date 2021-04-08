@@ -6,9 +6,8 @@ export async function handle(state, action)
 	const _msgSender = SmartWeave.transaction.owner;
 	const _to = SmartWeave.transaction.target;
 	const _tags = SmartWeave.transaction.tags;
-	const SETTINGS_CONTRACT = 'O3dek5yOpnxdbyKSBQT-io7a_CzXim6jBZkyk8_KCSQ';
+	const SETTINGS_CONTRACT = 'sGOPfJMI_TyQ632y1T0DwWNf6IPKRU9-tguBx0h8g9Q';
 
-	
 	/*
 	*	@dev Update the contract address for a language
 	*/
@@ -28,13 +27,15 @@ export async function handle(state, action)
 		_modifier_validateInputString(
 			action.input.langCode, 'langCode', 2
 		);
+		const langCode = action.input.langCode.trim();
+
 		// Validate if language exists in state
 		_modifier_validateIfLanguageExists(
-			action.input.langCode,
-			state.langs
+			langCode,
+			state
 		);
-    
-    state.langs[action.input.langCode].contract = action.input.contract.trim();
+
+    state[lang].contract = action.input.contract.trim();
     return { state };
   }
   /*
@@ -54,16 +55,10 @@ export async function handle(state, action)
 			action.input.langCode, 'langCode', 2
 		);
 		_modifier_validateInputString(
-			action.input.langCode, 'langCode', 2
+			action.input.isoName, 'isoName', 100
 		);
 		_modifier_validateInputString(
-			action.input.langCode, 'langCode', 2
-		);
-		_modifier_validateInputString(
-			action.input.writingSystem, 'isoName', 3
-		);
-		_modifier_validateInputString(
-			action.input.writingSystem, 'nativeName', 100
+			action.input.nativeName, 'nativeName', 100
 		);
 		_modifier_validateInputString(
 			action.input.writingSystem, 'writingSystem', 3
@@ -72,21 +67,22 @@ export async function handle(state, action)
 			action.input.contract, 'contract', 43
 		);
 		
+		const langCode = action.input.langCode.trim();
 		// Validate if language is not already created
 		_modifier_validateIfLanguageIsAvailable(
-			action.input.langCode,
-			Object.keys(state.langs)
+			langCode,
+			Object.keys(state)
 		);
 
 		const newLang = {
-			"code": action.input.langCode.trim(),
+			"code": langCode,
 			"iso_name": action.input.isoName.trim(),
 			"native_name": action.input.nativeName.trim(),
 			"writing_system": action.input.writingSystem.trim(),
 			"contract": action.input.contract.trim()
 		};
 
-    state.langs[action.input.langCode.trim()] = newLang;
+    state.langs[langCode] = newLang;
     return { state };
   }
 	
@@ -99,21 +95,10 @@ export async function handle(state, action)
 */
 function _modifier_validateInputString(_s, _strName, _maxStrLen)
 {
-	if (typeof _s !== "string" || _s.length > _maxStrLen) {
+	if (!_s || typeof _s !== "string" || 
+			(typeof _s === "string" && _s.trim().length > _maxStrLen)) {
 		throw new ContractError(
-			`${_strName} must be a string less or equal than ${_maxStrLen} characters`
-		);
-	}
-}
-
-/*
-*	@dev Validate if _n is a valid number
-*/
-function _modifier_validateInputNumber(_n, _nName)
-{
-	if (isNaN(_n) || !Number.isSafeInteger(_n)) {
-		throw new ContractError(
-			`${_nName} must be a number less than ${ Number.MAX_SAFE_INTEGER }`
+			`${_strName} must be a non-empty string less or equal than ${_maxStrLen} characters`
 		);
 	}
 }

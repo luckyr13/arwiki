@@ -1,7 +1,7 @@
 /*
 *	dApp configuration options
 */
-export async function handle(state, action)
+export function handle(state, action)
 {	
 	const _msgSender = SmartWeave.transaction.owner;
 	const _to = SmartWeave.transaction.target;
@@ -30,22 +30,14 @@ export async function handle(state, action)
 		_modifier_validateAdmin(_msgSender, state.admin_list);
 
 		_modifier_validateInputString(
-			action.input.main_menu_logo_light, 'main_menu_logo_light', 43
+			action.input.main_logo_light, 'main_logo_light', 43
 		);
 		_modifier_validateInputString(
-			action.input.main_menu_logo_dark, 'main_menu_logo_dark', 43
-		);
-		_modifier_validateInputString(
-			action.input.main_page_logo_light, 'main_page_logo_light', 43
-		);
-		_modifier_validateInputString(
-			action.input.main_page_logo_dark, 'main_page_logo_dark', 43
+			action.input.main_logo_dark, 'main_menu_logo_dark', 43
 		);
 
-		state.main_menu_logo_light = action.input.main_menu_logo_light.trim();
-		state.main_menu_logo_dark = action.input.main_menu_logo_dark.trim();
-		state.main_page_logo_light = action.input.main_page_logo_light.trim();
-		state.main_page_logo_dark = action.input.main_page_logo_dark.trim();
+		state.main_logo_light = action.input.main_logo_light.trim();
+		state.main_logo_dark = action.input.main_logo_dark.trim();
 		
 		return {state};
 	}
@@ -61,7 +53,7 @@ export async function handle(state, action)
 			action.input.new_admin, 'new_admin', 43
 		);
 		// Validate if new admin is not already in the list
-		if (action.input.new_admin in state.admin_list) {
+		if (state.admin_list.indexOf(action.input.new_admin) >= 0) {
 			throw new ContractError('Admin already exists!');
 		}
 		state.admin_list.push(action.input.new_admin);
@@ -76,34 +68,20 @@ export async function handle(state, action)
 */
 function _modifier_validateInputString(_s, _strName, _maxStrLen)
 {
-	if (typeof _s !== "string" || _s.length > _maxStrLen) {
+	if (!_s || typeof _s !== "string" || 
+			(typeof _s === "string" && _s.trim().length > _maxStrLen)) {
 		throw new ContractError(
-			`${_strName} must be a string less or equal than ${_maxStrLen} characters`
+			`${_strName} must be a non-empty string less or equal than ${_maxStrLen} characters`
 		);
 	}
 }
-
-
-/*
-*	@dev Validate if _n is a valid number
-*/
-function _modifier_validateInputNumber(_n, _nName)
-{
-	if (isNaN(_n) || !Number.isSafeInteger(_n)) {
-		throw new ContractError(
-			`${_nName} must be a number less than ${ Number.MAX_SAFE_INTEGER }`
-		);
-	}
-}
-
-
 
 /*
 *	@dev Validate if msg.sender is in the admins list
 */
 function _modifier_validateAdmin(_owner, adminList)
 {
-	const isAdmin = (_owner in adminList);
+	const isAdmin = (adminList.indexOf(_owner) >= 0);
 
 	if (isAdmin) {
 		return true;

@@ -42,18 +42,20 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     this.menuSubscription = this.getMenu().subscribe({
       next: (data) => {
         this.loading = false;
-        this.category_slugs = Object.keys(data.categories.categories);
-        this.pages = data.pages.pages;
-        this.categories = data.categories.categories;
+        this.category_slugs = Object.keys(data.categories);
+        this.pages = data.pages;
+        this.categories = data.categories;
+        this.menu = {};
 
         for (let cats of this.category_slugs) {
           this.menu[cats] = [];
-        }
-        for (let page of this.pages) {
-          this.menu[page.categories[0]].push(page);
+          if (this.pages && this.pages[cats]) {
+            for (let page of this.pages[cats]) {
+              this.menu[cats].push(page);
+            }
+          }
         }
         
-
       },
       error: (error) => {
         this.loading = false;

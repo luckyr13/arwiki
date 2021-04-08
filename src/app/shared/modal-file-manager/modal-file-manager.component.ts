@@ -14,11 +14,15 @@ declare const window: any;
 export class ModalFileManagerComponent implements OnInit, OnDestroy {
   tabLoadTimes: Date|null = null;
   uploadFile$: Subscription = Subscription.EMPTY;
+  loadMyArFilesSubscription: Subscription = Subscription.EMPTY;
   transactionUpload: any = null;
   transactionUploadUrl: string = '';
   fileUrl: string = '';
   transactionId: string = '';
   loading: boolean = false;
+  files: any[] = [];
+  loadingMyArFiles: boolean = false;
+  baseImgUrl: string = 'https://arweave.net/';
 
   constructor(
   		private _selfDialog: MatDialogRef<ModalFileManagerComponent>,
@@ -28,11 +32,15 @@ export class ModalFileManagerComponent implements OnInit, OnDestroy {
   	) { }
 
   ngOnInit(): void {
+    this.getMyFilesFromArweave();
   }
 
   ngOnDestroy() {
     if (this.uploadFile$) {
       this.uploadFile$.unsubscribe();
+    }
+    if (this.loadMyArFilesSubscription) {
+      this.loadMyArFilesSubscription.unsubscribe();
     }
   }
 
@@ -42,6 +50,29 @@ export class ModalFileManagerComponent implements OnInit, OnDestroy {
     }
 
     return this.tabLoadTimes;
+  }
+
+  async getMyFilesFromArweave() {
+    const networkInfo = await this._arweave.arweave.network.getInfo();
+    const height = networkInfo.height;
+    this.loadingMyArFiles = true;
+
+    this.loadMyArFilesSubscription = this._arweave.getMyArFiles(
+      this._auth.getMainAddressSnapshot(),
+      height
+    ).subscribe({
+      next: (res) => {
+        if (res && res.txs && res.txs.edges) {
+          this.files = res.txs.edges;
+        }
+        this.loadingMyArFiles = false;
+
+      },
+      error: (error) => {
+        this.message(error, 'error');
+        this.loadingMyArFiles = false;
+      }
+    });
   }
 
   close() {
@@ -68,8 +99,8 @@ export class ModalFileManagerComponent implements OnInit, OnDestroy {
               this.message('Transaction succesful!', 'success');
 
               this.transactionUploadUrl = `https://viewblock.io/arweave/tx/${this.transactionId}`;
-              this.fileUrl= `https://arweave.net/${this.transactionId}`;
-              this._selfDialog.close(this.fileUrl);
+              this.fileUrl= `${this.baseImgUrl + this.transactionId}`;
+              this._selfDialog.close(this.transactionId);
               this.loading = false;
             }, 5000);
 

@@ -70,16 +70,40 @@
 				<div class="author-address">
 					<strong>by</strong> {{ authorAddress }}
 				</div>
-				<mat-form-field class="w70" appearance="outline">
+				<mat-form-field class="w100" appearance="outline">
 				  <mat-label>Page slug</mat-label>
+				  <input
+				  	formControlName="slug"
+				  	matInput
+				  	autocomplete="off"
+				  	readonly="true"
+				  	(change)="updateSlug(slug!.value)"
+				  	maxlength="150">
+	    		<mat-hint align="end">{{slug!.value.length}} / 150</mat-hint>
+				</mat-form-field>
+				
+				<mat-form-field class="w50" appearance="outline">
+				  <mat-label>Category</mat-label>
+				  <input
+				  	formControlName="language"
+				  	matInput
+				  	autocomplete="off"
+				  	maxlength="2">
+	    		<mat-hint align="end">{{slug!.value.length}} / 2</mat-hint>
+				</mat-form-field>
+
+				<mat-form-field class="w50" style="padding-left: 20px;" appearance="outline">
+				  <mat-label>Language</mat-label>
 				  <input
 				  	formControlName="slug"
 				  	matInput
 				  	autocomplete="off"
 				  	(change)="updateSlug(slug!.value)"
 				  	maxlength="150">
-	    		<mat-hint align="end">{{slug!.value.length}} / 150</mat-hint>
+	    		<mat-hint align="end">{{slug!.value.length}} / 2</mat-hint>
 				</mat-form-field>
+
+				
 				
 			</div>
 			<div class="col-12">

@@ -17,16 +17,13 @@
   <button 
     mat-icon-button 
     (click)="login()"
-    aria-label="Login"
-    matTooltip="Login"
+    matTooltip="{{ 'MAIN_TOOLBAR.TOOLTIP_LOGIN' | translate }}"
     *ngIf="!isLoggedIn">
     <mat-icon>login</mat-icon>
   </button>
   <button 
     mat-icon-button 
     [matMenuTriggerFor]="accountMenu"
-    aria-label="Account menu"
-    matTooltip="Account menu"
     *ngIf="isLoggedIn">
     <mat-icon>account_circle</mat-icon>
   </button>
@@ -35,17 +32,17 @@
       <button 
         mat-menu-item
         routerLink="{{ routerLang }}/dashboard">
-         <mat-icon>dashboard</mat-icon> Dashboard
+         <mat-icon>dashboard</mat-icon> {{ 'MAIN_TOOLBAR.MENU_USER_DASHBOARD' | translate }}
       </button>
       <button 
         mat-menu-item
         routerLink="{{ routerLang }}/create-page">
-         <mat-icon>add_circle</mat-icon> Create page
+         <mat-icon>add_circle</mat-icon> {{ 'MAIN_TOOLBAR.MENU_USER_CREATE' | translate }}
       </button>
       <button 
         mat-menu-item
         (click)="logout()">
-         <mat-icon>logout</mat-icon> Logout
+         <mat-icon>logout</mat-icon> {{ 'MAIN_TOOLBAR.MENU_USER_LOGOUT' | translate }}
       </button>
     </div>
   </mat-menu>
@@ -53,8 +50,7 @@
       [matMenuTriggerFor]="langMenu"
       mat-icon-button 
       class="theme-icon"
-      matTooltip="Select language"
-      aria-label="Select language">
+      matTooltip="{{ 'MAIN_TOOLBAR.TOOLTIP_LANGUAGE' | translate }}">
     <mat-icon>language</mat-icon>
   </button>
   <mat-menu #langMenu="matMenu">
@@ -73,8 +69,7 @@
   		[matMenuTriggerFor]="themeMenu"
   		mat-icon-button 
       class="theme-icon"
-      matTooltip="Select theme"
-  		aria-label="Select theme">
+      matTooltip="{{ 'MAIN_TOOLBAR.TOOLTIP_THEME' | translate }}">
     <mat-icon>format_color_fill</mat-icon>
   </button>
   <mat-menu #themeMenu="matMenu">
@@ -85,8 +80,7 @@
       [matMenuTriggerFor]="searchMenu"
       mat-icon-button 
       class="theme-icon"
-      matTooltip="Search"
-      aria-label="Search ">
+      matTooltip="{{ 'MAIN_TOOLBAR.TOOLTIP_SEARCH' | translate }}">
     <mat-icon>search</mat-icon>
   </button>
   <mat-menu #searchMenu="matMenu" >

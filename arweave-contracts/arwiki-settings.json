@@ -1,9 +1,7 @@
 {
 	"app_name": "arweave",
-	"main_menu_logo_light": "https://www.arweave.org/nav-logo.svg",
-	"main_menu_logo_dark": "https://www.arweave.org/nav-logo.svg",
-	"main_page_logo_light": "https://www.arweave.org/images/builders/webarchive.png",
-	"main_page_logo_dark": "https://www.arweave.org/images/builders/webarchive.png",
+	"main_logo_light": "wJGdli6nMQKCyCdtCewn84ba9-WsJ80-GS-KtKdkCLg",
+	"main_logo_dark": "5wYwaQP8eFQn_YK6rSB3zdH5Fu8c6J2LJK7nwfT7LeA",
 	"admin_list": ["7z8Vtlbdm-Vw6mQ_jZ7OEh3E-4RtUC1V5U0pQw8Flyg"]
 }
 

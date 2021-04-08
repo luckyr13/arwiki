@@ -31,7 +31,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     	this._arweave.arweave
     ).subscribe({
     	next: (data) => {
-    		this.categories = data.categories;
+    		this.categories = data;
     		this.categoriesSlugs = Object.keys(this.categories);
     		this.loading = false;
     	},

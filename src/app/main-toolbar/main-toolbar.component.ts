@@ -52,7 +52,7 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
     // Load languages from contract
     this.loadingLangs = true;
     this._langContract.getState(this._arweave.arweave).subscribe((langs: any) => {
-      this.langsCopy = langs.langs;
+      this.langsCopy = langs;
       this.langCodes = Object.keys(this.langsCopy);
       
       this.loadingLangs = false;

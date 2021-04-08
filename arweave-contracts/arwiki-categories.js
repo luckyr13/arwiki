@@ -6,6 +6,7 @@ export async function handle(state, action)
 	const _msgSender = SmartWeave.transaction.owner;
 	const _to = SmartWeave.transaction.target;
 	const _tags = SmartWeave.transaction.tags;
+	const SETTINGS_CONTRACT = 'sGOPfJMI_TyQ632y1T0DwWNf6IPKRU9-tguBx0h8g9Q';
 
 	/*
 	*	@dev Add category
@@ -43,30 +44,19 @@ export async function handle(state, action)
 }
 
 
-
 /*
 *	@dev Validate if _s is a valid string
 */
 function _modifier_validateInputString(_s, _strName, _maxStrLen)
 {
-	if (typeof _s !== "string" || _s.length > _maxStrLen) {
+	if (!_s || typeof _s !== "string" || 
+			(typeof _s === "string" && _s.trim().length > _maxStrLen)) {
 		throw new ContractError(
-			`${_strName} must be a string less or equal than ${_maxStrLen} characters`
+			`${_strName} must be a non-empty string less or equal than ${_maxStrLen} characters`
 		);
 	}
 }
 
-/*
-*	@dev Validate if _n is a valid number
-*/
-function _modifier_validateInputNumber(_n, _nName)
-{
-	if (isNaN(_n) || !Number.isSafeInteger(_n)) {
-		throw new ContractError(
-			`${_nName} must be a number less than ${ Number.MAX_SAFE_INTEGER }`
-		);
-	}
-}
 
 /*
 *	@dev Validate if msg.sender is in the admins list
