@@ -8,6 +8,7 @@ import { SearchComponent } from './search/search.component';
 import { EditPageComponent } from './edit-page/edit-page.component';
 import { CreatePageComponent } from './create-page/create-page.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { CategoryComponent } from './category/category.component';
 import { AuthGuard } from './auth/auth.guard';
 import { InitPlatformGuard } from './auth/init-platform.guard';
 
@@ -37,11 +38,10 @@ const routes: Routes = [
 				path: ':lang/search/:query', component: SearchComponent,
 			},
 			{
-				path: ':lang/category/:category', component: SearchComponent,
+				path: ':lang/category/:category', component: CategoryComponent,
 			},
 			{
-				path: ':lang/:slug', component: PageComponent, 
-				canActivate: [AuthGuard],
+				path: ':lang/:slug', component: PageComponent
 			},
 			{
 				path: ':lang/:slug/edit', component: EditPageComponent, 

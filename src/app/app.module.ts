@@ -23,6 +23,7 @@ import { TopArticlesComponent } from './top-articles/top-articles.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { EditPageComponent } from './edit-page/edit-page.component';
 import { CreatePageComponent } from './create-page/create-page.component';
+import { CategoryComponent } from './category/category.component';
 
 
 // AoT requires an exported function for factories
@@ -46,7 +47,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     TopArticlesComponent,
     DashboardComponent,
     EditPageComponent,
-    CreatePageComponent
+    CreatePageComponent,
+    CategoryComponent
   ],
   imports: [
     BrowserModule,
