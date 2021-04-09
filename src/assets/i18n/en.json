@@ -28,6 +28,19 @@
 	"NOT_FOUND": {
 
 	},
+	"CREATE_PAGE": {
+		"TITLE": "Create new arwiki page",
+		"FRM_TITLE": "Title",
+		"FRM_BY": "By",
+		"FRM_SLUG": "Page slug",
+		"FRM_CATEGORY": "Category",
+		"FRM_LANGUAGE": "Language",
+		"FRM_LOADING": "Loading ...",
+		"FRM_UPLOAD_FILE": "Upload file",
+		"FRM_CONTENT": "Content",
+		"FRM_BTN_SAVE": "Save",
+		"FRM_BTN_GOBACK": "Go back"
+	},
 	"SEARCH_ENGINE": {
 		"INPUT_SEARCH_LABEL": "Search the arwiki",
 		"INPUT_SEARCH_PLACEHOLDER": "",

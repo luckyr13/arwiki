@@ -3,7 +3,7 @@
 	<form class="frmNew" [formGroup]="frmNew" (ngSubmit)="onSubmit()">
 		<div class="row">
 			<h1 class="page-title col-9">
-				Create new arwiki page
+    		{{ 'CREATE_PAGE.TITLE' | translate }}
 			</h1>
 			<div class="text-right page-title-buttons col-3">
 				<button 
@@ -11,8 +11,7 @@
 					mat-mini-fab
 					[disabled]="!frmNew.valid ||  loadingFrm"
 					color="primary" 
-					matTooltip="Save" 
-					aria-label="Save">
+					matTooltip="{{ 'CREATE_PAGE.FRM_BTN_SAVE' | translate }}">
 	        <mat-icon>save</mat-icon>
 	      </button>
 	      <button 
@@ -22,8 +21,7 @@
 			  	color="primary"
 			  	(click)="goBack()"
 			  	[disabled]="loadingFrm"
-			  	matTooltip="Go back"
-			  	aria-label="Go back">
+			  	matTooltip="{{ 'CREATE_PAGE.FRM_BTN_GOBACK' | translate }}">
 			    <mat-icon>navigate_before</mat-icon>
 			  </button>
 			</div>
@@ -51,14 +49,14 @@
 			    	(click)="openFileManager()"
 			    	color="primary">
 			    	<mat-icon>upload</mat-icon>
-			    	Upload file
+			    	{{ 'CREATE_PAGE.FRM_UPLOAD_FILE' | translate }}
 			    </button>
 				</div>
 			
 			</div>
 			<div class="col-12 col-md-6">
 				<mat-form-field class="w100" appearance="outline">
-				  <mat-label>Title</mat-label>
+				  <mat-label>{{ 'CREATE_PAGE.FRM_TITLE' | translate }}</mat-label>
 				  <input
 				  	formControlName="title"
 				  	matInput
@@ -68,10 +66,10 @@
 	    		<mat-hint align="end">{{title!.value.length}} / 150</mat-hint>
 				</mat-form-field>
 				<div class="author-address">
-					<strong>by</strong> {{ authorAddress }}
+					<strong>{{ 'CREATE_PAGE.FRM_BY' | translate }}</strong> {{ authorAddress }}
 				</div>
 				<mat-form-field class="w100" appearance="outline">
-				  <mat-label>Page slug</mat-label>
+				  <mat-label>{{ 'CREATE_PAGE.FRM_SLUG' | translate }}</mat-label>
 				  <input
 				  	formControlName="slug"
 				  	matInput
@@ -82,8 +80,8 @@
 				</mat-form-field>
 				
 				<mat-form-field class="w50" appearance="outline" >
-					<mat-label *ngIf="!categoryList || !categoryList.length">Loading ...</mat-label>
-				  <mat-label *ngIf="categoryList && categoryList.length">Category</mat-label>
+					<mat-label *ngIf="!categoryList || !categoryList.length">{{ 'CREATE_PAGE.FRM_LOADING' | translate }}</mat-label>
+				  <mat-label *ngIf="categoryList && categoryList.length">{{ 'CREATE_PAGE.FRM_CATEGORY' | translate }}</mat-label>
 				  <mat-select 
 				  	formControlName="category">
 				    <mat-option *ngFor="let cat of categoryList" [value]="cat.slug">
@@ -92,8 +90,8 @@
 				  </mat-select>
 				</mat-form-field>
 				<mat-form-field class="w50" style="padding-left: 20px;" appearance="outline" >
-					<mat-label *ngIf="!languageList || !languageList.length">Loading ...</mat-label>
-				  <mat-label *ngIf="languageList && languageList.length">Language</mat-label>
+					<mat-label *ngIf="!languageList || !languageList.length">{{ 'CREATE_PAGE.FRM_LOADING' | translate }}</mat-label>
+				  <mat-label *ngIf="languageList && languageList.length">{{ 'CREATE_PAGE.FRM_LANGUAGE' | translate }}</mat-label>
 				  <mat-select 
 				  	formControlName="language">
 				    <mat-option *ngFor="let lang of languageList" [value]="lang.code">
@@ -106,7 +104,7 @@
 				
 			</div>
 			<div class="col-12">
-				<h3>Content:</h3>
+				<h3>{{ 'CREATE_PAGE.FRM_CONTENT' | translate }}</h3>
 				<textarea id="create-page-textarea-simplemde-content"></textarea>
 			</div>
 			

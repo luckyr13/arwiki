@@ -11,7 +11,6 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { Subscription } from 'rxjs'; 
 import { ArwikiCategoriesContract } from '../arwiki-contracts/arwiki-categories';
 import { ArwikiPagesContract } from '../arwiki-contracts/arwiki-pages';
@@ -42,13 +41,11 @@ export class CreatePageComponent implements OnInit, OnDestroy {
   selectable = true;
   removable = true;
   addOnBlur = true;
-  contentTextareaObject: any;
   baseImgUrl: string = this._arweave.baseURL;
   categoryList: any[] = [];
   languageList: any[] = [];
   categoryListSubscription: Subscription = Subscription.EMPTY;
   languageListSubscription: Subscription = Subscription.EMPTY;
-
 
   public get title() {
 		return this.frmNew.get('title');
@@ -81,9 +78,9 @@ export class CreatePageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
   	this.getDefaultTheme();
-    this.contentTextareaObject = document.getElementById("create-page-textarea-simplemde-content");
+    
     this.simplemde = new SimpleMDE({
-      element: this.contentTextareaObject
+      element: document.getElementById("create-page-textarea-simplemde-content")
     });
 
     this.categoryListSubscription = this._categoriesContract
@@ -176,15 +173,22 @@ export class CreatePageComponent implements OnInit, OnDestroy {
   	const title = this.title!.value;
   	const slug = this.slug!.value;
   	const category = this.category!.value;
-    const content = this.contentTextareaObject.value;
+    const content = this.simplemde.value();
+    const img = this.previewImgUrl;
 
     if (!content) {
       alert('Please type some content :)');
       return;
     }
+    if (!img) {
+      alert('Please select an image :)');
+      return;
+    }
   	this.disableForm(true);
 
   	// Save data 
+
+
 
   	
   }

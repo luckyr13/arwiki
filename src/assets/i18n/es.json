@@ -25,6 +25,19 @@
 	"PAGE": {
 
 	},
+	"CREATE_PAGE": {
+		"TITLE": "Crear nueva página de arwiki",
+		"FRM_TITLE": "Título",
+		"FRM_BY": "Por",
+		"FRM_SLUG": "Slug de página",
+		"FRM_CATEGORY": "Categoría",
+		"FRM_LANGUAGE": "Idioma",
+		"FRM_LOADING": "Cargando ...",
+		"FRM_UPLOAD_FILE": "Subir archivo",
+		"FRM_CONTENT": "Contenido",
+		"FRM_BTN_SAVE": "Guardar",
+		"FRM_BTN_GOBACK": "Regresar"
+	},
 	"NOT_FOUND": {
 
 	},

@@ -28,6 +28,19 @@
 	"NOT_FOUND": {
 
 	},
+	"CREATE_PAGE": {
+		"TITLE": "إنشاء صفحة arwiki جديدة",
+		"FRM_TITLE": "لقب",
+		"FRM_BY": "بواسطة",
+		"FRM_SLUG": "Page slug",
+		"FRM_CATEGORY": "فئة",
+		"FRM_LANGUAGE": "لغة",
+		"FRM_LOADING": "جار التحميل ...",
+		"FRM_UPLOAD_FILE": "رفع ملف",
+		"FRM_CONTENT": "المحتوى",
+		"FRM_BTN_SAVE": "يحفظ",
+		"FRM_BTN_GOBACK": "عد"
+	},
 	"SEARCH_ENGINE": {
 		"INPUT_SEARCH_LABEL": "ابحث في arwiki",
 		"INPUT_SEARCH_PLACEHOLDER": "",

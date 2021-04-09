@@ -25,6 +25,19 @@
 	"PAGE": {
 
 	},
+	"CREATE_PAGE": {
+		"TITLE": "नया arwiki पेज बनाएं",
+		"FRM_TITLE": "शीर्षक",
+		"FRM_BY": "द्वारा",
+		"FRM_SLUG": "Page slug",
+		"FRM_CATEGORY": "वर्ग",
+		"FRM_LANGUAGE": "भाषा: हिन्दी",
+		"FRM_LOADING": "लोड हो रहा है ...",
+		"FRM_UPLOAD_FILE": "फ़ाइल अपलोड करें",
+		"FRM_CONTENT": "सामग्री",
+		"FRM_BTN_SAVE": "सहेजें",
+		"FRM_BTN_GOBACK": "वापस जाओ"
+	},
 	"NOT_FOUND": {
 
 	},

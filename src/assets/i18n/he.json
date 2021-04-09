@@ -25,6 +25,19 @@
 	"PAGE": {
 
 	},
+	"CREATE_PAGE": {
+		"TITLE": "צור דף ארוויקי חדש",
+		"FRM_TITLE": "כותרת",
+		"FRM_BY": "על ידי",
+		"FRM_SLUG": "Page slug",
+		"FRM_CATEGORY": "קטגוריה",
+		"FRM_LANGUAGE": "שפה",
+		"FRM_LOADING": "טוען ...",
+		"FRM_UPLOAD_FILE": "העלה קובץ",
+		"FRM_CONTENT": "תוֹכֶן",
+		"FRM_BTN_SAVE": "Save",
+		"FRM_BTN_GOBACK": "Go back"
+	},
 	"NOT_FOUND": {
 
 	},

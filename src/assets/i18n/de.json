@@ -28,6 +28,19 @@
 	"NOT_FOUND": {
 
 	},
+	"CREATE_PAGE": {
+		"TITLE": "Neue Arwiki-Seite erstellen",
+		"FRM_TITLE": "Titel",
+		"FRM_BY": "Durch",
+		"FRM_SLUG": "Page slug",
+		"FRM_CATEGORY": "Kategorie",
+		"FRM_LANGUAGE": "Sprache",
+		"FRM_LOADING": "Wird geladen ...",
+		"FRM_UPLOAD_FILE": "Datei hochladen",
+		"FRM_CONTENT": "Inhalt",
+		"FRM_BTN_SAVE": "sparen",
+		"FRM_BTN_GOBACK": "Geh zurück"
+	},
 	"SEARCH_ENGINE": {
 		"INPUT_SEARCH_LABEL": "Durchsuche das Arwiki",
 		"INPUT_SEARCH_PLACEHOLDER": "",
