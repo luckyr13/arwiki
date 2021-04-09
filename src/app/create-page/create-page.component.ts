@@ -18,6 +18,7 @@ import { ArwikiLangIndexContract } from '../arwiki-contracts/arwiki-lang-index';
 
 import * as SimpleMDE from 'simplemde';
 declare const document: any;
+declare const window: any;
 
 @Component({
   selector: 'app-create-page',
@@ -46,6 +47,7 @@ export class CreatePageComponent implements OnInit, OnDestroy {
   languageList: any[] = [];
   categoryListSubscription: Subscription = Subscription.EMPTY;
   languageListSubscription: Subscription = Subscription.EMPTY;
+  newPageTX: string = '';
 
   public get title() {
 		return this.frmNew.get('title');
@@ -79,9 +81,12 @@ export class CreatePageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
   	this.getDefaultTheme();
     
-    this.simplemde = new SimpleMDE({
-      element: document.getElementById("create-page-textarea-simplemde-content")
-    });
+    window.setTimeout(() => {
+      this.simplemde = new SimpleMDE({
+        element: document.getElementById("create-page-textarea-simplemde-content")
+      });
+    }, 500);
+    
 
     this.categoryListSubscription = this._categoriesContract
       .getState(this._arweave.arweave)
@@ -169,10 +174,11 @@ export class CreatePageComponent implements OnInit, OnDestroy {
     });
   }
 
-  onSubmit() {
+  async onSubmit() {
   	const title = this.title!.value;
   	const slug = this.slug!.value;
   	const category = this.category!.value;
+    const langCode = this.language!.value;
     const content = this.simplemde.value();
     const img = this.previewImgUrl;
 
@@ -186,8 +192,37 @@ export class CreatePageComponent implements OnInit, OnDestroy {
     }
   	this.disableForm(true);
 
-  	// Save data 
+    const target = '';
+    const fee = '';
 
+  	// Save data 
+    try {
+      const txid = await this._arweave.createNFT(
+        title,
+        slug,
+        'ArWiki page',
+        1,
+        this._auth.getMainAddressSnapshot(),
+        this._auth.getPrivateKey(),
+        content,
+        'text/plain', 
+        target,
+        fee,
+        langCode,
+        category,
+        slug
+      );
+
+      this.message(txid, 'success');
+      this.newPageTX = txid;
+      window.setTimeout(() => {
+        this._router.navigate(['./dashboard']);
+      }, 10000);
+
+    } catch (error) {
+      this.message(error, 'error');
+      this.disableForm(false);
+    }
 
 
   	
@@ -230,6 +265,21 @@ export class CreatePageComponent implements OnInit, OnDestroy {
 
   updateSlug(s: string) {
     this.slug!.setValue(s.replace(/ /gi, '_'));
+  }
+
+  
+  /*
+  *  @dev
+  */
+  winstonToAr(_v: string) {
+    return this._arweave.winstonToAr(_v);
+  }
+
+  /*
+  *  @dev
+  */
+  arToWinston(_v: string) {
+    return this._arweave.arToWinston(_v);
   }
 
 

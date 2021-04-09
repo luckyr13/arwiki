@@ -1,5 +1,5 @@
 <mat-progress-bar class="sticky-progress-bar" mode="indeterminate" *ngIf="loadingFrm"></mat-progress-bar>
-<div class="container page-container fadeIn">
+<div class="container page-container fadeIn" *ngIf="!newPageTX">
 	<form class="frmNew" [formGroup]="frmNew" (ngSubmit)="onSubmit()">
 		<div class="row">
 			<h1 class="page-title col-9">
@@ -110,4 +110,23 @@
 			
 		</div>
 	</form>
+</div>
+
+<div class="container page-container fadeIn" style="margin-top: 120px" *ngIf="newPageTX">
+	<h1 class="text-center">
+		Congratulations! 🥳
+	</h1>
+	<h2 class="text-center">
+		You have successfully created a new arwiki NFT page.
+	</h2>
+	<h3 class="text-center">
+		Now your page will live forever on the permaweb. But wait! Remember that we still need to validate your page in order to be included in our official arwiki index.
+	</h3>
+
+	<h4 class="text-center">
+		Redirecting to your dashboard in 10 seconds ...
+	</h4>
+	<p class="text-center">
+		You can track your transaction status here: <a mat-button href="https://viewblock.io/arweave/tx/{{newPageTX}}" class="text-center" target="_blank">{{newPageTX}}</a>
+	</p>
 </div>

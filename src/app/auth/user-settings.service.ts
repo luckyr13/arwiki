@@ -145,7 +145,7 @@ export class UserSettingsService {
       "native_name": "English",
       "numPages": 0,
       "writing_system": "LTR",
-      "contract": "xnlTVtwU-fF8ModDyQy48Ed6k6FSFBL7yF_PtcT8zmk"
+      "contract": ""
     };
   }
 
