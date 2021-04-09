@@ -38,7 +38,8 @@ export class ArweaveContractCreateNFT {
 	  winstonQty: string = '',
 	  langCode: string = '',
 	  categorySlug: string = '',
-	  slug: string = ''
+	  slug: string = '',
+	  img: string = ''
 	): Promise<string> {
 	  const srcTx = await arweave.createTransaction({ data: contractSrc }, wallet);
 
@@ -61,7 +62,8 @@ export class ArweaveContractCreateNFT {
 	    	target, winstonQty,
 			  langCode,
 			  categorySlug,
-			  slug
+			  slug,
+			  img
 			);
 	  } else {
 	    throw new Error('Unable to write Contract Source.');
@@ -94,7 +96,8 @@ export class ArweaveContractCreateNFT {
 	  winstonQty: string = '',
 	  langCode: string = '',
 	  categorySlug: string = '',
-	  slug: string = ''
+	  slug: string = '',
+	  img: string = ''
 	) {
 	  let contractTX = await arweave.createTransaction({ data: dataPayload }, wallet);
 
@@ -127,6 +130,7 @@ export class ArweaveContractCreateNFT {
     contractTX.addTag('ARWIKI_PAGE_LANG', langCode);
     contractTX.addTag('ARWIKI_PAGE_CATEGORY', categorySlug);
     contractTX.addTag('ARWIKI_PAGE_SLUG', slug);
+    contractTX.addTag('ARWIKI_PAGE_IMG', img);
 
 	  await arweave.transactions.sign(contractTX, wallet);
 
@@ -147,7 +151,8 @@ export interface INFTStateTemplate {
   owner: string,
   balance: any,
   category?: any,
-  updates?: any[]
+  updates?: any[],
+  img?: string
 };
 
 export const contractTemplateNFT: string = `

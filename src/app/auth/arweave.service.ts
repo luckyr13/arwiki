@@ -357,7 +357,8 @@ export class ArweaveService {
     winstonQty: string = '',
     langCode: string = '',
     categorySlug: string = '',
-    slug: string = ''
+    slug: string = '',
+    img: string = ''
    ) {
     let txid = '';
     try {
@@ -371,7 +372,8 @@ export class ArweaveService {
         balance: fbalance,
         owner: owner,
         category: categorySlug,
-        updates: []
+        updates: [],
+        img: img
       })
       txid = await this.arweaveNFT.createNFTContract(
         this.arweave,
@@ -384,7 +386,8 @@ export class ArweaveService {
         winstonQty,
         langCode,
         categorySlug,
-        slug
+        slug,
+        img
       );
 
     } catch (error) {
@@ -422,6 +425,10 @@ export class ArweaveService {
     );
 
     return obs;
+  }
+
+  getDataAsString(txId: string): Promise<any> {
+    return this.arweave.transactions.getData(txId, {decode: true, string: true});
   }
 
 

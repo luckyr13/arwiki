@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { PageComponent } from './page/page.component';
+import { PagePreviewComponent } from './page-preview/page-preview.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SearchComponent } from './search/search.component';
 import { EditPageComponent } from './edit-page/edit-page.component';
@@ -39,6 +40,9 @@ const routes: Routes = [
 			},
 			{
 				path: ':lang/category/:category', component: CategoryComponent,
+			},
+			{
+				path: ':lang/preview/:id', component: PagePreviewComponent,
 			},
 			{
 				path: ':lang/:slug', component: PageComponent

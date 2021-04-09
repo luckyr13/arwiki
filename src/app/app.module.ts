@@ -24,6 +24,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { EditPageComponent } from './edit-page/edit-page.component';
 import { CreatePageComponent } from './create-page/create-page.component';
 import { CategoryComponent } from './category/category.component';
+import { PagePreviewComponent } from './page-preview/page-preview.component';
 
 
 // AoT requires an exported function for factories
@@ -48,7 +49,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     DashboardComponent,
     EditPageComponent,
     CreatePageComponent,
-    CategoryComponent
+    CategoryComponent,
+    PagePreviewComponent
   ],
   imports: [
     BrowserModule,

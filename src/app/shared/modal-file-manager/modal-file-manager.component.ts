@@ -31,8 +31,8 @@ export class ModalFileManagerComponent implements OnInit, OnDestroy {
       private _auth: AuthService
   	) { }
 
-  ngOnInit(): void {
-    this.getMyFilesFromArweave();
+  async ngOnInit() {
+    await this.getMyFilesFromArweave();
   }
 
   ngOnDestroy() {

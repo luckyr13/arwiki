@@ -210,7 +210,8 @@ export class CreatePageComponent implements OnInit, OnDestroy {
         fee,
         langCode,
         category,
-        slug
+        slug,
+        img
       );
 
       this.message(txid, 'success');
