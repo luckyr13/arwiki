@@ -43,16 +43,36 @@
 	</div>
 </div>
 
-<div class="container dashboard-container">
-	<div *ngIf="!loading" class="fadeIn">
-		<div class="row">
-			<div class="col-12">
-				<mat-card>
-					<div class="text-center"><strong>Address:</strong> {{mainAddress}}</div>
-				</mat-card>
-			</div>
+<div class="container dashboard-container fadeIn" *ngIf="!loading" >
+	<div class="row">
+		<div class="col-12">
+			<mat-card>
+				<div class="text-center"><strong>Address:</strong> {{mainAddress}}</div>
+			</mat-card>
 		</div>
-		
+	</div>
+	
+
+	<h1 class="page-title col-9">
+		My pages created
+	</h1>
+	<div class="row">
+		<div class="col-12 col-md-6 card-page fadeIn" *ngFor="let p of pages">
+			<mat-card>
+				<div>
+					Id: {{ p.node.id }}
+				</div>
+				<div>
+					Title: {{ underscoreToSpace( searchKeyNameInTags(p.node.tags, 'ARWIKI_PAGE_SLUG') ) }}
+				</div>
+				<div>
+					Category: {{ searchKeyNameInTags(p.node.tags, 'ARWIKI_PAGE_CATEGORY') }}
+				</div>
+				<div>
+					Language: {{ searchKeyNameInTags(p.node.tags, 'ARWIKI_PAGE_LANG') }}
+				</div>
+			</mat-card>
+		</div>
 	</div>
 
 </div>

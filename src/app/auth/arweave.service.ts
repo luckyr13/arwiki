@@ -399,5 +399,30 @@ export class ArweaveService {
     return await this.arweave.transactions.getStatus(_tx);
   }
 
+  /*
+  * @dev
+  */
+  getMyArWikiPages(_address: string, _height: number): Observable<any> {
+    const owners = [_address];
+    const tags = [
+      {
+        name: 'Service',
+        values: ['ArWiki'],
+      },
+      {
+        name: 'ARWIKI_TYPE',
+        values: ['page'],
+      },
+    ];
+
+    const obs = this.arweaveQuery(
+      owners,
+      tags,
+      _height
+    );
+
+    return obs;
+  }
+
 
 }
