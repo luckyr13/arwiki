@@ -1,10 +1,66 @@
 .page-container {
-	min-height: 600px;
 	margin-top: 120px;
 }
 
+.mt-main {
+	margin-top: 64px;
+}
 
 .page-title {
 	margin-top: 50px;
 	margin-bottom: 50px;
+}
+
+.dashboard-container {
+	min-height: 440px;
+}
+
+.loading-txt {
+	font-style: italic;
+
+}
+
+.scoreboard {
+	padding: 10px;
+}
+
+.scoreboard a {
+	  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis; 
+}
+
+.bn {
+	font-size: 40px;
+	padding-bottom: 10px;
+}
+
+.bn2 {
+	font-size: 20px;
+	text-overflow: ellipsis;
+}
+
+.txurl {
+	text-decoration: none;
+  width: 100%;
+}
+
+.bn3 {
+	font-size: 16px;
+	overflow: hidden;
+  text-overflow: ellipsis;
+
+}
+
+.scoreboards-container {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.card-register-msg {
+
+}
+
+.card-register-msg p {
+	font-size: 16px;
 }

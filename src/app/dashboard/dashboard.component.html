@@ -1,10 +1,58 @@
-<div class="container page-container fadeIn">
-	<h1 class="page-title">
-		Dashboard
-	</h1>
+<div class="mt-main">
+</div>
+<mat-toolbar class="fadeIn" color="secondary">
+  <mat-icon 
+  	aria-hidden="false"
+  	aria-label="Dashboard">dashboard</mat-icon>
+	<span>&nbsp;Dashboard</span>
+</mat-toolbar>
+<mat-progress-bar 
+	mode="indeterminate"
+	*ngIf="loading"
+	class="fadeIn"></mat-progress-bar>
+<div class="loading-txt text-center fadeIn" *ngIf="loading" >Loading ... </div>
+
+<div *ngIf="!loading" class="container scoreboards-container fadeIn">
 	<div class="row">
-		<div class="col-12">
-			Dashboard
+		<div class="col-12 col-md-6 scoreboard">
+			<mat-card>
+				<div class="text-center">
+					
+						<span class="bn">{{ balance | async }}</span> AR
+				</div>
+				<div class="text-center"><strong>Account balance</strong></div>
+			</mat-card>
 		</div>
-	</div>	
+		
+
+		<div class="col-12 col-md-6 scoreboard">
+			<mat-card>
+				<div class="text-center">
+					<a 
+						mat-button
+						target="_blank"
+						href="https://viewblock.io/arweave/tx/{{lastTransactionID | async}}"
+						class=" txurl">
+						<span class="bn2">{{ lastTransactionID | async }}</span>
+					</a>
+				</div>
+				<div class="text-center"><strong>Last TXID processed</strong></div>
+			</mat-card>
+		</div>
+		
+	</div>
+</div>
+
+<div class="container dashboard-container">
+	<div *ngIf="!loading" class="fadeIn">
+		<div class="row">
+			<div class="col-12">
+				<mat-card>
+					<div class="text-center"><strong>Address:</strong> {{mainAddress}}</div>
+				</mat-card>
+			</div>
+		</div>
+		
+	</div>
+
 </div>
