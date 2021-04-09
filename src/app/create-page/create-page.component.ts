@@ -216,7 +216,8 @@ export class CreatePageComponent implements OnInit, OnDestroy {
       this.message(txid, 'success');
       this.newPageTX = txid;
       window.setTimeout(() => {
-        this._router.navigate(['./dashboard']);
+        const lastRoute = `/${this._userSettings.getDefaultLang().code}/dashboard`;
+        this._router.navigate([lastRoute]);
       }, 10000);
 
     } catch (error) {
