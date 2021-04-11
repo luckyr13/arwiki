@@ -2157,7 +2157,7 @@ mat-row, mat-header-row, mat-footer-row, th.mat-header-cell, td.mat-cell, td.mat
 }
 
 .mat-drawer-container {
-	background-color: #303030;
+	background-color: #181818;
 	color: #fff
 }
 
@@ -2584,8 +2584,9 @@ mat-row, mat-header-row, mat-footer-row, th.mat-header-cell, td.mat-cell, td.mat
 }
 
 .mat-toolbar.mat-primary {
-	background: #000000;
-	color: #fff
+	background: #212121;
+	color: #fff;
+	border-bottom: 1px solid #303030;
 }
 
 .mat-toolbar.mat-accent {
