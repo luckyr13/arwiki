@@ -15,9 +15,12 @@
 .logo-text {
 	margin-left: 6px;
 	font-weight: bold;
-  font-family: "Roboto Mono", monospace;
-  font-size: 2.0rem;
-  font-weight: bold !important;
+	font-family: "Roboto";
+	font-size: 2.0rem;
+	font-weight: bold !important;
+	text-transform: capitalize;
+	cursor: pointer;
+	outline: none;
 }
 
 .translate-icon {
