@@ -4,6 +4,7 @@ import { ArweaveService } from '../core/arweave.service';
 import { Observable, Subscription, EMPTY } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
+import { UserSettingsService } from '../core/user-settings.service';
 declare const window: any;
 
 @Component({
@@ -20,12 +21,14 @@ export class DashboardComponent implements OnInit {
   txmessage: string = '';
   lastTransactionID: Observable<string> = this._arweave.getLastTransactionID(this.mainAddress);
   myPagesSubscription: Subscription = Subscription.EMPTY;
+  routeLang: string = '';
 
   constructor(
   	private _router: Router,
   	private _snackBar: MatSnackBar,
   	private _arweave: ArweaveService,
     private _auth: AuthService,
+    private _userSettings: UserSettingsService,
   ) { }
 
   async ngOnInit() {
@@ -37,6 +40,12 @@ export class DashboardComponent implements OnInit {
 
     // Get pages 
     await this.getMyArWikiPages();
+
+    // Get language from route
+    this.routeLang = this._userSettings.getRouteLangStaticCopy();
+    this._userSettings.routeLang$.subscribe((data) => {
+      this.routeLang = data;
+    });
   }
 
   /*

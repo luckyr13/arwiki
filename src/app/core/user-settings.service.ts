@@ -22,12 +22,18 @@ export class UserSettingsService {
 
   // Observable string sources
   private routeLang = new Subject<string>();
+  private _routeLangStaticCopy: string = '';
 
   // Observable string streams
   public routeLang$ = this.routeLang.asObservable();
 
   public updatePathLang(_path: string) {
     this.routeLang.next(_path);
+    this._routeLangStaticCopy = _path;
+  }
+
+  public getRouteLangStaticCopy() {
+    return this._routeLangStaticCopy;
   }
 
   // Observable string sources

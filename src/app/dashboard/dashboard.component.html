@@ -56,6 +56,17 @@
 	<h1 class="page-title col-9">
 		My arwiki pages
 	</h1>
+	<div class="row" *ngIf="pages && pages.length === 0">
+		<div class="col-12 text-center no-results">
+			You don't have any arwiki page yet :)
+		</div>
+		<div class="col-12 text-center">
+			<a mat-flat-button 
+        routerLink="/{{ routeLang }}/create-page" color="primary">
+				Create new arwiki page
+			</a>
+		</div>
+	</div>
 	<div class="row">
 		<div class="col-12 col-md-6 card-page fadeIn" *ngFor="let p of pages">
 			<mat-card>

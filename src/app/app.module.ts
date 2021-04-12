@@ -19,6 +19,7 @@ import { SearchComponent } from './search/search.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CategoryModule } from './category/category.module';
 import { PageModule } from './page/page.module';
+import { ModeratorsModule } from './moderators/moderators.module';
 
 
 // AoT requires an exported function for factories
@@ -52,6 +53,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       defaultLanguage: 'en'
     }),
     CategoryModule,
+    ModeratorsModule,
     AppRoutingModule,
     PageModule,
   ],
