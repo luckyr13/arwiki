@@ -16,8 +16,6 @@ import {HttpClientModule, HttpClient} from '@angular/common/http';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { SearchComponent } from './search/search.component';
-import { FeaturedArticleComponent } from './featured-article/featured-article.component';
-import { TopArticlesComponent } from './top-articles/top-articles.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CategoryModule } from './category/category.module';
 import { PageModule } from './page/page.module';
@@ -38,8 +36,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     MainPageComponent,
     MainMenuComponent,
     SearchComponent,
-    FeaturedArticleComponent,
-    TopArticlesComponent,
     DashboardComponent
   ],
   imports: [

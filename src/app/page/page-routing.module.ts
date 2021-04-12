@@ -5,6 +5,7 @@ import { ViewDetailComponent } from './view-detail/view-detail.component';
 import { PreviewComponent } from './preview/preview.component';
 import { EditComponent } from './edit/edit.component';
 import { NewComponent } from './new/new.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 import { AuthGuard } from '../auth/auth.guard';
 import { InitPlatformGuard } from '../auth/init-platform.guard';
@@ -25,6 +26,10 @@ const routes: Routes = [
 	{
 		path: ':lang/:slug/edit', component: EditComponent, 
 		canActivate: [AuthGuard, InitPlatformGuard],
+	},
+	{
+		path: '**', component: NotFoundComponent,
+		canActivate: [InitPlatformGuard]
 	}
 ];
 
