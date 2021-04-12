@@ -33,7 +33,7 @@ import {MatChipsModule} from '@angular/material/chips';
     MatButtonModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
-    TranslateModule,
+    TranslateModule.forChild(),
     MatProgressBarModule,
     NgxSkeletonLoaderModule,
     MatListModule,
@@ -61,7 +61,8 @@ import {MatChipsModule} from '@angular/material/chips';
     NgxSkeletonLoaderModule,
     MatBottomSheetModule,
     MatTabsModule,
-    MatChipsModule
+    MatChipsModule,
+    TranslateModule
   ],
   entryComponents: [DialogSelectLanguageComponent]
 })

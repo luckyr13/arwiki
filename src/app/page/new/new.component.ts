@@ -1,31 +1,30 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
-import { AuthService } from '../auth/auth.service';
-import { UserSettingsService } from '../auth/user-settings.service';
-import { ArweaveService } from '../auth/arweave.service';
+import { AuthService } from '../../auth/auth.service';
+import { UserSettingsService } from '../../auth/user-settings.service';
+import { ArweaveService } from '../../auth/arweave.service';
 import { MatDialog } from '@angular/material/dialog';
 import {
   ModalFileManagerComponent 
-} from '../shared/modal-file-manager/modal-file-manager.component';
+} from '../../shared/modal-file-manager/modal-file-manager.component';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs'; 
-import { ArwikiCategoriesContract } from '../arwiki-contracts/arwiki-categories';
-import { ArwikiPagesContract } from '../arwiki-contracts/arwiki-pages';
-import { ArwikiLangIndexContract } from '../arwiki-contracts/arwiki-lang-index';
+import { ArwikiCategoriesContract } from '../../arwiki-contracts/arwiki-categories';
+import { ArwikiPagesContract } from '../../arwiki-contracts/arwiki-pages';
+import { ArwikiLangIndexContract } from '../../arwiki-contracts/arwiki-lang-index';
 
 import * as SimpleMDE from 'simplemde';
 declare const document: any;
 declare const window: any;
 
 @Component({
-  selector: 'app-create-page',
-  templateUrl: './create-page.component.html',
-  styleUrls: ['./create-page.component.scss']
+  templateUrl: './new.component.html',
+  styleUrls: ['./new.component.scss']
 })
-export class CreatePageComponent implements OnInit, OnDestroy {
+export class NewComponent implements OnInit, OnDestroy {
 	public authorAddress: string = this._auth.getMainAddressSnapshot();
 	defaultTheme: string = '';
 	loadingFrm: boolean = false;

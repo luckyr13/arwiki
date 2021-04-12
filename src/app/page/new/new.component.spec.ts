@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PagePreviewComponent } from './page-preview.component';
+import { NewComponent } from './new.component';
 
-describe('PagePreviewComponent', () => {
-  let component: PagePreviewComponent;
-  let fixture: ComponentFixture<PagePreviewComponent>;
+describe('NewComponent', () => {
+  let component: NewComponent;
+  let fixture: ComponentFixture<NewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PagePreviewComponent ]
+      declarations: [ NewComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PagePreviewComponent);
+    fixture = TestBed.createComponent(NewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

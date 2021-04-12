@@ -6,11 +6,9 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './home/home.component';
 import { SharedModule } from './shared/shared.module';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SearchEngineComponent } from './search-engine/search-engine.component';
 import { FooterComponent } from './footer/footer.component';
 import { MainToolbarComponent } from './main-toolbar/main-toolbar.component';
-import { PageComponent } from './page/page.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
 
@@ -21,10 +19,8 @@ import { SearchComponent } from './search/search.component';
 import { FeaturedArticleComponent } from './featured-article/featured-article.component';
 import { TopArticlesComponent } from './top-articles/top-articles.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { EditPageComponent } from './edit-page/edit-page.component';
-import { CreatePageComponent } from './create-page/create-page.component';
-import { CategoryComponent } from './category/category.component';
-import { PagePreviewComponent } from './page-preview/page-preview.component';
+import { CategoryModule } from './category/category.module';
+import { PageModule } from './page/page.module';
 
 
 // AoT requires an exported function for factories
@@ -36,25 +32,18 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [
     AppComponent,
     HomeComponent,
-    PageNotFoundComponent,
     SearchEngineComponent,
     FooterComponent,
     MainToolbarComponent,
-    PageComponent,
     MainPageComponent,
     MainMenuComponent,
     SearchComponent,
     FeaturedArticleComponent,
     TopArticlesComponent,
-    DashboardComponent,
-    EditPageComponent,
-    CreatePageComponent,
-    CategoryComponent,
-    PagePreviewComponent
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
     SharedModule,
     HttpClientModule,
@@ -66,6 +55,9 @@ export function HttpLoaderFactory(http: HttpClient) {
       },
       defaultLanguage: 'en'
     }),
+    CategoryModule,
+    AppRoutingModule,
+    PageModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

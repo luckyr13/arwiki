@@ -5,17 +5,15 @@ import { Observable, Subscription } from 'rxjs';
 import { 
 	readContract
 } from 'smartweave';
-import { ArweaveService } from '../auth/arweave.service';
+import { ArweaveService } from '../../auth/arweave.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
-
 @Component({
-  selector: 'app-page-preview',
-  templateUrl: './page-preview.component.html',
-  styleUrls: ['./page-preview.component.scss']
+  templateUrl: './preview.component.html',
+  styleUrls: ['./preview.component.scss']
 })
-export class PagePreviewComponent implements OnInit, OnDestroy {
+export class PreviewComponent implements OnInit, OnDestroy {
 	htmlContent: string = '';
 	pageSubscription: Subscription = Subscription.EMPTY;
 
