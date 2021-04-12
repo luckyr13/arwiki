@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ArweaveService } from '../../core/arweave.service';
-import { Observable, Subscription, EMPTY } from 'rxjs';
+import { Observable, Subscription, EMPTY, of } from 'rxjs';
 import { AuthService } from '../../auth/auth.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { switchMap } from 'rxjs/operators';
+import { getVerification } from "arverify";
 
 @Component({
   templateUrl: './pending-list.component.html',
@@ -12,6 +14,7 @@ export class PendingListComponent implements OnInit {
 	loadingPendingPages: boolean = false;
   pages: any[] = [];
   pendingPagesSubscription: Subscription = Subscription.EMPTY;
+  arverifyProcessedAddressesMap: any = {};
 
   constructor(
   	private _arweave: ArweaveService,
@@ -20,12 +23,66 @@ export class PendingListComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    // Get pages 
+    // Get current height for query
+    let networkInfo = null;
+    let height = null;
     try {
-    	await this.getPendingArWikiPages();
+      networkInfo = await this._arweave.arweave.network.getInfo();
+      height = networkInfo.height;
     } catch (err) {
     	this.message(err, 'error');
     }
+    // Get pages
+    this.loadingPendingPages = true;
+
+    this.pendingPagesSubscription = this.getPendingPages(
+      height
+    ).pipe(
+      switchMap((res) => {
+        let pages = [];
+        let tmp_res = [];
+        if (res && res.txs && res.txs.edges) {
+          pages = res.txs.edges;
+        }
+        for (let p of pages) {
+          tmp_res.push({
+            id: p.node.id,
+            title: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title'),
+            slug: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug'),
+            category: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category'),
+            language: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Language'),
+            owner: p.node.owner.address,
+          });
+        }
+        return of(tmp_res);
+      })
+    )
+    .subscribe({
+      next: async (pages) => {
+        this.pages = pages;
+        this.loadingPendingPages = false;
+        this.arverifyProcessedAddressesMap = {};
+
+        for (let p of pages) {
+          // Avoid duplicates
+          if (
+            Object.prototype.hasOwnProperty.call(
+              this.arverifyProcessedAddressesMap, 
+              p.owner
+            )
+          ) {
+            continue;
+          }
+          const arverifyQuery = await this.getArverifyVerification(p.owner);
+          this.arverifyProcessedAddressesMap[p.owner] = arverifyQuery;
+        }
+
+      },
+      error: (error) => {
+        this.message(error, 'error');
+        this.loadingPendingPages = false;
+      }
+    });
 
   }
 
@@ -75,25 +132,14 @@ export class PendingListComponent implements OnInit {
     return obs;
   }
 
-  async getPendingArWikiPages() {
-    const networkInfo = await this._arweave.arweave.network.getInfo();
-    const height = networkInfo.height;
-    this.loadingPendingPages = true;
 
-    this.pendingPagesSubscription = this.getPendingPages(
-      height
-    ).subscribe({
-      next: (res) => {
-        if (res && res.txs && res.txs.edges) {
-          this.pages = res.txs.edges;
-        }
-        this.loadingPendingPages = false;
+  async getArverifyVerification(_address: string) {
+    const verification = await getVerification(_address);
 
-      },
-      error: (error) => {
-        this.message(error, 'error');
-        this.loadingPendingPages = false;
-      }
+    return ({
+      verified: verification.verified,
+      icon: verification.icon,
+      percentage: verification.percentage
     });
   }
 
