@@ -281,37 +281,70 @@ export class ArweaveService {
     _height: number,
     _max_request: number = 100
   ): Observable<any> {
-
     const obs = new Observable<any>((subscriber) => {
-      const query = `query Transactions($tags: [TagFilter!]!, $blockFilter: BlockFilter!, $first: Int!, $after: String, $owners: [String!]!) {
-    transactions(
-      tags: $tags, block: $blockFilter, first: $first,
-      sort: HEIGHT_ASC, after: $after, owners: $owners
-    ) {
-      pageInfo {
-        hasNextPage
-      }
-      edges {
-        node {
-          id
-          owner { address }
-          recipient
-          tags {
-            name
-            value
+    let query = '';
+    if (_owners.length > 0 ) {
+      query = `query Transactions($tags: [TagFilter!]!, $blockFilter: BlockFilter!, $first: Int!, $after: String, $owners: [String!]!) {
+        transactions(
+          tags: $tags, block: $blockFilter, first: $first,
+          sort: HEIGHT_ASC, after: $after, owners: $owners
+        ) {
+          pageInfo {
+            hasNextPage
           }
-          block {
-            height
-            id
+          edges {
+            node {
+              id
+              owner { address }
+              recipient
+              tags {
+                name
+                value
+              }
+              block {
+                height
+                id
+              }
+              fee { winston }
+              quantity { winston }
+              parent { id }
+            }
+            cursor
           }
-          fee { winston }
-          quantity { winston }
-          parent { id }
         }
-        cursor
-      }
+      }`;
+    } else {
+      query = `query Transactions($tags: [TagFilter!]!, $blockFilter: BlockFilter!, $first: Int!, $after: String) {
+        transactions(
+          tags: $tags, block: $blockFilter, first: $first,
+          sort: HEIGHT_ASC, after: $after
+        ) {
+          pageInfo {
+            hasNextPage
+          }
+          edges {
+            node {
+              id
+              owner { address }
+              recipient
+              tags {
+                name
+                value
+              }
+              block {
+                height
+                id
+              }
+              fee { winston }
+              quantity { winston }
+              parent { id }
+            }
+            cursor
+          }
+        }
+      }`;
     }
-  }`;
+      
     
     const variables = {
       tags: _tags,
@@ -400,6 +433,9 @@ export class ArweaveService {
     return txid;
   }
 
+  /*
+  *  Create new state linked to an already known base contract txid
+  */
   async createNFTFromTX(
     name: string,
     ticker: string,

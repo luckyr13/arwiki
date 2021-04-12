@@ -193,7 +193,7 @@ export class NewComponent implements OnInit, OnDestroy {
 
   	// Save data 
     try {
-      const txid = await this._arweave.createNFT(
+      const txid = await this._arweave.createNFTFromTX(
         title,
         slug,
         'ArWiki page',

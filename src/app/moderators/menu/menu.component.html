@@ -1,1 +1,16 @@
-<p>menu works!</p>
+<div class="row">
+	<h1 class="page-title col-9">
+		Pending pages
+	</h1>
+	<div class="text-right page-title-buttons col-3">
+    <button 
+    	type="button"
+	  	mat-mini-fab 
+	  	class="ml10" 
+	  	color="primary"
+	  	(click)="goBack()"
+	  	matTooltip="{{ 'CREATE_PAGE.FRM_BTN_GOBACK' | translate }}">
+	    <mat-icon>navigate_before</mat-icon>
+	  </button>
+	</div>
+</div>

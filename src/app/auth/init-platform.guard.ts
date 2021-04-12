@@ -79,9 +79,9 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
   }
 
 
-   /*
-  *  Custom snackbar message
-  */
+  /*
+   *  Custom snackbar message
+   */
   message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
     this._snackBar.open(msg, 'X', {
       duration: 4000,

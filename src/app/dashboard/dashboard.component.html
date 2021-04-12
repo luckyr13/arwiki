@@ -74,7 +74,7 @@
 					Id: {{ p.node.id }}
 				</div>
 				<div>
-					Title: {{ underscoreToSpace( searchKeyNameInTags(p.node.tags, 'ARWIKI_PAGE_SLUG') ) }}
+					Slug: {{  searchKeyNameInTags(p.node.tags, 'ARWIKI_PAGE_SLUG') }}
 				</div>
 				<div>
 					Category: {{ searchKeyNameInTags(p.node.tags, 'ARWIKI_PAGE_CATEGORY') }}

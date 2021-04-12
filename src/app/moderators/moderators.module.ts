@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { SharedModule } from '../shared/shared.module';
 import { ModeratorsRoutingModule } from './moderators-routing.module';
 import { PendingListComponent } from './pending-list/pending-list.component';
 import { MenuComponent } from './menu/menu.component';
@@ -10,7 +10,8 @@ import { MenuComponent } from './menu/menu.component';
   declarations: [PendingListComponent, MenuComponent],
   imports: [
     CommonModule,
-    ModeratorsRoutingModule
+    ModeratorsRoutingModule,
+    SharedModule
   ]
 })
 export class ModeratorsModule { }
