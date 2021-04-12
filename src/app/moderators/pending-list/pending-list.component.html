@@ -1,6 +1,5 @@
 <app-moderators-menu title="Pending list"></app-moderators-menu>
 <div class="container page-container fadeIn">
-
 	<div class="row">
 		<div class="col-12 col-md-6 card-page fadeIn" *ngFor="let p of pages">
 			<mat-card >
@@ -25,7 +24,7 @@
 					Owner: {{ p.owner }} 
 				</div>
 				<div *ngIf="arverifyProcessedAddressesMap[p.owner] && arverifyProcessedAddressesMap[p.owner].verified" class="green">
-					Owner status: Verified ( {{ arverifyProcessedAddressesMap[p.owner].percentage }}% )
+					Owner status: <mat-icon>verified_user</mat-icon> Verified ( {{ arverifyProcessedAddressesMap[p.owner].percentage }}% )
 				</div>
 
 				<div *ngIf="!arverifyProcessedAddressesMap[p.owner] || !arverifyProcessedAddressesMap[p.owner].verified" class="red">

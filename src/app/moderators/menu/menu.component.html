@@ -4,12 +4,15 @@
   	aria-label="Moderators">security</mat-icon>
 	<span>&nbsp;Moderator's panel</span>
 	<span class="menu-spacer"></span>
-  <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-    <mat-icon>favorite</mat-icon>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>settings</mat-icon>
   </button>
-  <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-   <mat-icon>share</mat-icon>
- 	</button>
+	<mat-menu #menu="matMenu">
+	  <button mat-menu-item routerLink="/{{ routerLang }}/moderators/pending">Pending pages</button>
+	  <button mat-menu-item routerLink="/{{ routerLang }}/moderators/add-admin">Add admin</button>
+	  <button mat-menu-item routerLink="/{{ routerLang }}/moderators/view-admin-list">View admin list</button>
+	</mat-menu>
+
 
 </mat-toolbar>
 <div class="container">
