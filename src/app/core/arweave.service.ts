@@ -2,9 +2,11 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { selectWeightedPstHolder } from 'smartweave';
-import { contractTemplateNFT,
+import { 
+  contractTemplateNFT,
   INFTStateTemplate,
-  ArweaveContractCreateNFT
+  ArweaveContractCreateNFT,
+  contractNFTBaseTxId
 } from './arweave-contract-create-nft';
 import Arweave from 'arweave';
 declare const window: any;
@@ -220,8 +222,8 @@ export class ArweaveService {
 
     transaction.addTag('Content-Type', contentType);
     transaction.addTag('Service', 'ArWiki');
-    transaction.addTag('ARWIKI_TYPE', 'file');
-    transaction.addTag('ARWIKI_VERSION', '0.1');
+    transaction.addTag('Arwiki-Type', 'file');
+    transaction.addTag('Arwiki-Version', '0.1');
 
     // Sign transaction
     await this.arweave.transactions.sign(transaction, key);
@@ -387,7 +389,69 @@ export class ArweaveService {
         langCode,
         categorySlug,
         slug,
-        img
+        img,
+        name
+      );
+
+    } catch (error) {
+      throw Error(error);
+    }
+
+    return txid;
+  }
+
+  async createNFTFromTX(
+    name: string,
+    ticker: string,
+    description: string,
+    balance: number,
+    owner: string,
+    key: any,
+    fileData: string,
+    fileContentType: string,
+    target: string = '',
+    winstonQty: string = '',
+    langCode: string = '',
+    categorySlug: string = '',
+    slug: string = '',
+    img: string = ''
+   ) {
+    let txid = '';
+    try {
+      const srcTxId = contractNFTBaseTxId;
+      const fbalance: any= {};
+      fbalance[owner] = balance;
+      const initState = this.arweaveNFT.stateToString({
+        name: name,
+        ticker: ticker,
+        description: description,
+        balance: fbalance,
+        owner: owner,
+        category: categorySlug,
+        updates: [],
+        img: img
+      })
+
+      const extraTags: any = [
+        {name:'Exchange', value: 'Verto'},
+        {name: 'Action', value: 'marketplace/create'}
+      ];
+      // Create NFT from base contract TXid
+      txid = await this.arweaveNFT.createNFTContractFromTx(
+        this.arweave,
+        key,
+        srcTxId,
+        initState,
+        extraTags,
+        fileData,
+        fileContentType,
+        target,
+        winstonQty,
+        langCode,
+        categorySlug,
+        slug,
+        img,
+        name
       );
 
     } catch (error) {
@@ -413,7 +477,7 @@ export class ArweaveService {
         values: ['ArWiki'],
       },
       {
-        name: 'ARWIKI_TYPE',
+        name: 'Arwiki-Type',
         values: ['page'],
       },
     ];

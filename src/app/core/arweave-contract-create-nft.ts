@@ -39,7 +39,8 @@ export class ArweaveContractCreateNFT {
 	  langCode: string = '',
 	  categorySlug: string = '',
 	  slug: string = '',
-	  img: string = ''
+	  img: string = '',
+	  title: string = ''
 	): Promise<string> {
 	  const srcTx = await arweave.createTransaction({ data: contractSrc }, wallet);
 
@@ -63,7 +64,8 @@ export class ArweaveContractCreateNFT {
 			  langCode,
 			  categorySlug,
 			  slug,
-			  img
+			  img,
+			  title
 			);
 	  } else {
 	    throw new Error('Unable to write Contract Source.');
@@ -97,7 +99,8 @@ export class ArweaveContractCreateNFT {
 	  langCode: string = '',
 	  categorySlug: string = '',
 	  slug: string = '',
-	  img: string = ''
+	  img: string = '',
+	  title: string = '',
 	) {
 	  let contractTX = await arweave.createTransaction({ data: dataPayload }, wallet);
 
@@ -125,12 +128,13 @@ export class ArweaveContractCreateNFT {
 	  contractTX.addTag('Init-State', state);
 	  // Custom ArWiki tags
 	  contractTX.addTag('Service', 'ArWiki');
-    contractTX.addTag('ARWIKI_VERSION', '0.1');
-    contractTX.addTag('ARWIKI_TYPE', 'page');
-    contractTX.addTag('ARWIKI_PAGE_LANG', langCode);
-    contractTX.addTag('ARWIKI_PAGE_CATEGORY', categorySlug);
-    contractTX.addTag('ARWIKI_PAGE_SLUG', slug);
-    contractTX.addTag('ARWIKI_PAGE_IMG', img);
+    contractTX.addTag('Arwiki-Version', '0.1');
+    contractTX.addTag('Arwiki-Type', 'page');
+    contractTX.addTag('Arwiki-Page-Lang', langCode);
+    contractTX.addTag('Arwiki-Page-Category', categorySlug);
+    contractTX.addTag('Arwiki-Page-Slug', slug);
+    contractTX.addTag('Arwiki-Page-Title', title);
+    contractTX.addTag('Arwiki-Page-Img', img);
 
 	  await arweave.transactions.sign(contractTX, wallet);
 
@@ -155,8 +159,7 @@ export interface INFTStateTemplate {
   img?: string
 };
 
-export const contractTemplateNFT: string = `
-export function handle(state, action) {
+export const contractTemplateNFT: string = `export function handle(state, action) {
   const input = action.input;
   const caller = action.caller;
   if (input.function === "transfer") {
@@ -197,5 +200,6 @@ export function handle(state, action) {
     return {state};
   }
   throw new ContractError("No function supplied or function not recognised: " + input.function);
-}
-`;
+}`;
+
+export const contractNFTBaseTxId = '3Mftf_qsV2pJdfpqpVvtbHXk_EQIX80r72xIAPyRCeQ';
