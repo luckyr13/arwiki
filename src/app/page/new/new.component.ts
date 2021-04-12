@@ -185,10 +185,7 @@ export class NewComponent implements OnInit, OnDestroy {
       alert('Please type some content :)');
       return;
     }
-    if (!img) {
-      alert('Please select an image :)');
-      return;
-    }
+    
   	this.disableForm(true);
 
     const target = '';
