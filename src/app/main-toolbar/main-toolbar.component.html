@@ -49,6 +49,11 @@
       </button>
       <button 
         mat-menu-item
+        routerLink="{{ routerLang }}/moderators">
+         <mat-icon>security</mat-icon> Moderators
+      </button>
+      <button 
+        mat-menu-item
         (click)="logout()">
          <mat-icon>logout</mat-icon> {{ 'MAIN_TOOLBAR.MENU_USER_LOGOUT' | translate }}
       </button>
