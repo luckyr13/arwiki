@@ -3,11 +3,19 @@
   	aria-hidden="false"
   	aria-label="Moderators">security</mat-icon>
 	<span>&nbsp;Moderator's panel</span>
+	<span class="menu-spacer"></span>
+  <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+    <mat-icon>favorite</mat-icon>
+  </button>
+  <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+   <mat-icon>share</mat-icon>
+ 	</button>
+
 </mat-toolbar>
 <div class="container">
 	<div class="row">
 		<h1 class="page-title col-9">
-			Pending pages
+			{{ title }}
 		</h1>
 		<div class="text-right page-title-buttons col-3">
 	    <button 

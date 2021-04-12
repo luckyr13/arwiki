@@ -3,7 +3,13 @@
 }
 
 .mt-main {
-	margin-top: 64px;
+	margin-top: 54px;
+}
+
+@media (min-width: 600px) {
+	.mt-main {
+		margin-top: 64px;
+	}
 }
 
 .page-title {
