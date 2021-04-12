@@ -215,7 +215,7 @@ export class NewComponent implements OnInit, OnDestroy {
       window.setTimeout(() => {
         const lastRoute = `/${this._userSettings.getDefaultLang().code}/dashboard`;
         this._router.navigate([lastRoute]);
-      }, 10000);
+      }, 20000);
 
     } catch (error) {
       this.message(error, 'error');
