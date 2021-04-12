@@ -74,13 +74,16 @@
 					Id: {{ p.node.id }}
 				</div>
 				<div>
-					Slug: {{  searchKeyNameInTags(p.node.tags, 'ARWIKI_PAGE_SLUG') }}
+					Title: {{  searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title') }}
 				</div>
 				<div>
-					Category: {{ searchKeyNameInTags(p.node.tags, 'ARWIKI_PAGE_CATEGORY') }}
+					Slug: {{  searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug') }}
 				</div>
 				<div>
-					Language: {{ searchKeyNameInTags(p.node.tags, 'ARWIKI_PAGE_LANG') }}
+					Category: {{ searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category') }}
+				</div>
+				<div>
+					Language: {{ searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang') }}
 				</div>
 				<div>
 					Status: Unapproved

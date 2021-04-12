@@ -50,7 +50,7 @@ export class PendingListComponent implements OnInit {
             title: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title'),
             slug: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug'),
             category: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category'),
-            language: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Language'),
+            language: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang'),
             owner: p.node.owner.address,
           });
         }
@@ -117,10 +117,10 @@ export class PendingListComponent implements OnInit {
         name: 'Service',
         values: ['ArWiki'],
       },
-    //  {
-    //    name: 'Arwiki-Type',
-    //    values: ['page'],
-    //  },
+      {
+        name: 'Arwiki-Type',
+        values: ['page'],
+      },
     ];
 
     const obs = this._arweave.arweaveQuery(

@@ -8,6 +8,7 @@ import {
 import { ArweaveService } from '../../core/arweave.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   templateUrl: './preview.component.html',
@@ -20,7 +21,8 @@ export class PreviewComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
   	private _arweave: ArweaveService,
-  	private _snackBar: MatSnackBar
+  	private _snackBar: MatSnackBar,
+    private _location: Location
   ) { }
 
   ngOnInit(): void {
@@ -56,5 +58,9 @@ export class PreviewComponent implements OnInit, OnDestroy {
       verticalPosition: verticalPosition,
       panelClass: panelClass
     });
+  }
+
+  goBack() {
+    this._location.back();
   }
 }
