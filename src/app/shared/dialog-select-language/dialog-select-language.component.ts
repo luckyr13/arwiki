@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ArwikiLangIndexContract } from '../../arwiki-contracts/arwiki-lang-index';
 import { Subscription, Observable } from 'rxjs'; 
-import { ArweaveService } from '../../auth/arweave.service';
+import { ArweaveService } from '../../core/arweave.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import { UserSettingsService } from '../../auth/user-settings.service';
+import { UserSettingsService } from '../../core/user-settings.service';
 
 @Component({
   templateUrl: './dialog-select-language.component.html',

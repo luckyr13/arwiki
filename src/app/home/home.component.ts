@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { UserSettingsService } from '../auth/user-settings.service';
-import { ArweaveService } from '../auth/arweave.service';
+import { UserSettingsService } from '../core/user-settings.service';
+import { ArweaveService } from '../core/arweave.service';
 import { Observable, Subscription } from 'rxjs';
 import { ArwikiSettingsContract } from '../arwiki-contracts/arwiki-settings';
 import { MatSnackBar } from '@angular/material/snack-bar';

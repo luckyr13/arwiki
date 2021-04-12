@@ -5,11 +5,11 @@ import {
 	RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable, of, interval } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { UserSettingsService } from './user-settings.service';
+import { UserSettingsService } from '../core/user-settings.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ArwikiLangIndexContract } from '../arwiki-contracts/arwiki-lang-index';
-import { ArweaveService } from './arweave.service';
+import { ArweaveService } from '../core/arweave.service';
 
 @Injectable({
   providedIn: 'root'

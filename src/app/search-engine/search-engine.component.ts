@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { 
   DialogSelectLanguageComponent 
 } from '../shared/dialog-select-language/dialog-select-language.component';
-import { UserSettingsService } from '../auth/user-settings.service';
+import { UserSettingsService } from '../core/user-settings.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 

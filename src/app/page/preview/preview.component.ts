@@ -5,7 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { 
 	readContract
 } from 'smartweave';
-import { ArweaveService } from '../../auth/arweave.service';
+import { ArweaveService } from '../../core/arweave.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 

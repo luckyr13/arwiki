@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ArweaveService } from './arweave.service';
+import { ArweaveService } from '../core/arweave.service';
 import { Observable, EMPTY, of, throwError, Subject} from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';

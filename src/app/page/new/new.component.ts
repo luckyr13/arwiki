@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
 import { AuthService } from '../../auth/auth.service';
-import { UserSettingsService } from '../../auth/user-settings.service';
-import { ArweaveService } from '../../auth/arweave.service';
+import { UserSettingsService } from '../../core/user-settings.service';
+import { ArweaveService } from '../../core/arweave.service';
 import { MatDialog } from '@angular/material/dialog';
 import {
   ModalFileManagerComponent 

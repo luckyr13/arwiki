@@ -2,9 +2,9 @@ import {
   Component, OnInit, OnDestroy, 
   Input, Output, EventEmitter
 } from '@angular/core';
-import { UserSettingsService } from '../auth/user-settings.service';
+import { UserSettingsService } from '../core/user-settings.service';
 import { AuthService } from '../auth/auth.service';
-import { ArweaveService } from '../auth/arweave.service';
+import { ArweaveService } from '../core/arweave.service';
 import { Subscription, EMPTY, Observable } from 'rxjs';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ArwikiLangIndexContract} from '../arwiki-contracts/arwiki-lang-index';

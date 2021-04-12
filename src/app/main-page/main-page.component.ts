@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { UserSettingsService } from '../auth/user-settings.service';
+import { UserSettingsService } from '../core/user-settings.service';
 import { ArwikiCategoriesContract } from '../arwiki-contracts/arwiki-categories';
 import { Subscription } from 'rxjs';
-import { ArweaveService } from '../auth/arweave.service';
+import { ArweaveService } from '../core/arweave.service';
 import { ArwikiSettingsContract } from '../arwiki-contracts/arwiki-settings';
 import { MatSnackBar } from '@angular/material/snack-bar';
 

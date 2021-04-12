@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import { ArweaveService } from '../auth/arweave.service';
+import { ArweaveService } from '../core/arweave.service';
 import { Observable, Subscription, EMPTY } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';

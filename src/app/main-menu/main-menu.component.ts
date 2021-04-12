@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { UserSettingsService } from '../auth/user-settings.service';
+import { UserSettingsService } from '../core/user-settings.service';
 import { ArwikiCategoriesContract } from '../arwiki-contracts/arwiki-categories';
 import { ArwikiPagesContract } from '../arwiki-contracts/arwiki-pages';
 import { switchMap, map } from 'rxjs/operators';
-import { ArweaveService } from '../auth/arweave.service';
+import { ArweaveService } from '../core/arweave.service';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
