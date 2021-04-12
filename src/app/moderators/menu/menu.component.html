@@ -1,16 +1,24 @@
-<div class="row">
-	<h1 class="page-title col-9">
-		Pending pages
-	</h1>
-	<div class="text-right page-title-buttons col-3">
-    <button 
-    	type="button"
-	  	mat-mini-fab 
-	  	class="ml10" 
-	  	color="primary"
-	  	(click)="goBack()"
-	  	matTooltip="{{ 'CREATE_PAGE.FRM_BTN_GOBACK' | translate }}">
-	    <mat-icon>navigate_before</mat-icon>
-	  </button>
+<mat-toolbar class="fadeIn moderatorsBreadcrumb" color="secondary">
+  <mat-icon 
+  	aria-hidden="false"
+  	aria-label="Moderators">security</mat-icon>
+	<span>&nbsp;Moderator's panel</span>
+</mat-toolbar>
+<div class="container">
+	<div class="row">
+		<h1 class="page-title col-9">
+			Pending pages
+		</h1>
+		<div class="text-right page-title-buttons col-3">
+	    <button 
+	    	type="button"
+		  	mat-mini-fab 
+		  	class="ml10" 
+		  	color="primary"
+		  	(click)="goBack()"
+		  	matTooltip="{{ 'CREATE_PAGE.FRM_BTN_GOBACK' | translate }}">
+		    <mat-icon>navigate_before</mat-icon>
+		  </button>
+		</div>
 	</div>
 </div>
