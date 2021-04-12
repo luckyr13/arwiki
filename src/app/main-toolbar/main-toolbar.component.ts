@@ -29,6 +29,7 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   isLoggedIn: boolean = false;
   langsCopy: any;
   langCodes: string[] = [];
+  loading = this._userSettings.mainToolbarLoadingObservable$;
   loadingLangs: boolean = false;
   routerLang: string = '';
   loadingSettings: boolean = true;

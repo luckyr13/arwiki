@@ -56,6 +56,16 @@ export class UserSettingsService {
     this.defaultThemeObservable.next(_path);
   }
 
+  // Observable string sources
+  private mainToolbarLoadingObservable = new Subject<boolean>();
+
+  // Observable string streams
+  public mainToolbarLoadingObservable$ = this.mainToolbarLoadingObservable.asObservable();
+
+  updateMainToolbarLoading(_loading: boolean) {
+    this.mainToolbarLoadingObservable.next(_loading);
+  }
+
   constructor(
     private _translate: TranslateService
    ) {
