@@ -5,6 +5,8 @@ import { AuthService } from '../../auth/auth.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { switchMap } from 'rxjs/operators';
 import { getVerification } from "arverify";
+import {MatDialog} from '@angular/material/dialog';
+import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confirm.component';
 
 @Component({
   templateUrl: './pending-list.component.html',
@@ -19,7 +21,8 @@ export class PendingListComponent implements OnInit {
   constructor(
   	private _arweave: ArweaveService,
     private _auth: AuthService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    public _dialog: MatDialog
   ) { }
 
   async ngOnInit() {
@@ -155,6 +158,22 @@ export class PendingListComponent implements OnInit {
 
   underscoreToSpace(_s: string) {
     return _s.replace(/[_]/gi, ' ');
+  }
+
+  
+  confirmInsertPageToArWikiIndex() {
+    const dialogRef = this._dialog.open(DialogConfirmComponent, {
+      data: {
+        title: 'Are you sure?',
+        content: 'You are about to insert a new arwiki page in the index. Do you want to proceed?'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Create arwiki page
+      }
+    });
   }
 
 

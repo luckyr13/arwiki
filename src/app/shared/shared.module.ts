@@ -24,9 +24,10 @@ import { BottomSheetLoginComponent } from './bottom-sheet-login/bottom-sheet-log
 import { ModalFileManagerComponent } from './modal-file-manager/modal-file-manager.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatChipsModule} from '@angular/material/chips';
+import { DialogConfirmComponent } from './dialog-confirm/dialog-confirm.component';
 
 @NgModule({
-  declarations: [DialogSelectLanguageComponent, BottomSheetLoginComponent, ModalFileManagerComponent],
+  declarations: [DialogSelectLanguageComponent, BottomSheetLoginComponent, ModalFileManagerComponent, DialogConfirmComponent],
   imports: [
     CommonModule,
     MatDialogModule,
