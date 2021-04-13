@@ -25,11 +25,14 @@
 					Owner: {{ p.owner }} 
 				</div>
 				<div *ngIf="arverifyProcessedAddressesMap[p.owner] && arverifyProcessedAddressesMap[p.owner].verified" class="green">
-					Owner status: <mat-icon>verified_user</mat-icon> Verified ( {{ arverifyProcessedAddressesMap[p.owner].percentage }}% )
+					Owner status: <mat-icon>verified_user</mat-icon> Verified
 				</div>
 
 				<div *ngIf="!arverifyProcessedAddressesMap[p.owner] || !arverifyProcessedAddressesMap[p.owner].verified" class="red">
-					Owner status: Not verified ( {{ arverifyProcessedAddressesMap[p.owner].percentage }}% )
+					Owner status: Not verified
+				</div>
+				<div *ngIf="arverifyProcessedAddressesMap[p.owner] && arverifyProcessedAddressesMap[p.owner].percentage" class="red">
+					ArVerify Score: {{ arverifyProcessedAddressesMap[p.owner].percentage }} %
 				</div>
 				
 				<div class="text-right">

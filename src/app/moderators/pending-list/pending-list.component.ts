@@ -8,6 +8,7 @@ import { getVerification } from "arverify";
 import {MatDialog} from '@angular/material/dialog';
 import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confirm.component';
 import { ArwikiPagesContract } from '../../arwiki-contracts/arwiki-pages';
+import ArDB from 'ardb';
 
 @Component({
   templateUrl: './pending-list.component.html',
@@ -21,6 +22,7 @@ export class PendingListComponent implements OnInit {
   loadingInsertPageIntoIndex: boolean = false;
   insertPageTxMessage: string = '';
   arwikiPageIndexSubscription: Subscription = Subscription.EMPTY;
+  ardb: ArDB|null = null;
 
   constructor(
   	private _arweave: ArweaveService,
@@ -30,28 +32,15 @@ export class PendingListComponent implements OnInit {
     public _pagesContract: ArwikiPagesContract
   ) { }
 
-  async ngOnInit() {
-    // Get current height for query
-    let networkInfo = null;
-    let height = null;
-    try {
-      networkInfo = await this._arweave.arweave.network.getInfo();
-      height = networkInfo.height;
-    } catch (err) {
-    	this.message(err, 'error');
-    }
+  ngOnInit() {
+    // Init ardb instance
+    this.ardb = new ArDB(this._arweave.arweave);
     // Get pages
     this.loadingPendingPages = true;
-
-    this.pendingPagesSubscription = this.getPendingPages(
-      height
-    ).pipe(
+    this.pendingPagesSubscription = this.getPendingPages().pipe(
       switchMap((res) => {
-        let pages = [];
+        let pages = res;
         let tmp_res = [];
-        if (res && res.txs && res.txs.edges) {
-          pages = res.txs.edges;
-        }
         for (let p of pages) {
           tmp_res.push({
             id: p.node.id,
@@ -65,21 +54,7 @@ export class PendingListComponent implements OnInit {
         return of(tmp_res);
       }),
       switchMap((pages) => {
-        return this._pagesContract.getState(this._arweave.arweave)
-          .pipe(
-            switchMap((indexedPages) => {
-              const res: any = [];
-              for (let p of pages) {
-                if (indexedPages[p.category] &&
-                    indexedPages[p.category][p.slug]) {
-                  continue;
-                }
-                res.push(p);
-              }
-
-              return of(res);
-            })
-          );
+        return of(pages);
       })
     )
     .subscribe({
@@ -137,7 +112,7 @@ export class PendingListComponent implements OnInit {
    /*
   * @dev
   */
-  getPendingPages(_height: number): Observable<any> {
+  getPendingPages(): Observable<any> {
     const owners: any = [];
     const tags = [
       {
@@ -150,12 +125,16 @@ export class PendingListComponent implements OnInit {
       },
     ];
 
-    const obs = this._arweave.arweaveQuery(
-      owners,
-      tags,
-      _height
-    );
+    const obs = new Observable((subscriber) => {
+      this.ardb!.search('transactions')
+        .tags(tags).find().then((res) => {
+          subscriber.next(res);
+          subscriber.complete();
+        }).catch((error) => {
+          subscriber.error(error);
+        });
 
+    });
     return obs;
   }
 

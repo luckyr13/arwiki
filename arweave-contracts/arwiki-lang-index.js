@@ -8,36 +8,6 @@ export async function handle(state, action)
 	const _tags = SmartWeave.transaction.tags;
 	const SETTINGS_CONTRACT = 'sGOPfJMI_TyQ632y1T0DwWNf6IPKRU9-tguBx0h8g9Q';
 
-	/*
-	*	@dev Update the contract address for a language
-	*/
-	if (action.input.function === "updateLangContract") {
-		// Only admin can update the state
-		// Get the list of admins from Settings contract
-		const settingsContractState = await SmartWeave.contracts.readContractState(
-			SETTINGS_CONTRACT
-		);
-    const adminList = settingsContractState.admin_list;
-    // Validate _msgSender in admins list
-    _modifier_validateAdmin(_msgSender, adminList);
-    // Validate inputs
-		_modifier_validateInputString(
-			action.input.contract, 'contract', 43
-		);
-		_modifier_validateInputString(
-			action.input.langCode, 'langCode', 2
-		);
-		const langCode = action.input.langCode.trim();
-
-		// Validate if language exists in state
-		_modifier_validateIfLanguageExists(
-			langCode,
-			state
-		);
-
-    state[lang].contract = action.input.contract.trim();
-    return { state };
-  }
   /*
 	*	@dev Add language
 	*/
@@ -63,9 +33,6 @@ export async function handle(state, action)
 		_modifier_validateInputString(
 			action.input.writingSystem, 'writingSystem', 3
 		);
-		_modifier_validateInputString(
-			action.input.contract, 'contract', 43
-		);
 		
 		const langCode = action.input.langCode.trim();
 		// Validate if language is not already created
@@ -78,8 +45,7 @@ export async function handle(state, action)
 			"code": langCode,
 			"iso_name": action.input.isoName.trim(),
 			"native_name": action.input.nativeName.trim(),
-			"writing_system": action.input.writingSystem.trim(),
-			"contract": action.input.contract.trim()
+			"writing_system": action.input.writingSystem.trim()
 		};
 
     state.langs[langCode] = newLang;
