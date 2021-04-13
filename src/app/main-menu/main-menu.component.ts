@@ -50,8 +50,9 @@ export class MainMenuComponent implements OnInit, OnDestroy {
         for (let cats of this.category_slugs) {
           this.menu[cats] = [];
           if (this.pages && this.pages[cats]) {
-            for (let page of this.pages[cats]) {
-              this.menu[cats].push(page);
+            const pages_slugs = Object.keys(this.pages[cats]);
+            for (let page_s of pages_slugs) {
+              this.menu[cats].push(this.pages[cats][page_s]);
             }
           }
         }

@@ -7,6 +7,7 @@ import { switchMap } from 'rxjs/operators';
 import { getVerification } from "arverify";
 import {MatDialog} from '@angular/material/dialog';
 import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confirm.component';
+import { ArwikiPagesContract } from '../../arwiki-contracts/arwiki-pages';
 
 @Component({
   templateUrl: './pending-list.component.html',
@@ -17,12 +18,16 @@ export class PendingListComponent implements OnInit {
   pages: any[] = [];
   pendingPagesSubscription: Subscription = Subscription.EMPTY;
   arverifyProcessedAddressesMap: any = {};
+  loadingInsertPageIntoIndex: boolean = false;
+  insertPageTxMessage: string = '';
+  arwikiPageIndexSubscription: Subscription = Subscription.EMPTY;
 
   constructor(
   	private _arweave: ArweaveService,
     private _auth: AuthService,
     private _snackBar: MatSnackBar,
-    public _dialog: MatDialog
+    public _dialog: MatDialog,
+    public _pagesContract: ArwikiPagesContract
   ) { }
 
   async ngOnInit() {
@@ -58,6 +63,23 @@ export class PendingListComponent implements OnInit {
           });
         }
         return of(tmp_res);
+      }),
+      switchMap((pages) => {
+        return this._pagesContract.getState(this._arweave.arweave)
+          .pipe(
+            switchMap((indexedPages) => {
+              const res: any = [];
+              for (let p of pages) {
+                if (indexedPages[p.category] &&
+                    indexedPages[p.category][p.slug]) {
+                  continue;
+                }
+                res.push(p);
+              }
+
+              return of(res);
+            })
+          );
       })
     )
     .subscribe({
@@ -65,7 +87,6 @@ export class PendingListComponent implements OnInit {
         this.pages = pages;
         this.loadingPendingPages = false;
         this.arverifyProcessedAddressesMap = {};
-
         for (let p of pages) {
           // Avoid duplicates
           if (
@@ -107,6 +128,9 @@ export class PendingListComponent implements OnInit {
   ngOnDestroy() {
     if (this.pendingPagesSubscription) {
       this.pendingPagesSubscription.unsubscribe();
+    }
+    if (this.arwikiPageIndexSubscription) {
+      this.arwikiPageIndexSubscription.unsubscribe();
     }
   }
 
@@ -161,7 +185,11 @@ export class PendingListComponent implements OnInit {
   }
 
   
-  confirmInsertPageToArWikiIndex() {
+  confirmInsertPageToArWikiIndex(
+    _slug: string,
+    _content_id: string,
+    _category_slug: string
+  ) {
     const dialogRef = this._dialog.open(DialogConfirmComponent, {
       data: {
         title: 'Are you sure?',
@@ -172,9 +200,27 @@ export class PendingListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // Create arwiki page
+        this.loadingInsertPageIntoIndex = true;
+        this._pagesContract.addArWikiPageIntoIndex(this._arweave.arweave,
+          this._auth.getPrivateKey(),
+          _slug, _content_id, _category_slug
+        ).subscribe({
+          next: (res) => {
+            this.insertPageTxMessage = res;
+            console.log('res', res);
+            this.message('Success!', 'success');
+          },
+          error: (error) => {
+            this.message(error, 'error');
+          }
+        });
       }
     });
   }
+
+
+
+ 
 
 
 }
