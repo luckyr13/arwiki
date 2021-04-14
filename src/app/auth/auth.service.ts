@@ -16,6 +16,16 @@ export class AuthService {
   private _key: any = null;
   // User's arweave public address
   private _accountAddress: string = '';
+  // Save a temporal copy of the admin list
+  private _adminList: string[] = [];
+
+  getAdminList() {
+    return this._adminList;
+  }
+
+  setAdminList(admins: string[]) {
+    this._adminList = admins;
+  }
 
   constructor(private _arweave: ArweaveService) {
     this.account = new Subject<string>();

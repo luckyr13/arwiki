@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { UserSettingsService } from '../core/user-settings.service';
 import { ArwikiCategoriesContract } from '../arwiki-contracts/arwiki-categories';
-import { ArwikiPagesContract } from '../arwiki-contracts/arwiki-pages';
 import { switchMap, map } from 'rxjs/operators';
 import { ArweaveService } from '../core/arweave.service';
 import { Observable, Subscription } from 'rxjs';
@@ -26,7 +25,6 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   constructor(
       private _userSettings: UserSettingsService,
       private _categoriesContract: ArwikiCategoriesContract,
-      private _pagesContract: ArwikiPagesContract,
       private _arweave: ArweaveService
     ) { }
 
@@ -88,14 +86,9 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   getMenu() {
     return this._categoriesContract.getState(this._arweave.arweave)
       .pipe(
-        switchMap((categories) => {
-          return this._pagesContract.getState(this._arweave.arweave)
-            .pipe(
-                map((pages) => {
-                  return { categories: categories, pages: pages };
-                })
-              );
-        })
+        map((categories) => {
+          return { categories: categories, pages: {} };
+        })   
       );
   }
 

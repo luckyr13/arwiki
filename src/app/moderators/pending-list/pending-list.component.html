@@ -38,7 +38,7 @@
 				<div class="text-right">
 					<a
 						mat-flat-button
-						(click)="confirmInsertPageToArWikiIndex(p.slug, p.id, p.category)"
+						(click)="confirmValidateArWikiPage(p.slug, p.id, p.category)"
 						class="approve-btn">
 						<mat-icon>done</mat-icon>
 					</a>
@@ -62,6 +62,7 @@
 			<p class="text-center">TxID: {{ insertPageTxMessage }}</p>
 			<a 
 				mat-button 
+				target="_blank"
 				href="https://viewblock.io/arweave/tx/{{insertPageTxMessage}}" 
 				class="text-center">https://viewblock.io/arweave/tx/{{ insertPageTxMessage }}
 			</a>

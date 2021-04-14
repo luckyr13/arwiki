@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, CanActivateChild, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, switchMap } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
 import { ArwikiSettingsContract } from '../arwiki-contracts/arwiki-settings';
 import { ArweaveService } from '../core/arweave.service';
@@ -38,13 +38,19 @@ export class ModeratorGuard implements CanActivate, CanActivateChild {
   isUserModerator() {
   	const address = this._auth.getMainAddressSnapshot();
     this._userSettings.updateMainToolbarLoading(true);
-  	return this._settingsContract.isAdmin(address, this._arweave.arweave)
+  	return this._settingsContract.getAdminList(this._arweave.arweave)
     .pipe(
-      tap((res) => {
-        if (!res) {
-          this.message(`You are not a moderator!`, 'error');
-        }
+      switchMap((adminList) => {
+        const isAdmin = adminList.indexOf(address) >= 0;
+        // Save a copy of the admin list 
+        this._auth.setAdminList(adminList);
+
         this._userSettings.updateMainToolbarLoading(false);
+        if (isAdmin) {
+          return of(true);
+        }
+        this.message(`You are not a moderator!`, 'error');
+        return of(false);
       }),
       catchError((error) => {
         this.message(error, 'error');

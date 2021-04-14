@@ -13,7 +13,6 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs'; 
 import { ArwikiCategoriesContract } from '../../arwiki-contracts/arwiki-categories';
-import { ArwikiPagesContract } from '../../arwiki-contracts/arwiki-pages';
 import { ArwikiLangIndexContract } from '../../arwiki-contracts/arwiki-lang-index';
 
 import * as SimpleMDE from 'simplemde';

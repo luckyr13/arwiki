@@ -7,7 +7,6 @@ import { switchMap } from 'rxjs/operators';
 import { getVerification } from "arverify";
 import {MatDialog} from '@angular/material/dialog';
 import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confirm.component';
-import { ArwikiPagesContract } from '../../arwiki-contracts/arwiki-pages';
 import ArDB from 'ardb';
 
 @Component({
@@ -28,8 +27,7 @@ export class PendingListComponent implements OnInit {
   	private _arweave: ArweaveService,
     private _auth: AuthService,
     private _snackBar: MatSnackBar,
-    public _dialog: MatDialog,
-    public _pagesContract: ArwikiPagesContract
+    public _dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -54,13 +52,35 @@ export class PendingListComponent implements OnInit {
         return of(tmp_res);
       }),
       switchMap((pages) => {
-        return of(pages);
+        return (
+          this.getVerifiedPages()
+          .pipe(
+            switchMap((data) => {
+              let tmp_res = [];
+              const verifiedPages = data;
+              const verifiedPagesList = [];
+              for (let p of verifiedPages) {
+                const vrfdPageId = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
+                verifiedPagesList.push(vrfdPageId);
+              }
+              // Check pending pages against verified pages
+              for (let p of pages) {
+                if (verifiedPagesList.indexOf(p.id) < 0) {
+                  tmp_res.push(p);
+                }
+              }
+
+              return of(tmp_res);
+            })
+          )
+        );
       })
     )
     .subscribe({
       next: async (pages) => {
         this.pages = pages;
         this.loadingPendingPages = false;
+        // Validate owner address with ArVerify
         this.arverifyProcessedAddressesMap = {};
         for (let p of pages) {
           // Avoid duplicates
@@ -109,11 +129,10 @@ export class PendingListComponent implements OnInit {
     }
   }
 
-   /*
+  /*
   * @dev
   */
   getPendingPages(): Observable<any> {
-    const owners: any = [];
     const tags = [
       {
         name: 'Service',
@@ -164,7 +183,7 @@ export class PendingListComponent implements OnInit {
   }
 
   
-  confirmInsertPageToArWikiIndex(
+  confirmValidateArWikiPage(
     _slug: string,
     _content_id: string,
     _category_slug: string
@@ -176,30 +195,79 @@ export class PendingListComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(async (result) => {
       if (result) {
         // Create arwiki page
         this.loadingInsertPageIntoIndex = true;
-        this._pagesContract.addArWikiPageIntoIndex(this._arweave.arweave,
-          this._auth.getPrivateKey(),
-          _slug, _content_id, _category_slug
-        ).subscribe({
-          next: (res) => {
-            this.insertPageTxMessage = res;
-            console.log('res', res);
-            this.message('Success!', 'success');
-          },
-          error: (error) => {
-            this.message(error, 'error');
-          }
-        });
+        try {
+          const tx = await this.createValidationTXForArwikiPage(
+            _content_id,
+            _slug,
+            _category_slug
+          ); 
+
+          this.insertPageTxMessage = tx;
+          console.log('res', tx);
+          this.message('Success!', 'success');
+        } catch (error) {
+          this.message(error, 'error');
+        }
+
       }
     });
   }
 
 
-
+  async createValidationTXForArwikiPage(
+    _pageId: string,
+    _slug: string,
+    _category: string
+  ) {
+    const jwk = this._auth.getPrivateKey();
+    const data = { pageId: _pageId, slug: _slug, category: _category };
+    const tx = await this._arweave.arweave.createTransaction({
+      data: JSON.stringify(data)
+    }, jwk);
+    tx.addTag('Content-Type', 'text/json');
+    tx.addTag('Service', 'ArWiki');
+    tx.addTag('Arwiki-Type', 'Validation');
+    tx.addTag('Arwiki-Page-Id', _pageId);
+    tx.addTag('Arwiki-Page-Slug', _slug);
+    tx.addTag('Arwiki-Page-Category', _category);
+    await this._arweave.arweave.transactions.sign(tx, jwk)
+    await this._arweave.arweave.transactions.post(tx)
+    return tx.id;
+  }
  
+  /*
+  * @dev
+  */
+  getVerifiedPages(): Observable<any> {
+    const owners: string[] = this._auth.getAdminList();
+    const tags = [
+      {
+        name: 'Service',
+        values: ['ArWiki'],
+      },
+      {
+        name: 'Arwiki-Type',
+        values: ['Validation'],
+      },
+    ];
 
+    const obs = new Observable((subscriber) => {
+      this.ardb!.search('transactions')
+        .from(owners)
+        .tags(tags).find().then((res) => {
+          subscriber.next(res);
+          subscriber.complete();
+        })
+        .catch((error) => {
+          subscriber.error(error);
+        });
+
+    });
+    return obs;
+  }
 
 }

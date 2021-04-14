@@ -531,5 +531,7 @@ export class ArweaveService {
     return this.arweave.transactions.getData(txId, {decode: true, string: true});
   }
 
+  
+
 
 }
