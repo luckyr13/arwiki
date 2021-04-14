@@ -34,6 +34,20 @@ export class PreviewComponent implements OnInit, OnDestroy {
 			}).catch((error) => {
 				this.message(error, 'error');
 			});
+
+    this.route.paramMap.subscribe(params => {
+      const pageId = params.get('id');
+      
+      if (pageId) {
+        this._arweave.getDataAsString(pageId)
+          .then((data) => {
+            this.htmlContent = this.markdownToHTML(data);
+          }).catch((error) => {
+            this.message(error, 'error');
+          });
+      }
+
+    });
   	
   }
 
