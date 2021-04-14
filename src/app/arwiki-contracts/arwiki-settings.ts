@@ -70,4 +70,24 @@ export class ArwikiSettingsContract
 		return obs;
 	}
 
+
+	/*
+	*	@dev Register new admin address in contract
+	*/
+	registerAdmin(arweave: any, walletJWK: any, address: string): Observable<any>  {
+		const obs = new Observable((subscriber) => {
+			const input = { function: 'addAdmin', new_admin: address };
+			interactWrite(arweave, walletJWK, this._contractAddress, input)
+				.then((tx) => {
+					subscriber.next(tx);
+					subscriber.complete();
+				}).catch((error) => {
+					subscriber.error(error);
+				});
+
+		});
+
+		return obs;
+	}
+
 }
