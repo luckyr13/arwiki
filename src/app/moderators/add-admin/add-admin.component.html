@@ -1,8 +1,27 @@
 <app-moderators-menu title="Add admin"></app-moderators-menu>
 <div class="container page-container fadeIn">
 	<div class="row">
-		<div class="col-12 col-md-6 fadeIn">
-		
+		<div class="col-12 fadeIn">
+			<form [formGroup]="createAdminFrm" (ngSubmit)="createNewAdmin()">
+				<mat-form-field >
+				  <mat-label>Arweave address of the new admin (moderator)</mat-label>
+				  <input 
+				  	matInput 
+				  	required 
+				  	autocomplete="off" 
+				  	formControlName="newAdminAddress">
+				</mat-form-field>
+				<div class="text-center">
+					<button 
+						type="submit"
+						[disabled]="!createAdminFrm.valid"
+						mat-raised-button 
+						class="go-button"
+						color="primary">
+						<mat-icon>save</mat-icon> Add Admin!
+					</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>

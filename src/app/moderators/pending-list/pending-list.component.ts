@@ -146,6 +146,7 @@ export class PendingListComponent implements OnInit {
 
     const obs = new Observable((subscriber) => {
       this.ardb!.search('transactions')
+        .limit(100)
         .tags(tags).find().then((res) => {
           subscriber.next(res);
           subscriber.complete();

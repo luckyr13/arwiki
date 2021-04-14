@@ -158,6 +158,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
     const obs = new Observable((subscriber) => {
       this.ardb!.search('transactions')
+        .limit(20)
         .from(owners)
         .tags(tags).find().then((res) => {
           subscriber.next(res);
