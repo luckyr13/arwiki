@@ -6,6 +6,7 @@ import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
 import { UserSettingsService } from '../core/user-settings.service';
 declare const window: any;
+import ArDB from 'ardb';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,6 +23,7 @@ export class DashboardComponent implements OnInit {
   lastTransactionID: Observable<string> = this._arweave.getLastTransactionID(this.mainAddress);
   myPagesSubscription: Subscription = Subscription.EMPTY;
   routeLang: string = '';
+  ardb: ArDB|null = null;
 
   constructor(
   	private _router: Router,
@@ -31,15 +33,16 @@ export class DashboardComponent implements OnInit {
     private _userSettings: UserSettingsService,
   ) { }
 
-  async ngOnInit() {
+  ngOnInit() {
   	this.loading = true;
+    this.ardb = new ArDB(this._arweave.arweave);
   
   	// Fetch data to display
   	// this.loading is updated to false on success
   	this.getUserInfo();
 
     // Get pages 
-    await this.getMyArWikiPages();
+    this.getMyArWikiPages();
 
     // Get language from route
     this.routeLang = this._userSettings.getRouteLangStaticCopy();
@@ -85,19 +88,14 @@ export class DashboardComponent implements OnInit {
     window.location.reload();
   }
 
-  async getMyArWikiPages() {
-    const networkInfo = await this._arweave.arweave.network.getInfo();
-    const height = networkInfo.height;
+  getMyArWikiPages() {
     this.loadingMyPages = true;
 
-    this.myPagesSubscription = this._arweave.getMyArWikiPages(
-      this._auth.getMainAddressSnapshot(),
-      height
+    this.myPagesSubscription = this.getMyArWikiPages_helper(
+      this._auth.getMainAddressSnapshot()
     ).subscribe({
       next: (res) => {
-        if (res && res.txs && res.txs.edges) {
-          this.pages = res.txs.edges;
-        }
+        this.pages = res;
         this.loadingMyPages = false;
 
       },
@@ -107,6 +105,37 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
+
+  /*
+  * @dev
+  */
+  getMyArWikiPages_helper(owner: string): Observable<any> {
+    const tags = [
+      {
+        name: 'Service',
+        values: ['ArWiki'],
+      },
+      {
+        name: 'Arwiki-Type',
+        values: ['page'],
+      },
+    ];
+
+    const obs = new Observable((subscriber) => {
+      this.ardb!.search('transactions')
+        .from(owner)
+        .limit(100)
+        .tags(tags).find().then((res) => {
+          subscriber.next(res);
+          subscriber.complete();
+        }).catch((error) => {
+          subscriber.error(error);
+        });
+
+    });
+    return obs;
+  }
+
 
   searchKeyNameInTags(_arr: any[], _key: string) {
     let res = '';
