@@ -23,10 +23,10 @@
     <div mat-subheader *ngIf="menu[cs]">{{ categories[cs] | uppercase }}</div>
     <a mat-list-item 
       (click)="toggleSideMenu()" 
-      routerLink="{{ routerLang }}/preview/{{ page }}" 
+      routerLink="{{ routerLang }}/preview/{{ page.id }}" 
       *ngFor="let page of menu[cs]"
       routerLinkActive="active">
-      <div mat-line>{{ page }}</div>
+      <div mat-line>{{ page.title }}</div>
     </a>
 
   </div>
