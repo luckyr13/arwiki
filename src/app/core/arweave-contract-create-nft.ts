@@ -155,7 +155,6 @@ export interface INFTStateTemplate {
   owner: string,
   balance: any,
   category?: any,
-  updates?: any[],
   img?: string
 };
 
@@ -192,14 +191,8 @@ export const contractTemplateNFT: string = `export function handle(state, action
       }
     };
   }
-  if (input.function === "addUpdate") {
-    const updateId = state.input.updateId.trim();
-    ContractAssert(caller === state.owner, 'Caller does not own the token.');
-    ContractAssert(updateId.length === 43, 'UpdateId must be a valid arweave id');
-    state.updates.push(updateId);
-    return {state};
-  }
   throw new ContractError("No function supplied or function not recognised: " + input.function);
 }`;
 
-export const contractNFTBaseTxId = '3Mftf_qsV2pJdfpqpVvtbHXk_EQIX80r72xIAPyRCeQ';
+// export const contractNFTBaseTxId = '3Mftf_qsV2pJdfpqpVvtbHXk_EQIX80r72xIAPyRCeQ';
+export const contractNFTBaseTxId = 'GKuYam35014lTWwx6X5ANDi1N8QqxOhKrr457tzzZ0A';

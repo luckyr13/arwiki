@@ -407,7 +407,6 @@ export class ArweaveService {
         balance: fbalance,
         owner: owner,
         category: categorySlug,
-        updates: [],
         img: img
       })
       txid = await this.arweaveNFT.createNFTContract(
@@ -464,7 +463,6 @@ export class ArweaveService {
         balance: fbalance,
         owner: owner,
         category: categorySlug,
-        updates: [],
         img: img
       })
 
