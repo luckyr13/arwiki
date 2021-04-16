@@ -87,7 +87,7 @@ export class DialogSelectLanguageComponent implements OnInit, OnDestroy {
 
   getDefaultTheme() {
     this.defaultTheme = this._userSettings.getDefaultTheme();
-    this._userSettings.defaultThemeObservable$.subscribe(
+    this._userSettings.defaultThemeStream.subscribe(
       (theme) => {
         this.defaultTheme = theme;
       }

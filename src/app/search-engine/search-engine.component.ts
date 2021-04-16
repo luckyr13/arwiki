@@ -32,14 +32,7 @@ export class SearchEngineComponent implements OnInit {
 
   ngOnInit(): void {
 
-    const tmp_lang = this._userSettings.getDefaultLang();
-
-    if (tmp_lang) {
-      this.defaultLang = tmp_lang;
-    } else {
-      this.defaultLang = this._userSettings.getBaseLang();
-
-    }
+    this.defaultLang = this._userSettings.getDefaultLang();
 
   }
 

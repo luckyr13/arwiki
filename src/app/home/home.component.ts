@@ -30,6 +30,9 @@ export class HomeComponent implements OnInit {
     this.defaultTheme = this._userSettings.getDefaultTheme();
     this.loading = true;
 
+    // Hide main toolbar 
+    this._userSettings.updateMainToolbarVisiblity(false);
+
     this.appSettingsSubscription = this._arwikiSettings
       .getState(this._arweave.arweave)
       .subscribe({

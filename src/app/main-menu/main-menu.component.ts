@@ -38,7 +38,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
     this.getDefaultTheme();
 
-    this._userSettings.routeLang$.subscribe((data) => {
+    this._userSettings.routeLangStream.subscribe((data) => {
       this.routerLang = data;
     });
 
@@ -76,7 +76,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
   getDefaultTheme() {
     this.defaultTheme = this._userSettings.getDefaultTheme();
-    this._userSettings.defaultThemeObservable$.subscribe(
+    this._userSettings.defaultThemeStream.subscribe(
       (theme) => {
         this.defaultTheme = theme;
       }

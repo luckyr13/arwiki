@@ -12,6 +12,7 @@ import { FormControl } from '@angular/forms';
 import {MatBottomSheet} from '@angular/material/bottom-sheet';
 import { BottomSheetLoginComponent } from '../shared/bottom-sheet-login/bottom-sheet-login.component';
 import { ArwikiSettingsContract } from '../arwiki-contracts/arwiki-settings';
+import { ActivatedRoute } from '@angular/router';
 declare const window: any;
 
 @Component({
@@ -22,14 +23,12 @@ declare const window: any;
 export class MainToolbarComponent implements OnInit, OnDestroy {
   account: Observable<string>|null = null;
   network: Observable<string> = this._arweave.getNetworkName();
-	routePathSubscription: Subscription = Subscription.EMPTY;
-	routePath: string = '';
   @Input() opened!: boolean;
   @Output() openedChange = new EventEmitter<boolean>();
   isLoggedIn: boolean = false;
   langsCopy: any;
   langCodes: string[] = [];
-  loading = this._userSettings.mainToolbarLoadingObservable$;
+  loading = this._userSettings.mainToolbarLoadingStream;
   loadingLangs: boolean = false;
   routerLang: string = '';
   loadingSettings: boolean = true;
@@ -40,6 +39,7 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   // appLogoDark: string = './assets/img/arweave-dark.png';
   appLogoDark: string = '';
   appSettingsSubscription: Subscription = Subscription.EMPTY;
+  maintoolbarVisible: boolean = false;
 
   constructor(
     private _auth: AuthService,
@@ -49,6 +49,7 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
     private _langContract: ArwikiLangIndexContract,
     private _bottomSheet: MatBottomSheet,
     private _arwikiSettings: ArwikiSettingsContract,
+    private _route: ActivatedRoute
   ) {}
 
 
@@ -56,9 +57,9 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
     this.defaultTheme = this._userSettings.getDefaultTheme();
 
     this.isLoggedIn = !!this._auth.getMainAddressSnapshot();
-    // Get the path 
-  	this._userSettings.routePath$.subscribe((path) => {
-  		this.routePath = path;
+
+  	this._userSettings.mainToolbarVisibilityStream.subscribe((visible) => {
+  		this.maintoolbarVisible = visible;
   	});
 
     // Load languages from contract
@@ -78,7 +79,7 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
     });
 
     // Get language from route
-    this._userSettings.routeLang$.subscribe((data) => {
+    this._userSettings.routeLangStream.subscribe((data) => {
       this.routerLang = data;
     });
 

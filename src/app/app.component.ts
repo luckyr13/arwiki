@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
       this.menuPosition = 'start';
     }
 
-    this._userSettings.langObservable$.subscribe((lang: any) => {
+    this._userSettings.settingsLangStream.subscribe((lang: any) => {
       if (lang.writing_system == 'RTL') {
         this.menuPosition = 'end';
       } else {

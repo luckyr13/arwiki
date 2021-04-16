@@ -28,6 +28,7 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    // Validate language from route parameters
     const langPath = this.getLangFromRoute(route, state);
     return this.isValidLanguage(langPath, route, state);
   }
@@ -35,27 +36,56 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
   canActivateChild(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    // Validate language from route parameters
     const langPath = this.getLangFromRoute(route, state);
     return this.isValidLanguage(langPath, route, state);
   }
 
+  /*
+  *  Detect if language code is present in url
+  *  and validate against language contract
+  */
   isValidLanguage(
     lang: string, 
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> {
+    // Init loader
+    this._userSettings.updateMainToolbarLoading(true);
+    // If language detected
     if (lang) {
+      const langState = this._langIndexContract.getLangsLocalCopy();
+      // Check if we already have a copy of language contract state
+      if (Object.keys(langState).length > 0) {
+        // Loader
+        this._userSettings.updateMainToolbarLoading(false);
+        // Show main toolbar 
+        this._userSettings.updateMainToolbarVisiblity(true);
+        if (Object.prototype.hasOwnProperty.call(langState, lang)) {
+          return of(true);
+        }
+        this.message('Language not supported', 'error');
+        this._router.navigate(['/']);
+
+        return of(false);
+      }
       return (
-        this._langIndexContract.getLangsLocalCopy()
+        // If no copy detected, get the state from the contract
+        this._langIndexContract.getState(this._arweave.arweave)
           .pipe(
             switchMap((state: any) => {
+              // Save a copy of the state on local property
+              this._langIndexContract.setLangsLocalCopy(state);
+
+              // Loader
+              this._userSettings.updateMainToolbarLoading(false);
+              // Show main toolbar 
+              this._userSettings.updateMainToolbarVisiblity(true);
+
               if (Object.prototype.hasOwnProperty.call(state, lang)) {
-                this._userSettings.updatePath(state.url);
-                this._userSettings.updatePathLang(lang);
                 return of(true);
               }
               this.message('Language not supported', 'error');
-              this._userSettings.updatePath('/');
-              this._userSettings.updatePathLang('');
+
               this._router.navigate(['/']);
 
               return of(false);
@@ -63,8 +93,9 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
           )
       );
     }
-    this._userSettings.updatePath(state.url);
 
+    // Loader
+    this._userSettings.updateMainToolbarLoading(false);
     return of(true);
   }
 

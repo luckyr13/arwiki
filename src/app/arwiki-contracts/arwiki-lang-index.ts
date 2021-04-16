@@ -11,53 +11,11 @@ import { Observable } from 'rxjs';
 })
 export class ArwikiLangIndexContract
 {
-	private _langs: any = {
-		"en": {
-			"code": "en",
-			"iso_name": "English",
-			"native_name": "English",
-			"writing_system": "LTR",
-			"contract": "YVKvK-MrbBJRnxpkdvK6sj3aqvK59t3Ax6xDcu9FWCE"
-		},
-		"es": {
-			"code": "es",
-			"iso_name": "Spanish",
-			"native_name": "Español",
-			"writing_system": "LTR",
-			"contract": ""
-		},
-		"de": {
-			"code": "de",
-			"iso_name": "German",
-			"native_name": "Deutsch",
-			"writing_system": "LTR",
-			"contract": ""
-		},
-		"hi": {
-			"code": "hi",
-			"iso_name": "Hindi",
-			"native_name": "हिन्दी, हिंदी",
-			"writing_system": "LTR",
-			"contract": ""
-		},
-		"ar": {
-			"code": "ar",
-			"iso_name": "Arabic",
-			"native_name": "العربية",
-			"writing_system": "RTL",
-			"contract": ""
-		},
-		"he": {
-			"code": "he",
-			"iso_name": "Hebrew",
-			"native_name": "עברית",
-			"writing_system": "RTL",
-			"contract": ""
-		}
-	};
+	private _langs: any = {};
 
   // private _contractAddress: string = 'nj8kwCIDSiuv07GwTvLCcRIccjmbomoHO2r6dfyvsuM';
-	private _contractAddress: string = 'lhStQhis30UBhSELWaGGd58DmERSdfnIl_zGoyBP1S0';
+	// private _contractAddress: string = 'lhStQhis30UBhSELWaGGd58DmERSdfnIl_zGoyBP1S0';
+	private _contractAddress: string = 'tx4KgtqF8h_z7gu80-H1GkwY5T3WnjJNBpmmA2evgPI';
 
 	constructor() {
 
@@ -68,7 +26,6 @@ export class ArwikiLangIndexContract
 	getState(arweave: any): Observable<any> {
 		const obs = new Observable((subscriber) => {
 			readContract(arweave, this._contractAddress).then((state) => {
-				this._langs = state;
 				subscriber.next(state);
 				subscriber.complete();
 			}).catch((error) => {
@@ -76,25 +33,18 @@ export class ArwikiLangIndexContract
 			});
 
 		});
-
 		return obs;
+	}
+
+	getLangsLocalCopy() {
+		return this._langs;
 	}
 
 	/*
 	*	@dev Alternative to getSubjects
 	*/
-	getLangsLocalCopy() {
-		const obs = new Observable<any[]>((subscriber) => {
-			try {
-				subscriber.next(this._langs);
-				subscriber.complete();
-			} catch (error) {
-				subscriber.error(error);
-			}
-		});
-
-		return obs;
+	setLangsLocalCopy(langs: any) {
+		this._langs = langs;
 	}
-
 
 }

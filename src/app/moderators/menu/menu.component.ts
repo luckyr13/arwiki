@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Location } from '@angular/common';
 import { UserSettingsService } from '../../core/user-settings.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-moderators-menu',
@@ -13,14 +14,14 @@ export class MenuComponent implements OnInit {
 
   constructor(
     private _location: Location,
-    private _userSettings: UserSettingsService
+    private _userSettings: UserSettingsService,
+    private _route: ActivatedRoute
     ) { }
 
   ngOnInit(): void {
     // Get language from route
-    this.routerLang = this._userSettings.getRouteLangStaticCopy();
-    this._userSettings.routeLang$.subscribe((data) => {
-      this.routerLang = data;
+    this._route.paramMap.subscribe((params) => {
+      this.routerLang = params.get('lang')!;
     });
   }
 

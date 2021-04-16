@@ -16,11 +16,20 @@
 	margin-left: 6px;
 	font-weight: bold;
 	font-family: "Roboto";
-	font-size: 2.0rem;
 	font-weight: bold !important;
 	text-transform: capitalize;
 	cursor: pointer;
 	outline: none;
+	font-size: 1.6rem;
+	
+}
+
+@media (min-width: 600px) {
+	.logo-text {
+		font-size: 2.0rem;
+		
+	}
+
 }
 
 .translate-icon {

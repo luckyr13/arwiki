@@ -3,7 +3,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import { ArweaveService } from '../core/arweave.service';
 import { Observable, Subscription, EMPTY } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { UserSettingsService } from '../core/user-settings.service';
 declare const window: any;
 import ArDB from 'ardb';
@@ -31,6 +31,7 @@ export class DashboardComponent implements OnInit {
   	private _arweave: ArweaveService,
     private _auth: AuthService,
     private _userSettings: UserSettingsService,
+    private _route: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -45,10 +46,16 @@ export class DashboardComponent implements OnInit {
     this.getMyArWikiPages();
 
     // Get language from route
-    this.routeLang = this._userSettings.getRouteLangStaticCopy();
-    this._userSettings.routeLang$.subscribe((data) => {
-      this.routeLang = data;
+  
+    this._route.paramMap.subscribe(params => {
+      const lang = params.get('lang');
+      alert(lang)
+      if (lang) {
+        this.routeLang = lang;
+      
+      }
     });
+
   }
 
   /*

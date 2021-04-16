@@ -10,61 +10,56 @@ export class UserSettingsService {
 	_defaultTheme: string = '';
 	_defaultLang: any = '';
 
-	// Observable string sources
-  private routePath = new Subject<string>();
+  // Observable string sources
+  private _settingsLangSource = new Subject<any>();
 
   // Observable string streams
-  public routePath$ = this.routePath.asObservable();
+  public settingsLangStream = this._settingsLangSource.asObservable();
 
-  updatePath(_path: string) {
-  	this.routePath.next(_path);
+  public updateSettingsLangObservable(_lang: any) {
+    this._settingsLangSource.next(_lang);
   }
 
   // Observable string sources
-  private routeLang = new Subject<string>();
-  private _routeLangStaticCopy: string = '';
+  private _defaultThemeSource = new Subject<string>();
 
   // Observable string streams
-  public routeLang$ = this.routeLang.asObservable();
-
-  public updatePathLang(_path: string) {
-    this.routeLang.next(_path);
-    this._routeLangStaticCopy = _path;
-  }
-
-  public getRouteLangStaticCopy() {
-    return this._routeLangStaticCopy;
-  }
-
-  // Observable string sources
-  private langObservable = new Subject<any>();
-
-  // Observable string streams
-  public langObservable$ = this.langObservable.asObservable();
-
-  public updateLangObservable(_lang: any) {
-    this.langObservable.next(_lang);
-  }
-
-  // Observable string sources
-  private defaultThemeObservable = new Subject<string>();
-
-  // Observable string streams
-  public defaultThemeObservable$ = this.defaultThemeObservable.asObservable();
+  public defaultThemeStream = this._defaultThemeSource.asObservable();
 
   public updateDefaultThemeObservable(_path: string) {
-    this.defaultThemeObservable.next(_path);
+    this._defaultThemeSource.next(_path);
   }
 
   // Observable string sources
-  private mainToolbarLoadingObservable = new Subject<boolean>();
+  private _mainToolbarLoadingSource = new Subject<boolean>();
 
   // Observable string streams
-  public mainToolbarLoadingObservable$ = this.mainToolbarLoadingObservable.asObservable();
+  public mainToolbarLoadingStream = this._mainToolbarLoadingSource.asObservable();
 
   updateMainToolbarLoading(_loading: boolean) {
-    this.mainToolbarLoadingObservable.next(_loading);
+    this._mainToolbarLoadingSource.next(_loading);
   }
+
+  // Observable string sources
+  private _routeLangSource = new Subject<any>();
+
+  // Observable string streams
+  public routeLangStream = this._routeLangSource.asObservable();
+
+  public updateRouteLangObservable(_lang: any) {
+    this._routeLangSource.next(_lang);
+  }
+
+  // Observable string sources
+  private _mainToolbarVisibilitySource = new Subject<any>();
+
+  // Observable string streams
+  public mainToolbarVisibilityStream = this._mainToolbarVisibilitySource.asObservable();
+
+  public updateMainToolbarVisiblity(_lang: any) {
+    this._mainToolbarVisibilitySource.next(_lang);
+  }
+
 
   constructor(
     private _translate: TranslateService
@@ -84,8 +79,6 @@ export class UserSettingsService {
     }
     if (dlang && dlang.code) {
       this.setDefaultLang(dlang);
-    } else {
-      this.setDefaultLang(this.getBaseLang());
     }
   }
 
@@ -112,17 +105,15 @@ export class UserSettingsService {
         def = JSON.stringify(_lang);
         this._defaultLang = _lang;
       } catch (err) {
-        def = JSON.stringify(this.getBaseLang());
-        this._defaultLang = this.getBaseLang();
+        this._defaultLang = {};
       }
     	window.sessionStorage.setItem('defaultLang', def);
       this._translate.use(this._defaultLang.code);
-      this.updateLangObservable(this._defaultLang);
+      this.updateSettingsLangObservable(this._defaultLang);
   	}
   }
 
   resetUserSettings() {
-  	this._defaultLang = this.getBaseLang();
   	this._defaultTheme = 'arwiki-light';
   	window.sessionStorage.removeItem('defaultTheme');
   	window.sessionStorage.removeItem('defaultLang');
@@ -152,17 +143,6 @@ export class UserSettingsService {
       break;
     }
 
-  }
-
-  getBaseLang() {
-    return {
-      "code": "en",
-      "iso_name": "English",
-      "native_name": "English",
-      "numPages": 0,
-      "writing_system": "LTR",
-      "contract": ""
-    };
   }
 
 }
