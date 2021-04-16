@@ -2053,7 +2053,7 @@ mat-row, mat-header-row, mat-footer-row, th.mat-header-cell, td.mat-cell, td.mat
 }
 
 .mat-progress-spinner circle, .mat-spinner circle {
-	stroke: #000
+	stroke: #FFF
 }
 
 .mat-progress-spinner.mat-accent circle, .mat-spinner.mat-accent circle {
