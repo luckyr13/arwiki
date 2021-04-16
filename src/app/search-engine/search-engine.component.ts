@@ -34,6 +34,10 @@ export class SearchEngineComponent implements OnInit {
 
     this.defaultLang = this._userSettings.getDefaultLang();
 
+    if (Object.keys(this.defaultLang).length <= 0) {
+      this.openSelectLanguageDialog();
+    }
+
   }
 
   onSubmitSearch() {
@@ -44,7 +48,8 @@ export class SearchEngineComponent implements OnInit {
   openSelectLanguageDialog(): void {
     const dialogRef = this._dialog.open(DialogSelectLanguageComponent, {
       width: '650px',
-      data: {}
+      data: {},
+      disableClose: true
     });
 
     dialogRef.afterClosed().subscribe(lang => {

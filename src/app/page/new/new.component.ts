@@ -14,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs'; 
 import { ArwikiCategoriesContract } from '../../arwiki-contracts/arwiki-categories';
 import { ArwikiLangIndexContract } from '../../arwiki-contracts/arwiki-lang-index';
-
+import { ActivatedRoute } from '@angular/router';
 import * as SimpleMDE from 'simplemde';
 declare const document: any;
 declare const window: any;
@@ -46,6 +46,7 @@ export class NewComponent implements OnInit, OnDestroy {
   categoryListSubscription: Subscription = Subscription.EMPTY;
   languageListSubscription: Subscription = Subscription.EMPTY;
   newPageTX: string = '';
+  routeLang: string = '';
 
   public get title() {
 		return this.frmNew.get('title');
@@ -73,10 +74,12 @@ export class NewComponent implements OnInit, OnDestroy {
   	private _router: Router,
   	private _snackBar: MatSnackBar,
     private _langIndexContract: ArwikiLangIndexContract,
-    private _categoriesContract: ArwikiCategoriesContract
+    private _categoriesContract: ArwikiCategoriesContract,
+    private _route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
+    this.routeLang = this._route.snapshot.paramMap.get('lang')!;
   	this.getDefaultTheme();
     
     window.setTimeout(() => {
@@ -212,7 +215,7 @@ export class NewComponent implements OnInit, OnDestroy {
       this.message(txid, 'success');
       this.newPageTX = txid;
       window.setTimeout(() => {
-        const lastRoute = `/${this._userSettings.getDefaultLang().code}/dashboard`;
+        const lastRoute = `/${this.routeLang}/dashboard`;
         this._router.navigate([lastRoute]);
       }, 20000);
 
