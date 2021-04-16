@@ -7,7 +7,7 @@ import { switchMap } from 'rxjs/operators';
 import { getVerification } from "arverify";
 import {MatDialog} from '@angular/material/dialog';
 import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confirm.component';
-import ArDB from 'ardb';
+import { ArwikiQuery } from '../../core/arwiki-query';
 
 @Component({
   templateUrl: './pending-list.component.html',
@@ -20,8 +20,7 @@ export class PendingListComponent implements OnInit {
   arverifyProcessedAddressesMap: any = {};
   loadingInsertPageIntoIndex: boolean = false;
   insertPageTxMessage: string = '';
-  arwikiPageIndexSubscription: Subscription = Subscription.EMPTY;
-  ardb: ArDB|null = null;
+  arwikiQuery: ArwikiQuery|null = null;
 
   constructor(
   	private _arweave: ArweaveService,
@@ -31,11 +30,12 @@ export class PendingListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    const adminList: any[] = this._auth.getAdminList();
     // Init ardb instance
-    this.ardb = new ArDB(this._arweave.arweave);
+    this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
     // Get pages
     this.loadingPendingPages = true;
-    this.pendingPagesSubscription = this.getPendingPages().pipe(
+    this.pendingPagesSubscription = this.arwikiQuery.getPendingPages().pipe(
       switchMap((res) => {
         let pages = res;
         let tmp_res = [];
@@ -53,7 +53,7 @@ export class PendingListComponent implements OnInit {
       }),
       switchMap((pages) => {
         return (
-          this.getVerifiedPages()
+          this.arwikiQuery!.getVerifiedPages(adminList)
           .pipe(
             switchMap((data) => {
               let tmp_res = [];
@@ -124,40 +124,7 @@ export class PendingListComponent implements OnInit {
     if (this.pendingPagesSubscription) {
       this.pendingPagesSubscription.unsubscribe();
     }
-    if (this.arwikiPageIndexSubscription) {
-      this.arwikiPageIndexSubscription.unsubscribe();
-    }
   }
-
-  /*
-  * @dev
-  */
-  getPendingPages(): Observable<any> {
-    const tags = [
-      {
-        name: 'Service',
-        values: ['ArWiki'],
-      },
-      {
-        name: 'Arwiki-Type',
-        values: ['page'],
-      },
-    ];
-
-    const obs = new Observable((subscriber) => {
-      this.ardb!.search('transactions')
-        .limit(100)
-        .tags(tags).find().then((res) => {
-          subscriber.next(res);
-          subscriber.complete();
-        }).catch((error) => {
-          subscriber.error(error);
-        });
-
-    });
-    return obs;
-  }
-
 
   async getArverifyVerification(_address: string) {
     const verification = await getVerification(_address);
@@ -240,35 +207,5 @@ export class PendingListComponent implements OnInit {
     return tx.id;
   }
  
-  /*
-  * @dev
-  */
-  getVerifiedPages(): Observable<any> {
-    const owners: string[] = this._auth.getAdminList();
-    const tags = [
-      {
-        name: 'Service',
-        values: ['ArWiki'],
-      },
-      {
-        name: 'Arwiki-Type',
-        values: ['Validation'],
-      },
-    ];
-
-    const obs = new Observable((subscriber) => {
-      this.ardb!.search('transactions')
-        .from(owners)
-        .tags(tags).find().then((res) => {
-          subscriber.next(res);
-          subscriber.complete();
-        })
-        .catch((error) => {
-          subscriber.error(error);
-        });
-
-    });
-    return obs;
-  }
 
 }

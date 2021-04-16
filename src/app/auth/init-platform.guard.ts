@@ -51,6 +51,7 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
     state: RouterStateSnapshot): Observable<boolean> {
     // Init loader
     this._userSettings.updateMainToolbarLoading(true);
+
     // If language detected
     if (lang) {
       const langState = this._langIndexContract.getLangsLocalCopy();
@@ -60,9 +61,13 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
         this._userSettings.updateMainToolbarLoading(false);
         // Show main toolbar 
         this._userSettings.updateMainToolbarVisiblity(true);
+
+        // If success
         if (Object.prototype.hasOwnProperty.call(langState, lang)) {
+          this._userSettings.updateRouteLangObservable(lang);
           return of(true);
         }
+        // Else
         this.message('Language not supported', 'error');
         this._router.navigate(['/']);
 
@@ -81,9 +86,12 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
               // Show main toolbar 
               this._userSettings.updateMainToolbarVisiblity(true);
 
+              // If success
               if (Object.prototype.hasOwnProperty.call(state, lang)) {
+                this._userSettings.updateRouteLangObservable(lang);
                 return of(true);
               }
+              // Else
               this.message('Language not supported', 'error');
 
               this._router.navigate(['/']);
@@ -94,6 +102,8 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
       );
     }
 
+    // No lang detected in route
+    this._userSettings.updateRouteLangObservable('');
     // Loader
     this._userSettings.updateMainToolbarLoading(false);
     return of(true);

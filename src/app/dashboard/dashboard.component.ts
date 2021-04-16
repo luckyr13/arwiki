@@ -5,8 +5,8 @@ import { Observable, Subscription, EMPTY } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserSettingsService } from '../core/user-settings.service';
+import { ArwikiQuery } from '../core/arwiki-query';
 declare const window: any;
-import ArDB from 'ardb';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
   lastTransactionID: Observable<string> = this._arweave.getLastTransactionID(this.mainAddress);
   myPagesSubscription: Subscription = Subscription.EMPTY;
   routeLang: string = '';
-  ardb: ArDB|null = null;
+  arwikiQuery: ArwikiQuery|null = null;
 
   constructor(
   	private _router: Router,
@@ -36,7 +36,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
   	this.loading = true;
-    this.ardb = new ArDB(this._arweave.arweave);
+    this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
   
   	// Fetch data to display
   	// this.loading is updated to false on success
@@ -46,10 +46,8 @@ export class DashboardComponent implements OnInit {
     this.getMyArWikiPages();
 
     // Get language from route
-  
     this._route.paramMap.subscribe(params => {
       const lang = params.get('lang');
-      alert(lang)
       if (lang) {
         this.routeLang = lang;
       
@@ -98,7 +96,7 @@ export class DashboardComponent implements OnInit {
   getMyArWikiPages() {
     this.loadingMyPages = true;
 
-    this.myPagesSubscription = this.getMyArWikiPages_helper(
+    this.myPagesSubscription = this.arwikiQuery!.getMyArWikiPages(
       this._auth.getMainAddressSnapshot()
     ).subscribe({
       next: (res) => {
@@ -113,37 +111,6 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  /*
-  * @dev
-  */
-  getMyArWikiPages_helper(owner: string): Observable<any> {
-    const tags = [
-      {
-        name: 'Service',
-        values: ['ArWiki'],
-      },
-      {
-        name: 'Arwiki-Type',
-        values: ['page'],
-      },
-    ];
-
-    const obs = new Observable((subscriber) => {
-      this.ardb!.search('transactions')
-        .from(owner)
-        .limit(100)
-        .tags(tags).find().then((res) => {
-          subscriber.next(res);
-          subscriber.complete();
-        }).catch((error) => {
-          subscriber.error(error);
-        });
-
-    });
-    return obs;
-  }
-
-
   searchKeyNameInTags(_arr: any[], _key: string) {
     let res = '';
     for (const a of _arr) {
@@ -153,11 +120,5 @@ export class DashboardComponent implements OnInit {
     }
     return res;
   }
-
-  underscoreToSpace(_s: string) {
-    return _s.replace(/[_]/gi, ' ');
-  }
-
-  
 
 }

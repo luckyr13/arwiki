@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { UserSettingsService } from '../core/user-settings.service';
-import { ArwikiCategoriesContract } from '../arwiki-contracts/arwiki-categories';
-import { ArwikiSettingsContract } from '../arwiki-contracts/arwiki-settings';
 import { switchMap, map } from 'rxjs/operators';
 import { ArweaveService } from '../core/arweave.service';
 import { Observable, Subscription, of } from 'rxjs';
-import ArDB from 'ardb';
+import { ArwikiQuery } from '../core/arwiki-query';
+import { ArwikiCategoriesContract } from '../arwiki-contracts/arwiki-categories';
+import { ArwikiSettingsContract } from '../arwiki-contracts/arwiki-settings';
 
 @Component({
   selector: 'app-main-menu',
@@ -23,18 +23,18 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   category_slugs: any;
   pages: any;
   defaultTheme: string = '';
-  ardb: ArDB|null = null;
+  arwikiQuery: ArwikiQuery|null = null;
 
   constructor(
       private _userSettings: UserSettingsService,
-      private _categoriesContract: ArwikiCategoriesContract,
       private _arweave: ArweaveService,
+      private _categoriesContract: ArwikiCategoriesContract,
       private _settingsContract: ArwikiSettingsContract
     ) { }
 
   ngOnInit(): void {
     this.loading = true;
-    this.ardb = new ArDB(this._arweave.arweave);
+    this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
 
     this.getDefaultTheme();
 
@@ -42,7 +42,10 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       this.routerLang = data;
     });
 
-    this.menuSubscription = this.getMenu().subscribe({
+    this.menuSubscription = this.arwikiQuery.getMainMenu(
+      this._categoriesContract,
+      this._settingsContract
+    ).subscribe({
       next: (data) => {
         this.loading = false;
         this.category_slugs = Object.keys(data.categories);
@@ -88,49 +91,6 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     this.openedChange.emit(this.opened);
   }
 
-  getMenu() {
-    let _globalCat: any = {};
-    return this._categoriesContract.getState(this._arweave.arweave)
-      .pipe(
-        switchMap((categories) => {
-          _globalCat = categories;
-          return this._settingsContract.getState(this._arweave.arweave);
-        }),
-        switchMap((settingsContractState) => {
-          return this.getVerifiedPages(settingsContractState.adminList);
-        }),
-        switchMap((verifiedPages) => {
-          const verifiedPagesList = [];
-          for (let p of verifiedPages) {
-            const vrfdPageId = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
-            verifiedPagesList.push(vrfdPageId);
-          }
-          return this.getTXsData(verifiedPagesList);
-        }),
-        switchMap((txs) => {
-          const finalRes: any = {};
-          for (let p of txs) {
-            const title = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
-            const slug = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
-            const category = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
-            const id = p.node.id;
-            if (!Object.prototype.hasOwnProperty.call(finalRes, category)) {
-              finalRes[category] = {};
-            }
-            
-            finalRes[category][slug] = {
-              title: title,
-              slug: slug,
-              category: category,
-              id: id
-            };
-            
-          }
-          return of({ categories: _globalCat, pages: finalRes });
-        })
-      );
-  }
-
   searchKeyNameInTags(_arr: any[], _key: string) {
     let res = '';
     for (const a of _arr) {
@@ -141,55 +101,6 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     return res;
   }
 
-  /*
-  * @dev
-  */
-  getVerifiedPages(owners: string[]): Observable<any> {
-    const tags = [
-      {
-        name: 'Service',
-        values: ['ArWiki'],
-      },
-      {
-        name: 'Arwiki-Type',
-        values: ['Validation'],
-      },
-    ];
-
-    const obs = new Observable((subscriber) => {
-      this.ardb!.search('transactions')
-        .limit(20)
-        .from(owners)
-        .tags(tags).find().then((res) => {
-          subscriber.next(res);
-          subscriber.complete();
-        })
-        .catch((error) => {
-          subscriber.error(error);
-        });
-
-    });
-    return obs;
-  }
-
-  /*
-  * @dev
-  */
-  getTXsData(transactions: string[]): Observable<any> {
-    
-    const obs = new Observable((subscriber) => {
-      this.ardb!.search('transactions')
-        .ids(transactions).find().then((res) => {
-          subscriber.next(res);
-          subscriber.complete();
-        })
-        .catch((error) => {
-          subscriber.error(error);
-        });
-
-    });
-    return obs;
-  }
 
   getSkeletonLoaderAnimationType() {
     let type = 'progress';
