@@ -1,10 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserSettingsService } from '../core/user-settings.service';
 import { ArwikiCategoriesContract } from '../arwiki-contracts/arwiki-categories';
-import { Subscription } from 'rxjs';
+import { Subscription, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { ArweaveService } from '../core/arweave.service';
 import { ArwikiSettingsContract } from '../arwiki-contracts/arwiki-settings';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ArwikiQuery } from '../core/arwiki-query';
+import { AuthService } from '../auth/auth.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-main-page',
@@ -24,19 +28,30 @@ export class MainPageComponent implements OnInit, OnDestroy {
   appLogoDark: string = '';
   appSettingsSubscription: Subscription = Subscription.EMPTY;
   loadingLogo: boolean = false;
+  loadingLatestArticles: boolean = false;
+  latestArticles: any[] = [];
+  arwikiQuery: ArwikiQuery|null = null;
+  pagesSubscription: Subscription = Subscription.EMPTY;
+  routeLang: string = '';
 
   constructor(
     private _userSettings: UserSettingsService,
     private _categoriesContract: ArwikiCategoriesContract,
     private _arweave: ArweaveService,
     private _arwikiSettings: ArwikiSettingsContract,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private _auth: AuthService,
+    private _route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
   	this.getDefaultTheme();
   	this.loading = true;
     this.loadingLogo = true;
+    this.loadingLatestArticles = true;
+    // Init ardb instance
+    this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
+    this.routeLang = this._route.snapshot.paramMap.get('lang')!;
 
     // Get categories (portals)
     this.categoriesSubscription = this._categoriesContract.getState(
@@ -68,7 +83,67 @@ export class MainPageComponent implements OnInit, OnDestroy {
           this.loadingLogo = false;
         }
       });
+
+    // Get latest articles 
+    const numArticles = 10;
+    this.pagesSubscription = this.getLatestArticles(
+      numArticles
+    ).subscribe({
+      next: async (pages) => {
+        const latestPages: any = [];
+        for (let p of pages) {
+          const title = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
+          const slug = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
+          const category = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
+          const img = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
+          const owner = p.node.owner.address;
+          const id = p.node.id;
+          let data = await this._arweave.arweave.transactions.getData(
+            id, 
+            {decode: true, string: true}
+          );
+          
+          latestPages.push({
+            title: title,
+            slug: slug,
+            category: category,
+            img: img,
+            owner: owner,
+            id: id,
+            preview: data
+          });
+          console.log(p)
+        }
+        this.latestArticles = latestPages;
+        this.loadingLatestArticles = false;
+      },
+      error: (error) => {
+        this.message(error, 'error');
+        this.loadingLatestArticles = false;
+      }
+    });
   }
+
+  /*
+  *  @dev return an observable with the latest articles
+  */
+  getLatestArticles(numArticles: number) {
+    return this._arwikiSettings.getAdminList(this._arweave.arweave).pipe(
+      switchMap((adminList) => {
+        return this.arwikiQuery!.getVerifiedPages(adminList, numArticles);
+      }),
+      switchMap((pages) => {
+        const txIds: any = [];
+        for (let p of pages) {
+          const pageId = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');  
+          txIds.push(pageId);
+        }
+        return this.arwikiQuery!.getTXsData(txIds);
+      })
+      
+    );
+  }
+
 
   getDefaultTheme() {
   	this.defaultTheme = this._userSettings.getDefaultTheme();
@@ -135,6 +210,47 @@ export class MainPageComponent implements OnInit, OnDestroy {
     }
 
     return ngStyle;
+  }
+
+
+  getSkeletonLoaderThemeNgStyleTitleArticle() {
+    let ngStyle: any = {
+      'height.px': '36',
+      'width': '70%',
+    };
+    if (this.defaultTheme === 'arwiki-dark') {
+      ngStyle['background-color'] = '#3d3d3d';
+    }
+
+    return ngStyle;
+  }
+
+  getSkeletonLoaderThemeNgStylePLine() {
+    let ngStyle: any = {
+      'height.px': '20',
+      'width': '100%',
+    };
+    if (this.defaultTheme === 'arwiki-dark') {
+      ngStyle['background-color'] = '#3d3d3d';
+    }
+
+    return ngStyle;    
+  }
+
+  searchKeyNameInTags(_arr: any[], _key: string) {
+    let res = '';
+    for (const a of _arr) {
+      if (a.name === _key) {
+        return a.value;
+      }
+    }
+    return res;
+  }
+
+  sanitizeMarkdown(_s: string) {
+    _s = _s.replace(/[#*]/gi, '')
+    let res: string = `${_s.substring(0, 250)} ...`;
+    return res;
   }
 
 }

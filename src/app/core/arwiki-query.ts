@@ -98,7 +98,7 @@ export class ArwikiQuery {
   /*
   * @dev
   */
-  getVerifiedPages(owners: string[]): Observable<any> {
+  getVerifiedPages(owners: string[], limit: number = 100): Observable<any> {
     const tags = [
       {
         name: 'Service',
@@ -112,7 +112,7 @@ export class ArwikiQuery {
 
     const obs = new Observable((subscriber) => {
       this._ardb!.search('transactions')
-        .limit(100)
+        .limit(limit)
         .from(owners)
         .tags(tags).find().then((res) => {
           subscriber.next(res);
