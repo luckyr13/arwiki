@@ -35,7 +35,12 @@ export class SearchEngineComponent implements OnInit {
     this.defaultLang = this._userSettings.getDefaultLang();
 
     if (Object.keys(this.defaultLang).length <= 0) {
-      this.openSelectLanguageDialog();
+      // this.openSelectLanguageDialog();
+      // Define English as default 
+      this.defaultLang = {
+        code: "en",
+        native_name: "English"
+      }
     }
 
   }
