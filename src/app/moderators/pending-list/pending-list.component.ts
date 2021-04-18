@@ -53,7 +53,7 @@ export class PendingListComponent implements OnInit {
       }),
       switchMap((pages) => {
         return (
-          this.arwikiQuery!.getVerifiedPages(adminList)
+          this.arwikiQuery!.verifyPages(adminList, pages.map((p) => p.id))
           .pipe(
             switchMap((data) => {
               let tmp_res = [];

@@ -129,6 +129,45 @@ export class ArwikiQuery {
   /*
   * @dev
   */
+  verifyPages(
+    owners: string[],
+    pagesToVerify: string[],
+    limit: number = 100
+  ): Observable<any> {
+    const tags = [
+      {
+        name: 'Service',
+        values: ['ArWiki'],
+      },
+      {
+        name: 'Arwiki-Type',
+        values: ['Validation'],
+      },
+      {
+        name: 'Arwiki-Page-Id',
+        values: pagesToVerify
+      }
+    ];
+
+    const obs = new Observable((subscriber) => {
+      this._ardb!.search('transactions')
+        .limit(limit)
+        .from(owners)
+        .tags(tags).find().then((res) => {
+          subscriber.next(res);
+          subscriber.complete();
+        })
+        .catch((error) => {
+          subscriber.error(error);
+        });
+
+    });
+    return obs;
+  }
+
+  /*
+  * @dev
+  */
   getTXsData(transactions: string[]): Observable<any> {
     
     const obs = new Observable((subscriber) => {

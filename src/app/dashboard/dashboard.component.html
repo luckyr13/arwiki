@@ -78,25 +78,29 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-12 col-md-6 card-page fadeIn" *ngFor="let p of pages">
+		<div class="col-12 col-md-6 card-page fadeIn" *ngFor="let page of pages">
 			<mat-card>
-				<div>
-					Id: {{ p.node.id }}
+
+				<div *ngIf="page.img" class="text-center">
+					<img class="card-page-img" src="{{ page.img }}">
 				</div>
 				<div>
-					Title: {{  searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title') }}
+					Id: {{ page.id }}
 				</div>
 				<div>
-					Slug: {{  searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug') }}
+					Title: {{  page.title }}
 				</div>
 				<div>
-					Category: {{ searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category') }}
+					Slug: {{ page.slug }}
 				</div>
 				<div>
-					Language: {{ searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang') }}
+					Category: {{ page.category }}
+				</div>
+				<div>
+					Language: {{ page.lang }}
 				</div>
 				<div class="text-right">
-					<a mat-flat-button color="primary" routerLink="../preview/{{p.node.id}}">
+					<a mat-flat-button color="primary" routerLink="../preview/{{page.id}}">
 						<mat-icon>visibility</mat-icon>
 					</a>
 				</div>

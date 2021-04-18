@@ -33,6 +33,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
   arwikiQuery: ArwikiQuery|null = null;
   pagesSubscription: Subscription = Subscription.EMPTY;
   routeLang: string = '';
+  baseURL = this._arweave.baseURL;
 
   constructor(
     private _userSettings: UserSettingsService,
@@ -112,7 +113,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
             id: id,
             preview: data
           });
-          console.log(p)
         }
         this.latestArticles = latestPages;
         this.loadingLatestArticles = false;
@@ -248,8 +248,16 @@ export class MainPageComponent implements OnInit, OnDestroy {
   }
 
   sanitizeMarkdown(_s: string) {
-    _s = _s.replace(/[#*]/gi, '')
+    _s = _s.replace(/[#*\[\]]/gi, '')
     let res: string = `${_s.substring(0, 250)} ...`;
+    return res;
+  }
+
+  
+  sanitizeImg(_img: string) {
+    let res: string = _img.indexOf('http') >= 0 ?
+      _img :
+      _img ? `${this.baseURL}${_img}` : '';
     return res;
   }
 

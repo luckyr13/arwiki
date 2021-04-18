@@ -35,6 +35,8 @@ export class NewComponent implements OnInit, OnDestroy {
 	});
 	txmessage: string = '';
   previewImgUrl: string = '';
+  previewImgUrlTX: string = '';
+  
   simplemde: any;
   visible = true;
   selectable = true;
@@ -170,7 +172,7 @@ export class NewComponent implements OnInit, OnDestroy {
     });
     refFileManager.afterClosed().subscribe(result => {
       if (result) {
-        this.previewImage(result);
+        this.setPreviewImage(result);
       }
     });
   }
@@ -181,7 +183,7 @@ export class NewComponent implements OnInit, OnDestroy {
   	const category = this.category!.value;
     const langCode = this.language!.value;
     const content = this.simplemde.value();
-    const img = this.previewImgUrl;
+    const img = this.previewImgUrlTX;
 
     if (!content) {
       alert('Please type some content :)');
@@ -256,8 +258,9 @@ export class NewComponent implements OnInit, OnDestroy {
     });
   }
 
-  previewImage(imgUrl: string) {
+  setPreviewImage(imgUrl: string) {
     if (imgUrl.length > 0) {
+      this.previewImgUrlTX = imgUrl;
       this.previewImgUrl = `${this.baseImgUrl + imgUrl}`;
     }
 

@@ -24,6 +24,7 @@ export class DashboardComponent implements OnInit {
   myPagesSubscription: Subscription = Subscription.EMPTY;
   routeLang: string = '';
   arwikiQuery: ArwikiQuery|null = null;
+  baseURL: string = this._arweave.baseURL;
 
   constructor(
   	private _router: Router,
@@ -99,8 +100,30 @@ export class DashboardComponent implements OnInit {
     this.myPagesSubscription = this.arwikiQuery!.getMyArWikiPages(
       this._auth.getMainAddressSnapshot()
     ).subscribe({
-      next: (res) => {
-        this.pages = res;
+      next: (pages) => {
+
+        const finalPages: any = [];
+        for (let p of pages) {
+          const title = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
+          const slug = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
+          const category = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
+          const lang = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang');
+          const img = this.sanitizeImg(this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img'));
+          const owner = p.node.owner.address;
+          const id = p.node.id;
+          
+          finalPages.push({
+            title: title,
+            slug: slug,
+            category: category,
+            img: img,
+            owner: owner,
+            lang: lang,
+            id: id
+          });
+        }
+
+        this.pages = finalPages;
         this.loadingMyPages = false;
 
       },
@@ -118,6 +141,13 @@ export class DashboardComponent implements OnInit {
         return a.value;
       }
     }
+    return res;
+  }
+
+  sanitizeImg(_img: string) {
+    let res: string = _img.indexOf('http') >= 0 ?
+      _img :
+      _img ? `${this.baseURL}${_img}` : '';
     return res;
   }
 
