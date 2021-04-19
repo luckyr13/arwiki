@@ -9,6 +9,7 @@ import {
   contractNFTBaseTxId
 } from './arweave-contract-create-nft';
 import Arweave from 'arweave';
+import { arwikiVersion } from './arwiki-query';
 declare const window: any;
 
 @Injectable({
@@ -223,7 +224,7 @@ export class ArweaveService {
     transaction.addTag('Content-Type', contentType);
     transaction.addTag('Service', 'ArWiki');
     transaction.addTag('Arwiki-Type', 'file');
-    transaction.addTag('Arwiki-Version', '0.1');
+    transaction.addTag('Arwiki-Version', arwikiVersion[0]);
 
     // Sign transaction
     await this.arweave.transactions.sign(transaction, key);
@@ -404,10 +405,7 @@ export class ArweaveService {
         name: name,
         ticker: ticker,
         description: description,
-        balance: fbalance,
-        owner: owner,
-        category: categorySlug,
-        img: img
+        balances: fbalance
       })
       txid = await this.arweaveNFT.createNFTContract(
         this.arweave,
@@ -460,10 +458,7 @@ export class ArweaveService {
         name: name,
         ticker: ticker,
         description: description,
-        balance: fbalance,
-        owner: owner,
-        category: categorySlug,
-        img: img
+        balances: fbalance
       })
 
       const extraTags: any = [

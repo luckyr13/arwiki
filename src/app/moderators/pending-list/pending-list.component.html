@@ -2,6 +2,11 @@
 <mat-spinner class="spinner-center" *ngIf="loadingPendingPages"></mat-spinner>
 <div class="container page-container fadeIn">
 	<div class="row" *ngIf="!loadingInsertPageIntoIndex">
+
+		<div class="col-12 card-page fadeIn" *ngIf="!pages || !pages.length">
+			No results.
+		</div>
+
 		<div class="col-12 col-md-6 card-page fadeIn" *ngFor="let p of pages">
 			<mat-card >
 				<div> 
@@ -23,6 +28,16 @@
 				</div>
 				<div>
 					Owner: {{ p.owner }} 
+				</div>
+				<div class="red" *ngIf="!p.block || !p.block.height">
+					TX Status: PENDING 
+				</div>
+				
+				<div *ngIf="p.block && p.block.height">
+					Block Height: {{ p.block.height }} 
+				</div>
+				<div *ngIf="p.block && p.block.timestamp">
+					Block Timestamp: {{ timestampToDate(p.block.timestamp) | date:'short' }} 
 				</div>
 				<div *ngIf="arverifyProcessedAddressesMap[p.owner] && arverifyProcessedAddressesMap[p.owner].verified" class="green">
 					Owner status: <mat-icon>verified_user</mat-icon> Verified

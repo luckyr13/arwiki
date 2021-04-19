@@ -4,6 +4,15 @@ import { switchMap } from 'rxjs/operators';
 import { ArwikiCategoriesContract } from '../arwiki-contracts/arwiki-categories';
 import { ArwikiSettingsContract } from '../arwiki-contracts/arwiki-settings';
 
+/*
+*  List of arwiki versions supported
+* arwikiVersion[0] is the latest supported version
+*/
+export const arwikiVersion = ['0.2'];
+
+/*
+*  Search the weave for arwiki data
+*/
 export class ArwikiQuery {
 	private _ardb: ArDB;
 	private _arweave: any;
@@ -27,6 +36,10 @@ export class ArwikiQuery {
         name: 'Arwiki-Type',
         values: ['page'],
       },
+      {
+        name: 'Arwiki-Version',
+        values: arwikiVersion,
+      }      
     ];
 
     const obs = new Observable((subscriber) => {
@@ -108,6 +121,10 @@ export class ArwikiQuery {
         name: 'Arwiki-Type',
         values: ['Validation'],
       },
+      {
+        name: 'Arwiki-Version',
+        values: arwikiVersion,
+      }
     ];
 
     const obs = new Observable((subscriber) => {
@@ -146,7 +163,11 @@ export class ArwikiQuery {
       {
         name: 'Arwiki-Page-Id',
         values: pagesToVerify
-      }
+      },
+      {
+        name: 'Arwiki-Version',
+        values: arwikiVersion,
+      }    
     ];
 
     const obs = new Observable((subscriber) => {
@@ -198,6 +219,10 @@ export class ArwikiQuery {
         name: 'Arwiki-Type',
         values: ['page'],
       },
+      {
+        name: 'Arwiki-Version',
+        values: arwikiVersion,
+      }    
     ];
 
     const obs = new Observable((subscriber) => {
@@ -292,6 +317,10 @@ export class ArwikiQuery {
       {
         name: 'Arwiki-Page-Category',
         values: categories
+      },
+      {
+        name: 'Arwiki-Version',
+        values: arwikiVersion,
       }
     ];
 
@@ -312,5 +341,27 @@ export class ArwikiQuery {
   }
 
 
+  async createValidationTXForArwikiPage(
+    _pageId: string,
+    _slug: string,
+    _category: string,
+    _privateKey: any
+  ) {
+    const jwk = _privateKey;
+    const data = { pageId: _pageId, slug: _slug, category: _category };
+    const tx = await this._arweave.arweave.createTransaction({
+      data: JSON.stringify(data)
+    }, jwk);
+    tx.addTag('Content-Type', 'text/json');
+    tx.addTag('Service', 'ArWiki');
+    tx.addTag('Arwiki-Type', 'Validation');
+    tx.addTag('Arwiki-Page-Id', _pageId);
+    tx.addTag('Arwiki-Page-Slug', _slug);
+    tx.addTag('Arwiki-Page-Category', _category);
+    tx.addTag('Arwiki-Version', arwikiVersion[0]);
+    await this._arweave.arweave.transactions.sign(tx, jwk)
+    await this._arweave.arweave.transactions.post(tx)
+    return tx.id;
+  }
 
 }

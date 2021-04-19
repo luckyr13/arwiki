@@ -47,6 +47,7 @@ export class PendingListComponent implements OnInit {
             category: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category'),
             language: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang'),
             owner: p.node.owner.address,
+            block: p.node.block
           });
         }
         return of(tmp_res);
@@ -168,14 +169,14 @@ export class PendingListComponent implements OnInit {
         // Create arwiki page
         this.loadingInsertPageIntoIndex = true;
         try {
-          const tx = await this.createValidationTXForArwikiPage(
+          const tx = await this.arwikiQuery!.createValidationTXForArwikiPage(
             _content_id,
             _slug,
-            _category_slug
+            _category_slug,
+            this._auth.getPrivateKey()
           ); 
 
           this.insertPageTxMessage = tx;
-          console.log('res', tx);
           this.message('Success!', 'success');
         } catch (error) {
           this.message(error, 'error');
@@ -186,25 +187,10 @@ export class PendingListComponent implements OnInit {
   }
 
 
-  async createValidationTXForArwikiPage(
-    _pageId: string,
-    _slug: string,
-    _category: string
-  ) {
-    const jwk = this._auth.getPrivateKey();
-    const data = { pageId: _pageId, slug: _slug, category: _category };
-    const tx = await this._arweave.arweave.createTransaction({
-      data: JSON.stringify(data)
-    }, jwk);
-    tx.addTag('Content-Type', 'text/json');
-    tx.addTag('Service', 'ArWiki');
-    tx.addTag('Arwiki-Type', 'Validation');
-    tx.addTag('Arwiki-Page-Id', _pageId);
-    tx.addTag('Arwiki-Page-Slug', _slug);
-    tx.addTag('Arwiki-Page-Category', _category);
-    await this._arweave.arweave.transactions.sign(tx, jwk)
-    await this._arweave.arweave.transactions.post(tx)
-    return tx.id;
+
+  timestampToDate(_time: number) {
+    let d = new Date(_time * 1000);
+    return d;
   }
  
 

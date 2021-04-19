@@ -1,12 +1,13 @@
 import Arweave from 'arweave';
 import Transaction from 'arweave/node/lib/transaction';
 import { JWKInterface } from 'arweave/node/lib/wallet';
-
+import { arwikiVersion } from './arwiki-query';
 /*
  * Based on Verto-Compatible NFT Specification: 
  * https://www.notion.so/Verto-Compatible-NFT-Specification-fd1e85adbe5a4f7598f89c1e7eccd0d6
 */
 export class ArweaveContractCreateNFT {
+
  	constructor() {
  	}
 
@@ -128,7 +129,7 @@ export class ArweaveContractCreateNFT {
 	  contractTX.addTag('Init-State', state);
 	  // Custom ArWiki tags
 	  contractTX.addTag('Service', 'ArWiki');
-    contractTX.addTag('Arwiki-Version', '0.1');
+    contractTX.addTag('Arwiki-Version', arwikiVersion[0]);
     contractTX.addTag('Arwiki-Type', 'page');
     contractTX.addTag('Arwiki-Page-Lang', langCode);
     contractTX.addTag('Arwiki-Page-Category', categorySlug);
@@ -150,12 +151,9 @@ export class ArweaveContractCreateNFT {
 
 export interface INFTStateTemplate {
 	name: string,
-	description: string,
   ticker: string,
-  owner: string,
-  balance: any,
-  category?: any,
-  img?: string
+	description: string,
+  balances: any
 };
 
 export const contractTemplateNFT: string = `export function handle(state, action) {
@@ -163,12 +161,18 @@ export const contractTemplateNFT: string = `export function handle(state, action
   const caller = action.caller;
   if (input.function === "transfer") {
     const target = input.target;
-    ContractAssert(target, 'No target specified.');
-    ContractAssert(caller !== target, 'Invalid token transfer.');
-    ContractAssert(caller === state.owner, 'Caller does not own the token.');
-    state.balance[state.owner] = 0;
-    state.owner = target;
-    state.balance[target] = 1;
+    ContractAssert(target, \`No target specified.\`);
+    ContractAssert(caller !== target, \`Invalid token transfer.\`);
+    const qty = input.qty;
+    ContractAssert(qty, \`No quantity specified.\`);
+    const balances = state.balances;
+    ContractAssert(caller in balances && balances[caller] >= qty, \`Caller has insufficient funds\`);
+    balances[caller] -= qty;
+    if (!(target in balances)) {
+      balances[target] = 0;
+    }
+    balances[target] += qty;
+    state.balances = balances;
     return {state};
   }
   if (input.function === "balance") {
@@ -179,20 +183,21 @@ export const contractTemplateNFT: string = `export function handle(state, action
       target = caller;
     }
     const ticker = state.ticker;
-    ContractAssert(
-      typeof target === "string", 
-      'Must specify target to retrieve balance for.'
-    );
+    const balances = state.balances;
+    ContractAssert(typeof target === "string", \`Must specify target to retrieve balance for.\`);
     return {
       result: {
         target,
         ticker,
-        balance: target === state.owner ? 1 : 0
+        balance: target in balances ? balances[target] : 0
       }
     };
   }
-  throw new ContractError("No function supplied or function not recognised: " + input.function);
+  `+
+  'throw new ContractError(\`No function supplied or function not recognised: "${input.function}".\`);' +
+	`
 }`;
 
 // export const contractNFTBaseTxId = '3Mftf_qsV2pJdfpqpVvtbHXk_EQIX80r72xIAPyRCeQ';
-export const contractNFTBaseTxId = 'GKuYam35014lTWwx6X5ANDi1N8QqxOhKrr457tzzZ0A';
+// export const contractNFTBaseTxId = 'GKuYam35014lTWwx6X5ANDi1N8QqxOhKrr457tzzZ0A';
+export const contractNFTBaseTxId = 'I8xgq3361qpR8_DvqcGpkCYAUTMktyAgvkm6kGhJzEQ';
