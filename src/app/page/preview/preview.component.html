@@ -3,7 +3,7 @@
 		<h1 class="page-title col-9">
 			Preview
 		</h1>
-		<div class="text-right page-title-buttons col-3">
+<div class="text-right page-title-buttons col-3">
 	    <button 
 	    	type="button"
 		  	mat-mini-fab 
@@ -15,6 +15,8 @@
 		  </button>
 		</div>
 	</div>
+	<mat-spinner class="spinner-center" *ngIf="loadingPage"></mat-spinner>
+		
 	<div class="row">
 		<div class="col-12 arwiki-page-preview-container" [innerHTML]="htmlContent"></div>
 	</div>	

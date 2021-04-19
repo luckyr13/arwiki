@@ -17,6 +17,7 @@ import { Location } from '@angular/common';
 export class PreviewComponent implements OnInit, OnDestroy {
 	htmlContent: string = '';
 	pageSubscription: Subscription = Subscription.EMPTY;
+  loadingPage: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,12 +28,15 @@ export class PreviewComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
   	const contractAddress = this.route.snapshot.paramMap.get('id');
+    this.loadingPage = true;
 
   	this._arweave.getDataAsString(contractAddress!)
   		.then((data) => {
 				this.htmlContent = this.markdownToHTML(data);
+        this.loadingPage = false;
 			}).catch((error) => {
 				this.message(error, 'error');
+        this.loadingPage = false;
 			});
 
     this.route.paramMap.subscribe(params => {
@@ -42,8 +46,10 @@ export class PreviewComponent implements OnInit, OnDestroy {
         this._arweave.getDataAsString(pageId)
           .then((data) => {
             this.htmlContent = this.markdownToHTML(data);
+            this.loadingPage = false;
           }).catch((error) => {
             this.message(error, 'error');
+            this.loadingPage = false;
           });
       }
 
