@@ -3,6 +3,7 @@ import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ArwikiCategoriesContract } from '../arwiki-contracts/arwiki-categories';
 import { ArwikiSettingsContract } from '../arwiki-contracts/arwiki-settings';
+import Arweave from 'arweave';
 
 /*
 *  List of arwiki versions supported
@@ -15,10 +16,10 @@ export const arwikiVersion = ['0.2'];
 */
 export class ArwikiQuery {
 	private _ardb: ArDB;
-	private _arweave: any;
+	private _arweave: Arweave;
   private _addressesValidated: any;
 
-	constructor(_arweave: any) {
+	constructor(_arweave: Arweave) {
 		this._ardb = new ArDB(_arweave);
 		this._arweave = _arweave;
 	}
@@ -349,7 +350,7 @@ export class ArwikiQuery {
   ) {
     const jwk = _privateKey;
     const data = { pageId: _pageId, slug: _slug, category: _category };
-    const tx = await this._arweave.arweave.createTransaction({
+    const tx = await this._arweave.createTransaction({
       data: JSON.stringify(data)
     }, jwk);
     tx.addTag('Content-Type', 'text/json');
@@ -359,8 +360,8 @@ export class ArwikiQuery {
     tx.addTag('Arwiki-Page-Slug', _slug);
     tx.addTag('Arwiki-Page-Category', _category);
     tx.addTag('Arwiki-Version', arwikiVersion[0]);
-    await this._arweave.arweave.transactions.sign(tx, jwk)
-    await this._arweave.arweave.transactions.post(tx)
+    await this._arweave.transactions.sign(tx, jwk)
+    await this._arweave.transactions.post(tx)
     return tx.id;
   }
 
