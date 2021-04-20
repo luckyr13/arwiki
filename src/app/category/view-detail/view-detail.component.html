@@ -21,9 +21,17 @@
 				<div class="card-preview" *ngIf="pagesData[p.id]">
 					{{ sanitizeMarkdown(pagesData[p.id]) }}
 				</div>
-				<div class="text-right">
-					by: {{  p.owner }}
-				</div>
+				
+				<p class="text-right mini-text">
+    	  	<strong>Created by:</strong> {{ p.owner }}
+    	  	<mat-icon
+    	  		 *ngIf="arverifyProcessedAddressesMap[p.owner] && arverifyProcessedAddressesMap[p.owner].verified"
+    	  		 class="green">verified_user</mat-icon>
+
+    	  </p>
+    	  <p class="text-right mini-text">
+    	  	<strong>TX:</strong> {{ p.id }}
+    	  </p>
 				<div class="text-right">
 					<a mat-flat-button color="primary" routerLink="/{{routeLang}}/{{p.slug}}">
 						<mat-icon>visibility</mat-icon>

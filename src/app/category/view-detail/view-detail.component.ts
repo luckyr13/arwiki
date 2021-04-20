@@ -20,6 +20,7 @@ export class ViewDetailComponent implements OnInit {
   routeLang: string = '';
   pagesData: any = {};
   baseURL: string = this._arweave.baseURL;
+  arverifyProcessedAddressesMap: any = {};
 
   constructor(
   	private _arweave: ArweaveService,
@@ -61,6 +62,23 @@ export class ViewDetailComponent implements OnInit {
             p.id, 
             {decode: true, string: true}
           );  
+        }
+
+        // Verify addresses 
+        // Validate owner address with ArVerify
+        this.arverifyProcessedAddressesMap = {};
+        for (let p of pages) {
+          // Avoid duplicates
+          if (
+            Object.prototype.hasOwnProperty.call(
+              this.arverifyProcessedAddressesMap, 
+              p.owner
+            )
+          ) {
+            continue;
+          }
+          const arverifyQuery = await this.getArverifyVerification(p.owner);
+          this.arverifyProcessedAddressesMap[p.owner] = arverifyQuery;
         }
         
     	},
@@ -120,5 +138,6 @@ export class ViewDetailComponent implements OnInit {
       _img ? `${this.baseURL}${_img}` : '';
     return res;
   }
+
 
 }
