@@ -48,7 +48,6 @@ export class ViewDetailComponent implements OnInit {
   async loadPageData(slug: string) {
   	this.loadingPage = true;
 
-  	const numPages = 100;
     let networkInfo;
     let maxHeight = 0;
     try {
@@ -58,6 +57,11 @@ export class ViewDetailComponent implements OnInit {
       this.message(error, 'error');
       return;
     }
+    // Init page data 
+    this.pageTitle = '';
+    this.pageImg = '';
+    this.pageId = '';
+    this.htmlContent = '';
 
   	this.pageSubscription = this.arwikiQuery!.getPageBySlug(
   		slug, this._settingsContract, maxHeight
