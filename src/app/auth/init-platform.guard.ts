@@ -77,7 +77,7 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
       }
       return (
         // If no copy detected, get the state from the contract
-        this._langIndexContract.getState(this._arweave.arweave)
+        this._langIndexContract.getState()
           .pipe(
             switchMap((state: any) => {
               // Save a copy of the state on local property

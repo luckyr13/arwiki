@@ -45,7 +45,6 @@ export class AddAdminComponent implements OnInit, OnDestroy {
     this.newAdminAddress!.disable();
 
     this.saveAdminSubscription = this._settingsContract.registerAdmin(
-      this._arweave.arweave,
       this._auth.getPrivateKey(),
       address
     ).subscribe({

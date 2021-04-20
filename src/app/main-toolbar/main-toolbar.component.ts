@@ -64,7 +64,7 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
 
     // Load languages from contract
     this.loadingLangs = true;
-    this._langContract.getState(this._arweave.arweave).subscribe((langs: any) => {
+    this._langContract.getState().subscribe((langs: any) => {
       this.langsCopy = langs;
       this.langCodes = Object.keys(this.langsCopy);
       
@@ -84,7 +84,7 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
     });
 
     this.appSettingsSubscription = this._arwikiSettings
-      .getState(this._arweave.arweave)
+      .getState()
       .subscribe({
         next: (state) => {
           this.appName = state.app_name;

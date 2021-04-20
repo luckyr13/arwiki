@@ -55,23 +55,22 @@ export class MainPageComponent implements OnInit, OnDestroy {
     this.routeLang = this._route.snapshot.paramMap.get('lang')!;
 
     // Get categories (portals)
-    this.categoriesSubscription = this._categoriesContract.getState(
-    	this._arweave.arweave
-    ).subscribe({
-    	next: (data) => {
-    		this.categories = data;
-    		this.categoriesSlugs = Object.keys(this.categories);
-    		this.loading = false;
-    	},
-    	error: (error) => {
-    		console.log('error categories', error);
-    		this.loading = false;
-    	},
-  	});
+    this.categoriesSubscription = this._categoriesContract.getState()
+      .subscribe({
+      	next: (data) => {
+      		this.categories = data;
+      		this.categoriesSlugs = Object.keys(this.categories);
+      		this.loading = false;
+      	},
+      	error: (error) => {
+      		console.log('error categories', error);
+      		this.loading = false;
+      	},
+    	});
 
     // Get logo 
     this.appSettingsSubscription = this._arwikiSettings
-      .getState(this._arweave.arweave)
+      .getState()
       .subscribe({
         next: (state) => {
           this.appName = state.app_name;
@@ -128,7 +127,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
   *  @dev return an observable with the latest articles
   */
   getLatestArticles(numArticles: number) {
-    return this._arwikiSettings.getAdminList(this._arweave.arweave).pipe(
+    return this._arwikiSettings.getAdminList().pipe(
       switchMap((adminList) => {
         return this.arwikiQuery!.getVerifiedPages(adminList, numArticles);
       }),

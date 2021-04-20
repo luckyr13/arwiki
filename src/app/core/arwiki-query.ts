@@ -67,11 +67,11 @@ export class ArwikiQuery {
     _settingsContract: ArwikiSettingsContract
   ) {
     let _globalCat: any = {};
-    return _categoriesContract.getState(this._arweave)
+    return _categoriesContract.getState()
       .pipe(
         switchMap((categories) => {
           _globalCat = categories;
-          return _settingsContract.getState(this._arweave);
+          return _settingsContract.getState();
         }),
         switchMap((settingsContractState) => {
           return this.getVerifiedPages(settingsContractState.adminList);
@@ -260,7 +260,7 @@ export class ArwikiQuery {
     _category: string,
     _settingsContract: ArwikiSettingsContract
   ) {
-    return _settingsContract.getState(this._arweave)
+    return _settingsContract.getState()
       .pipe(
         switchMap((settingsContractState) => {
           return this.getVerifiedPagesByCategories(

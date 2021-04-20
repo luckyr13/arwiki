@@ -29,7 +29,7 @@ export class DialogSelectLanguageComponent implements OnInit, OnDestroy {
     this.getDefaultTheme();
 
   	this.langsSubscription = this._arwikiLangIndex
-  		.getState(this._arweave.arweave)
+  		.getState()
   		.subscribe({
   			next: (state: any) => {
 	  			this.langs = state;

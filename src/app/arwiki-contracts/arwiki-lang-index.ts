@@ -4,7 +4,7 @@ import {
 } from 'smartweave';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
+import { ArweaveService } from '../core/arweave.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,15 +17,15 @@ export class ArwikiLangIndexContract
 	// private _contractAddress: string = 'lhStQhis30UBhSELWaGGd58DmERSdfnIl_zGoyBP1S0';
 	private _contractAddress: string = 'tx4KgtqF8h_z7gu80-H1GkwY5T3WnjJNBpmmA2evgPI';
 
-	constructor() {
+	constructor(private _arweave: ArweaveService) {
 
 	}
 	/*
 	*	@dev Get full contract state as Observable
 	*/
-	getState(arweave: any): Observable<any> {
+	getState(): Observable<any> {
 		const obs = new Observable((subscriber) => {
-			readContract(arweave, this._contractAddress).then((state) => {
+			readContract(this._arweave.arweave, this._contractAddress).then((state) => {
 				subscriber.next(state);
 				subscriber.complete();
 			}).catch((error) => {

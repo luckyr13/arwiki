@@ -92,7 +92,7 @@ export class NewComponent implements OnInit, OnDestroy {
     
 
     this.categoryListSubscription = this._categoriesContract
-      .getState(this._arweave.arweave)
+      .getState()
       .subscribe({
         next: (state) => {
           this.categoryList = [];
@@ -106,7 +106,7 @@ export class NewComponent implements OnInit, OnDestroy {
       })
 
     this.languageListSubscription = this._langIndexContract
-      .getState(this._arweave.arweave)
+      .getState()
       .subscribe({
         next: (state) => {
           this.languageList = [];

@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
     this._userSettings.updateMainToolbarVisiblity(false);
 
     this.appSettingsSubscription = this._arwikiSettings
-      .getState(this._arweave.arweave)
+      .getState()
       .subscribe({
         next: (state) => {
           this.appName = state.app_name;
