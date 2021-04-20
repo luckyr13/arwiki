@@ -41,10 +41,14 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     this.getDefaultTheme();
 
     this._userSettings.routeLangStream.subscribe(async (data) => {
-      this.routerLang = data;
-      if (!this.menu || Object.keys(this.menu).length === 0 && this.routerLang) {
-        await this.getMenu();
+      if (data != this.routerLang) {
+        this.routerLang = data;
+        if (this.routerLang) {
+          alert('loading')
+          await this.getMenu();
+        }  
       }
+      
     });
 
   }
