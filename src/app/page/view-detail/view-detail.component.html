@@ -1,7 +1,29 @@
-<div class="container page-container">
+<div class="container preview-page-container">
 	<div class="row">
-		<div class="col-12">
-			Coming soon ...
+		<h1 class="page-title col-9">
+			<span class="fadeIn" *ngIf="pageTitle">{{ pageTitle }}</span>
+		</h1>
+<div class="text-right page-title-buttons col-3">
+	    <button 
+	    	type="button"
+		  	mat-mini-fab 
+		  	class="ml10" 
+		  	color="primary"
+		  	(click)="goBack()"
+		  	matTooltip="{{ 'CREATE_PAGE.FRM_BTN_GOBACK' | translate }}">
+		    <mat-icon>navigate_before</mat-icon>
+		  </button>
 		</div>
+	</div>
+	<mat-spinner class="spinner-center" *ngIf="loadingPage"></mat-spinner>
+		
+	<div class="row">
+		<div 
+			class="col-12 arwiki-page-preview-container fadeIn" 
+			*ngIf="htmlContent"
+			[innerHTML]="htmlContent"></div>
 	</div>	
 </div>
+
+
+	
