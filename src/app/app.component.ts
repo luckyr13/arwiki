@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild  } from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import { UserSettingsService } from './core/user-settings.service';
+import { MatSidenavContainer } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit  {
 	opened: boolean = false;
   menuPosition: any = 'start';
+  @ViewChild(MatSidenavContainer) sidenavContainer!: MatSidenavContainer;
 
   constructor(
     private _translate: TranslateService,
@@ -35,6 +37,15 @@ export class AppComponent implements OnInit {
     })
 
     
+  }
+
+  
+  ngAfterViewInit() {
+    this.sidenavContainer.scrollable.elementScrolled().subscribe((ev) => {
+      const target: any = ev.target;
+      const scroll: number = target.scrollTop;
+      this._userSettings.updateScrollTop(scroll);
+    });
   }
 
   ngOnInit() {

@@ -3,7 +3,7 @@
 		<h1 class="page-title col-9">
 			<span class="fadeIn" *ngIf="pageTitle">{{ pageTitle }}</span>
 		</h1>
-<div class="text-right page-title-buttons col-3">
+	<div class="text-right page-title-buttons col-3">
 	    <button 
 	    	type="button"
 		  	mat-mini-fab 
@@ -19,10 +19,16 @@
 		
 	<div class="row">
 		<div 
-			class="col-12 arwiki-page-preview-container fadeIn" 
+			*ngIf="htmlContent"
+			class="col-12 col-md-2 arwiki-page-preview-container fadeIn">
+				<h3>Contents</h3>
+			</div>
+		<div 
+			class="col-12 col-md-10 arwiki-page-preview-container fadeIn" 
 			*ngIf="htmlContent"
 			[innerHTML]="htmlContent"></div>
-	</div>	
+	</div>
+
 </div>
 
 

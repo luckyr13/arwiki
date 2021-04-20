@@ -61,6 +61,16 @@ export class UserSettingsService {
     this._mainToolbarVisibilitySource.next(_lang);
   }
 
+  // Observable string sources
+  private _scrollTopSource = new Subject<number>();
+
+  // Observable string streams
+  public scrollTopStream = this._scrollTopSource.asObservable();
+
+  public updateScrollTop(_scroll: number) {
+    this._scrollTopSource.next(_scroll);
+  }
+
 
   constructor(
     private _translate: TranslateService

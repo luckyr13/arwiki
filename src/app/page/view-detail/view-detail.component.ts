@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ArwikiQuery } from '../../core/arwiki-query';
 import * as marked from 'marked';
 import DOMPurify from 'dompurify';
@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 import { ArwikiSettingsContract } from '../../arwiki-contracts/arwiki-settings';
+import { UserSettingsService } from '../../core/user-settings.service';
 
 @Component({
   templateUrl: './view-detail.component.html',
@@ -24,13 +25,16 @@ export class ViewDetailComponent implements OnInit {
   pageTitle: string = '';
   pageId: string = '';
   pageImg: string = '';
+  scrollTop: number = 0;
 
   constructor(
     private route: ActivatedRoute,
   	private _arweave: ArweaveService,
   	private _snackBar: MatSnackBar,
     private _location: Location,
-    private _settingsContract: ArwikiSettingsContract
+    private _settingsContract: ArwikiSettingsContract,
+    private _userSettings: UserSettingsService,
+    private _ref: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -43,7 +47,15 @@ export class ViewDetailComponent implements OnInit {
         await this.loadPageData(slug!, lang!);
       }
     });
-  	
+
+    this._userSettings.scrollTopStream.subscribe((scroll) => {
+      this.scrollTop = scroll;
+      if (this.scrollTop >= 100) {
+        this._ref.detectChanges();
+
+      }
+    })
+
   }
 
   async loadPageData(slug: string, langCode: string) {
