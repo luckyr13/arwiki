@@ -61,6 +61,8 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
         this._userSettings.updateMainToolbarLoading(false);
         // Show main toolbar 
         this._userSettings.updateMainToolbarVisiblity(true);
+        // Scroll to top 
+        this._userSettings.scrollToTop();
 
         // If success
         if (Object.prototype.hasOwnProperty.call(langState, lang)) {
@@ -85,6 +87,9 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
               this._userSettings.updateMainToolbarLoading(false);
               // Show main toolbar 
               this._userSettings.updateMainToolbarVisiblity(true);
+              // Scroll to top 
+              this._userSettings.scrollToTop();
+
 
               // If success
               if (Object.prototype.hasOwnProperty.call(state, lang)) {

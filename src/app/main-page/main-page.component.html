@@ -82,12 +82,17 @@
 	    	  	by {{ article.owner }}
 	    	  </p>
 	    	  <p class="text-right">
-	    	  	<a mat-flat-button color="primary" routerLink="/{{routeLang}}/preview/{{article.id}}">
-							<mat-icon>visibility</mat-icon>
+
+						<a mat-flat-button color="default" >
+							<mat-icon class="green">paid</mat-icon>
 						</a>
 						&nbsp;
-						<a mat-flat-button color="primary" >
-							<mat-icon class="green">paid</mat-icon>
+
+	    	  	<a 
+	    	  		mat-flat-button 
+	    	  		color="primary" 
+	    	  		routerLink="/{{routeLang}}/preview/{{article.id}}">
+							<mat-icon>visibility</mat-icon>
 						</a>
 	    	  </p>
 			  </mat-card>

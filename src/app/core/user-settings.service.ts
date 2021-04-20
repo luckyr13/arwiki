@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
 declare const window: any;
+declare const document: any;
 
 @Injectable({
   providedIn: 'root'
@@ -143,6 +144,11 @@ export class UserSettingsService {
       break;
     }
 
+  }
+
+  scrollToTop() {
+    const container = document.getElementById('arwiki-mat-sidenav-main-content');
+    container.scrollTop = 0;
   }
 
 }
