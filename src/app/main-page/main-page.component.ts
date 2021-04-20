@@ -46,7 +46,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     private _route: ActivatedRoute
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
   	this.getDefaultTheme();
   	this.loading = true;
     this.loadingLogo = true;
@@ -87,9 +87,18 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
     // Get latest articles 
     const numArticles = 10;
+    let networkInfo;
+    let maxHeight = 0;
+    try {
+      networkInfo = await this._arweave.arweave.network.getInfo();
+      maxHeight = networkInfo.height;
+    } catch (error) {
+      this.message(error, 'error');
+      return;
+    }
     this.pagesSubscription = this.getLatestArticles(
-      numArticles, this.routeLang
-    ).subscribe({
+        numArticles, this.routeLang, maxHeight
+      ).subscribe({
       next: async (pages) => {
         const latestPages: any = [];
         for (let p of pages) {
@@ -131,10 +140,10 @@ export class MainPageComponent implements OnInit, OnDestroy {
   /*
   *  @dev return an observable with the latest articles
   */
-  getLatestArticles(numArticles: number, langCode: string) {
+  getLatestArticles(numArticles: number, langCode: string, height: number) {
     return this._arwikiSettings.getAdminList().pipe(
       switchMap((adminList) => {
-        return this.arwikiQuery!.getVerifiedPages(adminList, langCode, numArticles);
+        return this.arwikiQuery!.getVerifiedPages(adminList, langCode, numArticles, height);
       }),
       switchMap((pages) => {
         const txIds: any = [];

@@ -68,7 +68,8 @@ export class ArwikiQuery {
     _categoriesContract: ArwikiCategoriesContract,
     _settingsContract: ArwikiSettingsContract,
     _langCode: string,
-    _maxHeight: number
+    _maxHeight: number,
+    _limit: number = 100
   ) {
     let _globalCat: any = {};
     return _categoriesContract.getState()
@@ -78,7 +79,13 @@ export class ArwikiQuery {
           return _settingsContract.getState();
         }),
         switchMap((settingsContractState) => {
-          return this.getVerifiedPages(settingsContractState.adminList, _langCode, _maxHeight);
+          return (this.getVerifiedPages(
+              settingsContractState.adminList,
+              _langCode, 
+              _limit,
+              _maxHeight,
+            )
+          );
         }),
         switchMap((verifiedPages) => {
           const verifiedPagesList = [];
@@ -282,7 +289,8 @@ export class ArwikiQuery {
     _category: string,
     _langCode: string,
     _settingsContract: ArwikiSettingsContract,
-    _maxHeight: number
+    _maxHeight: number,
+    _limit: number = 100
   ) {
     return _settingsContract.getState()
       .pipe(
@@ -291,6 +299,7 @@ export class ArwikiQuery {
             settingsContractState.adminList,
             [_category],
             _langCode,
+            _limit,
             _maxHeight
           );
         }),
@@ -411,7 +420,8 @@ export class ArwikiQuery {
     _slug: string,
     _langCode: string,
     _settingsContract: ArwikiSettingsContract,
-    _maxHeight: number
+    _maxHeight: number,
+    _limit: number = 100
   ) {
     return _settingsContract.getState()
       .pipe(
@@ -420,6 +430,7 @@ export class ArwikiQuery {
             settingsContractState.adminList,
             [_slug],
             _langCode,
+            _limit,
             _maxHeight
           );
         }),
