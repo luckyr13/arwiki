@@ -82,13 +82,20 @@
 	    	  <p *ngIf="latestArticlesData[article.id]">
 	    	  	{{ sanitizeMarkdown(latestArticlesData[article.id]) }}
 	    	  </p>
-	    	  <p class="text-right">
-	    	  	by {{ article.owner }}
+	    	  <p class="text-right mini-text">
+	    	  	<strong>Created by:</strong> {{ article.owner }}
+	    	  	<mat-icon
+	    	  		 *ngIf="arverifyProcessedAddressesMap[article.owner] && arverifyProcessedAddressesMap[article.owner].verified"
+	    	  		 class="green">verified_user</mat-icon>
+
+	    	  </p>
+	    	  <p class="text-right mini-text">
+	    	  	<strong>TX:</strong> {{ article.id }}
 	    	  </p>
 	    	  <p class="text-right">
 
 						<a mat-flat-button color="default" >
-							<mat-icon class="green">paid</mat-icon>
+							<mat-icon>paid</mat-icon>
 						</a>
 						&nbsp;
 
