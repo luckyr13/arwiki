@@ -73,7 +73,7 @@
 				  <input
 				  	formControlName="slug"
 				  	matInput
-				  	(change)="verifySlug(slug!.value, routeLang)"
+				  	(change)="verifySlug(slug!.value)"
 				  	autocomplete="off"
 				  	maxlength="150">
 	    		<mat-hint align="end">{{slug!.value.length}} / 150</mat-hint>
@@ -93,8 +93,11 @@
 					<mat-label *ngIf="!languageList || !languageList.length">{{ 'CREATE_PAGE.FRM_LOADING' | translate }}</mat-label>
 				  <mat-label *ngIf="languageList && languageList.length">{{ 'CREATE_PAGE.FRM_LANGUAGE' | translate }}</mat-label>
 				  <mat-select 
+				  	(selectionChange)="clearSlug()"
 				  	formControlName="language">
-				    <mat-option *ngFor="let lang of languageList" [value]="lang.code">
+				    <mat-option 
+				    	*ngFor="let lang of languageList" 
+				    	[value]="lang.code">
 				      {{ lang.label }}
 				    </mat-option>
 				  </mat-select>

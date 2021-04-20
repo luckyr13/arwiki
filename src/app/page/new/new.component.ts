@@ -111,6 +111,9 @@ export class NewComponent implements OnInit, OnDestroy {
         }
       })
 
+    // DIsable title and slug while loading langs combo
+    this.title!.disable();
+    this.slug!.disable();
     this.languageListSubscription = this._langIndexContract
       .getState()
       .subscribe({
@@ -119,6 +122,10 @@ export class NewComponent implements OnInit, OnDestroy {
           for (const l0 of Object.keys(state)) {
             this.languageList.push({code: l0, label: state[l0].native_name});
           }
+          this.language!.setValue(this.routeLang);
+          this.title!.enable();
+          this.slug!.enable();
+    
         },
         error: (error) => {
           this.message(error, 'error');
@@ -278,10 +285,11 @@ export class NewComponent implements OnInit, OnDestroy {
 
   updateSlug(s: string) {
     this.slug!.setValue(s.replace(/ /gi, '_'));
-    this.verifySlug(this.slug!.value, this.routeLang);
+    this.verifySlug(this.slug!.value);
   }
 
-  async verifySlug(_slug: string, _langCode: string) {
+  async verifySlug(_slug: string) {
+    const _langCode = this.language!.value;
     this.slug!.disable();
     let networkInfo;
     let maxHeight = 0;
@@ -315,6 +323,10 @@ export class NewComponent implements OnInit, OnDestroy {
           this.slug!.enable();
         }
       });
+  }
+
+  clearSlug() {
+    this.slug!.setValue('');
   }
 
   
