@@ -210,7 +210,7 @@ export class ArwikiQuery {
   /*
   * @dev
   */
-  getPendingPages(): Observable<any> {
+  getPendingPages(limit: number = 100, _maxHeight: number = 0): Observable<any> {
     const tags = [
       {
         name: 'Service',
@@ -228,7 +228,8 @@ export class ArwikiQuery {
 
     const obs = new Observable((subscriber) => {
       this._ardb!.search('transactions')
-        .limit(100)
+        .limit(limit)
+        .max(_maxHeight)
         .tags(tags).find().then((res) => {
           subscriber.next(res);
           subscriber.complete();

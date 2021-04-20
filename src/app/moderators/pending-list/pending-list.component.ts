@@ -29,13 +29,25 @@ export class PendingListComponent implements OnInit {
     public _dialog: MatDialog
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     const adminList: any[] = this._auth.getAdminList();
     // Init ardb instance
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
     // Get pages
     this.loadingPendingPages = true;
-    this.pendingPagesSubscription = this.arwikiQuery.getPendingPages().pipe(
+    const numPages = 100;
+    let networkInfo;
+    let maxHeight = 0;
+    try {
+      networkInfo = await this._arweave.arweave.network.getInfo();
+      maxHeight = networkInfo.height;
+    } catch (error) {
+      this.message(error, 'error');
+    }
+
+    this.pendingPagesSubscription = this.arwikiQuery.getPendingPages(
+        numPages, maxHeight
+      ).pipe(
       switchMap((res) => {
         let pages = res;
         let tmp_res = [];

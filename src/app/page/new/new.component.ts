@@ -197,9 +197,10 @@ export class NewComponent implements OnInit, OnDestroy {
 
   	// Save data 
     try {
+      const ticker = `ARWIKIP_${slug}`;
       const txid = await this._arweave.createNFTFromTX(
         title,
-        slug,
+        ticker,
         'ArWiki page',
         1,
         this._auth.getMainAddressSnapshot(),
