@@ -18,6 +18,8 @@ export class ViewDetailComponent implements OnInit {
   category: string = '';
   pages: any[] = [];
   routeLang: string = '';
+  pagesData: any = {};
+  baseURL: string = this._arweave.baseURL;
 
   constructor(
   	private _arweave: ArweaveService,
@@ -48,10 +50,18 @@ export class ViewDetailComponent implements OnInit {
     	this._settingsContract,
       maxHeight
     ).subscribe({
-    	next: (pages) => {
-
+    	next: async (pages) => {
     		this.pages = pages;
-    		this.loadingPages = false;
+        this.pagesData = {};
+        this.loadingPages = false;
+
+        for (let p of pages) {
+          this.pagesData[p.id] = await this._arweave.arweave.transactions.getData(
+            p.id, 
+            {decode: true, string: true}
+          );  
+        }
+        
     	},
     	error: (error) => {
     		this.message(error, 'error');
@@ -94,6 +104,20 @@ export class ViewDetailComponent implements OnInit {
       icon: verification.icon,
       percentage: verification.percentage
     });
+  }
+
+  sanitizeMarkdown(_s: string) {
+    _s = _s.replace(/[#*\[\]]/gi, '')
+    let res: string = `${_s.substring(0, 250)} ...`;
+    return res;
+  }
+
+  
+  sanitizeImg(_img: string) {
+    let res: string = _img.indexOf('http') >= 0 ?
+      _img :
+      _img ? `${this.baseURL}${_img}` : '';
+    return res;
   }
 
 }
