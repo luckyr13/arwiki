@@ -19,7 +19,9 @@ export class ArwikiQuery {
 	private _arweave: Arweave;
   private _addressesValidated: any;
 
-	constructor(_arweave: Arweave) {
+	constructor(
+    _arweave: Arweave
+  ) {
 		this._ardb = new ArDB(_arweave);
 		this._arweave = _arweave;
 	}
@@ -64,7 +66,8 @@ export class ArwikiQuery {
   */
   getMainMenu(
     _categoriesContract: ArwikiCategoriesContract,
-    _settingsContract: ArwikiSettingsContract
+    _settingsContract: ArwikiSettingsContract,
+    _maxHeight: number
   ) {
     let _globalCat: any = {};
     return _categoriesContract.getState()
@@ -74,7 +77,7 @@ export class ArwikiQuery {
           return _settingsContract.getState();
         }),
         switchMap((settingsContractState) => {
-          return this.getVerifiedPages(settingsContractState.adminList);
+          return this.getVerifiedPages(settingsContractState.adminList, _maxHeight);
         }),
         switchMap((verifiedPages) => {
           const verifiedPagesList = [];
@@ -112,7 +115,7 @@ export class ArwikiQuery {
   /*
   * @dev
   */
-  getVerifiedPages(owners: string[], limit: number = 100): Observable<any> {
+  getVerifiedPages(owners: string[], limit: number = 100, maxHeight: number = 0): Observable<any> {
     const tags = [
       {
         name: 'Service',
@@ -132,6 +135,7 @@ export class ArwikiQuery {
       this._ardb!.search('transactions')
         .limit(limit)
         .from(owners)
+        .max(maxHeight)
         .tags(tags).find().then((res) => {
           subscriber.next(res);
           subscriber.complete();
@@ -259,14 +263,16 @@ export class ArwikiQuery {
   */
   getPagesByCategory(
     _category: string,
-    _settingsContract: ArwikiSettingsContract
+    _settingsContract: ArwikiSettingsContract,
+    _maxHeight: number
   ) {
     return _settingsContract.getState()
       .pipe(
         switchMap((settingsContractState) => {
           return this.getVerifiedPagesByCategories(
             settingsContractState.adminList,
-            [_category]
+            [_category],
+            _maxHeight
           );
         }),
         switchMap((verifiedPages) => {
@@ -306,7 +312,12 @@ export class ArwikiQuery {
   /*
   * @dev
   */
-  getVerifiedPagesByCategories(owners: string[], categories: string[]): Observable<any> {
+  getVerifiedPagesByCategories(
+    owners: string[],
+    categories: string[],
+    limit: number = 100,
+    maxHeight: number = 0
+  ): Observable<any> {
     const tags = [
       {
         name: 'Service',
@@ -328,8 +339,9 @@ export class ArwikiQuery {
 
     const obs = new Observable((subscriber) => {
       this._ardb!.search('transactions')
-        .limit(100)
+        .limit(limit)
         .from(owners)
+        .max(maxHeight)
         .tags(tags).find().then((res) => {
           subscriber.next(res);
           subscriber.complete();
@@ -364,6 +376,102 @@ export class ArwikiQuery {
     await this._arweave.transactions.sign(tx, jwk)
     await this._arweave.transactions.post(tx)
     return tx.id;
+  }
+
+  /*
+  * @dev
+  */
+  getPageBySlug(
+    _slug: string,
+    _settingsContract: ArwikiSettingsContract,
+    _maxHeight: number
+  ) {
+    return _settingsContract.getState()
+      .pipe(
+        switchMap((settingsContractState) => {
+          return this.getVerifiedPagesBySlug(
+            settingsContractState.adminList,
+            [_slug],
+            _maxHeight
+          );
+        }),
+        switchMap((verifiedPages) => {
+          const verifiedPagesList = [];
+          for (let p of verifiedPages) {
+            const vrfdPageId = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
+            verifiedPagesList.push(vrfdPageId);
+          }
+
+          return this.getTXsData(verifiedPagesList);
+        }),
+        switchMap((txs) => {
+          const finalRes: any = [];
+          for (let p of txs) {
+            const title = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
+            const slug = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
+            const category = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
+            const img = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
+            const owner = p.node.owner.address;
+            const id = p.node.id;
+            
+            finalRes.push({
+              title: title,
+              slug: slug,
+              category: category,
+              img: img,
+              owner: owner,
+              id: id
+            });
+            
+          }
+          return of(finalRes);
+        })
+      );
+  }
+
+  /*
+  * @dev
+  */
+  getVerifiedPagesBySlug(
+    owners: string[],
+    slugList: string[],
+    limit: number = 100,
+    maxHeight: number = 0
+  ): Observable<any> {
+    const tags = [
+      {
+        name: 'Service',
+        values: ['ArWiki'],
+      },
+      {
+        name: 'Arwiki-Type',
+        values: ['Validation'],
+      },
+      {
+        name: 'Arwiki-Page-Slug',
+        values: slugList
+      },
+      {
+        name: 'Arwiki-Version',
+        values: arwikiVersion,
+      }
+    ];
+
+    const obs = new Observable((subscriber) => {
+      this._ardb!.search('transactions')
+        .limit(limit)
+        .from(owners)
+        .max(maxHeight)
+        .tags(tags).find().then((res) => {
+          subscriber.next(res);
+          subscriber.complete();
+        })
+        .catch((error) => {
+          subscriber.error(error);
+        });
+
+    });
+    return obs;
   }
 
 }

@@ -6,6 +6,7 @@ import { Observable, Subscription, of } from 'rxjs';
 import { ArwikiQuery } from '../core/arwiki-query';
 import { ArwikiCategoriesContract } from '../arwiki-contracts/arwiki-categories';
 import { ArwikiSettingsContract } from '../arwiki-contracts/arwiki-settings';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-main-menu',
@@ -29,10 +30,11 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       private _userSettings: UserSettingsService,
       private _arweave: ArweaveService,
       private _categoriesContract: ArwikiCategoriesContract,
-      private _settingsContract: ArwikiSettingsContract
+      private _settingsContract: ArwikiSettingsContract,
+      private _snackBar: MatSnackBar
     ) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.loading = true;
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
 
@@ -42,9 +44,18 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       this.routerLang = data;
     });
 
+    let networkInfo;
+    let maxHeight = 0;
+    try {
+      networkInfo = await this._arweave.arweave.network.getInfo();
+      maxHeight = networkInfo.height;
+    } catch (error) {
+      this.message(error, 'error');
+    }
     this.menuSubscription = this.arwikiQuery.getMainMenu(
       this._categoriesContract,
-      this._settingsContract
+      this._settingsContract,
+      maxHeight
     ).subscribe({
       next: (data) => {
         this.loading = false;
@@ -122,6 +133,19 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     }
 
     return ngStyle;
+  }
+
+
+  /*
+  *  Custom snackbar message
+  */
+  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
+    this._snackBar.open(msg, 'X', {
+      duration: 8000,
+      horizontalPosition: 'center',
+      verticalPosition: verticalPosition,
+      panelClass: panelClass
+    });
   }
 
 

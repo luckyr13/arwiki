@@ -26,16 +26,26 @@ export class ViewDetailComponent implements OnInit {
   	private _route: ActivatedRoute
  	) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     // Init ardb instance
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
   	this.category = this._route.snapshot.paramMap.get('category')!;
     this.routeLang = this._route.snapshot.paramMap.get('lang')!;
     this.loadingPages = true;
 
+    let networkInfo;
+    let maxHeight = 0;
+    try {
+      networkInfo = await this._arweave.arweave.network.getInfo();
+      maxHeight = networkInfo.height;
+    } catch (error) {
+      this.message(error, 'error');
+    }
+
     this.pagesSubscription = this.arwikiQuery.getPagesByCategory(
     	this.category,
-    	this._settingsContract
+    	this._settingsContract,
+      maxHeight
     ).subscribe({
     	next: (pages) => {
 
