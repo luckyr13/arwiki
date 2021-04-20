@@ -63,9 +63,10 @@ export class ViewDetailComponent implements OnInit {
     this.pageImg = '';
     this.pageId = '';
     this.htmlContent = '';
+    const numPages = 1;
 
   	this.pageSubscription = this.arwikiQuery!.getPageBySlug(
-  		slug, langCode, this._settingsContract, maxHeight
+  		slug, langCode, this._settingsContract, maxHeight, numPages
   	).subscribe({
   		next: async (data) => {
   			// If page exists

@@ -501,11 +501,15 @@ export class ArwikiQuery {
       }
     ];
 
+    // Sort in ascending mode
+    // This means that first slug validated is the right one 
+    // (avoid duplicates)
     const obs = new Observable((subscriber) => {
       this._ardb!.search('transactions')
         .limit(limit)
         .from(owners)
         .max(maxHeight)
+        .sort("HEIGHT_ASC")
         .tags(tags)
         .find().then((res) => {
           subscriber.next(res);
