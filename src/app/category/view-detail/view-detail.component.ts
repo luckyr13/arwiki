@@ -47,6 +47,7 @@ export class ViewDetailComponent implements OnInit {
 
     this.pagesSubscription = this.arwikiQuery.getPagesByCategory(
     	this.category,
+      this.routeLang,
     	this._settingsContract,
       maxHeight
     ).subscribe({

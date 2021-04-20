@@ -38,14 +38,15 @@ export class ViewDetailComponent implements OnInit {
 
     this.route.paramMap.subscribe(async params => {
       const slug = params.get('slug');
+      const lang = params.get('lang');
       if (slug) {
-        await this.loadPageData(slug!);
+        await this.loadPageData(slug!, lang!);
       }
     });
   	
   }
 
-  async loadPageData(slug: string) {
+  async loadPageData(slug: string, langCode: string) {
   	this.loadingPage = true;
 
     let networkInfo;
@@ -64,7 +65,7 @@ export class ViewDetailComponent implements OnInit {
     this.htmlContent = '';
 
   	this.pageSubscription = this.arwikiQuery!.getPageBySlug(
-  		slug, this._settingsContract, maxHeight
+  		slug, langCode, this._settingsContract, maxHeight
   	).subscribe({
   		next: async (data) => {
   			// If page exists

@@ -88,7 +88,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     // Get latest articles 
     const numArticles = 10;
     this.pagesSubscription = this.getLatestArticles(
-      numArticles
+      numArticles, this.routeLang
     ).subscribe({
       next: async (pages) => {
         const latestPages: any = [];
@@ -131,10 +131,10 @@ export class MainPageComponent implements OnInit, OnDestroy {
   /*
   *  @dev return an observable with the latest articles
   */
-  getLatestArticles(numArticles: number) {
+  getLatestArticles(numArticles: number, langCode: string) {
     return this._arwikiSettings.getAdminList().pipe(
       switchMap((adminList) => {
-        return this.arwikiQuery!.getVerifiedPages(adminList, numArticles);
+        return this.arwikiQuery!.getVerifiedPages(adminList, langCode, numArticles);
       }),
       switchMap((pages) => {
         const txIds: any = [];

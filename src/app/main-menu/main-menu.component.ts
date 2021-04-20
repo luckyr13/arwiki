@@ -40,10 +40,16 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
     this.getDefaultTheme();
 
-    this._userSettings.routeLangStream.subscribe((data) => {
+    this._userSettings.routeLangStream.subscribe(async (data) => {
       this.routerLang = data;
+      if (!this.menu || Object.keys(this.menu).length === 0 && this.routerLang) {
+        await this.getMenu();
+      }
     });
 
+  }
+
+  async getMenu() {
     let networkInfo;
     let maxHeight = 0;
     try {
@@ -53,9 +59,10 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       this.message(error, 'error');
       return;
     }
-    this.menuSubscription = this.arwikiQuery.getMainMenu(
+    this.menuSubscription = this.arwikiQuery!.getMainMenu(
       this._categoriesContract,
       this._settingsContract,
+      this.routerLang,
       maxHeight
     ).subscribe({
       next: (data) => {

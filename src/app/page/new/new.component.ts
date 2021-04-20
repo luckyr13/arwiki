@@ -278,10 +278,10 @@ export class NewComponent implements OnInit, OnDestroy {
 
   updateSlug(s: string) {
     this.slug!.setValue(s.replace(/ /gi, '_'));
-    this.verifySlug(this.slug!.value);
+    this.verifySlug(this.slug!.value, this.routeLang);
   }
 
-  async verifySlug(_slug: string) {
+  async verifySlug(_slug: string, _langCode: string) {
     this.slug!.disable();
     let networkInfo;
     let maxHeight = 0;
@@ -295,7 +295,7 @@ export class NewComponent implements OnInit, OnDestroy {
     }
 
     this.verifySlugSubscription = this.arwikiQuery!
-      .getPageBySlug(_slug, this._settingsContract, maxHeight)
+      .getPageBySlug(_slug, _langCode, this._settingsContract, maxHeight)
       .subscribe({
         next: (res) => {
           // Slug already taken

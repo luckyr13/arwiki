@@ -8,6 +8,7 @@ import { getVerification } from "arverify";
 import {MatDialog} from '@angular/material/dialog';
 import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confirm.component';
 import { ArwikiQuery } from '../../core/arwiki-query';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   templateUrl: './pending-list.component.html',
@@ -21,16 +22,20 @@ export class PendingListComponent implements OnInit {
   loadingInsertPageIntoIndex: boolean = false;
   insertPageTxMessage: string = '';
   arwikiQuery: ArwikiQuery|null = null;
+  routeLang: string = '';
 
   constructor(
   	private _arweave: ArweaveService,
     private _auth: AuthService,
     private _snackBar: MatSnackBar,
-    public _dialog: MatDialog
+    public _dialog: MatDialog,
+    private _route: ActivatedRoute
   ) { }
 
   async ngOnInit() {
     const adminList: any[] = this._auth.getAdminList();
+    this.routeLang = this._route.snapshot.paramMap.get('lang')!;
+
     // Init ardb instance
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
     // Get pages
@@ -47,7 +52,7 @@ export class PendingListComponent implements OnInit {
     }
 
     this.pendingPagesSubscription = this.arwikiQuery.getPendingPages(
-        numPages, maxHeight
+        this.routeLang, numPages, maxHeight
       ).pipe(
       switchMap((res) => {
         let pages = res;
@@ -186,6 +191,7 @@ export class PendingListComponent implements OnInit {
             _content_id,
             _slug,
             _category_slug,
+            this.routeLang,
             this._auth.getPrivateKey()
           ); 
 
