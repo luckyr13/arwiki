@@ -8,9 +8,10 @@
 	},
 	"MAIN_TOOLBAR": {
 		"TOOLTIP_LOGIN": "تسجيل الدخول",
-		"TOOLTIP_LANGUAGE": "اختار اللغة",
-		"TOOLTIP_THEME": "اختر نمطا",
+		"MENU_SETTINGS_LANGUAGE": "اختار اللغة",
+		"MENU_SETTINGS_THEME": "اختر نمطا",
 		"TOOLTIP_SEARCH": "بحث",
+		"TOOLTIP_SETTINGS": "Settings",
 		"MENU_USER_DASHBOARD": "لوحة القيادة",
 		"MENU_USER_CREATE": "إنشاء الصفحة",
 		"MENU_USER_LOGOUT": "تسجيل خروج"

@@ -8,9 +8,10 @@
 	},
 	"MAIN_TOOLBAR": {
 		"TOOLTIP_LOGIN": "Login",
-		"TOOLTIP_LANGUAGE": "Select language",
-		"TOOLTIP_THEME": "Select theme",
+		"MENU_SETTINGS_LANGUAGE": "Select language",
+		"MENU_SETTINGS_THEME": "Select theme",
 		"TOOLTIP_SEARCH": "Search",
+		"TOOLTIP_SETTINGS": "Settings",
 		"MENU_USER_DASHBOARD": "Dashboard",
 		"MENU_USER_CREATE": "Create page",
 		"MENU_USER_LOGOUT": "Logout"

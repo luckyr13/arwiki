@@ -59,36 +59,8 @@
       </button>
     </div>
   </mat-menu>
-  <button 
-      [matMenuTriggerFor]="langMenu"
-      mat-icon-button 
-      class="theme-icon"
-      matTooltip="{{ 'MAIN_TOOLBAR.TOOLTIP_LANGUAGE' | translate }}">
-    <mat-icon>language</mat-icon>
-  </button>
-  <mat-menu #langMenu="matMenu">
-    <mat-spinner *ngIf="loadingLangs"></mat-spinner>
-    <div *ngIf="!loadingLangs">
-      <button 
-        mat-menu-item 
-        *ngFor="let langCode of langCodes"
-        (click)="setLanguage(langCode)">
-         {{ langsCopy[langCode].native_name }}
-      </button>
-    </div>
-  </mat-menu>
 
-	<button 
-  		[matMenuTriggerFor]="themeMenu"
-  		mat-icon-button 
-      class="theme-icon"
-      matTooltip="{{ 'MAIN_TOOLBAR.TOOLTIP_THEME' | translate }}">
-    <mat-icon>format_color_fill</mat-icon>
-  </button>
-  <mat-menu #themeMenu="matMenu">
-	  <button mat-menu-item (click)="setMainTheme('arwiki-light')">Light theme</button>
-	  <button mat-menu-item (click)="setMainTheme('arwiki-dark')">Dark theme</button>
-	</mat-menu>
+
   <button 
       [matMenuTriggerFor]="searchMenu"
       mat-icon-button 
@@ -103,6 +75,36 @@
     </mat-form-field>
   </mat-menu>
 
+  <button 
+      [matMenuTriggerFor]="settingsMenu"
+      mat-icon-button 
+      class="theme-icon"
+      matTooltip="{{ 'MAIN_TOOLBAR.TOOLTIP_SETTINGS' | translate }}">
+    <mat-icon>settings</mat-icon>
+  </button>
+  <mat-menu #settingsMenu="matMenu">
+    <button mat-menu-item [matMenuTriggerFor]="langMenuOptions">
+      <mat-icon>language</mat-icon> {{ 'MAIN_TOOLBAR.MENU_SETTINGS_LANGUAGE' | translate }}
+    </button>
+    <button mat-menu-item [matMenuTriggerFor]="themeMenuOptions">
+      <mat-icon>format_color_fill</mat-icon> {{ 'MAIN_TOOLBAR.MENU_SETTINGS_THEME' | translate }}
+    </button>  
+  </mat-menu>
+  <mat-menu #themeMenuOptions="matMenu">
+	  <button mat-menu-item (click)="setMainTheme('arwiki-light')">Light theme</button>
+	  <button mat-menu-item (click)="setMainTheme('arwiki-dark')">Dark theme</button>
+	</mat-menu>
+  <mat-menu #langMenuOptions="matMenu">
+    <mat-spinner *ngIf="loadingLangs"></mat-spinner>
+    <div *ngIf="!loadingLangs">
+      <button 
+        mat-menu-item 
+        *ngFor="let langCode of langCodes"
+        (click)="setLanguage(langCode)">
+         {{ langsCopy[langCode].native_name }}
+      </button>
+    </div>
+  </mat-menu>
 
 </mat-toolbar>
 <mat-progress-bar mode="indeterminate" *ngIf="loading | async"></mat-progress-bar>

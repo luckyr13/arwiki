@@ -8,9 +8,10 @@
 	},
 	"MAIN_TOOLBAR": {
 		"TOOLTIP_LOGIN": "लॉग इन करें",
-		"TOOLTIP_LANGUAGE": "भाषा का चयन करें",
-		"TOOLTIP_THEME": "चुनिंदा विषय",
+		"MENU_SETTINGS_LANGUAGE": "भाषा का चयन करें",
+		"MENU_SETTINGS_THEME": "चुनिंदा विषय",
 		"TOOLTIP_SEARCH": "खोज",
+		"TOOLTIP_SETTINGS": "Settings",
 		"MENU_USER_DASHBOARD": "डैशबोर्ड",
 		"MENU_USER_CREATE": "पेज बनाएं",
 		"MENU_USER_LOGOUT": "लॉग आउट"

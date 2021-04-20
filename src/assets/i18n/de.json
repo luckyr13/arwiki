@@ -8,9 +8,10 @@
 	},
 	"MAIN_TOOLBAR": {
 		"TOOLTIP_LOGIN": "Anmeldung",
-		"TOOLTIP_LANGUAGE": "Sprache auswählen",
-		"TOOLTIP_THEME": "Thema wählen",
+		"MENU_SETTINGS_LANGUAGE": "Sprache auswählen",
+		"MENU_SETTINGS_THEME": "Thema wählen",
 		"TOOLTIP_SEARCH": "Suche",
+		"TOOLTIP_SETTINGS": "Settings",
 		"MENU_USER_DASHBOARD": "Instrumententafel",
 		"MENU_USER_CREATE": "Seite erstellen",
 		"MENU_USER_LOGOUT": "Ausloggen"

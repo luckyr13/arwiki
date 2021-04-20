@@ -8,9 +8,10 @@
 	},
 	"MAIN_TOOLBAR": {
 		"TOOLTIP_LOGIN": "התחברות",
-		"TOOLTIP_LANGUAGE": "בחר שפה",
-		"TOOLTIP_THEME": "בחר נושא",
+		"MENU_SETTINGS_LANGUAGE": "בחר שפה",
+		"MENU_SETTINGS_THEME": "בחר נושא",
 		"TOOLTIP_SEARCH": "לחפש",
+		"TOOLTIP_SETTINGS": "Settings",
 		"MENU_USER_DASHBOARD": "לוּחַ מַחווָנִים",
 		"MENU_USER_CREATE": "צור עמוד",
 		"MENU_USER_LOGOUT": "להתנתק"

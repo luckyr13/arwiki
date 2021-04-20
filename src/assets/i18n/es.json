@@ -8,9 +8,10 @@
 	},
 	"MAIN_TOOLBAR": {
 		"TOOLTIP_LOGIN": "Iniciar sesión",
-		"TOOLTIP_LANGUAGE": "Elegir idioma",
-		"TOOLTIP_THEME": "Elegir tema",
+		"MENU_SETTINGS_LANGUAGE": "Elegir idioma",
+		"MENU_SETTINGS_THEME": "Elegir tema",
 		"TOOLTIP_SEARCH": "Buscar",
+		"TOOLTIP_SETTINGS": "Settings",
 		"MENU_USER_DASHBOARD": "Tablero principal",
 		"MENU_USER_CREATE": "Crear página",
 		"MENU_USER_LOGOUT": "Cerrar sesión"
