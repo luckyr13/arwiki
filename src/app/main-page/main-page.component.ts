@@ -30,6 +30,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
   loadingLogo: boolean = false;
   loadingLatestArticles: boolean = false;
   latestArticles: any[] = [];
+  latestArticlesData: any;
   arwikiQuery: ArwikiQuery|null = null;
   pagesSubscription: Subscription = Subscription.EMPTY;
   routeLang: string = '';
@@ -98,10 +99,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
           const img = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
           const owner = p.node.owner.address;
           const id = p.node.id;
-          let data = await this._arweave.arweave.transactions.getData(
-            id, 
-            {decode: true, string: true}
-          );
           
           latestPages.push({
             title: title,
@@ -109,12 +106,20 @@ export class MainPageComponent implements OnInit, OnDestroy {
             category: category,
             img: img,
             owner: owner,
-            id: id,
-            preview: data
+            id: id
           });
         }
         this.latestArticles = latestPages;
         this.loadingLatestArticles = false;
+        this.latestArticlesData = {};
+
+        for (let p of latestPages) {
+          let data = await this._arweave.arweave.transactions.getData(
+            p.id, 
+            {decode: true, string: true}
+          );
+          this.latestArticlesData[p.id] = data;
+        }
       },
       error: (error) => {
         this.message(error, 'error');

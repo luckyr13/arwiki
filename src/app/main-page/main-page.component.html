@@ -62,7 +62,7 @@
 </div>
 
 <div class="container main-page-container-articles fadeIn">
-	<h2 class="text-left">
+	<h2 class="text-left title-latest-art">
 		{{ 'MAIN_PAGE.TITLE_L3' | translate }}
 	</h2>
 	<div class="row">
@@ -71,12 +71,16 @@
 		</div>
 		<div *ngIf="!loadingLatestArticles" class="col-12 row">
 			<div class="col-12 col-md-6" *ngFor="let article of latestArticles">
+				<mat-progress-bar 
+					mode="indeterminate"
+					*ngIf="!latestArticlesData[article.id]"
+					class="fadeIn"></mat-progress-bar>
 				<mat-card class="card-latest-article fadeIn">
 			    <h2>
 			    	{{ article.title }}
 	    	  </h2>
-	    	  <p>
-	    	  	{{ sanitizeMarkdown(article.preview) }}
+	    	  <p *ngIf="latestArticlesData[article.id]">
+	    	  	{{ sanitizeMarkdown(latestArticlesData[article.id]) }}
 	    	  </p>
 	    	  <p class="text-right">
 	    	  	by {{ article.owner }}

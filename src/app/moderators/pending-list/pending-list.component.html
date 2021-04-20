@@ -3,7 +3,9 @@
 <div class="container page-container fadeIn">
 	<div class="row" *ngIf="!loadingInsertPageIntoIndex">
 
-		<div class="col-12 card-page fadeIn" *ngIf="!pages || !pages.length">
+		<div 
+			class="col-12 card-page fadeIn" 
+			*ngIf="!loadingPendingPages && (!pages || !pages.length)">
 			No results.
 		</div>
 
