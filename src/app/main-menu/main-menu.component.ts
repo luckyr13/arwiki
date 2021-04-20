@@ -51,6 +51,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       maxHeight = networkInfo.height;
     } catch (error) {
       this.message(error, 'error');
+      return;
     }
     this.menuSubscription = this.arwikiQuery.getMainMenu(
       this._categoriesContract,
@@ -141,7 +142,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   */
   message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
     this._snackBar.open(msg, 'X', {
-      duration: 8000,
+      duration: 4000,
       horizontalPosition: 'center',
       verticalPosition: verticalPosition,
       panelClass: panelClass

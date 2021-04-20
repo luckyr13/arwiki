@@ -43,6 +43,7 @@ export class PendingListComponent implements OnInit {
       maxHeight = networkInfo.height;
     } catch (error) {
       this.message(error, 'error');
+      return;
     }
 
     this.pendingPagesSubscription = this.arwikiQuery.getPendingPages(

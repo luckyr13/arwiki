@@ -40,6 +40,7 @@ export class ViewDetailComponent implements OnInit {
       maxHeight = networkInfo.height;
     } catch (error) {
       this.message(error, 'error');
+      return;
     }
 
     this.pagesSubscription = this.arwikiQuery.getPagesByCategory(

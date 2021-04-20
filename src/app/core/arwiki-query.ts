@@ -29,7 +29,7 @@ export class ArwikiQuery {
   /*
   * @dev
   */
-  getMyArWikiPages(owner: string): Observable<any> {
+  getMyArWikiPages(owner: string, limit: number = 100): Observable<any> {
     const tags = [
       {
         name: 'Service',
@@ -48,7 +48,7 @@ export class ArwikiQuery {
     const obs = new Observable((subscriber) => {
       this._ardb!.search('transactions')
         .from(owner)
-        .limit(100)
+        .limit(limit)
         .tags(tags).find().then((res) => {
           subscriber.next(res);
           subscriber.complete();
@@ -462,7 +462,8 @@ export class ArwikiQuery {
         .limit(limit)
         .from(owners)
         .max(maxHeight)
-        .tags(tags).find().then((res) => {
+        .tags(tags)
+        .find().then((res) => {
           subscriber.next(res);
           subscriber.complete();
         })

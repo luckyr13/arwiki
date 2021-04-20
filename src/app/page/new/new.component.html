@@ -73,7 +73,7 @@
 				  <input
 				  	formControlName="slug"
 				  	matInput
-				  	(change)="updateSlug(slug!.value)"
+				  	(change)="verifySlug(slug!.value)"
 				  	autocomplete="off"
 				  	maxlength="150">
 	    		<mat-hint align="end">{{slug!.value.length}} / 150</mat-hint>

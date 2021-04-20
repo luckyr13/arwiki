@@ -14,7 +14,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs'; 
 import { ArwikiCategoriesContract } from '../../arwiki-contracts/arwiki-categories';
 import { ArwikiLangIndexContract } from '../../arwiki-contracts/arwiki-lang-index';
+import { ArwikiSettingsContract } from '../../arwiki-contracts/arwiki-settings';
 import { ActivatedRoute } from '@angular/router';
+import { ArwikiQuery } from '../../core/arwiki-query';
 import * as SimpleMDE from 'simplemde';
 declare const document: any;
 declare const window: any;
@@ -49,6 +51,8 @@ export class NewComponent implements OnInit, OnDestroy {
   languageListSubscription: Subscription = Subscription.EMPTY;
   newPageTX: string = '';
   routeLang: string = '';
+  arwikiQuery: ArwikiQuery|null = null;
+  verifySlugSubscription: Subscription = Subscription.EMPTY;
 
   public get title() {
 		return this.frmNew.get('title');
@@ -77,13 +81,15 @@ export class NewComponent implements OnInit, OnDestroy {
   	private _snackBar: MatSnackBar,
     private _langIndexContract: ArwikiLangIndexContract,
     private _categoriesContract: ArwikiCategoriesContract,
+    private _settingsContract: ArwikiSettingsContract,
     private _route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
     this.routeLang = this._route.snapshot.paramMap.get('lang')!;
+    this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
   	this.getDefaultTheme();
-    
+    // Load markdown editor
     window.setTimeout(() => {
       this.simplemde = new SimpleMDE({
         element: document.getElementById("create-page-textarea-simplemde-content")
@@ -128,6 +134,9 @@ export class NewComponent implements OnInit, OnDestroy {
     }
     if (this.languageListSubscription) {
       this.languageListSubscription.unsubscribe();
+    }
+    if (this.verifySlugSubscription) {
+      this.verifySlugSubscription.unsubscribe();
     }
   }
 
@@ -186,7 +195,7 @@ export class NewComponent implements OnInit, OnDestroy {
     const img = this.previewImgUrlTX;
 
     if (!content) {
-      alert('Please type some content :)');
+      this.message('Please add some content to your page :)', 'error');
       return;
     }
     
@@ -269,6 +278,43 @@ export class NewComponent implements OnInit, OnDestroy {
 
   updateSlug(s: string) {
     this.slug!.setValue(s.replace(/ /gi, '_'));
+    this.verifySlug(this.slug!.value);
+  }
+
+  async verifySlug(_slug: string) {
+    this.slug!.disable();
+    let networkInfo;
+    let maxHeight = 0;
+    try {
+      networkInfo = await this._arweave.arweave.network.getInfo();
+      maxHeight = networkInfo.height;
+    } catch (error) {
+      this.message(error, 'error');
+      this.slug!.setValue('');
+      this.slug!.enable();
+    }
+
+    this.verifySlugSubscription = this.arwikiQuery!
+      .getPageBySlug(_slug, this._settingsContract, maxHeight)
+      .subscribe({
+        next: (res) => {
+          // Slug already taken
+          if (res.length > 0) {
+            this.message(`Slug already taken! Please try another one`, 'error');
+            this.slug!.setValue('');
+          } else {
+            this.message('Slug available!', 'success');
+          }
+
+          this.slug!.enable();
+        },
+        error: (error) => {
+
+          this.message(error, 'error');
+          this.slug!.setValue('');
+          this.slug!.enable();
+        }
+      });
   }
 
   
