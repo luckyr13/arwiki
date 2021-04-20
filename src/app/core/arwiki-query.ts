@@ -67,6 +67,7 @@ export class ArwikiQuery {
   getMainMenu(
     _categoriesContract: ArwikiCategoriesContract,
     _settingsContract: ArwikiSettingsContract,
+    _langCode: string,
     _maxHeight: number
   ) {
     let _globalCat: any = {};
@@ -77,7 +78,7 @@ export class ArwikiQuery {
           return _settingsContract.getState();
         }),
         switchMap((settingsContractState) => {
-          return this.getVerifiedPages(settingsContractState.adminList, _maxHeight);
+          return this.getVerifiedPages(settingsContractState.adminList, _langCode, _maxHeight);
         }),
         switchMap((verifiedPages) => {
           const verifiedPagesList = [];
@@ -115,7 +116,11 @@ export class ArwikiQuery {
   /*
   * @dev
   */
-  getVerifiedPages(owners: string[], limit: number = 100, maxHeight: number = 0): Observable<any> {
+  getVerifiedPages(
+    owners: string[],
+    langCode: string,
+    limit: number = 100,
+    maxHeight: number = 0): Observable<any> {
     const tags = [
       {
         name: 'Service',
@@ -128,6 +133,10 @@ export class ArwikiQuery {
       {
         name: 'Arwiki-Version',
         values: arwikiVersion,
+      },
+      {
+        name: 'Arwiki-Page-Lang',
+        values: [langCode]
       }
     ];
 
@@ -214,7 +223,11 @@ export class ArwikiQuery {
   /*
   * @dev
   */
-  getPendingPages(limit: number = 100, _maxHeight: number = 0): Observable<any> {
+  getPendingPages(
+    _langCode: string,
+    limit: number = 100, 
+    _maxHeight: number = 0
+  ): Observable<any> {
     const tags = [
       {
         name: 'Service',
@@ -227,7 +240,11 @@ export class ArwikiQuery {
       {
         name: 'Arwiki-Version',
         values: arwikiVersion,
-      }    
+      },
+      {
+        name: 'Arwiki-Page-Lang',
+        values: [_langCode]
+      }
     ];
 
     const obs = new Observable((subscriber) => {
@@ -263,6 +280,7 @@ export class ArwikiQuery {
   */
   getPagesByCategory(
     _category: string,
+    _langCode: string,
     _settingsContract: ArwikiSettingsContract,
     _maxHeight: number
   ) {
@@ -272,6 +290,7 @@ export class ArwikiQuery {
           return this.getVerifiedPagesByCategories(
             settingsContractState.adminList,
             [_category],
+            _langCode,
             _maxHeight
           );
         }),
@@ -315,6 +334,7 @@ export class ArwikiQuery {
   getVerifiedPagesByCategories(
     owners: string[],
     categories: string[],
+    langCode: string,
     limit: number = 100,
     maxHeight: number = 0
   ): Observable<any> {
@@ -334,6 +354,10 @@ export class ArwikiQuery {
       {
         name: 'Arwiki-Version',
         values: arwikiVersion,
+      },
+      {
+        name: 'Arwiki-Page-Lang',
+        values: [langCode]
       }
     ];
 
@@ -359,6 +383,7 @@ export class ArwikiQuery {
     _pageId: string,
     _slug: string,
     _category: string,
+    _langCode: string,
     _privateKey: any
   ) {
     const jwk = _privateKey;
@@ -372,6 +397,7 @@ export class ArwikiQuery {
     tx.addTag('Arwiki-Page-Id', _pageId);
     tx.addTag('Arwiki-Page-Slug', _slug);
     tx.addTag('Arwiki-Page-Category', _category);
+    tx.addTag('Arwiki-Page-Lang', _langCode);
     tx.addTag('Arwiki-Version', arwikiVersion[0]);
     await this._arweave.transactions.sign(tx, jwk)
     await this._arweave.transactions.post(tx)
@@ -383,6 +409,7 @@ export class ArwikiQuery {
   */
   getPageBySlug(
     _slug: string,
+    _langCode: string,
     _settingsContract: ArwikiSettingsContract,
     _maxHeight: number
   ) {
@@ -392,6 +419,7 @@ export class ArwikiQuery {
           return this.getVerifiedPagesBySlug(
             settingsContractState.adminList,
             [_slug],
+            _langCode,
             _maxHeight
           );
         }),
@@ -435,6 +463,7 @@ export class ArwikiQuery {
   getVerifiedPagesBySlug(
     owners: string[],
     slugList: string[],
+    langCode: string,
     limit: number = 100,
     maxHeight: number = 0
   ): Observable<any> {
@@ -454,6 +483,10 @@ export class ArwikiQuery {
       {
         name: 'Arwiki-Version',
         values: arwikiVersion,
+      },
+      {
+        name: 'Arwiki-Page-Lang',
+        values: [langCode]
       }
     ];
 
