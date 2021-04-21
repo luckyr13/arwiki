@@ -83,7 +83,12 @@
 	    	  	{{ sanitizeMarkdown(latestArticlesData[article.id]) }}
 	    	  </p>
 	    	  <p class="text-right mini-text">
-	    	  	<strong>Category: </strong>{{ article.category }}
+	    	  	<strong>Category: </strong>
+	    	  	<a
+	    	  		mat-button 
+	    	  		routerLink="../category/{{article.category}}">
+							{{ article.category }}
+						</a>
 	    	  </p>
 	    	  <p class="text-right mini-text">
 	    	  	<strong>Creation date: </strong>

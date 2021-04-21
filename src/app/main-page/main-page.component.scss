@@ -79,6 +79,12 @@ a.mat-button{
 	max-width: 100%;
 }
 
+.mini-text, .mini-text a.mat-button {
+	font-size: 12px !important;
+}
+
 .mini-text {
-	font-size: 12px;
+	white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
