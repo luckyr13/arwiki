@@ -32,6 +32,8 @@ export class ViewDetailComponent implements OnInit {
   scrollTop: number = 0;
   toc: any[] = [];
   arverifyProcessedAddressesMap: any = {};
+  routeLang: string = '';
+  routeSlug: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -49,6 +51,8 @@ export class ViewDetailComponent implements OnInit {
     this.route.paramMap.subscribe(async params => {
       const slug = params.get('slug');
       const lang = params.get('lang');
+      this.routeLang = lang!;
+      this.routeSlug = slug!;
       if (slug) {
         await this.loadPageData(slug!, lang!);
       }
@@ -56,10 +60,7 @@ export class ViewDetailComponent implements OnInit {
 
     this._userSettings.scrollTopStream.subscribe((scroll) => {
       this.scrollTop = scroll;
-      if (this.scrollTop >= 100) {
-        this._ref.detectChanges();
-
-      }
+      this._ref.detectChanges();
     })
 
   }
@@ -108,14 +109,22 @@ export class ViewDetailComponent implements OnInit {
             this.generateTOC();
 
           }, 500);
+
+          this.loadingPage = false;
+
+          // Verify addresses 
+          // Validate owner address with ArVerify
+          this.arverifyProcessedAddressesMap = {};
+          const arverifyQuery = await this.getArverifyVerification(this.pageOwner);
+          this.arverifyProcessedAddressesMap[this.pageOwner] = arverifyQuery;
   				
 
   			} else {
   				this.message('Page not found', 'error')
+          this.loadingPage = false;
   			}
 
-				// this.htmlContent = this.markdownToHTML(data);
-        this.loadingPage = false;
+
   		},
   		error: (error) => {
   			this.message(error, 'error')
@@ -160,12 +169,8 @@ export class ViewDetailComponent implements OnInit {
     if (!container) {
       return;
     }
-    const h1 = container.getElementsByTagName('h1');
-    const h2 = container.getElementsByTagName('h2');
-    const h3 = container.getElementsByTagName('h3');
-    this.generateTOC_helper_addId(h1);
-    this.generateTOC_helper_addId(h2);
-    this.generateTOC_helper_addId(h3);
+    const headers = container.querySelectorAll('h1, h2, h3, h4');
+    this.generateTOC_helper_addId(headers);
 
   }
 
@@ -173,14 +178,20 @@ export class ViewDetailComponent implements OnInit {
     const numElements = elements.length;
     for (let i = 0; i < numElements; i++) {
       const finalId = elements[i].innerText.trim().replace(/ /gi, '_');
-
       elements[i].id = `toc_${finalId}`;
-      console.log(elements[i], elements[i].getBoundingClientRect().top )
+      const menuElement = {
+        id: elements[i].id,
+        top: elements[i].getBoundingClientRect().top,
+        text: elements[i].innerText,
+        type: elements[i].tagName
+      };
+      this.generateTOC_helper_addToTable(menuElement);
     }
+
   }
 
-  generateTOC_helper_addToTable() {
-    const tmpArray = [];
+  generateTOC_helper_addToTable(element: any) {
+    this.toc.push(element);
   }
 
   async getArverifyVerification(_address: string) {
@@ -191,6 +202,10 @@ export class ViewDetailComponent implements OnInit {
       icon: verification.icon,
       percentage: verification.percentage
     });
+  }
+
+  validateTOCactiveMenu(_elementTop: number ){
+    return (_elementTop < this.scrollTop + 90);
   }
 
 }
