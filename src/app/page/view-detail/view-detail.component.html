@@ -31,6 +31,11 @@
 		<div 
 			*ngIf="htmlContent"
 			class="col-12 col-md-3 toc-parent-container fadeIn">
+			<mat-card *ngIf="pageImg">
+				<a target="_blank" href="{{ baseURL + pageImg }}">
+					<img class="toc-image" src="{{ baseURL + pageImg }}">
+				</a>
+			</mat-card>
 			<div class="toc-container">
 				<h3 class="toc-container-title">Overview Content</h3>
 				<div *ngIf="!toc.length">

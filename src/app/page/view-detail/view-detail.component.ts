@@ -34,6 +34,7 @@ export class ViewDetailComponent implements OnInit {
   arverifyProcessedAddressesMap: any = {};
   routeLang: string = '';
   routeSlug: string = '';
+  baseURL: string = this._arweave.baseURL;
 
   constructor(
     private route: ActivatedRoute,
@@ -205,7 +206,7 @@ export class ViewDetailComponent implements OnInit {
   }
 
   validateTOCactiveMenu(_elementTop: number ){
-    return (_elementTop < this.scrollTop + 90);
+    return (_elementTop < this.scrollTop + 170);
   }
 
 }
