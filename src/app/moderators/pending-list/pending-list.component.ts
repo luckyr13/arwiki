@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ArweaveService } from '../../core/arweave.service';
 import { Observable, Subscription, EMPTY, of } from 'rxjs';
 import { AuthService } from '../../auth/auth.service';
@@ -14,7 +14,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './pending-list.component.html',
   styleUrls: ['./pending-list.component.scss']
 })
-export class PendingListComponent implements OnInit {
+export class PendingListComponent implements OnInit, OnDestroy {
 	loadingPendingPages: boolean = false;
   pages: any[] = [];
   pendingPagesSubscription: Subscription = Subscription.EMPTY;
