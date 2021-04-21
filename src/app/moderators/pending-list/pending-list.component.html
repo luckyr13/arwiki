@@ -1,4 +1,4 @@
-<app-moderators-menu title="Pending list"></app-moderators-menu>
+<app-moderators-menu title="{{ 'MODERATORS.PENDING_PAGE.TITLE_PENDING' | translate }}"></app-moderators-menu>
 <mat-spinner class="spinner-center" *ngIf="loadingPendingPages"></mat-spinner>
 <div class="container page-container fadeIn">
 	<div class="row" *ngIf="!loadingInsertPageIntoIndex">
@@ -6,50 +6,48 @@
 		<div 
 			class="col-12 card-page fadeIn" 
 			*ngIf="!loadingPendingPages && (!pages || !pages.length)">
-			No results.
+			{{ 'MODERATORS.LABEL_NO_RESULTS' | translate }}
 		</div>
 
 		<div class="col-12 col-md-6 card-page fadeIn" *ngFor="let p of pages">
 			<mat-card >
 				<div> 
-
-					Id: {{ p.id }} 
-					
+					{{ 'PAGE.LABEL_ID' | translate }}: {{ p.id }} 
 				</div>
 				<div>
-					Title: {{ p.title }} 
+					{{ 'PAGE.LABEL_TITLE' | translate }}: {{ p.title }} 
 				</div>
 				<div>
-					Slug: {{  p.slug }}
+					{{ 'PAGE.LABEL_SLUG' | translate }}: {{  p.slug }}
 				</div>
 				<div>
-					Category: {{ p.category }}
+					{{ 'PAGE.LABEL_CATEGORY' | translate }}: {{ p.category }}
 				</div>
 				<div>
-					Language: {{ p.language }}
+					{{ 'PAGE.LABEL_LANGUAGE' | translate }}: {{ p.language }}
 				</div>
 				<div>
-					Owner: {{ p.owner }} 
+					{{ 'PAGE.LABEL_OWNER' | translate }}: {{ p.owner }} 
 				</div>
 				<div class="red" *ngIf="!p.block || !p.block.height">
-					TX Status: PENDING 
+					{{ 'PAGE.LABEL_TX_STATUS' | translate }}: {{ 'PAGE.STATUS_TX_PENDING' | translate }} 
 				</div>
 				
 				<div *ngIf="p.block && p.block.height">
-					Block Height: {{ p.block.height }} 
+					{{ 'PAGE.LABEL_BLOCK_HEIGHT' | translate }}: {{ p.block.height }} 
 				</div>
 				<div *ngIf="p.block && p.block.timestamp">
-					Block Timestamp: {{ timestampToDate(p.block.timestamp) | date:'short' }} 
+					{{ 'PAGE.LABEL_BLOCK_TIMESTAMP' | translate }}: {{ timestampToDate(p.block.timestamp) | date:'short' }} 
 				</div>
 				<div *ngIf="arverifyProcessedAddressesMap[p.owner] && arverifyProcessedAddressesMap[p.owner].verified" class="green">
-					Owner status: <mat-icon>verified_user</mat-icon> Verified
+					{{ 'PAGE.LABEL_OWNER_STATUS' | translate }}: <mat-icon>verified_user</mat-icon> {{ 'PAGE.STATUS_ADDRESS_VERIFIED' | translate }}
 				</div>
 
 				<div *ngIf="!arverifyProcessedAddressesMap[p.owner] || !arverifyProcessedAddressesMap[p.owner].verified" class="red">
-					Owner status: Not verified
+					{{ 'PAGE.LABEL_OWNER_STATUS' | translate }}: {{ 'PAGE.STATUS_ADDRESS_NOTVERIFIED' | translate }}
 				</div>
 				<div *ngIf="arverifyProcessedAddressesMap[p.owner] && arverifyProcessedAddressesMap[p.owner].percentage">
-					ArVerify Score: {{ arverifyProcessedAddressesMap[p.owner].percentage }} %
+					{{ 'PAGE.LABEL_ARVERIFY_SCORE' | translate }}: {{ arverifyProcessedAddressesMap[p.owner].percentage }} %
 				</div>
 				
 				<div class="text-right">

@@ -19,11 +19,24 @@
 	"MAIN_PAGE": {
 		"TITLE_L1": "Permaweb में आपका स्वागत है!",
 		"SUBTITLE_L1": "arwiki arweave के लिए विकेन्द्रीकृत विकी है जिसे कोई भी संपादित कर सकता है।",
-		"TITLE_L2": "Getting started",
-		"TITLE_L3": "Latest articles"
+		"TITLE_L2": "शुरू करना",
+		"TITLE_L3": "ताज़ा लेख"
 	},
 	"PAGE": {
-
+		"LABEL_ID": "Id",
+		"LABEL_TITLE": "शीर्षक",
+		"LABEL_SLUG": "Slug",
+		"LABEL_CATEGORY": "वर्ग",
+		"LABEL_LANGUAGE": "भाषा: हिन्दी",
+		"LABEL_OWNER": "मालिक",
+		"LABEL_TX_STATUS": "TX status",
+		"LABEL_BLOCK_HEIGHT": "ब्लॉक ऊंचाई",
+		"LABEL_BLOCK_TIMESTAMP": "ब्लॉक टाइमस्टैम्प",
+		"LABEL_ARVERIFY_SCORE": "ArVerify Score",
+		"LABEL_OWNER_STATUS": "मालिक का दर्जा",
+		"STATUS_TX_PENDING": "विचाराधीन",
+		"STATUS_ADDRESS_VERIFIED": "सत्यापित",
+		"STATUS_ADDRESS_NOTVERIFIED": "प्रमाणित नहीं है"
 	},
 	"CREATE_PAGE": {
 		"TITLE": "नया arwiki पेज बनाएं",
@@ -54,5 +67,12 @@
 	"DIALOGS": {
 		"TITLE_SELECT_LANG": "भाषा का चयन करें",
 		"TXT_CLOSE": "बंद करे"
+	},
+	"MODERATORS": {
+		"PENDING_PAGE": {
+			"TITLE_PENDING": "लंबित सूची"
+		},
+		"LABEL_NO_RESULTS": "कोई परिणाम नहीं।",
+		"LABEL_TOOLBAR_TITLE": "मॉडरेटर का पैनल"
 	}
 }

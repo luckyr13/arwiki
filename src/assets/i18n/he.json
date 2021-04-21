@@ -19,11 +19,24 @@
 	"MAIN_PAGE": {
 		"TITLE_L1": "ברוך הבא ל- permaweb!",
 		"SUBTITLE_L1": "arwiki הוא הוויקי המבוזר עבור arweave שכל אחד יכול לערוך.",
-		"TITLE_L2": "Getting started",
-		"TITLE_L3": "Latest articles"
+		"TITLE_L2": "מתחילים",
+		"TITLE_L3": "כתבות אחרונות"
 	},
 	"PAGE": {
-
+		"LABEL_ID": "Id",
+		"LABEL_TITLE": "כותרת",
+		"LABEL_SLUG": "Slug",
+		"LABEL_CATEGORY": "קטגוריה",
+		"LABEL_LANGUAGE": "שפה",
+		"LABEL_OWNER": "בעלים",
+		"LABEL_TX_STATUS": "TX status",
+		"LABEL_BLOCK_HEIGHT": "גובה גוש",
+		"LABEL_BLOCK_TIMESTAMP": "חסום חותמת זמן",
+		"LABEL_ARVERIFY_SCORE": "ArVerify Score",
+		"LABEL_OWNER_STATUS": "סטטוס בעלים",
+		"STATUS_TX_PENDING": "ממתין ל",
+		"STATUS_ADDRESS_VERIFIED": "מְאוּמָת",
+		"STATUS_ADDRESS_NOTVERIFIED": "לא אומת"
 	},
 	"CREATE_PAGE": {
 		"TITLE": "צור דף ארוויקי חדש",
@@ -54,5 +67,12 @@
 	"DIALOGS": {
 		"TITLE_SELECT_LANG": "בחר שפה",
 		"TXT_CLOSE": "סגור"
+	},
+	"MODERATORS": {
+		"PENDING_PAGE": {
+			"TITLE_PENDING": "רשימת המתנה"
+		},
+		"LABEL_NO_RESULTS": "אין תוצאות.",
+		"LABEL_TOOLBAR_TITLE": "פאנל מנחה"
 	}
 }

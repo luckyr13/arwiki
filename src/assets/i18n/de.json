@@ -19,11 +19,24 @@
 	"MAIN_PAGE": {
 		"TITLE_L1": "Willkommen im Permaweb!",
 		"SUBTITLE_L1": "arwiki ist das dezentrale Wiki für arweave, das jeder bearbeiten kann.",
-		"TITLE_L2": "Getting started",
-		"TITLE_L3": "Latest articles"
+		"TITLE_L2": "Einstieg",
+		"TITLE_L3": "Neueste Artikel"
 	},
 	"PAGE": {
-
+		"LABEL_ID": "Id",
+		"LABEL_TITLE": "Titel",
+		"LABEL_SLUG": "Slug",
+		"LABEL_CATEGORY": "Kategorie",
+		"LABEL_LANGUAGE": "Sprache",
+		"LABEL_OWNER": "Inhaber",
+		"LABEL_TX_STATUS": "TX status",
+		"LABEL_BLOCK_HEIGHT": "Blockhöhe",
+		"LABEL_BLOCK_TIMESTAMP": "Zeitstempel blockieren",
+		"LABEL_ARVERIFY_SCORE": "ArVerify Score",
+		"LABEL_OWNER_STATUS": "Besitzerstatus",
+		"STATUS_TX_PENDING": "steht aus",
+		"STATUS_ADDRESS_VERIFIED": "Verifiziert",
+		"STATUS_ADDRESS_NOTVERIFIED": "Nicht verifiziert"
 	},
 	"NOT_FOUND": {
 
@@ -54,5 +67,12 @@
 	"DIALOGS": {
 		"TITLE_SELECT_LANG": "Sprache auswählen",
 		"TXT_CLOSE": "Schließen"
+	},
+	"MODERATORS": {
+		"PENDING_PAGE": {
+			"TITLE_PENDING": "ANHÄNGIGKEITSLISTE"
+		},
+		"LABEL_NO_RESULTS": "Keine Ergebnisse.",
+		"LABEL_TOOLBAR_TITLE": "Moderator-Panel"
 	}
 }

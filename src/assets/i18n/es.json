@@ -19,11 +19,24 @@
 	"MAIN_PAGE": {
 		"TITLE_L1": "¡Bienvenido a la permaweb!",
 		"SUBTITLE_L1": "arwiki es la wiki descentralizada para arweave que cualquiera puede editar.",
-		"TITLE_L2": "Getting started",
-		"TITLE_L3": "Latest articles"
+		"TITLE_L2": "Empezando",
+		"TITLE_L3": "Últimos artículos"
 	},
 	"PAGE": {
-
+		"LABEL_ID": "Id",
+		"LABEL_TITLE": "Título",
+		"LABEL_SLUG": "Slug",
+		"LABEL_CATEGORY": "Categoría",
+		"LABEL_LANGUAGE": "Idioma",
+		"LABEL_OWNER": "Propietario",
+		"LABEL_TX_STATUS": "TX status",
+		"LABEL_BLOCK_HEIGHT": "Altura del bloque",
+		"LABEL_BLOCK_TIMESTAMP": "Marca de tiempo del bloque",
+		"LABEL_ARVERIFY_SCORE": "ArVerify Score",
+		"LABEL_OWNER_STATUS": "Estatus de propietario",
+		"STATUS_TX_PENDING": "Pendiente",
+		"STATUS_ADDRESS_VERIFIED": "Verificado",
+		"STATUS_ADDRESS_NOTVERIFIED": "No verificado"
 	},
 	"CREATE_PAGE": {
 		"TITLE": "Crear nueva página de arwiki",
@@ -54,5 +67,12 @@
 	"DIALOGS": {
 		"TITLE_SELECT_LANG": "Seleccionar idioma",
 		"TXT_CLOSE": "Cerrar"
+	},
+	"MODERATORS": {
+		"PENDING_PAGE": {
+			"TITLE_PENDING": "Lista de pendientes"
+		},
+		"LABEL_NO_RESULTS": "No hay resultados.",
+		"LABEL_TOOLBAR_TITLE": "Panel de moderadores"
 	}
 }

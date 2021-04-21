@@ -23,7 +23,20 @@
 		"TITLE_L3": "Latest articles"
 	},
 	"PAGE": {
-
+		"LABEL_ID": "Id",
+		"LABEL_TITLE": "Title",
+		"LABEL_SLUG": "Slug",
+		"LABEL_CATEGORY": "Category",
+		"LABEL_LANGUAGE": "Language",
+		"LABEL_OWNER": "Owner",
+		"LABEL_TX_STATUS": "TX status",
+		"LABEL_BLOCK_HEIGHT": "Block height",
+		"LABEL_BLOCK_TIMESTAMP": "Block timestamp",
+		"LABEL_ARVERIFY_SCORE": "ArVerify Score",
+		"LABEL_OWNER_STATUS": "Owner status",
+		"STATUS_TX_PENDING": "Pending",
+		"STATUS_ADDRESS_VERIFIED": "Verified",
+		"STATUS_ADDRESS_NOTVERIFIED": "Not verified"
 	},
 	"NOT_FOUND": {
 
@@ -54,5 +67,12 @@
 	"DIALOGS": {
 		"TITLE_SELECT_LANG": "Select language",
 		"TXT_CLOSE": "Close"
+	},
+	"MODERATORS": {
+		"PENDING_PAGE": {
+			"TITLE_PENDING": "Pending list"
+		},
+		"LABEL_NO_RESULTS": "No results.",
+		"LABEL_TOOLBAR_TITLE": "Moderator's panel"
 	}
 }

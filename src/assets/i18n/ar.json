@@ -19,11 +19,24 @@
 	"MAIN_PAGE": {
 		"TITLE_L1": "مرحبًا بكم في موقع Permaweb!",
 		"SUBTITLE_L1": "arwiki هو موقع wiki اللامركزي لـ arweave يمكن لأي شخص تحريره.",
-		"TITLE_L2": "Getting started",
-		"TITLE_L3": "Latest articles"
+		"TITLE_L2": "ابدء",
+		"TITLE_L3": "أحدث المقالات"
 	},
 	"PAGE": {
-
+		"LABEL_ID": "Id",
+		"LABEL_TITLE": "لقب",
+		"LABEL_SLUG": "Slug",
+		"LABEL_CATEGORY": "فئة",
+		"LABEL_LANGUAGE": "لغة",
+		"LABEL_OWNER": "مالك",
+		"LABEL_TX_STATUS": "TX status",
+		"LABEL_BLOCK_HEIGHT": "ارتفاع الكتلة",
+		"LABEL_BLOCK_TIMESTAMP": "حظر الطابع الزمني",
+		"LABEL_ARVERIFY_SCORE": "ArVerify Score",
+		"LABEL_OWNER_STATUS": "حالة المالك",
+		"STATUS_TX_PENDING": "قيد الانتظار",
+		"STATUS_ADDRESS_VERIFIED": "تم التحقق",
+		"STATUS_ADDRESS_NOTVERIFIED": "لم يتم التحقق منها"
 	},
 	"NOT_FOUND": {
 
@@ -54,5 +67,12 @@
 	"DIALOGS": {
 		"TITLE_SELECT_LANG": "حدد اللغة",
 		"TXT_CLOSE": "أغلق"
+	},
+	"MODERATORS": {
+		"PENDING_PAGE": {
+			"TITLE_PENDING": "قائمة معلقة"
+		},
+		"LABEL_NO_RESULTS": "لا نتائج.",
+		"LABEL_TOOLBAR_TITLE": "لوحة المشرف"
 	}
 }
