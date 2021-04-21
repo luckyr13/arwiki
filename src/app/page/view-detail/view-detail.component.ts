@@ -12,6 +12,9 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 import { ArwikiSettingsContract } from '../../arwiki-contracts/arwiki-settings';
 import { UserSettingsService } from '../../core/user-settings.service';
+import { getVerification } from "arverify";
+declare const window: any;
+declare const document: any;
 
 @Component({
   templateUrl: './view-detail.component.html',
@@ -25,7 +28,10 @@ export class ViewDetailComponent implements OnInit {
   pageTitle: string = '';
   pageId: string = '';
   pageImg: string = '';
+  pageOwner: string = '';
   scrollTop: number = 0;
+  toc: any[] = [];
+  arverifyProcessedAddressesMap: any = {};
 
   constructor(
     private route: ActivatedRoute,
@@ -59,6 +65,13 @@ export class ViewDetailComponent implements OnInit {
   }
 
   async loadPageData(slug: string, langCode: string) {
+     // Init page data 
+    this.pageTitle = '';
+    this.pageImg = '';
+    this.pageId = '';
+    this.htmlContent = '';
+    this.pageOwner = '';
+    const numPages = 1;
   	this.loadingPage = true;
 
     let networkInfo;
@@ -70,12 +83,7 @@ export class ViewDetailComponent implements OnInit {
       this.message(error, 'error');
       return;
     }
-    // Init page data 
-    this.pageTitle = '';
-    this.pageImg = '';
-    this.pageId = '';
-    this.htmlContent = '';
-    const numPages = 1;
+   
 
   	this.pageSubscription = this.arwikiQuery!.getPageBySlug(
   		slug, langCode, this._settingsContract, maxHeight, numPages
@@ -87,12 +95,19 @@ export class ViewDetailComponent implements OnInit {
   				this.pageTitle = page.title ? page.title : '';
   				this.pageImg = page.img ? page.img : '';
   				this.pageId = page.id ? page.id : '';
+          this.pageOwner = page.owner ? page.owner : '';
 
           const content = await this._arweave.arweave.transactions.getData(
             page.id, 
             {decode: true, string: true}
           );
           this.htmlContent = this.markdownToHTML(content);
+          // Generate TOC 
+          window.setTimeout(() => {
+
+            this.generateTOC();
+
+          }, 500);
   				
 
   			} else {
@@ -137,6 +152,45 @@ export class ViewDetailComponent implements OnInit {
 
   goBack() {
     this._location.back();
+  }
+
+
+  generateTOC() {
+    const container = document.getElementById('arwiki-page-content-detail');
+    if (!container) {
+      return;
+    }
+    const h1 = container.getElementsByTagName('h1');
+    const h2 = container.getElementsByTagName('h2');
+    const h3 = container.getElementsByTagName('h3');
+    this.generateTOC_helper_addId(h1);
+    this.generateTOC_helper_addId(h2);
+    this.generateTOC_helper_addId(h3);
+
+  }
+
+  generateTOC_helper_addId(elements: any[]) {
+    const numElements = elements.length;
+    for (let i = 0; i < numElements; i++) {
+      const finalId = elements[i].innerText.trim().replace(/ /gi, '_');
+
+      elements[i].id = `toc_${finalId}`;
+      console.log(elements[i], elements[i].getBoundingClientRect().top )
+    }
+  }
+
+  generateTOC_helper_addToTable() {
+    const tmpArray = [];
+  }
+
+  async getArverifyVerification(_address: string) {
+    const verification = await getVerification(_address);
+
+    return ({
+      verified: verification.verified,
+      icon: verification.icon,
+      percentage: verification.percentage
+    });
   }
 
 }

@@ -3,7 +3,7 @@
 		<h1 class="page-title col-9">
 			<span class="fadeIn" *ngIf="pageTitle">{{ pageTitle }}</span>
 		</h1>
-	<div class="text-right page-title-buttons col-3">
+		<div class="text-right page-title-buttons col-3">
 	    <button 
 	    	type="button"
 		  	mat-mini-fab 
@@ -14,18 +14,28 @@
 		    <mat-icon>navigate_before</mat-icon>
 		  </button>
 		</div>
+		<p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageOwner">
+	  	<strong>Created by:</strong> {{ pageOwner }}
+	  	<mat-icon
+	  		 *ngIf="arverifyProcessedAddressesMap[pageOwner] && arverifyProcessedAddressesMap[pageOwner].verified"
+	  		 class="green">verified_user</mat-icon>
+	  </p>
+	  <p class="text-right mini-text fadeIn col-12 col-md-6" *ngIf="pageId">
+	  	<strong>TX:</strong> {{ pageId }}
+	  </p>
+	  <div class="separator col-12"></div>
 	</div>
 	<mat-spinner class="spinner-center" *ngIf="loadingPage"></mat-spinner>
 		
 	<div class="row">
 		<div 
 			*ngIf="htmlContent"
-			class="col-12 col-md-2 arwiki-page-preview-container fadeIn">
+			class="col-12 col-md-3 arwiki-page-preview-container fadeIn">
 				<h3>Contents</h3>
 			</div>
 		<div 
-			class="col-12 col-md-10 arwiki-page-preview-container fadeIn" 
-			*ngIf="htmlContent"
+			id="arwiki-page-content-detail"
+			class="col-12 col-md-9 arwiki-page-preview-container fadeIn" 
 			[innerHTML]="htmlContent"></div>
 	</div>
 
