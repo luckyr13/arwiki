@@ -16,9 +16,29 @@
 		</div>
 	</div>
 	<mat-spinner class="spinner-center" *ngIf="loadingPage"></mat-spinner>
+	<div class="row" *ngIf="page && !loadingPage">
+		<h1 class="col-12">
+			{{ page.title }}
+		</h1>
+		<div class="col-12">
+			<strong>Slug:</strong> {{ page.slug }} / 
+			<strong>Category</strong>: {{ page.category }} /
+			<strong>Language:</strong> {{ page.language }}
+		</div>
+		<div class="col-12">
+			<strong>Owner:</strong> {{ page.owner }}
+		</div>
+		<h4 class="col-12">Content:</h4> 
+		<div class="col-3">
+			<mat-card *ngIf="page.img">
+				<img class="page-img" src="{{ baseURL + page.img }}">
+			</mat-card>
+			<mat-card *ngIf="!page.img">
+				No main image.
+			</mat-card>
 		
-	<div class="row">
-		<div class="col-12 arwiki-page-preview-container" [innerHTML]="htmlContent"></div>
+		</div>
+		<div class="col-9 arwiki-page-preview-container" [innerHTML]="htmlContent"></div>
 	</div>	
 </div>
 
