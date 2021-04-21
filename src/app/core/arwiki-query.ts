@@ -421,7 +421,7 @@ export class ArwikiQuery {
     _langCode: string,
     _settingsContract: ArwikiSettingsContract,
     _maxHeight: number,
-    _limit: number = 100
+    _limit: number = 1
   ) {
     return _settingsContract.getState()
       .pipe(
@@ -475,7 +475,7 @@ export class ArwikiQuery {
     owners: string[],
     slugList: string[],
     langCode: string,
-    limit: number = 100,
+    limit: number = 1,
     maxHeight: number = 0
   ): Observable<any> {
     const tags = [
