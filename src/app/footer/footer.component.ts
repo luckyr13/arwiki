@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { arwikiVersion } from '../core/arwiki-query';
 
 @Component({
   selector: 'app-footer',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent implements OnInit {
+	arwikiV: string = arwikiVersion[0];
 
   constructor() { }
 
