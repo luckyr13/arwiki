@@ -14,14 +14,11 @@
 		    <mat-icon>navigate_before</mat-icon>
 		  </button>
 		</div>
-		<p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageOwner">
-	  	<strong>Created by:</strong> {{ pageOwner }}
-	  	<mat-icon
-	  		 *ngIf="arverifyProcessedAddressesMap[pageOwner] && arverifyProcessedAddressesMap[pageOwner].verified"
-	  		 class="green mini-icon">verified_user</mat-icon>
+	  <p class="text-left fadeIn col-12 col-md-6" *ngIf="pageCategory">
+	  	<strong>Category:</strong> {{ pageCategory }}	
 	  </p>
-	  <p class="text-right mini-text fadeIn col-12 col-md-6" *ngIf="pageId">
-	  	<strong>TX:</strong> {{ pageId }}
+	  <p class="text-right fadeIn col-12 col-md-6" *ngIf="block.timestamp">
+	  	<strong>Last update:</strong> {{ timestampToDate(block.timestamp) | date:'short'}}	
 	  </p>
 	  <div class="separator col-12"></div>
 	</div>
@@ -57,6 +54,16 @@
 			id="arwiki-page-content-detail"
 			class="col-12 col-md-9 fadeIn" 
 			[innerHTML]="htmlContent"></div>
+
+		<p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageOwner">
+	  	<strong>Created by:</strong> {{ pageOwner }}
+	  	<mat-icon
+	  		 *ngIf="arverifyProcessedAddressesMap[pageOwner] && arverifyProcessedAddressesMap[pageOwner].verified"
+	  		 class="green mini-icon">verified_user</mat-icon>
+	  </p>
+	  <p class="text-right mini-text fadeIn col-12 col-md-6" *ngIf="pageId">
+	  	<strong>TX:</strong> {{ pageId }}
+	  </p>
 	</div>
 
 </div>

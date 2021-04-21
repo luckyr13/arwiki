@@ -29,6 +29,8 @@ export class ViewDetailComponent implements OnInit {
   pageId: string = '';
   pageImg: string = '';
   pageOwner: string = '';
+  pageCategory: string = '';
+  block: any;
   scrollTop: number = 0;
   toc: any[] = [];
   arverifyProcessedAddressesMap: any = {};
@@ -73,6 +75,8 @@ export class ViewDetailComponent implements OnInit {
     this.pageId = '';
     this.htmlContent = '';
     this.pageOwner = '';
+    this.pageCategory = '';
+    this.block = {};
     const numPages = 1;
   	this.loadingPage = true;
 
@@ -98,6 +102,8 @@ export class ViewDetailComponent implements OnInit {
   				this.pageImg = page.img ? page.img : '';
   				this.pageId = page.id ? page.id : '';
           this.pageOwner = page.owner ? page.owner : '';
+          this.pageCategory = page.category ? page.category : '';
+          this.block = page.block;
 
           const content = await this._arweave.arweave.transactions.getData(
             page.id, 
@@ -207,6 +213,11 @@ export class ViewDetailComponent implements OnInit {
 
   validateTOCactiveMenu(_elementTop: number ){
     return (_elementTop < this.scrollTop + 170);
+  }
+
+  timestampToDate(_time: number) {
+    let d = new Date(_time * 1000);
+    return d;
   }
 
 }

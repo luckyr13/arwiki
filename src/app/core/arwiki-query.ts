@@ -452,6 +452,7 @@ export class ArwikiQuery {
             const img = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
             const owner = p.node.owner.address;
             const id = p.node.id;
+            const block = p.node.block;
             
             finalRes.push({
               title: title,
@@ -459,7 +460,8 @@ export class ArwikiQuery {
               category: category,
               img: img,
               owner: owner,
-              id: id
+              id: id,
+              block: block
             });
             
           }
