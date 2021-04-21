@@ -9,7 +9,7 @@
 }
 
 .separator {
-	margin-bottom: 20px;
+	margin-bottom: 40px;
 }
 
 .page-title span {
@@ -42,10 +42,10 @@
 	color: inherit;
 	text-decoration: none;
 	width: 100%;
-	min-height: 32px;
-	line-height: 32px;
+	min-height: 28px;
+	line-height: 16px;
 	display: block;
-	font-size: 14px;
+	font-size: 12.5px;
 	padding-left: 10px;
 }
 
@@ -58,4 +58,15 @@
 .toc-image {
 	max-width: 100%;
 	margin: 0 auto;
+}
+
+#arwiki-page-content-detail {
+	margin-bottom: 40px;
+}
+
+@media (min-width: 800px) {
+
+	#arwiki-page-content-detail {
+		padding-left: 40px;
+	}
 }
