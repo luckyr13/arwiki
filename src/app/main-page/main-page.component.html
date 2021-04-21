@@ -83,6 +83,13 @@
 	    	  	{{ sanitizeMarkdown(latestArticlesData[article.id]) }}
 	    	  </p>
 	    	  <p class="text-right mini-text">
+	    	  	<strong>Category: </strong>{{ article.category }}
+	    	  </p>
+	    	  <p class="text-right mini-text">
+	    	  	<strong>Creation date: </strong>
+	    	  	{{ timestampToDate(article.block.timestamp) | date:'short' }}
+	    	  </p>
+	    	  <p class="text-right mini-text">
 	    	  	<strong>Created by:</strong> {{ article.owner }}
 	    	  	<mat-icon
 	    	  		 *ngIf="arverifyProcessedAddressesMap[article.owner] && arverifyProcessedAddressesMap[article.owner].verified"

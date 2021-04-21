@@ -110,6 +110,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
           const img = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
           const owner = p.node.owner.address;
           const id = p.node.id;
+          const block = p.node.block;
           
           latestPages.push({
             title: title,
@@ -117,7 +118,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
             category: category,
             img: img,
             owner: owner,
-            id: id
+            id: id,
+            block: block
           });
         }
         this.latestArticles = latestPages;
@@ -279,9 +281,9 @@ export class MainPageComponent implements OnInit, OnDestroy {
     return res;
   }
 
-  sanitizeMarkdown(_s: string) {
+  sanitizeMarkdown(_s: string, _maxLength: number = 250) {
     _s = _s.replace(/[#*=\[\]]/gi, '')
-    let res: string = `${_s.substring(0, 250)} ...`;
+    let res: string = `${_s.substring(0, _maxLength)} ...`;
     return res;
   }
 
@@ -304,5 +306,9 @@ export class MainPageComponent implements OnInit, OnDestroy {
     });
   }
 
+  timestampToDate(_time: number) {
+    let d = new Date(_time * 1000);
+    return d;
+  }
 
 }
