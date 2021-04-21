@@ -126,7 +126,7 @@ export class ViewDetailComponent implements OnInit {
   }
 
   sanitizeMarkdown(_s: string) {
-    _s = _s.replace(/[#*\[\]]/gi, '')
+    _s = _s.replace(/[#*=\[\]]/gi, '')
     let res: string = `${_s.substring(0, 250)} ...`;
     return res;
   }
