@@ -49,6 +49,9 @@
 .txurl {
 	text-decoration: none;
   width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .bn3 {
@@ -71,8 +74,15 @@
 	font-size: 16px;
 }
 
-.card-page {
+.card-page-container {
 	margin-bottom: 10px;
+}
+
+
+.card-page div {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .no-results {

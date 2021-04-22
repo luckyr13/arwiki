@@ -78,8 +78,8 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-12 col-md-6 card-page fadeIn" *ngFor="let page of pages">
-			<mat-card>
+		<div class="col-12 col-md-6 card-page-container fadeIn" *ngFor="let page of pages">
+			<mat-card class="card-page">
 
 				<div *ngIf="page.img" class="text-center">
 					<img class="card-page-img" src="{{ page.img }}">
