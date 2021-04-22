@@ -45,6 +45,7 @@ arwikiQuery: ArwikiQuery|null = null;
 
   async searchNow() {
     this.loadingPages = true;
+    this.pages = [];
 
     let networkInfo;
     let maxHeight = 0;
