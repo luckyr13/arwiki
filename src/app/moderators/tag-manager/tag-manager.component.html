@@ -21,14 +21,52 @@
 			<strong>Owner:</strong> {{ page.owner }}
 		</div>
 		<div class="col-12">
-			<strong>Tags:</strong> {{ page.owner }}
+			<strong>Current tags:</strong>
+			<mat-chip-list aria-label="Current tags">
+			  <mat-chip color="primary" selected *ngFor="let ct of currentTags">
+			  	{{ ct }}
+			 	</mat-chip>
+			</mat-chip-list>
 		</div>
 
-		<h3 class="col-12">
-			Add tags	
-		</h3>
-		
-		
+		<div class="col-12 text-center" *ngIf="!loadingSavingTags && !savingTagsTX.length">
+			<h3 class="text-left">Create tags:</h3>
+			<form [formGroup]="frmTags" (ngSubmit)="onSubmit()">
+				<mat-form-field id="tags-input-container" class="w70">
+				  <mat-label>Tags</mat-label>
+				  <mat-chip-list #chipList class="tags-input" aria-label="Add tags">
+				   	<mat-chip 
+					   	*ngFor="let tag of tags" 
+					   	[selectable]="selectable"
+	            [removable]="removable"
+	            (removed)="remove(tag)">
+	      				{{tag.name}}
+	    				<mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+	  				</mat-chip>
+				    <input 
+				    	placeholder="Add tag..."
+				    	formControlName="newTags"
+							[matChipInputFor]="chipList"
+							[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+							[matChipInputAddOnBlur]="addOnBlur"
+							(matChipInputTokenEnd)="add($event)">
+				  </mat-chip-list>
+	    		<mat-hint align="start">Separate tags by comma</mat-hint>
+				</mat-form-field>
+				<div class="text-center">
+		  		<button mat-flat-button color="primary" [disabled]="!tags.length || loadingSavingTags">
+		  			<mat-icon>save</mat-icon> Save
+		  		</button>
+				</div>
+			</form>
+		</div>
+		<mat-spinner class="spinner-center" *ngIf="loadingSavingTags"></mat-spinner>
+
+
+		<div class="col-12 text-center" *ngIf="savingTagsTX.length">
+			The following TX were created: {{ savingTagsTX | json }}
+		</div>			
+
 	</div>	
 </div>
 

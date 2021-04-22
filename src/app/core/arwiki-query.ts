@@ -525,4 +525,64 @@ export class ArwikiQuery {
     return obs;
   }
 
+  async createTagTXForArwikiPage(
+    _pageId: string,
+    _tag: string,
+    _langCode: string,
+    _privateKey: any
+  ) {
+    _tag = _tag.toLowerCase().trim();
+    const jwk = _privateKey;
+    const data = { pageId: _pageId, tag: _tag };
+    const tx = await this._arweave.createTransaction({
+      data: JSON.stringify(data)
+    }, jwk);
+    tx.addTag('Content-Type', 'text/json');
+    tx.addTag('Service', 'ArWiki');
+    tx.addTag('Arwiki-Type', 'Tag');
+    tx.addTag('Arwiki-Page-Id', _pageId);
+    tx.addTag('Arwiki-Page-Tag', _tag);
+    tx.addTag('Arwiki-Version', arwikiVersion[0]);
+    await this._arweave.transactions.sign(tx, jwk)
+    await this._arweave.transactions.post(tx)
+    return tx.id;
+  }
+
+  /*
+  * @dev
+  */
+  getVerifiedTagsFromPage(
+    owners: string[],
+    pageId: string,
+    limit: number = 100,
+    maxHeight: number = 0
+  ): Observable<any> {
+    const tags = [
+      {
+        name: 'Service',
+        values: ['ArWiki'],
+      },
+      {
+        name: 'Arwiki-Type',
+        values: ['Tag'],
+      }
+    ];
+
+    const obs = new Observable((subscriber) => {
+      this._ardb!.search('transactions')
+        .limit(limit)
+        .from(owners)
+        .max(maxHeight)
+        .tags(tags).find().then((res) => {
+          subscriber.next(res);
+          subscriber.complete();
+        })
+        .catch((error) => {
+          subscriber.error(error);
+        });
+
+    });
+    return obs;
+  }
+
 }
