@@ -8,11 +8,11 @@ import { ArweaveService } from '../core/arweave.service';
 import { Subscription, EMPTY, Observable } from 'rxjs';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ArwikiLangIndexContract} from '../arwiki-contracts/arwiki-lang-index';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import {MatBottomSheet} from '@angular/material/bottom-sheet';
 import { BottomSheetLoginComponent } from '../shared/bottom-sheet-login/bottom-sheet-login.component';
 import { ArwikiSettingsContract } from '../arwiki-contracts/arwiki-settings';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 declare const window: any;
 
 @Component({
@@ -40,6 +40,9 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   appLogoDark: string = '';
   appSettingsSubscription: Subscription = Subscription.EMPTY;
   maintoolbarVisible: boolean = false;
+  frmSearch: FormGroup = new FormGroup({
+    'searchQry': new FormControl('')
+  });
 
   constructor(
     private _auth: AuthService,
@@ -49,8 +52,13 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
     private _langContract: ArwikiLangIndexContract,
     private _bottomSheet: MatBottomSheet,
     private _arwikiSettings: ArwikiSettingsContract,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private _router: Router
   ) {}
+
+  get searchQry() {
+    return this.frmSearch.get('searchQry');
+  }
 
 
   ngOnInit(): void {
@@ -187,5 +195,16 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
     }
 
     return ngStyle;
+  }
+
+  onSearch() {
+    const qry = this.searchQry!.value;
+    if (!qry) {
+      return;
+    }
+
+    this._router.navigate([`${this.routerLang}/search/${qry}`]);
+
+
   }
 }
