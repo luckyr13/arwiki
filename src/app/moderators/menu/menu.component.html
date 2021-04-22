@@ -5,10 +5,11 @@
 	<span>&nbsp;{{ 'MODERATORS.LABEL_TOOLBAR_TITLE' | translate }}</span>
 	<span class="menu-spacer"></span>
   <button mat-icon-button [matMenuTriggerFor]="menu">
-    <mat-icon>settings</mat-icon>
+    <mat-icon>menu</mat-icon>
   </button>
 	<mat-menu #menu="matMenu">
 	  <button mat-menu-item routerLink="/{{ routerLang }}/moderators/pending">Pending pages</button>
+	  <button mat-menu-item routerLink="/{{ routerLang }}/moderators/approved">Approved pages</button>
 	  <button mat-menu-item routerLink="/{{ routerLang }}/moderators/add-admin">Add admin</button>
 	  <button mat-menu-item routerLink="/{{ routerLang }}/moderators/view-admin-list">View admin list</button>
 	</mat-menu>

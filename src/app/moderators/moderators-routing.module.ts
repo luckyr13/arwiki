@@ -6,6 +6,7 @@ import { InitPlatformGuard } from '../auth/init-platform.guard';
 import { PendingListComponent } from './pending-list/pending-list.component';
 import { AddAdminComponent } from './add-admin/add-admin.component';
 import { ViewAdminListComponent } from './view-admin-list/view-admin-list.component';
+import { ApprovedListComponent } from './approved-list/approved-list.component';
 
 const routes: Routes = [
 	{
@@ -14,6 +15,9 @@ const routes: Routes = [
 		children: [
 			{
 				path: 'pending', component: PendingListComponent
+			},
+			{
+				path: 'approved', component: ApprovedListComponent
 			},
 			{
 				path: 'add-admin', component: AddAdminComponent

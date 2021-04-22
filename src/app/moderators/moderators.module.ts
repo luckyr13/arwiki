@@ -6,10 +6,11 @@ import { PendingListComponent } from './pending-list/pending-list.component';
 import { MenuComponent } from './menu/menu.component';
 import { AddAdminComponent } from './add-admin/add-admin.component';
 import { ViewAdminListComponent } from './view-admin-list/view-admin-list.component';
+import { ApprovedListComponent } from './approved-list/approved-list.component';
 
 
 @NgModule({
-  declarations: [PendingListComponent, MenuComponent, AddAdminComponent, ViewAdminListComponent],
+  declarations: [PendingListComponent, MenuComponent, AddAdminComponent, ViewAdminListComponent, ApprovedListComponent],
   imports: [
     CommonModule,
     ModeratorsRoutingModule,
