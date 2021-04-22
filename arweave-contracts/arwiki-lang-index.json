@@ -34,6 +34,18 @@
 		"iso_name": "Hebrew",
 		"native_name": "עברית",
 		"writing_system": "RTL"
+	},
+	"hu": {
+		"code": "hu",
+		"iso_name": "Hungarian",
+		"native_name": "magyar",
+		"writing_system": "LTR"
+	},
+	"ga": {
+		"code": "ga",
+		"iso_name": "Irish",
+		"native_name": "Gaeilge",
+		"writing_system": "LTR"
 	}
 }
 
