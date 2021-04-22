@@ -10,7 +10,6 @@ import { ArwikiQuery } from '../../core/arwiki-query';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-approved-list',
   templateUrl: './approved-list.component.html',
   styleUrls: ['./approved-list.component.scss']
 })

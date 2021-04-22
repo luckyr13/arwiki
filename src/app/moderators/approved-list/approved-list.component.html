@@ -43,11 +43,15 @@
 				<div class="text-right">
 					<a
 						mat-flat-button
-						color="primary">
+						color="primary"
+						routerLink="../tag-manager/{{p.id}}">
 						<mat-icon>sell</mat-icon>
 					</a>
 					&nbsp;
-					<a mat-flat-button color="primary" routerLink="../../{{p.slug}}">
+					<a 
+						mat-flat-button
+						color="primary"
+						routerLink="../../{{p.slug}}">
 						<mat-icon>visibility</mat-icon>
 					</a>
 				</div>
