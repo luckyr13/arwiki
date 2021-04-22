@@ -1,0 +1,36 @@
+<app-moderators-menu title="Tag manager"></app-moderators-menu>
+<mat-spinner class="spinner-center" *ngIf="loadingPage"></mat-spinner>
+<div class="container tagm-page-container">
+	<div class="row" *ngIf="page && !loadingPage">
+		<div class="col-12">
+			<strong>Title:</strong> {{ page.title }}
+			<br>
+			<strong>Slug:</strong> 
+			<a
+				mat-flat-button
+				routerLink="../../../{{page.slug}}">
+				<mat-icon>visibility</mat-icon> {{page.slug}}
+			</a>
+
+			<br>
+			<strong>Category</strong>: {{ page.category }}
+			<br>
+			<strong>Language:</strong> {{ page.language }}
+		</div>
+		<div class="col-12">
+			<strong>Owner:</strong> {{ page.owner }}
+		</div>
+		<div class="col-12">
+			<strong>Tags:</strong> {{ page.owner }}
+		</div>
+
+		<h3 class="col-12">
+			Add tags	
+		</h3>
+		
+		
+	</div>	
+</div>
+
+
+	
