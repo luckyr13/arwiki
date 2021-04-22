@@ -29,7 +29,7 @@
 			<strong>Owner:</strong> {{ page.owner }}
 		</div>
 		<h4 class="col-12">Content:</h4> 
-		<div class="col-3">
+		<div class="col-12 col-md-3">
 			<mat-card *ngIf="page.img">
 				<img class="page-img" src="{{ baseURL + page.img }}">
 			</mat-card>
@@ -38,7 +38,7 @@
 			</mat-card>
 		
 		</div>
-		<div class="col-9 arwiki-page-preview-container" [innerHTML]="htmlContent"></div>
+		<div class="col-12 col-md-9 arwiki-page-preview-container" [innerHTML]="htmlContent"></div>
 	</div>	
 </div>
 
