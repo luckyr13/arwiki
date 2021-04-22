@@ -528,6 +528,7 @@ export class ArwikiQuery {
   async createTagTXForArwikiPage(
     _pageId: string,
     _tag: string,
+    _category_slug: string,
     _langCode: string,
     _privateKey: any
   ) {
@@ -542,6 +543,8 @@ export class ArwikiQuery {
     tx.addTag('Arwiki-Type', 'Tag');
     tx.addTag('Arwiki-Page-Id', _pageId);
     tx.addTag('Arwiki-Page-Tag', _tag);
+    tx.addTag('Arwiki-Page-Category', _category_slug);
+    tx.addTag('Arwiki-Page-Lang', _langCode);
     tx.addTag('Arwiki-Version', arwikiVersion[0]);
     await this._arweave.transactions.sign(tx, jwk)
     await this._arweave.transactions.post(tx)
@@ -551,9 +554,9 @@ export class ArwikiQuery {
   /*
   * @dev
   */
-  getVerifiedTagsFromPage(
+  getVerifiedTagsFromPages(
     owners: string[],
-    pageId: string,
+    pageIds: string[],
     limit: number = 100,
     maxHeight: number = 0
   ): Observable<any> {
@@ -565,6 +568,117 @@ export class ArwikiQuery {
       {
         name: 'Arwiki-Type',
         values: ['Tag'],
+      },
+      {
+        name: 'Arwiki-Page-Id',
+        values: pageIds,
+      }
+    ];
+
+    const obs = new Observable((subscriber) => {
+      this._ardb!.search('transactions')
+        .limit(limit)
+        .from(owners)
+        .max(maxHeight)
+        .tags(tags).find().then((res) => {
+          subscriber.next(res);
+          subscriber.complete();
+        })
+        .catch((error) => {
+          subscriber.error(error);
+        });
+
+    });
+    return obs;
+  }
+
+  /*
+  * @dev
+  */
+  searchInApprovedTags(
+    _queries: string[],
+    _langCode: string,
+    _settingsContract: ArwikiSettingsContract,
+    _maxHeight: number,
+    _limit: number = 100
+  ) {
+    const qry = _queries.map(e => e.toLowerCase().trim());
+    return _settingsContract.getState()
+      .pipe(
+        switchMap((settingsContractState) => {
+          return this.getVerifiedTagsFromQueries(
+            settingsContractState.adminList,
+            qry,
+            _langCode,
+            _limit,
+            _maxHeight
+          );
+        }),
+        switchMap((verifiedPages) => {
+          const verifiedPagesList = [];
+          for (let p of verifiedPages) {
+            const vrfdPageId = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
+
+            if (verifiedPagesList.indexOf(vrfdPageId) >= 0) {
+              continue;
+            }
+
+            verifiedPagesList.push(vrfdPageId);
+          }
+
+          return this.getTXsData(verifiedPagesList);
+        }),
+        switchMap((txs) => {
+          const finalRes: any = [];
+          for (let p of txs) {
+            const title = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
+            const slug = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
+            const category = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
+            const img = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
+            const owner = p.node.owner.address;
+            const id = p.node.id;
+            
+            finalRes.push({
+              title: title,
+              slug: slug,
+              category: category,
+              img: img,
+              owner: owner,
+              id: id
+            });
+            
+          }
+          return of(finalRes);
+        })
+      );
+  }
+
+  /*
+  * @dev
+  */
+  getVerifiedTagsFromQueries(
+    owners: string[],
+    queries: string[],
+    langCode: string,
+    limit: number = 100,
+    maxHeight: number = 0
+  ): Observable<any> {
+    const tags = [
+      {
+        name: 'Service',
+        values: ['ArWiki'],
+      },
+      {
+        name: 'Arwiki-Type',
+        values: ['Tag'],
+      },
+      {
+        name: 'Arwiki-Page-Tag',
+        values: queries,
+      },
+      {
+        name: 'Arwiki-Page-Lang',
+        values: [langCode],
       }
     ];
 

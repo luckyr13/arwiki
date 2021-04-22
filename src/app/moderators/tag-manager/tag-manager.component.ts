@@ -113,9 +113,9 @@ export class TagManagerComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.tagsSubscription = this.arwikiQuery!.getVerifiedTagsFromPage(
+    this.tagsSubscription = this.arwikiQuery!.getVerifiedTagsFromPages(
       this._auth.getAdminList(), 
-      tx,
+      [tx],
       maxTags,
       maxHeight,
     ).subscribe({
@@ -190,6 +190,7 @@ export class TagManagerComponent implements OnInit, OnDestroy {
   onSubmit() {
     this.confirmSaveTags(
       this.tags,
+      this.page.category,
       this.page.id,
       this.page.language
     );
@@ -198,6 +199,7 @@ export class TagManagerComponent implements OnInit, OnDestroy {
 
   confirmSaveTags(
     _tags: any[],
+    _category: string,
     _content_id: string,
     _lang: string
   ) {
@@ -221,6 +223,7 @@ export class TagManagerComponent implements OnInit, OnDestroy {
             const tx = await this.arwikiQuery!.createTagTXForArwikiPage(
               _content_id,
               tag,
+              _category,
               this.routeLang,
               this._auth.getPrivateKey()
             );

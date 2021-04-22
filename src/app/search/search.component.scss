@@ -1,11 +1,33 @@
 .search-page-container {
 	min-height: 600px;
-	margin-top: 80px;
+	margin-top: 100px;
 }
 
 .search-page-container h1 {
 	font-size: 52px;
+	margin-bottom: 40px;
 }
 .search-page-container p {
 	font-size: 32px;
+}
+
+.card-title {
+	font-size: 2.5rem;
+	font-family: "Roboto Mono", monospace;
+	margin-bottom: 20px;
+}
+
+.card-page {
+	margin-bottom: 20px;
+}
+
+.card-preview {
+	margin-bottom: 20px;
+}
+
+.mini-text {
+	font-size: 12px;
+	white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
