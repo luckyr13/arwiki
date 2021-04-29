@@ -15,7 +15,7 @@
 				*ngIf="!pagesData[p.id]"
 				class="fadeIn"></mat-progress-bar>
 			<mat-card>
-				<div class="card-title">
+				<div class="card-title" routerLink="/{{routeLang}}/{{p.slug}}">
 					{{  p.title }}
 				</div>
 				<div class="card-preview" *ngIf="pagesData[p.id]">
