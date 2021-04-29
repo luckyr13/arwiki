@@ -1,5 +1,5 @@
 <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
-<div *ngIf="loading" class="mt-home fadeIn">
+<div *ngIf="loading && !redirect" class="mt-home fadeIn">
   <div class="text-center main-logo">
     <ngx-skeleton-loader 
       count="1" 
@@ -24,7 +24,7 @@
   </div>
   
 </div>
-<div *ngIf="!loading" class="mt-home fadeIn">
+<div *ngIf="!loading && !redirect" class="mt-home fadeIn">
   <div class="text-center main-logo">
     <img 
       *ngIf="defaultTheme === 'arwiki-dark' && appLogoLight" 
@@ -44,7 +44,7 @@
 </div>
 
 
-<div class="container home-container fadeIn">
+<div *ngIf="!redirect" class="container home-container fadeIn">
 	<div class="row">
 		<div class="col-12">
 		  <app-search-engine></app-search-engine>

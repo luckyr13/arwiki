@@ -48,28 +48,27 @@ export class MainPageComponent implements OnInit, OnDestroy {
     private _route: ActivatedRoute
   ) { }
 
-  async ngOnInit() {
-  	this.getDefaultTheme();
-  	this.loading = true;
+  async loadMainPageData() {
+    this.getDefaultTheme();
+    this.loading = true;
     this.loadingLogo = true;
     this.loadingLatestArticles = true;
     // Init ardb instance
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
-    this.routeLang = this._route.snapshot.paramMap.get('lang')!;
 
     // Get categories (portals)
     this.categoriesSubscription = this._categoriesContract.getState()
       .subscribe({
-      	next: (data) => {
-      		this.categories = data;
-      		this.categoriesSlugs = Object.keys(this.categories);
-      		this.loading = false;
-      	},
-      	error: (error) => {
-      		console.log('error categories', error);
-      		this.loading = false;
-      	},
-    	});
+        next: (data) => {
+          this.categories = data;
+          this.categoriesSlugs = Object.keys(this.categories);
+          this.loading = false;
+        },
+        error: (error) => {
+          console.log('error categories', error);
+          this.loading = false;
+        },
+      });
 
     // Get logo 
     this.appSettingsSubscription = this._arwikiSettings
@@ -155,6 +154,22 @@ export class MainPageComponent implements OnInit, OnDestroy {
         this.message(error, 'error');
         this.loadingLatestArticles = false;
       }
+    });
+  }
+
+  async ngOnInit() {
+    this.routeLang = this._route.snapshot.paramMap.get('lang')!;
+  	await this.loadMainPageData();
+
+    // ON route change
+    this._userSettings.routeLangStream.subscribe(async (data) => {
+      if (data != this.routeLang) {
+        this.routeLang = data;
+        if (this.routeLang) {
+          await this.loadMainPageData();
+        }  
+      }
+      
     });
   }
 

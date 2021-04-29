@@ -37,6 +37,7 @@ export class ViewDetailComponent implements OnInit {
   routeLang: string = '';
   routeSlug: string = '';
   baseURL: string = this._arweave.baseURL;
+  fragment: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -58,6 +59,7 @@ export class ViewDetailComponent implements OnInit {
       this.routeSlug = slug!;
       if (slug) {
         await this.loadPageData(slug!, lang!);
+
       }
     });
 
@@ -65,6 +67,8 @@ export class ViewDetailComponent implements OnInit {
       this.scrollTop = scroll;
       this._ref.detectChanges();
     })
+
+
 
   }
 
@@ -114,6 +118,14 @@ export class ViewDetailComponent implements OnInit {
           window.setTimeout(() => {
 
             this.generateTOC();
+
+            // Listen for fragments
+            this.route.fragment.subscribe(fragment => {
+              this.fragment = fragment;
+              if (this.fragment) {
+                this._userSettings.scrollTo(this.fragment, -80);
+              }
+            });
 
           }, 500);
 

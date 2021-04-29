@@ -76,7 +76,7 @@
 					*ngIf="!latestArticlesData[article.id]"
 					class="fadeIn"></mat-progress-bar>
 				<mat-card class="card-latest-article fadeIn">
-			    <h2>
+			    <h2 routerLink="/{{routeLang}}/{{article.slug}}">
 			    	{{ article.title }}
 	    	  </h2>
 	    	  <p *ngIf="latestArticlesData[article.id]">

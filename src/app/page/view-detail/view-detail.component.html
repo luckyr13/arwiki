@@ -34,13 +34,17 @@
 				</a>
 			</mat-card>
 			<div class="toc-container">
-				<h3 class="toc-container-title">Overview Content</h3>
+				<h3 class="toc-container-title">Content overview</h3>
 				<div *ngIf="!toc.length">
 					--
 				</div>
 
 				<div *ngFor="let tocLink of toc">
-					<a class="toc-link" [class.active]="validateTOCactiveMenu(tocLink.top)" href="/{{routeLang}}/{{routeSlug}}#{{tocLink.id}}">
+					<a 
+						class="toc-link" 
+						[class.active]="validateTOCactiveMenu(tocLink.top)" 
+						[routerLink]="['/', routeLang, routeSlug]"
+						[fragment]="tocLink.id">
 						<span *ngIf="tocLink.type === 'H1'"></span>
 						<span *ngIf="tocLink.type === 'H2'">&nbsp;</span>
 						<span *ngIf="tocLink.type === 'H3'">&nbsp;&nbsp;</span>

@@ -4,6 +4,7 @@ import { ArweaveService } from '../core/arweave.service';
 import { Observable, Subscription } from 'rxjs';
 import { ArwikiSettingsContract } from '../arwiki-contracts/arwiki-settings';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   templateUrl: './home.component.html',
@@ -18,35 +19,54 @@ export class HomeComponent implements OnInit {
   appLogoDark: string = '';
   appSettingsSubscription: Subscription = Subscription.EMPTY;
   loading: boolean = false;
+  redirect: boolean = true;
 
   constructor(
     private _userSettings: UserSettingsService,
     private _arweave: ArweaveService,
     private _arwikiSettings: ArwikiSettingsContract,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private _router: Router
   ) { }
 
   ngOnInit(): void {
-    this.defaultTheme = this._userSettings.getDefaultTheme();
     this.loading = true;
-
-    // Hide main toolbar 
-    this._userSettings.updateMainToolbarVisiblity(false);
-
-    this.appSettingsSubscription = this._arwikiSettings
-      .getState()
-      .subscribe({
-        next: (state) => {
-          this.appName = state.app_name;
-          this.appLogoLight = `${this._arweave.baseURL}${state.main_logo_light}`;
-          this.appLogoDark = `${this._arweave.baseURL}${state.main_logo_dark}`;
-          this.loading = false;
-        },
-        error: (error) => {
-          this.message(error, 'error');
-          this.loading = false;
+    if (this.redirect) {
+      let defaultLang = this._userSettings.getDefaultLang();
+      if (Object.keys(defaultLang).length <= 0) {
+        // this.openSelectLanguageDialog();
+        // Define English as default 
+        defaultLang = {
+          code: "en",
+          native_name: "English"
         }
-      });
+      }
+      this._router.navigate([`/${defaultLang.code}`]);
+      return;
+    } else {
+      this.defaultTheme = this._userSettings.getDefaultTheme();
+
+      // Hide main toolbar 
+      this._userSettings.updateMainToolbarVisiblity(false);
+
+      this.appSettingsSubscription = this._arwikiSettings
+        .getState()
+        .subscribe({
+          next: (state) => {
+            this.appName = state.app_name;
+            this.appLogoLight = `${this._arweave.baseURL}${state.main_logo_light}`;
+            this.appLogoDark = `${this._arweave.baseURL}${state.main_logo_dark}`;
+            this.loading = false;
+          },
+          error: (error) => {
+            this.message(error, 'error');
+            this.loading = false;
+          }
+        });
+    }
+    
+
+    
   }
 
   ngOnDestroy() {

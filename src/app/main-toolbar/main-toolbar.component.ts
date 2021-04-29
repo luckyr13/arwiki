@@ -139,6 +139,7 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   setLanguage(langCode: string) {
     try {
       this._userSettings.setDefaultLang(this.langsCopy[langCode]);
+      this._router.navigate([`/${langCode}`]);
     } catch (err) {
       this.message(`Error: ${err}`, 'error');
     }
