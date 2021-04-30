@@ -29,7 +29,7 @@
     <div mat-line>{{ 'MAIN_MENU.HOME' | translate }}</div>
   </a>
   <div *ngFor="let cs of category_slugs">
-    <div mat-subheader *ngIf="menu[cs]">{{ categories[cs] | uppercase }}</div>
+    <div mat-subheader *ngIf="menu[cs]">{{ 'MAIN_MENU.' + cs | translate | uppercase }}</div>
     <a mat-list-item 
       (click)="toggleSideMenu()" 
       routerLink="{{ routerLang }}/{{ page.slug }}" 

@@ -51,8 +51,10 @@
 			</div>
 			<div class="row" *ngIf="categoriesSlugs.length">
 				<div class="col-12 text-left fadeIn portalBtnContainer" *ngFor="let catSlug of categoriesSlugs">
-					<a mat-button routerLink="../category/{{catSlug}}">
-					{{ categories[catSlug] }}
+					<a
+						mat-button 
+						routerLink="../category/{{catSlug}}">
+					{{ 'MAIN_MENU.' + catSlug | translate}}
 					</a>
 				</div>
 			</div>
