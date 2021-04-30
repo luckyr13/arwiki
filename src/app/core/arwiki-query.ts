@@ -79,8 +79,9 @@ export class ArwikiQuery {
           return _settingsContract.getState();
         }),
         switchMap((settingsContractState) => {
-          return (this.getVerifiedPages(
+          return (this.getVerifiedPagesByCategories(
               settingsContractState.adminList,
+              Object.keys(_globalCat),
               _langCode, 
               _limit,
               _maxHeight,
