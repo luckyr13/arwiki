@@ -212,11 +212,16 @@ p {
 }
 
 
-.arwiki-page-preview-container img {
+.arwiki-page-preview-container img,
+#arwiki-page-content-detail img {
   display: block;
   max-width: 80% !important;
   margin: 0 auto;
   margin-top: 20px;
   margin-bottom: 20px;
+}
 
+.arwiki-page-preview-container a,
+#arwiki-page-content-detail a{
+  color: inherit;
 }
