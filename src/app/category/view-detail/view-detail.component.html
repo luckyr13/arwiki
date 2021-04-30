@@ -1,5 +1,21 @@
 <div class="container category-page-container fadeIn">
-	<h1 class="text-left">Category: {{ slugToLabel(category) }}</h1>
+	<div class="row">
+		<h1 class="page-title col-9">
+			Category: {{ 'MAIN_MENU.' + category | translate }}
+		</h1>
+		<div class="text-right page-title-buttons col-3">
+	    <button 
+	    	type="button"
+		  	mat-mini-fab 
+		  	class="btn-toolbar" 
+		  	color="primary"
+		  	(click)="goBack()"
+		  	matTooltip="{{ 'CREATE_PAGE.FRM_BTN_GOBACK' | translate }}">
+		    <mat-icon>navigate_before</mat-icon>
+		  </button>
+		</div>
+	</div>
+
 	<div class="row">
 		<div class="col-12">
 			<mat-spinner class="spinner-center" *ngIf="loadingPages"></mat-spinner>

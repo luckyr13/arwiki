@@ -6,6 +6,7 @@ import { ArwikiSettingsContract } from '../../arwiki-contracts/arwiki-settings';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { getVerification } from "arverify";
 import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   templateUrl: './view-detail.component.html',
@@ -26,7 +27,8 @@ export class ViewDetailComponent implements OnInit {
   	private _arweave: ArweaveService,
   	private _settingsContract: ArwikiSettingsContract,
   	private _snackBar: MatSnackBar,
-  	private _route: ActivatedRoute
+  	private _route: ActivatedRoute,
+    private _location: Location,
  	) { }
 
   async ngOnInit() {
@@ -139,5 +141,9 @@ export class ViewDetailComponent implements OnInit {
     return res;
   }
 
+
+  goBack() {
+    this._location.back();
+  }
 
 }
