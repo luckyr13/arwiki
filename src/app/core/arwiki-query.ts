@@ -440,13 +440,14 @@ export class ArwikiQuery {
     return _categoriesContract.getState()
       .pipe(
         switchMap((categoriesContractState) => {
-          categoriesCS = categoriesContractState
+          categoriesCS = Object.keys(categoriesContractState);
           return _settingsContract.getState();
         }),
         switchMap((settingsContractState) => {
           return this.getVerifiedPagesBySlug(
             settingsContractState.adminList,
             [_slug],
+            categoriesCS,
             _langCode,
             _limit,
             _maxHeight
@@ -456,13 +457,6 @@ export class ArwikiQuery {
           const verifiedPagesList = [];
           for (let p of verifiedPages) {
             const vrfdPageId = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
-            const vrfdPageCat = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
-            
-            // Validate category 
-            if (!(vrfdPageCat in categoriesCS)) {
-              throw new Error('Invalid category!');
-            }
-
             verifiedPagesList.push(vrfdPageId);
           }
 
@@ -501,6 +495,7 @@ export class ArwikiQuery {
   getVerifiedPagesBySlug(
     owners: string[],
     slugList: string[],
+    categories: string[],
     langCode: string,
     limit: number = 1,
     maxHeight: number = 0
@@ -525,6 +520,10 @@ export class ArwikiQuery {
       {
         name: 'Arwiki-Page-Lang',
         values: [langCode]
+      },
+      {
+        name: 'Arwiki-Page-Category',
+        values: categories
       }
     ];
 
@@ -722,6 +721,40 @@ export class ArwikiQuery {
 
     });
     return obs;
+  }
+
+  /*
+  * @dev
+  */
+  isPageBySlugAlreadyTaken(
+    _slug: string,
+    _langCode: string,
+    _settingsContract: ArwikiSettingsContract,
+    _categoriesContract: ArwikiCategoriesContract,
+    _maxHeight: number,
+    _limit: number = 1
+  ) {
+    let categoriesCS: any = {};
+    return _categoriesContract.getState()
+      .pipe(
+        switchMap((categoriesContractState) => {
+          categoriesCS = Object.keys(categoriesContractState)
+          return _settingsContract.getState();
+        }),
+        switchMap((settingsContractState) => {
+          return this.getVerifiedPagesBySlug(
+            settingsContractState.adminList,
+            [_slug],
+            categoriesCS,
+            _langCode,
+            _limit,
+            _maxHeight
+          );
+        }),
+        switchMap((verifiedPages) => {
+          return of(verifiedPages.length);
+        })
+      );
   }
 
 }

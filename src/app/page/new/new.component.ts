@@ -103,7 +103,7 @@ export class NewComponent implements OnInit, OnDestroy {
         next: (state) => {
           this.categoryList = [];
           for (const c0 of Object.keys(state)) {
-            this.categoryList.push({slug: c0, label: state[c0]});
+            this.categoryList.push({slug: c0, label: state[c0].label });
           }
         },
         error: (error) => {
@@ -303,15 +303,15 @@ export class NewComponent implements OnInit, OnDestroy {
     }
 
     this.verifySlugSubscription = this.arwikiQuery!
-      .getPageBySlug(
+      .isPageBySlugAlreadyTaken(
         _slug, _langCode,
         this._settingsContract,
         this._categoriesContract,
         maxHeight
       ).subscribe({
-        next: (res) => {
+        next: (taken) => {
           // Slug already taken
-          if (res.length > 0) {
+          if (taken) {
             this.message(`Slug already taken! Please try another one`, 'error');
             this.slug!.setValue('');
           } else {
