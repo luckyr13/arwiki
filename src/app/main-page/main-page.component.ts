@@ -188,9 +188,16 @@ export class MainPageComponent implements OnInit, OnDestroy {
   *  @dev return an observable with the latest articles
   */
   getLatestArticles(numArticles: number, langCode: string, height: number) {
+    let admins: any = [];
     return this._arwikiSettings.getAdminList().pipe(
       switchMap((adminList) => {
-        return this.arwikiQuery!.getVerifiedPages(adminList, langCode, numArticles, height);
+        admins = adminList;
+        return this._categoriesContract.getState();
+      }),
+      switchMap((categories) => {
+        return this.arwikiQuery!.getVerifiedPagesByCategories(
+          admins, Object.keys(categories), langCode, numArticles, height
+        );
       }),
       switchMap((pages) => {
         const txIds: any = [];
