@@ -118,6 +118,13 @@ export class UserSettingsService {
       } catch (err) {
         this._defaultLang = {};
       }
+     
+      document.documentElement.lang = this._defaultLang.code;
+
+      if (this._defaultLang.writing_system) {
+        document.documentElement.dir = this._defaultLang.writing_system;
+      }
+
     	window.sessionStorage.setItem('defaultLang', def);
       this._translate.use(this._defaultLang.code);
       this.updateSettingsLangObservable(this._defaultLang);
