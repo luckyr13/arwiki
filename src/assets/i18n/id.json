@@ -1,31 +1,31 @@
 {
 	"HOME": {
-		"SECONDARY_TITLE": "Welcome to the permaweb!"
+		"SECONDARY_TITLE": "Selamat datang di permaweb!"
 	},
 	"MAIN_MENU": {
-		"HOME": "Home",
-		"ABOUT": "About",
-		"the_arweave_project": "The Arweave Project",
-		"the_arweave_protocol": "The Arweave Protocol",
-		"profit_sharing": "Profit Sharing",
-		"mining": "Mining",
-		"building_on_arweave": "Building on Arweave"
+		"HOME": "Rumah",
+		"ABOUT": "Tentang",
+		"the_arweave_project": "Proyek Arweave",
+		"the_arweave_protocol": "Protokol Arweave",
+		"profit_sharing": "Bagi hasil",
+		"mining": "Pertambangan",
+		"building_on_arweave": "Membangun di Arweave"
 	},
 	"MAIN_TOOLBAR": {
-		"TOOLTIP_LOGIN": "Login",
-		"MENU_SETTINGS_LANGUAGE": "Select language",
-		"MENU_SETTINGS_THEME": "Select theme",
-		"TOOLTIP_SEARCH": "Search",
-		"TOOLTIP_SETTINGS": "Settings",
-		"MENU_USER_DASHBOARD": "Dashboard",
-		"MENU_USER_CREATE": "Create page",
-		"MENU_USER_LOGOUT": "Logout"
+		"TOOLTIP_LOGIN": "Gabung",
+		"MENU_SETTINGS_LANGUAGE": "Pilih bahasa",
+		"MENU_SETTINGS_THEME": "Pilih tema",
+		"TOOLTIP_SEARCH": "Cari",
+		"TOOLTIP_SETTINGS": "Pengaturan",
+		"MENU_USER_DASHBOARD": "Dasbor",
+		"MENU_USER_CREATE": "Membuat halaman",
+		"MENU_USER_LOGOUT": "Keluar"
 	},
 	"MAIN_PAGE": {
-		"TITLE_L1": "Welcome to the permaweb!",
-		"SUBTITLE_L1": "arwiki is the decentralized wiki for arweave that anyone can edit.",
-		"TITLE_L2": "Getting started",
-		"TITLE_L3": "Latest articles"
+		"TITLE_L1": "Selamat datang di permaweb!",
+		"SUBTITLE_L1": "arwiki adalah wiki terdesentralisasi untuk arweave yang dapat diedit siapa saja.",
+		"TITLE_L2": "Mulai",
+		"TITLE_L3": "Artikel Terbaru"
 	},
 	"PAGE": {
 		"LABEL_ID": "Id",
@@ -47,7 +47,7 @@
 
 	},
 	"CREATE_PAGE": {
-		"TITLE": "Create new arwiki page",
+		"TITLE": "Buat halaman arwiki baru",
 		"FRM_TITLE": "Title",
 		"FRM_BY": "By",
 		"FRM_SLUG": "Page slug",
@@ -60,24 +60,24 @@
 		"FRM_BTN_GOBACK": "Go back"
 	},
 	"SEARCH_ENGINE": {
-		"INPUT_SEARCH_LABEL": "Search the arwiki",
+		"INPUT_SEARCH_LABEL": "Cari di arwiki",
 		"INPUT_SEARCH_PLACEHOLDER": "",
 		"LBL_DEFAULT_LANG": "Default language",
 		"LBL_SELECT_LANG":" Select language",
 		"BTN_TXT_GO": "Go!"
 	},
 	"FOOTER": {
-		"LBL_POWERED": "Powered by"
+		"LBL_POWERED": "Dipersembahkan oleh"
 	},
 	"DIALOGS": {
-		"TITLE_SELECT_LANG": "Select language",
-		"TXT_CLOSE": "Close"
+		"TITLE_SELECT_LANG": "Pilih bahasa",
+		"TXT_CLOSE": "Menutup"
 	},
 	"MODERATORS": {
 		"PENDING_PAGE": {
-			"TITLE_PENDING": "Pending list"
+			"TITLE_PENDING": "Daftar menunggu keputusan"
 		},
-		"LABEL_NO_RESULTS": "No results.",
-		"LABEL_TOOLBAR_TITLE": "Moderator's panel"
+		"LABEL_NO_RESULTS": "Tidak ada hasil.",
+		"LABEL_TOOLBAR_TITLE": "Panel moderator"
 	}
 }

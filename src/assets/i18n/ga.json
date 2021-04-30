@@ -1,26 +1,31 @@
 {
 	"HOME": {
-		"SECONDARY_TITLE": "Welcome to the permaweb!"
+		"SECONDARY_TITLE": "Fáilte go dtí an permaweb!"
 	},
 	"MAIN_MENU": {
-		"HOME": "Home",
-		"ABOUT": "About"
+		"HOME": "Baile",
+		"ABOUT": "Faoi",
+		"the_arweave_project": "An Tionscadal Arweave",
+		"the_arweave_protocol": "An Prótacal Arweave",
+		"profit_sharing": "Comhroinnt Brabúis",
+		"mining": "Mianadóireacht",
+		"building_on_arweave": "Ag tógáil ar Arweave"
 	},
 	"MAIN_TOOLBAR": {
-		"TOOLTIP_LOGIN": "Login",
-		"MENU_SETTINGS_LANGUAGE": "Select language",
-		"MENU_SETTINGS_THEME": "Select theme",
-		"TOOLTIP_SEARCH": "Search",
-		"TOOLTIP_SETTINGS": "Settings",
-		"MENU_USER_DASHBOARD": "Dashboard",
-		"MENU_USER_CREATE": "Create page",
-		"MENU_USER_LOGOUT": "Logout"
+		"TOOLTIP_LOGIN": "Logáil isteach",
+		"MENU_SETTINGS_LANGUAGE": "Roghnaigh teanga",
+		"MENU_SETTINGS_THEME": "Roghnaigh téama",
+		"TOOLTIP_SEARCH": "Cuardaigh",
+		"TOOLTIP_SETTINGS": "Socruithe",
+		"MENU_USER_DASHBOARD": "Painéal na nIonstraimí",
+		"MENU_USER_CREATE": "Cruthaigh leathanach",
+		"MENU_USER_LOGOUT": "Logáil Amach"
 	},
 	"MAIN_PAGE": {
-		"TITLE_L1": "Welcome to the permaweb!",
-		"SUBTITLE_L1": "arwiki is the decentralized wiki for arweave that anyone can edit.",
-		"TITLE_L2": "Getting started",
-		"TITLE_L3": "Latest articles"
+		"TITLE_L1": "Fáilte go dtí an permaweb!",
+		"SUBTITLE_L1": "Is é arwiki an wiki díláraithe le haghaidh arweave is féidir le duine ar bith a chur in eagar.",
+		"TITLE_L2": "Ag tosú",
+		"TITLE_L3": "Na hailt is déanaí"
 	},
 	"PAGE": {
 		"LABEL_ID": "Id",
@@ -42,7 +47,7 @@
 
 	},
 	"CREATE_PAGE": {
-		"TITLE": "Create new arwiki page",
+		"TITLE": "Cruthaigh leathanach nua arwiki",
 		"FRM_TITLE": "Title",
 		"FRM_BY": "By",
 		"FRM_SLUG": "Page slug",
@@ -55,24 +60,24 @@
 		"FRM_BTN_GOBACK": "Go back"
 	},
 	"SEARCH_ENGINE": {
-		"INPUT_SEARCH_LABEL": "Search the arwiki",
+		"INPUT_SEARCH_LABEL": "Cuardaigh an arwiki",
 		"INPUT_SEARCH_PLACEHOLDER": "",
 		"LBL_DEFAULT_LANG": "Default language",
 		"LBL_SELECT_LANG":" Select language",
 		"BTN_TXT_GO": "Go!"
 	},
 	"FOOTER": {
-		"LBL_POWERED": "Powered by"
+		"LBL_POWERED": "Cumhachtaithe ag"
 	},
 	"DIALOGS": {
 		"TITLE_SELECT_LANG": "Select language",
-		"TXT_CLOSE": "Close"
+		"TXT_CLOSE": "Dún"
 	},
 	"MODERATORS": {
 		"PENDING_PAGE": {
-			"TITLE_PENDING": "Pending list"
+			"TITLE_PENDING": "Liosta ar feitheamh"
 		},
-		"LABEL_NO_RESULTS": "No results.",
-		"LABEL_TOOLBAR_TITLE": "Moderator's panel"
+		"LABEL_NO_RESULTS": "Gan torthaí.",
+		"LABEL_TOOLBAR_TITLE": "Painéal an mhodhnóra"
 	}
 }

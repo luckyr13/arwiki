@@ -4,7 +4,12 @@
 	},
 	"MAIN_MENU": {
 		"HOME": "मुख्य पृष्ठ",
-		"ABOUT": "के बारे में"
+		"ABOUT": "के बारे में",
+		"the_arweave_project": "Arweave परियोजना",
+		"the_arweave_protocol": "Arweave प्रोटोकॉल",
+		"profit_sharing": "लाभ साझेदारी",
+		"mining": "खुदाई",
+		"building_on_arweave": "अर्वावे पर निर्माण"
 	},
 	"MAIN_TOOLBAR": {
 		"TOOLTIP_LOGIN": "लॉग इन करें",

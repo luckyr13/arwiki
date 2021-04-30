@@ -1,26 +1,31 @@
 {
 	"HOME": {
-		"SECONDARY_TITLE": "Welcome to the permaweb!"
+		"SECONDARY_TITLE": "Üdvözöljük a permaweben!"
 	},
 	"MAIN_MENU": {
-		"HOME": "Home",
-		"ABOUT": "About"
+		"HOME": "itthon",
+		"ABOUT": "Ról ről",
+		"the_arweave_project": "Az Arweave Projekt",
+		"the_arweave_protocol": "Az Arweave protokoll",
+		"profit_sharing": "Profitmegosztás",
+		"mining": "Bányászati",
+		"building_on_arweave": "Arweave-re építve"
 	},
 	"MAIN_TOOLBAR": {
-		"TOOLTIP_LOGIN": "Login",
-		"MENU_SETTINGS_LANGUAGE": "Select language",
-		"MENU_SETTINGS_THEME": "Select theme",
-		"TOOLTIP_SEARCH": "Search",
-		"TOOLTIP_SETTINGS": "Settings",
-		"MENU_USER_DASHBOARD": "Dashboard",
-		"MENU_USER_CREATE": "Create page",
-		"MENU_USER_LOGOUT": "Logout"
+		"TOOLTIP_LOGIN": "Belépés",
+		"MENU_SETTINGS_LANGUAGE": "Válasszon nyelvet",
+		"MENU_SETTINGS_THEME": "Válassz témát",
+		"TOOLTIP_SEARCH": "Keresés",
+		"TOOLTIP_SETTINGS": "Beállítások",
+		"MENU_USER_DASHBOARD": "Irányítópult",
+		"MENU_USER_CREATE": "Oldal létrehozása",
+		"MENU_USER_LOGOUT": "Kijelentkezés"
 	},
 	"MAIN_PAGE": {
-		"TITLE_L1": "Welcome to the permaweb!",
-		"SUBTITLE_L1": "arwiki is the decentralized wiki for arweave that anyone can edit.",
-		"TITLE_L2": "Getting started",
-		"TITLE_L3": "Latest articles"
+		"TITLE_L1": "Üdvözöljük a permaweben!",
+		"SUBTITLE_L1": "Az arwiki az arweave decentralizált wiki, amelyet bárki szerkeszthet.",
+		"TITLE_L2": "Elkezdeni",
+		"TITLE_L3": "Legfrissebb cikkek"
 	},
 	"PAGE": {
 		"LABEL_ID": "Id",
@@ -42,7 +47,7 @@
 
 	},
 	"CREATE_PAGE": {
-		"TITLE": "Create new arwiki page",
+		"TITLE": "Hozzon létre új arwiki oldalt",
 		"FRM_TITLE": "Title",
 		"FRM_BY": "By",
 		"FRM_SLUG": "Page slug",
@@ -55,7 +60,7 @@
 		"FRM_BTN_GOBACK": "Go back"
 	},
 	"SEARCH_ENGINE": {
-		"INPUT_SEARCH_LABEL": "Search the arwiki",
+		"INPUT_SEARCH_LABEL": "Keressen az arwikiban",
 		"INPUT_SEARCH_PLACEHOLDER": "",
 		"LBL_DEFAULT_LANG": "Default language",
 		"LBL_SELECT_LANG":" Select language",
@@ -66,13 +71,13 @@
 	},
 	"DIALOGS": {
 		"TITLE_SELECT_LANG": "Select language",
-		"TXT_CLOSE": "Close"
+		"TXT_CLOSE": "Bezárás"
 	},
 	"MODERATORS": {
 		"PENDING_PAGE": {
-			"TITLE_PENDING": "Pending list"
+			"TITLE_PENDING": "Függőben lévő lista"
 		},
-		"LABEL_NO_RESULTS": "No results.",
-		"LABEL_TOOLBAR_TITLE": "Moderator's panel"
+		"LABEL_NO_RESULTS": "Nincs eredmény.",
+		"LABEL_TOOLBAR_TITLE": "Moderátor panelje"
 	}
 }

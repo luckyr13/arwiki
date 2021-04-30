@@ -1,31 +1,31 @@
 {
 	"HOME": {
-		"SECONDARY_TITLE": "Welcome to the permaweb!"
+		"SECONDARY_TITLE": "歡迎來到永久網！"
 	},
 	"MAIN_MENU": {
-		"HOME": "Home",
-		"ABOUT": "About",
-		"the_arweave_project": "The Arweave Project",
-		"the_arweave_protocol": "The Arweave Protocol",
-		"profit_sharing": "Profit Sharing",
-		"mining": "Mining",
-		"building_on_arweave": "Building on Arweave"
+		"HOME": "家",
+		"ABOUT": "關於",
+		"the_arweave_project": "Arweave項目",
+		"the_arweave_protocol": "Arweave協議",
+		"profit_sharing": "利潤分享",
+		"mining": "礦業",
+		"building_on_arweave": "在Arweave上構建"
 	},
 	"MAIN_TOOLBAR": {
-		"TOOLTIP_LOGIN": "Login",
-		"MENU_SETTINGS_LANGUAGE": "Select language",
-		"MENU_SETTINGS_THEME": "Select theme",
-		"TOOLTIP_SEARCH": "Search",
-		"TOOLTIP_SETTINGS": "Settings",
-		"MENU_USER_DASHBOARD": "Dashboard",
-		"MENU_USER_CREATE": "Create page",
-		"MENU_USER_LOGOUT": "Logout"
+		"TOOLTIP_LOGIN": "登錄",
+		"MENU_SETTINGS_LANGUAGE": "選擇語言",
+		"MENU_SETTINGS_THEME": "選擇主題",
+		"TOOLTIP_SEARCH": "搜索",
+		"TOOLTIP_SETTINGS": "設定值",
+		"MENU_USER_DASHBOARD": "儀錶盤",
+		"MENU_USER_CREATE": "建立頁面",
+		"MENU_USER_LOGOUT": "登出"
 	},
 	"MAIN_PAGE": {
-		"TITLE_L1": "Welcome to the permaweb!",
-		"SUBTITLE_L1": "arwiki is the decentralized wiki for arweave that anyone can edit.",
-		"TITLE_L2": "Getting started",
-		"TITLE_L3": "Latest articles"
+		"TITLE_L1": "歡迎來到永久網！",
+		"SUBTITLE_L1": "arwiki是任何人都可以編輯的分散式Wiki。",
+		"TITLE_L2": "入門",
+		"TITLE_L3": "最新的文章"
 	},
 	"PAGE": {
 		"LABEL_ID": "Id",
@@ -47,7 +47,7 @@
 
 	},
 	"CREATE_PAGE": {
-		"TITLE": "Create new arwiki page",
+		"TITLE": "創建新的arwiki頁面",
 		"FRM_TITLE": "Title",
 		"FRM_BY": "By",
 		"FRM_SLUG": "Page slug",
@@ -60,24 +60,24 @@
 		"FRM_BTN_GOBACK": "Go back"
 	},
 	"SEARCH_ENGINE": {
-		"INPUT_SEARCH_LABEL": "Search the arwiki",
+		"INPUT_SEARCH_LABEL": "搜索arwiki",
 		"INPUT_SEARCH_PLACEHOLDER": "",
 		"LBL_DEFAULT_LANG": "Default language",
 		"LBL_SELECT_LANG":" Select language",
 		"BTN_TXT_GO": "Go!"
 	},
 	"FOOTER": {
-		"LBL_POWERED": "Powered by"
+		"LBL_POWERED": "供電"
 	},
 	"DIALOGS": {
-		"TITLE_SELECT_LANG": "Select language",
-		"TXT_CLOSE": "Close"
+		"TITLE_SELECT_LANG": "選擇語言",
+		"TXT_CLOSE": "關閉"
 	},
 	"MODERATORS": {
 		"PENDING_PAGE": {
-			"TITLE_PENDING": "Pending list"
+			"TITLE_PENDING": "待處理清單"
 		},
-		"LABEL_NO_RESULTS": "No results.",
-		"LABEL_TOOLBAR_TITLE": "Moderator's panel"
+		"LABEL_NO_RESULTS": "沒結果。",
+		"LABEL_TOOLBAR_TITLE": "主持人面板"
 	}
 }

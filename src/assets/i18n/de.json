@@ -4,7 +4,12 @@
 	},
 	"MAIN_MENU": {
 		"HOME": "Hauptseite",
-		"ABOUT": "Über"
+		"ABOUT": "Über",
+		"the_arweave_project": "Das Arweave-Projekt",
+		"the_arweave_protocol": "Das Arweave-Protokoll",
+		"profit_sharing": "Gewinnbeteiligung",
+		"mining": "Bergbau",
+		"building_on_arweave": "Bauen auf Arweave"
 	},
 	"MAIN_TOOLBAR": {
 		"TOOLTIP_LOGIN": "Anmeldung",

@@ -4,7 +4,12 @@
 	},
 	"MAIN_MENU": {
 		"HOME": "עמוד ראשי",
-		"ABOUT": "על אודות"
+		"ABOUT": "על אודות",
+		"the_arweave_project": "פרויקט Arweave",
+		"the_arweave_protocol": "פרוטוקול Arweave",
+		"profit_sharing": "חלוקת רווחים",
+		"mining": "כְּרִיָה",
+		"building_on_arweave": "בונה על ארוויב"
 	},
 	"MAIN_TOOLBAR": {
 		"TOOLTIP_LOGIN": "התחברות",

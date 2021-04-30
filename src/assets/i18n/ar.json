@@ -4,7 +4,12 @@
 	},
 	"MAIN_MENU": {
 		"HOME": "الصفحة الرئيسية",
-		"ABOUT": "حول"
+		"ABOUT": "حول",
+		"the_arweave_project": "مشروع Arweave",
+		"the_arweave_protocol": "بروتوكول Arweave",
+		"profit_sharing": "مشاركة الأرباح",
+		"mining": "التعدين",
+		"building_on_arweave": "بناء على Arweave"
 	},
 	"MAIN_TOOLBAR": {
 		"TOOLTIP_LOGIN": "تسجيل الدخول",
