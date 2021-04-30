@@ -61,7 +61,18 @@ export class MainPageComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (data) => {
           this.categories = data;
-          this.categoriesSlugs = Object.keys(this.categories);
+          this.categoriesSlugs = Object.keys(this.categories)
+          .sort((f1: any, f2: any) => {
+            if (this.categories[f1].order < this.categories[f2].order) {
+              return -1;
+            }
+            if (this.categories[f1].order > this.categories[f2].order) {
+              return 1;
+            }
+            // a must be equal to b
+            return 0;
+          });
+
           this.loading = false;
         },
         error: (error) => {

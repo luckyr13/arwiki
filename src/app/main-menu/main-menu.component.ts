@@ -73,7 +73,18 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     ).subscribe({
       next: (data) => {
         this.loading = false;
-        this.category_slugs = Object.keys(data.categories);
+        this.category_slugs = Object.keys(data.categories)
+          .sort((f1: any, f2: any) => {
+            if (data.categories[f1].order < data.categories[f2].order) {
+              return -1;
+            }
+            if (data.categories[f1].order > data.categories[f2].order) {
+              return 1;
+            }
+            // a must be equal to b
+            return 0;
+          });
+       
         this.pages = data.pages;
         this.categories = data.categories;
         this.menu = {};
