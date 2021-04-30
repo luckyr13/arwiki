@@ -290,14 +290,25 @@ export class ArwikiQuery {
     _category: string,
     _langCode: string,
     _settingsContract: ArwikiSettingsContract,
+    _categoriesContract: ArwikiCategoriesContract,
     _maxHeight: number,
     _limit: number = 100
   ) {
+    let settingsCS: any = {};
     return _settingsContract.getState()
       .pipe(
         switchMap((settingsContractState) => {
+          settingsCS = settingsContractState;
+          return _categoriesContract.getState();
+        }),
+        switchMap((categoriesContractState) => {
+          // Validate category 
+          if (!(_category in categoriesContractState)) {
+            throw new Error('Invalid category!');
+          }
+
           return this.getVerifiedPagesByCategories(
-            settingsContractState.adminList,
+            settingsCS.adminList,
             [_category],
             _langCode,
             _limit,
@@ -421,11 +432,17 @@ export class ArwikiQuery {
     _slug: string,
     _langCode: string,
     _settingsContract: ArwikiSettingsContract,
+    _categoriesContract: ArwikiCategoriesContract,
     _maxHeight: number,
     _limit: number = 1
   ) {
-    return _settingsContract.getState()
+    let categoriesCS: any = {};
+    return _categoriesContract.getState()
       .pipe(
+        switchMap((categoriesContractState) => {
+          categoriesCS = categoriesContractState
+          return _settingsContract.getState();
+        }),
         switchMap((settingsContractState) => {
           return this.getVerifiedPagesBySlug(
             settingsContractState.adminList,
@@ -439,6 +456,13 @@ export class ArwikiQuery {
           const verifiedPagesList = [];
           for (let p of verifiedPages) {
             const vrfdPageId = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
+            const vrfdPageCat = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
+            
+            // Validate category 
+            if (!(vrfdPageCat in categoriesCS)) {
+              throw new Error('Invalid category!');
+            }
+
             verifiedPagesList.push(vrfdPageId);
           }
 

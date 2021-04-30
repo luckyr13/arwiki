@@ -14,6 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 import { ArwikiSettingsContract } from '../../arwiki-contracts/arwiki-settings';
+import { ArwikiCategoriesContract } from '../../arwiki-contracts/arwiki-categories';
 import { UserSettingsService } from '../../core/user-settings.service';
 import { getVerification } from "arverify";
 declare const window: any;
@@ -49,7 +50,8 @@ export class ViewDetailComponent implements OnInit {
     private _location: Location,
     private _settingsContract: ArwikiSettingsContract,
     private _userSettings: UserSettingsService,
-    private _ref: ChangeDetectorRef
+    private _ref: ChangeDetectorRef,
+    private _categoriesContract: ArwikiCategoriesContract
   ) { }
 
   ngOnInit(): void {
@@ -98,7 +100,8 @@ export class ViewDetailComponent implements OnInit {
    
 
   	this.pageSubscription = this.arwikiQuery!.getPageBySlug(
-  		slug, langCode, this._settingsContract, maxHeight, numPages
+  		slug, langCode, this._settingsContract, 
+      this._categoriesContract, maxHeight, numPages
   	).subscribe({
   		next: async (data) => {
   			// If page exists

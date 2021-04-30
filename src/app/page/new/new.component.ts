@@ -303,8 +303,12 @@ export class NewComponent implements OnInit, OnDestroy {
     }
 
     this.verifySlugSubscription = this.arwikiQuery!
-      .getPageBySlug(_slug, _langCode, this._settingsContract, maxHeight)
-      .subscribe({
+      .getPageBySlug(
+        _slug, _langCode,
+        this._settingsContract,
+        this._categoriesContract,
+        maxHeight
+      ).subscribe({
         next: (res) => {
           // Slug already taken
           if (res.length > 0) {

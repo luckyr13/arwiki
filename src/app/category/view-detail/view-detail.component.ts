@@ -3,6 +3,7 @@ import { ArwikiQuery } from '../../core/arwiki-query';
 import { ArweaveService } from '../../core/arweave.service';
 import { Subscription } from 'rxjs';
 import { ArwikiSettingsContract } from '../../arwiki-contracts/arwiki-settings';
+import { ArwikiCategoriesContract } from '../../arwiki-contracts/arwiki-categories';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { getVerification } from "arverify";
 import { ActivatedRoute } from '@angular/router';
@@ -26,6 +27,7 @@ export class ViewDetailComponent implements OnInit {
   constructor(
   	private _arweave: ArweaveService,
   	private _settingsContract: ArwikiSettingsContract,
+    private _categoriesContract: ArwikiCategoriesContract,
   	private _snackBar: MatSnackBar,
   	private _route: ActivatedRoute,
     private _location: Location,
@@ -52,6 +54,7 @@ export class ViewDetailComponent implements OnInit {
     	this.category,
       this.routeLang,
     	this._settingsContract,
+      this._categoriesContract,
       maxHeight
     ).subscribe({
     	next: async (pages) => {
