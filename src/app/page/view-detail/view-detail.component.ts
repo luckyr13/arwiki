@@ -1,4 +1,7 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { 
+  Component, OnInit, OnDestroy, 
+  ChangeDetectorRef, ViewChild
+} from '@angular/core';
 import { ArwikiQuery } from '../../core/arwiki-query';
 import * as marked from 'marked';
 import DOMPurify from 'dompurify';
@@ -68,9 +71,8 @@ export class ViewDetailComponent implements OnInit {
       this._ref.detectChanges();
     })
 
-
-
   }
+
 
   async loadPageData(slug: string, langCode: string) {
      // Init page data 
@@ -184,6 +186,7 @@ export class ViewDetailComponent implements OnInit {
 
 
   generateTOC() {
+    this.toc = [];
     const container = document.getElementById('arwiki-page-content-detail');
     if (!container) {
       return;
