@@ -11,7 +11,8 @@ import { ArweaveService } from '../core/arweave.service';
 })
 export class ArwikiCategoriesContract
 {
-	private _contractAddress: string = 'v-G-YU3rlqgPnSHGSoNXrAWCF1_Cvh4v6SUKfkgaxtE';
+	// private _contractAddress: string = 'v-G-YU3rlqgPnSHGSoNXrAWCF1_Cvh4v6SUKfkgaxtE';
+	private _contractAddress: string = 'RvmscA9yGSrhgC6t7m-ODtPToPqAg9AUrzB6DzoDM4w';
 	constructor(private _arweave: ArweaveService) {
 	}
 	/*

@@ -1,9 +1,23 @@
 {
-	"general": "General",
-	"the_arweave_protocol": "The Arweave Protocol",
-	"history_of_arweave": "History of Arweave",
-	"pst": "Profit Sharing Communities",
-	"mining": "Mining",
-	"dev_center": "Developer center"
+	"the_arweave_project": {
+		"label": "The Arweave Project",
+		"order": 10
+	},
+	"the_arweave_protocol": {
+		"label": "The Arweave Protocol",
+		"order": 20
+	},
+	"profit_sharing": {
+		"label": "Profit Sharing",
+		"order": 30
+	},
+	"mining": {
+		"label": "Mining",
+		"order": 40
+	},
+	"building_on_arweave": {
+		"label": "Building on Arweave",
+		"order": 50
+	}
 }
 

@@ -12,7 +12,8 @@ import { ArweaveService } from '../core/arweave.service';
 export class ArwikiLangIndexContract
 {
 	private _langs: any = {};
-	private _contractAddress: string = 'ZVFnlF671UqgGTdExivbOP0f9gTDWQpkY26nBaRhcYM';
+	//private _contractAddress: string = 'ZVFnlF671UqgGTdExivbOP0f9gTDWQpkY26nBaRhcYM';
+	private _contractAddress: string = 'dJVI2Cz5ldYM5_VSM-6QO1xdWGEux7Qae5EeWe58O1g';
 
 	constructor(private _arweave: ArweaveService) {
 

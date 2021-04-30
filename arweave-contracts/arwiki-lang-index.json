@@ -46,6 +46,18 @@
 		"iso_name": "Irish",
 		"native_name": "Gaeilge",
 		"writing_system": "LTR"
+	},
+	"zh": {
+		"code": "zh",
+		"iso_name": "Chinese",
+		"native_name": "中文",
+		"writing_system": "LTR"
+	},
+	"id": {
+		"code": "id",
+		"iso_name": "Indonesian",
+		"native_name": "Bahasa Indonesia",
+		"writing_system": "LTR"
 	}
 }
 
