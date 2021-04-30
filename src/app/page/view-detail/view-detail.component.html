@@ -4,15 +4,25 @@
 			<span class="fadeIn" *ngIf="pageTitle">{{ pageTitle }}</span>
 		</h1>
 		<div class="text-right page-title-buttons col-3">
+			<button 
+	    	type="button"
+		  	mat-mini-fab 
+		  	*ngIf="pageTitle"
+		  	class="btn-toolbar fadeIn" 
+		  	color="primary"
+		  	matTooltip="Edit">
+		    <mat-icon>edit</mat-icon>
+		  </button>
 	    <button 
 	    	type="button"
 		  	mat-mini-fab 
-		  	class="ml10" 
+		  	class="btn-toolbar" 
 		  	color="primary"
 		  	(click)="goBack()"
 		  	matTooltip="{{ 'CREATE_PAGE.FRM_BTN_GOBACK' | translate }}">
 		    <mat-icon>navigate_before</mat-icon>
 		  </button>
+
 		</div>
 	  <p class="text-left fadeIn col-12 col-md-6" *ngIf="pageCategory">
 	  	<strong>Category:</strong>
