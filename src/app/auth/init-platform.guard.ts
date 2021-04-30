@@ -68,6 +68,11 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
         if (Object.prototype.hasOwnProperty.call(langState, lang)) {
           // Update lang stream 
           this._userSettings.updateRouteLangObservable(lang);
+          // Set default settings language 
+          const currentDefaultLang = this._userSettings.getDefaultLang();
+          if (!currentDefaultLang || currentDefaultLang.code != lang) {
+            this._userSettings.setDefaultLang(langState[lang]);
+          }
           return of(true);
         }
         // Else
