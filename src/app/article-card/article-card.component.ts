@@ -14,8 +14,8 @@ export class ArticleCardComponent implements OnInit {
 
   @Input() article: any
   @Input() articleData: any
-  @Input() routeLang: String = ''
-  @Input() baseURL: String = ''
+  @Input() routeLang: string = ''
+  @Input() baseURL: string = ''
   @Input() arverifyMap: any = {}
 
   sanitizeMarkdown(_s: string, _maxLength: number = 250) {
