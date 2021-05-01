@@ -21,13 +21,29 @@
   <span class="logo-text fadeIn" *ngIf="!loadingSettings" routerLink="{{ routerLang }}/">{{ appName }}</span>
 
   <span class="menu-spacer"></span>
+  
+  <button 
+      [matMenuTriggerFor]="searchMenu"
+      mat-icon-button 
+      class="theme-icon"
+      matTooltip="{{ 'MAIN_TOOLBAR.TOOLTIP_SEARCH' | translate }}">
+    <mat-icon>search</mat-icon>
+  </button>
+  <mat-menu #searchMenu="matMenu" >
+    <form [formGroup]="frmSearch" (ngSubmit)="onSearch()">
+      <mat-form-field (click)="$event.stopPropagation();" class="search-container">
+        <mat-label>Search</mat-label>
+        <input formControlName="searchQry" matInput autocomplete="off" placeholder="" required>
+      </mat-form-field>
+    </form>
+  </mat-menu>
 
   <button 
     mat-icon-button 
     (click)="login()"
     matTooltip="{{ 'MAIN_TOOLBAR.TOOLTIP_LOGIN' | translate }}"
     *ngIf="!isLoggedIn">
-    <mat-icon>login</mat-icon>
+    <mat-icon>account_circle</mat-icon>
   </button>
   <button 
     mat-icon-button 
@@ -58,23 +74,6 @@
          <mat-icon>logout</mat-icon> {{ 'MAIN_TOOLBAR.MENU_USER_LOGOUT' | translate }}
       </button>
     </div>
-  </mat-menu>
-
-
-  <button 
-      [matMenuTriggerFor]="searchMenu"
-      mat-icon-button 
-      class="theme-icon"
-      matTooltip="{{ 'MAIN_TOOLBAR.TOOLTIP_SEARCH' | translate }}">
-    <mat-icon>search</mat-icon>
-  </button>
-  <mat-menu #searchMenu="matMenu" >
-    <form [formGroup]="frmSearch" (ngSubmit)="onSearch()">
-      <mat-form-field (click)="$event.stopPropagation();" class="search-container">
-        <mat-label>Search</mat-label>
-        <input formControlName="searchQry" matInput autocomplete="off" placeholder="" required>
-      </mat-form-field>
-    </form>
   </mat-menu>
 
   <button 
