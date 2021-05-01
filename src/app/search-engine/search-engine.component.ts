@@ -54,7 +54,6 @@ export class SearchEngineComponent implements OnInit {
     const dialogRef = this._dialog.open(DialogSelectLanguageComponent, {
       width: '650px',
       data: {},
-      disableClose: true
     });
 
     dialogRef.afterClosed().subscribe(lang => {
