@@ -1,0 +1,48 @@
+<mat-progress-bar
+				  mode="indeterminate"
+				  *ngIf="!articleData"
+				  class="fadeIn"></mat-progress-bar>
+<mat-card class="card-latest-article fadeIn">
+	<h2 routerLink="/{{routeLang}}/{{article.slug}}">
+		{{ article.title }}
+	</h2>
+	<p *ngIf="articleData">
+		{{ sanitizeMarkdown(articleData) }}
+	</p>
+	<p class="text-right mini-text">
+		<strong>Category: </strong>
+		<a
+		   mat-button
+		   routerLink="../category/{{article.category}}">
+			{{ article.category }}
+		</a>
+	</p>
+	<p class="text-right mini-text">
+		<strong>Creation date: </strong>
+		{{ timestampToDate(article.block.timestamp) | date:'short' }}
+	</p>
+	<p class="text-right mini-text">
+		<strong>Created by:</strong> {{ article.owner }}
+		<!-- <mat-icon
+				  *ngIf="arverifyProcessedAddressesMap[article.owner] && arverifyProcessedAddressesMap[article.owner].verified"
+				  class="green">verified_user</mat-icon> -->
+
+	</p>
+	<p class="text-right mini-text">
+		<strong>TX:</strong> {{ article.id }}
+	</p>
+	<p class="text-right">
+
+		<a mat-flat-button color="default">
+			<mat-icon>paid</mat-icon>
+		</a>
+		&nbsp;
+
+		<a
+		   mat-flat-button
+		   color="primary"
+		   routerLink="/{{routeLang}}/{{article.slug}}">
+			<mat-icon>visibility</mat-icon>
+		</a>
+	</p>
+</mat-card>

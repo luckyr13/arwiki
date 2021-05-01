@@ -7,24 +7,23 @@
 	<div class="row">
 		<div class="col-12 col-md-7 text-center">
 			<div *ngIf="loadingLogo" class="fadeIn">
-			  <div class="text-center">
-			    <ngx-skeleton-loader 
-			      count="1" 
-			      appearance="circle"
-			      [animation]="getSkeletonLoaderAnimationType()"
-			      [theme]="getSkeletonLoaderThemeNgStyle2()"
-			      ></ngx-skeleton-loader>
-			  </div>
+				<div class="text-center">
+					<ngx-skeleton-loader
+										 count="1"
+										 appearance="circle"
+										 [animation]="getSkeletonLoaderAnimationType()"
+										 [theme]="getSkeletonLoaderThemeNgStyle2()"></ngx-skeleton-loader>
+				</div>
 			</div>
 			<div *ngIf="!loadingLogo" class="fadeIn">
-			  <img 
-		      *ngIf="defaultTheme === 'arwiki-dark' && appLogoLight" 
-		      class="main-logo"
-		      [src]="appLogoLight">
-		    <img
-		      *ngIf=" defaultTheme === 'arwiki-light' && appLogoDark" 
-		      class="main-logo"
-		      [src]="appLogoDark">
+				<img
+					 *ngIf="defaultTheme === 'arwiki-dark' && appLogoLight"
+					 class="main-logo"
+					 [src]="appLogoLight">
+				<img
+					 *ngIf=" defaultTheme === 'arwiki-light' && appLogoDark"
+					 class="main-logo"
+					 [src]="appLogoDark">
 			</div>
 			<h1 class="text-left main-title">
 				{{ 'MAIN_PAGE.TITLE_L1' | translate }}
@@ -32,7 +31,7 @@
 			<h4 class="text-left secondary-title">
 				{{ 'MAIN_PAGE.SUBTITLE_L1' | translate }}
 			</h4>
-			
+
 		</div>
 		<div class="col-1">
 		</div>
@@ -42,25 +41,24 @@
 			</h2>
 			<div class="row" *ngIf="!categoriesSlugs.length">
 				<div class="col-12 fadeIn portalBtnContainer" *ngFor="let i of [1, 2, 3, 4]">
-					<ngx-skeleton-loader 
-				  	count="1" 
-				  	[animation]="getSkeletonLoaderAnimationType()"
-				  	[theme]="getSkeletonLoaderThemeNgStyle()"
-				  	></ngx-skeleton-loader>
+					<ngx-skeleton-loader
+										 count="1"
+										 [animation]="getSkeletonLoaderAnimationType()"
+										 [theme]="getSkeletonLoaderThemeNgStyle()"></ngx-skeleton-loader>
 				</div>
 			</div>
 			<div class="row" *ngIf="categoriesSlugs.length">
 				<div class="col-12 text-left fadeIn portalBtnContainer" *ngFor="let catSlug of categoriesSlugs">
 					<a
-						mat-button 
-						routerLink="../category/{{catSlug}}">
-					{{ 'MAIN_MENU.' + catSlug | translate}}
+					   mat-button
+					   routerLink="../category/{{catSlug}}">
+						{{ 'MAIN_MENU.' + catSlug | translate}}
 					</a>
 				</div>
 			</div>
 		</div>
 	</div>
-	
+
 </div>
 
 <div class="container main-page-container-articles fadeIn">
@@ -68,82 +66,37 @@
 		{{ 'MAIN_PAGE.TITLE_L3' | translate }}
 	</h2>
 	<div class="row">
-	  <div *ngIf="!loadingLatestArticles && !latestArticles.length" class="col-12 fadeIn">
+		<div *ngIf="!loadingLatestArticles && !latestArticles.length" class="col-12 fadeIn">
 			No results.
 		</div>
 		<div *ngIf="!loadingLatestArticles" class="col-12 row">
 			<div class="col-12 col-md-6" *ngFor="let article of latestArticles">
-				<mat-progress-bar 
-					mode="indeterminate"
-					*ngIf="!latestArticlesData[article.id]"
-					class="fadeIn"></mat-progress-bar>
-				<mat-card class="card-latest-article fadeIn">
-			    <h2 routerLink="/{{routeLang}}/{{article.slug}}">
-			    	{{ article.title }}
-	    	  </h2>
-	    	  <p *ngIf="latestArticlesData[article.id]">
-	    	  	{{ sanitizeMarkdown(latestArticlesData[article.id]) }}
-	    	  </p>
-	    	  <p class="text-right mini-text">
-	    	  	<strong>Category: </strong>
-	    	  	<a
-	    	  		mat-button 
-	    	  		routerLink="../category/{{article.category}}">
-							{{ article.category }}
-						</a>
-	    	  </p>
-	    	  <p class="text-right mini-text">
-	    	  	<strong>Creation date: </strong>
-	    	  	{{ timestampToDate(article.block.timestamp) | date:'short' }}
-	    	  </p>
-	    	  <p class="text-right mini-text">
-	    	  	<strong>Created by:</strong> {{ article.owner }}
-	    	  	<mat-icon
-	    	  		 *ngIf="arverifyProcessedAddressesMap[article.owner] && arverifyProcessedAddressesMap[article.owner].verified"
-	    	  		 class="green">verified_user</mat-icon>
-
-	    	  </p>
-	    	  <p class="text-right mini-text">
-	    	  	<strong>TX:</strong> {{ article.id }}
-	    	  </p>
-	    	  <p class="text-right">
-
-						<a mat-flat-button color="default" >
-							<mat-icon>paid</mat-icon>
-						</a>
-						&nbsp;
-
-	    	  	<a 
-	    	  		mat-flat-button 
-	    	  		color="primary" 
-	    	  		routerLink="/{{routeLang}}/{{article.slug}}">
-							<mat-icon>visibility</mat-icon>
-						</a>
-	    	  </p>
-			  </mat-card>
+				<app-article-card 
+								[article]="article" 
+								[articleData]="latestArticlesData[article.id]" 
+								[routeLang]="routeLang" 
+								[baseURL]="baseURL"></app-article-card>
 			</div>
 		</div>
 		<div *ngIf="loadingLatestArticles" class="col-12 row">
 			<div class="col-12 col-md-6" *ngFor="let article of [1, 2, 3, 4]">
 				<mat-card class="card-latest-article fadeIn">
-			    <p>
-				    <ngx-skeleton-loader 
-				      count="1" 
-				      [animation]="getSkeletonLoaderAnimationType()"
-			  	    [theme]="getSkeletonLoaderThemeNgStyleTitleArticle()"
-			    	  ></ngx-skeleton-loader>
-	    	  </p>
-	    	  <p>
-				    <ngx-skeleton-loader 
-				      count="3" 
-				      [animation]="getSkeletonLoaderAnimationType()"
-			  	    [theme]="getSkeletonLoaderThemeNgStylePLine()"
-			    	  ></ngx-skeleton-loader>
-	    	  </p>
-			  </mat-card>
+					<p>
+						<ngx-skeleton-loader
+											 count="1"
+											 [animation]="getSkeletonLoaderAnimationType()"
+											 [theme]="getSkeletonLoaderThemeNgStyleTitleArticle()"></ngx-skeleton-loader>
+					</p>
+					<p>
+						<ngx-skeleton-loader
+											 count="3"
+											 [animation]="getSkeletonLoaderAnimationType()"
+											 [theme]="getSkeletonLoaderThemeNgStylePLine()"></ngx-skeleton-loader>
+					</p>
+				</mat-card>
 			</div>
 		</div>
-	  
-	  
+
+
 	</div>
 </div>

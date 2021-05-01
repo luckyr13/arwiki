@@ -26,9 +26,6 @@
 	margin-bottom: 10px;
 	font-weight: normal !important;
 }
-.article-card {
-	margin-bottom: 20px;
-}
 
 .main-title {
 	margin-top: 32px;
@@ -64,21 +61,6 @@ a.mat-button{
 	margin-bottom: 40px;
 }
 
-.card-latest-article {
-	margin-bottom: 40px;
-}
-
-
-.card-latest-article-img {
-	max-width: 80%;
-	float: left;
-	padding-right: 10px;
-}
-
-.card-latest-article-img img {
-	max-width: 100%;
-}
-
 .mini-text, .mini-text a.mat-button {
 	font-size: 12px !important;
 }
@@ -89,6 +71,3 @@ a.mat-button{
   text-overflow: ellipsis;
 }
 
-.card-latest-article h2 {
-	cursor: pointer;
-}

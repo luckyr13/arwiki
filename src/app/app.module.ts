@@ -20,6 +20,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { CategoryModule } from './category/category.module';
 import { PageModule } from './page/page.module';
 import { ModeratorsModule } from './moderators/moderators.module';
+import { ArticleCardComponent } from './article-card/article-card.component';
 
 
 // AoT requires an exported function for factories
@@ -37,7 +38,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     MainPageComponent,
     MainMenuComponent,
     SearchComponent,
-    DashboardComponent
+    DashboardComponent,
+    ArticleCardComponent
   ],
   imports: [
     BrowserModule,
