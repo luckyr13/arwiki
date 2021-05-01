@@ -18,4 +18,8 @@ export class ArweaveAddressComponent implements OnInit {
 
   @Input() address: any
 
+  clickAction() {
+    // TODO
+  }
+
 }

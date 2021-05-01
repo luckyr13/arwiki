@@ -1,2 +1,4 @@
-<div>{{ address }}</div>
-<mat-icon *ngIf="_verified" class="green">verified_user</mat-icon>
+<span class="address">
+	<span (click)="clickAction()">{{ address }} </span>
+	<mat-icon *ngIf="_verified" class="green">verified_user</mat-icon>
+</span>
