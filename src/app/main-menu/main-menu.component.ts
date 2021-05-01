@@ -7,6 +7,7 @@ import { ArwikiQuery } from '../core/arwiki-query';
 import { ArwikiCategoriesContract } from '../arwiki-contracts/arwiki-categories';
 import { ArwikiSettingsContract } from '../arwiki-contracts/arwiki-settings';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-menu',
@@ -31,7 +32,8 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       private _arweave: ArweaveService,
       private _categoriesContract: ArwikiCategoriesContract,
       private _settingsContract: ArwikiSettingsContract,
-      private _snackBar: MatSnackBar
+      private _snackBar: MatSnackBar,
+      private _router: Router
     ) { }
 
   async ngOnInit() {
@@ -102,7 +104,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         this.loading = false;
-        alert('er' + error);
+        this.message(error, 'error');
       }
     })
   }
@@ -171,6 +173,20 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       verticalPosition: verticalPosition,
       panelClass: panelClass
     });
+  }
+
+  isActiveRouteInCategory(_cat: string) {
+    let isActive = false;
+
+    for (let page of this.menu[_cat]) {
+      const final = `${this.routerLang}/${page.slug}`;
+      isActive = this._router.isActive(final, true);
+      if (isActive) {
+        break;
+      }
+    }
+
+    return isActive;
   }
 
 
