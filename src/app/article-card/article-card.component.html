@@ -22,11 +22,8 @@
 		{{ timestampToDate(article.block.timestamp) | date:'short' }}
 	</p>
 	<p class="text-right mini-text">
-		<strong>Created by:</strong> {{ article.owner }}
-		<mat-icon
-				  *ngIf="arverifyMap[article.owner] && arverifyMap[article.owner].verified"
-				  class="green">verified_user</mat-icon>
-
+		<strong>Created by:</strong>
+		<app-arweave-address [address]="article.owner"></app-arweave-address>
 	</p>
 	<p class="text-right mini-text">
 		<strong>TX:</strong> {{ article.id }}

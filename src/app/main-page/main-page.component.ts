@@ -9,7 +9,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ArwikiQuery } from '../core/arwiki-query';
 import { AuthService } from '../auth/auth.service';
 import { ActivatedRoute } from '@angular/router';
-import { getVerification } from "arverify";
 
 @Component({
   selector: 'app-main-page',
@@ -36,7 +35,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
   pagesSubscription: Subscription = Subscription.EMPTY;
   routeLang: string = '';
   baseURL = this._arweave.baseURL;
-  arverifyProcessedAddressesMap: any = {};
 
   constructor(
     private _userSettings: UserSettingsService,
@@ -142,23 +140,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
             {decode: true, string: true}
           );
           this.latestArticlesData[p.id] = data;
-        }
-
-        // Verify addresses 
-        // Validate owner address with ArVerify
-        this.arverifyProcessedAddressesMap = {};
-        for (let p of latestPages) {
-          // Avoid duplicates
-          if (
-            Object.prototype.hasOwnProperty.call(
-              this.arverifyProcessedAddressesMap, 
-              p.owner
-            )
-          ) {
-            continue;
-          }
-          const arverifyQuery = await this.getArverifyVerification(p.owner);
-          this.arverifyProcessedAddressesMap[p.owner] = arverifyQuery;
         }
       },
       error: (error) => {
@@ -313,20 +294,4 @@ export class MainPageComponent implements OnInit, OnDestroy {
     }
     return res;
   }
-
-  
-
-
-  async getArverifyVerification(_address: string) {
-    const verification = await getVerification(_address);
-
-    return ({
-      verified: verification.verified,
-      icon: verification.icon,
-      percentage: verification.percentage
-    });
-  }
-
-
-
 }

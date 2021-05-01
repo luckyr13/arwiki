@@ -21,6 +21,7 @@ import { CategoryModule } from './category/category.module';
 import { PageModule } from './page/page.module';
 import { ModeratorsModule } from './moderators/moderators.module';
 import { ArticleCardComponent } from './article-card/article-card.component';
+import { ArweaveAddressComponent } from './arweave-address/arweave-address.component';
 
 
 // AoT requires an exported function for factories
@@ -39,7 +40,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     MainMenuComponent,
     SearchComponent,
     DashboardComponent,
-    ArticleCardComponent
+    ArticleCardComponent,
+    ArweaveAddressComponent
   ],
   imports: [
     BrowserModule,
