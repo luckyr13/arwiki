@@ -21,22 +21,12 @@ export class AppComponent implements OnInit, AfterViewInit  {
     // _translate.setDefaultLang('en');
     // the lang to use, if the lang isn't available, it will use the current loader to get them
     //_translate.use('en');
-    const defLang = this._userSettings.getDefaultLang();
-    if (defLang.writing_system == 'RTL') {
-      this.menuPosition = 'end';
-    } else {
-      this.menuPosition = 'start';
+
+    const updateWritingDirection = (langObj: any) => {
+      this.menuPosition = langObj.writing_system == 'RTL' ? 'end' : 'start'
     }
-
-    this._userSettings.settingsLangStream.subscribe((lang: any) => {
-      if (lang.writing_system == 'RTL') {
-        this.menuPosition = 'end';
-      } else {
-        this.menuPosition = 'start';
-      }
-    })
-
-    
+    updateWritingDirection(this._userSettings.getDefaultLang())
+    this._userSettings.settingsLangStream.subscribe(updateWritingDirection)
   }
 
   
