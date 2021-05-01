@@ -13,6 +13,6 @@ export class ArverifyMap {
 		if (!this._arverifyMap[address]) { 
 			this._arverifyMap[address] = getVerification(address)
 		}
-		return await this._arverifyMap[address]
+		return this._arverifyMap[address]
 	}
 }
