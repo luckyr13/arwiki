@@ -28,12 +28,13 @@
     [routerLinkActiveOptions]="{exact:true}">
     <div mat-line>{{ 'MAIN_MENU.HOME' | translate }}</div>
   </a>
-  <mat-accordion id="arwiki-main-menu-accordion" displayMode="flat">
+  <mat-accordion 
+    id="arwiki-main-menu-accordion"
+    displayMode="flat">
     <mat-expansion-panel 
       *ngFor="let cs of category_slugs" 
       routerLinkActive
-      #test="routerLinkActive"
-      [expanded]="test.isActive">
+      [expanded]="isActiveRouteInCategory(cs)">
       <mat-expansion-panel-header>
         <mat-panel-title class="subheader">
           {{ 'MAIN_MENU.' + cs | translate | uppercase }}
@@ -41,8 +42,8 @@
       </mat-expansion-panel-header>
       <a mat-list-item 
         (click)="toggleSideMenu()" 
-        routerLink="{{ routerLang }}/{{ page.slug }}" 
         *ngFor="let page of menu[cs]"
+        routerLink="{{ routerLang }}/{{ page.slug }}" 
         routerLinkActive="active">
         <div mat-line>{{ page.title }}</div>
       </a>
