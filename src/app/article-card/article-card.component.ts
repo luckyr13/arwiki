@@ -16,6 +16,7 @@ export class ArticleCardComponent implements OnInit {
   @Input() articleData: any
   @Input() routeLang: String = ''
   @Input() baseURL: String = ''
+  @Input() arverifyMap: any = {}
 
   sanitizeMarkdown(_s: string, _maxLength: number = 250) {
     _s = _s.replace(/[#*=\[\]]/gi, '')

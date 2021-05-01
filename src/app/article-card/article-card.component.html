@@ -23,9 +23,9 @@
 	</p>
 	<p class="text-right mini-text">
 		<strong>Created by:</strong> {{ article.owner }}
-		<!-- <mat-icon
-				  *ngIf="arverifyProcessedAddressesMap[article.owner] && arverifyProcessedAddressesMap[article.owner].verified"
-				  class="green">verified_user</mat-icon> -->
+		<mat-icon
+				  *ngIf="arverifyMap[article.owner] && arverifyMap[article.owner].verified"
+				  class="green">verified_user</mat-icon>
 
 	</p>
 	<p class="text-right mini-text">
