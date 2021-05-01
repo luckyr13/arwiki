@@ -225,3 +225,13 @@ p {
 #arwiki-page-content-detail a{
   color: inherit;
 }
+
+/*
+* Custom main menu accordion
+*/
+#arwiki-main-menu-accordion .mat-expansion-panel-body {
+  padding: 0 0 16px;
+}
+.mat-expansion-panel:not([class*=mat-elevation-z]) {
+  box-shadow: none !important;
+}

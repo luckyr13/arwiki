@@ -25,6 +25,7 @@ import { ModalFileManagerComponent } from './modal-file-manager/modal-file-manag
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatChipsModule} from '@angular/material/chips';
 import { DialogConfirmComponent } from './dialog-confirm/dialog-confirm.component';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   declarations: [DialogSelectLanguageComponent, BottomSheetLoginComponent, ModalFileManagerComponent, DialogConfirmComponent],
@@ -63,7 +64,8 @@ import { DialogConfirmComponent } from './dialog-confirm/dialog-confirm.componen
     MatBottomSheetModule,
     MatTabsModule,
     MatChipsModule,
-    TranslateModule
+    TranslateModule,
+    MatExpansionModule
   ],
   entryComponents: [DialogSelectLanguageComponent]
 })
