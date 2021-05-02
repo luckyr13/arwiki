@@ -1,5 +1,15 @@
-.address {
+.address-container {
 	cursor: pointer;
+	min-width: 0;
+	display: flex;
+	align-items: baseline;
+	white-space: nowrap;
+}
+
+.address {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 mat-icon {

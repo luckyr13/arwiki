@@ -74,8 +74,7 @@
 			[innerHTML]="htmlContent"></div>
 
 		<p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageOwner">
-	  	<strong>Created by: </strong>
-		<app-arweave-address [address]="pageOwner"></app-arweave-address>
+		<app-arweave-address [address]="pageOwner">Created by: </app-arweave-address>
 	  </p>
 	  <p class="text-right mini-text fadeIn col-12 col-md-6" *ngIf="pageId">
 	  	<strong>TX:</strong> {{ pageId }}

@@ -1,4 +1,5 @@
-<span class="address">
-	<span (click)="clickAction()">{{ address }} </span>
+<span class="address-container">
+	<strong><ng-content></ng-content></strong>&nbsp;
+	<span class="address" (click)="clickAction()">{{ address }} </span>
 	<mat-icon *ngIf="_verified" class="green">verified_user</mat-icon>
 </span>

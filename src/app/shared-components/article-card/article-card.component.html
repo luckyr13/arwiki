@@ -9,7 +9,7 @@
 	<p *ngIf="articleData">
 		{{ sanitizeMarkdown(articleData) }}
 	</p>
-	<p class="text-right mini-text">
+	<p class="mini-text">
 		<strong>Category: </strong>
 		<a
 		   mat-button
@@ -17,15 +17,14 @@
 			{{ article.category }}
 		</a>
 	</p>
-	<p class="text-right mini-text" *ngIf="article.block">
+	<p class="mini-text" *ngIf="article.block">
 		<strong>Creation date: </strong>
 		{{ timestampToDate(article.block.timestamp) | date:'short' }}
 	</p>
-	<p class="text-right mini-text">
-		<strong>Created by: </strong>
-		<app-arweave-address [address]="article.owner"></app-arweave-address>
+	<p class="mini-text">
+		<app-arweave-address [address]="article.owner">Created by: </app-arweave-address>
 	</p>
-	<p class="text-right mini-text">
+	<p class="mini-text">
 		<strong>TX:</strong> {{ article.id }}
 	</p>
 	<p class="text-right">
