@@ -33,7 +33,7 @@
 			</h4>
 
 		</div>
-		<div class="col-1">
+		<div class="col-1 sep-column">
 		</div>
 		<div class="col-12 col-md-4 text-left portals-column">
 			<h2 class="text-left">
@@ -47,15 +47,29 @@
 										 [theme]="getSkeletonLoaderThemeNgStyle()"></ngx-skeleton-loader>
 				</div>
 			</div>
-			<div class="row" *ngIf="categoriesSlugs.length">
-				<div class="col-12 text-left fadeIn portalBtnContainer" *ngFor="let catSlug of categoriesSlugs">
-					<a
-					   mat-button
-					   routerLink="../category/{{catSlug}}">
-						{{ 'MAIN_MENU.' + catSlug | translate}}
-					</a>
-				</div>
-			</div>
+
+			<mat-accordion 
+		    id="arwiki-home-page-accordion"
+		    displayMode="flat">
+		    <mat-expansion-panel 
+		      *ngFor="let cs of categoriesSlugs" >
+		      <mat-expansion-panel-header>
+		        <mat-panel-title class="subheader">
+		          {{ 'MAIN_MENU.' + cs | translate }}
+		        </mat-panel-title>
+		      </mat-expansion-panel-header>
+		      <a mat-button
+		        *ngFor="let page of pagesByCategory[cs]"
+		        routerLink="/{{ routeLang }}/{{ page.slug }}" >
+		        <div mat-line>{{ page.title }}</div>
+		      </a>
+		      <a mat-button
+		        routerLink="/{{ routeLang }}/category/{{ cs }}" >
+		        <div mat-line>More</div>
+		      </a>
+		    </mat-expansion-panel>
+		  </mat-accordion>
+
 		</div>
 	</div>
 

@@ -229,9 +229,11 @@ p {
 /*
 * Custom main menu accordion
 */
-#arwiki-main-menu-accordion .mat-expansion-panel-body {
+#arwiki-main-menu-accordion .mat-expansion-panel-body,
+#arwiki-home-page-accordion .mat-expansion-panel-body{
   padding: 0 0 16px;
 }
-.mat-expansion-panel:not([class*=mat-elevation-z]) {
+#arwiki-main-menu-accordion .mat-expansion-panel:not([class*=mat-elevation-z]),
+#arwiki-home-page-accordion .mat-expansion-panel:not([class*=mat-elevation-z]) {
   box-shadow: none !important;
 }

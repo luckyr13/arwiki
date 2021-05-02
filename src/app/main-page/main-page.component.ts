@@ -8,7 +8,7 @@ import { ArwikiSettingsContract } from '../arwiki-contracts/arwiki-settings';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ArwikiQuery } from '../core/arwiki-query';
 import { AuthService } from '../auth/auth.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-page',
@@ -35,6 +35,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
   pagesSubscription: Subscription = Subscription.EMPTY;
   routeLang: string = '';
   baseURL = this._arweave.baseURL;
+  pagesByCategory: any = {};
 
   constructor(
     private _userSettings: UserSettingsService,
@@ -43,41 +44,70 @@ export class MainPageComponent implements OnInit, OnDestroy {
     private _arwikiSettings: ArwikiSettingsContract,
     private _snackBar: MatSnackBar,
     private _auth: AuthService,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private _router: Router
   ) { }
 
   async loadMainPageData() {
     this.getDefaultTheme();
+
     this.loading = true;
     this.loadingLogo = true;
     this.loadingLatestArticles = true;
     // Init ardb instance
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
 
+    let networkInfo;
+    let maxHeight = 0;
+    try {
+      networkInfo = await this._arweave.arweave.network.getInfo();
+      maxHeight = networkInfo.height;
+    } catch (error) {
+      this.message(error, 'error');
+      return;
+    }
+
     // Get categories (portals)
-    this.categoriesSubscription = this._categoriesContract.getState()
+    let maxPagesByCategory = 10;
+    this.categoriesSubscription = this.getPagesByCategory(
+        maxPagesByCategory, this.routeLang, maxHeight
+      )
       .subscribe({
-        next: (data) => {
-          this.categories = data;
-          this.categoriesSlugs = Object.keys(this.categories)
-          .sort((f1: any, f2: any) => {
-            if (this.categories[f1].order < this.categories[f2].order) {
-              return -1;
+        next: (txs: any[]) => {
+          this.pagesByCategory = {};
+          for (let p of txs) {
+            const title = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
+            const slug = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
+            const category = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
+            const img = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
+            const owner = p.node.owner.address;
+            const id = p.node.id;
+            const block = p.node.block;
+            
+            if (!Array.isArray(this.pagesByCategory[category])) {
+              this.pagesByCategory[category] = [];
             }
-            if (this.categories[f1].order > this.categories[f2].order) {
-              return 1;
-            }
-            // a must be equal to b
-            return 0;
-          });
+            this.pagesByCategory[category].push({
+              title: title,
+              slug: slug,
+              category: category,
+              img: img,
+              owner: owner,
+              id: id,
+              block: block
+            });
+
+          }
 
           this.loading = false;
         },
         error: (error) => {
-          console.log('error categories', error);
+          this.message(`Error: ${error}`, 'error')
           this.loading = false;
         },
-      });
+      })
+
+
 
     // Get logo 
     this.appSettingsSubscription = this._arwikiSettings
@@ -97,15 +127,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
     // Get latest articles 
     const numArticles = 10;
-    let networkInfo;
-    let maxHeight = 0;
-    try {
-      networkInfo = await this._arweave.arweave.network.getInfo();
-      maxHeight = networkInfo.height;
-    } catch (error) {
-      this.message(error, 'error');
-      return;
-    }
+
     this.pagesSubscription = this.getLatestArticles(
         numArticles, this.routeLang, maxHeight
       ).subscribe({
@@ -211,20 +233,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  /*
-  *  Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 5000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
-  }
-
-
-
   getSkeletonLoaderAnimationType() {
   	let type = 'progress';
   	if (this.defaultTheme === 'arwiki-dark') {
@@ -294,4 +302,58 @@ export class MainPageComponent implements OnInit, OnDestroy {
     }
     return res;
   }
+
+
+  /*
+  *  Custom snackbar message
+  */
+  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
+    this._snackBar.open(msg, 'X', {
+      duration: 4000,
+      horizontalPosition: 'center',
+      verticalPosition: verticalPosition,
+      panelClass: panelClass
+    });
+  }
+
+  /*
+  *  @dev return an observable with the latest N articles
+  */
+  getPagesByCategory(numArticles: number, langCode: string, height: number) {
+    let admins: any = [];
+    return this._arwikiSettings.getAdminList().pipe(
+      switchMap((adminList) => {
+        admins = adminList;
+        return this._categoriesContract.getState();
+      }),
+      switchMap((categories) => {
+        this.categories = categories;
+        this.categoriesSlugs = Object.keys(this.categories)
+           .sort((f1: any, f2: any) => {
+          if (this.categories[f1].order < this.categories[f2].order) {
+            return -1;
+          }
+          if (this.categories[f1].order > this.categories[f2].order) {
+            return 1;
+          }
+          // a must be equal to b
+          return 0;
+        });
+
+        return this.arwikiQuery!.getVerifiedPagesByCategories(
+          admins, Object.keys(categories), langCode, numArticles, height
+        );
+      }),
+      switchMap((pages) => {
+        const txIds: any = [];
+        for (let p of pages) {
+          const pageId = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');  
+          txIds.push(pageId);
+        }
+        return this.arwikiQuery!.getTXsData(txIds);
+      })
+      
+    );
+  }
+
 }
