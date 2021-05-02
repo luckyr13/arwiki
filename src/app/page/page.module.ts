@@ -7,6 +7,7 @@ import { EditComponent } from './edit/edit.component';
 import { PreviewComponent } from './preview/preview.component';
 import { ViewDetailComponent } from './view-detail/view-detail.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { SharedComponentsModule } from '../shared-components/shared-components.module'
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
   imports: [
     CommonModule,
     PageRoutingModule,
-    SharedModule
+    SharedModule,
+    SharedComponentsModule
   ]
 })
 export class PageModule { }

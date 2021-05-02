@@ -16,7 +16,6 @@ import { Location } from '@angular/common';
 import { ArwikiSettingsContract } from '../../arwiki-contracts/arwiki-settings';
 import { ArwikiCategoriesContract } from '../../arwiki-contracts/arwiki-categories';
 import { UserSettingsService } from '../../core/user-settings.service';
-import { getVerification } from "arverify";
 declare const window: any;
 declare const document: any;
 
@@ -37,7 +36,6 @@ export class ViewDetailComponent implements OnInit {
   block: any;
   scrollTop: number = 0;
   toc: any[] = [];
-  arverifyProcessedAddressesMap: any = {};
   routeLang: string = '';
   routeSlug: string = '';
   baseURL: string = this._arweave.baseURL;
@@ -136,13 +134,6 @@ export class ViewDetailComponent implements OnInit {
 
           this.loadingPage = false;
 
-          // Verify addresses 
-          // Validate owner address with ArVerify
-          this.arverifyProcessedAddressesMap = {};
-          const arverifyQuery = await this.getArverifyVerification(this.pageOwner);
-          this.arverifyProcessedAddressesMap[this.pageOwner] = arverifyQuery;
-  				
-
   			} else {
   				this.message('Page not found', 'error')
           this.loadingPage = false;
@@ -217,16 +208,6 @@ export class ViewDetailComponent implements OnInit {
 
   generateTOC_helper_addToTable(element: any) {
     this.toc.push(element);
-  }
-
-  async getArverifyVerification(_address: string) {
-    const verification = await getVerification(_address);
-
-    return ({
-      verified: verification.verified,
-      icon: verification.icon,
-      percentage: verification.percentage
-    });
   }
 
   validateTOCactiveMenu(_elementTop: number ){
