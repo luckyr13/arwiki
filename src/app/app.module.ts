@@ -20,8 +20,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { CategoryModule } from './category/category.module';
 import { PageModule } from './page/page.module';
 import { ModeratorsModule } from './moderators/moderators.module';
-import { ArticleCardComponent } from './article-card/article-card.component';
-import { ArweaveAddressComponent } from './arweave-address/arweave-address.component';
+import { SharedComponentsModule } from './shared-components/shared-components.module'
+// import { ArticleCardComponent } from './article-card/article-card.component';
+// import { ArweaveAddressComponent } from './arweave-address/arweave-address.component';
 
 
 // AoT requires an exported function for factories
@@ -40,8 +41,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     MainMenuComponent,
     SearchComponent,
     DashboardComponent,
-    ArticleCardComponent,
-    ArweaveAddressComponent
   ],
   imports: [
     BrowserModule,
@@ -60,6 +59,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ModeratorsModule,
     AppRoutingModule,
     PageModule,
+    SharedComponentsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

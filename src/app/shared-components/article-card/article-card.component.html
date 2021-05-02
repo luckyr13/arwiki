@@ -17,7 +17,7 @@
 			{{ article.category }}
 		</a>
 	</p>
-	<p class="text-right mini-text">
+	<p class="text-right mini-text" *ngIf="article.block">
 		<strong>Creation date: </strong>
 		{{ timestampToDate(article.block.timestamp) | date:'short' }}
 	</p>

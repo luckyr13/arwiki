@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ArverifyMap } from '../arwiki-contracts/arverify-map'
+import { ArverifyMap } from '../../arwiki-contracts/arverify-map'
 
 @Component({
   selector: 'app-arweave-address',
