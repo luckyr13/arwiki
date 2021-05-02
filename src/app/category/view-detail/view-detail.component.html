@@ -26,7 +26,12 @@
 	</div>
 	<div class="row">
 		<div class="col-12 col-md-6 card-page fadeIn" *ngFor="let p of pages">
-			<mat-progress-bar 
+			<app-article-card 
+								[article]="p" 
+								[articleData]="pagesData[p.id]" 
+								[routeLang]="routeLang" 
+								[baseURL]="'allo'"></app-article-card>
+			<!-- <mat-progress-bar 
 				mode="indeterminate"
 				*ngIf="!pagesData[p.id]"
 				class="fadeIn"></mat-progress-bar>
@@ -53,7 +58,7 @@
 						<mat-icon>visibility</mat-icon>
 					</a>
 				</div>
-			</mat-card>
+			</mat-card> -->
 		</div>
 	</div>
 </div>	
