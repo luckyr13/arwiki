@@ -1,5 +1,5 @@
-<span class="address-container">
+<a class="address-container" target="_blank" href="https://viewblock.io/arweave/address/{{address}}">
 	<strong><ng-content></ng-content></strong>&nbsp;
-	<span class="address" (click)="clickAction()">{{ address }} </span>
+	<span class="address">{{ address }} </span>
 	<mat-icon *ngIf="_verified" class="green">verified_user</mat-icon>
-</span>
+</a>
