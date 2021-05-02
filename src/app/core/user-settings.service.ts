@@ -79,8 +79,8 @@ export class UserSettingsService {
   }
 
   initSettings() {
-    const dtheme = window.sessionStorage.getItem('defaultTheme');
-    const dlang = JSON.parse(window.sessionStorage.getItem('defaultLang'));
+    const dtheme = window.localStorage.getItem('defaultTheme');
+    const dlang = JSON.parse(window.localStorage.getItem('defaultLang'));
 
     // Default settings
     if (dtheme) {
@@ -104,7 +104,7 @@ export class UserSettingsService {
   setDefaultTheme(_theme: string) {
   	if (_theme) {
     	this._defaultTheme = _theme;
-    	window.sessionStorage.setItem('defaultTheme', this._defaultTheme);
+    	window.localStorage.setItem('defaultTheme', this._defaultTheme);
       this.updateDefaultThemeObservable(this._defaultTheme);
   	}
   }
@@ -125,7 +125,7 @@ export class UserSettingsService {
         document.documentElement.dir = this._defaultLang.writing_system;
       }
 
-    	window.sessionStorage.setItem('defaultLang', def);
+    	window.localStorage.setItem('defaultLang', def);
       this._translate.use(this._defaultLang.code);
       this.updateSettingsLangObservable(this._defaultLang);
   	}
@@ -133,9 +133,8 @@ export class UserSettingsService {
 
   resetUserSettings() {
   	this._defaultTheme = 'arwiki-light';
-  	window.sessionStorage.removeItem('defaultTheme');
-  	window.sessionStorage.removeItem('defaultLang');
-
+  	window.localStorage.removeItem('defaultTheme');
+  	window.localStorage.removeItem('defaultLang');
   }
 
   /*
