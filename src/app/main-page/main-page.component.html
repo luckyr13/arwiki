@@ -79,38 +79,34 @@
 	<h2 class="text-left title-latest-art">
 		{{ 'MAIN_PAGE.TITLE_L3' | translate }}
 	</h2>
-	<div class="row">
-		<div *ngIf="!loadingLatestArticles && !latestArticles.length" class="col-12 fadeIn">
-			No results.
+	<div *ngIf="!loadingLatestArticles && !latestArticles.length" class="row col-12 fadeIn">
+		No results.
+	</div>
+	<div class="row" *ngIf="!loadingLatestArticles">
+		<div class="col-12 col-md-6" *ngFor="let article of latestArticles">
+			<app-article-card 
+							[article]="article" 
+							[articleData]="latestArticlesData[article.id]" 
+							[routeLang]="routeLang" 
+							[baseURL]="baseURL"></app-article-card>
 		</div>
-		<div *ngIf="!loadingLatestArticles" class="col-12 row">
-			<div class="col-12 col-md-6" *ngFor="let article of latestArticles">
-				<app-article-card 
-								[article]="article" 
-								[articleData]="latestArticlesData[article.id]" 
-								[routeLang]="routeLang" 
-								[baseURL]="baseURL"></app-article-card>
-			</div>
+	</div>
+	<div *ngIf="loadingLatestArticles" class="col-12 row">
+		<div class="col-12 col-md-6" *ngFor="let article of [1, 2, 3, 4]">
+			<mat-card class="card-latest-article fadeIn">
+				<p>
+					<ngx-skeleton-loader
+											count="1"
+											[animation]="getSkeletonLoaderAnimationType()"
+											[theme]="getSkeletonLoaderThemeNgStyleTitleArticle()"></ngx-skeleton-loader>
+				</p>
+				<p>
+					<ngx-skeleton-loader
+											count="3"
+											[animation]="getSkeletonLoaderAnimationType()"
+											[theme]="getSkeletonLoaderThemeNgStylePLine()"></ngx-skeleton-loader>
+				</p>
+			</mat-card>
 		</div>
-		<div *ngIf="loadingLatestArticles" class="col-12 row">
-			<div class="col-12 col-md-6" *ngFor="let article of [1, 2, 3, 4]">
-				<mat-card class="card-latest-article fadeIn">
-					<p>
-						<ngx-skeleton-loader
-											 count="1"
-											 [animation]="getSkeletonLoaderAnimationType()"
-											 [theme]="getSkeletonLoaderThemeNgStyleTitleArticle()"></ngx-skeleton-loader>
-					</p>
-					<p>
-						<ngx-skeleton-loader
-											 count="3"
-											 [animation]="getSkeletonLoaderAnimationType()"
-											 [theme]="getSkeletonLoaderThemeNgStylePLine()"></ngx-skeleton-loader>
-					</p>
-				</mat-card>
-			</div>
-		</div>
-
-
 	</div>
 </div>
