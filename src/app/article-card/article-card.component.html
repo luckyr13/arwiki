@@ -30,12 +30,16 @@
 	</p>
 	<p class="text-right">
 
-		<a mat-flat-button color="default">
+		<a 
+			matTooltip="Tip writer"
+			mat-flat-button
+			color="default">
 			<mat-icon>paid</mat-icon>
 		</a>
 		&nbsp;
 
 		<a
+			matTooltip="View preview"
 		   mat-flat-button
 		   color="primary"
 		   routerLink="/{{routeLang}}/{{article.slug}}">

@@ -53,12 +53,17 @@
 				<div class="text-right">
 					<a
 						mat-flat-button
+						matTooltip="Approve page"
 						(click)="confirmValidateArWikiPage(p.slug, p.id, p.category)"
 						class="approve-btn">
 						<mat-icon>done</mat-icon>
 					</a>
 					&nbsp;
-					<a mat-flat-button color="primary" routerLink="../../preview/{{p.id}}">
+					<a 
+						mat-flat-button
+						color="primary"
+						matTooltip="View preview"
+						routerLink="../../preview/{{p.id}}">
 						<mat-icon>visibility</mat-icon>
 					</a>
 				</div>
