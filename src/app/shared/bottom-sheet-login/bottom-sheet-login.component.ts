@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 export class BottomSheetLoginComponent implements OnInit, OnDestroy {
 	login$: Subscription = Subscription.EMPTY;
   loading: boolean = false;
+  stayLoggedIn: boolean = false;
 
   constructor(
   	private _auth: AuthService,
@@ -44,13 +45,17 @@ export class BottomSheetLoginComponent implements OnInit, OnDestroy {
     fileUploader.click();
   }
 
+  setStayLoggedIn(event: any) {
+    this.stayLoggedIn = event.checked
+  }
+
   /*
   *  @dev Select a method to connect wallet from modal (or bottom sheet)
   */
   login(walletOption: string, fileInput: any = null) {
     this.loading = true;
 
-  	this.login$ = this._auth.login(walletOption, fileInput).subscribe({
+  	this.login$ = this._auth.login(walletOption, fileInput, this.stayLoggedIn).subscribe({
   		next: (res: any) => {
         this._bottomSheetRef.dismiss();
         this.loading = false;

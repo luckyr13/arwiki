@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatIconModule} from '@angular/material/icon';
@@ -27,8 +28,14 @@ import {MatChipsModule} from '@angular/material/chips';
 import { DialogConfirmComponent } from './dialog-confirm/dialog-confirm.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 
+
 @NgModule({
-  declarations: [DialogSelectLanguageComponent, BottomSheetLoginComponent, ModalFileManagerComponent, DialogConfirmComponent],
+  declarations: [
+    DialogSelectLanguageComponent, 
+    BottomSheetLoginComponent, 
+    ModalFileManagerComponent, 
+    DialogConfirmComponent,
+  ],
   imports: [
     CommonModule,
     MatDialogModule,
@@ -41,7 +48,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatListModule,
     MatIconModule,
     MatTabsModule,
-    MatCardModule
+    MatCardModule,
+    MatCheckboxModule,
   ],
   exports: [
   	MatFormFieldModule,
@@ -65,7 +73,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatTabsModule,
     MatChipsModule,
     TranslateModule,
-    MatExpansionModule
+    MatExpansionModule,
   ],
   entryComponents: [DialogSelectLanguageComponent]
 })

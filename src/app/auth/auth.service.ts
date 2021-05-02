@@ -13,9 +13,9 @@ export class AuthService {
   // Observable string streams
   public account$: Observable<string>;
   // User's private key
-  private _key: any = null;
+  private _arKey: any = null;
   // User's arweave public address
-  private _accountAddress: string = '';
+  private _mainAddress: string = '';
   // Save a temporal copy of the admin list
   private _adminList: string[] = [];
 
@@ -31,65 +31,61 @@ export class AuthService {
     this.account = new Subject<string>();
     this.account$ = this.account.asObservable();
 
-    this.loadSessionData();
+    this.loadAccount();
     
   }
 
-  loadSessionData() {
-    const arkey = window.sessionStorage.getItem('ARKEY');
-    const mainAddress = window.sessionStorage.getItem('MAINADDRESS');
-    if (arkey) {
-      this._key = JSON.parse(arkey);
-    }
+  loadAccount() {
+    const mainAddress = window.sessionStorage.getItem('MAINADDRESS')
+      || window.localStorage.getItem('MAINADDRESS')
+    const arkey = window.sessionStorage.getItem('ARKEY')
+      || window.localStorage.getItem('ARKEY')
+
     if (mainAddress) {
-      this._accountAddress = mainAddress;
-      this.setAccount(this._accountAddress);
+      this._mainAddress = mainAddress
+      if (arkey) { this._arKey = JSON.parse(arkey) }
+      this.account.next(mainAddress);
     }
   }
 
-  setAccount(account: string) {
-    this.account.next(account);
-    this._setAccountAddress(account);
+  setAccount(mainAddress: string, arKey: any = null, stayLoggedIn: boolean = false) {
+    const storage = stayLoggedIn ? window.localStorage : window.sessionStorage
+    this._mainAddress = mainAddress
+    storage.setItem('MAINADDRESS', mainAddress);
+    if (arKey) {
+      this._arKey = arKey
+      storage.setItem('ARKEY', JSON.stringify(this._arKey))
+    }
+    this.account.next(mainAddress);
   }
 
-  private _setAccountAddress(accountAddress: string) {
-    // Save main address for convenience 
-    this._accountAddress = accountAddress;
-    window.sessionStorage.setItem('MAINADDRESS', this._accountAddress);
-  }
-
-  setPrivateKey(_key: string) {
-    // Save key in global property for convenience :)
-    this._key = _key;
-    window.sessionStorage.setItem('ARKEY', JSON.stringify(this._key));
+  removeAccount() {
+    for (let key of ['MAINADDRESS', 'ARKEY']) {
+      window.sessionStorage.removeItem(key)
+      window.localStorage.removeItem(key)
+    }
   }
 
 
   public getMainAddressSnapshot(): string {
-    return this._accountAddress;
+    return this._mainAddress;
   }
 
   getPrivateKey() {
-    let res = null;
-    if (this._key) {
-      res = this._key;
-    } else {
-      res = 'use_wallet';
-    }
-    return res;
+    return this._arKey ? this._arKey : 'use_wallet'
   }
 
 
 
-  login(walletOption: string, uploadInputEvent: any = null): Observable<any> {
+  login(walletOption: string, uploadInputEvent: any = null, stayLoggedIn: boolean = false): Observable<any> {
     let method = of({});
 
     switch (walletOption) {
       case 'upload_file':
         method = this._arweave.uploadKeyFile(uploadInputEvent).pipe(
             tap( (_res: any) => {
-              this.setAccount(_res.address);
-              this.setPrivateKey(_res.key);
+              this.removeAccount()
+              this.setAccount(_res.address, _res.key, stayLoggedIn)
             })
           );
       break;
@@ -100,9 +96,9 @@ export class AuthService {
 
       case 'arconnect':
         method = this._arweave.getAccount().pipe(
-            tap( (_account) => {
-
-              this.setAccount(_account.toString());
+            tap( (_account: any) => {
+              this.removeAccount()
+              this.setAccount(_account.toString(), null, stayLoggedIn)
             })
           );
       break;
@@ -116,8 +112,9 @@ export class AuthService {
   }
 
   logout() {
-    this.setAccount('');
+    this.removeAccount()
     this._arweave.logout();
+    this.account.next('');
   }
 
 
