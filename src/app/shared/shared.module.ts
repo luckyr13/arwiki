@@ -27,7 +27,9 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatChipsModule} from '@angular/material/chips';
 import { DialogConfirmComponent } from './dialog-confirm/dialog-confirm.component';
 import {MatExpansionModule} from '@angular/material/expansion';
-
+import { ArticleCardComponent } from './article-card/article-card.component';
+import { ArweaveAddressComponent } from './arweave-address/arweave-address.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
     BottomSheetLoginComponent, 
     ModalFileManagerComponent, 
     DialogConfirmComponent,
+    ArticleCardComponent,
+    ArweaveAddressComponent,
   ],
   imports: [
     CommonModule,
@@ -50,6 +54,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatTabsModule,
     MatCardModule,
     MatCheckboxModule,
+    RouterModule
   ],
   exports: [
   	MatFormFieldModule,
@@ -74,7 +79,9 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatChipsModule,
     TranslateModule,
     MatExpansionModule,
+    ArticleCardComponent,
+    ArweaveAddressComponent,
   ],
-  entryComponents: [DialogSelectLanguageComponent]
+  // entryComponents: [DialogSelectLanguageComponent]
 })
 export class SharedModule { }

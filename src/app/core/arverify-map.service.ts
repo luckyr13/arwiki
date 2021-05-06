@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
 	providedIn: 'root'
 })
-export class ArverifyMap {
+export class ArverifyMapService {
 	_arverifyMap: any = {}
 
 	constructor() {}

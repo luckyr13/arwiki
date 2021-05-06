@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ArverifyMap } from '../../arwiki-contracts/arverify-map'
+import { ArverifyMapService } from '../../core/arverify-map.service'
 
 @Component({
   selector: 'app-arweave-address',
@@ -9,7 +9,7 @@ import { ArverifyMap } from '../../arwiki-contracts/arverify-map'
 export class ArweaveAddressComponent implements OnInit {
   _verified: Boolean = false
 
-  constructor(private _arverifyMap: ArverifyMap) {}
+  constructor(private _arverifyMap: ArverifyMapService) {}
 
   async ngOnInit() {
     let verificationResult = await this._arverifyMap.getVerification(this.address)
