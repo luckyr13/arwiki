@@ -7,12 +7,15 @@ import { AuthService } from '../auth/auth.service';
 import { ArweaveService } from '../core/arweave.service';
 import { Subscription, EMPTY, Observable } from 'rxjs';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {ArwikiLangIndexContract} from '../arwiki-contracts/arwiki-lang-index';
 import { FormControl, FormGroup } from '@angular/forms';
 import {MatBottomSheet} from '@angular/material/bottom-sheet';
 import { BottomSheetLoginComponent } from '../shared/bottom-sheet-login/bottom-sheet-login.component';
 import { ArwikiSettingsContract } from '../arwiki-contracts/arwiki-settings';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { 
+  DialogSelectLanguageComponent 
+} from '../shared/dialog-select-language/dialog-select-language.component';
 declare const window: any;
 
 @Component({
@@ -26,10 +29,7 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   @Input() opened!: boolean;
   @Output() openedChange = new EventEmitter<boolean>();
   isLoggedIn: boolean = false;
-  langsCopy: any;
-  langCodes: string[] = [];
   loading = this._userSettings.mainToolbarLoadingStream;
-  loadingLangs: boolean = false;
   routerLang: string = '';
   loadingSettings: boolean = true;
   defaultTheme: string = '';
@@ -49,11 +49,11 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
     private _arweave: ArweaveService,
     private _snackBar: MatSnackBar,
     private _userSettings: UserSettingsService,
-    private _langContract: ArwikiLangIndexContract,
     private _bottomSheet: MatBottomSheet,
     private _arwikiSettings: ArwikiSettingsContract,
     private _route: ActivatedRoute,
-    private _router: Router
+    private _router: Router,
+    private _dialog: MatDialog,
   ) {}
 
   get searchQry() {
@@ -63,21 +63,11 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.defaultTheme = this._userSettings.getDefaultTheme();
-
     this.isLoggedIn = !!this._auth.getMainAddressSnapshot();
 
   	this._userSettings.mainToolbarVisibilityStream.subscribe((visible) => {
   		this.maintoolbarVisible = visible;
   	});
-
-    // Load languages from contract
-    this.loadingLangs = true;
-    this._langContract.getState().subscribe((langs: any) => {
-      this.langsCopy = langs;
-      this.langCodes = Object.keys(this.langsCopy);
-      
-      this.loadingLangs = false;
-    });
 
     // Get main address from service
     this._auth.account$.subscribe((_address: string) => {
@@ -136,10 +126,10 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   /*
   *  Set default language
   */
-  setLanguage(langCode: string) {
+  setLanguage(lang: any) {
     try {
-      this._userSettings.setDefaultLang(this.langsCopy[langCode]);
-      this._router.navigate([`/${langCode}`]);
+      this._userSettings.setDefaultLang(lang);
+      this._router.navigate([`/${lang.code}`]);
     } catch (err) {
       this.message(`Error: ${err}`, 'error');
     }
@@ -203,9 +193,19 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
     if (!qry) {
       return;
     }
-
     this._router.navigate([`${this.routerLang}/search/${qry}`]);
+  }
 
+  openLangModal() {
+    const dialogRef = this._dialog.open(DialogSelectLanguageComponent, {
+      width: '650px',
+      data: {},
+    });
 
+    dialogRef.afterClosed().subscribe(lang => {
+      if (lang && lang.code) {
+        this.setLanguage(lang);
+      }
+    });
   }
 }

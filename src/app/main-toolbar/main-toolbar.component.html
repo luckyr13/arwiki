@@ -84,28 +84,17 @@
     <mat-icon>settings</mat-icon>
   </button>
   <mat-menu #settingsMenu="matMenu">
-    <button mat-menu-item [matMenuTriggerFor]="langMenuOptions">
-      <mat-icon>language</mat-icon> {{ 'MAIN_TOOLBAR.MENU_SETTINGS_LANGUAGE' | translate }}
-    </button>
     <button mat-menu-item [matMenuTriggerFor]="themeMenuOptions">
       <mat-icon>format_color_fill</mat-icon> {{ 'MAIN_TOOLBAR.MENU_SETTINGS_THEME' | translate }}
-    </button>  
+    </button>
+    <button mat-menu-item (click)="openLangModal()">
+      <mat-icon>language</mat-icon> {{ 'MAIN_TOOLBAR.MENU_SETTINGS_LANGUAGE' | translate }}
+    </button>
   </mat-menu>
   <mat-menu #themeMenuOptions="matMenu">
 	  <button mat-menu-item (click)="setMainTheme('arwiki-light')">Light theme</button>
 	  <button mat-menu-item (click)="setMainTheme('arwiki-dark')">Dark theme</button>
 	</mat-menu>
-  <mat-menu #langMenuOptions="matMenu">
-    <mat-spinner *ngIf="loadingLangs"></mat-spinner>
-    <div *ngIf="!loadingLangs">
-      <button 
-        mat-menu-item 
-        *ngFor="let langCode of langCodes"
-        (click)="setLanguage(langCode)">
-         {{ langsCopy[langCode].native_name }}
-      </button>
-    </div>
-  </mat-menu>
-
+  
 </mat-toolbar>
 <mat-progress-bar mode="indeterminate" *ngIf="loading | async"></mat-progress-bar>
