@@ -40,6 +40,7 @@ export async function handle(state, action)
 		}
 
     state[slug] = {
+    	slug: slug,
     	label: label,
     	order: order
     };

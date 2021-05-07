@@ -20,6 +20,8 @@ import { ArwikiQuery } from '../../core/arwiki-query';
 import { ArwikiLangIndex } from '../../core/interfaces/arwiki-lang-index';
 import { ArwikiLang } from '../../core/interfaces/arwiki-lang';
 import * as SimpleMDE from 'simplemde';
+import { ArwikiCategory } from '../../core/interfaces/arwiki-category';
+import { ArwikiCategoryIndex } from '../../core/interfaces/arwiki-category-index';
 declare const document: any;
 declare const window: any;
 
@@ -47,7 +49,7 @@ export class NewComponent implements OnInit, OnDestroy {
   removable = true;
   addOnBlur = true;
   baseImgUrl: string = this._arweave.baseURL;
-  categoryList: any[] = [];
+  categoryList: ArwikiCategory[] = [];
   languageList: ArwikiLang[] = [];
   categoryListSubscription: Subscription = Subscription.EMPTY;
   languageListSubscription: Subscription = Subscription.EMPTY;
@@ -102,10 +104,10 @@ export class NewComponent implements OnInit, OnDestroy {
     this.categoryListSubscription = this._categoriesContract
       .getState()
       .subscribe({
-        next: (state) => {
+        next: (state: ArwikiCategoryIndex) => {
           this.categoryList = [];
           for (const c0 of Object.keys(state)) {
-            this.categoryList.push({slug: c0, label: state[c0].label });
+            this.categoryList.push(state[c0]);
           }
         },
         error: (error) => {

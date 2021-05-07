@@ -1,21 +1,26 @@
 {
 	"the_arweave_project": {
+		"slug": "the_arweave_project",
 		"label": "The Arweave Project",
 		"order": 10
 	},
 	"the_arweave_protocol": {
+		"slug": "the_arweave_protocol",
 		"label": "The Arweave Protocol",
 		"order": 20
 	},
 	"profit_sharing": {
+		"slug": "profit_sharing",
 		"label": "Profit Sharing",
 		"order": 30
 	},
 	"mining": {
+		"slug": "mining",
 		"label": "Mining",
 		"order": 40
 	},
 	"building_on_arweave": {
+		"slug": "building_on_arweave",
 		"label": "Building on Arweave",
 		"order": 50
 	}
