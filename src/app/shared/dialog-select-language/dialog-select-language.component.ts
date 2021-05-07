@@ -33,9 +33,12 @@ export class DialogSelectLanguageComponent implements OnInit, OnDestroy {
   		.getState()
   		.subscribe({
   			next: (state: ArwikiLangIndex) => {
-	  			this.langs = state;
+	  			this.langs = {};
 	  			for (let s of Object.keys(state)) {
-	  				this.langCodes.push(s)
+            if (state[s].active) {
+              this.langs[s] = state[s];
+              this.langCodes.push(s);
+            }
 	  			}
 	  			this.langCodes = Array.prototype.sort.call(this.langCodes);
 	  			this.loading = false;

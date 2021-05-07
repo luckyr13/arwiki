@@ -3,4 +3,5 @@ export interface ArwikiLang {
 	iso_name: string;
 	native_name: string;
 	writing_system: string;
+	active: boolean;
 }

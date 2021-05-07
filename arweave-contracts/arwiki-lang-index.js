@@ -45,7 +45,8 @@ export async function handle(state, action)
 			"code": langCode,
 			"iso_name": action.input.isoName.trim(),
 			"native_name": action.input.nativeName.trim(),
-			"writing_system": action.input.writingSystem.trim()
+			"writing_system": action.input.writingSystem.trim(),
+			"active": true
 		};
 
     state.langs[langCode] = newLang;

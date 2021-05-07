@@ -42,11 +42,55 @@ export async function handle(state, action)
     state[slug] = {
     	slug: slug,
     	label: label,
-    	order: order
+    	order: order,
+    	active: true
     };
     return { state };
   }
-	// TODO: Edit category label
+	/*
+	*	@dev Update category
+	*/
+	if (action.input.function === "updateCategory") {
+		// Only admin can update the state
+		// Get the list of admins from Settings contract
+		const settingsContractState = await SmartWeave.contracts.readContractState(
+			SETTINGS_CONTRACT
+		);
+    const adminList = settingsContractState.admin_list;
+    // Validate _msgSender in admins list
+    _modifier_validateAdmin(_msgSender, adminList);
+    // Validate inputs
+    _modifier_validateInputString(
+			action.input.slug, 'slug', 120
+		);
+		_modifier_validateInputString(
+			action.input.label, 'label', 120
+		);
+		_modifier_validateInputNumber(
+			action.input.order, 'order'
+		);
+		_modifier_validateInputBoolean(
+			action.input.active, 'active'
+		);
+		const slug = action.input.slug.trim();
+		const label = action.input.label.trim();
+		const order = parseInt(action.input.order);
+		const active = !!action.input.active;
+
+		// Validate that category exists
+		if (!Object.prototype.hasOwnProperty.call(state, slug)) {
+			throw new ContractError('Category doesn\'t exist');
+		}
+
+    state[slug] = {
+    	slug: slug,
+    	label: label,
+    	order: order,
+    	active: active
+    };
+    return { state };
+  }
+
 
 	throw new ContractError('Invalid option!');
 }
@@ -85,6 +129,15 @@ function _modifier_validateInputNumber(_n, _nName)
 	if (isNaN(_n) || !Number.isSafeInteger(_n)) {
 		throw new ContractError(
 			`${_nName} must be a number less than ${ Number.MAX_SAFE_INTEGER }`
+		);
+	}
+}
+
+function _modifier_validateInputBoolean(_n, _nName)
+{
+	if (typeof _n === "boolean") {
+		throw new ContractError(
+			`${_nName} must be a boolean value`
 		);
 	}
 }

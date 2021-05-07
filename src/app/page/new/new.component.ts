@@ -107,7 +107,9 @@ export class NewComponent implements OnInit, OnDestroy {
         next: (state: ArwikiCategoryIndex) => {
           this.categoryList = [];
           for (const c0 of Object.keys(state)) {
-            this.categoryList.push(state[c0]);
+            if (state[c0].active) {
+              this.categoryList.push(state[c0]);
+            }
           }
         },
         error: (error) => {
@@ -124,7 +126,9 @@ export class NewComponent implements OnInit, OnDestroy {
         next: (state: ArwikiLangIndex) => {
           this.languageList = [];
           for (const l0 of Object.keys(state)) {
-            this.languageList.push(state[l0]);
+            if (state[l0].active) {
+              this.languageList.push(state[l0]);
+            }
           }
           this.language!.setValue(this.routeLang);
           this.title!.enable();
