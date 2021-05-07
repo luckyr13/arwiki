@@ -1,20 +1,21 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ArwikiQuery } from '../../core/arwiki-query';
 import { ArweaveService } from '../../core/arweave.service';
-import { Subscription } from 'rxjs';
+import { Subscription, of } from 'rxjs';
 import { ArwikiSettingsContract } from '../../arwiki-contracts/arwiki-settings';
 import { ArwikiCategoriesContract } from '../../arwiki-contracts/arwiki-categories';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { getVerification } from "arverify";
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   templateUrl: './view-detail.component.html',
   styleUrls: ['./view-detail.component.scss']
 })
 export class ViewDetailComponent implements OnInit {
-  arwikiQuery: ArwikiQuery|null = null;
+  arwikiQuery!: ArwikiQuery;
   pagesSubscription: Subscription = Subscription.EMPTY;
   loadingPages: boolean = false;
   category: string = '';
@@ -50,11 +51,9 @@ export class ViewDetailComponent implements OnInit {
       return;
     }
 
-    this.pagesSubscription = this.arwikiQuery.getPagesByCategory(
+    this.pagesSubscription = this.getPagesByCategory(
     	this.category,
       this.routeLang,
-    	this._settingsContract,
-      this._categoriesContract,
       maxHeight
     ).subscribe({
     	next: async (pages) => {
@@ -147,6 +146,70 @@ export class ViewDetailComponent implements OnInit {
 
   goBack() {
     this._location.back();
+  }
+
+  /*
+  * @dev
+  */
+  getPagesByCategory(
+    _category: string,
+    _langCode: string,
+    _maxHeight: number,
+    _limit: number = 100
+  ) {
+    let settingsCS: any = {};
+    return this._settingsContract.getState()
+      .pipe(
+        switchMap((settingsContractState) => {
+          settingsCS = settingsContractState;
+          return this._categoriesContract.getState();
+        }),
+        switchMap((categoriesContractState) => {
+          // Validate category 
+          if (!(_category in categoriesContractState)) {
+            throw new Error('Invalid category!');
+          }
+
+          return this.arwikiQuery.getVerifiedPagesByCategories(
+            settingsCS.adminList,
+            [_category],
+            _langCode,
+            _limit,
+            _maxHeight
+          );
+        }),
+        switchMap((verifiedPages) => {
+          const verifiedPagesList = [];
+          for (let p of verifiedPages) {
+            const vrfdPageId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
+            verifiedPagesList.push(vrfdPageId);
+          }
+
+          return this.arwikiQuery.getTXsData(verifiedPagesList);
+        }),
+        switchMap((txs) => {
+          const finalRes: any = [];
+          for (let p of txs) {
+            const title = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
+            const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
+            const category = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
+            const img = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
+            const owner = p.node.owner.address;
+            const id = p.node.id;
+            
+            finalRes.push({
+              title: title,
+              slug: slug,
+              category: category,
+              img: img,
+              owner: owner,
+              id: id
+            });
+            
+          }
+          return of(finalRes);
+        })
+      );
   }
 
 }

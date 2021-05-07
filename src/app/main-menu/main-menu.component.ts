@@ -8,6 +8,7 @@ import { ArwikiCategoriesContract } from '../arwiki-contracts/arwiki-categories'
 import { ArwikiSettingsContract } from '../arwiki-contracts/arwiki-settings';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { ArwikiCategoryIndex } from '../core/interfaces/arwiki-category-index';
 
 @Component({
   selector: 'app-main-menu',
@@ -21,11 +22,11 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   menuSubscription: Subscription = Subscription.EMPTY;
   loading: boolean = false;
   menu: any = {};
-  categories: any;
-  category_slugs: any;
+  categories: ArwikiCategoryIndex = {};
+  category_slugs: string[] = [];
   pages: any;
   defaultTheme: string = '';
-  arwikiQuery: ArwikiQuery|null = null;
+  arwikiQuery!: ArwikiQuery;
 
   constructor(
       private _userSettings: UserSettingsService,
@@ -67,9 +68,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       this.message(error, 'error');
       return;
     }
-    this.menuSubscription = this.arwikiQuery!.getMainMenu(
-      this._categoriesContract,
-      this._settingsContract,
+    this.menuSubscription = this.getMainMenu(
       this.routerLang,
       maxHeight
     ).subscribe({
@@ -189,5 +188,62 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     return isActive;
   }
 
+
+  /*
+  * @dev
+  */
+  getMainMenu(
+    _langCode: string,
+    _maxHeight: number,
+    _limit: number = 100
+  ) {
+    let _globalCat: ArwikiCategoryIndex = {};
+    return this._categoriesContract.getState()
+      .pipe(
+        switchMap((categories: ArwikiCategoryIndex) => {
+          _globalCat = categories;
+          return this._settingsContract.getState();
+        }),
+        switchMap((settingsContractState) => {
+          return (this.arwikiQuery.getVerifiedPagesByCategories(
+              settingsContractState.adminList,
+              Object.keys(_globalCat),
+              _langCode, 
+              _limit,
+              _maxHeight,
+            )
+          );
+        }),
+        switchMap((verifiedPages) => {
+          const verifiedPagesList = [];
+          for (let p of verifiedPages) {
+            const vrfdPageId = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
+            verifiedPagesList.push(vrfdPageId);
+          }
+          return this.arwikiQuery.getTXsData(verifiedPagesList);
+        }),
+        switchMap((txs) => {
+          const finalRes: any = {};
+          for (let p of txs) {
+            const title = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
+            const slug = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
+            const category = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
+            const id = p.node.id;
+            if (!Object.prototype.hasOwnProperty.call(finalRes, category)) {
+              finalRes[category] = {};
+            }
+            
+            finalRes[category][slug] = {
+              title: title,
+              slug: slug,
+              category: category,
+              id: id
+            };
+            
+          }
+          return of({ categories: _globalCat, pages: finalRes });
+        })
+      );
+  }
 
 }

@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ArwikiQuery } from '../core/arwiki-query';
 import { AuthService } from '../auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ArwikiCategoryIndex } from '../core/interfaces/arwiki-category-index';
 
 @Component({
   selector: 'app-main-page',
@@ -16,7 +17,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./main-page.component.scss']
 })
 export class MainPageComponent implements OnInit, OnDestroy {
-	categories: any = {};
+	categories: ArwikiCategoryIndex = {};
 	categoriesSlugs: string[] = [];
 	categoriesSubscription: Subscription = Subscription.EMPTY;
 	defaultTheme: string = '';
@@ -31,7 +32,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
   loadingLatestArticles: boolean = false;
   latestArticles: any[] = [];
   latestArticlesData: any;
-  arwikiQuery: ArwikiQuery|null = null;
+  arwikiQuery!: ArwikiQuery;
   pagesSubscription: Subscription = Subscription.EMPTY;
   routeLang: string = '';
   baseURL = this._arweave.baseURL;
@@ -76,10 +77,10 @@ export class MainPageComponent implements OnInit, OnDestroy {
         next: (txs: any[]) => {
           this.pagesByCategory = {};
           for (let p of txs) {
-            const title = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
-            const slug = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
-            const category = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
-            const img = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
+            const title = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
+            const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
+            const category = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
+            const img = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
             const owner = p.node.owner.address;
             const id = p.node.id;
             const block = p.node.block;
@@ -134,10 +135,10 @@ export class MainPageComponent implements OnInit, OnDestroy {
       next: async (pages) => {
         const latestPages: any = [];
         for (let p of pages) {
-          const title = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
-          const slug = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
-          const category = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
-          const img = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
+          const title = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
+          const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
+          const category = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
+          const img = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
           const owner = p.node.owner.address;
           const id = p.node.id;
           const block = p.node.block;
@@ -198,17 +199,17 @@ export class MainPageComponent implements OnInit, OnDestroy {
         return this._categoriesContract.getState();
       }),
       switchMap((categories) => {
-        return this.arwikiQuery!.getVerifiedPagesByCategories(
+        return this.arwikiQuery.getVerifiedPagesByCategories(
           admins, Object.keys(categories), langCode, numArticles, height
         );
       }),
       switchMap((pages) => {
         const txIds: any = [];
         for (let p of pages) {
-          const pageId = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');  
+          const pageId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');  
           txIds.push(pageId);
         }
-        return this.arwikiQuery!.getTXsData(txIds);
+        return this.arwikiQuery.getTXsData(txIds);
       })
       
     );
@@ -293,16 +294,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
     return ngStyle;    
   }
 
-  searchKeyNameInTags(_arr: any[], _key: string) {
-    let res = '';
-    for (const a of _arr) {
-      if (a.name === _key) {
-        return a.value;
-      }
-    }
-    return res;
-  }
-
 
   /*
   *  Custom snackbar message
@@ -326,7 +317,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
         admins = adminList;
         return this._categoriesContract.getState();
       }),
-      switchMap((categories) => {
+      switchMap((categories: ArwikiCategoryIndex) => {
         this.categories = categories;
         this.categoriesSlugs = Object.keys(this.categories)
            .sort((f1: any, f2: any) => {
@@ -340,17 +331,17 @@ export class MainPageComponent implements OnInit, OnDestroy {
           return 0;
         });
 
-        return this.arwikiQuery!.getVerifiedPagesByCategories(
+        return this.arwikiQuery.getVerifiedPagesByCategories(
           admins, Object.keys(categories), langCode, numArticles, height
         );
       }),
       switchMap((pages) => {
         const txIds: any = [];
         for (let p of pages) {
-          const pageId = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');  
+          const pageId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');  
           txIds.push(pageId);
         }
-        return this.arwikiQuery!.getTXsData(txIds);
+        return this.arwikiQuery.getTXsData(txIds);
       })
       
     );

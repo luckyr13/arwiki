@@ -61,65 +61,6 @@ export class ArwikiQuery {
   }
 
 
-  /*
-  * @dev
-  */
-  getMainMenu(
-    _categoriesContract: ArwikiCategoriesContract,
-    _settingsContract: ArwikiSettingsContract,
-    _langCode: string,
-    _maxHeight: number,
-    _limit: number = 100
-  ) {
-    let _globalCat: any = {};
-    return _categoriesContract.getState()
-      .pipe(
-        switchMap((categories) => {
-          _globalCat = categories;
-          return _settingsContract.getState();
-        }),
-        switchMap((settingsContractState) => {
-          return (this.getVerifiedPagesByCategories(
-              settingsContractState.adminList,
-              Object.keys(_globalCat),
-              _langCode, 
-              _limit,
-              _maxHeight,
-            )
-          );
-        }),
-        switchMap((verifiedPages) => {
-          const verifiedPagesList = [];
-          for (let p of verifiedPages) {
-            const vrfdPageId = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
-            verifiedPagesList.push(vrfdPageId);
-          }
-          return this.getTXsData(verifiedPagesList);
-        }),
-        switchMap((txs) => {
-          const finalRes: any = {};
-          for (let p of txs) {
-            const title = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
-            const slug = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
-            const category = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
-            const id = p.node.id;
-            if (!Object.prototype.hasOwnProperty.call(finalRes, category)) {
-              finalRes[category] = {};
-            }
-            
-            finalRes[category][slug] = {
-              title: title,
-              slug: slug,
-              category: category,
-              id: id
-            };
-            
-          }
-          return of({ categories: _globalCat, pages: finalRes });
-        })
-      );
-  }
-
 
   /*
   * @dev
@@ -282,72 +223,7 @@ export class ArwikiQuery {
     }
     return res;
   }
-
-  /*
-  * @dev
-  */
-  getPagesByCategory(
-    _category: string,
-    _langCode: string,
-    _settingsContract: ArwikiSettingsContract,
-    _categoriesContract: ArwikiCategoriesContract,
-    _maxHeight: number,
-    _limit: number = 100
-  ) {
-    let settingsCS: any = {};
-    return _settingsContract.getState()
-      .pipe(
-        switchMap((settingsContractState) => {
-          settingsCS = settingsContractState;
-          return _categoriesContract.getState();
-        }),
-        switchMap((categoriesContractState) => {
-          // Validate category 
-          if (!(_category in categoriesContractState)) {
-            throw new Error('Invalid category!');
-          }
-
-          return this.getVerifiedPagesByCategories(
-            settingsCS.adminList,
-            [_category],
-            _langCode,
-            _limit,
-            _maxHeight
-          );
-        }),
-        switchMap((verifiedPages) => {
-          const verifiedPagesList = [];
-          for (let p of verifiedPages) {
-            const vrfdPageId = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
-            verifiedPagesList.push(vrfdPageId);
-          }
-
-          return this.getTXsData(verifiedPagesList);
-        }),
-        switchMap((txs) => {
-          const finalRes: any = [];
-          for (let p of txs) {
-            const title = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
-            const slug = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
-            const category = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
-            const img = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
-            const owner = p.node.owner.address;
-            const id = p.node.id;
-            
-            finalRes.push({
-              title: title,
-              slug: slug,
-              category: category,
-              img: img,
-              owner: owner,
-              id: id
-            });
-            
-          }
-          return of(finalRes);
-        })
-      );
-  }
+  
 
   /*
   * @dev
