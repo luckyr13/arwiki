@@ -6,10 +6,10 @@
 	<h2 routerLink="/{{routeLang}}/{{article.slug}}">
 		{{ article.title }}
 	</h2>
-	<p *ngIf="articleData">
+	<p class="word-break" *ngIf="articleData">
 		{{ sanitizeMarkdown(articleData) }}
 	</p>
-	<p class="mini-text">
+	<p class="mini-text ellipsis">
 		<strong>Category: </strong>
 		<a
 		   mat-button
@@ -17,14 +17,14 @@
 			{{ article.category }}
 		</a>
 	</p>
-	<p class="mini-text" *ngIf="article.block">
+	<p class="mini-text ellipsis" *ngIf="article.block">
 		<strong>Creation date: </strong>
 		{{ timestampToDate(article.block.timestamp) | date:'short' }}
 	</p>
-	<p class="mini-text">
+	<p class="mini-text ellipsis">
 		<app-arweave-address [address]="article.owner">Created by: </app-arweave-address>
 	</p>
-	<p class="mini-text">
+	<p class="mini-text ellipsis">
 		<strong>TX:</strong> {{ article.id }}
 	</p>
 	<p class="text-right">

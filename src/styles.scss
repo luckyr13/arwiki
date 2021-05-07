@@ -237,3 +237,13 @@ p {
 #arwiki-home-page-accordion .mat-expansion-panel:not([class*=mat-elevation-z]) {
   box-shadow: none !important;
 }
+
+.word-break {
+  word-break: break-word;
+}
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
