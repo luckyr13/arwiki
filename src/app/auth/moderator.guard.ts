@@ -7,6 +7,7 @@ import { ArwikiSettingsContract } from '../arwiki-contracts/arwiki-settings';
 import { ArweaveService } from '../core/arweave.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserSettingsService } from '../core/user-settings.service';
+import { ArwikiAdminList } from '../core/interfaces/arwiki-admin-list';
 declare const window: any;
 
 @Injectable({
@@ -40,7 +41,8 @@ export class ModeratorGuard implements CanActivate, CanActivateChild {
     this._userSettings.updateMainToolbarLoading(true);
   	return (this._settingsContract.getAdminList()
       .pipe(
-        switchMap((adminList) => {
+        switchMap((_adminList: ArwikiAdminList) => {
+          const adminList = Object.keys(_adminList);
           const isAdmin = adminList.indexOf(address) >= 0;
           // Save a copy of the admin list 
           this._auth.setAdminList(adminList);

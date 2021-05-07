@@ -321,7 +321,7 @@ export class ArwikiQuery {
         }),
         switchMap((settingsContractState) => {
           return this.getVerifiedPagesBySlug(
-            settingsContractState.adminList,
+            Object.keys(settingsContractState.admin_list),
             [_slug],
             categoriesCS,
             _langCode,
@@ -507,7 +507,7 @@ export class ArwikiQuery {
       .pipe(
         switchMap((settingsContractState) => {
           return this.getVerifiedTagsFromQueries(
-            settingsContractState.adminList,
+            Object.keys(settingsContractState.admin_list),
             qry,
             _langCode,
             _limit,
@@ -619,7 +619,7 @@ export class ArwikiQuery {
         }),
         switchMap((settingsContractState) => {
           return this.getVerifiedPagesBySlug(
-            settingsContractState.adminList,
+            Object.keys(settingsContractState.admin_list),
             [_slug],
             categoriesCS,
             _langCode,

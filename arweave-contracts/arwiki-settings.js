@@ -6,13 +6,16 @@ export function handle(state, action)
 	const _msgSender = SmartWeave.transaction.owner;
 	const _to = SmartWeave.transaction.target;
 	const _tags = SmartWeave.transaction.tags;
+	const _admin_list = Object.keys(state.admin_list);
+	// Max strikes to deactivate an admin
+	const _maxStrikes = 3;
 
 	/*
 	*	@dev Update app name
 	*/
 	if (action.input.function === "updateAppName") {
 		// Only admin can update the state
-		_modifier_validateAdmin(_msgSender, state.admin_list);
+		_modifier_validateAdmin(_msgSender, _admin_list);
 		// Validate inputs
 		_modifier_validateInputString(
 			action.input.app_name, 'app_name', 100
@@ -27,7 +30,7 @@ export function handle(state, action)
 	*/
 	if (action.input.function === "updateLogos") {
 		// Only admin can update the state
-		_modifier_validateAdmin(_msgSender, state.admin_list);
+		_modifier_validateAdmin(_msgSender, _admin_list);
 
 		_modifier_validateInputString(
 			action.input.main_logo_light, 'main_logo_light', 43
@@ -46,17 +49,49 @@ export function handle(state, action)
 	*	@dev Add admin
 	*/
 	if (action.input.function === "addAdmin") {
+		const new_admin_address = action.input.new_admin;
+
 		// Only admin can update the state
-		_modifier_validateAdmin(_msgSender, state.admin_list);
+		_modifier_validateAdmin(_msgSender, admin_list);
 		// Validate inputs
 		_modifier_validateInputString(
-			action.input.new_admin, 'new_admin', 43
+			new_admin_address, 'new_admin', 43
 		);
 		// Validate if new admin is not already in the list
-		if (state.admin_list.indexOf(action.input.new_admin) >= 0) {
+		if (admin_list.indexOf(new_admin_address) >= 0) {
 			throw new ContractError('Admin already exists!');
 		}
-		state.admin_list.push(action.input.new_admin);
+		// Update state
+		state.admin_list[new_admin_address] = {
+			address: new_admin_address,
+			active: true,
+			strikes: []
+		};
+		return {state};
+	}
+	/*
+	*	@dev Strike admin:
+	* An admin can strike another admin as many times as needed
+	*/
+	if (action.input.function === "strikeAdmin") {
+		const target_admin_address = action.input.target_admin;
+		// Only admin can update the state
+		_modifier_validateAdmin(_msgSender, _admin_list);
+		// Validate inputs
+		_modifier_validateInputString(
+			new_admin_address, 'new_admin', 43
+		);
+		// Validate if admin already exists
+		if (admin_list.indexOf(new_admin_address) >= 0) {
+			throw new ContractError('Admin does not exist!');
+		}
+		// Update state
+		state.admin_list[new_admin_address].strikes.push(_msgSender);
+		const totalStrikes = state.admin_list[new_admin_address].strikes.length;
+		// Disable admin if accumulates too many strikes
+		if (totalStrikes >= _maxStrikes) {
+			state.admin_list[new_admin_address].active = false;
+		}
 		return {state};
 	}
 	

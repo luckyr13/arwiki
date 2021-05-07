@@ -206,7 +206,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
         }),
         switchMap((settingsContractState) => {
           return (this.arwikiQuery.getVerifiedPagesByCategories(
-              settingsContractState.adminList,
+              Object.keys(settingsContractState.admin_list),
               Object.keys(_globalCat),
               _langCode, 
               _limit,

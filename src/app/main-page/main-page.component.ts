@@ -10,6 +10,7 @@ import { ArwikiQuery } from '../core/arwiki-query';
 import { AuthService } from '../auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ArwikiCategoryIndex } from '../core/interfaces/arwiki-category-index';
+import { ArwikiAdminList } from '../core/interfaces/arwiki-admin-list';
 
 @Component({
   selector: 'app-main-page',
@@ -194,8 +195,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
   getLatestArticles(numArticles: number, langCode: string, height: number) {
     let admins: any = [];
     return this._arwikiSettings.getAdminList().pipe(
-      switchMap((adminList) => {
-        admins = adminList;
+      switchMap((adminList: ArwikiAdminList) => {
+        admins = Object.keys(adminList);
         return this._categoriesContract.getState();
       }),
       switchMap((categories) => {
@@ -313,8 +314,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
   getPagesByCategory(numArticles: number, langCode: string, height: number) {
     let admins: any = [];
     return this._arwikiSettings.getAdminList().pipe(
-      switchMap((adminList) => {
-        admins = adminList;
+      switchMap((adminList: ArwikiAdminList) => {
+        admins = Object.keys(adminList);
         return this._categoriesContract.getState();
       }),
       switchMap((categories: ArwikiCategoryIndex) => {
