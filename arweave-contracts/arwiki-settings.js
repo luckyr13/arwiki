@@ -52,13 +52,13 @@ export function handle(state, action)
 		const new_admin_address = action.input.new_admin;
 
 		// Only admin can update the state
-		_modifier_validateAdmin(_msgSender, admin_list);
+		_modifier_validateAdmin(_msgSender, _admin_list);
 		// Validate inputs
 		_modifier_validateInputString(
 			new_admin_address, 'new_admin', 43
 		);
 		// Validate if new admin is not already in the list
-		if (admin_list.indexOf(new_admin_address) >= 0) {
+		if (_admin_list.indexOf(new_admin_address) >= 0) {
 			throw new ContractError('Admin already exists!');
 		}
 		// Update state
@@ -82,7 +82,7 @@ export function handle(state, action)
 			new_admin_address, 'new_admin', 43
 		);
 		// Validate if admin already exists
-		if (admin_list.indexOf(new_admin_address) >= 0) {
+		if (_admin_list.indexOf(new_admin_address) >= 0) {
 			throw new ContractError('Admin does not exist!');
 		}
 		// Update state

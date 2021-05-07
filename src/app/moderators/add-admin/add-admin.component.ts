@@ -26,7 +26,7 @@ export class AddAdminComponent implements OnInit, OnDestroy {
   ) { }
 
   get newAdminAddress() {
-  	return this.createAdminFrm.get('newAdminAddress');
+  	return this.createAdminFrm.get('newAdminAddress')!;
   }
 
   ngOnInit(): void {
@@ -39,10 +39,10 @@ export class AddAdminComponent implements OnInit, OnDestroy {
   }
   
   createNewAdmin() {
-  	const address: string = this.newAdminAddress!.value;
+  	const address: string = this.newAdminAddress.value;
     // Disable form 
     this.formLoading = true;
-    this.newAdminAddress!.disable();
+    this.newAdminAddress.disable();
 
     this.saveAdminSubscription = this._settingsContract.registerAdmin(
       this._auth.getPrivateKey(),
@@ -54,14 +54,15 @@ export class AddAdminComponent implements OnInit, OnDestroy {
             
         // Enable form 
         this.formLoading = false;
-        this.newAdminAddress!.enable();
+        this.newAdminAddress.enable();
+        this.newAdminAddress.setValue('');
       },
       error: (error) => {
         this.message(error, 'error');
 
         // Enable form 
         this.formLoading = false;
-        this.newAdminAddress!.enable();
+        this.newAdminAddress.enable();
       }
     });
 

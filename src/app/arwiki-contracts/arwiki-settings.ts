@@ -13,7 +13,7 @@ import { ArwikiAdminList } from '../core/interfaces/arwiki-admin-list';
 })
 export class ArwikiSettingsContract
 {
-	private _contractAddress: string = 'GYJbXQlAL7pMtdlPCTy1d_M6qm4dpPhvnln5MTuvTiM';
+	private _contractAddress: string = 'LWou280IGIbtK58-FYKIhBklXLt9rtXpu3dJzhNRrw8';
 
 	constructor(private _arweave: ArweaveService) {
 	}

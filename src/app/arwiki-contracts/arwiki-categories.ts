@@ -12,7 +12,7 @@ import { ArwikiCategoryIndex } from '../core/interfaces/arwiki-category-index';
 })
 export class ArwikiCategoriesContract
 {
-	private _contractAddress: string = 'o5PvFENsFzkoxEDvO3TaTYxjGta2_h1rZQZ6FQSgkLY';
+	private _contractAddress: string = 'bgSBpu_BVJrV-nf_-mUe0oXRpXFO-Sqx2VYVJ_YL3rc';
 
 	constructor(private _arweave: ArweaveService) {
 	}

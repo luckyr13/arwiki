@@ -6,7 +6,7 @@ export async function handle(state, action)
 	const _msgSender = SmartWeave.transaction.owner;
 	const _to = SmartWeave.transaction.target;
 	const _tags = SmartWeave.transaction.tags;
-	const SETTINGS_CONTRACT = 'GYJbXQlAL7pMtdlPCTy1d_M6qm4dpPhvnln5MTuvTiM';
+	const SETTINGS_CONTRACT = 'LWou280IGIbtK58-FYKIhBklXLt9rtXpu3dJzhNRrw8';
 
   /*
 	*	@dev Add language
