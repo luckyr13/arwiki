@@ -16,6 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { 
   DialogSelectLanguageComponent 
 } from '../shared/dialog-select-language/dialog-select-language.component';
+import { ArwikiLang } from '../core/interfaces/arwiki-lang';
 declare const window: any;
 
 @Component({
@@ -126,7 +127,7 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   /*
   *  Set default language
   */
-  setLanguage(lang: any) {
+  setLanguage(lang: ArwikiLang) {
     try {
       this._userSettings.setDefaultLang(lang);
       this._router.navigate([`/${lang.code}`]);
@@ -202,7 +203,7 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
       data: {},
     });
 
-    dialogRef.afterClosed().subscribe(lang => {
+    dialogRef.afterClosed().subscribe((lang: ArwikiLang) => {
       if (lang && lang.code) {
         this.setLanguage(lang);
       }

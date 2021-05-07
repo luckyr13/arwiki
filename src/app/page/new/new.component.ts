@@ -17,6 +17,8 @@ import { ArwikiLangIndexContract } from '../../arwiki-contracts/arwiki-lang-inde
 import { ArwikiSettingsContract } from '../../arwiki-contracts/arwiki-settings';
 import { ActivatedRoute } from '@angular/router';
 import { ArwikiQuery } from '../../core/arwiki-query';
+import { ArwikiLangIndex } from '../../core/interfaces/arwiki-lang-index';
+import { ArwikiLang } from '../../core/interfaces/arwiki-lang';
 import * as SimpleMDE from 'simplemde';
 declare const document: any;
 declare const window: any;
@@ -46,7 +48,7 @@ export class NewComponent implements OnInit, OnDestroy {
   addOnBlur = true;
   baseImgUrl: string = this._arweave.baseURL;
   categoryList: any[] = [];
-  languageList: any[] = [];
+  languageList: ArwikiLang[] = [];
   categoryListSubscription: Subscription = Subscription.EMPTY;
   languageListSubscription: Subscription = Subscription.EMPTY;
   newPageTX: string = '';
@@ -117,10 +119,10 @@ export class NewComponent implements OnInit, OnDestroy {
     this.languageListSubscription = this._langIndexContract
       .getState()
       .subscribe({
-        next: (state) => {
+        next: (state: ArwikiLangIndex) => {
           this.languageList = [];
           for (const l0 of Object.keys(state)) {
-            this.languageList.push({code: l0, label: state[l0].native_name});
+            this.languageList.push(state[l0]);
           }
           this.language!.setValue(this.routeLang);
           this.title!.enable();

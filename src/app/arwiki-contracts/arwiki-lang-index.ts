@@ -5,13 +5,14 @@ import {
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ArweaveService } from '../core/arweave.service';
+import { ArwikiLangIndex } from '../core/interfaces/arwiki-lang-index';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArwikiLangIndexContract
 {
-	private _langs: any = {};
+	private _langs: ArwikiLangIndex = {};
 	//private _contractAddress: string = 'ZVFnlF671UqgGTdExivbOP0f9gTDWQpkY26nBaRhcYM';
 	private _contractAddress: string = 'dJVI2Cz5ldYM5_VSM-6QO1xdWGEux7Qae5EeWe58O1g';
 
@@ -21,27 +22,28 @@ export class ArwikiLangIndexContract
 	/*
 	*	@dev Get full contract state as Observable
 	*/
-	getState(): Observable<any> {
-		const obs = new Observable((subscriber) => {
-			readContract(this._arweave.arweave, this._contractAddress).then((state) => {
-				subscriber.next(state);
-				subscriber.complete();
-			}).catch((error) => {
-				subscriber.error(error);
-			});
+	getState(): Observable<ArwikiLangIndex> {
+		const obs = new Observable<ArwikiLangIndex>((subscriber) => {
+			readContract(this._arweave.arweave, this._contractAddress)
+				.then((state: ArwikiLangIndex) => {
+					subscriber.next(state);
+					subscriber.complete();
+				}).catch((error) => {
+					subscriber.error(error);
+				});
 
 		});
 		return obs;
 	}
 
-	getLangsLocalCopy() {
+	getLangsLocalCopy(): ArwikiLangIndex {
 		return this._langs;
 	}
 
 	/*
 	*	@dev Alternative to getSubjects
 	*/
-	setLangsLocalCopy(langs: any) {
+	setLangsLocalCopy(langs: ArwikiLangIndex) {
 		this._langs = langs;
 	}
 

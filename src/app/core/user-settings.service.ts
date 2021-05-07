@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
+import {ArwikiLang} from '../core/interfaces/arwiki-lang';
 declare const window: any;
 declare const document: any;
 
@@ -11,54 +12,54 @@ export class UserSettingsService {
 	_defaultTheme: string = '';
 	_defaultLang: any = '';
 
-  // Observable string sources
-  private _settingsLangSource = new Subject<any>();
+  // Observable
+  private _settingsLangSource = new Subject<ArwikiLang>();
 
-  // Observable string streams
+  // Observable stream
   public settingsLangStream = this._settingsLangSource.asObservable();
 
-  public updateSettingsLangObservable(_lang: any) {
+  public updateSettingsLangObservable(_lang: ArwikiLang) {
     this._settingsLangSource.next(_lang);
   }
 
-  // Observable string sources
+  // Observable string source
   private _defaultThemeSource = new Subject<string>();
 
-  // Observable string streams
+  // Observable string stream
   public defaultThemeStream = this._defaultThemeSource.asObservable();
 
   public updateDefaultThemeObservable(_path: string) {
     this._defaultThemeSource.next(_path);
   }
 
-  // Observable string sources
+  // Observable source
   private _mainToolbarLoadingSource = new Subject<boolean>();
 
-  // Observable string streams
+  // Observable stream
   public mainToolbarLoadingStream = this._mainToolbarLoadingSource.asObservable();
 
   updateMainToolbarLoading(_loading: boolean) {
     this._mainToolbarLoadingSource.next(_loading);
   }
 
-  // Observable string sources
-  private _routeLangSource = new Subject<any>();
+  // Observable source
+  private _routeLangSource = new Subject<string>();
 
-  // Observable string streams
+  // Observable stream
   public routeLangStream = this._routeLangSource.asObservable();
 
-  public updateRouteLangObservable(_lang: any) {
+  public updateRouteLangObservable(_lang: string) {
     this._routeLangSource.next(_lang);
   }
 
-  // Observable string sources
-  private _mainToolbarVisibilitySource = new Subject<any>();
+  // Observable source
+  private _mainToolbarVisibilitySource = new Subject<boolean>();
 
-  // Observable string streams
+  // Observable stream
   public mainToolbarVisibilityStream = this._mainToolbarVisibilitySource.asObservable();
 
-  public updateMainToolbarVisiblity(_lang: any) {
-    this._mainToolbarVisibilitySource.next(_lang);
+  public updateMainToolbarVisiblity(_visible: boolean) {
+    this._mainToolbarVisibilitySource.next(_visible);
   }
 
   // Observable string sources
@@ -109,7 +110,7 @@ export class UserSettingsService {
   	}
   }
 
-  setDefaultLang(_lang: any) {
+  setDefaultLang(_lang: ArwikiLang) {
   	if (_lang) {
       let def = '';
       try {

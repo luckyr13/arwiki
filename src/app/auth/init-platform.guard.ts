@@ -9,6 +9,7 @@ import { UserSettingsService } from '../core/user-settings.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ArwikiLangIndexContract } from '../arwiki-contracts/arwiki-lang-index';
+import { ArwikiLangIndex } from '../core/interfaces/arwiki-lang-index';
 import { ArweaveService } from '../core/arweave.service';
 
 @Injectable({
@@ -85,7 +86,7 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
         // If no copy detected, get the state from the contract
         this._langIndexContract.getState()
           .pipe(
-            switchMap((state: any) => {
+            switchMap((state: ArwikiLangIndex) => {
               // Save a copy of the state on local property
               this._langIndexContract.setLangsLocalCopy(state);
 
