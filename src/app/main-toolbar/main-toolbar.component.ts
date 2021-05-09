@@ -10,7 +10,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import { FormControl, FormGroup } from '@angular/forms';
 import {MatBottomSheet} from '@angular/material/bottom-sheet';
 import { BottomSheetLoginComponent } from '../shared/bottom-sheet-login/bottom-sheet-login.component';
-import { ArwikiSettingsContract } from '../arwiki-contracts/arwiki-settings';
+import { ArwikiSettingsContract } from '../core/arwiki-contracts/arwiki-settings';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { 

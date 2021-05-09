@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ArwikiQuery } from '../core/arwiki-query';
 import { ArweaveService } from '../core/arweave.service';
 import { Subscription } from 'rxjs';
-import { ArwikiSettingsContract } from '../arwiki-contracts/arwiki-settings';
+import { ArwikiSettingsContract } from '../core/arwiki-contracts/arwiki-settings';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { getVerification } from "arverify";
 import { ActivatedRoute } from '@angular/router';

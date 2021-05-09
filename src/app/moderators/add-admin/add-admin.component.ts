@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ArwikiSettingsContract } from '../../arwiki-contracts/arwiki-settings';
+import { ArwikiSettingsContract } from '../../core/arwiki-contracts/arwiki-settings';
 import { Subscription } from 'rxjs';
 import { ArweaveService } from '../../core/arweave.service';
 import { AuthService } from '../../auth/auth.service';

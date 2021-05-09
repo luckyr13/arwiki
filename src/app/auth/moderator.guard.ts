@@ -3,7 +3,7 @@ import { CanActivate, CanActivateChild, ActivatedRouteSnapshot, RouterStateSnaps
 import { Observable, of } from 'rxjs';
 import { catchError, tap, switchMap } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
-import { ArwikiSettingsContract } from '../arwiki-contracts/arwiki-settings';
+import { ArwikiSettingsContract } from '../core/arwiki-contracts/arwiki-settings';
 import { ArweaveService } from '../core/arweave.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserSettingsService } from '../core/user-settings.service';

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ArwikiLangIndexContract } from '../../arwiki-contracts/arwiki-lang-index';
+import { ArwikiLangIndexContract } from '../../core/arwiki-contracts/arwiki-lang-index';
 import { Subscription, Observable } from 'rxjs'; 
 import { ArweaveService } from '../../core/arweave.service';
 import {MatSnackBar} from '@angular/material/snack-bar';

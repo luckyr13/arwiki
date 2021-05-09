@@ -1,8 +1,8 @@
 import ArDB from 'ardb';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { ArwikiCategoriesContract } from '../arwiki-contracts/arwiki-categories';
-import { ArwikiSettingsContract } from '../arwiki-contracts/arwiki-settings';
+import { ArwikiCategoriesContract } from './arwiki-contracts/arwiki-categories';
+import { ArwikiSettingsContract } from './arwiki-contracts/arwiki-settings';
 import Arweave from 'arweave';
 
 /*

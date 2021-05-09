@@ -4,9 +4,9 @@ import {
 } from 'smartweave';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ArweaveService } from '../core/arweave.service';
-import { ArwikiSettings } from '../core/interfaces/arwiki-settings';
-import { ArwikiAdminList } from '../core/interfaces/arwiki-admin-list';
+import { ArweaveService } from '../arweave.service';
+import { ArwikiSettings } from '../interfaces/arwiki-settings';
+import { ArwikiAdminList } from '../interfaces/arwiki-admin-list';
 
 @Injectable({
   providedIn: 'root'

@@ -4,8 +4,8 @@ import {
 } from 'smartweave';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ArweaveService } from '../core/arweave.service';
-import { ArwikiLangIndex } from '../core/interfaces/arwiki-lang-index';
+import { ArweaveService } from '../arweave.service';
+import { ArwikiLangIndex } from '../interfaces/arwiki-lang-index';
 
 @Injectable({
   providedIn: 'root'

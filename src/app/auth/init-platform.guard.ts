@@ -8,7 +8,7 @@ import { switchMap } from 'rxjs/operators';
 import { UserSettingsService } from '../core/user-settings.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { ArwikiLangIndexContract } from '../arwiki-contracts/arwiki-lang-index';
+import { ArwikiLangIndexContract } from '../core/arwiki-contracts/arwiki-lang-index';
 import { ArwikiLangIndex } from '../core/interfaces/arwiki-lang-index';
 import { ArweaveService } from '../core/arweave.service';
 
