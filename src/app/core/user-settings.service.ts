@@ -10,7 +10,7 @@ declare const document: any;
 })
 export class UserSettingsService {
 	_defaultTheme: string = '';
-	_defaultLang: any = '';
+	_defaultLang!: ArwikiLang;
 
   // Observable
   private _settingsLangSource = new Subject<ArwikiLang>();
@@ -98,7 +98,7 @@ export class UserSettingsService {
   	return this._defaultTheme;
   }
 
-  getDefaultLang(): any {
+  getDefaultLang(): ArwikiLang {
   	return this._defaultLang;
   }
 
@@ -117,7 +117,8 @@ export class UserSettingsService {
         def = JSON.stringify(_lang);
         this._defaultLang = _lang;
       } catch (err) {
-        this._defaultLang = {};
+        // this._defaultLang = {};
+        throw Error('setDefaultLang: Error ' + err);
       }
      
       document.documentElement.lang = this._defaultLang.code;

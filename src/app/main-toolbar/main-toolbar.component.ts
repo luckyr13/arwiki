@@ -17,6 +17,7 @@ import {
   DialogSelectLanguageComponent 
 } from '../shared/dialog-select-language/dialog-select-language.component';
 import { ArwikiLang } from '../core/interfaces/arwiki-lang';
+import { Direction } from '@angular/cdk/bidi';
 declare const window: any;
 
 @Component({
@@ -198,9 +199,14 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   }
 
   openLangModal() {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+    
     const dialogRef = this._dialog.open(DialogSelectLanguageComponent, {
       width: '650px',
       data: {},
+      direction: direction
     });
 
     dialogRef.afterClosed().subscribe((lang: ArwikiLang) => {

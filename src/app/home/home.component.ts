@@ -36,7 +36,10 @@ export class HomeComponent implements OnInit {
         // Define English as default 
         defaultLang = {
           code: "en",
-          native_name: "English"
+          native_name: "English",
+          writing_system: "LTR",
+          iso_name: "English",
+          active: true
         }
       }
       this._router.navigate([`/${defaultLang.code}`]);

@@ -22,6 +22,7 @@ import { ArwikiLang } from '../../core/interfaces/arwiki-lang';
 import * as SimpleMDE from 'simplemde';
 import { ArwikiCategory } from '../../core/interfaces/arwiki-category';
 import { ArwikiCategoryIndex } from '../../core/interfaces/arwiki-category-index';
+import { Direction } from '@angular/cdk/bidi';
 declare const document: any;
 declare const window: any;
 
@@ -190,9 +191,14 @@ export class NewComponent implements OnInit, OnDestroy {
   *  @dev 
   */
   openFileManager() {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
     const refFileManager = this._dialog.open(ModalFileManagerComponent, {
       width: '720px',
-      data: {}
+      data: {},
+      direction: direction
     });
     refFileManager.afterClosed().subscribe(result => {
       if (result) {

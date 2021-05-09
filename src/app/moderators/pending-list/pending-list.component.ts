@@ -9,6 +9,8 @@ import {MatDialog} from '@angular/material/dialog';
 import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confirm.component';
 import { ArwikiQuery } from '../../core/arwiki-query';
 import { ActivatedRoute } from '@angular/router';
+import { Direction } from '@angular/cdk/bidi';
+import { UserSettingsService } from '../../core/user-settings.service';
 
 @Component({
   templateUrl: './pending-list.component.html',
@@ -29,7 +31,8 @@ export class PendingListComponent implements OnInit, OnDestroy {
     private _auth: AuthService,
     private _snackBar: MatSnackBar,
     public _dialog: MatDialog,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private _userSettings: UserSettingsService,
   ) { }
 
   async ngOnInit() {
@@ -175,11 +178,16 @@ export class PendingListComponent implements OnInit, OnDestroy {
     _content_id: string,
     _category_slug: string
   ) {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
     const dialogRef = this._dialog.open(DialogConfirmComponent, {
       data: {
         title: 'Are you sure?',
         content: 'You are about to insert a new arwiki page in the index. Do you want to proceed?'
-      }
+      },
+      direction: direction
     });
 
     dialogRef.afterClosed().subscribe(async (result) => {
