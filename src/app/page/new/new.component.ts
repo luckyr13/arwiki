@@ -11,7 +11,8 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Subscription } from 'rxjs'; 
+import { Subscription, of } from 'rxjs'; 
+import { switchMap } from 'rxjs/operators';
 import { ArwikiCategoriesContract } from '../../core/arwiki-contracts/arwiki-categories';
 import { ArwikiLangIndexContract } from '../../core/arwiki-contracts/arwiki-lang-index';
 import { ArwikiSettingsContract } from '../../core/arwiki-contracts/arwiki-settings';
@@ -56,7 +57,7 @@ export class NewComponent implements OnInit, OnDestroy {
   languageListSubscription: Subscription = Subscription.EMPTY;
   newPageTX: string = '';
   routeLang: string = '';
-  arwikiQuery: ArwikiQuery|null = null;
+  arwikiQuery!: ArwikiQuery;
   verifySlugSubscription: Subscription = Subscription.EMPTY;
 
   public get title() {
@@ -316,12 +317,8 @@ export class NewComponent implements OnInit, OnDestroy {
       this.slug!.enable();
     }
 
-    this.verifySlugSubscription = this.arwikiQuery!
-      .isPageBySlugAlreadyTaken(
-        _slug, _langCode,
-        this._settingsContract,
-        this._categoriesContract,
-        maxHeight
+    this.verifySlugSubscription = this.isPageBySlugAlreadyTaken(
+        _slug, _langCode, maxHeight
       ).subscribe({
         next: (taken) => {
           // Slug already taken
@@ -360,6 +357,38 @@ export class NewComponent implements OnInit, OnDestroy {
   */
   arToWinston(_v: string) {
     return this._arweave.arToWinston(_v);
+  }
+
+    /*
+  * @dev
+  */
+  isPageBySlugAlreadyTaken(
+    _slug: string,
+    _langCode: string,
+    _maxHeight: number,
+    _limit: number = 1
+  ) {
+    let categoriesCS: any = {};
+    return this._categoriesContract.getState()
+      .pipe(
+        switchMap((categoriesContractState) => {
+          categoriesCS = Object.keys(categoriesContractState)
+          return this._settingsContract.getState();
+        }),
+        switchMap((settingsContractState) => {
+          return this.arwikiQuery.getVerifiedPagesBySlug(
+            Object.keys(settingsContractState.admin_list),
+            [_slug],
+            categoriesCS,
+            _langCode,
+            _limit,
+            _maxHeight
+          );
+        }),
+        switchMap((verifiedPages) => {
+          return of(verifiedPages.length);
+        })
+      );
   }
 
 

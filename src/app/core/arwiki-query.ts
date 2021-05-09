@@ -472,38 +472,4 @@ export class ArwikiQuery {
     return obs;
   }
 
-  /*
-  * @dev
-  */
-  isPageBySlugAlreadyTaken(
-    _slug: string,
-    _langCode: string,
-    _settingsContract: ArwikiSettingsContract,
-    _categoriesContract: ArwikiCategoriesContract,
-    _maxHeight: number,
-    _limit: number = 1
-  ) {
-    let categoriesCS: any = {};
-    return _categoriesContract.getState()
-      .pipe(
-        switchMap((categoriesContractState) => {
-          categoriesCS = Object.keys(categoriesContractState)
-          return _settingsContract.getState();
-        }),
-        switchMap((settingsContractState) => {
-          return this.getVerifiedPagesBySlug(
-            Object.keys(settingsContractState.admin_list),
-            [_slug],
-            categoriesCS,
-            _langCode,
-            _limit,
-            _maxHeight
-          );
-        }),
-        switchMap((verifiedPages) => {
-          return of(verifiedPages.length);
-        })
-      );
-  }
-
 }
