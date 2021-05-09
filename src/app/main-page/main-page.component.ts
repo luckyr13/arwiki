@@ -193,10 +193,14 @@ export class MainPageComponent implements OnInit, OnDestroy {
   *  @dev return an observable with the latest articles
   */
   getLatestArticles(numArticles: number, langCode: string, height: number) {
-    let admins: any = [];
+    let admins: string[] = [];
     return this._arwikiSettings.getAdminList().pipe(
       switchMap((adminList: ArwikiAdminList) => {
         admins = Object.keys(adminList);
+        admins = admins.filter((adminAddress) => {
+          return adminList[adminAddress].active;
+        });
+
         return this._categoriesContract.getState();
       }),
       switchMap((categories) => {
@@ -312,10 +316,13 @@ export class MainPageComponent implements OnInit, OnDestroy {
   *  @dev return an observable with the latest N articles
   */
   getPagesByCategory(numArticles: number, langCode: string, height: number) {
-    let admins: any = [];
+    let admins: string[] = [];
     return this._arwikiSettings.getAdminList().pipe(
       switchMap((adminList: ArwikiAdminList) => {
         admins = Object.keys(adminList);
+        admins = admins.filter((adminAddress) => {
+          return adminList[adminAddress].active;
+        });
         return this._categoriesContract.getState();
       }),
       switchMap((categories: ArwikiCategoryIndex) => {
