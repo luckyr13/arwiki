@@ -11,6 +11,7 @@ import { ArwikiQuery } from '../../core/arwiki-query';
 import { ActivatedRoute } from '@angular/router';
 import { Direction } from '@angular/cdk/bidi';
 import { UserSettingsService } from '../../core/user-settings.service';
+import { Arwiki } from '../../core/arwiki';
 
 @Component({
   templateUrl: './pending-list.component.html',
@@ -23,8 +24,9 @@ export class PendingListComponent implements OnInit, OnDestroy {
   arverifyProcessedAddressesMap: any = {};
   loadingInsertPageIntoIndex: boolean = false;
   insertPageTxMessage: string = '';
-  arwikiQuery: ArwikiQuery|null = null;
+  arwikiQuery!: ArwikiQuery;
   routeLang: string = '';
+  arwiki!: Arwiki;
 
   constructor(
   	private _arweave: ArweaveService,
@@ -41,6 +43,9 @@ export class PendingListComponent implements OnInit, OnDestroy {
 
     // Init ardb instance
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
+    // Init arwiki base class 
+    this.arwiki = new Arwiki(this._arweave.arweave);
+
     // Get pages
     this.loadingPendingPages = true;
     const numPages = 100;
@@ -75,7 +80,7 @@ export class PendingListComponent implements OnInit, OnDestroy {
       }),
       switchMap((pages) => {
         return (
-          this.arwikiQuery!.verifyPages(adminList, pages.map((p) => p.id))
+          this.arwikiQuery.verifyPages(adminList, pages.map((p) => p.id))
           .pipe(
             switchMap((data) => {
               let tmp_res = [];
@@ -195,7 +200,7 @@ export class PendingListComponent implements OnInit, OnDestroy {
         // Create arwiki page
         this.loadingInsertPageIntoIndex = true;
         try {
-          const tx = await this.arwikiQuery!.createValidationTXForArwikiPage(
+          const tx = await this.arwiki.createValidationTXForArwikiPage(
             _content_id,
             _slug,
             _category_slug,

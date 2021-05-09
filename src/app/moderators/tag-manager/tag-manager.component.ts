@@ -16,6 +16,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confirm.component';
 import { AuthService } from '../../auth/auth.service';
+import { Arwiki } from '../../core/arwiki';
 
 @Component({
   templateUrl: './tag-manager.component.html',
@@ -26,7 +27,7 @@ export class TagManagerComponent implements OnInit, OnDestroy {
   tagsSubscription: Subscription = Subscription.EMPTY;
   page: any;
   loadingPage: boolean = false;
-  arwikiQuery: ArwikiQuery|null = null;
+  arwikiQuery!: ArwikiQuery;
   baseURL: string = this._arweave.baseURL;
   visible = true;
   selectable = true;
@@ -41,6 +42,7 @@ export class TagManagerComponent implements OnInit, OnDestroy {
   loadingSavingTags: boolean = false;
   savingTagsTX: string[] = [];
   routeLang: string = '';
+  arwiki!: Arwiki;
 
   constructor(
     private route: ActivatedRoute,
@@ -60,6 +62,7 @@ export class TagManagerComponent implements OnInit, OnDestroy {
 
   	const contractAddress = this.route.snapshot.paramMap.get('txId')!;
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
+    this.arwiki = new Arwiki(this._arweave.arweave);
     this.loadPageTXData(contractAddress);
     await this.loadTags(contractAddress);
 
@@ -77,7 +80,7 @@ export class TagManagerComponent implements OnInit, OnDestroy {
 
   loadPageTXData(contractAddress: string) {
     this.loadingPage = true;
-    this.pageSubscription = this.arwikiQuery!.getTXsData([contractAddress]).subscribe({
+    this.pageSubscription = this.arwikiQuery.getTXsData([contractAddress]).subscribe({
       next: (txData) => {
         if (txData && txData.length) {
           const p = txData[0];
@@ -113,7 +116,7 @@ export class TagManagerComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.tagsSubscription = this.arwikiQuery!.getVerifiedTagsFromPages(
+    this.tagsSubscription = this.arwikiQuery.getVerifiedTagsFromPages(
       this._auth.getAdminList(), 
       [tx],
       maxTags,
@@ -220,7 +223,7 @@ export class TagManagerComponent implements OnInit, OnDestroy {
           this.savingTagsTX = [];
 
           for (let tag of tagsList) {
-            const tx = await this.arwikiQuery!.createTagTXForArwikiPage(
+            const tx = await this.arwiki.createTagTXForArwikiPage(
               _content_id,
               tag,
               _category,

@@ -1,8 +1,6 @@
 import ArDB from 'ardb';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { ArwikiCategoriesContract } from './arwiki-contracts/arwiki-categories';
-import { ArwikiSettingsContract } from './arwiki-contracts/arwiki-settings';
 import Arweave from 'arweave';
 import { arwikiVersion } from './arwiki';
 
@@ -12,7 +10,6 @@ import { arwikiVersion } from './arwiki';
 export class ArwikiQuery {
 	private _ardb: ArDB;
 	private _arweave: Arweave;
-  private _addressesValidated: any;
 
 	constructor(
     _arweave: Arweave
@@ -268,35 +265,7 @@ export class ArwikiQuery {
 
     });
     return obs;
-  }
-
-
-  async createValidationTXForArwikiPage(
-    _pageId: string,
-    _slug: string,
-    _category: string,
-    _langCode: string,
-    _privateKey: any
-  ) {
-    const jwk = _privateKey;
-    const data = { pageId: _pageId, slug: _slug, category: _category };
-    const tx = await this._arweave.createTransaction({
-      data: JSON.stringify(data)
-    }, jwk);
-    tx.addTag('Content-Type', 'text/json');
-    tx.addTag('Service', 'ArWiki');
-    tx.addTag('Arwiki-Type', 'Validation');
-    tx.addTag('Arwiki-Page-Id', _pageId);
-    tx.addTag('Arwiki-Page-Slug', _slug);
-    tx.addTag('Arwiki-Page-Category', _category);
-    tx.addTag('Arwiki-Page-Lang', _langCode);
-    tx.addTag('Arwiki-Version', arwikiVersion[0]);
-    await this._arweave.transactions.sign(tx, jwk)
-    await this._arweave.transactions.post(tx)
-    return tx.id;
-  }
-
- 
+  } 
 
   /*
   * @dev
@@ -358,31 +327,6 @@ export class ArwikiQuery {
     return obs;
   }
 
-  async createTagTXForArwikiPage(
-    _pageId: string,
-    _tag: string,
-    _category_slug: string,
-    _langCode: string,
-    _privateKey: any
-  ) {
-    _tag = _tag.toLowerCase().trim();
-    const jwk = _privateKey;
-    const data = { pageId: _pageId, tag: _tag };
-    const tx = await this._arweave.createTransaction({
-      data: JSON.stringify(data)
-    }, jwk);
-    tx.addTag('Content-Type', 'text/json');
-    tx.addTag('Service', 'ArWiki');
-    tx.addTag('Arwiki-Type', 'Tag');
-    tx.addTag('Arwiki-Page-Id', _pageId);
-    tx.addTag('Arwiki-Page-Tag', _tag);
-    tx.addTag('Arwiki-Page-Category', _category_slug);
-    tx.addTag('Arwiki-Page-Lang', _langCode);
-    tx.addTag('Arwiki-Version', arwikiVersion[0]);
-    await this._arweave.transactions.sign(tx, jwk)
-    await this._arweave.transactions.post(tx)
-    return tx.id;
-  }
 
   /*
   * @dev
