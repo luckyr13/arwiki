@@ -5,7 +5,7 @@ import {
 import { ArwikiQuery } from '../../core/arwiki-query';
 import * as marked from 'marked';
 import DOMPurify from 'dompurify';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 import { 
 	readContract
 } from 'smartweave';
@@ -16,6 +16,7 @@ import { Location } from '@angular/common';
 import { ArwikiSettingsContract } from '../../core/arwiki-contracts/arwiki-settings';
 import { ArwikiCategoriesContract } from '../../core/arwiki-contracts/arwiki-categories';
 import { UserSettingsService } from '../../core/user-settings.service';
+import { switchMap } from 'rxjs/operators';
 declare const window: any;
 declare const document: any;
 
@@ -24,7 +25,7 @@ declare const document: any;
   styleUrls: ['./view-detail.component.scss']
 })
 export class ViewDetailComponent implements OnInit {
-	arwikiQuery: ArwikiQuery|null = null;
+	arwikiQuery!: ArwikiQuery;
   htmlContent: string = '';
 	pageSubscription: Subscription = Subscription.EMPTY;
   loadingPage: boolean = false;
@@ -97,9 +98,8 @@ export class ViewDetailComponent implements OnInit {
     }
    
 
-  	this.pageSubscription = this.arwikiQuery!.getPageBySlug(
-  		slug, langCode, this._settingsContract, 
-      this._categoriesContract, maxHeight, numPages
+  	this.pageSubscription = this.getPageBySlug(
+  		slug, langCode, maxHeight, numPages
   	).subscribe({
   		next: async (data) => {
   			// If page exists
@@ -217,6 +217,68 @@ export class ViewDetailComponent implements OnInit {
   timestampToDate(_time: number) {
     let d = new Date(_time * 1000);
     return d;
+  }
+
+  /*
+  * @dev
+  */
+  getPageBySlug(
+    _slug: string,
+    _langCode: string,
+    _maxHeight: number,
+    _limit: number = 1
+  ) {
+    let categoriesCS: any = {};
+    return this._categoriesContract.getState()
+      .pipe(
+        switchMap((categoriesContractState) => {
+          categoriesCS = Object.keys(categoriesContractState);
+          return this._settingsContract.getState();
+        }),
+        switchMap((settingsContractState) => {
+          return this.arwikiQuery.getVerifiedPagesBySlug(
+            Object.keys(settingsContractState.admin_list),
+            [_slug],
+            categoriesCS,
+            _langCode,
+            _limit,
+            _maxHeight
+          );
+        }),
+        switchMap((verifiedPages) => {
+          const verifiedPagesList = [];
+          for (let p of verifiedPages) {
+            const vrfdPageId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
+            verifiedPagesList.push(vrfdPageId);
+          }
+
+          return this.arwikiQuery.getTXsData(verifiedPagesList);
+        }),
+        switchMap((txs) => {
+          const finalRes: any = [];
+          for (let p of txs) {
+            const title = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
+            const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
+            const category = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
+            const img = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
+            const owner = p.node.owner.address;
+            const id = p.node.id;
+            const block = p.node.block;
+            
+            finalRes.push({
+              title: title,
+              slug: slug,
+              category: category,
+              img: img,
+              owner: owner,
+              id: id,
+              block: block
+            });
+            
+          }
+          return of(finalRes);
+        })
+      );
   }
 
 }

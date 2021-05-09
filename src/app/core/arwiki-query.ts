@@ -4,12 +4,7 @@ import { switchMap } from 'rxjs/operators';
 import { ArwikiCategoriesContract } from './arwiki-contracts/arwiki-categories';
 import { ArwikiSettingsContract } from './arwiki-contracts/arwiki-settings';
 import Arweave from 'arweave';
-
-/*
-*  List of arwiki versions supported
-* arwikiVersion[0] is the latest supported version
-*/
-export const arwikiVersion = ['0.2'];
+import { arwikiVersion } from './arwiki';
 
 /*
 *  Search the weave for arwiki data
@@ -301,69 +296,7 @@ export class ArwikiQuery {
     return tx.id;
   }
 
-  /*
-  * @dev
-  */
-  getPageBySlug(
-    _slug: string,
-    _langCode: string,
-    _settingsContract: ArwikiSettingsContract,
-    _categoriesContract: ArwikiCategoriesContract,
-    _maxHeight: number,
-    _limit: number = 1
-  ) {
-    let categoriesCS: any = {};
-    return _categoriesContract.getState()
-      .pipe(
-        switchMap((categoriesContractState) => {
-          categoriesCS = Object.keys(categoriesContractState);
-          return _settingsContract.getState();
-        }),
-        switchMap((settingsContractState) => {
-          return this.getVerifiedPagesBySlug(
-            Object.keys(settingsContractState.admin_list),
-            [_slug],
-            categoriesCS,
-            _langCode,
-            _limit,
-            _maxHeight
-          );
-        }),
-        switchMap((verifiedPages) => {
-          const verifiedPagesList = [];
-          for (let p of verifiedPages) {
-            const vrfdPageId = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
-            verifiedPagesList.push(vrfdPageId);
-          }
-
-          return this.getTXsData(verifiedPagesList);
-        }),
-        switchMap((txs) => {
-          const finalRes: any = [];
-          for (let p of txs) {
-            const title = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
-            const slug = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
-            const category = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
-            const img = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
-            const owner = p.node.owner.address;
-            const id = p.node.id;
-            const block = p.node.block;
-            
-            finalRes.push({
-              title: title,
-              slug: slug,
-              category: category,
-              img: img,
-              owner: owner,
-              id: id,
-              block: block
-            });
-            
-          }
-          return of(finalRes);
-        })
-      );
-  }
+ 
 
   /*
   * @dev

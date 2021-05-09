@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { arwikiVersion } from '../core/arwiki-query';
+import { arwikiVersion } from '../core/arwiki';
 
 @Component({
   selector: 'app-footer',

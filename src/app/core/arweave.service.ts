@@ -9,7 +9,7 @@ import {
   contractNFTBaseTxId
 } from './arweave-contract-create-nft';
 import Arweave from 'arweave';
-import { arwikiVersion } from './arwiki-query';
+import { arwikiVersion } from './arwiki';
 declare const window: any;
 
 @Injectable({

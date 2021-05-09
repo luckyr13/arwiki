@@ -1,7 +1,7 @@
 import Arweave from 'arweave';
 import Transaction from 'arweave/node/lib/transaction';
 import { JWKInterface } from 'arweave/node/lib/wallet';
-import { arwikiVersion } from './arwiki-query';
+import { arwikiVersion } from './arwiki';
 /*
  * Based on Verto-Compatible NFT Specification: 
  * https://www.notion.so/Verto-Compatible-NFT-Specification-fd1e85adbe5a4f7598f89c1e7eccd0d6
