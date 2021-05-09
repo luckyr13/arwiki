@@ -12,17 +12,13 @@ a {
 	font-family: "Roboto Mono", monospace;
   letter-spacing: 0.025em;
   line-height: 1.666;
-  font-size: 0.83em;
+  font-size: 14px !important;
   font-weight: normal;
   padding-top: 0px;
   padding-bottom: 0px;
   margin-top: 0px !important;
 }
 
-.mat-list-text .mat-line {
-	font-size: 12px !important;
-	color: red;
-}
 
 .mat-list-base .mat-list-item.mat-list-item-with-avatar,
 .mat-list-base .mat-list-option.mat-list-item-with-avatar,

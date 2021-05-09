@@ -1,18 +1,19 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ArwikiQuery } from '../core/arwiki-query';
 import { ArweaveService } from '../core/arweave.service';
-import { Subscription } from 'rxjs';
+import { Subscription, of } from 'rxjs';
 import { ArwikiSettingsContract } from '../core/arwiki-contracts/arwiki-settings';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { getVerification } from "arverify";
 import { ActivatedRoute } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit, OnDestroy {
-arwikiQuery: ArwikiQuery|null = null;
+  arwikiQuery!: ArwikiQuery;
   pagesSubscription: Subscription = Subscription.EMPTY;
   loadingPages: boolean = false;
   query: string = '';
@@ -58,10 +59,9 @@ arwikiQuery: ArwikiQuery|null = null;
       return;
     }
 
-    this.pagesSubscription = this.arwikiQuery!.searchInApprovedTags(
+    this.pagesSubscription = this.searchInApprovedTags(
       [this.query],
       this.routeLang,
-      this._settingsContract,
       maxHeight,
       maxPages
     ).subscribe({
@@ -151,6 +151,69 @@ arwikiQuery: ArwikiQuery|null = null;
       _img :
       _img ? `${this.baseURL}${_img}` : '';
     return res;
+  }
+
+
+  /*
+  * @dev
+  */
+  searchInApprovedTags(
+    _queries: string[],
+    _langCode: string,
+    _maxHeight: number,
+    _limit: number = 100
+  ) {
+    const qry = _queries.map(e => e.toLowerCase().trim());
+    return this._settingsContract.getState()
+      .pipe(
+        switchMap((settingsContractState) => {
+          return this.arwikiQuery.getVerifiedTagsFromQueries(
+            Object.keys(settingsContractState.admin_list),
+            qry,
+            _langCode,
+            _limit,
+            _maxHeight
+          );
+        }),
+        switchMap((verifiedPages) => {
+          const verifiedPagesList = [];
+          for (let p of verifiedPages) {
+            const vrfdPageId = this.arwikiQuery.searchKeyNameInTags(
+              p.node.tags, 'Arwiki-Page-Id'
+            );
+
+            if (verifiedPagesList.indexOf(vrfdPageId) >= 0) {
+              continue;
+            }
+
+            verifiedPagesList.push(vrfdPageId);
+          }
+
+          return this.arwikiQuery.getTXsData(verifiedPagesList);
+        }),
+        switchMap((txs) => {
+          const finalRes: any = [];
+          for (let p of txs) {
+            const title = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
+            const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
+            const category = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
+            const img = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
+            const owner = p.node.owner.address;
+            const id = p.node.id;
+            
+            finalRes.push({
+              title: title,
+              slug: slug,
+              category: category,
+              img: img,
+              owner: owner,
+              id: id
+            });
+            
+          }
+          return of(finalRes);
+        })
+      );
   }
 
 }

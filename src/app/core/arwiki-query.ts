@@ -206,9 +206,9 @@ export class ArwikiQuery {
     return obs;
   }
 
-
-
-
+  /*
+  *  @dev Helper class for searching a key in an array of tags
+  */
   searchKeyNameInTags(_arr: any[], _key: string) {
     let res = '';
     for (const a of _arr) {
@@ -425,66 +425,6 @@ export class ArwikiQuery {
     return obs;
   }
 
-  /*
-  * @dev
-  */
-  searchInApprovedTags(
-    _queries: string[],
-    _langCode: string,
-    _settingsContract: ArwikiSettingsContract,
-    _maxHeight: number,
-    _limit: number = 100
-  ) {
-    const qry = _queries.map(e => e.toLowerCase().trim());
-    return _settingsContract.getState()
-      .pipe(
-        switchMap((settingsContractState) => {
-          return this.getVerifiedTagsFromQueries(
-            Object.keys(settingsContractState.admin_list),
-            qry,
-            _langCode,
-            _limit,
-            _maxHeight
-          );
-        }),
-        switchMap((verifiedPages) => {
-          const verifiedPagesList = [];
-          for (let p of verifiedPages) {
-            const vrfdPageId = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
-
-            if (verifiedPagesList.indexOf(vrfdPageId) >= 0) {
-              continue;
-            }
-
-            verifiedPagesList.push(vrfdPageId);
-          }
-
-          return this.getTXsData(verifiedPagesList);
-        }),
-        switchMap((txs) => {
-          const finalRes: any = [];
-          for (let p of txs) {
-            const title = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
-            const slug = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
-            const category = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
-            const img = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
-            const owner = p.node.owner.address;
-            const id = p.node.id;
-            
-            finalRes.push({
-              title: title,
-              slug: slug,
-              category: category,
-              img: img,
-              owner: owner,
-              id: id
-            });
-            
-          }
-          return of(finalRes);
-        })
-      );
-  }
 
   /*
   * @dev
