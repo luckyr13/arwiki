@@ -13,6 +13,7 @@ import { ArwikiCategoryIndex } from '../interfaces/arwiki-category-index';
 export class ArwikiCategoriesContract
 {
 	private _contractAddress: string = 'bgSBpu_BVJrV-nf_-mUe0oXRpXFO-Sqx2VYVJ_YL3rc';
+	private _state: ArwikiCategoryIndex = {};
 
 	constructor(private _arweave: ArweaveService) {
 	}
@@ -21,13 +22,19 @@ export class ArwikiCategoriesContract
 	*/
 	getState(): Observable<ArwikiCategoryIndex> {
 		const obs = new Observable<ArwikiCategoryIndex>((subscriber) => {
-			readContract(this._arweave.arweave, this._contractAddress)
-				.then((state: ArwikiCategoryIndex) => {
-					subscriber.next(state);
-					subscriber.complete();
-				}).catch((error) => {
-					subscriber.error(error);
-				});
+			if (Object.keys(this._state).length > 0) {
+				subscriber.next(this._state);
+				subscriber.complete();
+			} else {
+				readContract(this._arweave.arweave, this._contractAddress)
+					.then((state: ArwikiCategoryIndex) => {
+						this._state = state;
+						subscriber.next(state);
+						subscriber.complete();
+					}).catch((error) => {
+						subscriber.error(error);
+					});
+			}
 
 		});
 
