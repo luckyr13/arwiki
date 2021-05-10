@@ -166,6 +166,7 @@ export class ArwikiQuery {
   */
   getPendingPages(
     _langCode: string,
+    _categories: string[],
     limit: number = 100, 
     _maxHeight: number = 0
   ): Observable<any> {
@@ -185,6 +186,10 @@ export class ArwikiQuery {
       {
         name: 'Arwiki-Page-Lang',
         values: [_langCode]
+      },
+      {
+        name: 'Arwiki-Page-Category',
+        values: _categories
       }
     ];
 

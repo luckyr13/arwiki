@@ -12,6 +12,11 @@ import { ActivatedRoute } from '@angular/router';
 import { Direction } from '@angular/cdk/bidi';
 import { UserSettingsService } from '../../core/user-settings.service';
 import { Arwiki } from '../../core/arwiki';
+import { ArwikiPage } from '../../core/interfaces/arwiki-page';
+import { 
+  ArwikiCategoriesContract 
+} from '../../core/arwiki-contracts/arwiki-categories';
+import { ArwikiCategoryIndex } from '../../core/interfaces/arwiki-category-index';
 
 @Component({
   templateUrl: './pending-list.component.html',
@@ -19,7 +24,7 @@ import { Arwiki } from '../../core/arwiki';
 })
 export class PendingListComponent implements OnInit, OnDestroy {
 	loadingPendingPages: boolean = false;
-  pages: any[] = [];
+  pages: ArwikiPage[] = [];
   pendingPagesSubscription: Subscription = Subscription.EMPTY;
   arverifyProcessedAddressesMap: any = {};
   loadingInsertPageIntoIndex: boolean = false;
@@ -35,6 +40,7 @@ export class PendingListComponent implements OnInit, OnDestroy {
     public _dialog: MatDialog,
     private _route: ActivatedRoute,
     private _userSettings: UserSettingsService,
+    private _categoriesContract: ArwikiCategoriesContract
   ) { }
 
   async ngOnInit() {
@@ -59,76 +65,83 @@ export class PendingListComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.pendingPagesSubscription = this.arwikiQuery.getPendingPages(
-        this.routeLang, numPages, maxHeight
-      ).pipe(
-      switchMap((res) => {
-        let pages = res;
-        let tmp_res = [];
-        for (let p of pages) {
-          tmp_res.push({
-            id: p.node.id,
-            title: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title'),
-            slug: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug'),
-            category: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category'),
-            language: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang'),
-            owner: p.node.owner.address,
-            block: p.node.block
-          });
-        }
-        return of(tmp_res);
-      }),
-      switchMap((pages) => {
-        return (
-          this.arwikiQuery.verifyPages(adminList, pages.map((p) => p.id))
-          .pipe(
-            switchMap((data) => {
-              let tmp_res = [];
-              const verifiedPages = data;
-              const verifiedPagesList = [];
-              for (let p of verifiedPages) {
-                const vrfdPageId = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
-                verifiedPagesList.push(vrfdPageId);
-              }
-              // Check pending pages against verified pages
-              for (let p of pages) {
-                if (verifiedPagesList.indexOf(p.id) < 0) {
-                  tmp_res.push(p);
-                }
-              }
-
-              return of(tmp_res);
-            })
-          )
-        );
-      })
-    )
-    .subscribe({
-      next: async (pages) => {
-        this.pages = pages;
-        this.loadingPendingPages = false;
-        // Validate owner address with ArVerify
-        this.arverifyProcessedAddressesMap = {};
-        for (let p of pages) {
-          // Avoid duplicates
-          if (
-            Object.prototype.hasOwnProperty.call(
-              this.arverifyProcessedAddressesMap, 
-              p.owner
-            )
-          ) {
-            continue;
+    this.pendingPagesSubscription = this._categoriesContract
+      .getState()
+      .pipe(
+        switchMap((categories: ArwikiCategoryIndex) => {
+          return this.arwikiQuery.getPendingPages(
+            this.routeLang,
+            Object.keys(categories),
+            numPages,
+            maxHeight
+          );
+        }),
+        switchMap((pendingPages) => {
+          let pages = pendingPages;
+          let tmp_res = [];
+          for (let p of pages) {
+            tmp_res.push({
+              id: p.node.id,
+              title: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title'),
+              slug: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug'),
+              category: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category'),
+              language: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang'),
+              owner: p.node.owner.address,
+              block: p.node.block
+            });
           }
-          const arverifyQuery = await this.getArverifyVerification(p.owner);
-          this.arverifyProcessedAddressesMap[p.owner] = arverifyQuery;
-        }
+          return of(tmp_res);
+        }),
+        switchMap((pages: ArwikiPage[]) => {
+          return (
+            this.arwikiQuery.verifyPages(adminList, pages.map((p) => p.id))
+              .pipe(
+                switchMap((data) => {
+                  let tmp_res = [];
+                  const verifiedPages = data;
+                  const verifiedPagesList = [];
+                  for (let p of verifiedPages) {
+                    const vrfdPageId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
+                    verifiedPagesList.push(vrfdPageId);
+                  }
+                  // Check pending pages against verified pages
+                  for (let p of pages) {
+                    if (verifiedPagesList.indexOf(p.id) < 0) {
+                      tmp_res.push(p);
+                    }
+                  }
 
-      },
-      error: (error) => {
-        this.message(error, 'error');
-        this.loadingPendingPages = false;
-      }
-    });
+                  return of(tmp_res);
+                })
+              )
+          );
+        })
+      ).subscribe({
+        next: async (pages) => {
+          this.pages = pages;
+          this.loadingPendingPages = false;
+          // Validate owner address with ArVerify
+          this.arverifyProcessedAddressesMap = {};
+          for (let p of pages) {
+            // Avoid duplicates
+            if (
+              Object.prototype.hasOwnProperty.call(
+                this.arverifyProcessedAddressesMap, 
+                p.owner
+              )
+            ) {
+              continue;
+            }
+            const arverifyQuery = await this.getArverifyVerification(p.owner);
+            this.arverifyProcessedAddressesMap[p.owner] = arverifyQuery;
+          }
+
+        },
+        error: (error) => {
+          this.message(error, 'error');
+          this.loadingPendingPages = false;
+        }
+      });
 
   }
 
@@ -161,16 +174,6 @@ export class PendingListComponent implements OnInit, OnDestroy {
       icon: verification.icon,
       percentage: verification.percentage
     });
-  }
-
-  searchKeyNameInTags(_arr: any[], _key: string) {
-    let res = '';
-    for (const a of _arr) {
-      if (a.name.toUpperCase() === _key.toUpperCase()) {
-        return a.value;
-      }
-    }
-    return res;
   }
 
   underscoreToSpace(_s: string) {
