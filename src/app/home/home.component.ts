@@ -31,17 +31,6 @@ export class HomeComponent implements OnInit {
     this.loading = true;
     if (this.redirect) {
       let defaultLang = this._userSettings.getDefaultLang();
-      if (Object.keys(defaultLang).length <= 0) {
-        // this.openSelectLanguageDialog();
-        // Define English as default 
-        defaultLang = {
-          code: "en",
-          native_name: "English",
-          writing_system: "LTR",
-          iso_name: "English",
-          active: true
-        }
-      }
       this._router.navigate([`/${defaultLang.code}`]);
       return;
     } else {

@@ -10,7 +10,13 @@ declare const document: any;
 })
 export class UserSettingsService {
 	_defaultTheme: string = '';
-	_defaultLang!: ArwikiLang;
+	_defaultLang: ArwikiLang = {
+    code: "en",
+    native_name: "English",
+    writing_system: "LTR",
+    iso_name: "English",
+    active: true
+  };
 
   // Observable
   private _settingsLangSource = new Subject<ArwikiLang>();
