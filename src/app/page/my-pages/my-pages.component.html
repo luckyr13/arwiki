@@ -1,18 +1,31 @@
-<div class="mt-main">
-</div>
+<div class="mt-main"></div>
 <mat-progress-bar 
 	mode="indeterminate"
 	*ngIf="loading"
 	class="fadeIn"></mat-progress-bar>
 <div class="loading-txt text-center fadeIn" *ngIf="loading" >Loading ... </div>
+<mat-toolbar class="fadeIn" color="primary">
+  <mat-icon 
+  	aria-hidden="false"
+  	aria-label="My pages">folder_open</mat-icon>
+	<span>&nbsp;My pages</span>
+	<div class="menu-spacer"></div>
+	<div class="text-right page-title-buttons">	
+    <button 
+    	type="button"
+	  	mat-icon-button
+	  	color="default"
+	  	(click)="goBack()"
+	  	matTooltip="{{ 'CREATE_PAGE.FRM_BTN_GOBACK' | translate }}">
+	    <mat-icon>navigate_before</mat-icon>
+	  </button>
+	</div>
+</mat-toolbar>
 
-<div *ngIf="!loading" class="container scoreboards-container fadeIn">
-	<h1 class="page-title col-12">
-		<mat-icon class="page-title-icon">dashboard</mat-icon>
-		My pages
-	</h1>
+<div *ngIf="!loading" class="container fadeIn">
+	
 	<div class="row">
-		<div class="col-12 col-md-6 scoreboard">
+		<div class="col-12 col-md-6 ">
 		</div>
 	</div>
 </div>

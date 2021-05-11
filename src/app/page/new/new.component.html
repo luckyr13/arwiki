@@ -1,120 +1,138 @@
+<div class="mt-main"></div>
 <mat-progress-bar class="sticky-progress-bar" mode="indeterminate" *ngIf="loadingFrm"></mat-progress-bar>
-<div class="container page-container fadeIn" *ngIf="!newPageTX">
-	<form class="frmNew" [formGroup]="frmNew" (ngSubmit)="onSubmit()">
-		<div class="row">
-			<h1 class="page-title col-9">
-    		{{ 'CREATE_PAGE.TITLE' | translate }}
-			</h1>
-			<div class="text-right page-title-buttons col-3">
-				<button 
-					type="submit" 
-					mat-mini-fab
-					[disabled]="!frmNew.valid ||  loadingFrm"
-					color="primary" 
-					matTooltip="{{ 'CREATE_PAGE.FRM_BTN_SAVE' | translate }}">
-	        <mat-icon>save</mat-icon>
-	      </button>
-	      <button 
-	      	type="button"
-			  	mat-mini-fab 
-			  	class="ml10" 
-			  	color="primary"
-			  	(click)="goBack()"
-			  	[disabled]="loadingFrm"
-			  	matTooltip="{{ 'CREATE_PAGE.FRM_BTN_GOBACK' | translate }}">
-			    <mat-icon>navigate_before</mat-icon>
-			  </button>
-			</div>
-			<div class="col-12 col-md-6">
-				<mat-card class="card-img">
-					<ngx-skeleton-loader 
-				  	count="1" 
-				  	[animation]="getSkeletonLoaderAnimationType()"
-				  	[theme]="getSkeletonLoaderThemeNgStyle()"
-				  	*ngIf="!previewImgUrl"
-				  	></ngx-skeleton-loader>
-				  <img
-				  	*ngIf="previewImgUrl"
-				  	[src]="previewImgUrl"
-				  	class="card-preview-img"
-				  	>
 
-				</mat-card>
-				<div class="text-right">
+<form class="frmNew" [formGroup]="frmNew" (ngSubmit)="onSubmit()">
+	<mat-toolbar class="fadeIn" color="primary">
+	  <mat-icon 
+	  	aria-hidden="false"
+	  	aria-label="My pages">post_add</mat-icon>
+		<span>&nbsp;{{ 'CREATE_PAGE.TITLE' | translate }}</span>
+		<div class="menu-spacer"></div>
+		<div class="text-right page-title-buttons">	
+      <button 
+      	type="button"
+		  	mat-icon-button
+		  	color="default"
+		  	(click)="goBack()"
+		  	[disabled]="loadingFrm"
+		  	matTooltip="{{ 'CREATE_PAGE.FRM_BTN_GOBACK' | translate }}">
+		    <mat-icon>navigate_before</mat-icon>
+		  </button>
+		 <!--
+		  <button 
+				type="submit" 
+				mat-icon-button
+		  	class="ml10" 
+				[disabled]="!frmNew.valid ||  loadingFrm"
+				color="default" 
+				matTooltip="{{ 'CREATE_PAGE.FRM_BTN_SAVE' | translate }}">
+        <mat-icon>save</mat-icon>
+      </button>
+     -->
+		</div>
+	</mat-toolbar>
+	<div class="container page-container fadeIn" *ngIf="!newPageTX">
+			<div class="row">
+				<div class="col-12 col-md-6">
+					<mat-form-field class="w100" appearance="outline">
+					  <mat-label>{{ 'CREATE_PAGE.FRM_TITLE' | translate }}</mat-label>
+					  <input
+					  	formControlName="title"
+					  	matInput
+					  	(change)="updateSlug(title!.value)"
+					  	autocomplete="off"
+					  	maxlength="150">
+		    		<mat-hint align="end">{{title!.value.length}} / 150</mat-hint>
+					</mat-form-field>
+					<div class="author-address">
+						<strong>{{ 'CREATE_PAGE.FRM_BY' | translate }}</strong> {{ authorAddress }}
+					</div>
+					<mat-form-field class="w100" appearance="outline">
+					  <mat-label>{{ 'CREATE_PAGE.FRM_SLUG' | translate }}</mat-label>
+					  <input
+					  	formControlName="slug"
+					  	matInput
+					  	(change)="verifySlug(slug!.value)"
+					  	autocomplete="off"
+					  	maxlength="150">
+		    		<mat-hint align="end">{{slug!.value.length}} / 150</mat-hint>
+					</mat-form-field>
+					
+					<mat-form-field class="w50" appearance="outline" >
+						<mat-label *ngIf="!categoryList || !categoryList.length">{{ 'CREATE_PAGE.FRM_LOADING' | translate }}</mat-label>
+					  <mat-label *ngIf="categoryList && categoryList.length">{{ 'CREATE_PAGE.FRM_CATEGORY' | translate }}</mat-label>
+					  <mat-select 
+					  	formControlName="category">
+					    <mat-option *ngFor="let cat of categoryList" [value]="cat.slug">
+					      {{ cat.label }}
+					    </mat-option>
+					  </mat-select>
+					</mat-form-field>
+					<mat-form-field class="w50" style="padding-left: 20px;" appearance="outline" >
+						<mat-label *ngIf="!languageList || !languageList.length">{{ 'CREATE_PAGE.FRM_LOADING' | translate }}</mat-label>
+					  <mat-label *ngIf="languageList && languageList.length">{{ 'CREATE_PAGE.FRM_LANGUAGE' | translate }}</mat-label>
+					  <mat-select 
+					  	(selectionChange)="clearSlug()"
+					  	formControlName="language">
+					    <mat-option 
+					    	*ngFor="let lang of languageList" 
+					    	[value]="lang.code">
+					      {{ lang.native_name }}
+					    </mat-option>
+					  </mat-select>
+					</mat-form-field>
+				</div>
+
+				<div class="col-12 col-md-6">
+					<mat-card class="card-img">
+						<ngx-skeleton-loader 
+					  	count="1" 
+					  	[animation]="getSkeletonLoaderAnimationType()"
+					  	[theme]="getSkeletonLoaderThemeNgStyle()"
+					  	*ngIf="!previewImgUrl"
+					  	></ngx-skeleton-loader>
+					  <img
+					  	*ngIf="previewImgUrl"
+					  	[src]="previewImgUrl"
+					  	class="card-preview-img"
+					  	>
+
+					</mat-card>
+					<div class="text-right">
+						<button 
+							class="btn-upload-file"
+				    	mat-flat-button
+				    	[disabled]="loadingFrm"
+				    	type="button"
+				    	(click)="openFileManager()"
+				    	color="primary">
+				    	<mat-icon>upload</mat-icon>
+				    	{{ 'CREATE_PAGE.FRM_UPLOAD_FILE' | translate }}
+				    </button>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12">
+					<h3>{{ 'CREATE_PAGE.FRM_CONTENT' | translate }}</h3>
+					<textarea id="create-page-textarea-simplemde-content"></textarea>
+				</div>
+				<div class="col-12 text-center">
 					<button 
-						class="btn-upload-file"
+						class="btn-save-2"
 			    	mat-flat-button
-			    	[disabled]="loadingFrm"
-			    	type="button"
-			    	(click)="openFileManager()"
+			    	type="submit"
+			    	[disabled]="!frmNew.valid ||  loadingFrm"
 			    	color="primary">
-			    	<mat-icon>upload</mat-icon>
-			    	{{ 'CREATE_PAGE.FRM_UPLOAD_FILE' | translate }}
+			    	<mat-icon>save</mat-icon>
+			    	{{ 'CREATE_PAGE.FRM_BTN_SAVE' | translate }}
 			    </button>
 				</div>
-			
-			</div>
-			<div class="col-12 col-md-6">
-				<mat-form-field class="w100" appearance="outline">
-				  <mat-label>{{ 'CREATE_PAGE.FRM_TITLE' | translate }}</mat-label>
-				  <input
-				  	formControlName="title"
-				  	matInput
-				  	(change)="updateSlug(title!.value)"
-				  	autocomplete="off"
-				  	maxlength="150">
-	    		<mat-hint align="end">{{title!.value.length}} / 150</mat-hint>
-				</mat-form-field>
-				<div class="author-address">
-					<strong>{{ 'CREATE_PAGE.FRM_BY' | translate }}</strong> {{ authorAddress }}
-				</div>
-				<mat-form-field class="w100" appearance="outline">
-				  <mat-label>{{ 'CREATE_PAGE.FRM_SLUG' | translate }}</mat-label>
-				  <input
-				  	formControlName="slug"
-				  	matInput
-				  	(change)="verifySlug(slug!.value)"
-				  	autocomplete="off"
-				  	maxlength="150">
-	    		<mat-hint align="end">{{slug!.value.length}} / 150</mat-hint>
-				</mat-form-field>
 				
-				<mat-form-field class="w50" appearance="outline" >
-					<mat-label *ngIf="!categoryList || !categoryList.length">{{ 'CREATE_PAGE.FRM_LOADING' | translate }}</mat-label>
-				  <mat-label *ngIf="categoryList && categoryList.length">{{ 'CREATE_PAGE.FRM_CATEGORY' | translate }}</mat-label>
-				  <mat-select 
-				  	formControlName="category">
-				    <mat-option *ngFor="let cat of categoryList" [value]="cat.slug">
-				      {{ cat.label }}
-				    </mat-option>
-				  </mat-select>
-				</mat-form-field>
-				<mat-form-field class="w50" style="padding-left: 20px;" appearance="outline" >
-					<mat-label *ngIf="!languageList || !languageList.length">{{ 'CREATE_PAGE.FRM_LOADING' | translate }}</mat-label>
-				  <mat-label *ngIf="languageList && languageList.length">{{ 'CREATE_PAGE.FRM_LANGUAGE' | translate }}</mat-label>
-				  <mat-select 
-				  	(selectionChange)="clearSlug()"
-				  	formControlName="language">
-				    <mat-option 
-				    	*ngFor="let lang of languageList" 
-				    	[value]="lang.code">
-				      {{ lang.native_name }}
-				    </mat-option>
-				  </mat-select>
-				</mat-form-field>
+			</div>
+	</div>
 
-				
-				
-			</div>
-			<div class="col-12">
-				<h3>{{ 'CREATE_PAGE.FRM_CONTENT' | translate }}</h3>
-				<textarea id="create-page-textarea-simplemde-content"></textarea>
-			</div>
-			
-		</div>
-	</form>
-</div>
-
+</form>
 <div class="container page-container fadeIn" style="margin-top: 120px" *ngIf="newPageTX">
 	<h1 class="text-center">
 		Congratulations! 🥳

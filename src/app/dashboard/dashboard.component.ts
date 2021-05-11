@@ -6,6 +6,7 @@ import { AuthService } from '../auth/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserSettingsService } from '../core/user-settings.service';
 import { ArwikiQuery } from '../core/arwiki-query';
+import { Location } from '@angular/common';
 declare const window: any;
 
 @Component({
@@ -32,7 +33,8 @@ export class DashboardComponent implements OnInit {
   	private _arweave: ArweaveService,
     private _auth: AuthService,
     private _userSettings: UserSettingsService,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private _location: Location
   ) { }
 
   ngOnInit() {
@@ -149,6 +151,10 @@ export class DashboardComponent implements OnInit {
       _img :
       _img ? `${this.baseURL}${_img}` : '';
     return res;
+  }
+
+  goBack() {
+    this._location.back();
   }
 
 }
