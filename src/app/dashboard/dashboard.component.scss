@@ -1,20 +1,27 @@
-.page-container {
-	margin-top: 120px;
-}
-
 .mt-main {
-	margin-top: 54px;
+	height:10px;
+	margin-top: 47px;
 }
 
 @media (min-width: 600px) {
 	.mt-main {
-		margin-top: 64px;
+		margin-top: 54px;
 	}
 }
 
 .page-title {
 	margin-top: 50px;
 	margin-bottom: 50px;
+	font-size: 34px;
+	line-height: 34px;
+	height: 50px;
+}
+
+.page-title-icon {
+	font-size: 42px;
+	height: 100%;
+	width: 42px;
+  vertical-align: middle;
 }
 
 .dashboard-container {
@@ -67,7 +74,7 @@
 }
 
 .scoreboards-container {
-	margin-top: 20px;
+	padding-top: 2px;
 	margin-bottom: 20px;
 }
 

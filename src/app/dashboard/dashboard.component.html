@@ -1,11 +1,5 @@
 <div class="mt-main">
 </div>
-<mat-toolbar class="fadeIn" color="secondary">
-  <mat-icon 
-  	aria-hidden="false"
-  	aria-label="Dashboard">dashboard</mat-icon>
-	<span>&nbsp;Dashboard</span>
-</mat-toolbar>
 <mat-progress-bar 
 	mode="indeterminate"
 	*ngIf="loading"
@@ -13,6 +7,10 @@
 <div class="loading-txt text-center fadeIn" *ngIf="loading" >Loading ... </div>
 
 <div *ngIf="!loading" class="container scoreboards-container fadeIn">
+	<h1 class="page-title col-12">
+		<mat-icon class="page-title-icon">dashboard</mat-icon>
+		Dashboard
+	</h1>
 	<div class="row">
 		<div class="col-12 col-md-6 scoreboard">
 			<mat-card>
@@ -53,7 +51,7 @@
 	</div>
 	
 
-	<h1 class="page-title col-9">
+	<h1 class="page-title col-12">
 		My arwiki pages
 	</h1>
 	<div class="row" *ngIf="pages && pages.length === 0">

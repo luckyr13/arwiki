@@ -1,1 +1,18 @@
-<p>my-pages works!</p>
+<div class="mt-main">
+</div>
+<mat-progress-bar 
+	mode="indeterminate"
+	*ngIf="loading"
+	class="fadeIn"></mat-progress-bar>
+<div class="loading-txt text-center fadeIn" *ngIf="loading" >Loading ... </div>
+
+<div *ngIf="!loading" class="container scoreboards-container fadeIn">
+	<h1 class="page-title col-12">
+		<mat-icon class="page-title-icon">dashboard</mat-icon>
+		My pages
+	</h1>
+	<div class="row">
+		<div class="col-12 col-md-6 scoreboard">
+		</div>
+	</div>
+</div>
