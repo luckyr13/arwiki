@@ -7,6 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UserSettingsService } from '../../core/user-settings.service';
 import { ArwikiQuery } from '../../core/arwiki-query';
 import { Location } from '@angular/common';
+import { ArwikiPage } from '../../core/interfaces/arwiki-page';
 declare const window: any;
 
 @Component({
@@ -16,7 +17,7 @@ declare const window: any;
 })
 export class MyPagesComponent implements OnInit {
 	loading: boolean = false;
-  pages: any[] = [];
+  pages: ArwikiPage[] = [];
 
   myPagesSubscription: Subscription = Subscription.EMPTY;
   routeLang: string = '';
@@ -65,7 +66,7 @@ export class MyPagesComponent implements OnInit {
     ).subscribe({
       next: (pages) => {
 
-        const finalPages: any = [];
+        const finalPages: ArwikiPage[] = [];
         for (let p of pages) {
           const title = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
           const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
@@ -81,7 +82,7 @@ export class MyPagesComponent implements OnInit {
             category: category,
             img: img,
             owner: owner,
-            lang: lang,
+            language: lang,
             id: id
           });
         }
