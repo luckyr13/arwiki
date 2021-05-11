@@ -50,7 +50,7 @@
 
 	},
 	"CREATE_PAGE": {
-		"TITLE": "Cruthaigh leathanach nua arwiki",
+		"TITLE": "Create page",
 		"FRM_TITLE": "Title",
 		"FRM_BY": "By",
 		"FRM_SLUG": "Page slug",

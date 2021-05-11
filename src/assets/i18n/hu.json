@@ -50,7 +50,7 @@
 
 	},
 	"CREATE_PAGE": {
-		"TITLE": "Hozzon létre új arwiki oldalt",
+		"TITLE": "Create page",
 		"FRM_TITLE": "Title",
 		"FRM_BY": "By",
 		"FRM_SLUG": "Page slug",

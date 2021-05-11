@@ -50,7 +50,7 @@
 
 	},
 	"CREATE_PAGE": {
-		"TITLE": "Buat halaman arwiki baru",
+		"TITLE": "Create page",
 		"FRM_TITLE": "Title",
 		"FRM_BY": "By",
 		"FRM_SLUG": "Page slug",

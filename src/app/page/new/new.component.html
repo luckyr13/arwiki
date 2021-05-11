@@ -2,7 +2,7 @@
 <mat-progress-bar class="sticky-progress-bar" mode="indeterminate" *ngIf="loadingFrm"></mat-progress-bar>
 
 <form class="frmNew" [formGroup]="frmNew" (ngSubmit)="onSubmit()">
-	<mat-toolbar class="fadeIn" color="primary">
+	<mat-toolbar class="fadeIn" color="default">
 	  <mat-icon 
 	  	aria-hidden="false"
 	  	aria-label="My pages">post_add</mat-icon>
@@ -11,24 +11,15 @@
 		<div class="text-right page-title-buttons">	
       <button 
       	type="button"
-		  	mat-icon-button
+		  	mat-button
 		  	color="default"
 		  	(click)="goBack()"
 		  	[disabled]="loadingFrm"
 		  	matTooltip="{{ 'CREATE_PAGE.FRM_BTN_GOBACK' | translate }}">
 		    <mat-icon>navigate_before</mat-icon>
+		    {{ 'CREATE_PAGE.FRM_BTN_GOBACK' | translate }}
 		  </button>
-		 <!--
-		  <button 
-				type="submit" 
-				mat-icon-button
-		  	class="ml10" 
-				[disabled]="!frmNew.valid ||  loadingFrm"
-				color="default" 
-				matTooltip="{{ 'CREATE_PAGE.FRM_BTN_SAVE' | translate }}">
-        <mat-icon>save</mat-icon>
-      </button>
-     -->
+     
 		</div>
 	</mat-toolbar>
 	<div class="container page-container fadeIn" *ngIf="!newPageTX">

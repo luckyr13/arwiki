@@ -4,7 +4,7 @@
 	*ngIf="loading"
 	class="fadeIn"></mat-progress-bar>
 <div class="loading-txt text-center fadeIn" *ngIf="loading" >Loading ... </div>
-<mat-toolbar class="fadeIn" color="primary">
+<mat-toolbar class="fadeIn" color="default">
   <mat-icon 
   	aria-hidden="false"
   	aria-label="My pages">folder_open</mat-icon>
@@ -13,11 +13,12 @@
 	<div class="text-right page-title-buttons">	
     <button 
     	type="button"
-	  	mat-icon-button
+	  	mat-button
 	  	color="default"
 	  	(click)="goBack()"
 	  	matTooltip="{{ 'CREATE_PAGE.FRM_BTN_GOBACK' | translate }}">
 	    <mat-icon>navigate_before</mat-icon>
+	    {{ 'CREATE_PAGE.FRM_BTN_GOBACK' | translate }}
 	  </button>
 	</div>
 </mat-toolbar>

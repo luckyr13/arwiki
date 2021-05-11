@@ -50,7 +50,7 @@
 
 	},
 	"CREATE_PAGE": {
-		"TITLE": "إنشاء صفحة arwiki جديدة",
+		"TITLE": "Create page",
 		"FRM_TITLE": "لقب",
 		"FRM_BY": "بواسطة",
 		"FRM_SLUG": "Page slug",

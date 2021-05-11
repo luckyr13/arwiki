@@ -50,7 +50,7 @@
 
 	},
 	"CREATE_PAGE": {
-		"TITLE": "Neue Arwiki-Seite erstellen",
+		"TITLE": "Create page",
 		"FRM_TITLE": "Titel",
 		"FRM_BY": "Durch",
 		"FRM_SLUG": "Page slug",

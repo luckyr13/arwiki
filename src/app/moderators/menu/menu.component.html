@@ -4,8 +4,9 @@
   	aria-label="Moderators">admin_panel_settings</mat-icon>
 	<span>&nbsp;{{ 'MODERATORS.LABEL_TOOLBAR_TITLE' | translate }}</span>
 	<span class="menu-spacer"></span>
-  <button mat-icon-button [matMenuTriggerFor]="menu">
+  <button mat-button [matMenuTriggerFor]="menu">
     <mat-icon>menu</mat-icon>
+    Menu
   </button>
 	<mat-menu #menu="matMenu">
 	  <button mat-menu-item routerLink="/{{ routerLang }}/moderators/pending">Pending pages</button>

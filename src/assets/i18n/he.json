@@ -47,7 +47,7 @@
 		"STATUS_ADDRESS_NOTVERIFIED": "לא אומת"
 	},
 	"CREATE_PAGE": {
-		"TITLE": "צור דף ארוויקי חדש",
+		"TITLE": "Create page",
 		"FRM_TITLE": "כותרת",
 		"FRM_BY": "על ידי",
 		"FRM_SLUG": "Page slug",

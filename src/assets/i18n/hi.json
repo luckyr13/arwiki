@@ -47,7 +47,7 @@
 		"STATUS_ADDRESS_NOTVERIFIED": "प्रमाणित नहीं है"
 	},
 	"CREATE_PAGE": {
-		"TITLE": "नया arwiki पेज बनाएं",
+		"TITLE": "Create page",
 		"FRM_TITLE": "शीर्षक",
 		"FRM_BY": "द्वारा",
 		"FRM_SLUG": "Page slug",

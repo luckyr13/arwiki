@@ -47,7 +47,7 @@
 		"STATUS_ADDRESS_NOTVERIFIED": "No verificado"
 	},
 	"CREATE_PAGE": {
-		"TITLE": "Crear nueva página de arwiki",
+		"TITLE": "Crear página",
 		"FRM_TITLE": "Título",
 		"FRM_BY": "Por",
 		"FRM_SLUG": "Slug de página",
