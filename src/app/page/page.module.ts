@@ -7,12 +7,14 @@ import { EditComponent } from './edit/edit.component';
 import { PreviewComponent } from './preview/preview.component';
 import { ViewDetailComponent } from './view-detail/view-detail.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { MyPagesComponent } from './my-pages/my-pages.component';
 
 @NgModule({
   declarations: [
   	NewComponent, NotFoundComponent,
   	EditComponent, PreviewComponent,
-  	ViewDetailComponent
+  	ViewDetailComponent,
+   MyPagesComponent
   ],
   imports: [
     CommonModule,

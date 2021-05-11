@@ -6,6 +6,7 @@ import { PreviewComponent } from './preview/preview.component';
 import { EditComponent } from './edit/edit.component';
 import { NewComponent } from './new/new.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { MyPagesComponent } from './my-pages/my-pages.component';
 
 import { AuthGuard } from '../auth/auth.guard';
 import { InitPlatformGuard } from '../auth/init-platform.guard';
@@ -17,6 +18,10 @@ const routes: Routes = [
 	},
 	{
 		path: ':lang/create-page', component: NewComponent, 
+		canActivate: [AuthGuard, InitPlatformGuard],
+	},
+	{
+		path: ':lang/my-pages', component: MyPagesComponent, 
 		canActivate: [AuthGuard, InitPlatformGuard],
 	},
 	{
