@@ -1,5 +1,23 @@
-<a class="address-container" target="_blank" href="https://viewblock.io/arweave/address/{{address}}">
-	<strong><ng-content></ng-content></strong>&nbsp;
-	<span class="address">{{ address }} </span>
-	<mat-icon *ngIf="_verified" class="green">verified_user</mat-icon>
-</a>
+<div class="address-container">
+	<span class="address-tx ellipsis">
+		<strong><ng-content></ng-content></strong>
+		{{ address }} 
+	</span>
+	<a 
+		matTooltip="Verified user!"
+		*ngIf="verified">
+		<mat-icon class="green">verified_user</mat-icon>
+	</a>
+	<a 
+		matTooltip="Open in Viewblock"
+		target="_blank"
+		href="https://viewblock.io/arweave/address/{{address}}">
+		<mat-icon>open_in_new</mat-icon>
+	</a>
+	<a 
+		matTooltip="Copy address"
+		target="_blank"
+		(click)="copyClipboard(address, 'Address copied!')">
+		<mat-icon>content_copy</mat-icon>
+	</a>
+</div>

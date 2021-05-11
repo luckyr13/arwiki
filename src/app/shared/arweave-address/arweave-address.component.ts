@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ArverifyMapService } from '../../core/arverify-map.service'
+import { Clipboard } from '@angular/cdk/clipboard';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-arweave-address',
@@ -7,15 +9,37 @@ import { ArverifyMapService } from '../../core/arverify-map.service'
   styleUrls: ['./arweave-address.component.scss']
 })
 export class ArweaveAddressComponent implements OnInit {
-  _verified: Boolean = false
+  public verified: boolean = false
+  @Input() address: string = '';
+  @Input() verifyAddress: boolean = true;
 
-  constructor(private _arverifyMap: ArverifyMapService) {}
+  constructor(
+    private _arverifyMap: ArverifyMapService,
+    private _clipboard: Clipboard,
+    private _snackBar: MatSnackBar) {}
 
   async ngOnInit() {
-    let verificationResult = await this._arverifyMap.getVerification(this.address)
-    this._verified = verificationResult && verificationResult.verified
+    if (this.verifyAddress) {
+      let verificationResult = await this._arverifyMap.getVerification(this.address)
+      this.verified = verificationResult && verificationResult.verified
+    }
   }
 
-  @Input() address: any
+  copyClipboard(content: string, msg: string = 'Content copied!') {
+    this._clipboard.copy(content);
+    this.message(msg, 'success');
+  }
+
+  /*
+  *  Custom snackbar message
+  */
+  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
+    this._snackBar.open(msg, 'X', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: verticalPosition,
+      panelClass: panelClass
+    });
+  }
 
 }

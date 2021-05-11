@@ -1,22 +1,18 @@
-.address-container {
-	max-width: fit-content;
-	text-decoration: inherit;
-    color: inherit;
-	cursor: pointer;
-	min-width: 0;
-	display: flex;
-	align-items: baseline;
-	white-space: nowrap;
-}
-
-.address {
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-
 mat-icon {
 	font-size: inherit;
-	height: initial;
-	width: initial;
+}
+
+a {
+	color: inherit;
+	cursor: pointer;
+}
+
+.address-container {
+	display: flex;
+	justify-content: inherit;
+
+}
+
+.address-tx {
+	margin-right: 10px;
 }

@@ -251,3 +251,7 @@ p {
 .menu-spacer {
   flex: 1 1 auto;
 }
+
+.mini-text, .mini-text a.mat-button {
+  font-size: 12px !important;
+}

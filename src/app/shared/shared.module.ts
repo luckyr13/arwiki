@@ -30,6 +30,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import { ArticleCardComponent } from './article-card/article-card.component';
 import { ArweaveAddressComponent } from './arweave-address/arweave-address.component';
 import { RouterModule } from '@angular/router';
+import {ClipboardModule} from '@angular/cdk/clipboard';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,9 @@ import { RouterModule } from '@angular/router';
     MatTabsModule,
     MatCardModule,
     MatCheckboxModule,
-    RouterModule
+    RouterModule,
+    ClipboardModule,
+    MatTooltipModule,
   ],
   exports: [
   	MatFormFieldModule,
@@ -81,6 +84,7 @@ import { RouterModule } from '@angular/router';
     MatExpansionModule,
     ArticleCardComponent,
     ArweaveAddressComponent,
+    ClipboardModule
   ],
   // entryComponents: [DialogSelectLanguageComponent]
 })
