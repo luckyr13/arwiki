@@ -8,6 +8,11 @@ import {MatDialog} from '@angular/material/dialog';
 import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confirm.component';
 import { ArwikiQuery } from '../../core/arwiki-query';
 import { ActivatedRoute } from '@angular/router';
+import { ArwikiPage } from '../../core/interfaces/arwiki-page';
+import { 
+  ArwikiCategoriesContract 
+} from '../../core/arwiki-contracts/arwiki-categories';
+import { ArwikiCategoryIndex } from '../../core/interfaces/arwiki-category-index';
 
 @Component({
   templateUrl: './approved-list.component.html',
@@ -15,9 +20,9 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ApprovedListComponent implements OnInit, OnDestroy {
   loadingApprovedPages: boolean = false;
-  pages: any[] = [];
+  pages: ArwikiPage[] = [];
   approvedPagesSubscription: Subscription = Subscription.EMPTY;
-  arwikiQuery: ArwikiQuery|null = null;
+  arwikiQuery!: ArwikiQuery;
   routeLang: string = '';
 
   constructor(
@@ -25,7 +30,8 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
     private _auth: AuthService,
     private _snackBar: MatSnackBar,
     public _dialog: MatDialog,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private _categoriesContract: ArwikiCategoriesContract
   ) { }
 
   async ngOnInit() {
@@ -48,35 +54,45 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
     }
 
     const owners = [this._auth.getMainAddressSnapshot()];
-    this.approvedPagesSubscription = this.arwikiQuery.getVerifiedPages(
-        owners, this.routeLang, numPages, maxHeight
-      ).pipe(
-      switchMap((verifiedPages) => {
-        let pages = verifiedPages;
-        let tmp_res = [];
-        for (let p of pages) {
-          tmp_res.push(this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id'));
-        }
-        return this.arwikiQuery!.getTXsData(tmp_res);
-      }),
-      switchMap((pages) => {
-        let tmp_res = [];
-        for (let p of pages) {
-          tmp_res.push({
-            id: p.node.id,
-            title: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title'),
-            slug: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug'),
-            category: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category'),
-            language: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang'),
-            owner: p.node.owner.address,
-            block: p.node.block
-          });
-        }
-        return of(tmp_res);
-      })
-    )
-    .subscribe({
-      next: async (pages) => {
+    this.approvedPagesSubscription = this._categoriesContract
+      .getState()
+      .pipe(
+        switchMap((categories: ArwikiCategoryIndex) => {
+          return this.arwikiQuery.getVerifiedPagesByCategories(
+            owners,
+            Object.keys(categories),
+            this.routeLang,
+            numPages,
+            maxHeight
+          );
+        }),
+        switchMap((verifiedPages) => {
+          let pages = verifiedPages;
+          let tmp_res = [];
+          for (let p of pages) {
+            tmp_res.push(this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id'));
+          }
+          return this.arwikiQuery.getTXsData(tmp_res);
+        }),
+        switchMap((pages) => {
+          let tmp_res = [];
+          for (let p of pages) {
+            tmp_res.push({
+              id: p.node.id,
+              title: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title'),
+              slug: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug'),
+              category: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category'),
+              language: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang'),
+              owner: p.node.owner.address,
+              block: p.node.block
+            });
+          }
+          return of(tmp_res);
+        })
+      
+
+      ).subscribe({
+      next: async (pages: ArwikiPage[]) => {
         this.pages = pages;
         this.loadingApprovedPages = false;
         
