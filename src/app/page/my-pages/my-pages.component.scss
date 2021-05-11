@@ -12,3 +12,35 @@
 mat-toolbar {
 	font-family: "Roboto Mono", monospace;
 }
+
+
+.card-register-msg {
+
+}
+
+.card-register-msg p {
+	font-size: 16px;
+}
+
+.card-page-container {
+	margin-bottom: 10px;
+}
+
+
+.card-page div {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.no-results {
+	margin-bottom: 40px;
+}
+
+.card-page-img {
+	max-width: 80%;
+}
+
+.mb20 {
+	margin-bottom: 20px;
+}

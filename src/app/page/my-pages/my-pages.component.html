@@ -3,7 +3,6 @@
 	mode="indeterminate"
 	*ngIf="loading"
 	class="fadeIn"></mat-progress-bar>
-<div class="loading-txt text-center fadeIn" *ngIf="loading" >Loading ... </div>
 <mat-toolbar class="fadeIn" color="default">
   <mat-icon 
   	aria-hidden="false"
@@ -23,10 +22,50 @@
 	</div>
 </mat-toolbar>
 
-<div *ngIf="!loading" class="container fadeIn">
-	
-	<div class="row">
-		<div class="col-12 col-md-6 ">
+<div class="container fadeIn" *ngIf="!loading" >
+	<h1 class="page-title col-12">
+		My arwiki pages
+	</h1>
+	<div class="row" *ngIf="pages && pages.length === 0">
+		<div class="col-12 text-center no-results">
+			You don't have any arwiki page yet :)
+		</div>
+		<div class="col-12 text-center">
+			<a mat-flat-button 
+        routerLink="/{{ routeLang }}/create-page" color="primary">
+				Create new arwiki page
+			</a>
 		</div>
 	</div>
+	<div class="row">
+		<div class="col-12 col-md-6 card-page-container fadeIn" *ngFor="let page of pages">
+			<mat-card class="card-page">
+
+				<div *ngIf="page.img" class="text-center">
+					<img class="card-page-img" src="{{ page.img }}">
+				</div>
+				<div>
+					Id: {{ page.id }}
+				</div>
+				<div>
+					Title: {{  page.title }}
+				</div>
+				<div>
+					Slug: {{ page.slug }}
+				</div>
+				<div>
+					Category: {{ page.category }}
+				</div>
+				<div>
+					Language: {{ page.lang }}
+				</div>
+				<div class="text-right">
+					<a mat-flat-button color="primary" routerLink="../preview/{{page.id}}">
+						<mat-icon>visibility</mat-icon>
+					</a>
+				</div>
+			</mat-card>
+		</div>
+	</div>
+
 </div>
