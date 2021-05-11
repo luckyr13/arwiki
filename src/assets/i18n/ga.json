@@ -19,13 +19,16 @@
 		"TOOLTIP_SETTINGS": "Socruithe",
 		"MENU_USER_DASHBOARD": "Painéal na nIonstraimí",
 		"MENU_USER_CREATE": "Cruthaigh leathanach",
-		"MENU_USER_LOGOUT": "Logáil Amach"
+		"MENU_USER_LOGOUT": "Logáil Amach",
+		"MENU_USER_MY_PAGES": "My pages",
+		"MENU_USER_MODERATORS": "Moderators"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "Fáilte go dtí an permaweb!",
 		"SUBTITLE_L1": "Is é arwiki an wiki díláraithe le haghaidh arweave is féidir le duine ar bith a chur in eagar.",
 		"TITLE_L2": "Ag tosú",
-		"TITLE_L3": "Na hailt is déanaí"
+		"TITLE_L3": "Na hailt is déanaí",
+		"LABEL_NO_RESULTS": "No results."
 	},
 	"PAGE": {
 		"LABEL_ID": "Id",

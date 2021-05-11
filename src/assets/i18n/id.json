@@ -19,13 +19,16 @@
 		"TOOLTIP_SETTINGS": "Pengaturan",
 		"MENU_USER_DASHBOARD": "Dasbor",
 		"MENU_USER_CREATE": "Membuat halaman",
-		"MENU_USER_LOGOUT": "Keluar"
+		"MENU_USER_LOGOUT": "Keluar",
+		"MENU_USER_MY_PAGES": "My pages",
+		"MENU_USER_MODERATORS": "Moderators"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "Selamat datang di permaweb!",
 		"SUBTITLE_L1": "arwiki adalah wiki terdesentralisasi untuk arweave yang dapat diedit siapa saja.",
 		"TITLE_L2": "Mulai",
-		"TITLE_L3": "Artikel Terbaru"
+		"TITLE_L3": "Artikel Terbaru",
+		"LABEL_NO_RESULTS": "No results."
 	},
 	"PAGE": {
 		"LABEL_ID": "Id",

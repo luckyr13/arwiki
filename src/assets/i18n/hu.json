@@ -19,13 +19,16 @@
 		"TOOLTIP_SETTINGS": "Beállítások",
 		"MENU_USER_DASHBOARD": "Irányítópult",
 		"MENU_USER_CREATE": "Oldal létrehozása",
-		"MENU_USER_LOGOUT": "Kijelentkezés"
+		"MENU_USER_LOGOUT": "Kijelentkezés",
+		"MENU_USER_MY_PAGES": "My pages",
+		"MENU_USER_MODERATORS": "Moderators"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "Üdvözöljük a permaweben!",
 		"SUBTITLE_L1": "Az arwiki az arweave decentralizált wiki, amelyet bárki szerkeszthet.",
 		"TITLE_L2": "Elkezdeni",
-		"TITLE_L3": "Legfrissebb cikkek"
+		"TITLE_L3": "Legfrissebb cikkek",
+		"LABEL_NO_RESULTS": "No results."
 	},
 	"PAGE": {
 		"LABEL_ID": "Id",

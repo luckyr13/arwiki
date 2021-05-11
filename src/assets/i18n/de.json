@@ -19,13 +19,16 @@
 		"TOOLTIP_SETTINGS": "Settings",
 		"MENU_USER_DASHBOARD": "Instrumententafel",
 		"MENU_USER_CREATE": "Seite erstellen",
-		"MENU_USER_LOGOUT": "Ausloggen"
+		"MENU_USER_LOGOUT": "Ausloggen",
+		"MENU_USER_MY_PAGES": "My pages",
+		"MENU_USER_MODERATORS": "Moderators"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "Willkommen im Permaweb!",
 		"SUBTITLE_L1": "arwiki ist das dezentrale Wiki für arweave, das jeder bearbeiten kann.",
 		"TITLE_L2": "Einstieg",
-		"TITLE_L3": "Neueste Artikel"
+		"TITLE_L3": "Neueste Artikel",
+		"LABEL_NO_RESULTS": "No results."
 	},
 	"PAGE": {
 		"LABEL_ID": "Id",

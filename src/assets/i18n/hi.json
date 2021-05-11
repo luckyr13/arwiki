@@ -19,13 +19,16 @@
 		"TOOLTIP_SETTINGS": "Settings",
 		"MENU_USER_DASHBOARD": "डैशबोर्ड",
 		"MENU_USER_CREATE": "पेज बनाएं",
-		"MENU_USER_LOGOUT": "लॉग आउट"
+		"MENU_USER_LOGOUT": "लॉग आउट",
+		"MENU_USER_MY_PAGES": "My pages",
+		"MENU_USER_MODERATORS": "Moderators"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "Permaweb में आपका स्वागत है!",
 		"SUBTITLE_L1": "arwiki arweave के लिए विकेन्द्रीकृत विकी है जिसे कोई भी संपादित कर सकता है।",
 		"TITLE_L2": "शुरू करना",
-		"TITLE_L3": "ताज़ा लेख"
+		"TITLE_L3": "ताज़ा लेख",
+		"LABEL_NO_RESULTS": "No results."
 	},
 	"PAGE": {
 		"LABEL_ID": "Id",

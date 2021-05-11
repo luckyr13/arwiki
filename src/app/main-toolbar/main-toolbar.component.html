@@ -60,13 +60,18 @@
       </button>
       <button 
         mat-menu-item
+        routerLink="{{ routerLang }}/my-pages">
+         <mat-icon>folder_open</mat-icon> {{ 'MAIN_TOOLBAR.MENU_USER_MY_PAGES' | translate }}
+      </button>
+      <button 
+        mat-menu-item
         routerLink="{{ routerLang }}/create-page">
-         <mat-icon>add_circle</mat-icon> {{ 'MAIN_TOOLBAR.MENU_USER_CREATE' | translate }}
+         <mat-icon>post_add</mat-icon> {{ 'MAIN_TOOLBAR.MENU_USER_CREATE' | translate }}
       </button>
       <button 
         mat-menu-item
         routerLink="{{ routerLang }}/moderators">
-         <mat-icon>security</mat-icon> Moderators
+         <mat-icon>admin_panel_settings</mat-icon> {{ 'MAIN_TOOLBAR.MENU_USER_MODERATORS' | translate }}
       </button>
       <button 
         mat-menu-item

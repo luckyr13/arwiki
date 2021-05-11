@@ -19,13 +19,16 @@
 		"TOOLTIP_SETTINGS": "Settings",
 		"MENU_USER_DASHBOARD": "لوحة القيادة",
 		"MENU_USER_CREATE": "إنشاء الصفحة",
-		"MENU_USER_LOGOUT": "تسجيل خروج"
+		"MENU_USER_LOGOUT": "تسجيل خروج",
+		"MENU_USER_MY_PAGES": "My pages",
+		"MENU_USER_MODERATORS": "Moderators"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "مرحبًا بكم في موقع Permaweb!",
 		"SUBTITLE_L1": "arwiki هو موقع wiki اللامركزي لـ arweave يمكن لأي شخص تحريره.",
 		"TITLE_L2": "ابدء",
-		"TITLE_L3": "أحدث المقالات"
+		"TITLE_L3": "أحدث المقالات",
+		"LABEL_NO_RESULTS": "No results."
 	},
 	"PAGE": {
 		"LABEL_ID": "Id",

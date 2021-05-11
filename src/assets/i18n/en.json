@@ -19,13 +19,16 @@
 		"TOOLTIP_SETTINGS": "Settings",
 		"MENU_USER_DASHBOARD": "Dashboard",
 		"MENU_USER_CREATE": "Create page",
-		"MENU_USER_LOGOUT": "Logout"
+		"MENU_USER_LOGOUT": "Logout",
+		"MENU_USER_MY_PAGES": "My pages",
+		"MENU_USER_MODERATORS": "Moderators"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "Welcome to the permaweb!",
 		"SUBTITLE_L1": "arwiki is the decentralized wiki for arweave that anyone can edit.",
 		"TITLE_L2": "Getting started",
-		"TITLE_L3": "Latest articles"
+		"TITLE_L3": "Latest articles",
+		"LABEL_NO_RESULTS": "No results."
 	},
 	"PAGE": {
 		"LABEL_ID": "Id",

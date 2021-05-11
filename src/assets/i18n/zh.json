@@ -19,13 +19,16 @@
 		"TOOLTIP_SETTINGS": "設定值",
 		"MENU_USER_DASHBOARD": "儀錶盤",
 		"MENU_USER_CREATE": "建立頁面",
-		"MENU_USER_LOGOUT": "登出"
+		"MENU_USER_LOGOUT": "登出",
+		"MENU_USER_MY_PAGES": "My pages",
+		"MENU_USER_MODERATORS": "Moderators"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "歡迎來到永久網！",
 		"SUBTITLE_L1": "arwiki是任何人都可以編輯的分散式Wiki。",
 		"TITLE_L2": "入門",
-		"TITLE_L3": "最新的文章"
+		"TITLE_L3": "最新的文章",
+		"LABEL_NO_RESULTS": "No results."
 	},
 	"PAGE": {
 		"LABEL_ID": "Id",
