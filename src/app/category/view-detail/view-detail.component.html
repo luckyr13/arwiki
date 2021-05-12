@@ -1,7 +1,7 @@
-<div class="container category-page-container fadeIn">
-	<div class="row">
+<div class="container category-page-container">
+	<div class="row fadeIn" *ngIf="!loadingPages">
 		<h1 class="page-title col-12 col-md-9">
-			Category: {{ 'MAIN_MENU.' + category | translate }}
+			{{ 'CATEGORY.BREADCRUMB_LABEL' | translate }} {{ 'MAIN_MENU.' + category | translate }}
 		</h1>
 		<div class="text-right page-title-buttons col-12 col-md-3">
 	    <button 
@@ -9,10 +9,9 @@
 		  	mat-button 
 		  	class="btn-toolbar" 
 		  	color="primary"
-		  	(click)="goBack()"
-		  	matTooltip="{{ 'CREATE_PAGE.FRM_BTN_GOBACK' | translate }}">
+		  	(click)="goBack()">
 		    <mat-icon>navigate_before</mat-icon>
-		    {{ 'CREATE_PAGE.FRM_BTN_GOBACK' | translate }}
+		    {{ 'GENERAL.BUTTONS.GO_BACK' | translate }}
 		  </button>
 		</div>
 	</div>
@@ -21,17 +20,19 @@
 		<div class="col-12">
 			<mat-spinner class="spinner-center" *ngIf="loadingPages"></mat-spinner>
 			<div *ngIf="!loadingPages">
-				<div class="text-left" *ngIf="!pages.length">No results.</div>
+				<div class="text-left fadeIn" *ngIf="!pages.length">
+					{{ 'GENERAL.LABELS.NO_RESULTS' | translate }}
+				</div>
 			</div>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-12 col-md-6 card-page fadeIn" *ngFor="let p of pages">
 			<app-article-card 
-								[article]="p" 
-								[articleData]="pagesData[p.id]" 
-								[routeLang]="routeLang" 
-								[baseURL]="'allo'"></app-article-card>
-		</div>
+					[article]="p" 
+					[articleData]="pagesData[p.id]" 
+					[routeLang]="routeLang" 
+					[baseURL]="baseURL"></app-article-card>
+</div>
 	</div>
 </div>	

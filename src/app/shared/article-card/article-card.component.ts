@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ArwikiPage } from '../../core/interfaces/arwiki-page';
 
 @Component({
   selector: 'app-article-card',
@@ -12,8 +13,8 @@ export class ArticleCardComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  @Input() article: any
-  @Input() articleData: any
+  @Input() article!: ArwikiPage;
+  @Input() articleData: string = '';
   @Input() routeLang: string = ''
   @Input() baseURL: string = ''
 

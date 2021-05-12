@@ -10,39 +10,35 @@
 		{{ sanitizeMarkdown(articleData) }}
 	</p>
 	<p class="mini-text ellipsis">
-		<strong>Category: </strong>
+		<strong>{{ 'GENERAL.CARDS.ARTICLE.CATEGORY' | translate }} </strong>
 		<a
 		   mat-button
-		   routerLink="../category/{{article.category}}">
+		   routerLink="/{{routeLang}}/category/{{article.category}}">
 			{{ article.category }}
 		</a>
 	</p>
+	<p class="mini-text ellipsis">
+		<app-arweave-address [address]="article.owner">
+			{{ 'GENERAL.CARDS.ARTICLE.CREATED_BY' | translate }}
+		</app-arweave-address>
+	</p>
+	<p class="mini-text ellipsis">
+		<app-arweave-address 
+			[address]="article.id"
+			[verifyAddress]="false">
+			TX:
+		</app-arweave-address>
+	</p>
 	<p class="mini-text ellipsis" *ngIf="article.block">
-		<strong>Creation date: </strong>
+		<strong>{{ 'GENERAL.CARDS.ARTICLE.CREATION_DATE' | translate }}</strong>
 		{{ timestampToDate(article.block.timestamp) | date:'short' }}
 	</p>
-	<p class="mini-text ellipsis">
-		<app-arweave-address [address]="article.owner">Created by: </app-arweave-address>
-	</p>
-	<p class="mini-text ellipsis">
-		<strong>TX:</strong> {{ article.id }}
-	</p>
 	<p class="text-right">
-
-		<a 
-			matTooltip="Tip writer"
-			mat-flat-button
-			color="default">
-			<mat-icon>paid</mat-icon>
-		</a>
-		&nbsp;
-
 		<a
-			matTooltip="View preview"
-		   mat-flat-button
-		   color="primary"
-		   routerLink="/{{routeLang}}/{{article.slug}}">
-			<mat-icon>visibility</mat-icon>
+		  mat-button
+		  color="primary"
+		  routerLink="/{{routeLang}}/{{article.slug}}">
+			{{ 'GENERAL.BUTTONS.VIEW_ARTICLE' | translate }}
 		</a>
 	</p>
 </mat-card>

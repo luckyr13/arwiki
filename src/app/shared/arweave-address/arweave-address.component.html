@@ -9,13 +9,13 @@
 		<mat-icon class="green">verified_user</mat-icon>
 	</a>
 	<a 
-		matTooltip="Open in Viewblock"
+		matTooltip="{{ 'GENERAL.BUTTONS.OPEN_VIEWBLOCK' | translate }}"
 		target="_blank"
 		href="https://viewblock.io/arweave/address/{{address}}">
 		<mat-icon>open_in_new</mat-icon>
 	</a>
 	<a 
-		matTooltip="Copy address"
+		matTooltip="{{ 'GENERAL.BUTTONS.COPY_ADDRESS' | translate }}"
 		target="_blank"
 		(click)="copyClipboard(address, 'Address copied!')">
 		<mat-icon>content_copy</mat-icon>

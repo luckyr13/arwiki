@@ -3,26 +3,25 @@
 		<h1 class="page-title col-12 col-md-9">
 			<span class="fadeIn" *ngIf="pageTitle">{{ pageTitle }}</span>
 		</h1>
-		<div class="text-right page-title-buttons col-12 col-md-3">
+		<div 
+		  	*ngIf="pageTitle"
+		  	class="text-right page-title-buttons fadeIn col-12 col-md-3">
 			<button 
 	    	type="button"
 		  	mat-button 
-		  	*ngIf="pageTitle"
-		  	class="btn-toolbar fadeIn" 
-		  	color="primary"
-		  	matTooltip="Edit">
+		  	class="btn-toolbar" 
+		  	color="primary">
 		    <mat-icon>edit</mat-icon>
-		    Edit
+		    {{ 'GENERAL.BUTTONS.EDIT_PAGE' | translate }}
 		  </button>
 	    <button 
 	    	type="button"
 		  	mat-button 
 		  	class="btn-toolbar" 
 		  	color="primary"
-		  	(click)="goBack()"
-		  	matTooltip="{{ 'CREATE_PAGE.FRM_BTN_GOBACK' | translate }}">
+		  	(click)="goBack()">
 		    <mat-icon>navigate_before</mat-icon>
-		    {{ 'CREATE_PAGE.FRM_BTN_GOBACK' | translate }}
+		    {{ 'GENERAL.BUTTONS.GO_BACK' | translate }}
 		  </button>
 
 		</div>
