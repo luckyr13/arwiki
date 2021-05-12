@@ -164,8 +164,12 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   *  @dev Modal login (or bottom sheet)
   */
   login() {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+    
     this._bottomSheet.open(BottomSheetLoginComponent, {
-      
+      direction: direction
     });
   }
 
