@@ -4,16 +4,21 @@
 }
 
 .page-title, .page-title-buttons {
-	margin-top: 50px;
-	margin-bottom: 0px;
+	margin-bottom: 20px;
 }
+
+.page-title-buttons {
+
+
+}
+
 
 .separator {
 	margin-bottom: 40px;
 }
 
 .page-title span {
-	font-size: 32px;
+	font-size: 42px;
 }
 
 .mini-text {
@@ -71,10 +76,25 @@
 	}
 
 	.page-title span {
-		font-size: 52px;
+		font-size: 48px;
 	}
+
+
+	.page-title, .page-title-buttons {
+		margin-bottom: 0px;
+	  margin-top: 0;
+	  line-height: 60px;
+	}
+
+	.preview-page-container {
+		margin-top: 110px;
+	}
+
+
 }
 
 .btn-toolbar {
-	margin-left: 14px;
+	margin-left: 10px;
+	padding-right: 5px;
+	padding-left: 5px;
 }

@@ -1,17 +1,18 @@
 <div class="container category-page-container fadeIn">
 	<div class="row">
-		<h1 class="page-title col-9">
+		<h1 class="page-title col-12 col-md-9">
 			Category: {{ 'MAIN_MENU.' + category | translate }}
 		</h1>
-		<div class="text-right page-title-buttons col-3">
+		<div class="text-right page-title-buttons col-12 col-md-3">
 	    <button 
 	    	type="button"
-		  	mat-mini-fab 
+		  	mat-button 
 		  	class="btn-toolbar" 
 		  	color="primary"
 		  	(click)="goBack()"
 		  	matTooltip="{{ 'CREATE_PAGE.FRM_BTN_GOBACK' | translate }}">
 		    <mat-icon>navigate_before</mat-icon>
+		    {{ 'CREATE_PAGE.FRM_BTN_GOBACK' | translate }}
 		  </button>
 		</div>
 	</div>
