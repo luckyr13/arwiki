@@ -211,7 +211,9 @@ p {
   margin-bottom: 40px;
 }
 
-
+/*
+* Arwiki page container styles
+*/
 .arwiki-page-preview-container img,
 #arwiki-page-content-detail img {
   display: block;
@@ -222,8 +224,13 @@ p {
 }
 
 .arwiki-page-preview-container a,
-#arwiki-page-content-detail a{
+#arwiki-page-content-detail a {
   color: inherit;
+}
+
+.arwiki-page-preview-container h1,
+#arwiki-page-content-detail h1 {
+  font-size: 28px;
 }
 
 /*

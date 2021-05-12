@@ -14,7 +14,7 @@
 
 
 .separator {
-	margin-bottom: 40px;
+	margin-bottom: 20px;
 }
 
 .page-title span {
@@ -69,6 +69,24 @@
 	margin-bottom: 40px;
 }
 
+
+.btn-toolbar {
+	margin-left: 10px;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
+.subh-col-left {
+	margin-bottom: 0px;
+	margin-top: 0px;
+}
+
+.subh-col-right {
+	text-align: left;
+	margin-bottom: 0px;
+	margin-top: 0px;
+}
+
 @media (min-width: 800px) {
 
 	#arwiki-page-content-detail {
@@ -90,11 +108,16 @@
 		margin-top: 110px;
 	}
 
+	.subh-col-right {
+		text-align: right;
+		margin-bottom: 10px;
+		margin-top: 20px;
+	}
 
-}
+	.subh-col-left {
+		margin-bottom: 10px;
+		margin-top: 20px;
+	}
 
-.btn-toolbar {
-	margin-left: 10px;
-	padding-right: 5px;
-	padding-left: 5px;
+
 }

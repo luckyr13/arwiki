@@ -26,13 +26,13 @@
 		  </button>
 
 		</div>
-	  <p class="text-left fadeIn col-12 col-md-6" *ngIf="pageCategory">
+	  <p class="subh-col-left fadeIn col-12 col-md-6" *ngIf="pageCategory">
 	  	<strong>Category:</strong>
 	  	<a mat-button routerLink="../category/{{pageCategory}}">
 				{{ pageCategory }}
 			</a>
 	  </p>
-	  <p class="text-right fadeIn col-12 col-md-6" *ngIf="block.timestamp">
+	  <p class="subh-col-right fadeIn col-12 col-md-6" *ngIf="block.timestamp">
 	  	<strong>Last update:</strong> {{ timestampToDate(block.timestamp) | date:'short'}}	
 	  </p>
 	  <div class="separator col-12"></div>
