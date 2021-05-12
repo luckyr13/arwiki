@@ -11,12 +11,10 @@
 
 		<div class="col-12 col-md-6 card-page fadeIn" *ngFor="let p of pages">
 			<mat-card >
-				<div> 
-					{{ 'PAGE.LABEL_ID' | translate }}: {{ p.id }} 
-				</div>
-				<div>
-					{{ 'PAGE.LABEL_TITLE' | translate }}: {{ p.title }} 
-				</div>
+				
+				<h2>
+					{{ p.title }} 
+				</h2>
 				<div>
 					{{ 'PAGE.LABEL_SLUG' | translate }}: {{  p.slug }}
 				</div>
@@ -31,6 +29,9 @@
 				</div>
 				<div class="red" *ngIf="!p.block || !p.block.height">
 					{{ 'PAGE.LABEL_TX_STATUS' | translate }}: {{ 'PAGE.STATUS_TX_PENDING' | translate }} 
+				</div>
+				<div> 
+					{{ 'PAGE.LABEL_ID' | translate }}: {{ p.id }} 
 				</div>
 				
 				<div *ngIf="p.block && p.block.height">
