@@ -11,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class ArweaveAddressComponent implements OnInit {
   public verified: boolean = false
   @Input() address: string = '';
-  @Input() verifyAddress: boolean = true;
+  @Input() isAddress: boolean = true;
 
   constructor(
     private _arverifyMap: ArverifyMapService,
@@ -19,7 +19,7 @@ export class ArweaveAddressComponent implements OnInit {
     private _snackBar: MatSnackBar) {}
 
   async ngOnInit() {
-    if (this.verifyAddress) {
+    if (this.isAddress) {
       let verificationResult = await this._arverifyMap.getVerification(this.address)
       this.verified = verificationResult && verificationResult.verified
     }

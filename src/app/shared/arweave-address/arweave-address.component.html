@@ -11,7 +11,15 @@
 	<a 
 		matTooltip="{{ 'GENERAL.BUTTONS.OPEN_VIEWBLOCK' | translate }}"
 		target="_blank"
+		*ngIf="isAddress"
 		href="https://viewblock.io/arweave/address/{{address}}">
+		<mat-icon>open_in_new</mat-icon>
+	</a>
+	<a 
+		matTooltip="{{ 'GENERAL.BUTTONS.OPEN_VIEWBLOCK' | translate }}"
+		target="_blank"
+		*ngIf="!isAddress"
+		href="https://viewblock.io/arweave/tx/{{address}}">
 		<mat-icon>open_in_new</mat-icon>
 	</a>
 	<a 
