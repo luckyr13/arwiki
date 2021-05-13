@@ -42,7 +42,7 @@ export class TagManagerComponent implements OnInit, OnDestroy {
   loadingSavingTags: boolean = false;
   savingTagsTX: string[] = [];
   routeLang: string = '';
-  arwiki!: Arwiki;
+  private _arwiki!: Arwiki;
 
   constructor(
     private route: ActivatedRoute,
@@ -59,10 +59,11 @@ export class TagManagerComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.routeLang = this.route.snapshot.paramMap.get('lang')!;
+     // Init arwiki 
+    this._arwiki = new Arwiki(this._arweave.arweave);
 
   	const contractAddress = this.route.snapshot.paramMap.get('txId')!;
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
-    this.arwiki = new Arwiki(this._arweave.arweave);
     this.loadPageTXData(contractAddress);
     await this.loadTags(contractAddress);
 
@@ -223,7 +224,7 @@ export class TagManagerComponent implements OnInit, OnDestroy {
           this.savingTagsTX = [];
 
           for (let tag of tagsList) {
-            const tx = await this.arwiki.createTagTXForArwikiPage(
+            const tx = await this._arwiki.createTagTXForArwikiPage(
               _content_id,
               tag,
               _category,
