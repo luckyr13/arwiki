@@ -366,9 +366,11 @@ export class NewComponent implements OnInit, OnDestroy {
     _slug: string,
     _langCode: string,
     _maxHeight: number,
-    _limit: number = 1
+    _limit: number = 20
   ) {
     let categoriesCS: any = {};
+    let adminList: string[] = [];
+    const verifiedPagesDict: Record<string,boolean> = {};
     return this._categoriesContract.getState()
       .pipe(
         switchMap((categoriesContractState) => {
@@ -376,14 +378,42 @@ export class NewComponent implements OnInit, OnDestroy {
           return this._settingsContract.getState();
         }),
         switchMap((settingsContractState) => {
+          adminList = Object.keys(settingsContractState.admin_list);
           return this.arwikiQuery.getVerifiedPagesBySlug(
-            Object.keys(settingsContractState.admin_list),
+            adminList,
             [_slug],
             categoriesCS,
             _langCode,
             _limit,
             _maxHeight
           );
+        }),
+        switchMap((verifiedPages) => {
+          for (let p of verifiedPages) {
+            const vrfdPageId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
+            verifiedPagesDict[vrfdPageId] = true;
+          }
+
+          return this.arwikiQuery.getDeletedPagesTX(
+            adminList,
+            Object.keys(verifiedPagesDict),
+            _langCode,
+            _limit,
+            _maxHeight
+          );
+        }),
+        switchMap((deletedPagesTX) => {
+          const deletedPagesDict: Record<string,boolean> = {};
+          for (const p of deletedPagesTX) {
+            const arwikiId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
+            deletedPagesDict[arwikiId] = true;
+          }
+
+          let finalList = Object.keys(verifiedPagesDict).filter((vpId) => {
+            return !deletedPagesDict[vpId];
+          });
+          
+          return this.arwikiQuery.getTXsData(finalList);
         }),
         switchMap((verifiedPages) => {
           return of(verifiedPages.length);
