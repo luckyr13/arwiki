@@ -421,4 +421,50 @@ export class ArwikiQuery {
     return obs;
   }
 
+  /*
+  * @dev
+  */
+  getDeletedPagesTX(
+    owners: string[],
+    pageIds: string[],
+    langCode: string,
+    limit: number = 100,
+    maxHeight: number = 0
+  ): Observable<any> {
+    const tags = [
+      {
+        name: 'Service',
+        values: ['ArWiki'],
+      },
+      {
+        name: 'Arwiki-Type',
+        values: ['DeletePage'],
+      },
+      {
+        name: 'Arwiki-Page-Id',
+        values: pageIds,
+      },
+      {
+        name: 'Arwiki-Page-Lang',
+        values: [langCode],
+      }
+    ];
+
+    const obs = new Observable((subscriber) => {
+      this._ardb!.search('transactions')
+        .limit(limit)
+        .from(owners)
+        .max(maxHeight)
+        .tags(tags).find().then((res) => {
+          subscriber.next(res);
+          subscriber.complete();
+        })
+        .catch((error) => {
+          subscriber.error(error);
+        });
+
+    });
+    return obs;
+  }
+
 }
