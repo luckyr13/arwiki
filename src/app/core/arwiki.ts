@@ -1,10 +1,11 @@
 import Arweave from 'arweave';
+import { ArwikiPage } from './interfaces/arwiki-page';
 
 /*
 * Arwiki versions supported by the system
 * arwikiVersion[0] the first position must contain the latest supported version
 */
-export const arwikiVersion = ['0.2'];
+export const arwikiVersion = ['0.3'];
 
 /*
 *	@dev Main class
@@ -17,6 +18,33 @@ export class Arwiki {
   ) {
 		this._arweave = _arweave;
 	}
+
+  /*
+  * @dev All pages needs to be validated first 
+  * to be listed on the Arwiki. Validations are special TXs
+  * with custom tags (Arwiki-Type: Page)
+  */
+  async createNewArwikiPageTX(
+    _newPage: ArwikiPage,
+    _privateKey: any
+  ) {
+    const jwk = _privateKey;
+    const tx = await this._arweave.createTransaction({
+      data: _newPage.content
+    }, jwk);
+    tx.addTag('Content-Type', 'text/plain');
+    tx.addTag('Service', 'ArWiki');
+    tx.addTag('Arwiki-Type', 'Page');
+    tx.addTag('Arwiki-Page-Slug', _newPage.slug);
+    tx.addTag('Arwiki-Page-Category', _newPage.category);
+    tx.addTag('Arwiki-Page-Title', _newPage.title);
+    tx.addTag('Arwiki-Page-Img', _newPage.img!);
+    tx.addTag('Arwiki-Page-Lang', _newPage.language);
+    tx.addTag('Arwiki-Version', arwikiVersion[0]);
+    await this._arweave.transactions.sign(tx, jwk)
+    await this._arweave.transactions.post(tx)
+    return tx.id;
+  }
 
   /*
   * @dev All pages needs to be validated first 

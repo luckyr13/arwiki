@@ -24,6 +24,8 @@ import * as SimpleMDE from 'simplemde';
 import { ArwikiCategory } from '../../core/interfaces/arwiki-category';
 import { ArwikiCategoryIndex } from '../../core/interfaces/arwiki-category-index';
 import { Direction } from '@angular/cdk/bidi';
+import { Arwiki } from '../../core/arwiki';
+import { ArwikiPage } from '../../core/interfaces/arwiki-page';
 declare const document: any;
 declare const window: any;
 
@@ -59,6 +61,7 @@ export class NewComponent implements OnInit, OnDestroy {
   routeLang: string = '';
   arwikiQuery!: ArwikiQuery;
   verifySlugSubscription: Subscription = Subscription.EMPTY;
+  private arwiki!: Arwiki;
 
   public get title() {
 		return this.frmNew.get('title');
@@ -94,6 +97,7 @@ export class NewComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.routeLang = this._route.snapshot.paramMap.get('lang')!;
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
+    this.arwiki = new Arwiki(this._arweave.arweave);
   	this.getDefaultTheme();
     // Load markdown editor
     window.setTimeout(() => {
@@ -228,24 +232,21 @@ export class NewComponent implements OnInit, OnDestroy {
 
   	// Save data 
     try {
-      const ticker = `ARWIKIP_${slug}`;
-      const txid = await this._arweave.createNFTFromTX(
-        title,
-        ticker,
-        'ArWiki page',
-        1,
-        this._auth.getMainAddressSnapshot(),
-        this._auth.getPrivateKey(),
-        content,
-        'text/plain', 
-        target,
-        fee,
-        langCode,
-        category,
-        slug,
-        img
+      const newPage: ArwikiPage = {
+          id: '',
+          title: title,
+          slug: slug,
+          category: category,
+          language: langCode,
+          img: img,
+          owner: this._auth.getMainAddressSnapshot(),
+          content: content
+      };
+      const txid = await this.arwiki.createNewArwikiPageTX(
+        newPage,
+        this._auth.getPrivateKey()
       );
-
+        
       this.message(txid, 'success');
       this.newPageTX = txid;
       window.setTimeout(() => {

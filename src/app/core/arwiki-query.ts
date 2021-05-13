@@ -29,7 +29,7 @@ export class ArwikiQuery {
       },
       {
         name: 'Arwiki-Type',
-        values: ['page'],
+        values: ['Page'],
       },
       {
         name: 'Arwiki-Version',
@@ -177,7 +177,7 @@ export class ArwikiQuery {
       },
       {
         name: 'Arwiki-Type',
-        values: ['page'],
+        values: ['Page'],
       },
       {
         name: 'Arwiki-Version',
