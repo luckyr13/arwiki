@@ -84,7 +84,7 @@ export class ViewDetailComponent implements OnInit {
     this.pageOwner = '';
     this.pageCategory = '';
     this.block = {};
-    const numPages = 1;
+    const numPages = 20;
   	this.loadingPage = true;
 
     let networkInfo;
@@ -252,7 +252,7 @@ export class ViewDetailComponent implements OnInit {
   ) {
     let categoriesCS: any = {};
     let adminList: string[] = [];
-    const verifiedPagesDict: Record<string, boolean> = {};
+    const verifiedPagesList: string[] = [];
     return this._categoriesContract.getState()
       .pipe(
         switchMap((categoriesContractState) => {
@@ -273,12 +273,12 @@ export class ViewDetailComponent implements OnInit {
         switchMap((verifiedPages) => {
           for (let p of verifiedPages) {
             const vrfdPageId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
-            verifiedPagesDict[vrfdPageId] = true;
+            verifiedPagesList.push(vrfdPageId);
           }
 
           return this.arwikiQuery.getDeletedPagesTX(
             adminList,
-            Object.keys(verifiedPagesDict),
+            verifiedPagesList,
             _langCode,
             _limit,
             _maxHeight
@@ -291,9 +291,14 @@ export class ViewDetailComponent implements OnInit {
             deletedPagesDict[arwikiId] = true;
           }
 
-          let finalList = Object.keys(verifiedPagesDict).filter((vpId) => {
-            return !deletedPagesDict[vpId];
-          });
+          const totalVerified = verifiedPagesList.length;
+          const finalList: string[] = [];
+          for (let i = 0; i < totalVerified; i++) {
+            if (!deletedPagesDict[verifiedPagesList[i]]) {
+              finalList.push(verifiedPagesList[i]);
+              break;
+            }
+          }
           
           return this.arwikiQuery.getTXsData(finalList);
         })

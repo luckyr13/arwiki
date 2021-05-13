@@ -7,6 +7,7 @@ import { PendingListComponent } from './pending-list/pending-list.component';
 import { AddAdminComponent } from './add-admin/add-admin.component';
 import { ViewAdminListComponent } from './view-admin-list/view-admin-list.component';
 import { ApprovedListComponent } from './approved-list/approved-list.component';
+import { DeletedListComponent } from './deleted-list/deleted-list.component';
 import { TagManagerComponent } from './tag-manager/tag-manager.component';
 
 const routes: Routes = [
@@ -19,6 +20,9 @@ const routes: Routes = [
 			},
 			{
 				path: 'approved', component: ApprovedListComponent
+			},
+			{
+				path: 'deleted', component: DeletedListComponent
 			},
 			{
 				path: 'tag-manager/:txId', component: TagManagerComponent

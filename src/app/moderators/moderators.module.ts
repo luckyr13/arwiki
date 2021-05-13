@@ -8,10 +8,11 @@ import { AddAdminComponent } from './add-admin/add-admin.component';
 import { ViewAdminListComponent } from './view-admin-list/view-admin-list.component';
 import { ApprovedListComponent } from './approved-list/approved-list.component';
 import { TagManagerComponent } from './tag-manager/tag-manager.component';
+import { DeletedListComponent } from './deleted-list/deleted-list.component';
 
 
 @NgModule({
-  declarations: [PendingListComponent, MenuComponent, AddAdminComponent, ViewAdminListComponent, ApprovedListComponent, TagManagerComponent],
+  declarations: [PendingListComponent, MenuComponent, AddAdminComponent, ViewAdminListComponent, ApprovedListComponent, TagManagerComponent, DeletedListComponent],
   imports: [
     CommonModule,
     ModeratorsRoutingModule,
