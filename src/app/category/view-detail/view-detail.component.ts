@@ -9,6 +9,7 @@ import { getVerification } from "arverify";
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { switchMap } from 'rxjs/operators';
+import { ArwikiPage } from '../../core/interfaces/arwiki-page';
 
 @Component({
   templateUrl: './view-detail.component.html',
@@ -57,11 +58,33 @@ export class ViewDetailComponent implements OnInit {
       maxHeight
     ).subscribe({
     	next: async (pages) => {
-    		this.pages = pages;
+        const finalRes: ArwikiPage[] = [];
+        for (let p of pages) {
+          const title = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
+          const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
+          const category = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
+          const img = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
+          const lang = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang');
+          const owner = p.node.owner.address;
+          const id = p.node.id;
+          
+          finalRes.push({
+            title: title,
+            slug: slug,
+            category: category,
+            img: img,
+            owner: owner,
+            id: id,
+            language: lang
+          });
+          
+        }
+
+    		this.pages = finalRes;
         this.pagesData = {};
         this.loadingPages = false;
 
-        for (let p of pages) {
+        for (let p of this.pages) {
           this.pagesData[p.id] = await this._arweave.arweave.transactions.getData(
             p.id, 
             {decode: true, string: true}
@@ -158,6 +181,7 @@ export class ViewDetailComponent implements OnInit {
     _limit: number = 100
   ) {
     let settingsCS: any = {};
+    const verifiedPagesDict: Record<string, boolean> = {};
     return this._settingsContract.getState()
       .pipe(
         switchMap((settingsContractState) => {
@@ -179,35 +203,31 @@ export class ViewDetailComponent implements OnInit {
           );
         }),
         switchMap((verifiedPages) => {
-          const verifiedPagesList = [];
           for (let p of verifiedPages) {
             const vrfdPageId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
-            verifiedPagesList.push(vrfdPageId);
+            verifiedPagesDict[vrfdPageId] = true;
           }
 
-          return this.arwikiQuery.getTXsData(verifiedPagesList);
+          return this.arwikiQuery.getDeletedPagesTX(
+            settingsCS.adminList,
+            Object.keys(verifiedPagesDict),
+            _langCode,
+            _limit,
+            _maxHeight
+          );
         }),
-        switchMap((txs) => {
-          const finalRes: any = [];
-          for (let p of txs) {
-            const title = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
-            const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
-            const category = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
-            const img = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
-            const owner = p.node.owner.address;
-            const id = p.node.id;
-            
-            finalRes.push({
-              title: title,
-              slug: slug,
-              category: category,
-              img: img,
-              owner: owner,
-              id: id
-            });
-            
+        switchMap((deletedPagesTX) => {
+          const deletedPagesDict: Record<string,boolean> = {};
+          for (const p of deletedPagesTX) {
+            const arwikiId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
+            deletedPagesDict[arwikiId] = true;
           }
-          return of(finalRes);
+
+          let finalList = Object.keys(verifiedPagesDict).filter((vpId) => {
+            return !deletedPagesDict[vpId];
+          });
+          
+          return this.arwikiQuery.getTXsData(finalList);
         })
       );
   }

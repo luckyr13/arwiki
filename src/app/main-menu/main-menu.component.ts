@@ -128,17 +128,6 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     this.openedChange.emit(this.opened);
   }
 
-  searchKeyNameInTags(_arr: any[], _key: string) {
-    let res = '';
-    for (const a of _arr) {
-      if (a.name.toUpperCase() === _key.toUpperCase()) {
-        return a.value;
-      }
-    }
-    return res;
-  }
-
-
   getSkeletonLoaderAnimationType() {
     let type = 'progress';
     if (this.defaultTheme === 'arwiki-dark') {
@@ -223,7 +212,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
         }),
         switchMap((verifiedPages) => {
           for (let p of verifiedPages) {
-            const vrfdPageId = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
+            const vrfdPageId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
             verifiedPagesDict[vrfdPageId] = true;
           }
 
@@ -252,9 +241,9 @@ export class MainMenuComponent implements OnInit, OnDestroy {
         switchMap((txs) => {
           const finalRes: any = {};
           for (let p of txs) {
-            const title = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
-            const slug = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
-            const category = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
+            const title = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
+            const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
+            const category = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
             const id = p.node.id;
             if (!Object.prototype.hasOwnProperty.call(finalRes, category)) {
               finalRes[category] = {};

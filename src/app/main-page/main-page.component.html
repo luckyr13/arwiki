@@ -65,7 +65,7 @@
 		      </a>
 		      <a mat-button
 		        routerLink="/{{ routeLang }}/category/{{ cs }}" >
-		        <div mat-line>More</div>
+		        <div mat-line><strong>More</strong></div>
 		      </a>
 		    </mat-expansion-panel>
 		  </mat-accordion>
@@ -93,7 +93,7 @@
 	</div>
 	<div *ngIf="loadingLatestArticles" class="col-12 row">
 		<div class="col-12 col-md-6" *ngFor="let article of [1, 2, 3, 4]">
-			<mat-card class="card-latest-article fadeIn">
+			<mat-card class="card-latest-article-skeleton fadeIn">
 				<p>
 					<ngx-skeleton-loader
 											count="1"
