@@ -193,9 +193,9 @@ export class ViewDetailComponent implements OnInit {
           if (!(_category in categoriesContractState)) {
             throw new Error('Invalid category!');
           }
-
+          
           return this.arwikiQuery.getVerifiedPagesByCategories(
-            settingsCS.adminList,
+            Object.keys(settingsCS.admin_list),
             [_category],
             _langCode,
             _limit,
@@ -209,7 +209,7 @@ export class ViewDetailComponent implements OnInit {
           }
 
           return this.arwikiQuery.getDeletedPagesTX(
-            settingsCS.adminList,
+            Object.keys(settingsCS.admin_list),
             Object.keys(verifiedPagesDict),
             _langCode,
             _limit,

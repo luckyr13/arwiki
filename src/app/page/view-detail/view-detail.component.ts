@@ -102,8 +102,30 @@ export class ViewDetailComponent implements OnInit {
   		slug, langCode, maxHeight, numPages
   	).subscribe({
   		next: async (data) => {
+        const finalRes: any = [];
+        for (let p of data) {
+          const title = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
+          const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
+          const category = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
+          const img = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
+          const owner = p.node.owner.address;
+          const id = p.node.id;
+          const block = p.node.block;
+          
+          finalRes.push({
+            title: title,
+            slug: slug,
+            category: category,
+            img: img,
+            owner: owner,
+            id: id,
+            block: block
+          });
+          
+        }
+
   			// If page exists
-  			if (Array.isArray(data) && data.length > 0) {
+  			if (finalRes.length > 0) {
   				const page: any = data[0];
   				this.pageTitle = page.title ? page.title : '';
   				this.pageImg = page.img ? page.img : '';
@@ -226,9 +248,11 @@ export class ViewDetailComponent implements OnInit {
     _slug: string,
     _langCode: string,
     _maxHeight: number,
-    _limit: number = 1
+    _limit: number = 20
   ) {
     let categoriesCS: any = {};
+    let adminList: string[] = [];
+    const verifiedPagesDict: Record<string, boolean> = {};
     return this._categoriesContract.getState()
       .pipe(
         switchMap((categoriesContractState) => {
@@ -236,8 +260,9 @@ export class ViewDetailComponent implements OnInit {
           return this._settingsContract.getState();
         }),
         switchMap((settingsContractState) => {
+          adminList = Object.keys(settingsContractState.admin_list);
           return this.arwikiQuery.getVerifiedPagesBySlug(
-            Object.keys(settingsContractState.admin_list),
+            adminList,
             [_slug],
             categoriesCS,
             _langCode,
@@ -246,37 +271,31 @@ export class ViewDetailComponent implements OnInit {
           );
         }),
         switchMap((verifiedPages) => {
-          const verifiedPagesList = [];
           for (let p of verifiedPages) {
             const vrfdPageId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
-            verifiedPagesList.push(vrfdPageId);
+            verifiedPagesDict[vrfdPageId] = true;
           }
 
-          return this.arwikiQuery.getTXsData(verifiedPagesList);
+          return this.arwikiQuery.getDeletedPagesTX(
+            adminList,
+            Object.keys(verifiedPagesDict),
+            _langCode,
+            _limit,
+            _maxHeight
+          );
         }),
-        switchMap((txs) => {
-          const finalRes: any = [];
-          for (let p of txs) {
-            const title = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
-            const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
-            const category = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
-            const img = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
-            const owner = p.node.owner.address;
-            const id = p.node.id;
-            const block = p.node.block;
-            
-            finalRes.push({
-              title: title,
-              slug: slug,
-              category: category,
-              img: img,
-              owner: owner,
-              id: id,
-              block: block
-            });
-            
+        switchMap((deletedPagesTX) => {
+          const deletedPagesDict: Record<string,boolean> = {};
+          for (const p of deletedPagesTX) {
+            const arwikiId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
+            deletedPagesDict[arwikiId] = true;
           }
-          return of(finalRes);
+
+          let finalList = Object.keys(verifiedPagesDict).filter((vpId) => {
+            return !deletedPagesDict[vpId];
+          });
+          
+          return this.arwikiQuery.getTXsData(finalList);
         })
       );
   }
