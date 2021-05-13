@@ -416,7 +416,7 @@ export class NewComponent implements OnInit, OnDestroy {
           return this.arwikiQuery.getTXsData(finalList);
         }),
         switchMap((verifiedPages) => {
-          return of(verifiedPages.length);
+          return of(!!verifiedPages.length);
         })
       );
   }
