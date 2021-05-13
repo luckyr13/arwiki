@@ -126,7 +126,7 @@ export class ViewDetailComponent implements OnInit {
 
   			// If page exists
   			if (finalRes.length > 0) {
-  				const page: any = data[0];
+  				const page: any = finalRes[0];
   				this.pageTitle = page.title ? page.title : '';
   				this.pageImg = page.img ? page.img : '';
   				this.pageId = page.id ? page.id : '';
