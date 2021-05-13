@@ -198,6 +198,8 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     _limit: number = 100
   ) {
     let _globalCat: ArwikiCategoryIndex = {};
+    let adminList: string[] = [];
+    const verifiedPagesDict: Record<string, boolean> = {};
     return this._categoriesContract.getState()
       .pipe(
         switchMap((categories: ArwikiCategoryIndex) => {
@@ -205,7 +207,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
           return this._settingsContract.getState();
         }),
         switchMap((settingsContractState) => {
-          let adminList = Object.keys(settingsContractState.admin_list);
+          adminList = Object.keys(settingsContractState.admin_list);
           adminList = adminList.filter((adminAddress) => {
             return settingsContractState.admin_list[adminAddress].active;
           });
@@ -220,12 +222,32 @@ export class MainMenuComponent implements OnInit, OnDestroy {
           );
         }),
         switchMap((verifiedPages) => {
-          const verifiedPagesList = [];
           for (let p of verifiedPages) {
             const vrfdPageId = this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
-            verifiedPagesList.push(vrfdPageId);
+            verifiedPagesDict[vrfdPageId] = true;
           }
-          return this.arwikiQuery.getTXsData(verifiedPagesList);
+
+          return this.arwikiQuery.getDeletedPagesTX(
+            adminList,
+            Object.keys(verifiedPagesDict),
+            _langCode,
+            _limit,
+            _maxHeight
+          );
+        }),
+        switchMap((deletedPagesTX) => {
+          const deletedPagesDict: Record<string,boolean> = {};
+          for (const p of deletedPagesTX) {
+            const arwikiId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
+            deletedPagesDict[arwikiId] = true;
+          }
+
+          let finalList = Object.keys(verifiedPagesDict).filter((vpId) => {
+            return !deletedPagesDict[vpId];
+          });
+
+          
+          return this.arwikiQuery.getTXsData(finalList);
         }),
         switchMap((txs) => {
           const finalRes: any = {};
