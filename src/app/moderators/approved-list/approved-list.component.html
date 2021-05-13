@@ -2,7 +2,7 @@
 <mat-spinner class="spinner-center" *ngIf="loadingApprovedPages"></mat-spinner>
 <div class="container page-container fadeIn">
 
-	<div class="row">
+	<div class="row" *ngIf="!loadingDeletePage && !loadingSetMainPage">
 		<div 
 			class="col-12 card-page fadeIn" 
 			*ngIf="!loadingApprovedPages && (!pages || !pages.length)">
@@ -11,7 +11,7 @@
 
 		<div class="col-12 col-md-6 card-page fadeIn" *ngFor="let p of pages">
 			<mat-card >
-				<h2>
+				<h2 routerLink="../../{{p.slug}}" class="link">
 					{{ p.title }} 
 				</h2>
 				<div>
@@ -44,6 +44,7 @@
 					<a
 						mat-flat-button
 						color="warn"
+						(click)="confirmDeleteArWikiPage(p.slug, p.id, p.category)"
 						matTooltip="Unlist page">
 						<mat-icon>delete</mat-icon>
 					</a>
@@ -51,6 +52,7 @@
 					<a
 						mat-flat-button
 						color="primary"
+						(click)="confirmSetMainArWikiPage(p.slug, p.id, p.category)"
 						matTooltip="Set as Main Page">
 						<mat-icon>star</mat-icon>
 					</a>
@@ -66,12 +68,53 @@
 					<a 
 						mat-flat-button
 						color="primary"
-						matTooltip="View page"
+						matTooltip="View"
 						routerLink="../../{{p.slug}}">
 						<mat-icon>visibility</mat-icon>
 					</a>
 				</div>
 			</mat-card>
+		</div>
+	</div>
+
+	<div class="row fadeIn" *ngIf="loadingDeletePage && !deleteTxMessage">
+		<div class="col text-center">
+			<mat-spinner class="spinner-center"></mat-spinner>
+			<h1 class="text-center">🚀 Hold on! Your transaction is processing ...</h1>
+		</div>
+	</div>
+	<div class="row fadeIn" *ngIf="deleteTxMessage">
+		<div class="col text-center">
+			<h1 class="text-center">💥 Page successfully unlisted!</h1>
+			<p class="text-center">TxID: {{ deleteTxMessage }}</p>
+			<a 
+				mat-button 
+				target="_blank"
+				href="https://viewblock.io/arweave/tx/{{deleteTxMessage}}" 
+				class="text-center">https://viewblock.io/arweave/tx/{{ deleteTxMessage }}
+			</a>
+			
+		</div>
+	</div>
+
+
+	<div class="row fadeIn" *ngIf="loadingSetMainPage && !setMainTxMessage">
+		<div class="col text-center">
+			<mat-spinner class="spinner-center"></mat-spinner>
+			<h1 class="text-center">🚀 Hold on! Your transaction is processing ...</h1>
+		</div>
+	</div>
+	<div class="row fadeIn" *ngIf="setMainTxMessage">
+		<div class="col text-center">
+			<h1 class="text-center">🥳 Page successfully set as Main Page!</h1>
+			<p class="text-center">TxID: {{ deleteTxMessage }}</p>
+			<a 
+				mat-button 
+				target="_blank"
+				href="https://viewblock.io/arweave/tx/{{setMainTxMessage}}" 
+				class="text-center">https://viewblock.io/arweave/tx/{{ setMainTxMessage }}
+			</a>
+			
 		</div>
 	</div>
 

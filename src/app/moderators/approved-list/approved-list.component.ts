@@ -13,6 +13,9 @@ import {
   ArwikiCategoriesContract 
 } from '../../core/arwiki-contracts/arwiki-categories';
 import { ArwikiCategoryIndex } from '../../core/interfaces/arwiki-category-index';
+import { Direction } from '@angular/cdk/bidi';
+import { UserSettingsService } from '../../core/user-settings.service';
+import { Arwiki } from '../../core/arwiki';
 
 @Component({
   templateUrl: './approved-list.component.html',
@@ -24,6 +27,11 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
   approvedPagesSubscription: Subscription = Subscription.EMPTY;
   arwikiQuery!: ArwikiQuery;
   routeLang: string = '';
+  loadingDeletePage: boolean = false;
+  deleteTxMessage: string = '';
+  loadingSetMainPage: boolean = false;
+  setMainTxMessage: string = '';
+  private _arwiki!: Arwiki;
 
   constructor(
   	private _arweave: ArweaveService,
@@ -31,14 +39,18 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
     private _snackBar: MatSnackBar,
     public _dialog: MatDialog,
     private _route: ActivatedRoute,
-    private _categoriesContract: ArwikiCategoriesContract
+    private _categoriesContract: ArwikiCategoriesContract,
+    private _userSettings: UserSettingsService
   ) { }
 
   async ngOnInit() {
     const adminList: any[] = this._auth.getAdminList();
     this.routeLang = this._route.snapshot.paramMap.get('lang')!;
 
-    // Init ardb instance
+    // Init arwiki 
+    this._arwiki = new Arwiki(this._arweave.arweave);
+
+    // Init ardb
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
     // Get pages
     this.loadingApprovedPages = true;
@@ -54,6 +66,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
     }
 
     const owners = [this._auth.getMainAddressSnapshot()];
+    const verifiedPagesDict: Record<string,boolean> = {};
     this.approvedPagesSubscription = this._categoriesContract
       .getState()
       .pipe(
@@ -66,23 +79,43 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
             maxHeight
           );
         }),
-        switchMap((verifiedPages) => {
-          let pages = verifiedPages;
-          let tmp_res = [];
-          for (let p of pages) {
-            tmp_res.push(this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id'));
+
+        switchMap((verifiedPagesTX) => {
+          for (const p of verifiedPagesTX) {
+            const arwikiId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
+            verifiedPagesDict[arwikiId] = true;
           }
-          return this.arwikiQuery.getTXsData(tmp_res);
+          return this.arwikiQuery.getDeletedPagesTX(
+            owners,
+            Object.keys(verifiedPagesDict),
+            this.routeLang,
+            numPages,
+            maxHeight
+          );
+        }),
+        switchMap((deletedPagesTX) => {
+          const deletedPagesDict: Record<string,boolean> = {};
+          for (const p of deletedPagesTX) {
+            const arwikiId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
+            deletedPagesDict[arwikiId] = true;
+          }
+
+          let finalList = Object.keys(verifiedPagesDict).filter((vpId) => {
+            return !deletedPagesDict[vpId];
+          });
+
+          
+          return this.arwikiQuery.getTXsData(finalList);
         }),
         switchMap((pages) => {
-          let tmp_res = [];
+          let tmp_res: ArwikiPage[] = [];
           for (let p of pages) {
             tmp_res.push({
               id: p.node.id,
-              title: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title'),
-              slug: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug'),
-              category: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category'),
-              language: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang'),
+              title: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title'),
+              slug: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug'),
+              category: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category'),
+              language: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang'),
               owner: p.node.owner.address,
               block: p.node.block
             });
@@ -126,16 +159,6 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
     }
   }
 
-  searchKeyNameInTags(_arr: any[], _key: string) {
-    let res = '';
-    for (const a of _arr) {
-      if (a.name.toUpperCase() === _key.toUpperCase()) {
-        return a.value;
-      }
-    }
-    return res;
-  }
-
   underscoreToSpace(_s: string) {
     return _s.replace(/[_]/gi, ' ');
   }
@@ -144,6 +167,86 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
   timestampToDate(_time: number) {
     let d = new Date(_time * 1000);
     return d;
+  }
+
+  confirmDeleteArWikiPage(
+    _slug: string,
+    _pageId: string,
+    _category_slug: string
+  ) {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
+    const dialogRef = this._dialog.open(DialogConfirmComponent, {
+      data: {
+        title: 'Are you sure?',
+        content: 'You are about to remove an arwiki page from the index. Do you want to proceed?'
+      },
+      direction: direction
+    });
+
+    dialogRef.afterClosed().subscribe(async (result) => {
+      if (result) {
+        // Create "delete" tx
+        this.loadingDeletePage = true;
+        try {
+          const tx = await this._arwiki.createDeleteTXForArwikiPage(
+            _pageId,
+            _slug,
+            _category_slug,
+            this.routeLang,
+            this._auth.getPrivateKey()
+          ); 
+
+          this.deleteTxMessage = tx;
+          this.message('Success!', 'success');
+        } catch (error) {
+          this.message(error, 'error');
+        }
+
+      }
+    });
+  }
+
+  confirmSetMainArWikiPage(
+    _slug: string,
+    _pageId: string,
+    _category_slug: string
+  ) {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
+    const dialogRef = this._dialog.open(DialogConfirmComponent, {
+      data: {
+        title: 'Are you sure?',
+        content: `You are about to set ${_slug} as the main page. Do you want to proceed?`
+      },
+      direction: direction
+    });
+
+    dialogRef.afterClosed().subscribe(async (result) => {
+      if (result) {
+        // Create "Mainpage" tx
+        this.loadingSetMainPage = true;
+        try {
+          const tx = await this._arwiki.createMainPageTXForArwikiPage(
+            _pageId,
+            _slug,
+            _category_slug,
+            this.routeLang,
+            this._auth.getPrivateKey()
+          ); 
+
+          this.setMainTxMessage = tx;
+          this.message('Success!', 'success');
+        } catch (error) {
+          this.message(error, 'error');
+        }
+
+      }
+    });
   }
 
 }
