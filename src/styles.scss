@@ -266,3 +266,18 @@ p {
 .mini-text, .mini-text a.mat-button {
   font-size: 12px !important;
 }
+
+.article-data h1, 
+.article-data h2, 
+.article-data h3, 
+.article-data h4,
+.article-data h5 {
+  font-size: 18px;
+}
+
+.article-data img {
+  text-align: center;
+  max-width: 80%;
+  margin: 0 auto;
+  display: block;
+}
