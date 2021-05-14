@@ -1,10 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { ArwikiPage } from '../../core/interfaces/arwiki-page';
+import * as marked from 'marked';
+import DOMPurify from 'dompurify';
+
 
 @Component({
   selector: 'app-article-card',
   templateUrl: './article-card.component.html',
-  styleUrls: ['./article-card.component.scss']
+  styleUrls: ['./article-card.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ArticleCardComponent implements OnInit {
 
@@ -15,8 +19,9 @@ export class ArticleCardComponent implements OnInit {
 
   @Input() article!: ArwikiPage;
   @Input() articleData: string = '';
-  @Input() routeLang: string = ''
-  @Input() baseURL: string = ''
+  @Input() routeLang: string = '';
+  @Input() baseURL: string = '';
+  @Input() defaultTheme: string = '';
 
   sanitizeMarkdown(_s: string, _maxLength: number = 250) {
     _s = _s.replace(/[#*=\[\]]/gi, '')
@@ -34,5 +39,14 @@ export class ArticleCardComponent implements OnInit {
   timestampToDate(_time: number) {
     let d = new Date(_time * 1000);
     return d;
+  }
+
+  /*
+  *  @dev Sanitize HTML
+  */
+  markdownToHTML(_markdown: string) {
+    var html = marked(_markdown);
+    var clean = DOMPurify.sanitize(html);
+    return html;
   }
 }

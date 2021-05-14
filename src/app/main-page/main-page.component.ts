@@ -11,6 +11,9 @@ import { AuthService } from '../auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ArwikiCategoryIndex } from '../core/interfaces/arwiki-category-index';
 import { ArwikiAdminList } from '../core/interfaces/arwiki-admin-list';
+import { ArwikiPage } from '../core/interfaces/arwiki-page';
+import * as marked from 'marked';
+import DOMPurify from 'dompurify';
 
 @Component({
   selector: 'app-main-page',
@@ -31,13 +34,13 @@ export class MainPageComponent implements OnInit, OnDestroy {
   appSettingsSubscription: Subscription = Subscription.EMPTY;
   loadingLogo: boolean = false;
   loadingLatestArticles: boolean = false;
-  latestArticles: any[] = [];
-  latestArticlesData: any;
+  latestArticles: ArwikiPage[] = [];
+  latestArticlesData: Record<string, string> = {};
   arwikiQuery!: ArwikiQuery;
   pagesSubscription: Subscription = Subscription.EMPTY;
   routeLang: string = '';
   baseURL = this._arweave.baseURL;
-  pagesByCategory: any = {};
+  pagesByCategory: Record<string, ArwikiPage[]> = {};
 
   constructor(
     private _userSettings: UserSettingsService,
@@ -85,6 +88,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
             const owner = p.node.owner.address;
             const id = p.node.id;
             const block = p.node.block;
+            const language = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang');
+            
             
             if (!Array.isArray(this.pagesByCategory[category])) {
               this.pagesByCategory[category] = [];
@@ -96,7 +101,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
               img: img,
               owner: owner,
               id: id,
-              block: block
+              block: block,
+              language: language
             });
 
           }
@@ -134,12 +140,13 @@ export class MainPageComponent implements OnInit, OnDestroy {
         numArticles, this.routeLang, maxHeight
       ).subscribe({
       next: async (pages) => {
-        const latestPages: any = [];
+        const latestPages: ArwikiPage[] = [];
         for (let p of pages) {
           const title = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
           const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
           const category = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
           const img = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
+          const language = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang');
           const owner = p.node.owner.address;
           const id = p.node.id;
           const block = p.node.block;
@@ -151,7 +158,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
             img: img,
             owner: owner,
             id: id,
-            block: block
+            block: block,
+            language: language
           });
         }
         this.latestArticles = latestPages;
@@ -393,6 +401,15 @@ export class MainPageComponent implements OnInit, OnDestroy {
       })
       
     );
+  }
+
+  /*
+  *  @dev Sanitize HTML
+  */
+  markdownToHTML(_markdown: string) {
+    var html = marked(_markdown);
+    var clean = DOMPurify.sanitize(html);
+    return html;
   }
 
 }

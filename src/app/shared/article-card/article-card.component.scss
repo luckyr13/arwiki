@@ -26,3 +26,56 @@ a.mat-button{
 .card-btn {
 	color: inherit;
 }
+
+.fade-out {
+	height: 130px;
+	position: absolute;
+	bottom: 0;
+	display: block;
+	width: 100%;
+  background-image: url('/assets/img/bottom-fade.png');
+  background-repeat: repeat-x;
+}
+
+.fade-out-black {
+  background-image: url('/assets/img/bottom-fade-black.png');
+}
+
+
+
+.article-title {
+	margin-bottom: 0px;
+}
+
+.article-data-wrapper {
+	position: relative;
+}
+
+.article-data {
+	max-height: 380px;
+	overflow: hidden;
+}
+
+
+.article-data a {
+	color: inherit;
+}
+
+.article-data h1, 
+.article-data h2, 
+.article-data h3, 
+.article-data h4,
+.article-data h5 {
+	font-size: 18px;
+}
+
+.article-data img {
+	text-align: center;
+	max-width: 80%;
+	margin: 0 auto;
+	display: block;
+}
+
+.padt-footer-card {
+	padding-top: 30px;
+}

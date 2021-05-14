@@ -28,9 +28,9 @@
 			<h1 class="text-left main-title">
 				{{ 'MAIN_PAGE.TITLE_L1' | translate }}
 			</h1>
-			<h4 class="text-left secondary-title">
+			<p class="text-left secondary-title">
 				{{ 'MAIN_PAGE.SUBTITLE_L1' | translate }}
-			</h4>
+			</p>
 
 		</div>
 		<div class="col-1 sep-column">
@@ -88,6 +88,7 @@
 							[article]="article" 
 							[articleData]="latestArticlesData[article.id]" 
 							[routeLang]="routeLang" 
+							[defaultTheme]="defaultTheme"
 							[baseURL]="baseURL"></app-article-card>
 		</div>
 	</div>

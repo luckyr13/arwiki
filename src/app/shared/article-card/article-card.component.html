@@ -3,13 +3,22 @@
 				  *ngIf="!articleData"
 				  class="fadeIn"></mat-progress-bar>
 <mat-card class="card-latest-article fadeIn">
-	<h2 routerLink="/{{routeLang}}/{{article.slug}}">
+	<h2 class="article-title ellipsis" routerLink="/{{routeLang}}/{{article.slug}}">
 		{{ article.title }}
 	</h2>
-	<p class="word-break" *ngIf="articleData">
-		{{ sanitizeMarkdown(articleData) }}
-	</p>
-	<p class="mini-text ellipsis">
+	<div class="article-data-wrapper">
+		<div 
+			class="fade-out" 
+			*ngIf="articleData"
+			[class.fade-out-black]="defaultTheme === 'arwiki-dark'"></div>
+		<p 
+			class="article-data word-break" 
+			*ngIf="articleData" 
+			[innerHTML]="markdownToHTML(articleData)">
+		</p>
+	</div>
+
+	<p class="mini-text ellipsis padt-footer-card">
 		<strong>{{ 'GENERAL.CARDS.ARTICLE.CATEGORY' | translate }} </strong>
 		<a
 		   mat-button
@@ -36,7 +45,6 @@
 	<p class="text-right">
 		<a
 		  mat-button
-		  color="primary"
 		  class="card-btn"
 		  routerLink="/{{routeLang}}/{{article.slug}}">
 			{{ 'GENERAL.BUTTONS.VIEW_ARTICLE' | translate }}
