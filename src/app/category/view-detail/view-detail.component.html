@@ -26,7 +26,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="row">
+	<div class="row" *ngIf="!loadingPages">
 		<div class="col-12 col-md-6 card-page fadeIn" *ngFor="let p of pages">
 			<app-article-card 
 					[article]="p" 

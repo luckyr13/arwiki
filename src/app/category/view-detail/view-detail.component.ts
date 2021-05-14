@@ -40,8 +40,19 @@ export class ViewDetailComponent implements OnInit {
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
   	this.category = this._route.snapshot.paramMap.get('category')!;
     this.routeLang = this._route.snapshot.paramMap.get('lang')!;
-    this.loadingPages = true;
 
+    this._route.paramMap.subscribe(async params => {
+      this.routeLang = params.get('lang')!;
+      this.category = params.get('category')!;
+      await this._loadContent();
+    });
+    
+    
+
+  }
+
+  private async _loadContent() {
+    this.loadingPages = true;
     let networkInfo;
     let maxHeight = 0;
     try {
@@ -53,11 +64,11 @@ export class ViewDetailComponent implements OnInit {
     }
 
     this.pagesSubscription = this.getPagesByCategory(
-    	this.category,
+      this.category,
       this.routeLang,
       maxHeight
     ).subscribe({
-    	next: async (pages) => {
+      next: async (pages) => {
         const finalRes: ArwikiPage[] = [];
         for (let p of pages) {
           const title = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
@@ -80,7 +91,7 @@ export class ViewDetailComponent implements OnInit {
           
         }
 
-    		this.pages = finalRes;
+        this.pages = finalRes;
         this.pagesData = {};
         this.loadingPages = false;
 
@@ -108,11 +119,11 @@ export class ViewDetailComponent implements OnInit {
           this.arverifyProcessedAddressesMap[p.owner] = arverifyQuery;
         }
         
-    	},
-    	error: (error) => {
-    		this.message(error, 'error');
-    		this.loadingPages = false;
-    	}
+      },
+      error: (error) => {
+        this.message(error, 'error');
+        this.loadingPages = false;
+      }
     });
   }
 
