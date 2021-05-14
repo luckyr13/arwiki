@@ -21,10 +21,15 @@
 	margin-top: 20px;
 }
 
-.secondary-title {
+.secondary-title, .secondary-mainPTX-content {
 	margin-top: 10px;
 	margin-bottom: 10px;
 	font-weight: normal !important;
+	color: inherit;
+}
+
+.secondary-mainPTX-content a {
+	color: inherit;
 }
 
 .main-title {
@@ -36,7 +41,6 @@
 .main-logo {
 	float: left;
 	width: 120px;
-	margin-top: 40px;
 	margin-right: 30px;
 }
 

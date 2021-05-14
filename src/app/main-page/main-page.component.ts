@@ -41,6 +41,9 @@ export class MainPageComponent implements OnInit, OnDestroy {
   routeLang: string = '';
   baseURL = this._arweave.baseURL;
   pagesByCategory: Record<string, ArwikiPage[]> = {};
+  mainPage: ArwikiPage = null!;
+  mainPageSubscription: Subscription = Subscription.EMPTY;
+  loadingMainPageTX: boolean = false;
 
   constructor(
     private _userSettings: UserSettingsService,
@@ -59,6 +62,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.loadingLogo = true;
     this.loadingLatestArticles = true;
+    this.loadingMainPageTX = true;
+
     // Init ardb instance
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
 
@@ -73,7 +78,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     }
 
     // Get categories (portals)
-    let maxPagesByCategory = 10;
+    let maxPagesByCategory = 20;
     this.categoriesSubscription = this.getPagesByCategory(
         maxPagesByCategory, this.routeLang, maxHeight
       )
@@ -134,7 +139,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
       });
 
     // Get latest articles 
-    const numArticles = 10;
+    const numArticles = 6;
 
     this.pagesSubscription = this.getLatestArticles(
         numArticles, this.routeLang, maxHeight
@@ -179,6 +184,48 @@ export class MainPageComponent implements OnInit, OnDestroy {
         this.loadingLatestArticles = false;
       }
     });
+
+      // Get main page tx
+    this.mainPageSubscription = this.getMainPageTX(
+        this.routeLang, maxHeight
+      )
+      .subscribe({
+        next: async (txs: any[]) => {
+          for (let p of txs) {
+            const title = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
+            const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
+            const category = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
+            const img = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
+            const owner = p.node.owner.address;
+            const id = p.node.id;
+            const block = p.node.block;
+            const language = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang');
+            
+            this.mainPage = {
+              title: title,
+              slug: slug,
+              category: category,
+              img: img,
+              owner: owner,
+              id: id,
+              block: block,
+              language: language
+            };
+
+            this.mainPage.content = await this._arweave.arweave.transactions.getData(
+              id, {decode: true, string: true}
+            );
+
+            break;
+          }
+
+          this.loadingMainPageTX = false;
+        },
+        error: (error) => {
+          this.message(`Error: ${error}`, 'error')
+          this.loadingMainPageTX = false;
+        },
+      })
   }
 
   async ngOnInit() {
@@ -275,10 +322,10 @@ export class MainPageComponent implements OnInit, OnDestroy {
   	return type;
   }
 
-  getSkeletonLoaderThemeNgStyle() {
+  getSkeletonLoaderThemeNgStyle(width: string = '100%') {
   	let ngStyle: any = {
   		'height.px': '30',
-  		'width': '100%'
+  		'width': width
   	};
   	if (this.defaultTheme === 'arwiki-dark') {
   		ngStyle['background-color'] = '#3d3d3d';
@@ -292,7 +339,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
       'height.px': '120',
       'width.px': '120',
       'float': 'left',
-      'margin-top.px': '40',
       'margin-right.px': '30'
     };
     if (this.defaultTheme === 'arwiki-dark') {
@@ -315,10 +361,10 @@ export class MainPageComponent implements OnInit, OnDestroy {
     return ngStyle;
   }
 
-  getSkeletonLoaderThemeNgStylePLine() {
+  getSkeletonLoaderThemeNgStylePLine(width: string = '100%') {
     let ngStyle: any = {
       'height.px': '20',
-      'width': '100%',
+      'width': width,
     };
     if (this.defaultTheme === 'arwiki-dark') {
       ngStyle['background-color'] = '#3d3d3d';
@@ -410,6 +456,72 @@ export class MainPageComponent implements OnInit, OnDestroy {
     var html = marked(_markdown);
     var clean = DOMPurify.sanitize(html);
     return html;
+  }
+
+  /*
+  *  @dev Get latest main page TX
+  */
+  getMainPageTX(langCode: string, height: number) {
+    let admins: string[] = [];
+    let numArticles = 10;
+    const verifiedPagesDict: Record<string, boolean> = {};
+    return this._arwikiSettings.getAdminList().pipe(
+      switchMap((adminList: ArwikiAdminList) => {
+        admins = Object.keys(adminList);
+        admins = admins.filter((adminAddress) => {
+          return adminList[adminAddress].active;
+        });
+        return this._categoriesContract.getState();
+      }),
+      switchMap((categories: ArwikiCategoryIndex) => {
+        this.categories = categories;
+        this.categoriesSlugs = Object.keys(this.categories)
+           .sort((f1: any, f2: any) => {
+          if (this.categories[f1].order < this.categories[f2].order) {
+            return -1;
+          }
+          if (this.categories[f1].order > this.categories[f2].order) {
+            return 1;
+          }
+          // a must be equal to b
+          return 0;
+        });
+
+        return this.arwikiQuery.getMainPageTX(
+          admins, Object.keys(categories), langCode, numArticles, height
+        );
+      }),
+      switchMap((verifiedPages) => {
+        for (let p of verifiedPages) {
+          const vrfdPageId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
+          verifiedPagesDict[vrfdPageId] = true;
+        }
+
+        return this.arwikiQuery.getDeletedPagesTX(
+          admins,
+          Object.keys(verifiedPagesDict),
+          langCode,
+          numArticles,
+          height
+        );
+      }),
+      switchMap((deletedPagesTX) => {
+        const deletedPagesDict: Record<string,boolean> = {};
+        for (const p of deletedPagesTX) {
+          const arwikiId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
+          deletedPagesDict[arwikiId] = true;
+        }
+
+        let finalList = Object.keys(verifiedPagesDict).filter((vpId) => {
+          return !deletedPagesDict[vpId];
+        });
+
+        finalList = finalList.length ? [finalList[0]] : [];
+        
+        return this.arwikiQuery.getTXsData(finalList);
+      })
+      
+    );
   }
 
 }

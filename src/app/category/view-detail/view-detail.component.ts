@@ -10,6 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { switchMap } from 'rxjs/operators';
 import { ArwikiPage } from '../../core/interfaces/arwiki-page';
+import { UserSettingsService } from '../../core/user-settings.service';
 
 @Component({
   templateUrl: './view-detail.component.html',
@@ -25,6 +26,7 @@ export class ViewDetailComponent implements OnInit {
   pagesData: any = {};
   baseURL: string = this._arweave.baseURL;
   arverifyProcessedAddressesMap: any = {};
+  defaultTheme: string = '';
 
   constructor(
   	private _arweave: ArweaveService,
@@ -33,6 +35,7 @@ export class ViewDetailComponent implements OnInit {
   	private _snackBar: MatSnackBar,
   	private _route: ActivatedRoute,
     private _location: Location,
+    private _userSettings: UserSettingsService
  	) { }
 
   async ngOnInit() {
@@ -40,6 +43,8 @@ export class ViewDetailComponent implements OnInit {
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
   	this.category = this._route.snapshot.paramMap.get('category')!;
     this.routeLang = this._route.snapshot.paramMap.get('lang')!;
+
+    this.getDefaultTheme();
 
     this._route.paramMap.subscribe(async params => {
       this.routeLang = params.get('lang')!;
@@ -241,6 +246,16 @@ export class ViewDetailComponent implements OnInit {
           return this.arwikiQuery.getTXsData(finalList);
         })
       );
+  }
+
+
+  getDefaultTheme() {
+    this.defaultTheme = this._userSettings.getDefaultTheme();
+    this._userSettings.defaultThemeStream.subscribe(
+      (theme) => {
+        this.defaultTheme = theme;
+      }
+    );
   }
 
 }

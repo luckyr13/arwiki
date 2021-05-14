@@ -6,16 +6,14 @@
 <div class="container main-page-container fadeIn">
 	<div class="row">
 		<div class="col-12 col-md-7 text-center">
-			<div *ngIf="loadingLogo" class="fadeIn">
-				<div class="text-center">
-					<ngx-skeleton-loader
-										 count="1"
-										 appearance="circle"
-										 [animation]="getSkeletonLoaderAnimationType()"
-										 [theme]="getSkeletonLoaderThemeNgStyle2()"></ngx-skeleton-loader>
-				</div>
+			<div *ngIf="loadingLogo || loadingMainPageTX" class="fadeIn">
+				<mat-spinner class="main-logo"></mat-spinner>
+				<h3 class="text-left fadeIn">
+					Loading ...
+				</h3>
 			</div>
-			<div *ngIf="!loadingLogo" class="fadeIn">
+			<!-- Display Main Page TX content -->
+			<div *ngIf="!loadingLogo && !loadingMainPageTX && mainPage" class="fadeIn">
 				<img
 					 *ngIf="defaultTheme === 'arwiki-dark' && appLogoLight"
 					 class="main-logo"
@@ -24,13 +22,34 @@
 					 *ngIf=" defaultTheme === 'arwiki-light' && appLogoDark"
 					 class="main-logo"
 					 [src]="appLogoDark">
+				<h1 class="text-left main-title fadeIn">
+					{{ mainPage.title }}
+				</h1>
+				<div 
+					*ngIf="mainPage.content" 
+					class="text-justify secondary-mainPTX-content fadeIn"
+					[innerHTML]="markdownToHTML(mainPage.content)"></div>
+
 			</div>
-			<h1 class="text-left main-title">
-				{{ 'MAIN_PAGE.TITLE_L1' | translate }}
-			</h1>
-			<p class="text-left secondary-title">
-				{{ 'MAIN_PAGE.SUBTITLE_L1' | translate }}
-			</p>
+			<!-- Default if not Main Page is found -->
+			<div *ngIf="!loadingLogo && !loadingMainPageTX && !mainPage" class="fadeIn">
+				<img
+					 *ngIf="defaultTheme === 'arwiki-dark' && appLogoLight"
+					 class="main-logo"
+					 [src]="appLogoLight">
+				<img
+					 *ngIf=" defaultTheme === 'arwiki-light' && appLogoDark"
+					 class="main-logo"
+					 [src]="appLogoDark">
+				<h1 *ngIf="!loadingMainPageTX" class="text-left main-title fadeIn">
+					{{ 'MAIN_PAGE.TITLE_L1' | translate }}
+				</h1>
+				<p 
+					*ngIf="!loadingMainPageTX " 
+					class="text-left secondary-title fadeIn">
+					{{ 'MAIN_PAGE.SUBTITLE_L1' | translate }}
+				</p>
+			</div>
 
 		</div>
 		<div class="col-1 sep-column">

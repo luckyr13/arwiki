@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ArwikiPage } from '../../core/interfaces/arwiki-page';
 import * as marked from 'marked';
 import DOMPurify from 'dompurify';
@@ -7,8 +7,7 @@ import DOMPurify from 'dompurify';
 @Component({
   selector: 'app-article-card',
   templateUrl: './article-card.component.html',
-  styleUrls: ['./article-card.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['./article-card.component.scss']
 })
 export class ArticleCardComponent implements OnInit {
 
