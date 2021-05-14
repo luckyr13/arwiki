@@ -47,6 +47,12 @@
         routerLinkActive="active">
         <div mat-line>{{ page.title }}</div>
       </a>
+      <a mat-list-item 
+        (click)="toggleSideMenu()" 
+        routerLink="{{ routerLang }}/category/{{ cs }}" 
+        routerLinkActive="active">
+        <div mat-line>View all</div>
+      </a>
     </mat-expansion-panel>
   </mat-accordion>
 
