@@ -376,7 +376,7 @@ export class ArwikiQuery {
 
 
   /*
-  * @dev
+  * @dev Search engine
   */
   getVerifiedTagsFromQueries(
     owners: string[],
@@ -456,6 +456,57 @@ export class ArwikiQuery {
         .from(owners)
         .max(maxHeight)
         .tags(tags).find().then((res) => {
+          subscriber.next(res);
+          subscriber.complete();
+        })
+        .catch((error) => {
+          subscriber.error(error);
+        });
+
+    });
+    return obs;
+  }
+
+  /*
+  * @dev The latest MainPage TX is considerated as the right one
+  */
+  getMainPageTX(
+    owners: string[],
+    categories: string[],
+    langCode: string,
+    limit: number = 1,
+    maxHeight: number = 0
+  ): Observable<any> {
+    const tags = [
+      {
+        name: 'Service',
+        values: ['ArWiki'],
+      },
+      {
+        name: 'Arwiki-Type',
+        values: ['MainPage'],
+      },
+      {
+        name: 'Arwiki-Version',
+        values: arwikiVersion,
+      },
+      {
+        name: 'Arwiki-Page-Lang',
+        values: [langCode]
+      },
+      {
+        name: 'Arwiki-Page-Category',
+        values: categories
+      }
+    ];
+
+    const obs = new Observable((subscriber) => {
+      this._ardb!.search('transactions')
+        .limit(limit)
+        .from(owners)
+        .max(maxHeight)
+        .tags(tags)
+        .find().then((res) => {
           subscriber.next(res);
           subscriber.complete();
         })
