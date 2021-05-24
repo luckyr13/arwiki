@@ -11,7 +11,7 @@ import { ArweaveService } from '../arweave.service';
 })
 export class ArwikiTokenContract
 {
-	private _contractAddress: string = '';
+	private _contractAddress: string = '4D75y3eG0USBZO2bq2PJtpe1f2f8rX7-K9UkE14HgPs';
 	private _state: any = {};
 
 	constructor(private _arweave: ArweaveService) {
