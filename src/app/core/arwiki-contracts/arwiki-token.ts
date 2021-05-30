@@ -12,7 +12,7 @@ import { map } from 'rxjs/operators';
 })
 export class ArwikiTokenContract
 {
-	private _contractAddress: string = '6WcW76RgDtZ9yi0RfSIHZ8aPCcsfMzeCTUO5e-uaX78';
+	private _contractAddress: string = 'l6lXn5yYIJ0fHaaxGgeuPAy5l0UgmDnEGoYR4J3CCMs';
 	private _state: any = {};
 	private _adminList: string[] = [];
 

@@ -6,7 +6,7 @@ export async function handle(state, action)
 	const _msgSender = SmartWeave.transaction.owner;
 	const _to = SmartWeave.transaction.target;
 	const _tags = SmartWeave.transaction.tags;
-	const SETTINGS_CONTRACT = 'LWou280IGIbtK58-FYKIhBklXLt9rtXpu3dJzhNRrw8';
+	const SETTINGS_CONTRACT = 'l6lXn5yYIJ0fHaaxGgeuPAy5l0UgmDnEGoYR4J3CCMs';
 
   /*
 	*	@dev Add language
@@ -17,7 +17,9 @@ export async function handle(state, action)
 		const settingsContractState = await SmartWeave.contracts.readContractState(
 			SETTINGS_CONTRACT
 		);
-    const adminList = settingsContractState.admin_list;
+    const adminList = Object.keys(settingsContractState.roles).filter((address) => {
+			return settingsContractState.roles[address].toUpperCase() === 'MODERATOR';
+		});
     // Validate _msgSender in admins list
     _modifier_validateAdmin(_msgSender, adminList);
     // Validate inputs
