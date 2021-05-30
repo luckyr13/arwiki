@@ -1,0 +1,10 @@
+<mat-progress-bar 
+		mode="indeterminate"
+		*ngIf="loading"
+		class="fadeIn"></mat-progress-bar>
+<mat-card>
+	<div class="text-center">
+			<span class="bn">{{ balance }}</span> {{ unit }}
+	</div>
+	<div class="text-center"><strong>{{ label }}</strong></div>
+</mat-card>
