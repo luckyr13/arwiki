@@ -8,4 +8,5 @@ export interface ArwikiPage {
 	content?: string;
 	img?: string;
 	block?: any;
+	value?: number;
 }

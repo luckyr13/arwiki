@@ -384,12 +384,12 @@ export function handle(state, action) {
     if (typeof pageTX !== 'string' || !pageTX.trim().length) {
       throw new Error("PageTX must be specified");
     }
-    if (pageTx in pages) {
+    if (pageTX in pages) {
       throw new Error("Page is already approved");
     }
     if (Object.prototype.hasOwnProperty.call(stakes, caller) &&
-        stakes[caller][pageTx]) {
-      throw new Error("User is already staking for this page");
+        stakes[caller][pageTX]) {
+      throw new Error("User is already staking on this page");
     }
     if (isNaN(balance) || balance < value) {
       throw new ContractError("Not enough balance.");
@@ -401,10 +401,10 @@ export function handle(state, action) {
     if (!Object.prototype.hasOwnProperty.call(stakes, caller)) {
       stakes[caller] = {};
     }
-    stakes[caller][pageTx] = value;
-    pages[pageTx] = {
+    stakes[caller][pageTX] = value;
+    pages[pageTX] = {
       author,
-      content: pageTx,
+      content: pageTX,
       sponsor: caller,
       value,
       start,
@@ -423,10 +423,10 @@ export function handle(state, action) {
       throw new Error("PageTX must be specified");
     }
     if (pages[pageTX] && pages[pageTX].author === author &&
-        currentHeight >= pages[page[TX]].pageRewardOn &&
-        !pages[page[TX]].paidOn) {
-      balances[author] += pages[page[TX]].value;
-      pages[page[TX]].paidOn = currentHeight;
+        currentHeight >= pages[pageTX].pageRewardOn &&
+        !pages[pageTX].paidOn) {
+      balances[author] += pages[pageTX].value;
+      pages[pageTX].paidOn = currentHeight;
     }
     return {state};
   }
@@ -447,11 +447,11 @@ export function handle(state, action) {
     if (typeof pageTX !== 'string' || !pageTX.trim().length) {
       throw new Error("PageTX must be specified");
     }
-    if (!(pageTx in pages)) {
+    if (!(pageTX in pages)) {
       throw new Error("Page must be approved first!");
     }
     if (Object.prototype.hasOwnProperty.call(stakes, caller) &&
-        stakes[caller][pageTx]) {
+        stakes[caller][pageTX]) {
       throw new Error("User is already staking for this page");
     }
     if (isNaN(balance) || balance < value) {
@@ -460,26 +460,26 @@ export function handle(state, action) {
     if (totalSupply + value > Number.MAX_SAFE_INTEGER) {
       throw new ContractError("'value' too large.");
     }
-    const previousSponsor = pages[pageTx].sponsor;
-    const previousValue = pages[pageTx].value;
+    const previousSponsor = pages[pageTX].sponsor;
+    const previousValue = pages[pageTX].value;
 
     balances[caller] -= value;
     balances[previousSponsor] += previousValue;
-    delete stakes[previousSponsor][pageTx];
+    delete stakes[previousSponsor][pageTX];
 
     if (!Object.prototype.hasOwnProperty.call(stakes, caller)) {
       stakes[caller] = {};
     }
-    stakes[caller][pageTx] = value;
-    pages[pageTx].sponsor = caller;
-    pages[pageTx].value = value;
-    if (pages[pageTx].paidOn) {
-      balances[pages[pageTx].author] += value - previousValue;
-      pages[pageTx].paidOn = currentHeight;
+    stakes[caller][pageTX] = value;
+    pages[pageTX].sponsor = caller;
+    pages[pageTX].value = value;
+    pages[pageTX].active = true;
+    if (pages[pageTX].paidOn) {
+      balances[pages[pageTX].author] += value - previousValue;
+      pages[pageTX].paidOn = currentHeight;
     }
     return { state };
   }
-
   if (input.function === "stopPageSponsorshipAndDeactivatePage") {
     const pageTX = input.pageTX;
     const role = caller in state.roles ? state.roles[caller] : "";
@@ -490,25 +490,48 @@ export function handle(state, action) {
     if (typeof pageTX !== 'string' || !pageTX.trim().length) {
       throw new Error("PageTX must be specified");
     }
-    if (!(pageTx in pages)) {
+    if (!(pageTX in pages)) {
       throw new Error("Page must be approved first!");
     }
     if (!Object.prototype.hasOwnProperty.call(stakes, caller) ||
-        !stakes[caller][pageTx]) {
+        !stakes[caller][pageTX]) {
       throw new Error("User is not staking for this page");
     }
 
-    const currentSponsor = pages[pageTx].sponsor;
-    const currentValue = pages[pageTx].value;
+    const currentSponsor = pages[pageTX].sponsor;
+    const currentValue = pages[pageTX].value;
 
     balances[currentSponsor] += currentValue;
-    delete stakes[currentSponsor][pageTx];
+    delete stakes[currentSponsor][pageTX];
 
-    pages[pageTx].sponsor = '';
-    pages[pageTx].value = 0;
-    pages[pageTx].active = false;
+    pages[pageTX].sponsor = '';
+    pages[pageTX].value = 0;
+    pages[pageTX].active = false;
     
     return { state };
+  }
+  if (input.function === "balanceDetail") {
+    const target = input.target || caller;
+    if (typeof target !== "string") {
+      throw new ContractError("Must specificy target to get balance for.");
+    }
+    let unlockedBalance = 0;
+    let vaultBalance = 0;
+    let stakingBalance = 0;
+    if (target in balances) {
+      unlockedBalance = balances[target];
+    }
+    if (target in vault && vault[target].length) {
+      try {
+        vaultBalance += vault[target].map((a) => a.balance).reduce((a, b) => a + b, 0);
+      } catch (e) {
+      }
+    }
+    const stakingDict = stakes[target] ? stakes[target] : {};
+    for (const vPage of Object.keys(stakingDict)) {
+      stakingBalance += stakes[target][vPage];
+    }
+    return {result: {target, unlockedBalance, vaultBalance, stakingBalance}};
   }
   throw new ContractError(`No function supplied or function not recognised: "${input.function}"`);
 }

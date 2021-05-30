@@ -3,16 +3,19 @@ import {
 	createContract, interactRead
 } from 'smartweave';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ArweaveService } from '../arweave.service';
+import { ArwikiAdminList } from '../interfaces/arwiki-admin-list';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArwikiTokenContract
 {
-	private _contractAddress: string = '4D75y3eG0USBZO2bq2PJtpe1f2f8rX7-K9UkE14HgPs';
+	private _contractAddress: string = '6WcW76RgDtZ9yi0RfSIHZ8aPCcsfMzeCTUO5e-uaX78';
 	private _state: any = {};
+	private _adminList: string[] = [];
 
 	constructor(private _arweave: ArweaveService) {
 	}
@@ -24,15 +27,19 @@ export class ArwikiTokenContract
 	/*
 	*	@dev Get full contract state as Observable
 	*/
-	getState(): Observable<any> {
+	getState(reload: boolean = false): Observable<any> {
 		const obs = new Observable<any>((subscriber) => {
-			if (Object.keys(this._state).length > 0) {
+			if (Object.keys(this._state).length > 0 && !reload) {
 				subscriber.next(this._state);
 				subscriber.complete();
 			} else {
 				readContract(this._arweave.arweave, this._contractAddress)
 					.then((state: any) => {
 						this._state = state;
+						this._adminList = Object.keys(state.roles).filter((address) => {
+							return state.roles[address].toUpperCase() === 'MODERATOR';
+						});
+
 						subscriber.next(state);
 						subscriber.complete();
 					}).catch((error) => {
@@ -44,5 +51,78 @@ export class ArwikiTokenContract
 
 		return obs;
 	}
+
+	/*
+	*	@dev Get only the admin list from full state contract
+	*/
+	getAdminList(): Observable<string[]> {
+		return this.getState().pipe((_state: any) => {
+			this._adminList = Object.keys(_state.roles).filter((address) => {
+				return _state.roles[address].toUpperCase() === 'MODERATOR';
+			});
+			return of(this._adminList);
+		});
+	}
+
+	/*
+	*	@dev Get only the admin list from full state contract
+	*/
+	isAdmin(address: string): Observable<boolean> {
+		return this.getAdminList().pipe(
+			map( (admin_list: string[]) => {
+				return Array.prototype.indexOf.call(admin_list, address) >= 0; 
+			})
+		);
+	}
+
+	getBalance(address: string): Observable<string> {
+		return this.getState(true).pipe(
+			map((_state: any) => {
+				return this._state.balances[address];
+			})
+		);
+	}
+
+	/*
+  * @dev All pages needs to be validated first 
+  * to be listed on the Arwiki. Validations are special TXs
+  * with custom tags (Arwiki-Type: Validation)
+  */
+  async approvePage(
+    _pageId: string,
+    _author: string,
+    _slug: string,
+    _category: string,
+    _langCode: string,
+    _pageValue: number,
+    _privateKey: any,
+    _arwikiVersion: string
+  ) {
+    const jwk = _privateKey;
+    const tags = [
+    	{name: 'Service', value: 'ArWiki'},
+    	{name: 'Arwiki-Type', value: 'Validation'},
+    	{name: 'Arwiki-Page-Id', value: _pageId},
+    	{name: 'Arwiki-Page-Slug', value: _slug},
+    	{name: 'Arwiki-Page-Category', value: _category},
+    	{name: 'Arwiki-Page-Lang', value: _langCode},
+    	{name: 'Arwiki-Page-Value', value: `${_pageValue}`},
+    	{name: 'Arwiki-Version', value: _arwikiVersion},
+    ];
+    const input = {
+    	function: 'approvePage',
+    	author: _author,
+    	pageTX: _pageId,
+    	pageValue: `${_pageValue}`
+    };
+    const tx = await interactWrite(
+      this._arweave.arweave,
+      jwk,
+      this._contractAddress,
+      input,
+      tags
+    );
+    return tx;
+  }
 
 }
