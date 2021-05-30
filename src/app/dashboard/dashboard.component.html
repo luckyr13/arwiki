@@ -24,21 +24,38 @@
 <div *ngIf="!loading" class="container scoreboards-container fadeIn">
 	<div class="row">
 		<div class="col-12 col-md-6 scoreboard">
-			<mat-card>
-				<div class="text-center">
-					
-						<span class="bn">{{ balance | async }}</span> AR
-				</div>
-				<div class="text-center"><strong>Total AR balance</strong></div>
-			</mat-card>
+			<app-balance-card
+				label="Total AR balance"
+				[balance]="balance"
+				[loading]="loading"
+				unit="AR"
+				></app-balance-card>
 		</div>
 		<div class="col-12 col-md-6 scoreboard">
-			<mat-card>
-				<div class="text-center">
-						<span class="bn">0</span> $WIKI
-				</div>
-				<div class="text-center"><strong>Total $WIKI tokens</strong></div>
-			</mat-card>
+			<app-balance-card
+				label="Total $WIKI balance"
+				[balance]="balancePST"
+				[loading]="loadingBalancePST"
+				unit="$WIKI"
+				></app-balance-card>
+		</div>
+
+		<div class="col-12 col-md-6 scoreboard">
+			<app-balance-card
+				label="$WIKI locked balance"
+				[balance]="balancePST"
+				[loading]="loadingBalancePST"
+				unit="$WIKI"
+				></app-balance-card>
+		</div>
+
+		<div class="col-12 col-md-6 scoreboard">
+			<app-balance-card
+				label="$WIKI staked balance"
+				[balance]="balancePST"
+				[loading]="loadingBalancePST"
+				unit="$WIKI"
+				></app-balance-card>
 		</div>
 	</div>
 </div>
