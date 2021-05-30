@@ -5,7 +5,7 @@ import { ArweaveService } from '../core/arweave.service';
 import { Observable, Subscription, of } from 'rxjs';
 import { ArwikiQuery } from '../core/arwiki-query';
 import { ArwikiCategoriesContract } from '../core/arwiki-contracts/arwiki-categories';
-import { ArwikiSettingsContract } from '../core/arwiki-contracts/arwiki-settings';
+import { ArwikiTokenContract } from '../core/arwiki-contracts/arwiki-token';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ArwikiCategoryIndex } from '../core/interfaces/arwiki-category-index';
@@ -32,7 +32,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       private _userSettings: UserSettingsService,
       private _arweave: ArweaveService,
       private _categoriesContract: ArwikiCategoriesContract,
-      private _settingsContract: ArwikiSettingsContract,
+      private _arwikiTokenContract: ArwikiTokenContract,
       private _snackBar: MatSnackBar,
       private _router: Router
     ) { }
@@ -190,18 +190,23 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   ) {
     let _globalCat: ArwikiCategoryIndex = {};
     let adminList: string[] = [];
+    let stakingPages: any = {};
+
     const verifiedPagesDict: Record<string, boolean> = {};
     return this._categoriesContract.getState()
       .pipe(
         switchMap((categories: ArwikiCategoryIndex) => {
           _globalCat = categories;
-          return this._settingsContract.getState();
+          return this._arwikiTokenContract.getState();
         }),
-        switchMap((settingsContractState) => {
-          adminList = Object.keys(settingsContractState.admin_list);
-          adminList = adminList.filter((adminAddress) => {
-            return settingsContractState.admin_list[adminAddress].active;
+        switchMap((tokenContractState) => {
+          adminList = Object.keys(tokenContractState.roles).filter((address) => {
+            return tokenContractState.roles[address].toUpperCase() === 'MODERATOR';
           });
+          stakingPages = Object.keys(tokenContractState.pages).filter((p: any) => {
+            return tokenContractState.pages[p].active;
+          });
+
 
           return (this.arwikiQuery.getVerifiedPagesByCategories(
               adminList,
