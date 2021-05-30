@@ -13,7 +13,7 @@ import { ArweaveService } from '../../core/arweave.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
-import { ArwikiSettingsContract } from '../../core/arwiki-contracts/arwiki-settings';
+import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
 import { ArwikiCategoriesContract } from '../../core/arwiki-contracts/arwiki-categories';
 import { UserSettingsService } from '../../core/user-settings.service';
 import { switchMap } from 'rxjs/operators';
@@ -47,7 +47,7 @@ export class ViewDetailComponent implements OnInit {
   	private _arweave: ArweaveService,
   	private _snackBar: MatSnackBar,
     private _location: Location,
-    private _settingsContract: ArwikiSettingsContract,
+    private _arwikiTokenContract: ArwikiTokenContract,
     private _userSettings: UserSettingsService,
     private _ref: ChangeDetectorRef,
     private _categoriesContract: ArwikiCategoriesContract
@@ -257,10 +257,10 @@ export class ViewDetailComponent implements OnInit {
       .pipe(
         switchMap((categoriesContractState) => {
           categoriesCS = Object.keys(categoriesContractState);
-          return this._settingsContract.getState();
+          return this._arwikiTokenContract.getAdminList();
         }),
-        switchMap((settingsContractState) => {
-          adminList = Object.keys(settingsContractState.admin_list);
+        switchMap((_adminList: string[]) => {
+          adminList = _adminList;
           return this.arwikiQuery.getVerifiedPagesBySlug(
             adminList,
             [_slug],

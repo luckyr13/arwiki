@@ -84,7 +84,7 @@ export class ArweaveService {
     error: any
   ) {
     let errorMsg = 'Error!!';
-    console.log('Debug', error);
+    console.log('Debug ArweaveServ:', error);
     return throwError(errorMsg);
   }
 

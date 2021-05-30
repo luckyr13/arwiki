@@ -3,12 +3,10 @@ import { CanActivate, CanActivateChild, ActivatedRouteSnapshot, RouterStateSnaps
 import { Observable, of } from 'rxjs';
 import { catchError, tap, switchMap } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
-import { ArwikiSettingsContract } from '../core/arwiki-contracts/arwiki-settings';
+import { ArwikiTokenContract } from '../core/arwiki-contracts/arwiki-token';
 import { ArweaveService } from '../core/arweave.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserSettingsService } from '../core/user-settings.service';
-import { ArwikiAdmin } from '../core/interfaces/arwiki-admin';
-import { ArwikiAdminList } from '../core/interfaces/arwiki-admin-list';
 declare const window: any;
 
 @Injectable({
@@ -18,7 +16,7 @@ export class ModeratorGuard implements CanActivate, CanActivateChild {
 	constructor(
     private _auth: AuthService,
     private _arweave: ArweaveService,
-    private _settingsContract: ArwikiSettingsContract,
+    private _arwikiTokenContract: ArwikiTokenContract,
     private _snackBar: MatSnackBar,
     private _userSettings: UserSettingsService
   ) {}
@@ -40,16 +38,12 @@ export class ModeratorGuard implements CanActivate, CanActivateChild {
   isUserModerator() {
   	const address = this._auth.getMainAddressSnapshot();
     this._userSettings.updateMainToolbarLoading(true);
-  	return (this._settingsContract.getAdminList()
+  	return (this._arwikiTokenContract.getAdminList()
       .pipe(
-        switchMap((_adminList: ArwikiAdminList) => {
-          let adminList = Object.keys(_adminList);
-          adminList = adminList.filter((adminAddress) => {
-            return _adminList[adminAddress].active;
-          });
-          const isAdmin = adminList.indexOf(address) >= 0;
+        switchMap((_adminList: string[]) => {
+          const isAdmin = _adminList.indexOf(address) >= 0;
           // Save a copy of the admin list 
-          this._auth.setAdminList(adminList);
+          this._auth.setAdminList(_adminList);
 
           this._userSettings.updateMainToolbarLoading(false);
           if (isAdmin) {

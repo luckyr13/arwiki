@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ArwikiSettingsContract } from '../../core/arwiki-contracts/arwiki-settings';
+import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
 import { Subscription } from 'rxjs';
 import { ArweaveService } from '../../core/arweave.service';
 import { AuthService } from '../../auth/auth.service';
@@ -20,7 +20,7 @@ export class AddAdminComponent implements OnInit, OnDestroy {
 
   constructor(
     private _snackBar: MatSnackBar,
-    private _settingsContract: ArwikiSettingsContract,
+    private _arwikiTokenContract: ArwikiTokenContract,
     private _auth: AuthService,
     private _arweave: ArweaveService
   ) { }
@@ -43,8 +43,8 @@ export class AddAdminComponent implements OnInit, OnDestroy {
     // Disable form 
     this.formLoading = true;
     this.newAdminAddress.disable();
-
-    this.saveAdminSubscription = this._settingsContract.registerAdmin(
+    /*
+    this.saveAdminSubscription = this._arwikiTokenContract.registerAdmin(
       this._auth.getPrivateKey(),
       address
     ).subscribe({
@@ -65,6 +65,7 @@ export class AddAdminComponent implements OnInit, OnDestroy {
         this.newAdminAddress.enable();
       }
     });
+    */
 
   }
 

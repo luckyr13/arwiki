@@ -5,7 +5,6 @@ import {
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ArweaveService } from '../arweave.service';
-import { ArwikiAdminList } from '../interfaces/arwiki-admin-list';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -56,12 +55,15 @@ export class ArwikiTokenContract
 	*	@dev Get only the admin list from full state contract
 	*/
 	getAdminList(): Observable<string[]> {
-		return this.getState().pipe((_state: any) => {
+		return this.getState().pipe(
+			map((_state: any) => {
+			console.log(_state)
 			this._adminList = Object.keys(_state.roles).filter((address) => {
 				return _state.roles[address].toUpperCase() === 'MODERATOR';
 			});
-			return of(this._adminList);
-		});
+
+			return this._adminList;
+		}))
 	}
 
 	/*

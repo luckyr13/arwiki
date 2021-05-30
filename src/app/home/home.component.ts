@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserSettingsService } from '../core/user-settings.service';
 import { ArweaveService } from '../core/arweave.service';
 import { Observable, Subscription } from 'rxjs';
-import { ArwikiSettingsContract } from '../core/arwiki-contracts/arwiki-settings';
+import { ArwikiTokenContract } from '../core/arwiki-contracts/arwiki-token';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private _userSettings: UserSettingsService,
     private _arweave: ArweaveService,
-    private _arwikiSettings: ArwikiSettingsContract,
+    private _arwikiTokenContract: ArwikiTokenContract,
     private _snackBar: MatSnackBar,
     private _router: Router
   ) { }
@@ -39,13 +39,14 @@ export class HomeComponent implements OnInit {
       // Hide main toolbar 
       this._userSettings.updateMainToolbarVisiblity(false);
 
-      this.appSettingsSubscription = this._arwikiSettings
+      this.appSettingsSubscription = this._arwikiTokenContract
         .getState()
         .subscribe({
           next: (state) => {
-            this.appName = state.app_name;
-            this.appLogoLight = `${this._arweave.baseURL}${state.main_logo_light}`;
-            this.appLogoDark = `${this._arweave.baseURL}${state.main_logo_dark}`;
+            const settings = new Map(state.settings);
+            this.appName = `${settings.get('appName')}`;
+            this.appLogoLight = `${this._arweave.baseURL}${settings.get('appLogo')}`;
+            this.appLogoDark = `${this._arweave.baseURL}${settings.get('appLogoDark')}`;
             this.loading = false;
           },
           error: (error) => {

@@ -4,13 +4,12 @@ import { ArwikiCategoriesContract } from '../core/arwiki-contracts/arwiki-catego
 import { Subscription, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ArweaveService } from '../core/arweave.service';
-import { ArwikiSettingsContract } from '../core/arwiki-contracts/arwiki-settings';
+import { ArwikiTokenContract } from '../core/arwiki-contracts/arwiki-token';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ArwikiQuery } from '../core/arwiki-query';
 import { AuthService } from '../auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ArwikiCategoryIndex } from '../core/interfaces/arwiki-category-index';
-import { ArwikiAdminList } from '../core/interfaces/arwiki-admin-list';
 import { ArwikiPage } from '../core/interfaces/arwiki-page';
 import * as marked from 'marked';
 import DOMPurify from 'dompurify';
@@ -49,7 +48,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     private _userSettings: UserSettingsService,
     private _categoriesContract: ArwikiCategoriesContract,
     private _arweave: ArweaveService,
-    private _arwikiSettings: ArwikiSettingsContract,
+    private _arwikiTokenContract: ArwikiTokenContract,
     private _snackBar: MatSnackBar,
     private _auth: AuthService,
     private _route: ActivatedRoute,
@@ -114,7 +113,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
           this.loading = false;
         },
-        error: (error) => {
+        error: (error: string) => {
           this.message(`Error: ${error}`, 'error')
           this.loading = false;
         },
@@ -123,13 +122,14 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
 
     // Get logo 
-    this.appSettingsSubscription = this._arwikiSettings
+    this.appSettingsSubscription = this._arwikiTokenContract
       .getState()
       .subscribe({
         next: (state) => {
-          this.appName = state.app_name;
-          this.appLogoLight = `${this._arweave.baseURL}${state.main_logo_light}`;
-          this.appLogoDark = `${this._arweave.baseURL}${state.main_logo_dark}`;
+          const settings = new Map(state.settings);
+          this.appName = `${settings.get('appName')}`;
+          this.appLogoLight = `${this._arweave.baseURL}${settings.get('appLogo')}`;
+          this.appLogoDark = `${this._arweave.baseURL}${settings.get('appLogoDark')}`;
           this.loadingLogo = false;
         },
         error: (error) => {
@@ -144,7 +144,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     this.pagesSubscription = this.getLatestArticles(
         numArticles, this.routeLang, maxHeight
       ).subscribe({
-      next: async (pages) => {
+      next: async (pages: any) => {
         const latestPages: ArwikiPage[] = [];
         for (let p of pages) {
           const title = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
@@ -221,7 +221,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
           this.loadingMainPageTX = false;
         },
-        error: (error) => {
+        error: (error: string) => {
           this.message(`Error: ${error}`, 'error')
           this.loadingMainPageTX = false;
         },
@@ -250,13 +250,9 @@ export class MainPageComponent implements OnInit, OnDestroy {
   getLatestArticles(numArticles: number, langCode: string, height: number) {
     let admins: string[] = [];
     const verifiedPagesDict: Record<string, boolean> = {};
-    return this._arwikiSettings.getAdminList().pipe(
-      switchMap((adminList: ArwikiAdminList) => {
-        admins = Object.keys(adminList);
-        admins = admins.filter((adminAddress) => {
-          return adminList[adminAddress].active;
-        });
-
+    return this._arwikiTokenContract.getAdminList().pipe(
+      switchMap((_adminList: string[]) => {
+        admins = _adminList;
         return this._categoriesContract.getState();
       }),
       switchMap((categories) => {
@@ -392,12 +388,9 @@ export class MainPageComponent implements OnInit, OnDestroy {
   getPagesByCategory(numArticles: number, langCode: string, height: number) {
     let admins: string[] = [];
     const verifiedPagesDict: Record<string, boolean> = {};
-    return this._arwikiSettings.getAdminList().pipe(
-      switchMap((adminList: ArwikiAdminList) => {
-        admins = Object.keys(adminList);
-        admins = admins.filter((adminAddress) => {
-          return adminList[adminAddress].active;
-        });
+    return this._arwikiTokenContract.getAdminList().pipe(
+      switchMap((adminList: string[]) => {
+        admins = adminList;
         return this._categoriesContract.getState();
       }),
       switchMap((categories: ArwikiCategoryIndex) => {
@@ -465,12 +458,9 @@ export class MainPageComponent implements OnInit, OnDestroy {
     let admins: string[] = [];
     let numArticles = 10;
     const verifiedPagesDict: Record<string, boolean> = {};
-    return this._arwikiSettings.getAdminList().pipe(
-      switchMap((adminList: ArwikiAdminList) => {
-        admins = Object.keys(adminList);
-        admins = admins.filter((adminAddress) => {
-          return adminList[adminAddress].active;
-        });
+    return this._arwikiTokenContract.getAdminList().pipe(
+      switchMap((adminList: string[]) => {
+        admins = adminList;
         return this._categoriesContract.getState();
       }),
       switchMap((categories: ArwikiCategoryIndex) => {

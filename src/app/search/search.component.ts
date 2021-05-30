@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ArwikiQuery } from '../core/arwiki-query';
 import { ArweaveService } from '../core/arweave.service';
 import { Subscription, of } from 'rxjs';
-import { ArwikiSettingsContract } from '../core/arwiki-contracts/arwiki-settings';
+import { ArwikiTokenContract } from '../core/arwiki-contracts/arwiki-token';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { getVerification } from "arverify";
 import { ActivatedRoute } from '@angular/router';
@@ -25,7 +25,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   constructor(
   	private _arweave: ArweaveService,
-  	private _settingsContract: ArwikiSettingsContract,
+  	private _arwikiTokenContract: ArwikiTokenContract,
   	private _snackBar: MatSnackBar,
   	private _route: ActivatedRoute
  	) { }
@@ -65,7 +65,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       maxHeight,
       maxPages
     ).subscribe({
-      next: async (pages) => {
+      next: async (pages: any) => {
         this.pages = pages;
         this.pagesData = {};
         this.loadingPages = false;
@@ -95,7 +95,7 @@ export class SearchComponent implements OnInit, OnDestroy {
         }
         
       },
-      error: (error) => {
+      error: (error: string) => {
         this.message(error, 'error');
         this.loadingPages = false;
       }
@@ -164,11 +164,11 @@ export class SearchComponent implements OnInit, OnDestroy {
     _limit: number = 100
   ) {
     const qry = _queries.map(e => e.toLowerCase().trim());
-    return this._settingsContract.getState()
+    return this._arwikiTokenContract.getAdminList()
       .pipe(
-        switchMap((settingsContractState) => {
+        switchMap((adminList: string[]) => {
           return this.arwikiQuery.getVerifiedTagsFromQueries(
-            Object.keys(settingsContractState.admin_list),
+            adminList,
             qry,
             _langCode,
             _limit,

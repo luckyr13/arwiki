@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ArwikiQuery } from '../../core/arwiki-query';
 import { ArweaveService } from '../../core/arweave.service';
 import { Subscription, of } from 'rxjs';
-import { ArwikiSettingsContract } from '../../core/arwiki-contracts/arwiki-settings';
+import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
 import { ArwikiCategoriesContract } from '../../core/arwiki-contracts/arwiki-categories';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { getVerification } from "arverify";
@@ -30,7 +30,7 @@ export class ViewDetailComponent implements OnInit {
 
   constructor(
   	private _arweave: ArweaveService,
-  	private _settingsContract: ArwikiSettingsContract,
+  	private _arwikiTokenContract: ArwikiTokenContract,
     private _categoriesContract: ArwikiCategoriesContract,
   	private _snackBar: MatSnackBar,
   	private _route: ActivatedRoute,
@@ -67,13 +67,12 @@ export class ViewDetailComponent implements OnInit {
       this.message(error, 'error');
       return;
     }
-
     this.pagesSubscription = this.getPagesByCategory(
       this.category,
       this.routeLang,
       maxHeight
     ).subscribe({
-      next: async (pages) => {
+      next: async (pages: any) => {
         const finalRes: ArwikiPage[] = [];
         for (let p of pages) {
           const title = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
@@ -125,7 +124,7 @@ export class ViewDetailComponent implements OnInit {
         }
         
       },
-      error: (error) => {
+      error: (error: string) => {
         this.message(error, 'error');
         this.loadingPages = false;
       }
@@ -196,12 +195,12 @@ export class ViewDetailComponent implements OnInit {
     _maxHeight: number,
     _limit: number = 100
   ) {
-    let settingsCS: any = {};
+    let adminList: string[] = [];
     const verifiedPagesDict: Record<string, boolean> = {};
-    return this._settingsContract.getState()
+    return this._arwikiTokenContract.getAdminList()
       .pipe(
-        switchMap((settingsContractState) => {
-          settingsCS = settingsContractState;
+        switchMap((_adminList: string[]) => {
+          adminList = _adminList;
           return this._categoriesContract.getState();
         }),
         switchMap((categoriesContractState) => {
@@ -209,9 +208,8 @@ export class ViewDetailComponent implements OnInit {
           if (!(_category in categoriesContractState)) {
             throw new Error('Invalid category!');
           }
-          
           return this.arwikiQuery.getVerifiedPagesByCategories(
-            Object.keys(settingsCS.admin_list),
+            adminList,
             [_category],
             _langCode,
             _limit,
@@ -225,7 +223,7 @@ export class ViewDetailComponent implements OnInit {
           }
 
           return this.arwikiQuery.getDeletedPagesTX(
-            Object.keys(settingsCS.admin_list),
+            adminList,
             Object.keys(verifiedPagesDict),
             _langCode,
             _limit,
