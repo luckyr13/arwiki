@@ -31,6 +31,8 @@ import { ArticleCardComponent } from './article-card/article-card.component';
 import { ArweaveAddressComponent } from './arweave-address/arweave-address.component';
 import { RouterModule } from '@angular/router';
 import {ClipboardModule} from '@angular/cdk/clipboard';
+import {MatSliderModule} from '@angular/material/slider';
+import { BalanceCardComponent } from './balance-card/balance-card.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
     DialogConfirmComponent,
     ArticleCardComponent,
     ArweaveAddressComponent,
+    BalanceCardComponent,
   ],
   imports: [
     CommonModule,
@@ -84,7 +87,9 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
     MatExpansionModule,
     ArticleCardComponent,
     ArweaveAddressComponent,
-    ClipboardModule
+    ClipboardModule,
+    MatSliderModule,
+    BalanceCardComponent
   ],
   // entryComponents: [DialogSelectLanguageComponent]
 })

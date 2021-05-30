@@ -15,7 +15,7 @@ import { Subscription, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ArwikiCategoriesContract } from '../../core/arwiki-contracts/arwiki-categories';
 import { ArwikiLangIndexContract } from '../../core/arwiki-contracts/arwiki-lang-index';
-import { ArwikiSettingsContract } from '../../core/arwiki-contracts/arwiki-settings';
+import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
 import { ActivatedRoute } from '@angular/router';
 import { ArwikiQuery } from '../../core/arwiki-query';
 import { ArwikiLangIndex } from '../../core/interfaces/arwiki-lang-index';
@@ -41,7 +41,8 @@ export class NewComponent implements OnInit, OnDestroy {
 		title: new FormControl('', [Validators.required, Validators.maxLength(150)]),
 		slug: new FormControl('', [Validators.required, Validators.maxLength(150)]),
     category: new FormControl('', [Validators.required]),
-    language: new FormControl('', [Validators.required])
+    language: new FormControl('', [Validators.required]),
+    pageValue: new FormControl(0)
 	});
 	txmessage: string = '';
   previewImgUrl: string = '';
@@ -75,6 +76,9 @@ export class NewComponent implements OnInit, OnDestroy {
   public get language() {
     return this.frmNew.get('language');
   }
+  public get pageValue() {
+    return this.frmNew.get('pageValue');
+  }
 
 	goBack() {
   	this._location.back();
@@ -90,7 +94,7 @@ export class NewComponent implements OnInit, OnDestroy {
   	private _snackBar: MatSnackBar,
     private _langIndexContract: ArwikiLangIndexContract,
     private _categoriesContract: ArwikiCategoriesContract,
-    private _settingsContract: ArwikiSettingsContract,
+    private _arwikiTokenContract: ArwikiTokenContract,
     private _route: ActivatedRoute
   ) { }
 
@@ -219,6 +223,7 @@ export class NewComponent implements OnInit, OnDestroy {
     const langCode = this.language!.value;
     const content = this.simplemde.value();
     const img = this.previewImgUrlTX;
+    const pageValue = this.pageValue!.value;
 
     if (!content) {
       this.message('Please add some content to your page :)', 'error');
@@ -238,6 +243,7 @@ export class NewComponent implements OnInit, OnDestroy {
           slug: slug,
           category: category,
           language: langCode,
+          value: pageValue,
           img: img,
           owner: this._auth.getMainAddressSnapshot(),
           content: content
@@ -267,6 +273,7 @@ export class NewComponent implements OnInit, OnDestroy {
   	if (disable) {
   		this.title!.disable();
 	  	this.slug!.disable();
+      this.pageValue!.disable();
 	  	this.category!.disable();
       this.language!.disable();
       this.loadingFrm = true;
@@ -275,6 +282,7 @@ export class NewComponent implements OnInit, OnDestroy {
 	  	this.slug!.enable();
 	  	this.category!.enable();
       this.language!.enable();
+      this.pageValue!.enable();
       this.loadingFrm = false;
   	}
   }
@@ -300,7 +308,7 @@ export class NewComponent implements OnInit, OnDestroy {
   }
 
   updateSlug(s: string) {
-    this.slug!.setValue(s.replace(/ /gi, '_'));
+    this.slug!.setValue(s.replace(/ /gi, '-'));
     this.verifySlug(this.slug!.value);
   }
 
@@ -370,16 +378,25 @@ export class NewComponent implements OnInit, OnDestroy {
     _limit: number = 20
   ) {
     let categoriesCS: any = {};
+
     let adminList: string[] = [];
+    let stakingPages: any = {};
+
     const verifiedPagesDict: Record<string,boolean> = {};
     return this._categoriesContract.getState()
       .pipe(
         switchMap((categoriesContractState) => {
           categoriesCS = Object.keys(categoriesContractState)
-          return this._settingsContract.getState();
+          return this._arwikiTokenContract.getState();
         }),
-        switchMap((settingsContractState) => {
-          adminList = Object.keys(settingsContractState.admin_list);
+        switchMap((tokenContractState) => {
+          adminList = Object.keys(tokenContractState.roles).filter((address) => {
+            return tokenContractState.roles[address].toUpperCase() === 'MODERATOR';
+          });
+          stakingPages = Object.keys(tokenContractState.pages).filter((p: any) => {
+            return tokenContractState.pages[p].active;
+          });
+
           return this.arwikiQuery.getVerifiedPagesBySlug(
             adminList,
             [_slug],
@@ -420,6 +437,14 @@ export class NewComponent implements OnInit, OnDestroy {
           return of(!!verifiedPages.length);
         })
       );
+  }
+
+  formatLabel(value: number) {
+    if (value >= 1000) {
+      return Math.round(value / 1000) + 'k';
+    }
+
+    return value;
   }
 
 

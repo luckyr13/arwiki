@@ -47,6 +47,19 @@
 					  	maxlength="150">
 		    		<mat-hint align="end">{{slug!.value.length}} / 150</mat-hint>
 					</mat-form-field>
+					<div class="w100" appearance="outline">
+					  <p>Page value in $WIKI tokens</p>
+					  <mat-slider 
+					  	class="w100" 
+					  	formControlName="pageValue" 
+					  	min="0" 
+					  	max="1000" 
+  					[displayWith]="formatLabel"
+					  	thumbLabel
+					  	tickInterval="1"
+					  	step="1" value="0"></mat-slider>
+					  <div class="mat-hint small-hint text-right">{{pageValue!.value}} $WIKI tokens</div>
+					</div>
 					
 					<mat-form-field class="w50" appearance="outline" >
 						<mat-label *ngIf="!categoryList || !categoryList.length">{{ 'CREATE_PAGE.FRM_LOADING' | translate }}</mat-label>
