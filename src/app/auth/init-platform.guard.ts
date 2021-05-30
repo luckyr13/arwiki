@@ -4,13 +4,14 @@ import {
 	CanActivateChild,
 	RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable, of, interval } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, catchError } from 'rxjs/operators';
 import { UserSettingsService } from '../core/user-settings.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ArwikiLangIndexContract } from '../core/arwiki-contracts/arwiki-lang-index';
 import { ArwikiLangIndex } from '../core/interfaces/arwiki-lang-index';
 import { ArweaveService } from '../core/arweave.service';
+import { ArwikiTokenContract } from '../core/arwiki-contracts/arwiki-token';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,8 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
     private _snackBar: MatSnackBar,
     private _router: Router,
     private _langIndexContract: ArwikiLangIndexContract,
-    private _arweave: ArweaveService
+    private _arweave: ArweaveService,
+    private _arwikiTokenContract: ArwikiTokenContract
 	) {
 
 	}
@@ -31,7 +33,7 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     // Validate language from route parameters
     const langPath = this.getLangFromRoute(route, state);
-    return this.isValidLanguage(langPath, route, state);
+    return this.loadInitialValidations(langPath, route, state);
   }
 
   canActivateChild(
@@ -39,7 +41,37 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     // Validate language from route parameters
     const langPath = this.getLangFromRoute(route, state);
-    return this.isValidLanguage(langPath, route, state);
+    return this.loadInitialValidations(langPath, route, state);
+  }
+
+  loadInitialValidations(lang: string, 
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot): Observable<boolean> {
+    let isValidLang = false;
+    return (
+      this.isValidLanguage(lang, route, state)
+        .pipe(
+          switchMap((_isValidLang: boolean) => {
+            isValidLang = _isValidLang;
+            // Loader
+            this._userSettings.updateMainToolbarLoading(true);
+            return this._arwikiTokenContract.getState();
+          }),
+          switchMap((_tokenContractState: any) => {
+            // Loader
+            console.log(_tokenContractState);
+            
+            this._userSettings.updateMainToolbarLoading(false);
+            return of(isValidLang);
+          }),
+          catchError(err => {
+            // Loader
+            this._userSettings.updateMainToolbarLoading(false);
+            this.message(err, 'error');
+            return of(false);
+          })          
+        )
+    );
   }
 
   /*
