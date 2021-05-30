@@ -11,13 +11,16 @@ import { ArwikiQuery } from '../../core/arwiki-query';
 import { ActivatedRoute } from '@angular/router';
 import { Direction } from '@angular/cdk/bidi';
 import { UserSettingsService } from '../../core/user-settings.service';
-import { Arwiki } from '../../core/arwiki';
+import { Arwiki, arwikiVersion } from '../../core/arwiki';
 import { ArwikiPage } from '../../core/interfaces/arwiki-page';
 import { 
   ArwikiCategoriesContract 
 } from '../../core/arwiki-contracts/arwiki-categories';
 import { ArwikiCategoryIndex } from '../../core/interfaces/arwiki-category-index';
 import { ArwikiPageIndex } from '../../core/interfaces/arwiki-page-index';
+import { 
+  ArwikiTokenContract 
+} from '../../core/arwiki-contracts/arwiki-token';
 
 @Component({
   templateUrl: './pending-list.component.html',
@@ -41,7 +44,8 @@ export class PendingListComponent implements OnInit, OnDestroy {
     public _dialog: MatDialog,
     private _route: ActivatedRoute,
     private _userSettings: UserSettingsService,
-    private _categoriesContract: ArwikiCategoriesContract
+    private _categoriesContract: ArwikiCategoriesContract,
+    private _arwikiTokenContract: ArwikiTokenContract
   ) { }
 
   async ngOnInit() {
@@ -90,7 +94,9 @@ export class PendingListComponent implements OnInit, OnDestroy {
               category: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category'),
               language: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang'),
               owner: p.node.owner.address,
-              block: p.node.block
+              block: p.node.block,
+              value: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Value'),
+              
             };
           }
           return of(tmp_res);
@@ -187,7 +193,9 @@ export class PendingListComponent implements OnInit, OnDestroy {
   confirmValidateArWikiPage(
     _slug: string,
     _pageId: string,
-    _category_slug: string
+    _category_slug: string,
+    _pageValue: number,
+    _author: string
   ) {
     const defLang = this._userSettings.getDefaultLang();
     let direction: Direction = defLang.writing_system === 'LTR' ? 
@@ -206,12 +214,15 @@ export class PendingListComponent implements OnInit, OnDestroy {
         // Create arwiki page
         this.loadingInsertPageIntoIndex = true;
         try {
-          const tx = await this._arwiki.createValidationTXForArwikiPage(
+          const tx = await this._arwikiTokenContract.approvePage(
             _pageId,
+            _author,
             _slug,
             _category_slug,
             this.routeLang,
-            this._auth.getPrivateKey()
+            _pageValue,
+            this._auth.getPrivateKey(),
+            arwikiVersion[0],
           ); 
 
           this.insertPageTxMessage = tx;

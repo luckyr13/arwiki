@@ -26,6 +26,9 @@
 				<div>
 					{{ 'PAGE.LABEL_OWNER' | translate }}: {{ pages[p].owner }} 
 				</div>
+				<div>
+					Page value: {{ pages[p].value }} $WIKI 
+				</div>
 				<div class="red" *ngIf="!pages[p].block || !pages[p].block.height">
 					{{ 'PAGE.LABEL_TX_STATUS' | translate }}: {{ 'PAGE.STATUS_TX_PENDING' | translate }} 
 				</div>
@@ -54,7 +57,7 @@
 					<a
 						mat-flat-button
 						matTooltip="Approve page"
-						(click)="confirmValidateArWikiPage(pages[p].slug, pages[p].id, pages[p].category)"
+						(click)="confirmValidateArWikiPage(pages[p].slug, pages[p].id, pages[p].category, pages[p].value!, pages[p].owner)"
 						class="approve-btn">
 						<mat-icon>done</mat-icon>
 						Approve page

@@ -5,7 +5,7 @@ import { ArwikiPage } from './interfaces/arwiki-page';
 * Arwiki versions supported by the system
 * arwikiVersion[0] the first position must contain the latest supported version
 */
-export const arwikiVersion = ['0.3'];
+export const arwikiVersion = ['0.4'];
 
 /*
 *	@dev Main class
@@ -40,6 +40,7 @@ export class Arwiki {
     tx.addTag('Arwiki-Page-Title', _newPage.title);
     tx.addTag('Arwiki-Page-Img', _newPage.img!);
     tx.addTag('Arwiki-Page-Lang', _newPage.language);
+    tx.addTag('Arwiki-Page-Value', _newPage.value!.toString());
     tx.addTag('Arwiki-Version', arwikiVersion[0]);
     await this._arweave.transactions.sign(tx, jwk)
     await this._arweave.transactions.post(tx)
@@ -47,7 +48,9 @@ export class Arwiki {
   }
 
   /*
-  * @dev All pages needs to be validated first 
+  * @dev DEPRECATED
+  * == Now the logic relies on the arwiki-token contract (approvePage)
+  * All pages needs to be validated first 
   * to be listed on the Arwiki. Validations are special TXs
   * with custom tags (Arwiki-Type: Validation)
   */
