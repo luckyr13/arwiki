@@ -2258,7 +2258,7 @@ mat-row, mat-header-row, mat-footer-row, th.mat-header-cell, td.mat-cell, td.mat
 }
 
 .mat-accent .mat-slider-thumb-label-text {
-	color: rgba(0, 0, 0, .87)
+	color: rgba(255, 255, 255, .87)
 }
 
 .mat-accent .mat-slider-focus-ring {
