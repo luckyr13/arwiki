@@ -19,6 +19,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 	mainAddress: string = this._auth.getMainAddressSnapshot();
 	balance: string = '';
 	balancePST: string = '';
+  balancePSTVault: string = '';
+  balancePSTStaked: string = '';
   balanceSubscription: Subscription = Subscription.EMPTY;
   balancePSTSubscription: Subscription = Subscription.EMPTY;
   loadingBalance: boolean = false;
@@ -55,10 +57,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.loadingBalancePST = true;
     this.balancePSTSubscription = this._arwikiTokenContract
-      .getBalance(this.mainAddress)
+      .getBalance(this.mainAddress, this._auth.getPrivateKey())
       .subscribe({
-        next: (res: string) => {
-          this.balancePST = res;
+        next: (res: any) => {
+          const unlockedBalance = +res.unlockedBalance;
+          const vaultBalance = +res.vaultBalance;
+          const stakingBalance = +res.stakingBalance;
+          this.balancePST = `${unlockedBalance}`;
+          this.balancePSTVault = `${vaultBalance}`;
+          this.balancePSTStaked = `${stakingBalance}`;
           this.loadingBalancePST = false;
         },
         error: (error) => {

@@ -3,9 +3,10 @@ import {
 	createContract, interactRead
 } from 'smartweave';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, from } from 'rxjs';
 import { ArweaveService } from '../arweave.service';
 import { map } from 'rxjs/operators';
+import { JWKInterface } from 'arweave/node/lib/wallet';
 
 @Injectable({
   providedIn: 'root'
@@ -77,12 +78,19 @@ export class ArwikiTokenContract
 		);
 	}
 
-	getBalance(address: string): Observable<string> {
-		return this.getState(true).pipe(
-			map((_state: any) => {
-				return this._state.balances[address];
-			})
-		);
+	/*
+	*	@dev Execute read function on PST contract
+	*/
+	getBalance(address: string, wallet: JWKInterface): Observable<any> {
+		const input = {
+			function: 'balanceDetail',
+			target: address
+		}
+		return from(interactRead(
+			this._arweave.arweave,
+			wallet,
+			this._contractAddress,
+			input));
 	}
 
 	/*
