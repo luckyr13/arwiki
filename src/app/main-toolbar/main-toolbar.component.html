@@ -70,14 +70,28 @@
       </button>
       <button 
         mat-menu-item
-        routerLink="{{ routerLang }}/moderators">
-         <mat-icon>admin_panel_settings</mat-icon> {{ 'MAIN_TOOLBAR.MENU_USER_MODERATORS' | translate }}
-      </button>
-      <button 
-        mat-menu-item
         (click)="logout()">
          <mat-icon>logout</mat-icon> {{ 'MAIN_TOOLBAR.MENU_USER_LOGOUT' | translate }}
       </button>
+    </div>
+  </mat-menu>
+  <button 
+    mat-icon-button 
+    [matMenuTriggerFor]="moderatorsMenu"
+    *ngIf="isLoggedIn">
+    <mat-icon>admin_panel_settings</mat-icon>
+  </button>
+  <mat-menu #moderatorsMenu="matMenu">
+    <div>
+      <button mat-menu-item routerLink="/{{ routerLang }}/moderators/pending">
+        <mat-icon>pending_actions</mat-icon> Pending pages</button>
+      <button mat-menu-item routerLink="/{{ routerLang }}/moderators/approved">
+        <mat-icon>task_alt</mat-icon> Approved pages</button>
+      <button mat-menu-item routerLink="/{{ routerLang }}/moderators/deleted">
+        <mat-icon>delete</mat-icon> Deleted pages</button>
+      <button mat-menu-item routerLink="/{{ routerLang }}/moderators/add-admin">
+        <mat-icon>add_moderator</mat-icon> Add moderator</button>
+      <button mat-menu-item routerLink="/{{ routerLang }}/moderators/view-admin-list"><mat-icon>view_list</mat-icon> View admin list</button>
     </div>
   </mat-menu>
 
