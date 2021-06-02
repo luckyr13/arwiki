@@ -23,6 +23,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   balancePSTStaked: string = '';
   balanceSubscription: Subscription = Subscription.EMPTY;
   balancePSTSubscription: Subscription = Subscription.EMPTY;
+  pstSettingsSubscription: Subscription = Subscription.EMPTY;
+  pstSettings: any = [];
   loadingBalance: boolean = false;
   loadingBalancePST: boolean = false;
   loading: boolean = false;
@@ -74,6 +76,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
       });
 
+    this.pstSettingsSubscription = this._arwikiTokenContract
+      .getSettings()
+      .subscribe({
+        next: (res: any) => {
+          this.pstSettings = res;
+        },
+        error: (error) => {
+          this.message(error, 'error');
+        }
+      });
+
   }
 
   ngOnDestroy() {
@@ -82,6 +95,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
     if (this.balancePSTSubscription) {
       this.balancePSTSubscription.unsubscribe();
+    }
+    if (this.pstSettingsSubscription) {
+      this.pstSettingsSubscription.unsubscribe();
     }
   }
 
@@ -101,5 +117,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   goBack() {
     this._location.back();
   }
+
+  getPSTContractAddress() {
+    return this._arwikiTokenContract.contractAddress;
+  }
+
 
 }
