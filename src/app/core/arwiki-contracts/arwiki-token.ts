@@ -17,6 +17,10 @@ export class ArwikiTokenContract
 	private _state: any = {};
 	private _adminList: string[] = [];
 
+	get contractAddress() {
+		return this._contractAddress;
+	}
+
 	constructor(private _arweave: ArweaveService) {
 	}
 
@@ -58,13 +62,14 @@ export class ArwikiTokenContract
 	getAdminList(): Observable<string[]> {
 		return this.getState().pipe(
 			map((_state: any) => {
-			console.log(_state)
-			this._adminList = Object.keys(_state.roles).filter((address) => {
-				return _state.roles[address].toUpperCase() === 'MODERATOR';
-			});
+				console.log(_state)
+				this._adminList = Object.keys(_state.roles).filter((address) => {
+					return _state.roles[address].toUpperCase() === 'MODERATOR';
+				});
 
-			return this._adminList;
-		}))
+				return this._adminList;
+			})
+		);
 	}
 
 	/*
@@ -90,7 +95,8 @@ export class ArwikiTokenContract
 			this._arweave.arweave,
 			wallet,
 			this._contractAddress,
-			input));
+			input)
+		);
 	}
 
 	/*
@@ -134,5 +140,17 @@ export class ArwikiTokenContract
     );
     return tx;
   }
+
+  /*
+	*	@dev Get only the settings property from full state contract
+	*/
+	getSettings(): Observable<any> {
+		return this.getState().pipe(
+			map((_state: any) => {
+				const settings = new Map(_state.settings);
+				return settings;
+			})
+		);
+	}
 
 }
