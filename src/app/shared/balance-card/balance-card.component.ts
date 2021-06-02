@@ -10,6 +10,7 @@ export class BalanceCardComponent implements OnInit {
 	@Input() balance: string = '';
 	@Input() label: string = '';
 	@Input() unit: string = '';
+  @Input() icon: string = '';
 	
   constructor() { }
 
