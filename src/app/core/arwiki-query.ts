@@ -354,7 +354,11 @@ export class ArwikiQuery {
       {
         name: 'Arwiki-Page-Id',
         values: pageIds,
-      }
+      },
+      {
+        name: 'Arwiki-Version',
+        values: arwikiVersion,
+      } 
     ];
 
     const obs = new Observable((subscriber) => {
@@ -401,7 +405,11 @@ export class ArwikiQuery {
       {
         name: 'Arwiki-Page-Lang',
         values: [langCode],
-      }
+      },
+      {
+        name: 'Arwiki-Version',
+        values: arwikiVersion,
+      } 
     ];
 
     const obs = new Observable((subscriber) => {
@@ -447,7 +455,11 @@ export class ArwikiQuery {
       {
         name: 'Arwiki-Page-Lang',
         values: [langCode],
-      }
+      },
+      {
+        name: 'Arwiki-Version',
+        values: arwikiVersion,
+      } 
     ];
 
     const obs = new Observable((subscriber) => {
