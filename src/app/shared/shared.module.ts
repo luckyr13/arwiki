@@ -33,6 +33,7 @@ import { RouterModule } from '@angular/router';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {MatSliderModule} from '@angular/material/slider';
 import { BalanceCardComponent } from './balance-card/balance-card.component';
+import {MatTableModule} from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -89,7 +90,8 @@ import { BalanceCardComponent } from './balance-card/balance-card.component';
     ArweaveAddressComponent,
     ClipboardModule,
     MatSliderModule,
-    BalanceCardComponent
+    BalanceCardComponent,
+    MatTableModule
   ],
   // entryComponents: [DialogSelectLanguageComponent]
 })
