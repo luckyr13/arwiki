@@ -26,6 +26,7 @@
 		<div class="col-12 col-md-6 scoreboard">
 			<app-balance-card
 				label="Total AR balance"
+				icon="account_balance"
 				[balance]="balance"
 				[loading]="loading"
 				unit="AR"
@@ -33,7 +34,8 @@
 		</div>
 		<div class="col-12 col-md-6 scoreboard">
 			<app-balance-card
-				label="TOTAL $WIKI BALANCE"
+				label="$WIKIs unlocked"
+				icon="lock_open"
 				[balance]="balancePST"
 				[loading]="loadingBalancePST"
 				unit="$WIKI"
@@ -42,7 +44,8 @@
 
 		<div class="col-12 col-md-6 scoreboard">
 			<app-balance-card
-				label="LOCKED"
+				label="$WIKIs locked"
+				icon="lock"
 				[balance]="balancePSTVault"
 				[loading]="loadingBalancePST"
 				unit="$WIKI"
@@ -51,7 +54,8 @@
 
 		<div class="col-12 col-md-6 scoreboard">
 			<app-balance-card
-				label="STAKED"
+				label="$WIKIs staked"
+				icon="casino"
 				[balance]="balancePSTStaked"
 				[loading]="loadingBalancePST"
 				unit="$WIKI"
@@ -62,7 +66,7 @@
 
 <div class="container dashboard-container fadeIn" *ngIf="!loading" >
 	<div class="row">
-		<div class="col-12 mini-text">
+		<div class="col-12 mini-text mb20">
 			<mat-card>
 				<app-arweave-address class="addressurl" [address]="mainAddress" >
 					Wallet:
@@ -73,6 +77,27 @@
 					[isAddress]="false">
 					Last TX processed:
 				</app-arweave-address>
+			</mat-card>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12 mini-text mb20">
+			<h2>PST INFO</h2>
+			<mat-card>
+				<mat-list>
+				  <mat-list-item >
+				    <h3 matLine class="text-center"> Contract Address </h3>
+				    <p matLine>
+				      <app-arweave-address 
+								class="addressurl" 
+								address="{{ getPSTContractAddress() }}" 
+								[isAddress]="false">
+							</app-arweave-address>
+				    </p>
+				  </mat-list-item>
+				</mat-list>
+
+				  {{ pstSettings | json }}
 			</mat-card>
 		</div>
 	</div>
