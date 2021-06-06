@@ -106,5 +106,11 @@
 				"CREATION_DATE": "Creation date:"
 			}
 		}
+	},
+	"LOADING": {
+		"QUOTES_TITLE" : "Did you know?",
+		"QUOTES": {
+			"0": "Arweave is a protocol that allows you to store data permanently, sustainably, with a single upfront fee."
+		}
 	}
 }
