@@ -37,10 +37,9 @@
 	  <div class="separator col-12"></div>
 	</div>
 	<mat-spinner class="spinner-center" *ngIf="loadingPage"></mat-spinner>
-		
 	<div class="row">
 		<div 
-			*ngIf="htmlContent"
+			*ngIf="htmlContent && toc.length"
 			class="col-12 col-md-3 toc-parent-container fadeIn">
 			<mat-card *ngIf="pageImg" class="text-center">
 				<a target="_blank" href="{{ baseURL + pageImg }}">
@@ -70,14 +69,15 @@
 		</div>
 		<div 
 			id="arwiki-page-content-detail"
-			class="col-12 col-md-9 fadeIn" 
+			class="col-12 fadeIn" 
+			[class.col-md-9]="toc.length" 
 			[innerHTML]="htmlContent"></div>
 
 		<p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageOwner">
 		<app-arweave-address [address]="pageOwner">Created by: </app-arweave-address>
 	  </p>
 	  <p class="text-right mini-text fadeIn col-12 col-md-6" *ngIf="pageId">
-	  	<strong>TX:</strong> {{ pageId }}
+	  	<app-arweave-address [isAddress]="false" [address]="pageId">TX: </app-arweave-address>
 	  </p>
 	</div>
 

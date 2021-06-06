@@ -157,6 +157,7 @@ export class ViewDetailComponent implements OnInit {
           this.loadingPage = false;
 
   			} else {
+          this.htmlContent = 'Page not found';
   				this.message('Page not found', 'error')
           this.loadingPage = false;
   			}
