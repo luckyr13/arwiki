@@ -11,7 +11,9 @@ import { MatSidenavContainer } from '@angular/material/sidenav';
 export class AppComponent implements OnInit, AfterViewInit  {
 	opened: boolean = false;
   menuPosition: any = 'start';
+  quoteNumber: number = 0;
   @ViewChild(MatSidenavContainer) sidenavContainer!: MatSidenavContainer;
+  mainToolbarIsVisible = this._userSettings.mainToolbarVisibilityStream;
 
   constructor(
     private _translate: TranslateService,
@@ -27,6 +29,8 @@ export class AppComponent implements OnInit, AfterViewInit  {
     }
     updateWritingDirection(this._userSettings.getDefaultLang())
     this._userSettings.settingsLangStream.subscribe(updateWritingDirection)
+
+    this.quoteNumber = this.getRandomInt(1);
   }
 
   
@@ -40,6 +44,10 @@ export class AppComponent implements OnInit, AfterViewInit  {
 
   ngOnInit() {
     this.consoleWelcomeMessage();
+  }
+
+  getRandomInt(max: number) {
+    return Math.floor(Math.random() * max);
   }
 
   consoleWelcomeMessage() {
