@@ -36,9 +36,7 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   loadingSettings: boolean = true;
   defaultTheme: string = '';
   appName: string = '';
-  // appLogoLight: string = './assets/img/arweave-light.png';
   appLogoLight: string = '';
-  // appLogoDark: string = './assets/img/arweave-dark.png';
   appLogoDark: string = '';
   appSettingsSubscription: Subscription = Subscription.EMPTY;
   maintoolbarVisible: boolean = false;
