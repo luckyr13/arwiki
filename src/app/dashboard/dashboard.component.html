@@ -77,27 +77,19 @@
 					[isAddress]="false">
 					Last TX processed:
 				</app-arweave-address>
-			</mat-card>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-12 mini-text mb20">
-			<h2>PST INFO</h2>
-			<mat-card>
-				<mat-list>
-				  <mat-list-item >
-				    <h3 matLine class="text-center"> Contract Address </h3>
-				    <p matLine>
-				      <app-arweave-address 
-								class="addressurl" 
-								address="{{ getPSTContractAddress() }}" 
-								[isAddress]="false">
-							</app-arweave-address>
-				    </p>
-				  </mat-list-item>
-				</mat-list>
-
-				  {{ pstSettings | json }}
+				<app-arweave-address 
+					class="addressurl" 
+					address="{{ getPSTContractAddress() }}">
+					PST contract address:
+				</app-arweave-address>
+				<div class="addressurl">
+					<div class="card-row-container  text-center">
+						<span class="ellipsis text-center ">
+							<strong>Community link:</strong>
+							https://community.xyz/{{ getPSTContractAddress() }}
+						</span>
+					</div>
+				</div>
 			</mat-card>
 		</div>
 	</div>
