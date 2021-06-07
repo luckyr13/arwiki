@@ -75,6 +75,8 @@ export class MyPagesComponent implements OnInit {
           const img = this.sanitizeImg(this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img'));
           const owner = p.node.owner.address;
           const id = p.node.id;
+          const pageValue = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Value');
+          
           
           finalPages.push({
             title: title,
@@ -83,7 +85,8 @@ export class MyPagesComponent implements OnInit {
             img: img,
             owner: owner,
             language: lang,
-            id: id
+            id: id,
+            value: pageValue
           });
         }
 

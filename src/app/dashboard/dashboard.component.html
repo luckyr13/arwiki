@@ -34,7 +34,7 @@
 		</div>
 		<div class="col-12 col-md-6 scoreboard">
 			<app-balance-card
-				label="$WIKIs unlocked"
+				label="$WIKI unlocked"
 				icon="lock_open"
 				[balance]="balancePST"
 				[loading]="loadingBalancePST"
@@ -44,7 +44,7 @@
 
 		<div class="col-12 col-md-6 scoreboard">
 			<app-balance-card
-				label="$WIKIs locked"
+				label="$WIKI locked"
 				icon="lock"
 				[balance]="balancePSTVault"
 				[loading]="loadingBalancePST"
@@ -54,7 +54,7 @@
 
 		<div class="col-12 col-md-6 scoreboard">
 			<app-balance-card
-				label="$WIKIs staked"
+				label="$WIKI staked"
 				icon="casino"
 				[balance]="balancePSTStaked"
 				[loading]="loadingBalancePST"
@@ -75,7 +75,7 @@
 					class="addressurl" 
 					address="{{ lastTransactionID | async }}" 
 					[isAddress]="false">
-					Last TX processed:
+					My last TX processed:
 				</app-arweave-address>
 				<app-arweave-address 
 					class="addressurl" 
@@ -85,8 +85,10 @@
 				<div class="addressurl">
 					<div class="card-row-container  text-center">
 						<span class="ellipsis text-center ">
-							<strong>Community link:</strong>
-							https://community.xyz/{{ getPSTContractAddress() }}
+							<strong>Visit Community page: </strong>
+							<a 
+								href="https://community.xyz/#{{ getPSTContractAddress() }}"
+								target="_blank">https://community.xyz/#{{ getPSTContractAddress() }}</a>
 						</span>
 					</div>
 				</div>
