@@ -34,11 +34,11 @@ export class ModeratorGuard implements CanActivate, CanActivateChild {
     
     return this.isUserModerator();
   }
-
+  
   isUserModerator() {
-  	const address = this._auth.getMainAddressSnapshot();
+    const address = this._auth.getMainAddressSnapshot();
     this._userSettings.updateMainToolbarLoading(true);
-  	return (this._arwikiTokenContract.getAdminList()
+    return (this._arwikiTokenContract.getAdminList()
       .pipe(
         switchMap((_adminList: string[]) => {
           const isAdmin = _adminList.indexOf(address) >= 0;
@@ -59,7 +59,7 @@ export class ModeratorGuard implements CanActivate, CanActivateChild {
       )
     );
   }
-
+  
   /*
   *  Custom snackbar message
   */

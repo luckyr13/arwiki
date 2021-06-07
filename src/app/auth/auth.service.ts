@@ -19,6 +19,14 @@ export class AuthService {
   // Save a temporal copy of the admin list
   private _adminList: string[] = [];
 
+  // Observable source
+  private _userIsModeratorSource = new Subject<boolean>();
+  // Observable stream
+  public userIsModeratorStream = this._userIsModeratorSource.asObservable();
+  public updateUserIsModerator(_isModerator: boolean) {
+    this._userIsModeratorSource.next(_isModerator);
+  }
+
   getAdminList() {
     return this._adminList;
   }
@@ -57,6 +65,12 @@ export class AuthService {
       storage.setItem('ARKEY', JSON.stringify(this._arKey))
     }
     this.account.next(mainAddress);
+    const isAdmin = this.getAdminList().indexOf(mainAddress) >= 0;
+    if (isAdmin) {
+      this.updateUserIsModerator(true);
+    } else {
+      this.updateUserIsModerator(false);
+    }
   }
 
   removeAccount() {
@@ -115,6 +129,7 @@ export class AuthService {
     this.removeAccount()
     this._arweave.logout();
     this.account.next('');
+    this.updateUserIsModerator(false);
   }
 
 

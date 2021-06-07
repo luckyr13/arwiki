@@ -12,6 +12,7 @@ import { ArwikiLangIndexContract } from '../core/arwiki-contracts/arwiki-lang-in
 import { ArwikiLangIndex } from '../core/interfaces/arwiki-lang-index';
 import { ArweaveService } from '../core/arweave.service';
 import { ArwikiTokenContract } from '../core/arwiki-contracts/arwiki-token';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,8 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
     private _router: Router,
     private _langIndexContract: ArwikiLangIndexContract,
     private _arweave: ArweaveService,
-    private _arwikiTokenContract: ArwikiTokenContract
+    private _arwikiTokenContract: ArwikiTokenContract,
+    private _auth: AuthService,
 	) {
 
 	}
@@ -62,6 +64,12 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
             console.log('Arwiki state loaded succesfully!');
             
             this._userSettings.updateMainToolbarLoading(false);
+            return of(isValidLang);
+          }),
+          switchMap((_isValidLang: boolean) => {
+            return this.isUserModerator();
+          }),
+          switchMap((_isUserModerator: boolean) => {
             return of(isValidLang);
           }),
           catchError(err => {
@@ -183,6 +191,34 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
       panelClass: panelClass
     });
   }
+
+  isUserModerator() {
+    const address = this._auth.getMainAddressSnapshot();
+    this._userSettings.updateMainToolbarLoading(true);
+    this._auth.updateUserIsModerator(false);
+    return (this._arwikiTokenContract.getAdminList()
+      .pipe(
+        switchMap((_adminList: string[]) => {
+          const isAdmin = _adminList.indexOf(address) >= 0;
+          // Save a copy of the admin list 
+          this._auth.setAdminList(_adminList);
+
+          this._userSettings.updateMainToolbarLoading(false);
+          if (isAdmin) {
+            this._auth.updateUserIsModerator(true);
+            return of(true);
+          }
+          
+          return of(false);
+        }),
+        catchError((error) => {
+          this.message(error, 'error');
+          return of(false);
+        }) 
+      )
+    );
+  }
+
 
   
 }

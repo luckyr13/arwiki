@@ -18,6 +18,8 @@ import {
 } from '../shared/dialog-select-language/dialog-select-language.component';
 import { ArwikiLang } from '../core/interfaces/arwiki-lang';
 import { Direction } from '@angular/cdk/bidi';
+import { of } from 'rxjs';
+import { switchMap, catchError } from 'rxjs/operators';
 declare const window: any;
 
 @Component({
@@ -31,6 +33,7 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   @Input() opened!: boolean;
   @Output() openedChange = new EventEmitter<boolean>();
   isLoggedIn: boolean = false;
+  isModerator = this._auth.userIsModeratorStream;
   loading = this._userSettings.mainToolbarLoadingStream;
   routerLang: string = '';
   loadingSettings: boolean = true;
@@ -218,4 +221,5 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
       }
     });
   }
+
 }
