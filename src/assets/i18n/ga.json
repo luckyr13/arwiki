@@ -108,9 +108,9 @@
 		}
 	},
 	"LOADING": {
-		"QUOTES_TITLE" : "Did you know?",
+		"QUOTES_TITLE" : "An raibh a fhios agat?",
 		"QUOTES": {
-			"0": "Arweave is a protocol that allows you to store data permanently, sustainably, with a single upfront fee."
+			"0": "Is prótacal é Arweave a ligeann duit sonraí a stóráil go buan, go hinbhuanaithe, le táille tosaigh amháin."
 		}
 	}
 }

@@ -108,9 +108,9 @@
 		}
 	},
 	"LOADING": {
-		"QUOTES_TITLE" : "Did you know?",
+		"QUOTES_TITLE" : "你知道嗎？",
 		"QUOTES": {
-			"0": "Arweave is a protocol that allows you to store data permanently, sustainably, with a single upfront fee."
+			"0": "Arweave 是一種協議，允許您以單一的預付費用永久、可持續地存儲數據。"
 		}
 	}
 }

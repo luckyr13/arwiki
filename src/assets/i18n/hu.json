@@ -108,9 +108,9 @@
 		}
 	},
 	"LOADING": {
-		"QUOTES_TITLE" : "Did you know?",
+		"QUOTES_TITLE" : "Tudtad?",
 		"QUOTES": {
-			"0": "Arweave is a protocol that allows you to store data permanently, sustainably, with a single upfront fee."
+			"0": "Az Arweave egy olyan protokoll, amely lehetővé teszi az adatok tartós, fenntartható tárolását egyetlen előzetes díjjal."
 		}
 	}
 }

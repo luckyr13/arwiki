@@ -108,9 +108,9 @@
 		}
 	},
 	"LOADING": {
-		"QUOTES_TITLE" : "Did you know?",
+		"QUOTES_TITLE" : "Tahukah kamu?",
 		"QUOTES": {
-			"0": "Arweave is a protocol that allows you to store data permanently, sustainably, with a single upfront fee."
+			"0": "Arweave adalah protokol yang memungkinkan Anda menyimpan data secara permanen, berkelanjutan, dengan satu biaya di muka."
 		}
 	}
 }
