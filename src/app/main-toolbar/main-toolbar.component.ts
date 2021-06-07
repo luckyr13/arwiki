@@ -33,7 +33,7 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   @Input() opened!: boolean;
   @Output() openedChange = new EventEmitter<boolean>();
   isLoggedIn: boolean = false;
-  isModerator = this._auth.userIsModeratorStream;
+  isModerator: boolean = false;
   loading = this._userSettings.mainToolbarLoadingStream;
   routerLang: string = '';
   loadingSettings: boolean = true;
@@ -99,6 +99,16 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
           this.loadingSettings = false;
         }
       });
+
+    this._auth.userIsModeratorStream.subscribe({
+      next: (_isModerator) => {
+        this.isModerator = _isModerator;
+      },
+      error: (error) => {
+        this.message(error, 'error');
+        this.loadingSettings = false;
+      }
+    });
 
   }
 

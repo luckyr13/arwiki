@@ -78,7 +78,7 @@
   <button 
     mat-icon-button 
     [matMenuTriggerFor]="moderatorsMenu"
-    *ngIf="isLoggedIn && (isModerator | async)">
+    *ngIf="isModerator">
     <mat-icon>admin_panel_settings</mat-icon>
   </button>
   <mat-menu #moderatorsMenu="matMenu">
