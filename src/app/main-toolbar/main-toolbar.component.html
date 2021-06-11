@@ -11,14 +11,7 @@
     <mat-icon>menu</mat-icon>
   </button>
 
-  <ngx-skeleton-loader 
-      count="1" 
-      class="fadeIn"
-      [animation]="getSkeletonLoaderAnimationType()"
-      [theme]="getSkeletonLoaderThemeNgStyle()"
-      *ngIf="loadingSettings"
-      ></ngx-skeleton-loader>
-  <span class="logo-text fadeIn" *ngIf="!loadingSettings" routerLink="{{ routerLang }}/">{{ appName }}</span>
+  <span class="logo-text fadeIn" routerLink="{{ routerLang }}/">{{ appName }}</span>
 
   <span class="menu-spacer"></span>
   

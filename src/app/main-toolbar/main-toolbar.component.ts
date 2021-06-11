@@ -10,7 +10,6 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import { FormControl, FormGroup } from '@angular/forms';
 import {MatBottomSheet} from '@angular/material/bottom-sheet';
 import { BottomSheetLoginComponent } from '../shared/bottom-sheet-login/bottom-sheet-login.component';
-import { ArwikiTokenContract } from '../core/arwiki-contracts/arwiki-token';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { 
@@ -36,12 +35,8 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   isModerator: boolean = false;
   loading = this._userSettings.mainToolbarLoadingStream;
   routerLang: string = '';
-  loadingSettings: boolean = true;
   defaultTheme: string = '';
-  appName: string = '';
-  appLogoLight: string = '';
-  appLogoDark: string = '';
-  appSettingsSubscription: Subscription = Subscription.EMPTY;
+  appName: string = 'Arweave';
   maintoolbarVisible: boolean = false;
   frmSearch: FormGroup = new FormGroup({
     'searchQry': new FormControl('')
@@ -53,7 +48,6 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
     private _snackBar: MatSnackBar,
     private _userSettings: UserSettingsService,
     private _bottomSheet: MatBottomSheet,
-    private _arwikiTokenContract: ArwikiTokenContract,
     private _route: ActivatedRoute,
     private _router: Router,
     private _dialog: MatDialog,
@@ -84,38 +78,19 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
       this.routerLang = data;
     });
 
-    this.appSettingsSubscription = this._arwikiTokenContract
-      .getState()
-      .subscribe({
-        next: (state) => {
-          const settings = new Map(state.settings);
-          this.appName = `${settings.get('appName')}`;
-          this.appLogoLight = `${this._arweave.baseURL}${settings.get('appLogo')}`;
-          this.appLogoDark = `${this._arweave.baseURL}${settings.get('appLogoDark')}`;
-          this.loadingSettings = false;
-        },
-        error: (error) => {
-          this.message(error, 'error');
-          this.loadingSettings = false;
-        }
-      });
-
     this._auth.userIsModeratorStream.subscribe({
       next: (_isModerator) => {
         this.isModerator = _isModerator;
       },
       error: (error) => {
         this.message(error, 'error');
-        this.loadingSettings = false;
       }
     });
 
   }
 
   ngOnDestroy() {
-    if (this.appSettingsSubscription) {
-      this.appSettingsSubscription.unsubscribe();
-    }
+    
   }
 
   /*
