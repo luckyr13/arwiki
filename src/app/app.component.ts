@@ -13,6 +13,7 @@ export class AppComponent implements OnInit, AfterViewInit  {
   menuPosition: any = 'start';
   quoteNumber: number = 0;
   @ViewChild(MatSidenavContainer) sidenavContainer!: MatSidenavContainer;
+  mainToolbarLoading = this._userSettings.mainToolbarLoadingStream;
   mainToolbarIsVisible = this._userSettings.mainToolbarVisibilityStream;
 
   constructor(

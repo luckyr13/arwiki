@@ -9,25 +9,28 @@
 
   <mat-sidenav-content id="arwiki-mat-sidenav-main-content">
 		<app-main-toolbar [(opened)]="opened"></app-main-toolbar>
-		<router-outlet></router-outlet>
-    <div *ngIf="!(mainToolbarIsVisible | async)" class="full-init-loader">
-      <div class="loading wave-loading">
-        <span>L</span>
-        <span>o</span>
-        <span>a</span>
-        <span>d</span>
-        <span>i</span>
-        <span>n</span>
-        <span>g</span>
-        <span>.</span>
-        <span>.</span>
-        <span>.</span>
-        <div class="text-center small fadeIn">
-          <h2>{{ 'LOADING.QUOTES_TITLE' | translate }}</h2>
-          <p>{{ 'LOADING.QUOTES.' + quoteNumber | translate }}</p>
+		<router-outlet>
+      <div 
+        *ngIf="(mainToolbarLoading | async)"
+        class="full-init-loader">
+        <div class="loading wave-loading">
+          <span>L</span>
+          <span>o</span>
+          <span>a</span>
+          <span>d</span>
+          <span>i</span>
+          <span>n</span>
+          <span>g</span>
+          <span>.</span>
+          <span>.</span>
+          <span>.</span>
+          <div class="text-center small fadeIn">
+            <h2>{{ 'LOADING.QUOTES_TITLE' | translate }}</h2>
+            <p>{{ 'LOADING.QUOTES.' + quoteNumber | translate }}</p>
+          </div>
         </div>
       </div>
-    </div>
+    </router-outlet>
 	<div class="spacer"></div>
     <app-footer *ngIf="mainToolbarIsVisible | async"></app-footer>
   </mat-sidenav-content>
