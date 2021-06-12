@@ -11,9 +11,9 @@
 		<app-main-toolbar [(opened)]="opened"></app-main-toolbar>
 		<router-outlet>
       <div 
-        *ngIf="(mainToolbarLoading | async)"
+        *ngIf="mainToolbarLoading | async"
         class="full-init-loader">
-        <div class="loading wave-loading">
+        <div *ngIf="!(mainToolbarIsVisible | async)" class="loading wave-loading">
           <span>L</span>
           <span>o</span>
           <span>a</span>
@@ -28,6 +28,16 @@
             <h2>{{ 'LOADING.QUOTES_TITLE' | translate }}</h2>
             <p>{{ 'LOADING.QUOTES.' + quoteNumber | translate }}</p>
           </div>
+        </div>
+        <div *ngIf="mainToolbarIsVisible | async" class="loading wave-loading">
+          <span>🚀</span>
+          <span>&nbsp;</span>
+          <span>R</span>
+          <span>e</span>
+          <span>a</span>
+          <span>d</span>
+          <span>y</span>
+          <span>!</span>
         </div>
       </div>
     </router-outlet>
