@@ -27,6 +27,7 @@ export class ViewDetailComponent implements OnInit {
   baseURL: string = this._arweave.baseURL;
   arverifyProcessedAddressesMap: any = {};
   defaultTheme: string = '';
+  errorLoadingCategory: boolean = false;
 
   constructor(
   	private _arweave: ArweaveService,
@@ -127,6 +128,7 @@ export class ViewDetailComponent implements OnInit {
       error: (error: string) => {
         this.message(error, 'error');
         this.loadingPages = false;
+        this.errorLoadingCategory = true;
       }
     });
   }
@@ -256,4 +258,8 @@ export class ViewDetailComponent implements OnInit {
     );
   }
 
+  validateObj(_obj: object) {
+    return !!Object.keys(_obj).length;
+  }
+ 
 }

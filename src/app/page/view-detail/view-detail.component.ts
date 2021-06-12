@@ -16,6 +16,7 @@ import { Location } from '@angular/common';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
 import { ArwikiCategoriesContract } from '../../core/arwiki-contracts/arwiki-categories';
 import { UserSettingsService } from '../../core/user-settings.service';
+import { AuthService } from '../../auth/auth.service';
 import { switchMap } from 'rxjs/operators';
 declare const window: any;
 declare const document: any;
@@ -41,6 +42,8 @@ export class ViewDetailComponent implements OnInit {
   routeSlug: string = '';
   baseURL: string = this._arweave.baseURL;
   fragment: string = '';
+  pageNotFound: boolean = false;
+  isUserLoggedIn: boolean = !!this._auth.getMainAddressSnapshot();
 
   constructor(
     private route: ActivatedRoute,
@@ -50,7 +53,8 @@ export class ViewDetailComponent implements OnInit {
     private _arwikiTokenContract: ArwikiTokenContract,
     private _userSettings: UserSettingsService,
     private _ref: ChangeDetectorRef,
-    private _categoriesContract: ArwikiCategoriesContract
+    private _categoriesContract: ArwikiCategoriesContract,
+    private _auth: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -71,6 +75,7 @@ export class ViewDetailComponent implements OnInit {
       this.scrollTop = scroll;
       this._ref.detectChanges();
     })
+
 
   }
 
@@ -157,7 +162,8 @@ export class ViewDetailComponent implements OnInit {
           this.loadingPage = false;
 
   			} else {
-          this.htmlContent = 'Page not found';
+          this.htmlContent = '';
+          this.pageNotFound = true;
   				this.message('Page not found', 'error')
           this.loadingPage = false;
   			}

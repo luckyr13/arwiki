@@ -1,5 +1,5 @@
 <div class="container preview-page-container">
-	<div class="row">
+	<div class="row" *ngIf="htmlContent">
 		<h1 class="page-title col-12 col-md-9">
 			<span class="fadeIn" *ngIf="pageTitle">{{ pageTitle }}</span>
 		</h1>
@@ -37,9 +37,9 @@
 	  <div class="separator col-12"></div>
 	</div>
 	<mat-spinner class="spinner-center" *ngIf="loadingPage"></mat-spinner>
-	<div class="row">
+	<div class="row" *ngIf="htmlContent">
 		<div 
-			*ngIf="htmlContent && toc.length"
+			*ngIf="toc.length"
 			class="col-12 col-md-3 toc-parent-container fadeIn">
 			<mat-card *ngIf="pageImg" class="text-center">
 				<a target="_blank" href="{{ baseURL + pageImg }}">
@@ -80,7 +80,18 @@
 	  	<app-arweave-address [isAddress]="false" [address]="pageId">TX: </app-arweave-address>
 	  </p>
 	</div>
+	<div class="row" *ngIf="!htmlContent && pageNotFound && !loadingPage">
+		<h1 class="text-center col-12">Page not found! 😢</h1>
+		<div class="col-12 text-center" *ngIf="isUserLoggedIn">
+			<a mat-flat-button 
+        routerLink="/{{ routeLang }}/create-page" color="primary">
+				Create new arwiki page
+			</a>
+		</div>
 
+		
+
+	</div>
 </div>
 
 

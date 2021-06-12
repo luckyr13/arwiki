@@ -108,7 +108,7 @@
 		}
 	},
 	"LOADING": {
-		"QUOTES_TITLE" : "¿Sabías?",
+		"QUOTES_TITLE" : "¿Sabías que ...?",
 		"QUOTES": {
 			"0": "Arweave es un protocolo que le permite almacenar datos de forma permanente y sostenible con una única tarifa inicial."
 		}

@@ -1,5 +1,5 @@
 <div class="container category-page-container">
-	<div class="row fadeIn" *ngIf="!loadingPages">
+	<div class="row fadeIn" *ngIf="!loadingPages && !errorLoadingCategory">
 		<h1 class="page-title col-12 col-md-9">
 			{{ 'CATEGORY.BREADCRUMB_LABEL' | translate }} {{ 'MAIN_MENU.' + category | translate }}
 		</h1>
