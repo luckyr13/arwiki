@@ -15,7 +15,6 @@ export class AppComponent implements OnInit, AfterViewInit  {
   quoteNumber: number = 0;
   @ViewChild(MatSidenavContainer) sidenavContainer!: MatSidenavContainer;
   @ViewChild('mainLoadingContainer1') mainLoadingContainer1!: ElementRef;
-  @ViewChild('mainLoadingContainer2') mainLoadingContainer2!: ElementRef;
   mainToolbarLoading: boolean =  true;
   mainToolbarIsVisible: boolean = false;
   defaultTheme: string = '';
@@ -63,20 +62,11 @@ export class AppComponent implements OnInit, AfterViewInit  {
     window.setTimeout(() => {
       this.animateLoadingContainer(this.mainLoadingContainer1);
       this.animateFlipLogo(this.mainLogoImg);
-    }, 100);
+    }, 200);
 
     this._userSettings.mainToolbarLoadingStream.subscribe((res) => {
       this.mainToolbarLoading = res;
     });
-    this._userSettings.mainToolbarVisibilityStream.subscribe((res) => {
-      this.mainToolbarIsVisible = res;
-      window.setTimeout(() => {
-        if (res) {
-          this.animateLoadingContainer(this.mainLoadingContainer2);
-        }
-      }, 100);
-    })
-
 
 
   }

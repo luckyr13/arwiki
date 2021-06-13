@@ -11,15 +11,19 @@
 		<app-main-toolbar [(opened)]="opened"></app-main-toolbar>
 		<router-outlet>
       <div 
-        *ngIf="mainToolbarLoading"
+        [style.display]="mainToolbarLoading ? null : 'none'"
         class="full-init-loader">
-        <div class="text-center loading-main-logo-container" *ngIf="!mainToolbarIsVisible">
+        <div 
+          class="text-center loading-main-logo-container" >
           <img
             #mainLogoImg
             class="main-logo"
             [src]="mainLogo">
         </div>
-        <div id="main-loading-container-1" #mainLoadingContainer1 *ngIf="!mainToolbarIsVisible" class="loading loadingContainer">
+        <div 
+          id="main-loading-container-1" 
+          #mainLoadingContainer1 
+          class="loading loadingContainer">
           <span>L</span>
           <span>o</span>
           <span>a</span>
@@ -34,16 +38,6 @@
             <h2>{{ 'LOADING.QUOTES_TITLE' | translate }}</h2>
             <p>{{ 'LOADING.QUOTES.' + quoteNumber | translate }}</p>
           </div>
-        </div>
-        <div id="main-loading-container-2" #mainLoadingContainer2 *ngIf="mainToolbarIsVisible" class="loading loadingContainer">
-          <span>🚀</span>
-          <span>&nbsp;</span>
-          <span>R</span>
-          <span>e</span>
-          <span>a</span>
-          <span>d</span>
-          <span>y</span>
-          <span>!</span>
         </div>
       </div>
     </router-outlet>
