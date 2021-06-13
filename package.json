@@ -28,6 +28,7 @@
     "arweave": "^1.10.14",
     "bootstrap": "^4.6.0",
     "dompurify": "^2.2.9",
+    "gsap": "^3.6.1",
     "marked": "^2.0.7",
     "ngx-skeleton-loader": "^2.9.1",
     "rxjs": "^6.6.7",
