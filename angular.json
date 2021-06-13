@@ -35,7 +35,14 @@
               "node_modules/simplemde/dist/simplemde.min.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "smartweave",
+              "simplemde",
+              "arweave",
+              "axios",
+              "ar-gql"
+            ]
           },
           "configurations": {
             "production": {
