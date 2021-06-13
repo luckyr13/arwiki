@@ -67,6 +67,9 @@ export class AppComponent implements OnInit, AfterViewInit  {
     this._userSettings.mainToolbarLoadingStream.subscribe((res) => {
       this.mainToolbarLoading = res;
     });
+    this._userSettings.mainToolbarVisibilityStream.subscribe((res) => {
+      this.mainToolbarIsVisible = res;
+    })
 
 
   }
