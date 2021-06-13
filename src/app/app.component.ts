@@ -1,7 +1,8 @@
-import { Component, OnInit, AfterViewInit, ViewChild  } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef  } from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import { UserSettingsService } from './core/user-settings.service';
 import { MatSidenavContainer } from '@angular/material/sidenav';
+import gsap from 'gsap';
 
 @Component({
   selector: 'app-root',
@@ -13,8 +14,16 @@ export class AppComponent implements OnInit, AfterViewInit  {
   menuPosition: any = 'start';
   quoteNumber: number = 0;
   @ViewChild(MatSidenavContainer) sidenavContainer!: MatSidenavContainer;
-  mainToolbarLoading = this._userSettings.mainToolbarLoadingStream;
-  mainToolbarIsVisible = this._userSettings.mainToolbarVisibilityStream;
+  @ViewChild('mainLoadingContainer1') mainLoadingContainer1!: ElementRef;
+  @ViewChild('mainLoadingContainer2') mainLoadingContainer2!: ElementRef;
+  mainToolbarLoading: boolean =  true;
+  mainToolbarIsVisible: boolean = false;
+  defaultTheme: string = '';
+  appLogoLight: string = './assets/img/arweave-dark.png';
+  appLogoDark: string = './assets/img/arweave-light.png';
+  mainLogo: string = '';
+  @ViewChild('mainLogoImg') mainLogoImg!: ElementRef;
+
 
   constructor(
     private _translate: TranslateService,
@@ -45,6 +54,31 @@ export class AppComponent implements OnInit, AfterViewInit  {
 
   ngOnInit() {
     this.consoleWelcomeMessage();
+    this.mainToolbarIsVisible = false;
+    this.mainToolbarLoading = true;
+
+    this.getDefaultTheme();
+    this.mainLogo = this.getMainLogo();
+
+    window.setTimeout(() => {
+      this.animateLoadingContainer(this.mainLoadingContainer1);
+      this.animateFlipLogo(this.mainLogoImg);
+    }, 100);
+
+    this._userSettings.mainToolbarLoadingStream.subscribe((res) => {
+      this.mainToolbarLoading = res;
+    });
+    this._userSettings.mainToolbarVisibilityStream.subscribe((res) => {
+      this.mainToolbarIsVisible = res;
+      window.setTimeout(() => {
+        if (res) {
+          this.animateLoadingContainer(this.mainLoadingContainer2);
+        }
+      }, 100);
+    })
+
+
+
   }
 
   getRandomInt(max: number) {
@@ -56,6 +90,34 @@ export class AppComponent implements OnInit, AfterViewInit  {
     console.log('%cPlease let us know if you find some interesting bug 😄', 'font-weight: bold;');
   }
 
+  animateLoadingContainer(_container: ElementRef) {
+    gsap.to(`#${_container.nativeElement.id} span`, {
+      opacity: 1, duration: 0.5, stagger: 0.1, repeat: -1, yoyo: true
+    });
+  }
+
+  animateFlipLogo(_logo: ElementRef) {
+    gsap.to(_logo.nativeElement, {rotationY: 360, repeat: -1, duration: 2});
+  }
+
+  getDefaultTheme() {
+    this.defaultTheme = this._userSettings.getDefaultTheme();
+    this._userSettings.defaultThemeStream.subscribe(
+      (theme) => {
+        this.defaultTheme = theme;
+      }
+    );
+  }
+
+  getMainLogo() {
+    if (this.defaultTheme === 'arwiki-light' && this.appLogoLight) {
+      return this.appLogoLight;
+    } else if (this.defaultTheme === 'arwiki-dark' && this.appLogoDark) {
+      return this.appLogoDark;
+    }
+
+    return '';
+  }
 
     
 }

@@ -11,9 +11,15 @@
 		<app-main-toolbar [(opened)]="opened"></app-main-toolbar>
 		<router-outlet>
       <div 
-        *ngIf="mainToolbarLoading | async"
+        *ngIf="mainToolbarLoading"
         class="full-init-loader">
-        <div *ngIf="!(mainToolbarIsVisible | async)" class="loading wave-loading">
+        <div class="text-center loading-main-logo-container" *ngIf="!mainToolbarIsVisible">
+          <img
+            #mainLogoImg
+            class="main-logo"
+            [src]="mainLogo">
+        </div>
+        <div id="main-loading-container-1" #mainLoadingContainer1 *ngIf="!mainToolbarIsVisible" class="loading loadingContainer">
           <span>L</span>
           <span>o</span>
           <span>a</span>
@@ -29,7 +35,7 @@
             <p>{{ 'LOADING.QUOTES.' + quoteNumber | translate }}</p>
           </div>
         </div>
-        <div *ngIf="mainToolbarIsVisible | async" class="loading wave-loading">
+        <div id="main-loading-container-2" #mainLoadingContainer2 *ngIf="mainToolbarIsVisible" class="loading loadingContainer">
           <span>🚀</span>
           <span>&nbsp;</span>
           <span>R</span>
@@ -42,6 +48,6 @@
       </div>
     </router-outlet>
 	<div class="spacer"></div>
-    <app-footer *ngIf="mainToolbarIsVisible | async"></app-footer>
+    <app-footer *ngIf="mainToolbarIsVisible"></app-footer>
   </mat-sidenav-content>
 </mat-sidenav-container>

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { UserSettingsService } from '../core/user-settings.service';
 import { ArwikiCategoriesContract } from '../core/arwiki-contracts/arwiki-categories';
 import { Subscription, of } from 'rxjs';
@@ -43,6 +43,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
   mainPage: ArwikiPage = null!;
   mainPageSubscription: Subscription = Subscription.EMPTY;
   loadingMainPageTX: boolean = false;
+  mainLogo: string = '';
 
   constructor(
     private _userSettings: UserSettingsService,
@@ -57,7 +58,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
   async loadMainPageData() {
     this.getDefaultTheme();
-
     this.loading = true;
     this.loadingLogo = true;
     this.loadingLatestArticles = true;
@@ -130,6 +130,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
           this.appName = `${settings.get('appName')}`;
           this.appLogoLight = `${this._arweave.baseURL}${settings.get('appLogo')}`;
           this.appLogoDark = `${this._arweave.baseURL}${settings.get('appLogoDark')}`;
+          this.mainLogo = this.getMainLogo();
+
           this.loadingLogo = false;
         },
         error: (error) => {
@@ -288,16 +290,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
         return this.arwikiQuery.getTXsData(finalList);
       })
       
-    );
-  }
-
-
-  getDefaultTheme() {
-  	this.defaultTheme = this._userSettings.getDefaultTheme();
-    this._userSettings.defaultThemeStream.subscribe(
-    	(theme) => {
-    		this.defaultTheme = theme;
-    	}
     );
   }
 
@@ -512,6 +504,26 @@ export class MainPageComponent implements OnInit, OnDestroy {
       })
       
     );
+  }
+
+  getDefaultTheme() {
+    this.defaultTheme = this._userSettings.getDefaultTheme();
+    this._userSettings.defaultThemeStream.subscribe(
+      (theme) => {
+        this.defaultTheme = theme;
+        this.mainLogo = this.getMainLogo();
+      }
+    );
+  }
+
+  getMainLogo() {
+    if (this.defaultTheme === 'arwiki-light' && this.appLogoLight) {
+      return this.appLogoLight;
+    } else if (this.defaultTheme === 'arwiki-dark' && this.appLogoDark) {
+      return this.appLogoDark;
+    }
+
+    return '';
   }
 
 }

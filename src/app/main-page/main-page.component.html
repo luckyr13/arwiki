@@ -15,14 +15,8 @@
 			<!-- Display Main Page TX content -->
 			<div *ngIf="!loadingLogo && !loadingMainPageTX && mainPage" class="fadeIn">
 				<img
-					 *ngIf="defaultTheme === 'arwiki-dark' && appLogoDark"
-					 class="main-logo"
-					 [src]="appLogoDark">
-				<img
-					 *ngIf=" defaultTheme === 'arwiki-light' && appLogoLight"
-					 class="main-logo"
-					 [src]="appLogoLight">
-
+          class="main-logo"
+          [src]="mainLogo">
 				<h1 class="text-left main-title fadeIn">
 					{{ mainPage.title }}
 				</h1>
@@ -35,13 +29,9 @@
 			<!-- Default if not Main Page is found -->
 			<div *ngIf="!loadingLogo && !loadingMainPageTX && !mainPage" class="fadeIn">
 				<img
-					 *ngIf="defaultTheme === 'arwiki-dark' && appLogoDark"
-					 class="main-logo"
-					 [src]="appLogoDark">
-				<img
-					 *ngIf=" defaultTheme === 'arwiki-light' && appLogoLight"
-					 class="main-logo"
-					 [src]="appLogoLight">
+          class="main-logo"
+          [src]="mainLogo">
+				
 				<h1 *ngIf="!loadingMainPageTX" class="text-left main-title fadeIn">
 					{{ 'MAIN_PAGE.TITLE_L1' | translate }}
 				</h1>

@@ -27,9 +27,6 @@ router-outlet ~ div.spacer {
 .full-init-loader {
   width: 100%;
   height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   padding-top: 100px;
 }
 
@@ -69,21 +66,16 @@ router-outlet ~ div.spacer {
   text-align: center;
 }
 
-.wave-loading {
-  span {
-    animation: wave-loading .7s infinite;
-    @for $i from 1 through 6 {
-      &:nth-child(#{$i+1}) {
-        animation-delay: #{$i*.1}s;
-      }
-    }
-  }
+.loadingContainer span {
+  opacity: 0;
 }
-@keyframes wave-loading {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(15px);
-  }
+
+.main-logo {
+  width: 80px;
+}
+
+.loading-main-logo-container {
+  width: 100%;
+  display: block;
+  text-align: center;
 }
