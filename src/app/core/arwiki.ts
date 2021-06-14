@@ -5,7 +5,7 @@ import { ArwikiPage } from './interfaces/arwiki-page';
 * Arwiki versions supported by the system
 * arwikiVersion[0] the first position must contain the latest supported version
 */
-export const arwikiVersion = ['0.5'];
+export const arwikiVersion = ['0.6'];
 
 /*
 *	@dev Main class

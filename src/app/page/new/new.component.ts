@@ -63,6 +63,7 @@ export class NewComponent implements OnInit, OnDestroy {
   arwikiQuery!: ArwikiQuery;
   verifySlugSubscription: Subscription = Subscription.EMPTY;
   private arwiki!: Arwiki;
+  private _redirectTimeout: any = null;
 
   public get title() {
 		return this.frmNew.get('title');
@@ -104,7 +105,7 @@ export class NewComponent implements OnInit, OnDestroy {
     this.arwiki = new Arwiki(this._arweave.arweave);
   	this.getDefaultTheme();
     // Load markdown editor
-    window.setTimeout(() => {
+    this._redirectTimeout = window.setTimeout(() => {
       this.simplemde = new SimpleMDE({
         element: document.getElementById("create-page-textarea-simplemde-content")
       });
@@ -162,6 +163,9 @@ export class NewComponent implements OnInit, OnDestroy {
     }
     if (this.verifySlugSubscription) {
       this.verifySlugSubscription.unsubscribe();
+    }
+    if (this._redirectTimeout) {
+      window.clearTimeout(this._redirectTimeout);
     }
   }
 
@@ -368,7 +372,7 @@ export class NewComponent implements OnInit, OnDestroy {
     return this._arweave.arToWinston(_v);
   }
 
-    /*
+  /*
   * @dev
   */
   isPageBySlugAlreadyTaken(
@@ -383,59 +387,12 @@ export class NewComponent implements OnInit, OnDestroy {
     let stakingPages: any = {};
 
     const verifiedPagesDict: Record<string,boolean> = {};
-    return this._categoriesContract.getState()
+    return this._arwikiTokenContract.getApprovedPages(_langCode, -1)
       .pipe(
-        switchMap((categoriesContractState) => {
-          categoriesCS = Object.keys(categoriesContractState)
-          return this._arwikiTokenContract.getState();
+        switchMap((approvedPages) => {
+          return of(!!approvedPages[_slug]);
         }),
-        switchMap((tokenContractState) => {
-          adminList = Object.keys(tokenContractState.roles).filter((address) => {
-            return tokenContractState.roles[address].toUpperCase() === 'MODERATOR';
-          });
-          stakingPages = Object.keys(tokenContractState.pages).filter((p: any) => {
-            return tokenContractState.pages[p].active;
-          });
 
-          return this.arwikiQuery.getVerifiedPagesBySlug(
-            adminList,
-            [_slug],
-            categoriesCS,
-            _langCode,
-            _limit,
-            _maxHeight
-          );
-        }),
-        switchMap((verifiedPages) => {
-          for (let p of verifiedPages) {
-            const vrfdPageId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
-            verifiedPagesDict[vrfdPageId] = true;
-          }
-
-          return this.arwikiQuery.getDeletedPagesTX(
-            adminList,
-            Object.keys(verifiedPagesDict),
-            _langCode,
-            _limit,
-            _maxHeight
-          );
-        }),
-        switchMap((deletedPagesTX) => {
-          const deletedPagesDict: Record<string,boolean> = {};
-          for (const p of deletedPagesTX) {
-            const arwikiId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
-            deletedPagesDict[arwikiId] = true;
-          }
-
-          let finalList = Object.keys(verifiedPagesDict).filter((vpId) => {
-            return !deletedPagesDict[vpId];
-          });
-          
-          return this.arwikiQuery.getTXsData(finalList);
-        }),
-        switchMap((verifiedPages) => {
-          return of(!!verifiedPages.length);
-        })
       );
   }
 
