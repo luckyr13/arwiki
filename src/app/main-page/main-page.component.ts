@@ -193,6 +193,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: async (txs: any[]) => {
+          this.mainPage = null!;
           for (let p of txs) {
             const title = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
             const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');

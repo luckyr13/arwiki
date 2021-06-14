@@ -41,10 +41,10 @@ a.mat-button{
   background-image: url('/assets/img/bottom-fade-black.png');
 }
 
-
-
 .article-title {
 	margin-bottom: 0px;
+	padding: 10px;
+	padding-bottom: 0px;
 }
 
 .article-data-wrapper {
@@ -52,8 +52,11 @@ a.mat-button{
 }
 
 .article-data {
-	max-height: 380px;
+	height: 380px;
 	overflow: hidden;
+	text-align: justify;
+	padding: 10px;
+	padding-top: 0px;
 }
 
 
