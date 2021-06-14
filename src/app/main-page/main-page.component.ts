@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { UserSettingsService } from '../core/user-settings.service';
 import { ArwikiCategoriesContract } from '../core/arwiki-contracts/arwiki-categories';
-import { Subscription, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Subscription, of, Observable } from 'rxjs';
+import { switchMap, map } from 'rxjs/operators';
 import { ArweaveService } from '../core/arweave.service';
 import { ArwikiTokenContract } from '../core/arwiki-contracts/arwiki-token';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -141,39 +141,26 @@ export class MainPageComponent implements OnInit, OnDestroy {
       });
 
     // Get latest articles 
-    const numArticles = 6;
+    const numArticles = 4;
 
     this.pagesSubscription = this.getLatestArticles(
         numArticles, this.routeLang, maxHeight
       ).subscribe({
-      next: async (pages: any) => {
-        const latestPages: ArwikiPage[] = [];
-        for (let p of pages) {
-          const title = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
-          const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
-          const category = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
-          const img = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
-          const language = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang');
-          const owner = p.node.owner.address;
-          const id = p.node.id;
-          const block = p.node.block;
-          
-          latestPages.push({
-            title: title,
-            slug: slug,
-            category: category,
-            img: img,
-            owner: owner,
-            id: id,
-            block: block,
-            language: language
-          });
-        }
-        this.latestArticles = latestPages;
+      next: async (pages: ArwikiPage[]) => {
+        // Sort desc
+        this.latestArticles = pages.sort((a, b) => {
+          if (a.start! > b.start!) {
+            return -1;
+          } else if (a.start! < b.start!) {
+            return 1;
+          }
+          return 0;
+        });
+        
         this.loadingLatestArticles = false;
         this.latestArticlesData = {};
 
-        for (let p of latestPages) {
+        for (let p of this.latestArticles ) {
           let data = await this._arweave.arweave.transactions.getData(
             p.id, 
             {decode: true, string: true}
@@ -250,21 +237,30 @@ export class MainPageComponent implements OnInit, OnDestroy {
   /*
   *  @dev return an observable with the latest articles
   */
-  getLatestArticles(numArticles: number, langCode: string, height: number) {
+  getLatestArticles(numArticles: number, langCode: string, height: number): Observable<ArwikiPage[]> {
     let admins: string[] = [];
     let verifiedPages: string[] = [];
+    let allApprovedPages: any = {};
     return this._arwikiTokenContract.getAdminList().pipe(
       switchMap((_adminList: string[]) => {
         admins = _adminList;
         return this._categoriesContract.getState();
       }),
       switchMap((categories) => {
-        return this._arwikiTokenContract.getApprovedPages(langCode, numArticles);
+        return this._arwikiTokenContract.getApprovedPages(langCode, -1);
       }),
       switchMap((_approvedPages) => {
-        verifiedPages = Object.keys(_approvedPages).map((slug) => {
+        allApprovedPages = _approvedPages;
+        // Sort desc
+        verifiedPages = Array.prototype.sort.call(Object.keys(_approvedPages), (a, b) => {
+          return _approvedPages[b].start - _approvedPages[a].start;
+        });
+        verifiedPages = Array.prototype.slice.call(verifiedPages, 0, numArticles);
+
+        verifiedPages = verifiedPages.map((slug) => {
           return _approvedPages[slug].content;
         });
+
         return this.arwikiQuery.getDeletedPagesTX(
           admins,
           verifiedPages,
@@ -285,6 +281,32 @@ export class MainPageComponent implements OnInit, OnDestroy {
         });
         
         return this.arwikiQuery.getTXsData(finalList);
+      }),
+      switchMap((pages: any) => {
+        const latestPages: ArwikiPage[] = [];
+        for (let p of pages) {
+          const title = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
+          const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
+          const category = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
+          const img = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
+          const language = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang');
+          const owner = p.node.owner.address;
+          const id = p.node.id;
+          const block = p.node.block;
+          
+          latestPages.push({
+            title: title,
+            slug: slug,
+            category: category,
+            img: img,
+            owner: owner,
+            id: id,
+            block: block,
+            language: language,
+            start: allApprovedPages[slug].start
+          });
+        }
+        return of(latestPages);
       })
       
     );
@@ -386,22 +408,20 @@ export class MainPageComponent implements OnInit, OnDestroy {
         this.categories = categories;
         this.categoriesSlugs = Object.keys(this.categories)
            .sort((f1: any, f2: any) => {
-          if (this.categories[f1].order < this.categories[f2].order) {
-            return -1;
-          }
-          if (this.categories[f1].order > this.categories[f2].order) {
-            return 1;
-          }
-          // a must be equal to b
-          return 0;
+          return this.categories[f1].order - this.categories[f2].order;
         });
 
         return this._arwikiTokenContract.getApprovedPages(langCode, numArticles);
       }),
       switchMap((_approvedPages) => {
-        verifiedPages = Object.keys(_approvedPages).map((slug) => {
+        verifiedPages = Array.prototype.sort.call(Object.keys(_approvedPages), (a, b) => {
+          return _approvedPages[a].start - _approvedPages[b].start;
+        });
+
+        verifiedPages = verifiedPages.map((slug) => {
           return _approvedPages[slug].content;
         });
+
         return this.arwikiQuery.getDeletedPagesTX(
           admins,
           verifiedPages,
@@ -452,14 +472,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
         this.categories = categories;
         this.categoriesSlugs = Object.keys(this.categories)
            .sort((f1: any, f2: any) => {
-          if (this.categories[f1].order < this.categories[f2].order) {
-            return -1;
-          }
-          if (this.categories[f1].order > this.categories[f2].order) {
-            return 1;
-          }
-          // a must be equal to b
-          return 0;
+          return this.categories[f1].order - this.categories[f2].order;
         });
 
         return this.arwikiQuery.getMainPageTX(

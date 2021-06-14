@@ -76,14 +76,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
         this.loading = false;
         this.category_slugs = Object.keys(data.categories)
           .sort((f1: any, f2: any) => {
-            if (data.categories[f1].order < data.categories[f2].order) {
-              return -1;
-            }
-            if (data.categories[f1].order > data.categories[f2].order) {
-              return 1;
-            }
-            // a must be equal to b
-            return 0;
+            return data.categories[f1].order - data.categories[f2].order;
           });
        
         this.pages = data.pages;
@@ -201,7 +194,13 @@ export class MainMenuComponent implements OnInit, OnDestroy {
           return this._arwikiTokenContract.getApprovedPages(_langCode, _limit);
         }),
         switchMap((_approvedPages) => {
-          verifiedPages = Object.keys(_approvedPages).map((slug) => {
+          // Sort asc by block height
+          verifiedPages = Array.prototype.sort.call(Object.keys(_approvedPages), (a, b) => {
+            return _approvedPages[a].start - _approvedPages[b].start;
+          });
+
+
+          verifiedPages = verifiedPages.map((slug) => {
             return _approvedPages[slug].content;
           });
 
@@ -248,6 +247,11 @@ export class MainMenuComponent implements OnInit, OnDestroy {
           return of({ categories: globalCat, pages: finalRes });
         })
       );
+  }
+
+  sortAsc(a: any, b: any) {
+
+
   }
 
 }
