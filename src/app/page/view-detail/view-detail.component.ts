@@ -173,6 +173,8 @@ export class ViewDetailComponent implements OnInit {
   		error: (error) => {
   			this.message(error, 'error')
         this.loadingPage = false;
+        this.htmlContent = '';
+        this.pageNotFound = true;
   		}
   	});
 
@@ -275,7 +277,12 @@ export class ViewDetailComponent implements OnInit {
         }),
         switchMap((verifiedPages) => {
           const p = verifiedPages[_slug];
-          verifiedPagesList.push(p.content);
+
+          if (p && p.content) {
+            verifiedPagesList.push(p.content);
+          } else {
+            throw Error('Page does not exist!');
+          }
 
           return this.arwikiQuery.getDeletedPagesTX(
             adminList,
