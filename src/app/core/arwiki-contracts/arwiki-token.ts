@@ -157,8 +157,12 @@ export class ArwikiTokenContract
 
 	/*
 	*	@dev Get the list of approved pages from full state contract
+	* @param _numPages: -1 returns all values
 	*/
-	getApprovedPages(_langCode: string, _numPages: number): Observable<any> {
+	getApprovedPages(
+		_langCode: string,
+		_numPages: number = -1
+	): Observable<any> {
 		return this.getState().pipe(
 			map((_state: any) => {
 				let pageCounter = 0;
