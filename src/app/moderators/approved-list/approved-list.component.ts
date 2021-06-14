@@ -16,6 +16,7 @@ import { ArwikiCategoryIndex } from '../../core/interfaces/arwiki-category-index
 import { Direction } from '@angular/cdk/bidi';
 import { UserSettingsService } from '../../core/user-settings.service';
 import { Arwiki } from '../../core/arwiki';
+import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
 
 @Component({
   templateUrl: './approved-list.component.html',
@@ -40,7 +41,8 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
     public _dialog: MatDialog,
     private _route: ActivatedRoute,
     private _categoriesContract: ArwikiCategoriesContract,
-    private _userSettings: UserSettingsService
+    private _userSettings: UserSettingsService,
+    private _arwikiToken: ArwikiTokenContract
   ) { }
 
   async ngOnInit() {
@@ -66,28 +68,25 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
     }
 
     const owners = [this._auth.getMainAddressSnapshot()];
-    const verifiedPagesDict: Record<string,boolean> = {};
+    let verifiedPages: string[] = [];
     this.approvedPagesSubscription = this._categoriesContract
       .getState()
       .pipe(
         switchMap((categories: ArwikiCategoryIndex) => {
-          return this.arwikiQuery.getVerifiedPagesByCategories(
-            owners,
-            Object.keys(categories),
+          return this._arwikiToken.getApprovedPages(
             this.routeLang,
-            numPages,
-            maxHeight
+            -1
           );
         }),
 
         switchMap((verifiedPagesTX) => {
-          for (const p of verifiedPagesTX) {
-            const arwikiId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
-            verifiedPagesDict[arwikiId] = true;
-          }
+          verifiedPages = Object.keys(verifiedPagesTX).map((slug) => {
+            return verifiedPagesTX[slug].content;
+          });
+
           return this.arwikiQuery.getDeletedPagesTX(
             owners,
-            Object.keys(verifiedPagesDict),
+            verifiedPages,
             this.routeLang,
             numPages,
             maxHeight
@@ -100,7 +99,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
             deletedPagesDict[arwikiId] = true;
           }
 
-          let finalList = Object.keys(verifiedPagesDict).filter((vpId) => {
+          let finalList = verifiedPages.filter((vpId) => {
             return !deletedPagesDict[vpId];
           });
 

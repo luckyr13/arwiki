@@ -103,19 +103,16 @@ export class PendingListComponent implements OnInit, OnDestroy {
         }),
         switchMap((pendingPages: ArwikiPageIndex) => {
           return (
-            this.arwikiQuery.verifyPages(adminList, Object.keys(pendingPages))
+            this._arwikiTokenContract.getApprovedPages(this.routeLang, -1)
               .pipe(
-                switchMap((data) => {
+                switchMap((_approvedPages) => {
                   let tmp_res: ArwikiPageIndex = {};
-                  const verifiedPages = data;
-                  const verifiedPagesDict: Record<string, boolean> = {};
-                  for (let p of verifiedPages) {
-                    const vrfdPageId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
-                    verifiedPagesDict[vrfdPageId] = true;
-                  }
+                  const verifiedPages: string[] = Object.keys(_approvedPages).map((slug) => {
+                    return _approvedPages[slug].content;
+                  });
                   // Check pending pages against verified pages
-                  for (let pId of Object.keys(pendingPages)) {
-                    if (!verifiedPagesDict[pId]) {
+                  for (let pId in pendingPages) {
+                    if (!(verifiedPages.indexOf(pId) >= 0)) {
                       tmp_res[pId] = pendingPages[pId];
                     }
                   }

@@ -198,7 +198,7 @@ export class ViewDetailComponent implements OnInit {
     _limit: number = 100
   ) {
     let adminList: string[] = [];
-    const verifiedPagesDict: Record<string, boolean> = {};
+    let verifiedPages: string[] = [];
     return this._arwikiTokenContract.getAdminList()
       .pipe(
         switchMap((_adminList: string[]) => {
@@ -210,23 +210,19 @@ export class ViewDetailComponent implements OnInit {
           if (!(_category in categoriesContractState)) {
             throw new Error('Invalid category!');
           }
-          return this.arwikiQuery.getVerifiedPagesByCategories(
-            adminList,
-            [_category],
+          return this._arwikiTokenContract.getApprovedPages(
             _langCode,
-            _limit,
-            _maxHeight
+            _limit
           );
         }),
-        switchMap((verifiedPages) => {
-          for (let p of verifiedPages) {
-            const vrfdPageId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
-            verifiedPagesDict[vrfdPageId] = true;
-          }
+        switchMap((_approvedPages) => {
+          verifiedPages = Object.keys(_approvedPages).map((slug) => {
+            return _approvedPages[slug].content;
+          });
 
           return this.arwikiQuery.getDeletedPagesTX(
             adminList,
-            Object.keys(verifiedPagesDict),
+            verifiedPages,
             _langCode,
             _limit,
             _maxHeight
@@ -239,7 +235,7 @@ export class ViewDetailComponent implements OnInit {
             deletedPagesDict[arwikiId] = true;
           }
 
-          let finalList = Object.keys(verifiedPagesDict).filter((vpId) => {
+          let finalList = verifiedPages.filter((vpId) => {
             return !deletedPagesDict[vpId];
           });
           

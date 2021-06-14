@@ -186,44 +186,28 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     _maxHeight: number,
     _limit: number = 100
   ) {
-    let _globalCat: ArwikiCategoryIndex = {};
+    let globalCat: ArwikiCategoryIndex = {};
     let adminList: string[] = [];
-    let stakingPages: any = {};
+    let verifiedPages: string[] = [];
 
-    const verifiedPagesDict: Record<string, boolean> = {};
     return this._categoriesContract.getState()
       .pipe(
-        switchMap((categories: ArwikiCategoryIndex) => {
-          _globalCat = categories;
-          return this._arwikiTokenContract.getState();
+        switchMap((_categories: ArwikiCategoryIndex) => {
+          globalCat = _categories;
+          return this._arwikiTokenContract.getAdminList();
         }),
-        switchMap((tokenContractState) => {
-          adminList = Object.keys(tokenContractState.roles).filter((address) => {
-            return tokenContractState.roles[address].toUpperCase() === 'MODERATOR';
-          });
-          stakingPages = Object.keys(tokenContractState.pages).filter((p: any) => {
-            return tokenContractState.pages[p].active;
-          });
-
-
-          return (this.arwikiQuery.getVerifiedPagesByCategories(
-              adminList,
-              Object.keys(_globalCat),
-              _langCode, 
-              _limit,
-              _maxHeight,
-            )
-          );
+        switchMap((_adminList) => {
+          adminList = _adminList;
+          return this._arwikiTokenContract.getApprovedPages(_langCode, _limit);
         }),
-        switchMap((verifiedPages) => {
-          for (let p of verifiedPages) {
-            const vrfdPageId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
-            verifiedPagesDict[vrfdPageId] = true;
-          }
+        switchMap((_approvedPages) => {
+          verifiedPages = Object.keys(_approvedPages).map((slug) => {
+            return _approvedPages[slug].content;
+          });
 
           return this.arwikiQuery.getDeletedPagesTX(
             adminList,
-            Object.keys(verifiedPagesDict),
+            verifiedPages,
             _langCode,
             _limit,
             _maxHeight
@@ -236,10 +220,9 @@ export class MainMenuComponent implements OnInit, OnDestroy {
             deletedPagesDict[arwikiId] = true;
           }
 
-          let finalList = Object.keys(verifiedPagesDict).filter((vpId) => {
+          let finalList = verifiedPages.filter((vpId: string) => {
             return !deletedPagesDict[vpId];
           });
-
           
           return this.arwikiQuery.getTXsData(finalList);
         }),
@@ -262,7 +245,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
             };
             
           }
-          return of({ categories: _globalCat, pages: finalRes });
+          return of({ categories: globalCat, pages: finalRes });
         })
       );
   }

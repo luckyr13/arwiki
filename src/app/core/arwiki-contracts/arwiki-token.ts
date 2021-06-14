@@ -1,6 +1,5 @@
 import { 
-	readContract, interactWrite,
-	createContract, interactRead
+	readContract, interactWrite, interactRead, interactWriteDryRun, loadContract
 } from 'smartweave';
 import { Injectable } from '@angular/core';
 import { Observable, of, from } from 'rxjs';
@@ -133,6 +132,7 @@ export class ArwikiTokenContract
     	slug: _slug,
     	pageValue: `${_pageValue}`
     };
+
     const tx = await interactWrite(
       this._arweave.arweave,
       jwk,
@@ -158,17 +158,21 @@ export class ArwikiTokenContract
 	/*
 	*	@dev Get the list of approved pages from full state contract
 	*/
-	getApprovedPages(): Observable<any> {
+	getApprovedPages(_langCode: string, _numPages: number): Observable<any> {
 		return this.getState().pipe(
 			map((_state: any) => {
-				const pagesIds = Object.keys(_state.pages).filter((k) => {
-					return _state.pages[k].active;
+				let pageCounter = 0;
+				const pagesIds = Object.keys(_state.pages[_langCode]).filter((slug) => {
+					if (pageCounter >= _numPages && _numPages !== -1) {
+						return false;
+					}
+					pageCounter++;
+					return _state.pages[_langCode][slug].active;
 				});
-				const pages = pagesIds.reduce((acum: any, current) => {
-					acum[current] = _state.pages[current];
-					return acum[current];
-				});
-				console.log(pages, 'accum');
+				const pages = pagesIds.reduce((acum: any, slug) => {
+					acum[slug] = _state.pages[_langCode][slug];
+					return acum;
+				}, {});
 				return pages;
 			})
 		);

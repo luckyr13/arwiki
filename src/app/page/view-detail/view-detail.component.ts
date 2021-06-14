@@ -268,20 +268,14 @@ export class ViewDetailComponent implements OnInit {
         }),
         switchMap((_adminList: string[]) => {
           adminList = _adminList;
-          return this.arwikiQuery.getVerifiedPagesBySlug(
-            adminList,
-            [_slug],
-            categoriesCS,
+          return this._arwikiTokenContract.getApprovedPages(
             _langCode,
-            _limit,
-            _maxHeight
+            -1
           );
         }),
         switchMap((verifiedPages) => {
-          for (let p of verifiedPages) {
-            const vrfdPageId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
-            verifiedPagesList.push(vrfdPageId);
-          }
+          const p = verifiedPages[_slug];
+          verifiedPagesList.push(p.content);
 
           return this.arwikiQuery.getDeletedPagesTX(
             adminList,
