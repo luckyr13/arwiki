@@ -216,9 +216,12 @@ export class ViewDetailComponent implements OnInit {
           );
         }),
         switchMap((_approvedPages) => {
-          verifiedPages = Object.keys(_approvedPages).map((slug) => {
-            return _approvedPages[slug].content;
-          });
+          verifiedPages = Object.keys(_approvedPages)
+            .filter((slug) => {
+              return _approvedPages[slug].category === _category;
+            }).map((slug) => {
+              return _approvedPages[slug].content;
+            })
 
           return this.arwikiQuery.getDeletedPagesTX(
             adminList,

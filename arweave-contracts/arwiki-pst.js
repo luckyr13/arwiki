@@ -369,6 +369,7 @@ export function handle(state, action) {
     const value = +input.pageValue;
     const lang = input.langCode;
     const slug = input.slug;
+    const category = input.category;
     const role = caller in state.roles ? state.roles[caller] : "";
     const start = +SmartWeave.block.height;
     const pageApprovalLength = +settings.get("pageApprovalLength");
@@ -390,6 +391,9 @@ export function handle(state, action) {
     }
     if (typeof slug !== 'string' || !slug.trim().length) {
       throw new Error("Slug must be specified");
+    }
+    if (typeof category !== 'string' || !category.trim().length) {
+      throw new Error("Category must be specified");
     }
     if (typeof pageTX !== 'string' || !pageTX.trim().length) {
       throw new Error("PageTX must be specified");
@@ -423,6 +427,7 @@ export function handle(state, action) {
       start,
       pageRewardAt: end,
       paidAt: '',
+      category: category,
       updates: [],
       active: true
     };
