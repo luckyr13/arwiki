@@ -110,7 +110,9 @@
 	"LOADING": {
 		"QUOTES_TITLE" : "क्या तुम्हें पता था?",
 		"QUOTES": {
-			"0": "Arweave एक प्रोटोकॉल है जो आपको एक ही अग्रिम शुल्क के साथ स्थायी रूप से, स्थायी रूप से डेटा संग्रहीत करने की अनुमति देता है।"
+			"0": "Arweave एक प्रोटोकॉल है जो आपको एक ही अग्रिम शुल्क के साथ स्थायी रूप से, स्थायी रूप से डेटा संग्रहीत करने की अनुमति देता है।",
+			"1": "On top of the core Arweave protocol lives the permaweb: A global, permanent web of pages and applications that live forever.",
+			"2": "Arweave is a completely community-owned and -operated open source network."
 		}
 	}
 }

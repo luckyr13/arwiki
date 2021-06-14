@@ -110,7 +110,9 @@
 	"LOADING": {
 		"QUOTES_TITLE" : "An raibh a fhios agat?",
 		"QUOTES": {
-			"0": "Is prótacal é Arweave a ligeann duit sonraí a stóráil go buan, go hinbhuanaithe, le táille tosaigh amháin."
+			"0": "Is prótacal é Arweave a ligeann duit sonraí a stóráil go buan, go hinbhuanaithe, le táille tosaigh amháin.",
+			"1": "On top of the core Arweave protocol lives the permaweb: A global, permanent web of pages and applications that live forever.",
+			"2": "Arweave is a completely community-owned and -operated open source network."
 		}
 	}
 }

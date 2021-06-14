@@ -110,7 +110,9 @@
 	"LOADING": {
 		"QUOTES_TITLE" : "هل كنت تعلم؟",
 		"QUOTES": {
-			"0": "Arweave هو بروتوكول يسمح لك بتخزين البيانات بشكل دائم ومستدام مقابل رسوم مقدمة واحدة."
+			"0": "Arweave هو بروتوكول يسمح لك بتخزين البيانات بشكل دائم ومستدام مقابل رسوم مقدمة واحدة.",
+			"1": "On top of the core Arweave protocol lives the permaweb: A global, permanent web of pages and applications that live forever.",
+			"2": "Arweave is a completely community-owned and -operated open source network."
 		}
 	}
 }

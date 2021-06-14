@@ -110,7 +110,9 @@
 	"LOADING": {
 		"QUOTES_TITLE" : "Wusstest du schon?",
 		"QUOTES": {
-			"0": "Arweave ist ein Protokoll, mit dem Sie Daten mit einer einzigen Vorabgebühr dauerhaft und nachhaltig speichern können."
+			"0": "Arweave ist ein Protokoll, mit dem Sie Daten mit einer einzigen Vorabgebühr dauerhaft und nachhaltig speichern können.",
+			"1": "On top of the core Arweave protocol lives the permaweb: A global, permanent web of pages and applications that live forever.",
+			"2": "Arweave is a completely community-owned and -operated open source network."
 		}
 	}
 }

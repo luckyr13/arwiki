@@ -110,7 +110,9 @@
 	"LOADING": {
 		"QUOTES_TITLE" : "האם ידעת?",
 		"QUOTES": {
-			"0": "Arweave הוא פרוטוקול המאפשר לך לאחסן נתונים באופן קבוע, בר קיימא, בתשלום מקדים יחיד."
+			"0": "Arweave הוא פרוטוקול המאפשר לך לאחסן נתונים באופן קבוע, בר קיימא, בתשלום מקדים יחיד.",
+			"1": "On top of the core Arweave protocol lives the permaweb: A global, permanent web of pages and applications that live forever.",
+			"2": "Arweave is a completely community-owned and -operated open source network."
 		}
 	}
 }

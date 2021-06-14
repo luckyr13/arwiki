@@ -110,7 +110,9 @@
 	"LOADING": {
 		"QUOTES_TITLE" : "Tudtad?",
 		"QUOTES": {
-			"0": "Az Arweave egy olyan protokoll, amely lehetővé teszi az adatok tartós, fenntartható tárolását egyetlen előzetes díjjal."
+			"0": "Az Arweave egy olyan protokoll, amely lehetővé teszi az adatok tartós, fenntartható tárolását egyetlen előzetes díjjal.",
+			"1": "On top of the core Arweave protocol lives the permaweb: A global, permanent web of pages and applications that live forever.",
+			"2": "Arweave is a completely community-owned and -operated open source network."
 		}
 	}
 }

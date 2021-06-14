@@ -110,7 +110,9 @@
 	"LOADING": {
 		"QUOTES_TITLE" : "你知道嗎？",
 		"QUOTES": {
-			"0": "Arweave 是一種協議，允許您以單一的預付費用永久、可持續地存儲數據。"
+			"0": "Arweave 是一種協議，允許您以單一的預付費用永久、可持續地存儲數據。",
+			"1": "On top of the core Arweave protocol lives the permaweb: A global, permanent web of pages and applications that live forever.",
+			"2": "Arweave is a completely community-owned and -operated open source network."
 		}
 	}
 }
