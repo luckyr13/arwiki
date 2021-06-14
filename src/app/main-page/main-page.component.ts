@@ -255,7 +255,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
         verifiedPages = Array.prototype.sort.call(Object.keys(_approvedPages), (a, b) => {
           return _approvedPages[b].start - _approvedPages[a].start;
         });
-        verifiedPages = Array.prototype.slice.call(verifiedPages, 0, numArticles);
+        verifiedPages = Array.prototype.slice.call(verifiedPages, 0, numArticles + 1);
 
         verifiedPages = verifiedPages.map((slug) => {
           return _approvedPages[slug].content;
