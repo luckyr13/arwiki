@@ -34,7 +34,7 @@ router-outlet ~ div.spacer {
 .loading {
   font-size: 48px;
   text-align: center;
-  text-indent: 2px;
+  text-indent: 8px;
   font-family: "Roboto Mono", monospace;
   display: block;
   font-weight: bold;
@@ -49,6 +49,12 @@ router-outlet ~ div.spacer {
   width: 80%;
   margin: 0 auto;
   margin-top: 40px;
+}
+
+@media (min-width: 800px) {
+  .loading .small {
+    width: 40%;
+  }
 }
 
 .loading .small h2,

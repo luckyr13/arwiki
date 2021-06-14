@@ -39,7 +39,7 @@ export class AppComponent implements OnInit, AfterViewInit  {
     updateWritingDirection(this._userSettings.getDefaultLang())
     this._userSettings.settingsLangStream.subscribe(updateWritingDirection)
 
-    this.quoteNumber = this.getRandomInt(1);
+    this.quoteNumber = this.getRandomInt(3);
   }
 
   
