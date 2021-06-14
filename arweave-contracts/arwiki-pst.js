@@ -367,9 +367,13 @@ export function handle(state, action) {
     const author = input.author;
     const pageTX = input.pageTX;
     const value = +input.pageValue;
+    const lang = input.langCode;
+    const slug = input.slug;
     const role = caller in state.roles ? state.roles[caller] : "";
     const start = +SmartWeave.block.height;
-    const end = start + (+settings.get("voteLength"));
+    const pageApprovalLength = +settings.get("pageApprovalLength");
+    const maxPagesPerLang = +settings.get("maxPagesPerLang");
+    const end = start + (pageApprovalLength);
     const balance = balances[caller];
     let totalSupply = _calculate_total_supply(vault, balances, stakes);
     if (!Number.isInteger(value) || value <= 0) {
@@ -381,11 +385,20 @@ export function handle(state, action) {
     if (typeof author !== 'string' || !author.trim().length) {
       throw new Error("Author address must be specified");
     }
+    if (typeof lang !== 'string' || !lang.trim().length) {
+      throw new Error("LangCode must be specified");
+    }
+    if (typeof slug !== 'string' || !slug.trim().length) {
+      throw new Error("Slug must be specified");
+    }
     if (typeof pageTX !== 'string' || !pageTX.trim().length) {
       throw new Error("PageTX must be specified");
     }
-    if (pageTX in pages) {
-      throw new Error("Page is already approved");
+    if (!Object.prototype.hasOwnProperty.call(state.pages, lang)) {
+      throw new Error("Invalid LangCode"); 
+    }
+    if (Object.prototype.hasOwnProperty.call(state.pages[lang], slug)) {
+      throw new Error("Slug already taken!"); 
     }
     if (Object.prototype.hasOwnProperty.call(stakes, caller) &&
         stakes[caller][pageTX]) {
@@ -402,57 +415,69 @@ export function handle(state, action) {
       stakes[caller] = {};
     }
     stakes[caller][pageTX] = value;
-    pages[pageTX] = {
+    pages[lang][slug] = {
       author,
       content: pageTX,
       sponsor: caller,
       value,
       start,
-      pageRewardOn: end,
-      paidOn: '',
+      pageRewardAt: end,
+      paidAt: '',
       updates: [],
       active: true
     };
     return { state };
   }
   if (input.function === "unlockPageReward") {
-    const pageTX = input.pageTX ? input.pageTX : '';
     const author = input.target || caller;
     const currentHeight = +SmartWeave.block.height;
-    if (typeof pageTX !== 'string' || !pageTX.trim().length) {
-      throw new Error("PageTX must be specified");
+    const lang = input.langCode;
+    const slug = input.slug;
+    if (typeof lang !== 'string' || !lang.trim().length) {
+      throw new Error("LangCode must be specified");
     }
-    if (pages[pageTX] && pages[pageTX].author === author &&
-        currentHeight >= pages[pageTX].pageRewardOn &&
-        !pages[pageTX].paidOn) {
-      balances[author] += pages[pageTX].value;
-      pages[pageTX].paidOn = currentHeight;
+    if (typeof slug !== 'string' || !slug.trim().length) {
+      throw new Error("Slug must be specified");
+    }
+    if (!Object.prototype.hasOwnProperty.call(pages, lang)) {
+      throw new Error("Invalid LangCode"); 
+    }
+    if (!Object.prototype.hasOwnProperty.call(pages[lang], slug)) {
+      throw new Error("Invalid slug!"); 
+    }
+    if (pages[lang][slug] && pages[lang][slug].author === author &&
+        currentHeight >= pages[lang][slug].pageRewardAt &&
+        !pages[lang][slug].paidAt) {
+      balances[author] += pages[lang][slug].value;
+      pages[lang][slug].paidAt = currentHeight;
     }
     return {state};
   }
   if (input.function === "updatePageSponsor") {
-    const pageTX = input.pageTX;
     const value = +input.pageValue;
     const role = caller in state.roles ? state.roles[caller] : "";
     const balance = +balances[caller];
     const currentHeight = +SmartWeave.block.height;
     let totalSupply = _calculate_total_supply(vault, balances, stakes);
-
+    const lang = input.langCode;
+    const slug = input.slug;
+    if (typeof lang !== 'string' || !lang.trim().length) {
+      throw new Error("LangCode must be specified");
+    }
+    if (typeof slug !== 'string' || !slug.trim().length) {
+      throw new Error("Slug must be specified");
+    }
+    if (!Object.prototype.hasOwnProperty.call(pages, lang)) {
+      throw new Error("Invalid LangCode"); 
+    }
+    if (!Object.prototype.hasOwnProperty.call(pages[lang], slug)) {
+      throw new Error("Invalid slug!"); 
+    }
     if (!Number.isInteger(value) || value <= 0) {
       throw new ContractError('"pageValue" must be a positive integer.');
     }
     if (role.trim().toUpperCase() !== "MODERATOR") {
       throw new Error("Caller must be an admin");
-    }
-    if (typeof pageTX !== 'string' || !pageTX.trim().length) {
-      throw new Error("PageTX must be specified");
-    }
-    if (!(pageTX in pages)) {
-      throw new Error("Page must be approved first!");
-    }
-    if (Object.prototype.hasOwnProperty.call(stakes, caller) &&
-        stakes[caller][pageTX]) {
-      throw new Error("User is already staking for this page");
     }
     if (isNaN(balance) || balance < value) {
       throw new ContractError("Not enough balance.");
@@ -460,53 +485,71 @@ export function handle(state, action) {
     if (totalSupply + value > Number.MAX_SAFE_INTEGER) {
       throw new ContractError("'value' too large.");
     }
-    const previousSponsor = pages[pageTX].sponsor;
-    const previousValue = pages[pageTX].value;
+    const pageTX = pages[lang][slug].content;
+    if (Object.prototype.hasOwnProperty.call(stakes, caller) &&
+        stakes[caller][pageTX]) {
+      throw new Error("User is already staking for this page");
+    }
 
+    const previousSponsor = pages[lang][slug].sponsor;
+    const previousValue = pages[lang][slug].value;
+    if (value <= previousValue) {
+      throw new Error("New page value must be greater than the previous one.");
+    }
     balances[caller] -= value;
-    balances[previousSponsor] += previousValue;
-    delete stakes[previousSponsor][pageTX];
+    if (previousSponsor && Object.prototype.hasOwnProperty.call(balances, previousSponsor) &&
+      stakes[previousSponsor]) {
+      balances[previousSponsor] += previousValue;
+      delete stakes[previousSponsor][pageTX];
+    }
 
     if (!Object.prototype.hasOwnProperty.call(stakes, caller)) {
       stakes[caller] = {};
     }
     stakes[caller][pageTX] = value;
-    pages[pageTX].sponsor = caller;
-    pages[pageTX].value = value;
-    pages[pageTX].active = true;
-    if (pages[pageTX].paidOn) {
-      balances[pages[pageTX].author] += value - previousValue;
-      pages[pageTX].paidOn = currentHeight;
-    }
+    pages[lang][slug].sponsor = caller;
+    pages[lang][slug].value = value;
+    pages[lang][slug].active = true;
+
     return { state };
   }
   if (input.function === "stopPageSponsorshipAndDeactivatePage") {
-    const pageTX = input.pageTX;
     const role = caller in state.roles ? state.roles[caller] : "";
     const currentHeight = +SmartWeave.block.height;
+    const lang = input.langCode;
+    const slug = input.slug;
+    if (typeof lang !== 'string' || !lang.trim().length) {
+      throw new Error("LangCode must be specified");
+    }
+    if (typeof slug !== 'string' || !slug.trim().length) {
+      throw new Error("Slug must be specified");
+    }
+    if (!Object.prototype.hasOwnProperty.call(pages, lang)) {
+      throw new Error("Invalid LangCode"); 
+    }
+    if (!Object.prototype.hasOwnProperty.call(pages[lang], slug)) {
+      throw new Error("Invalid slug!"); 
+    }
     if (role.trim().toUpperCase() !== "MODERATOR") {
       throw new Error("Caller must be an admin");
-    }
-    if (typeof pageTX !== 'string' || !pageTX.trim().length) {
-      throw new Error("PageTX must be specified");
-    }
-    if (!(pageTX in pages)) {
-      throw new Error("Page must be approved first!");
     }
     if (!Object.prototype.hasOwnProperty.call(stakes, caller) ||
         !stakes[caller][pageTX]) {
       throw new Error("User is not staking for this page");
     }
+    if (pages[lang][slug].sponsor !== caller) {
+      throw new Error("User is not the sponsor");
+    }
 
-    const currentSponsor = pages[pageTX].sponsor;
-    const currentValue = pages[pageTX].value;
+    const currentSponsor = pages[lang][slug].sponsor;
+    const currentValue = pages[lang][slug].value;
 
     balances[currentSponsor] += currentValue;
     delete stakes[currentSponsor][pageTX];
 
-    pages[pageTX].sponsor = '';
-    pages[pageTX].value = 0;
-    pages[pageTX].active = false;
+    pages[lang][slug].sponsor = '';
+    pages[lang][slug].value = 0;
+    pages[lang][slug].active = false;
     
     return { state };
   }

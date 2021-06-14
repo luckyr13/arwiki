@@ -1,5 +1,5 @@
 {
-  "name": "ArWiki Token",
+  "name": "ArWiki",
   "ticker": "$WIKI",
   "balances": {
     "7z8Vtlbdm-Vw6mQ_jZ7OEh3E-4RtUC1V5U0pQw8Flyg": 66000000
@@ -31,6 +31,18 @@
       21600
     ],
     [
+      "maxPagesPerLang",
+      100
+    ],
+    [
+      "pageApprovalLength",
+      2000
+    ],
+    [
+      "platformUsageCostInWinston",
+      "1000000"
+    ],
+    [
       "communityLogo",
       "5wYwaQP8eFQn_YK6rSB3zdH5Fu8c6J2LJK7nwfT7LeA"
     ],
@@ -49,13 +61,30 @@
     [
       "appLogoDark",
       "wJGdli6nMQKCyCdtCewn84ba9-WsJ80-GS-KtKdkCLg"
-    ],
-    [
-      "appName",
-      "arweave"
     ]
 
   ],
-  "pages": {},
+  "pages": {
+    "en": {
+    },
+    "es": {
+    },
+    "de": {
+    },
+    "hi": {
+    },
+    "ar": {
+    },
+    "he": {
+    },
+    "hu": {
+    },
+    "ga": {
+    },
+    "zh": {
+    },
+    "id": {
+    }
+  },
   "stakes": {}
 }

@@ -6,7 +6,7 @@ export async function handle(state, action)
 	const _msgSender = SmartWeave.transaction.owner;
 	const _to = SmartWeave.transaction.target;
 	const _tags = SmartWeave.transaction.tags;
-	const SETTINGS_CONTRACT = 'l6lXn5yYIJ0fHaaxGgeuPAy5l0UgmDnEGoYR4J3CCMs';
+	const SETTINGS_CONTRACT = 'yA5zTz3w3Oya1Mg-VH3F-KWTQh6vzeahoCEude9qmn8';
 
 	/*
 	*	@dev Add category
@@ -58,7 +58,9 @@ export async function handle(state, action)
 		const settingsContractState = await SmartWeave.contracts.readContractState(
 			SETTINGS_CONTRACT
 		);
-    const adminList = settingsContractState.admin_list;
+    const adminList = Object.keys(settingsContractState.roles).filter((address) => {
+			return settingsContractState.roles[address].toUpperCase() === 'MODERATOR';
+		});
     // Validate _msgSender in admins list
     _modifier_validateAdmin(_msgSender, adminList);
     // Validate inputs
@@ -84,12 +86,9 @@ export async function handle(state, action)
 			throw new ContractError('Category doesn\'t exist');
 		}
 
-    state[slug] = {
-    	slug: slug,
-    	label: label,
-    	order: order,
-    	active: active
-    };
+    state[slug][label] = label;
+    state[slug][order] = order;
+    state[slug][active] = active;
     return { state };
   }
 
