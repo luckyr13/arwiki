@@ -13,7 +13,7 @@ import { ArwikiLangIndex } from '../interfaces/arwiki-lang-index';
 export class ArwikiLangIndexContract
 {
 	private _langs: ArwikiLangIndex = {};
-	private _contractAddress: string = 'HNn0zHrdsoTFlXe7LQXVoZNi507QI0L4lFNhp7DUT60';
+	private _contractAddress: string = '-NZMPdQJd2P3N9pXzKh8mV_PljLzmYtjFnVRZ9uoUpM';
 
 
 	constructor(private _arweave: ArweaveService) {
