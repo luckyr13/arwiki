@@ -13,7 +13,7 @@ import { JWKInterface } from 'arweave/node/lib/wallet';
 })
 export class ArwikiTokenContract
 {
-	private _contractAddress: string = 'l6lXn5yYIJ0fHaaxGgeuPAy5l0UgmDnEGoYR4J3CCMs';
+	private _contractAddress: string = 'yA5zTz3w3Oya1Mg-VH3F-KWTQh6vzeahoCEude9qmn8';
 	private _state: any = {};
 	private _adminList: string[] = [];
 
@@ -129,6 +129,8 @@ export class ArwikiTokenContract
     	function: 'approvePage',
     	author: _author,
     	pageTX: _pageId,
+    	langCode: _langCode,
+    	slug: _slug,
     	pageValue: `${_pageValue}`
     };
     const tx = await interactWrite(
@@ -142,13 +144,32 @@ export class ArwikiTokenContract
   }
 
   /*
-	*	@dev Get only the settings property from full state contract
+	*	@dev Get the settings property from full state contract
 	*/
 	getSettings(): Observable<any> {
 		return this.getState().pipe(
 			map((_state: any) => {
 				const settings = new Map(_state.settings);
 				return settings;
+			})
+		);
+	}
+
+	/*
+	*	@dev Get the list of approved pages from full state contract
+	*/
+	getApprovedPages(): Observable<any> {
+		return this.getState().pipe(
+			map((_state: any) => {
+				const pagesIds = Object.keys(_state.pages).filter((k) => {
+					return _state.pages[k].active;
+				});
+				const pages = pagesIds.reduce((acum: any, current) => {
+					acum[current] = _state.pages[current];
+					return acum[current];
+				});
+				console.log(pages, 'accum');
+				return pages;
 			})
 		);
 	}
