@@ -105,7 +105,7 @@ export class NewComponent implements OnInit, OnDestroy {
     this.arwiki = new Arwiki(this._arweave.arweave);
   	this.getDefaultTheme();
     // Load markdown editor
-    this._redirectTimeout = window.setTimeout(() => {
+    window.setTimeout(() => {
       this.simplemde = new SimpleMDE({
         element: document.getElementById("create-page-textarea-simplemde-content")
       });
@@ -259,7 +259,7 @@ export class NewComponent implements OnInit, OnDestroy {
         
       this.message(txid, 'success');
       this.newPageTX = txid;
-      window.setTimeout(() => {
+      this._redirectTimeout = window.setTimeout(() => {
         const lastRoute = `/${this.routeLang}/dashboard`;
         this._router.navigate([lastRoute]);
       }, 20000);

@@ -61,7 +61,6 @@ export class ArwikiTokenContract
 	getAdminList(): Observable<string[]> {
 		return this.getState().pipe(
 			map((_state: any) => {
-				console.log(_state)
 				this._adminList = Object.keys(_state.roles).filter((address) => {
 					return _state.roles[address].toUpperCase() === 'MODERATOR';
 				});
