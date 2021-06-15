@@ -166,7 +166,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
       });
 
     // Get latest articles 
-    const numArticles = 4;
+    const numArticles = 6;
 
     this.pagesSubscription = this.getLatestArticles(
         numArticles, this.routeLang, maxHeight
@@ -280,7 +280,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
         verifiedPages = Array.prototype.sort.call(Object.keys(_approvedPages), (a, b) => {
           return _approvedPages[b].start - _approvedPages[a].start;
         });
-        verifiedPages = Array.prototype.slice.call(verifiedPages, 0, numArticles + 1);
+        verifiedPages = Array.prototype.slice.call(verifiedPages, 0, numArticles);
 
         verifiedPages = verifiedPages.map((slug) => {
           return _approvedPages[slug].content;
