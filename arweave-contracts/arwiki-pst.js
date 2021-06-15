@@ -556,7 +556,7 @@ export function handle(state, action) {
     pages[lang][slug].value = 0;
     pages[lang][slug].active = false;
     // :)
-    if (pages[lang][slug].paidAt) {
+    if (pages[lang][slug].paidAt && pages[lang][slug].author === caller) {
       balances[currentSponsor] -= currentValue;
     }
     
