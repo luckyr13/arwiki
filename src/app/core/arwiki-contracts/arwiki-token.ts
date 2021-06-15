@@ -85,16 +85,15 @@ export class ArwikiTokenContract
 	/*
 	*	@dev Execute read function on PST contract
 	*/
-	getBalance(address: string, wallet: JWKInterface): Observable<any> {
-		const input = {
-			function: 'balanceDetail',
-			target: address
-		}
-		return from(interactRead(
-			this._arweave.arweave,
-			wallet,
-			this._contractAddress,
-			input)
+	getBalance(address: string, reload: boolean = true): Observable<any> {
+		return this.getState(reload).pipe(
+			map((_state: any) => {
+				const balances = _state.balances;
+				const vault = _state.vault;
+				const stakes = _state.stakes;
+				const balance = this.getBalanceDetail(address, balances, vault, stakes);
+				return balance.result;
+			})
 		);
 	}
 
@@ -182,5 +181,30 @@ export class ArwikiTokenContract
 			})
 		);
 	}
+
+	getBalanceDetail(_target: string, _balances: any, _vault: any, _stakes: any) {
+    const target = _target;
+    const balances = _balances;
+    const vault = _vault;
+    const stakes = _stakes;
+    let unlockedBalance = 0;
+    let vaultBalance = 0;
+    let stakingBalance = 0;
+    if (target in balances) {
+      unlockedBalance = balances[target];
+    }
+    if (target in vault && vault[target].length) {
+      try {
+        vaultBalance += vault[target].map((a: any) => a.balance).reduce((a: any, b: any) => a + b, 0);
+      } catch (e) {
+      }
+    }
+    const stakingDict = stakes[target] ? stakes[target] : {};
+    for (const vPage of Object.keys(stakingDict)) {
+      stakingBalance += stakes[target][vPage];
+    }
+    return {result: {target, unlockedBalance, vaultBalance, stakingBalance}};
+  }
+  
 
 }
