@@ -1,18 +1,12 @@
 .footer {
 	height: 120px;
 	padding: 14px;
-	margin-top: 20px;
+	margin-top: 0px;
 }
 
 .footer p {
 	margin-bottom: 0px;
 	font-weight: bold;
-}
-
-@media (min-width: 1400px) {
-	.footer {
-		margin-top: 60px;
-	}
 }
 
 .arweave-gray-logo {

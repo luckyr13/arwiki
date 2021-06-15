@@ -100,3 +100,28 @@ a.mat-button{
 .card-latest-article-skeleton {
 	margin-bottom: 40px;
 }
+
+.container-partners {
+	background-color: #F5F5F5;
+	padding: 24px;
+	margin-top: 40px;
+}
+.container-partners.dark {
+	background-color: #212121;
+	color: #fff;
+}
+
+.card-partner {
+	padding: 20px;
+	text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-partner img {
+	width: 100%;
+}
+.card-partner img.dark {
+	filter:  grayscale(1) invert(1);
+}
