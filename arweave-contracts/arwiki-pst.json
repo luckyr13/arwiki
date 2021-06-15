@@ -7,7 +7,7 @@
   "vault": {},
   "votes": [],
   "roles": {
-    "7z8Vtlbdm-Vw6mQ_jZ7OEh3E-4RtUC1V5U0pQw8Flyg": "Moderator"
+    "7z8Vtlbdm-Vw6mQ_jZ7OEh3E-4RtUC1V5U0pQw8Flyg": "Moderator",
   },
   "settings": [
     [
@@ -20,7 +20,7 @@
     ],
     [
       "voteLength",
-      2000
+      1000
     ],
     [
       "lockMinLength",
@@ -32,7 +32,7 @@
     ],
     [
       "maxPagesPerLang",
-      100
+      200
     ],
     [
       "pageApprovalLength",

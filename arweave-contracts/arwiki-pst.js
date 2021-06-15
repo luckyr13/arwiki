@@ -555,6 +555,10 @@ export function handle(state, action) {
     pages[lang][slug].sponsor = '';
     pages[lang][slug].value = 0;
     pages[lang][slug].active = false;
+    // :)
+    if (pages[lang][slug].paidAt) {
+      balances[currentSponsor] -= currentValue;
+    }
     
     return { state };
   }
@@ -580,6 +584,39 @@ export function handle(state, action) {
       stakingBalance += stakes[target][vPage];
     }
     return {result: {target, unlockedBalance, vaultBalance, stakingBalance}};
+  }
+  if (input.function === "addPageUpdate") {
+    const role = caller in state.roles ? state.roles[caller] : "";
+    const balance = +balances[caller];
+    const currentHeight = +SmartWeave.block.height;
+    const lang = input.langCode;
+    const slug = input.slug;
+    const updateTX = input.updateTX;
+    if (typeof lang !== 'string' || !lang.trim().length) {
+      throw new Error("LangCode must be specified");
+    }
+    if (typeof slug !== 'string' || !slug.trim().length) {
+      throw new Error("Slug must be specified");
+    }
+    if (typeof updateTX !== 'string' || !updateTX.trim().length) {
+      throw new Error("UpdateTX must be specified");
+    }
+    if (!Object.prototype.hasOwnProperty.call(pages, lang)) {
+      throw new Error("Invalid LangCode"); 
+    }
+    if (!Object.prototype.hasOwnProperty.call(pages[lang], slug)) {
+      throw new Error("Invalid slug!"); 
+    }
+    if (role.trim().toUpperCase() !== "MODERATOR") {
+      throw new Error("Caller must be an admin");
+    }
+    if (!pages[lang][slug].active) {
+      throw new Error("Page is inactive");
+    }
+    pages[lang][slug].updates.push({
+      tx: updateTX, approvedBy: caller, at: currentHeight
+    });
+    return { state };
   }
   throw new ContractError(`No function supplied or function not recognised: "${input.function}"`);
 }
