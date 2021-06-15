@@ -513,7 +513,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
           const vrfdPageId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
           const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
 
-          if (allApprovedPages[slug]) {
+          if (allApprovedPages[slug] && allApprovedPages[slug].content === vrfdPageId) {
             verifiedPagesDict[vrfdPageId] = true;
           }
 
