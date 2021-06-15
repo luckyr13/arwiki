@@ -1,0 +1,118 @@
+{
+	"HOME": {
+		"SECONDARY_TITLE": "مرحبًا بكم في موقع Permaweb!"
+	},
+	"MAIN_MENU": {
+		"HOME": "الصفحة الرئيسية",
+		"ABOUT": "حول",
+		"the_arweave_project": "مشروع Arweave",
+		"the_arweave_protocol": "بروتوكول Arweave",
+		"profit_sharing": "مشاركة الأرباح",
+		"mining": "التعدين",
+		"building_on_arweave": "بناء على Arweave"
+	},
+	"MAIN_TOOLBAR": {
+		"TOOLTIP_LOGIN": "تسجيل الدخول",
+		"MENU_SETTINGS_LANGUAGE": "اختار اللغة",
+		"MENU_SETTINGS_THEME": "اختر نمطا",
+		"TOOLTIP_SEARCH": "بحث",
+		"TOOLTIP_SETTINGS": "Settings",
+		"MENU_USER_DASHBOARD": "لوحة القيادة",
+		"MENU_USER_CREATE": "إنشاء الصفحة",
+		"MENU_USER_LOGOUT": "تسجيل خروج",
+		"MENU_USER_MY_PAGES": "My pages",
+		"MENU_USER_MODERATORS": "Moderators"
+	},
+	"MAIN_PAGE": {
+		"TITLE_L1": "مرحبًا بكم في موقع Permaweb!",
+		"SUBTITLE_L1": "arwiki هو موقع wiki اللامركزي لـ arweave يمكن لأي شخص تحريره.",
+		"TITLE_L2": "ابدء",
+		"TITLE_L3": "أحدث المقالات",
+		"LABEL_NO_RESULTS": "No results."
+	},
+	"PAGE": {
+		"LABEL_ID": "Id",
+		"LABEL_TITLE": "لقب",
+		"LABEL_SLUG": "Slug",
+		"LABEL_CATEGORY": "فئة",
+		"LABEL_LANGUAGE": "لغة",
+		"LABEL_OWNER": "مالك",
+		"LABEL_TX_STATUS": "TX status",
+		"LABEL_BLOCK_HEIGHT": "ارتفاع الكتلة",
+		"LABEL_BLOCK_TIMESTAMP": "حظر الطابع الزمني",
+		"LABEL_ARVERIFY_SCORE": "ArVerify Score",
+		"LABEL_OWNER_STATUS": "حالة المالك",
+		"STATUS_TX_PENDING": "قيد الانتظار",
+		"STATUS_ADDRESS_VERIFIED": "تم التحقق",
+		"STATUS_ADDRESS_NOTVERIFIED": "لم يتم التحقق منها"
+	},
+	"NOT_FOUND": {
+
+	},
+	"CREATE_PAGE": {
+		"TITLE": "Create page",
+		"FRM_TITLE": "لقب",
+		"FRM_BY": "بواسطة",
+		"FRM_SLUG": "Page slug",
+		"FRM_CATEGORY": "فئة",
+		"FRM_LANGUAGE": "لغة",
+		"FRM_LOADING": "جار التحميل ...",
+		"FRM_UPLOAD_FILE": "رفع ملف",
+		"FRM_CONTENT": "المحتوى",
+		"FRM_BTN_SAVE": "يحفظ",
+		"FRM_BTN_GOBACK": "عد"
+	},
+	"SEARCH_ENGINE": {
+		"INPUT_SEARCH_LABEL": "ابحث في arwiki",
+		"INPUT_SEARCH_PLACEHOLDER": "",
+		"LBL_DEFAULT_LANG": "اللغة الافتراضية",
+		"LBL_SELECT_LANG":"حدد اللغة",
+		"BTN_TXT_GO": "انطلق!"
+	},
+	"FOOTER": {
+		"LBL_POWERED": "مشغل بواسطة"
+	},
+	"DIALOGS": {
+		"TITLE_SELECT_LANG": "حدد اللغة",
+		"TXT_CLOSE": "أغلق"
+	},
+	"MODERATORS": {
+		"PENDING_PAGE": {
+			"TITLE_PENDING": "قائمة معلقة"
+		},
+		"LABEL_NO_RESULTS": "لا نتائج.",
+		"LABEL_TOOLBAR_TITLE": "لوحة المشرف"
+	},
+	"CATEGORY": {
+		"BREADCRUMB_LABEL": "Category:"
+	},
+	"GENERAL": {
+		"BUTTONS": {
+			"GO_BACK": "Go back",
+			"OPEN_VIEWBLOCK": "Open in Viewblock",
+			"COPY_ADDRESS": "Copy address",
+			"TIP_AUTHOR": "Tip the author",
+			"VIEW_ARTICLE": "View article",
+			"EDIT_PAGE": "Edit page",
+			"MORE_ARTICLES": "More articles"
+		},
+		"LABELS": {
+			"NO_RESULTS": "No results"
+		},
+		"CARDS": {
+			"ARTICLE": {
+				"CATEGORY": "Category:",
+				"CREATED_BY": "Created by:",
+				"CREATION_DATE": "Creation date:"
+			}
+		}
+	},
+	"LOADING": {
+		"QUOTES_TITLE" : "هل كنت تعلم؟",
+		"QUOTES": {
+			"0": "Arweave هو بروتوكول يسمح لك بتخزين البيانات بشكل دائم ومستدام مقابل رسوم مقدمة واحدة.",
+			"1": "On top of the core Arweave protocol lives the permaweb: A global, permanent web of pages and applications that live forever.",
+			"2": "Arweave is a completely community-owned and -operated open source network."
+		}
+	}
+}

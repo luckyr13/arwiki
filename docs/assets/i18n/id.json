@@ -1,0 +1,118 @@
+{
+	"HOME": {
+		"SECONDARY_TITLE": "Selamat datang di permaweb!"
+	},
+	"MAIN_MENU": {
+		"HOME": "Rumah",
+		"ABOUT": "Tentang",
+		"the_arweave_project": "Proyek Arweave",
+		"the_arweave_protocol": "Protokol Arweave",
+		"profit_sharing": "Bagi hasil",
+		"mining": "Pertambangan",
+		"building_on_arweave": "Membangun di Arweave"
+	},
+	"MAIN_TOOLBAR": {
+		"TOOLTIP_LOGIN": "Gabung",
+		"MENU_SETTINGS_LANGUAGE": "Pilih bahasa",
+		"MENU_SETTINGS_THEME": "Pilih tema",
+		"TOOLTIP_SEARCH": "Cari",
+		"TOOLTIP_SETTINGS": "Pengaturan",
+		"MENU_USER_DASHBOARD": "Dasbor",
+		"MENU_USER_CREATE": "Membuat halaman",
+		"MENU_USER_LOGOUT": "Keluar",
+		"MENU_USER_MY_PAGES": "My pages",
+		"MENU_USER_MODERATORS": "Moderators"
+	},
+	"MAIN_PAGE": {
+		"TITLE_L1": "Selamat datang di permaweb!",
+		"SUBTITLE_L1": "arwiki adalah wiki terdesentralisasi untuk arweave yang dapat diedit siapa saja.",
+		"TITLE_L2": "Mulai",
+		"TITLE_L3": "Artikel Terbaru",
+		"LABEL_NO_RESULTS": "No results."
+	},
+	"PAGE": {
+		"LABEL_ID": "Id",
+		"LABEL_TITLE": "Title",
+		"LABEL_SLUG": "Slug",
+		"LABEL_CATEGORY": "Category",
+		"LABEL_LANGUAGE": "Language",
+		"LABEL_OWNER": "Owner",
+		"LABEL_TX_STATUS": "TX status",
+		"LABEL_BLOCK_HEIGHT": "Block height",
+		"LABEL_BLOCK_TIMESTAMP": "Block timestamp",
+		"LABEL_ARVERIFY_SCORE": "ArVerify Score",
+		"LABEL_OWNER_STATUS": "Owner status",
+		"STATUS_TX_PENDING": "Pending",
+		"STATUS_ADDRESS_VERIFIED": "Verified",
+		"STATUS_ADDRESS_NOTVERIFIED": "Not verified"
+	},
+	"NOT_FOUND": {
+
+	},
+	"CREATE_PAGE": {
+		"TITLE": "Create page",
+		"FRM_TITLE": "Title",
+		"FRM_BY": "By",
+		"FRM_SLUG": "Page slug",
+		"FRM_CATEGORY": "Category",
+		"FRM_LANGUAGE": "Language",
+		"FRM_LOADING": "Loading ...",
+		"FRM_UPLOAD_FILE": "Upload file",
+		"FRM_CONTENT": "Content",
+		"FRM_BTN_SAVE": "Save",
+		"FRM_BTN_GOBACK": "Go back"
+	},
+	"SEARCH_ENGINE": {
+		"INPUT_SEARCH_LABEL": "Cari di arwiki",
+		"INPUT_SEARCH_PLACEHOLDER": "",
+		"LBL_DEFAULT_LANG": "Default language",
+		"LBL_SELECT_LANG":" Select language",
+		"BTN_TXT_GO": "Go!"
+	},
+	"FOOTER": {
+		"LBL_POWERED": "Dipersembahkan oleh"
+	},
+	"DIALOGS": {
+		"TITLE_SELECT_LANG": "Pilih bahasa",
+		"TXT_CLOSE": "Menutup"
+	},
+	"MODERATORS": {
+		"PENDING_PAGE": {
+			"TITLE_PENDING": "Daftar menunggu keputusan"
+		},
+		"LABEL_NO_RESULTS": "Tidak ada hasil.",
+		"LABEL_TOOLBAR_TITLE": "Panel moderator"
+	},
+	"CATEGORY": {
+		"BREADCRUMB_LABEL": "Category:"
+	},
+	"GENERAL": {
+		"BUTTONS": {
+			"GO_BACK": "Go back",
+			"OPEN_VIEWBLOCK": "Open in Viewblock",
+			"COPY_ADDRESS": "Copy address",
+			"TIP_AUTHOR": "Tip the author",
+			"VIEW_ARTICLE": "View article",
+			"EDIT_PAGE": "Edit page",
+			"MORE_ARTICLES": "More articles"
+		},
+		"LABELS": {
+			"NO_RESULTS": "No results"
+		},
+		"CARDS": {
+			"ARTICLE": {
+				"CATEGORY": "Category:",
+				"CREATED_BY": "Created by:",
+				"CREATION_DATE": "Creation date:"
+			}
+		}
+	},
+	"LOADING": {
+		"QUOTES_TITLE" : "Tahukah kamu?",
+		"QUOTES": {
+			"0": "Arweave adalah protokol yang memungkinkan Anda menyimpan data secara permanen, berkelanjutan, dengan satu biaya di muka.",
+			"1": "On top of the core Arweave protocol lives the permaweb: A global, permanent web of pages and applications that live forever.",
+			"2": "Arweave is a completely community-owned and -operated open source network."
+		}
+	}
+}

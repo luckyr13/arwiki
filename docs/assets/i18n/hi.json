@@ -1,0 +1,118 @@
+{
+	"HOME": {
+		"SECONDARY_TITLE": "Permaweb में आपका स्वागत है!"
+	},
+	"MAIN_MENU": {
+		"HOME": "मुख्य पृष्ठ",
+		"ABOUT": "के बारे में",
+		"the_arweave_project": "Arweave परियोजना",
+		"the_arweave_protocol": "Arweave प्रोटोकॉल",
+		"profit_sharing": "लाभ साझेदारी",
+		"mining": "खुदाई",
+		"building_on_arweave": "अर्वावे पर निर्माण"
+	},
+	"MAIN_TOOLBAR": {
+		"TOOLTIP_LOGIN": "लॉग इन करें",
+		"MENU_SETTINGS_LANGUAGE": "भाषा का चयन करें",
+		"MENU_SETTINGS_THEME": "चुनिंदा विषय",
+		"TOOLTIP_SEARCH": "खोज",
+		"TOOLTIP_SETTINGS": "Settings",
+		"MENU_USER_DASHBOARD": "डैशबोर्ड",
+		"MENU_USER_CREATE": "पेज बनाएं",
+		"MENU_USER_LOGOUT": "लॉग आउट",
+		"MENU_USER_MY_PAGES": "My pages",
+		"MENU_USER_MODERATORS": "Moderators"
+	},
+	"MAIN_PAGE": {
+		"TITLE_L1": "Permaweb में आपका स्वागत है!",
+		"SUBTITLE_L1": "arwiki arweave के लिए विकेन्द्रीकृत विकी है जिसे कोई भी संपादित कर सकता है।",
+		"TITLE_L2": "शुरू करना",
+		"TITLE_L3": "ताज़ा लेख",
+		"LABEL_NO_RESULTS": "No results."
+	},
+	"PAGE": {
+		"LABEL_ID": "Id",
+		"LABEL_TITLE": "शीर्षक",
+		"LABEL_SLUG": "Slug",
+		"LABEL_CATEGORY": "वर्ग",
+		"LABEL_LANGUAGE": "भाषा: हिन्दी",
+		"LABEL_OWNER": "मालिक",
+		"LABEL_TX_STATUS": "TX status",
+		"LABEL_BLOCK_HEIGHT": "ब्लॉक ऊंचाई",
+		"LABEL_BLOCK_TIMESTAMP": "ब्लॉक टाइमस्टैम्प",
+		"LABEL_ARVERIFY_SCORE": "ArVerify Score",
+		"LABEL_OWNER_STATUS": "मालिक का दर्जा",
+		"STATUS_TX_PENDING": "विचाराधीन",
+		"STATUS_ADDRESS_VERIFIED": "सत्यापित",
+		"STATUS_ADDRESS_NOTVERIFIED": "प्रमाणित नहीं है"
+	},
+	"CREATE_PAGE": {
+		"TITLE": "Create page",
+		"FRM_TITLE": "शीर्षक",
+		"FRM_BY": "द्वारा",
+		"FRM_SLUG": "Page slug",
+		"FRM_CATEGORY": "वर्ग",
+		"FRM_LANGUAGE": "भाषा: हिन्दी",
+		"FRM_LOADING": "लोड हो रहा है ...",
+		"FRM_UPLOAD_FILE": "फ़ाइल अपलोड करें",
+		"FRM_CONTENT": "सामग्री",
+		"FRM_BTN_SAVE": "सहेजें",
+		"FRM_BTN_GOBACK": "वापस जाओ"
+	},
+	"NOT_FOUND": {
+
+	},
+	"SEARCH_ENGINE": {
+		"INPUT_SEARCH_LABEL": "अरवी की खोज करो",
+		"INPUT_SEARCH_PLACEHOLDER": "",
+		"LBL_DEFAULT_LANG": "डिफ़ॉल्ट भाषा",
+		"LBL_SELECT_LANG":" भाषा का चयन करें",
+		"BTN_TXT_GO": "जाओ!"
+	},
+	"FOOTER": {
+		"LBL_POWERED": "द्वारा संचालित"
+	},
+	"DIALOGS": {
+		"TITLE_SELECT_LANG": "भाषा का चयन करें",
+		"TXT_CLOSE": "बंद करे"
+	},
+	"MODERATORS": {
+		"PENDING_PAGE": {
+			"TITLE_PENDING": "लंबित सूची"
+		},
+		"LABEL_NO_RESULTS": "कोई परिणाम नहीं।",
+		"LABEL_TOOLBAR_TITLE": "मॉडरेटर का पैनल"
+	},
+	"CATEGORY": {
+		"BREADCRUMB_LABEL": "Category:"
+	},
+	"GENERAL": {
+		"BUTTONS": {
+			"GO_BACK": "Go back",
+			"OPEN_VIEWBLOCK": "Open in Viewblock",
+			"COPY_ADDRESS": "Copy address",
+			"TIP_AUTHOR": "Tip the author",
+			"VIEW_ARTICLE": "View article",
+			"EDIT_PAGE": "Edit page",
+			"MORE_ARTICLES": "More articles"
+		},
+		"LABELS": {
+			"NO_RESULTS": "No results"
+		},
+		"CARDS": {
+			"ARTICLE": {
+				"CATEGORY": "Category:",
+				"CREATED_BY": "Created by:",
+				"CREATION_DATE": "Creation date:"
+			}
+		}
+	},
+	"LOADING": {
+		"QUOTES_TITLE" : "क्या तुम्हें पता था?",
+		"QUOTES": {
+			"0": "Arweave एक प्रोटोकॉल है जो आपको एक ही अग्रिम शुल्क के साथ स्थायी रूप से, स्थायी रूप से डेटा संग्रहीत करने की अनुमति देता है।",
+			"1": "On top of the core Arweave protocol lives the permaweb: A global, permanent web of pages and applications that live forever.",
+			"2": "Arweave is a completely community-owned and -operated open source network."
+		}
+	}
+}

@@ -1,0 +1,118 @@
+{
+	"HOME": {
+		"SECONDARY_TITLE": "ברוך הבא ל- permaweb!"
+	},
+	"MAIN_MENU": {
+		"HOME": "עמוד ראשי",
+		"ABOUT": "על אודות",
+		"the_arweave_project": "פרויקט Arweave",
+		"the_arweave_protocol": "פרוטוקול Arweave",
+		"profit_sharing": "חלוקת רווחים",
+		"mining": "כְּרִיָה",
+		"building_on_arweave": "בונה על ארוויב"
+	},
+	"MAIN_TOOLBAR": {
+		"TOOLTIP_LOGIN": "התחברות",
+		"MENU_SETTINGS_LANGUAGE": "בחר שפה",
+		"MENU_SETTINGS_THEME": "בחר נושא",
+		"TOOLTIP_SEARCH": "לחפש",
+		"TOOLTIP_SETTINGS": "Settings",
+		"MENU_USER_DASHBOARD": "לוּחַ מַחווָנִים",
+		"MENU_USER_CREATE": "צור עמוד",
+		"MENU_USER_LOGOUT": "להתנתק",
+		"MENU_USER_MY_PAGES": "My pages",
+		"MENU_USER_MODERATORS": "Moderators"
+	},
+	"MAIN_PAGE": {
+		"TITLE_L1": "ברוך הבא ל- permaweb!",
+		"SUBTITLE_L1": "arwiki הוא הוויקי המבוזר עבור arweave שכל אחד יכול לערוך.",
+		"TITLE_L2": "מתחילים",
+		"TITLE_L3": "כתבות אחרונות",
+		"LABEL_NO_RESULTS": "No results."
+	},
+	"PAGE": {
+		"LABEL_ID": "Id",
+		"LABEL_TITLE": "כותרת",
+		"LABEL_SLUG": "Slug",
+		"LABEL_CATEGORY": "קטגוריה",
+		"LABEL_LANGUAGE": "שפה",
+		"LABEL_OWNER": "בעלים",
+		"LABEL_TX_STATUS": "TX status",
+		"LABEL_BLOCK_HEIGHT": "גובה גוש",
+		"LABEL_BLOCK_TIMESTAMP": "חסום חותמת זמן",
+		"LABEL_ARVERIFY_SCORE": "ArVerify Score",
+		"LABEL_OWNER_STATUS": "סטטוס בעלים",
+		"STATUS_TX_PENDING": "ממתין ל",
+		"STATUS_ADDRESS_VERIFIED": "מְאוּמָת",
+		"STATUS_ADDRESS_NOTVERIFIED": "לא אומת"
+	},
+	"CREATE_PAGE": {
+		"TITLE": "Create page",
+		"FRM_TITLE": "כותרת",
+		"FRM_BY": "על ידי",
+		"FRM_SLUG": "Page slug",
+		"FRM_CATEGORY": "קטגוריה",
+		"FRM_LANGUAGE": "שפה",
+		"FRM_LOADING": "טוען ...",
+		"FRM_UPLOAD_FILE": "העלה קובץ",
+		"FRM_CONTENT": "תוֹכֶן",
+		"FRM_BTN_SAVE": "Save",
+		"FRM_BTN_GOBACK": "Go back"
+	},
+	"NOT_FOUND": {
+
+	},
+	"SEARCH_ENGINE": {
+		"INPUT_SEARCH_LABEL": "חפש בארוויקי",
+		"INPUT_SEARCH_PLACEHOLDER": "",
+		"LBL_DEFAULT_LANG": "שפת ברירת מחדל",
+		"LBL_SELECT_LANG":" בחר שפה",
+		"BTN_TXT_GO": "ללכת!"
+	},
+	"FOOTER": {
+		"LBL_POWERED": "נתמך על ידי"
+	},
+	"DIALOGS": {
+		"TITLE_SELECT_LANG": "בחר שפה",
+		"TXT_CLOSE": "סגור"
+	},
+	"MODERATORS": {
+		"PENDING_PAGE": {
+			"TITLE_PENDING": "רשימת המתנה"
+		},
+		"LABEL_NO_RESULTS": "אין תוצאות.",
+		"LABEL_TOOLBAR_TITLE": "פאנל מנחה"
+	},
+	"CATEGORY": {
+		"BREADCRUMB_LABEL": "Category:"
+	},
+	"GENERAL": {
+		"BUTTONS": {
+			"GO_BACK": "Go back",
+			"OPEN_VIEWBLOCK": "Open in Viewblock",
+			"COPY_ADDRESS": "Copy address",
+			"TIP_AUTHOR": "Tip the author",
+			"VIEW_ARTICLE": "View article",
+			"EDIT_PAGE": "Edit page",
+			"MORE_ARTICLES": "More articles"
+		},
+		"LABELS": {
+			"NO_RESULTS": "No results"
+		},
+		"CARDS": {
+			"ARTICLE": {
+				"CATEGORY": "Category:",
+				"CREATED_BY": "Created by:",
+				"CREATION_DATE": "Creation date:"
+			}
+		}
+	},
+	"LOADING": {
+		"QUOTES_TITLE" : "האם ידעת?",
+		"QUOTES": {
+			"0": "Arweave הוא פרוטוקול המאפשר לך לאחסן נתונים באופן קבוע, בר קיימא, בתשלום מקדים יחיד.",
+			"1": "On top of the core Arweave protocol lives the permaweb: A global, permanent web of pages and applications that live forever.",
+			"2": "Arweave is a completely community-owned and -operated open source network."
+		}
+	}
+}

@@ -1,0 +1,118 @@
+{
+	"HOME": {
+		"SECONDARY_TITLE": "¡Bienvenido a la permaweb!"
+	},
+	"MAIN_MENU": {
+		"HOME": "Página principal",
+		"ABOUT": "Acerca de",
+		"the_arweave_project": "El Proyecto Arweave",
+		"the_arweave_protocol": "El Protocolo Arweave",
+		"profit_sharing": "Reparto de utilidades",
+		"mining": "Minería",
+		"building_on_arweave": "Construyendo sobre Arweave"
+	},
+	"MAIN_TOOLBAR": {
+		"TOOLTIP_LOGIN": "Iniciar sesión",
+		"MENU_SETTINGS_LANGUAGE": "Elegir idioma",
+		"MENU_SETTINGS_THEME": "Elegir tema",
+		"TOOLTIP_SEARCH": "Buscar",
+		"TOOLTIP_SETTINGS": "Ajustes",
+		"MENU_USER_DASHBOARD": "Tablero principal",
+		"MENU_USER_CREATE": "Crear página",
+		"MENU_USER_LOGOUT": "Cerrar sesión",
+		"MENU_USER_MY_PAGES": "Mis páginas",
+		"MENU_USER_MODERATORS": "Moderadores"
+	},
+	"MAIN_PAGE": {
+		"TITLE_L1": "¡Bienvenido a la permaweb!",
+		"SUBTITLE_L1": "arwiki es la wiki descentralizada para arweave que cualquiera puede editar.",
+		"TITLE_L2": "Empezando",
+		"TITLE_L3": "Últimos artículos",
+		"LABEL_NO_RESULTS": "No hay resultados."
+	},
+	"PAGE": {
+		"LABEL_ID": "Id",
+		"LABEL_TITLE": "Título",
+		"LABEL_SLUG": "Slug",
+		"LABEL_CATEGORY": "Categoría",
+		"LABEL_LANGUAGE": "Idioma",
+		"LABEL_OWNER": "Propietario",
+		"LABEL_TX_STATUS": "TX status",
+		"LABEL_BLOCK_HEIGHT": "Altura del bloque",
+		"LABEL_BLOCK_TIMESTAMP": "Marca de tiempo del bloque",
+		"LABEL_ARVERIFY_SCORE": "ArVerify Score",
+		"LABEL_OWNER_STATUS": "Estatus de propietario",
+		"STATUS_TX_PENDING": "Pendiente",
+		"STATUS_ADDRESS_VERIFIED": "Verificado",
+		"STATUS_ADDRESS_NOTVERIFIED": "No verificado"
+	},
+	"CREATE_PAGE": {
+		"TITLE": "Crear página",
+		"FRM_TITLE": "Título",
+		"FRM_BY": "Por",
+		"FRM_SLUG": "Slug de página",
+		"FRM_CATEGORY": "Categoría",
+		"FRM_LANGUAGE": "Idioma",
+		"FRM_LOADING": "Cargando ...",
+		"FRM_UPLOAD_FILE": "Subir archivo",
+		"FRM_CONTENT": "Contenido",
+		"FRM_BTN_SAVE": "Guardar",
+		"FRM_BTN_GOBACK": "Regresar"
+	},
+	"NOT_FOUND": {
+
+	},
+	"SEARCH_ENGINE": {
+		"INPUT_SEARCH_LABEL": "Buscar en arwiki",
+		"INPUT_SEARCH_PLACEHOLDER": "",
+		"LBL_DEFAULT_LANG": "Idioma default",
+		"LBL_SELECT_LANG":"Seleccionar idioma",
+		"BTN_TXT_GO": "¡Vamos!"
+	},
+	"FOOTER": {
+		"LBL_POWERED": "Energizado por"
+	},
+	"DIALOGS": {
+		"TITLE_SELECT_LANG": "Seleccionar idioma",
+		"TXT_CLOSE": "Cerrar"
+	},
+	"MODERATORS": {
+		"PENDING_PAGE": {
+			"TITLE_PENDING": "Lista de pendientes"
+		},
+		"LABEL_NO_RESULTS": "No hay resultados.",
+		"LABEL_TOOLBAR_TITLE": "Panel de moderadores"
+	},
+	"CATEGORY": {
+		"BREADCRUMB_LABEL": "Category:"
+	},
+	"GENERAL": {
+		"BUTTONS": {
+			"GO_BACK": "Go back",
+			"OPEN_VIEWBLOCK": "Open in Viewblock",
+			"COPY_ADDRESS": "Copy address",
+			"TIP_AUTHOR": "Tip the author",
+			"VIEW_ARTICLE": "View article",
+			"EDIT_PAGE": "Edit page",
+			"MORE_ARTICLES": "More articles"
+		},
+		"LABELS": {
+			"NO_RESULTS": "No results"
+		},
+		"CARDS": {
+			"ARTICLE": {
+				"CATEGORY": "Category:",
+				"CREATED_BY": "Created by:",
+				"CREATION_DATE": "Creation date:"
+			}
+		}
+	},
+	"LOADING": {
+		"QUOTES_TITLE" : "¿Sabías que ...?",
+		"QUOTES": {
+			"0": "Arweave es un protocolo que le permite almacenar datos de forma permanente y sostenible con una única tarifa inicial.",
+			"1": "Además del protocolo central de Arweave, tenemos la permaweb: una red global y permanente de páginas y aplicaciones que viven para siempre.",
+			"2": "Arweave es una red de código abierto completamente operada y de propiedad de la comunidad."
+		}
+	}
+}
