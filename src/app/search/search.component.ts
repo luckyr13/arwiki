@@ -164,9 +164,16 @@ export class SearchComponent implements OnInit, OnDestroy {
     _limit: number = 100
   ) {
     const qry = _queries.map(e => e.toLowerCase().trim());
+    let adminList: string[] = [];
+    let verifiedPages: any = {};
     return this._arwikiTokenContract.getAdminList()
       .pipe(
-        switchMap((adminList: string[]) => {
+        switchMap((_adminList: string[]) => {
+          adminList = _adminList;
+          return this._arwikiTokenContract.getApprovedPages(_langCode);
+        }),
+        switchMap((_verifiedPages: any) => {
+          verifiedPages = _verifiedPages;
           return this.arwikiQuery.getVerifiedTagsFromQueries(
             adminList,
             qry,
@@ -175,14 +182,20 @@ export class SearchComponent implements OnInit, OnDestroy {
             _maxHeight
           );
         }),
-        switchMap((verifiedPages) => {
+        switchMap((_verifiedTags) => {
           const verifiedPagesList = [];
-          for (let p of verifiedPages) {
+          for (let p of _verifiedTags) {
             const vrfdPageId = this.arwikiQuery.searchKeyNameInTags(
               p.node.tags, 'Arwiki-Page-Id'
             );
+            const slug = this.arwikiQuery.searchKeyNameInTags(
+              p.node.tags, 'Arwiki-Page-Slug'
+            );
 
             if (verifiedPagesList.indexOf(vrfdPageId) >= 0) {
+              continue;
+            }
+            if (!verifiedPages[slug]) {
               continue;
             }
 
