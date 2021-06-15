@@ -6,6 +6,14 @@
 	<h2 class="article-title ellipsis" routerLink="/{{routeLang}}/{{article.slug}}">
 		{{ article.title }}
 	</h2>
+	<div class="mini-text ellipsis article-subtitle">
+		<strong>{{ 'GENERAL.CARDS.ARTICLE.CATEGORY' | translate }} </strong>
+		<a
+		   mat-button
+		   routerLink="/{{routeLang}}/category/{{article.category}}">
+			{{ article.category }}
+		</a>
+	</div>
 	<div class="article-data-wrapper">
 		<div 
 			class="fade-out" 
@@ -17,15 +25,6 @@
 			[innerHTML]="markdownToHTML(articleData)">
 		</p>
 	</div>
-
-	<p class="mini-text ellipsis padt-footer-card">
-		<strong>{{ 'GENERAL.CARDS.ARTICLE.CATEGORY' | translate }} </strong>
-		<a
-		   mat-button
-		   routerLink="/{{routeLang}}/category/{{article.category}}">
-			{{ article.category }}
-		</a>
-	</p>
 	<p class="mini-text ellipsis">
 		<app-arweave-address [address]="article.owner">
 			{{ 'GENERAL.CARDS.ARTICLE.CREATED_BY' | translate }}

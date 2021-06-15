@@ -6,14 +6,7 @@
 		<div 
 		  	*ngIf="pageTitle"
 		  	class="text-right page-title-buttons fadeIn col-12 col-md-3">
-			<button 
-	    	type="button"
-		  	mat-button 
-		  	class="btn-toolbar" 
-		  	color="primary">
-		    <mat-icon>edit</mat-icon>
-		    {{ 'GENERAL.BUTTONS.EDIT_PAGE' | translate }}
-		  </button>
+			
 	    <button 
 	    	type="button"
 		  	mat-button 
@@ -73,11 +66,30 @@
 			[class.col-md-9]="toc.length" 
 			[innerHTML]="htmlContent"></div>
 
+		<div 
+			class="col-12 fadeIn text-right separator" >
+			<button 
+	    	type="button"
+		  	mat-button 
+		  	class="btn-toolbar" 
+		  	color="primary">
+		    <mat-icon>edit</mat-icon>
+		    {{ 'GENERAL.BUTTONS.EDIT_PAGE' | translate }}
+		  </button>
+		  <button 
+	    	type="button"
+		  	mat-button 
+		  	class="btn-toolbar" 
+		  	color="primary">
+		    <mat-icon>history</mat-icon>
+		    View history
+		  </button>
+		</div>
 		<p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageOwner">
-		<app-arweave-address [address]="pageOwner">Created by: </app-arweave-address>
+			<app-arweave-address [address]="pageOwner">Created by: </app-arweave-address>
 	  </p>
 	  <p class="text-right mini-text fadeIn col-12 col-md-6" *ngIf="pageId">
-	  	<app-arweave-address [isAddress]="false" [address]="pageId">TX: </app-arweave-address>
+	  	<app-arweave-address [isAddress]="false" [address]="pageId">Page TX: </app-arweave-address>
 	  </p>
 	</div>
 	<div class="row" *ngIf="!htmlContent && pageNotFound && !loadingPage">
