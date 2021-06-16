@@ -237,6 +237,92 @@ p {
   font-size: 28px;
 }
 
+.arwiki-page-preview-container table,
+#arwiki-page-content-detail table {
+  width: 100%;
+}
+
+.arwiki-page-preview-container table thead tr th,
+#arwiki-page-content-detail table thead tr th {
+  background-color: #000;
+  color: #FFF;
+}
+
+.arwiki-page-preview-container table, .arwiki-page-preview-container th, 
+.arwiki-page-preview-container td, #arwiki-page-content-detail table,
+#arwiki-page-content-detail th, #arwiki-page-content-detail td {
+  border-collapse: collapse;
+  padding: 10px;
+}
+
+.arwiki-page-preview-container td, 
+#arwiki-page-content-detail td {
+  border: 1px solid #000;
+  border-collapse: collapse;
+}
+
+.arwiki-page-preview-container table tr:nth-child(even),
+#arwiki-page-content-detail table tr:nth-child(even) {
+
+}
+
+.arwiki-page-preview-container table tr:hover,
+#arwiki-page-content-detail table tr:hover
+{
+  background-color: #b0b0b0;
+}
+
+
+.arwiki-page-preview-container code,
+#arwiki-page-content-detail code {
+  font-family: Roboto Mono, monospace;
+  color: #FFF;
+  display: block;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+
+.arwiki-page-preview-container pre,
+#arwiki-page-content-detail pre {
+  background-color: #444;
+  padding: 10px;
+  border-radius: 12px;
+}   
+.arwiki-page-preview-container pre code,
+#arwiki-page-content-detail pre code {
+
+}
+.arwiki-page-preview-container p code,
+#arwiki-page-content-detail p code {
+  background-color: #444;
+  padding: 10px;
+  border-radius: 12px;
+}   
+
+.arwiki-page-preview-container blockquote,
+#arwiki-page-content-detail blockquote,
+ {
+  border-left: 10px solid #ccc;
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+}
+.arwiki-page-preview-container blockquote:before,
+#arwiki-page-content-detail blockquote:before,
+ {
+  color: #ccc;
+  content: open-quote;
+  font-size: 4em;
+  line-height: 0.1em;
+  margin-right: 0.25em;
+  vertical-align: -0.4em;
+}
+.arwiki-page-preview-container blockquote p,
+#arwiki-page-content-detail blockquote p,
+ {
+  display: inline;
+}
+
 /*
 * Custom main menu accordion
 */
