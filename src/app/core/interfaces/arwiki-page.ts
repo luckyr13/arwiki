@@ -10,4 +10,7 @@ export interface ArwikiPage {
 	block?: any;
 	value?: number;
 	start?: number;
+	pageRewardAt?: number;
+	paidAt?: number;
+	sponsor?: string;
 }

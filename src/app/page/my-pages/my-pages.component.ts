@@ -1,13 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { ArweaveService } from '../../core/arweave.service';
-import { Observable, Subscription, EMPTY } from 'rxjs';
+import { Observable, Subscription, EMPTY, of, from } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { AuthService } from '../../auth/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserSettingsService } from '../../core/user-settings.service';
 import { ArwikiQuery } from '../../core/arwiki-query';
 import { Location } from '@angular/common';
 import { ArwikiPage } from '../../core/interfaces/arwiki-page';
+import { 
+  ArwikiTokenContract 
+} from '../../core/arwiki-contracts/arwiki-token';
 declare const window: any;
 
 @Component({
@@ -15,7 +19,7 @@ declare const window: any;
   templateUrl: './my-pages.component.html',
   styleUrls: ['./my-pages.component.scss']
 })
-export class MyPagesComponent implements OnInit {
+export class MyPagesComponent implements OnInit, OnDestroy {
 	loading: boolean = false;
   pages: ArwikiPage[] = [];
 
@@ -23,6 +27,8 @@ export class MyPagesComponent implements OnInit {
   routeLang: string = '';
   arwikiQuery!: ArwikiQuery;
   baseURL: string = this._arweave.baseURL;
+  currentBlockHeight: number = 0;
+  heightSubscription: Subscription = Subscription.EMPTY;
 
   constructor(
     private _router: Router,
@@ -31,10 +37,11 @@ export class MyPagesComponent implements OnInit {
     private _auth: AuthService,
     private _userSettings: UserSettingsService,
     private _route: ActivatedRoute,
-    private _location: Location
+    private _location: Location,
+    private _arwikiTokenContract: ArwikiTokenContract
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
 
     //this.loading = true;
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
@@ -50,6 +57,14 @@ export class MyPagesComponent implements OnInit {
       
       }
     });
+    this.heightSubscription = from(this.getCurrentHeight()).subscribe({
+      next: (height)  => {
+        this.currentBlockHeight = height;
+      },
+      error: (error) => {
+        this.message(error, 'error');
+      }
+    });
   }
 
 
@@ -60,12 +75,22 @@ export class MyPagesComponent implements OnInit {
 
   getMyArWikiPages() {
     this.loading = true;
-
+    let myPagesTX = {};
+    let allVerifiedPages: any = {};
     this.myPagesSubscription = this.arwikiQuery!.getMyArWikiPages(
       this._auth.getMainAddressSnapshot()
-    ).subscribe({
-      next: (pages) => {
-
+    ).pipe(
+      switchMap((pages) => {
+        myPagesTX = pages;
+        return this._arwikiTokenContract.getApprovedPages(this.routeLang, -1);
+      }),
+      switchMap((_approvedPages) => {
+        allVerifiedPages = _approvedPages;
+        return of(myPagesTX);
+      }),
+    )
+    .subscribe({
+      next: (pages: any) => {
         const finalPages: ArwikiPage[] = [];
         for (let p of pages) {
           const title = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
@@ -76,17 +101,26 @@ export class MyPagesComponent implements OnInit {
           const owner = p.node.owner.address;
           const id = p.node.id;
           const pageValue = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Value');
-          
+          const extraData = allVerifiedPages[slug] ? allVerifiedPages[slug] : {};
+          const start = extraData.start ? extraData.start : 0;
+          const pageRewardAt = extraData.pageRewardAt ? extraData.pageRewardAt : 0;
+          const paidAt = extraData.paidAt ? extraData.paidAt : 0;
+          const sponsor = extraData.sponsor ? extraData.sponsor : '';
           
           finalPages.push({
-            title: title,
-            slug: slug,
-            category: category,
-            img: img,
-            owner: owner,
+            title,
+            slug,
+            category,
+            img,
+            owner,
             language: lang,
-            id: id,
-            value: pageValue
+            id,
+            value: pageValue,
+            block: p.node.block,
+            start,
+            pageRewardAt,
+            paidAt,
+            sponsor
           });
         }
 
@@ -109,6 +143,9 @@ export class MyPagesComponent implements OnInit {
     if (this.myPagesSubscription) {
       this.myPagesSubscription.unsubscribe();
     }
+    if (this.heightSubscription) {
+      this.heightSubscription.unsubscribe();
+    }
   }
 
   sanitizeImg(_img: string) {
@@ -128,5 +165,27 @@ export class MyPagesComponent implements OnInit {
       verticalPosition: verticalPosition,
       panelClass: panelClass
     });
+  }
+
+  timestampToDate(_time: number) {
+    let d = new Date(_time * 1000);
+    return d;
+  }
+
+  async getCurrentHeight(): Promise<number> {
+    let networkInfo: any = {};
+    let maxHeight = 0;
+    try {
+      networkInfo = await this._arweave.arweave.network.getInfo();
+      maxHeight = networkInfo.height ? networkInfo.height : 0;
+    } catch (error) {
+      throw Error(error);
+    }
+    return maxHeight;
+  }
+
+  unlockReward(lang: string, slug: string) {
+    alert(slug)
+
   }
 }
