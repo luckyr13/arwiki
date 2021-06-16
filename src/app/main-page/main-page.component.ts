@@ -53,7 +53,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     { img: './assets/img/partners/pn-techstar.png', alt: '', href:'' },
     { img: './assets/img/partners/pn-usv.png', alt: '', href:'' },
     { 
-      img: './assets/img/partners/arconnectGray.png',
+      img: './assets/img/partners/arconnectGray2.png',
       alt: 'ArConnect',
       href:'https://arconnect.io',
       noInvert: true
