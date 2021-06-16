@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ArweaveService } from '../../core/arweave.service';
-import { Observable, Subscription, EMPTY, of } from 'rxjs';
+import { Observable, Subscription, EMPTY, of, from } from 'rxjs';
 import { AuthService } from '../../auth/auth.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { switchMap } from 'rxjs/operators';
@@ -33,6 +33,9 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
   loadingSetMainPage: boolean = false;
   setMainTxMessage: string = '';
   private _arwiki!: Arwiki;
+  myAddress: string = '';
+  currentBlockHeight: number = 0;
+  heightSubscription: Subscription = Subscription.EMPTY;
 
   constructor(
   	private _arweave: ArweaveService,
@@ -46,6 +49,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
   ) { }
 
   async ngOnInit() {
+    this.myAddress = this._auth.getMainAddressSnapshot();
     const adminList: any[] = this._auth.getAdminList();
     this.routeLang = this._route.snapshot.paramMap.get('lang')!;
 
@@ -67,8 +71,9 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const owners = [this._auth.getMainAddressSnapshot()];
+    const owners = this._auth.getAdminList();
     let verifiedPages: string[] = [];
+    let allVerifiedPages: any = {};
     this.approvedPagesSubscription = this._categoriesContract
       .getState()
       .pipe(
@@ -78,10 +83,10 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
             -1
           );
         }),
-
-        switchMap((verifiedPagesTX) => {
-          verifiedPages = Object.keys(verifiedPagesTX).map((slug) => {
-            return verifiedPagesTX[slug].content;
+        switchMap((_approvedPages) => {
+          allVerifiedPages = _approvedPages;
+          verifiedPages = Object.keys(_approvedPages).map((slug) => {
+            return _approvedPages[slug].content;
           });
 
           return this.arwikiQuery.getDeletedPagesTX(
@@ -109,15 +114,20 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
         switchMap((pages) => {
           let tmp_res: ArwikiPage[] = [];
           for (let p of pages) {
+            const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
             tmp_res.push({
               id: p.node.id,
               title: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title'),
-              slug: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug'),
+              slug: slug,
               category: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category'),
               language: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang'),
               value: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Value'),
               owner: p.node.owner.address,
-              block: p.node.block
+              block: p.node.block,
+              start: allVerifiedPages[slug].start,
+              sponsor: allVerifiedPages[slug].sponsor,
+              paidAt: allVerifiedPages[slug].paidAt,
+              pageRewardAt: allVerifiedPages[slug].pageRewardAt              
             });
           }
           return of(tmp_res);
@@ -133,6 +143,16 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
       error: (error) => {
         this.message(error, 'error');
         this.loadingApprovedPages = false;
+      }
+    });
+
+
+    this.heightSubscription = from(this.getCurrentHeight()).subscribe({
+      next: (height)  => {
+        this.currentBlockHeight = height;
+      },
+      error: (error) => {
+        this.message(error, 'error');
       }
     });
 
@@ -249,4 +269,15 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
     });
   }
 
+  async getCurrentHeight(): Promise<number> {
+    let networkInfo: any = {};
+    let maxHeight = 0;
+    try {
+      networkInfo = await this._arweave.arweave.network.getInfo();
+      maxHeight = networkInfo.height ? networkInfo.height : 0;
+    } catch (error) {
+      throw Error(error);
+    }
+    return maxHeight;
+  }
 }
