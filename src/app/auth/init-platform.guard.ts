@@ -76,6 +76,7 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
             // Loader
             this._userSettings.updateMainToolbarLoading(false);
             this.message(err, 'error');
+            this._router.navigate(['error']);
             return of(false);
           })          
         )

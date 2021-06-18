@@ -6,8 +6,14 @@ import { SearchComponent } from './search/search.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthGuard } from './auth/auth.guard';
 import { InitPlatformGuard } from './auth/init-platform.guard';
+import { SearchEngineComponent } from './search-engine/search-engine.component';
+import { ErrorComponent } from './error/error.component';
 
 const routes: Routes = [
+	{
+		path: 'error',
+		component: ErrorComponent
+	},
 	{
 		path: '',
 		canActivateChild: [InitPlatformGuard],
@@ -29,7 +35,6 @@ const routes: Routes = [
 				path: ':lang/search/:query', component: SearchComponent,
 			}
 		]
-
 	}
 ];
 
