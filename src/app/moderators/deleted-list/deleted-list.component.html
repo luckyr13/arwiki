@@ -1,1 +1,132 @@
-<p>deleted-list works!</p>
+<app-moderators-menu title="Deleted pages"></app-moderators-menu>
+<mat-spinner class="spinner-center" *ngIf="loadingPages"></mat-spinner>
+<div class="container page-container fadeIn">
+
+	<div class="row" *ngIf="!loadingDeletePage && !loadingSetMainPage">
+		<div 
+			class="col-12 card-page fadeIn" 
+			*ngIf="!loadingPages && (!pages || !pages.length)">
+			{{ 'MODERATORS.LABEL_NO_RESULTS' | translate }}
+		</div>
+
+		<div class="col-12 col-md-6 card-page fadeIn" *ngFor="let p of pages">
+			<mat-card >
+				<button 
+		    	routerLink="../../{{p.slug}}"
+		    	mat-icon-button 
+		    	class="card-header-icon green" 
+		    	*ngIf="p.sponsor === myAddress"
+		    	matTooltip="You are the sponsor!"
+		    	aria-label="You are the sponsor!">
+	        <mat-icon>casino</mat-icon>
+	      </button>
+				<h2 routerLink="../../{{p.slug}}" class="link ellipsis card-header-title">
+					{{ p.title }} 
+				</h2>
+				<div>
+					{{ 'PAGE.LABEL_SLUG' | translate }}: {{  p.slug }}
+				</div>
+				<div>
+					{{ 'PAGE.LABEL_CATEGORY' | translate }}: {{ p.category }}
+				</div>
+				<div>
+					{{ 'PAGE.LABEL_LANGUAGE' | translate }}: {{ p.language }}
+				</div>
+				<div>
+					Page value: {{ p.value }} $WIKI 
+				</div>
+			  <hr class="mbt20">
+				<div class="mini-text"> 
+					<app-arweave-address 
+						[address]="p.id"
+						[isAddress]="false">{{ 'PAGE.LABEL_ID' | translate }}: </app-arweave-address>
+				</div>
+				<div class="mini-text">
+					<app-arweave-address [address]="p.owner">{{ 'PAGE.LABEL_OWNER' | translate }}: </app-arweave-address>
+				</div>
+				<div class="mini-text" *ngIf="p.sponsor">
+					<app-arweave-address 
+						[address]="p.sponsor"
+						[isAddress]="false">Sponsor: </app-arweave-address>
+				</div>
+				<div class="red mini-text" *ngIf="!p.block || !p.block.height">
+					<strong>{{ 'PAGE.LABEL_TX_STATUS' | translate }}: </strong>
+					{{ 'PAGE.STATUS_TX_PENDING' | translate }} 
+				</div>
+				<div  class="mini-text" *ngIf="p.block && p.block.height">
+					<strong>{{ 'PAGE.LABEL_BLOCK_HEIGHT' | translate }}: </strong>
+					{{ p.block.height }} 
+				</div>
+				<div  class="mini-text" *ngIf="p.block && p.block.timestamp">
+					<strong>{{ 'PAGE.LABEL_BLOCK_TIMESTAMP' | translate }}: </strong>
+					{{ timestampToDate(p.block.timestamp) | date:'short' }} 
+				</div>
+				<div *ngIf="p.paidAt" class="mini-text green">
+					<strong>Paid at:</strong>
+					{{ p.paidAt }}
+				</div>
+				<div *ngIf="p.pageRewardAt" class="mini-text">
+					<strong>Page reward at: </strong>
+					<span>{{ p.pageRewardAt }} block</span>
+					<strong class="green" *ngIf="currentBlockHeight >= p.pageRewardAt && !p.paidAt">
+						- Reward unlocked!
+					</strong>
+					<span *ngIf="currentBlockHeight < p.pageRewardAt">
+						- Reward unlocked in {{ p.pageRewardAt - currentBlockHeight }} blocks!
+					</span>
+				</div>
+				<div class="text-right mt20 card-footer">
+					<a 
+						mat-flat-button
+						color="primary"
+						matTooltip="View"
+						routerLink="../../{{p.slug}}">
+						<mat-icon>visibility</mat-icon> View
+					</a>
+				</div>
+			</mat-card>
+		</div>
+	</div>
+
+	<div class="row fadeIn" *ngIf="loadingDeletePage && !deleteTxMessage">
+		<div class="col text-center">
+			<mat-spinner class="spinner-center"></mat-spinner>
+			<h1 class="text-center">🚀 Hold on! Your transaction is processing ...</h1>
+		</div>
+	</div>
+	<div class="row fadeIn" *ngIf="deleteTxMessage">
+		<div class="col text-center">
+			<h1 class="text-center">💥 Page successfully unlisted!</h1>
+			<p class="text-center">TxID: {{ deleteTxMessage }}</p>
+			<a 
+				mat-button 
+				target="_blank"
+				href="https://viewblock.io/arweave/tx/{{deleteTxMessage}}" 
+				class="text-center">https://viewblock.io/arweave/tx/{{ deleteTxMessage }}
+			</a>
+			
+		</div>
+	</div>
+
+
+	<div class="row fadeIn" *ngIf="loadingSetMainPage && !setMainTxMessage">
+		<div class="col text-center">
+			<mat-spinner class="spinner-center"></mat-spinner>
+			<h1 class="text-center">🚀 Hold on! Your transaction is processing ...</h1>
+		</div>
+	</div>
+	<div class="row fadeIn" *ngIf="setMainTxMessage">
+		<div class="col text-center">
+			<h1 class="text-center">🥳 Page successfully set as Main Page!</h1>
+			<p class="text-center">TxID: {{ deleteTxMessage }}</p>
+			<a 
+				mat-button 
+				target="_blank"
+				href="https://viewblock.io/arweave/tx/{{setMainTxMessage}}" 
+				class="text-center">https://viewblock.io/arweave/tx/{{ setMainTxMessage }}
+			</a>
+			
+		</div>
+	</div>
+
+</div>

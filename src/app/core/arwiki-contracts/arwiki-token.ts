@@ -206,5 +206,58 @@ export class ArwikiTokenContract
     return {result: {target, unlockedBalance, vaultBalance, stakingBalance}};
   }
   
+  /*
+	*	@dev Get the list of inactive pages from full state contract
+	* @param _numPages: -1 returns all values
+	*/
+	getInactivePages(
+		_langCode: string,
+		_numPages: number = -1
+	): Observable<any> {
+		return this.getState().pipe(
+			map((_state: any) => {
+				let pageCounter = 0;
+				const pagesIds = Object.keys(_state.pages[_langCode]).filter((slug) => {
+					if (pageCounter >= _numPages && _numPages !== -1) {
+						return false;
+					}
+					pageCounter++;
+					return !_state.pages[_langCode][slug].active;
+				});
+				const pages = pagesIds.reduce((acum: any, slug) => {
+					acum[slug] = _state.pages[_langCode][slug];
+					return acum;
+				}, {});
+				return pages;
+			})
+		);
+	}
+
+	/*
+	*	@dev Get the list of all pages from full state contract
+	* @param _numPages: -1 returns all values
+	*/
+	getAllPages(
+		_langCode: string,
+		_numPages: number = -1
+	): Observable<any> {
+		return this.getState().pipe(
+			map((_state: any) => {
+				let pageCounter = 0;
+				const pagesIds = Object.keys(_state.pages[_langCode]).filter((slug) => {
+					if (pageCounter >= _numPages && _numPages !== -1) {
+						return false;
+					}
+					pageCounter++;
+					return true;
+				});
+				const pages = pagesIds.reduce((acum: any, slug) => {
+					acum[slug] = _state.pages[_langCode][slug];
+					return acum;
+				}, {});
+				return pages;
+			})
+		);
+	}
 
 }

@@ -44,6 +44,11 @@
 				<div class="mini-text">
 					<app-arweave-address [address]="p.owner">{{ 'PAGE.LABEL_OWNER' | translate }}: </app-arweave-address>
 				</div>
+				<div class="mini-text" *ngIf="p.sponsor">
+					<app-arweave-address 
+						[address]="p.sponsor"
+						[isAddress]="false">Sponsor: </app-arweave-address>
+				</div>
 				<div class="red mini-text" *ngIf="!p.block || !p.block.height">
 					<strong>{{ 'PAGE.LABEL_TX_STATUS' | translate }}: </strong>
 					{{ 'PAGE.STATUS_TX_PENDING' | translate }} 
