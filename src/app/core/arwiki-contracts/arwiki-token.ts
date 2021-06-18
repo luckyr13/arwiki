@@ -260,4 +260,39 @@ export class ArwikiTokenContract
 		);
 	}
 
+	/*
+  * @dev Claim reward function if available
+  */
+  async claimReward(
+    _target: string,
+    _slug: string,
+    _langCode: string,
+    _privateKey: any,
+    _arwikiVersion: string
+  ) {
+    const jwk = _privateKey;
+    const tags = [
+    	{name: 'Service', value: 'ArWiki'},
+    	{name: 'Arwiki-Type', value: 'ClaimReward'},
+    	{name: 'Arwiki-Page-Slug', value: _slug},
+    	{name: 'Arwiki-Page-Lang', value: _langCode},
+    	{name: 'Arwiki-Version', value: _arwikiVersion},
+    ];
+    const input = {
+    	function: 'unlockPageReward',
+    	target: _target,
+    	langCode: _langCode,
+    	slug: _slug
+    };
+
+    const tx = await interactWrite(
+      this._arweave.arweave,
+      jwk,
+      this._contractAddress,
+      input,
+      tags
+    );
+    return tx;
+  }
+
 }

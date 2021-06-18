@@ -21,7 +21,10 @@ export class ArwikiQuery {
   /*
   * @dev
   */
-  getMyArWikiPages(owner: string, limit: number = 100): Observable<any> {
+  getMyArWikiPages(
+    owner: string,
+    langCode: string,
+    limit: number = 100): Observable<any> {
     const tags = [
       {
         name: 'Service',
@@ -34,7 +37,11 @@ export class ArwikiQuery {
       {
         name: 'Arwiki-Version',
         values: arwikiVersion,
-      }      
+      },
+      {
+        name: 'Arwiki-Page-Lang',
+        values: [langCode]
+      }     
     ];
 
     const obs = new Observable((subscriber) => {

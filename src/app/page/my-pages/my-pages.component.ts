@@ -7,6 +7,7 @@ import { AuthService } from '../../auth/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserSettingsService } from '../../core/user-settings.service';
 import { ArwikiQuery } from '../../core/arwiki-query';
+import { arwikiVersion } from '../../core/arwiki';
 import { Location } from '@angular/common';
 import { ArwikiPage } from '../../core/interfaces/arwiki-page';
 import { 
@@ -22,13 +23,16 @@ declare const window: any;
 export class MyPagesComponent implements OnInit, OnDestroy {
 	loading: boolean = false;
   pages: ArwikiPage[] = [];
-
   myPagesSubscription: Subscription = Subscription.EMPTY;
   routeLang: string = '';
   arwikiQuery!: ArwikiQuery;
   baseURL: string = this._arweave.baseURL;
   currentBlockHeight: number = 0;
   heightSubscription: Subscription = Subscription.EMPTY;
+  lockButtons: boolean = false;
+  loadingAction: boolean = false;
+  rewardSubscription: Subscription = Subscription.EMPTY;
+  rewardTX: string = '';
 
   constructor(
     private _router: Router,
@@ -42,14 +46,9 @@ export class MyPagesComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-
-    //this.loading = true;
-    this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
-    
-    // Get pages 
-    this.getMyArWikiPages();
-  
     // Get language from route
+
+    this.routeLang = this._route.snapshot.paramMap.get('lang')!;
     this._route.paramMap.subscribe(params => {
       const lang = params.get('lang');
       if (lang) {
@@ -57,6 +56,14 @@ export class MyPagesComponent implements OnInit, OnDestroy {
       
       }
     });
+
+    //this.loading = true;
+    this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
+    
+    // Get pages 
+    this.getMyArWikiPages();
+  
+    
     this.heightSubscription = from(this.getCurrentHeight()).subscribe({
       next: (height)  => {
         this.currentBlockHeight = height;
@@ -78,7 +85,8 @@ export class MyPagesComponent implements OnInit, OnDestroy {
     let myPagesTX = {};
     let allVerifiedPages: any = {};
     this.myPagesSubscription = this.arwikiQuery!.getMyArWikiPages(
-      this._auth.getMainAddressSnapshot()
+      this._auth.getMainAddressSnapshot(),
+      this.routeLang
     ).pipe(
       switchMap((pages) => {
         myPagesTX = pages;
@@ -146,6 +154,9 @@ export class MyPagesComponent implements OnInit, OnDestroy {
     if (this.heightSubscription) {
       this.heightSubscription.unsubscribe();
     }
+    if (this.rewardSubscription) {
+      this.rewardSubscription.unsubscribe();
+    }
   }
 
   sanitizeImg(_img: string) {
@@ -184,8 +195,27 @@ export class MyPagesComponent implements OnInit, OnDestroy {
     return maxHeight;
   }
 
-  unlockReward(lang: string, slug: string) {
-    alert(slug)
+  async unlockReward(lang: string, slug: string) {
+    this.lockButtons = true;
+    this.loadingAction = true;
+
+    const target = this._auth.getMainAddressSnapshot();
+    const key = this._auth.getPrivateKey();
+
+    this.rewardSubscription = from(this._arwikiTokenContract.claimReward( 
+      target, slug, lang, key, arwikiVersion[0]
+    )).subscribe({
+      next: (res) => {
+        this.rewardTX = res;
+        this.lockButtons = false;
+        this.loadingAction = false;
+      },
+      error: (error) => {
+        this.message(error, 'error');
+        this.lockButtons = false;
+        this.loadingAction = false;
+      }
+    });
 
   }
 }

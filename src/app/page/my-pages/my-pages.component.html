@@ -1,7 +1,7 @@
 <div class="mt-main"></div>
 <mat-progress-bar 
 	mode="indeterminate"
-	*ngIf="loading"
+	*ngIf="loading || loadingAction"
 	class="fadeIn"></mat-progress-bar>
 <mat-toolbar class="fadeIn" color="default">
   <mat-icon 
@@ -25,7 +25,7 @@
 	<h1 class="page-title col-12">
 		My arwiki pages
 	</h1>
-	<div class="row" *ngIf="pages && pages.length === 0">
+	<div class="row" *ngIf="pages && pages.length === 0 && !rewardTX">
 		<div class="col-12 text-center no-results">
 			You don't have any arwiki page yet 😸
 		</div>
@@ -36,7 +36,7 @@
 			</a>
 		</div>
 	</div>
-	<div class="row">
+	<div class="row" *ngIf="!rewardTX">
 		<div class="col-12 col-md-6 card-page-container fadeIn" *ngFor="let page of pages">
 			<mat-card class="card-page">
 		    <button 
@@ -103,25 +103,42 @@
 
 				</mat-card-content>
 				<mat-card-actions class="text-right card-footer">
-					<a 
+					<button 
 						mat-flat-button color="primary" 
 			    	*ngIf="page.sponsor && page.pageRewardAt && currentBlockHeight >= page.pageRewardAt && !page.paidAt"
-			    	(click)="unlockReward(page.language, page.slug)">
+			    	(click)="unlockReward(page.language, page.slug)"
+			    	[disabled]="lockButtons">
 						<mat-icon class="yellow" >star</mat-icon> Claim reward
-					</a>
+					</button>
 					&nbsp;
-					<a 
-			    	*ngIf="!page.sponsor" 
-			    	mat-flat-button color="primary" routerLink="../preview/{{page.id}}">
+					<button 
+			    	*ngIf="!page.sponsor " 
+			    	mat-flat-button color="primary" routerLink="../preview/{{page.id}}"
+			    	[disabled]="lockButtons">
 						<mat-icon>visibility</mat-icon> Preview
-					</a>
-					<a
+					</button>
+					<button
 			    	*ngIf="page.sponsor"
-			    	 mat-flat-button color="primary" routerLink="../{{page.slug}}">
+			    	 mat-flat-button color="primary" routerLink="../{{page.slug}}"
+			    	[disabled]="lockButtons">
 						<mat-icon>visibility</mat-icon> Read article
-					</a>
+					</button>
 				</mat-card-actions>
 			</mat-card>
+		</div>
+	</div>
+
+	<div class="row fadeIn" *ngIf="rewardTX">
+		<div class="col text-center">
+			<h1 class="text-center">🥳 Your reward is on the way! Thanks for helping us building a better wiki!</h1>
+			<p class="text-center">TxID: {{ rewardTX }}</p>
+			<a 
+				mat-button 
+				target="_blank"
+				href="https://viewblock.io/arweave/tx/{{rewardTX}}" 
+				class="text-center">https://viewblock.io/arweave/tx/{{ rewardTX }}
+			</a>
+			
 		</div>
 	</div>
 
