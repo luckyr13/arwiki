@@ -20,7 +20,7 @@
 		    	aria-label="You are the sponsor!">
 	        <mat-icon>casino</mat-icon>
 	      </button>
-				<h2 routerLink="../../{{p.slug}}" class="link ellipsis card-header-title">
+				<h2 routerLink="../../preview/{{p.id}}" class="link ellipsis card-header-title">
 					{{ p.title }} 
 				</h2>
 				<div>
@@ -80,8 +80,8 @@
 						mat-flat-button
 						color="primary"
 						matTooltip="View"
-						routerLink="../../{{p.slug}}">
-						<mat-icon>visibility</mat-icon> View
+						routerLink="../../preview/{{p.id}}">
+						<mat-icon>visibility</mat-icon> Preview
 					</a>
 				</div>
 			</mat-card>
