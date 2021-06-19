@@ -1,6 +1,6 @@
 import { 
   Component, OnInit, OnDestroy, 
-  ChangeDetectorRef, ViewChild
+  ChangeDetectorRef, ViewChild, ElementRef
 } from '@angular/core';
 import { ArwikiQuery } from '../../core/arwiki-query';
 import * as marked from 'marked';
@@ -20,12 +20,13 @@ import { AuthService } from '../../auth/auth.service';
 import { switchMap } from 'rxjs/operators';
 declare const window: any;
 declare const document: any;
+import gsap from 'gsap';
 
 @Component({
   templateUrl: './view-detail.component.html',
   styleUrls: ['./view-detail.component.scss']
 })
-export class ViewDetailComponent implements OnInit {
+export class ViewDetailComponent implements OnInit, OnDestroy {
 	arwikiQuery!: ArwikiQuery;
   htmlContent: string = '';
 	pageSubscription: Subscription = Subscription.EMPTY;
@@ -44,6 +45,8 @@ export class ViewDetailComponent implements OnInit {
   fragment: string = '';
   pageNotFound: boolean = false;
   isUserLoggedIn: boolean = !!this._auth.getMainAddressSnapshot();
+  @ViewChild('donateIcon1', {read: ElementRef}) donateIcon1!: ElementRef;
+  @ViewChild('donateIcon2', {read: ElementRef}) donateIcon2!: ElementRef;
 
   constructor(
     private route: ActivatedRoute,
@@ -77,6 +80,17 @@ export class ViewDetailComponent implements OnInit {
     })
 
 
+  }
+
+  animateDonateIcon(_icon: ElementRef) {
+    gsap.to(_icon.nativeElement,
+      {
+        ease: "elastic", 
+        duration: 3, 
+        repeat: -1, 
+        repeatDelay: 3,
+        rotationY: 360
+    });
   }
 
 
@@ -144,11 +158,12 @@ export class ViewDetailComponent implements OnInit {
             {decode: true, string: true}
           );
           this.htmlContent = this.markdownToHTML(content);
+
+          this.loadingPage = false;
+
           // Generate TOC 
           window.setTimeout(() => {
-
             this.generateTOC();
-
             // Listen for fragments
             this.route.fragment.subscribe(fragment => {
               this.fragment = fragment;
@@ -156,10 +171,11 @@ export class ViewDetailComponent implements OnInit {
                 this._userSettings.scrollTo(this.fragment, -80);
               }
             });
-
+            // Animate icons
+            this.animateDonateIcon(this.donateIcon1);
+            this.animateDonateIcon(this.donateIcon2);
           }, 500);
 
-          this.loadingPage = false;
 
   			} else {
           this.htmlContent = '';
@@ -311,6 +327,10 @@ export class ViewDetailComponent implements OnInit {
           return this.arwikiQuery.getTXsData(finalList);
         })
       );
+  }
+
+  donate() {
+    alert('Coming soon ...')
   }
 
 }

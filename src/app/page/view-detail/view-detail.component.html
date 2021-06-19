@@ -6,7 +6,15 @@
 		<div 
 		  	*ngIf="pageTitle"
 		  	class="text-right page-title-buttons fadeIn col-12 col-md-3">
-			
+		  <button 
+	    	type="button"
+		  	mat-button 
+		  	class="btn-toolbar" 
+		  	color="primary"
+		  	(click)="donate()">
+		    <mat-icon #donateIcon1 class="green-money">paid</mat-icon>
+		    Donate
+		  </button>
 	    <button 
 	    	type="button"
 		  	mat-button 
@@ -68,6 +76,15 @@
 
 		<div 
 			class="col-12 fadeIn text-right separator" >
+			<button 
+	    	type="button"
+		  	mat-button 
+		  	class="btn-toolbar" 
+		  	color="primary"
+		  	(click)="donate()">
+		    <mat-icon #donateIcon2 class="green-money">paid</mat-icon>
+		    Donate
+		  </button>
 			<button 
 	    	type="button"
 		  	mat-button 
