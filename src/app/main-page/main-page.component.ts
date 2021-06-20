@@ -13,6 +13,7 @@ import { ArwikiCategoryIndex } from '../core/interfaces/arwiki-category-index';
 import { ArwikiPage } from '../core/interfaces/arwiki-page';
 import * as marked from 'marked';
 import DOMPurify from 'dompurify';
+import gsap from 'gsap';
 
 @Component({
   selector: 'app-main-page',
@@ -25,13 +26,9 @@ export class MainPageComponent implements OnInit, OnDestroy {
 	categoriesSubscription: Subscription = Subscription.EMPTY;
 	defaultTheme: string = '';
 	loading: boolean = false;
-  appName: string = '';
-  // appLogoLight: string = './assets/img/arweave-light.png';
-  appLogoLight: string = '';
-  // appLogoDark: string = './assets/img/arweave-dark.png';
-  appLogoDark: string = '';
-  appSettingsSubscription: Subscription = Subscription.EMPTY;
-  loadingLogo: boolean = false;
+  appName: string = 'Arweave';
+  appLogoLight: string = './assets/img/arweave-dark.png';
+  appLogoDark: string = './assets/img/arweave-light.png';
   loadingLatestArticles: boolean = false;
   latestArticles: ArwikiPage[] = [];
   latestArticlesData: Record<string, string> = {};
@@ -69,6 +66,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
       href:'https://community.xyz/'
     },
   ];
+  @ViewChild('mainLogo1') mainLogo1!: ElementRef;
 
   constructor(
     private _userSettings: UserSettingsService,
@@ -84,9 +82,12 @@ export class MainPageComponent implements OnInit, OnDestroy {
   async loadMainPageData() {
     this.getDefaultTheme();
     this.loading = true;
-    this.loadingLogo = true;
     this.loadingLatestArticles = true;
     this.loadingMainPageTX = true;
+
+    window.setTimeout(() => {
+      this.animateFlipLogo(this.mainLogo1);
+    }, 200);
 
     // Init ardb instance
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
@@ -144,26 +145,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
         },
       })
 
-
-
-    // Get logo 
-    this.appSettingsSubscription = this._arwikiTokenContract
-      .getState()
-      .subscribe({
-        next: (state) => {
-          const settings = new Map(state.settings);
-          this.appName = `${settings.get('appName')}`;
-          this.appLogoLight = `${this._arweave.baseURL}${settings.get('appLogo')}`;
-          this.appLogoDark = `${this._arweave.baseURL}${settings.get('appLogoDark')}`;
-          this.mainLogo = this.getMainLogo();
-
-          this.loadingLogo = false;
-        },
-        error: (error) => {
-          this.message(error, 'error');
-          this.loadingLogo = false;
-        }
-      });
 
     // Get latest articles 
     const numArticles = 6;
@@ -341,9 +322,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
   	if (this.categoriesSubscription) {
   		this.categoriesSubscription.unsubscribe();
   	}
-    if (this.appSettingsSubscription) {
-      this.appSettingsSubscription.unsubscribe();
-    }
   }
 
   getSkeletonLoaderAnimationType() {
@@ -549,6 +527,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
   getDefaultTheme() {
     this.defaultTheme = this._userSettings.getDefaultTheme();
+    this.mainLogo = this.getMainLogo();
     this._userSettings.defaultThemeStream.subscribe(
       (theme) => {
         this.defaultTheme = theme;
@@ -565,6 +544,10 @@ export class MainPageComponent implements OnInit, OnDestroy {
     }
 
     return '';
+  }
+
+  animateFlipLogo(_logo: ElementRef) {
+    gsap.to(_logo.nativeElement, {rotationY: 360, repeat: -1, duration: 2});
   }
 
 }
