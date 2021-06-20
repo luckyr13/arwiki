@@ -21,6 +21,10 @@ import { switchMap } from 'rxjs/operators';
 declare const window: any;
 declare const document: any;
 import gsap from 'gsap';
+import { DialogDonateComponent } from '../../shared/dialog-donate/dialog-donate.component';
+import { Direction } from '@angular/cdk/bidi';
+import {MatDialog} from '@angular/material/dialog';
+import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confirm.component';
 
 @Component({
   templateUrl: './view-detail.component.html',
@@ -57,7 +61,8 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     private _userSettings: UserSettingsService,
     private _ref: ChangeDetectorRef,
     private _categoriesContract: ArwikiCategoriesContract,
-    private _auth: AuthService
+    private _auth: AuthService,
+    public _dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -329,8 +334,69 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
       );
   }
 
-  donate() {
-    alert('Coming soon ...')
+  donate(_slug: string, _langCode: string) {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
+    const dialogRef = this._dialog.open(DialogDonateComponent, {
+      data: {
+        title: 'Are you sure?',
+        content: 'You are about to remove an arwiki page from the index. Do you want to proceed?'
+      },
+      direction: direction
+    });
+
+    dialogRef.afterClosed().subscribe(async (result) => {
+      if (result) {
+        alert(result)
+
+      }
+    });
+  }
+
+  editPage(_slug: string, _langCode: string) {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
+    const dialogRef = this._dialog.open(DialogConfirmComponent, {
+      data: {
+        title: 'Coming soon ...',
+        content: 'This function will be available soon :)',
+        type: 'info'
+      },
+      direction: direction
+    });
+
+    dialogRef.afterClosed().subscribe(async (result) => {
+      if (result) {
+        alert(result)
+
+      }
+    });
+  }
+
+  viewHistory(_slug: string, _langCode: string) {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
+    const dialogRef = this._dialog.open(DialogConfirmComponent, {
+      data: {
+        title: 'Coming soon ...',
+        content: 'This function will be available soon :)',
+        type: 'info'
+      },
+      direction: direction
+    });
+
+    dialogRef.afterClosed().subscribe(async (result) => {
+      if (result) {
+        alert(result)
+
+      }
+    });
   }
 
 }

@@ -34,6 +34,7 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
 import {MatSliderModule} from '@angular/material/slider';
 import { BalanceCardComponent } from './balance-card/balance-card.component';
 import {MatTableModule} from '@angular/material/table';
+import { DialogDonateComponent } from './dialog-donate/dialog-donate.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import {MatTableModule} from '@angular/material/table';
     ArticleCardComponent,
     ArweaveAddressComponent,
     BalanceCardComponent,
+    DialogDonateComponent,
   ],
   imports: [
     CommonModule,

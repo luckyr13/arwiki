@@ -11,7 +11,7 @@
 		  	mat-button 
 		  	class="btn-toolbar" 
 		  	color="primary"
-		  	(click)="donate()">
+		  	(click)="donate(routeSlug, routeLang)">
 		    <mat-icon #donateIcon1 class="green-money">paid</mat-icon>
 		    Donate
 		  </button>
@@ -81,7 +81,7 @@
 		  	mat-button 
 		  	class="btn-toolbar" 
 		  	color="primary"
-		  	(click)="donate()">
+		  	(click)="donate(routeSlug, routeLang)">
 		    <mat-icon #donateIcon2 class="green-money">paid</mat-icon>
 		    Donate
 		  </button>
@@ -89,7 +89,8 @@
 	    	type="button"
 		  	mat-button 
 		  	class="btn-toolbar" 
-		  	color="primary">
+		  	color="primary"
+		  	(click)="editPage(routeSlug, routeLang)">
 		    <mat-icon>edit</mat-icon>
 		    {{ 'GENERAL.BUTTONS.EDIT_PAGE' | translate }}
 		  </button>
@@ -97,7 +98,8 @@
 	    	type="button"
 		  	mat-button 
 		  	class="btn-toolbar" 
-		  	color="primary">
+		  	color="primary"
+		  	(click)="viewHistory(routeSlug, routeLang)">
 		    <mat-icon>history</mat-icon>
 		    View history
 		  </button>

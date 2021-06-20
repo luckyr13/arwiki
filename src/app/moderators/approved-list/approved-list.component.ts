@@ -204,7 +204,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
     const dialogRef = this._dialog.open(DialogConfirmComponent, {
       data: {
         title: 'Are you sure?',
-        content: 'You are about to remove an arwiki page from the index. Do you want to proceed?'
+        content: 'You are about to unlist (hide) an arwiki page from the index. Do you want to proceed?'
       },
       direction: direction
     });
