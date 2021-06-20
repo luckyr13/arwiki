@@ -42,11 +42,11 @@
 		    <button 
 		    	routerLink="../{{page.slug}}"
 		    	mat-icon-button 
-		    	class="card-header-icon yellow" 
+		    	class="card-header-icon purple" 
 		    	*ngIf="page.sponsor"
 		    	matTooltip="Page approved!"
 		    	aria-label="Page approved!">
-	        <mat-icon>star</mat-icon>
+	        <mat-icon>recommend</mat-icon>
 	      </button>
 		    <h2 class="link ellipsis card-header-title" routerLink="../preview/{{page.id}}">
 		    	{{  page.title }}
@@ -108,7 +108,7 @@
 			    	*ngIf="page.sponsor && page.pageRewardAt && currentBlockHeight >= page.pageRewardAt && !page.paidAt"
 			    	(click)="unlockReward(page.language, page.slug)"
 			    	[disabled]="lockButtons">
-						<mat-icon class="yellow" >star</mat-icon> Claim reward
+						<mat-icon class="yellow" >emoji_events</mat-icon> Claim reward
 					</button>
 					&nbsp;
 					<button 

@@ -538,6 +538,7 @@ export function handle(state, action) {
     if (role.trim().toUpperCase() !== "MODERATOR") {
       throw new Error("Caller must be an admin");
     }
+    const pageTX = pages[lang][slug].content;
     if (!Object.prototype.hasOwnProperty.call(stakes, caller) ||
         !stakes[caller][pageTX]) {
       throw new Error("User is not staking for this page");

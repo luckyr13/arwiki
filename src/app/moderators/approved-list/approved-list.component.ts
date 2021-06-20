@@ -17,6 +17,7 @@ import { Direction } from '@angular/cdk/bidi';
 import { UserSettingsService } from '../../core/user-settings.service';
 import { Arwiki } from '../../core/arwiki';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
+import { arwikiVersion } from '../../core/arwiki';
 
 @Component({
   templateUrl: './approved-list.component.html',
@@ -30,6 +31,8 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
   routeLang: string = '';
   loadingDeletePage: boolean = false;
   deleteTxMessage: string = '';
+  stopStakeTxMessage: string = '';
+  loadingStopStake: boolean = false;
   loadingSetMainPage: boolean = false;
   setMainTxMessage: string = '';
   private _arwiki!: Arwiki;
@@ -280,4 +283,42 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
     }
     return maxHeight;
   }
+
+  confirmStopStake(
+    _slug: string
+  ) {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
+    const dialogRef = this._dialog.open(DialogConfirmComponent, {
+      data: {
+        title: 'Are you sure?',
+        content: 'You are about to stop your stake and sponsorship for this page. This will unlist the page. Do you want to proceed?'
+      },
+      direction: direction
+    });
+
+    dialogRef.afterClosed().subscribe(async (result) => {
+      if (result) {
+        // Create "delete" tx
+        this.loadingStopStake = true;
+        try {
+          const tx = await this._arwikiToken.stopStake(
+            _slug,
+            this.routeLang,
+            this._auth.getPrivateKey(),
+            arwikiVersion[0]
+          ); 
+
+          this.stopStakeTxMessage = tx;
+          this.message('Success!', 'success');
+        } catch (error) {
+          this.message(error, 'error');
+        }
+
+      }
+    });
+  }
+
 }

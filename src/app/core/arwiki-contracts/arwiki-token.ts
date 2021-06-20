@@ -12,8 +12,7 @@ import { JWKInterface } from 'arweave/node/lib/wallet';
 })
 export class ArwikiTokenContract
 {
-	// private _contractAddress: string = '0hUxw3Ah1roZ2HR_E56IqxoV1qvaj1W_Wr-8PTocsd0';
-	private _contractAddress: string = '_iDpkuu4caqtRKa2LUIaWfESzD4pe2aJRWGTDG0xTUc';
+	private _contractAddress: string = 'yoOIYhcCnSl4giMLIk0WuF84oTHFdXNL1B4EmbQ7HcY';
 	private _state: any = {};
 	private _adminList: string[] = [];
 
@@ -281,6 +280,39 @@ export class ArwikiTokenContract
     const input = {
     	function: 'unlockPageReward',
     	target: _target,
+    	langCode: _langCode,
+    	slug: _slug
+    };
+
+    const tx = await interactWrite(
+      this._arweave.arweave,
+      jwk,
+      this._contractAddress,
+      input,
+      tags
+    );
+    return tx;
+  }
+
+  /*
+  * @dev Stop stake and sponsorship
+  */
+  async stopStake(
+    _slug: string,
+    _langCode: string,
+    _privateKey: any,
+    _arwikiVersion: string
+  ) {
+    const jwk = _privateKey;
+    const tags = [
+    	{name: 'Service', value: 'ArWiki'},
+    	{name: 'Arwiki-Type', value: 'StopStake'},
+    	{name: 'Arwiki-Page-Slug', value: _slug},
+    	{name: 'Arwiki-Page-Lang', value: _langCode},
+    	{name: 'Arwiki-Version', value: _arwikiVersion},
+    ];
+    const input = {
+    	function: 'stopPageSponsorshipAndDeactivatePage',
     	langCode: _langCode,
     	slug: _slug
     };

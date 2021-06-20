@@ -2,7 +2,7 @@
 <mat-spinner class="spinner-center" *ngIf="loadingApprovedPages"></mat-spinner>
 <div class="container page-container fadeIn">
 
-	<div class="row" *ngIf="!loadingDeletePage && !loadingSetMainPage">
+	<div class="row" *ngIf="!loadingDeletePage && !loadingSetMainPage && !loadingStopStake">
 		<div 
 			class="col-12 card-page fadeIn" 
 			*ngIf="!loadingApprovedPages && (!pages || !pages.length)">
@@ -85,10 +85,19 @@
 					</a>
 					<a
 						mat-flat-button
+						color="warn"
+		    		*ngIf="p.sponsor === myAddress"
+						(click)="confirmStopStake(p.slug)"
+						matTooltip="Stop stake">
+						<mat-icon>casino</mat-icon> Stop stake
+					</a>
+
+					<a
+						mat-flat-button
 						color="primary"
 						(click)="confirmSetMainArWikiPage(p.slug, p.id, p.category)"
 						matTooltip="Set as Main Page">
-						<mat-icon>star</mat-icon> Main Page
+						<mat-icon class="yellow">star</mat-icon> Set as Main Page
 					</a>
 					<a
 						mat-flat-button
@@ -145,6 +154,26 @@
 				target="_blank"
 				href="https://viewblock.io/arweave/tx/{{setMainTxMessage}}" 
 				class="text-center">https://viewblock.io/arweave/tx/{{ setMainTxMessage }}
+			</a>
+			
+		</div>
+	</div>
+
+	<div class="row fadeIn" *ngIf="loadingStopStake && !stopStakeTxMessage">
+		<div class="col text-center">
+			<mat-spinner class="spinner-center"></mat-spinner>
+			<h1 class="text-center">🚀 Hold on! Your transaction is processing ...</h1>
+		</div>
+	</div>
+	<div class="row fadeIn" *ngIf="stopStakeTxMessage">
+		<div class="col text-center">
+			<h1 class="text-center">💥 Sponsorship successfully stopped!</h1>
+			<p class="text-center">TxID: {{ stopStakeTxMessage }}</p>
+			<a 
+				mat-button 
+				target="_blank"
+				href="https://viewblock.io/arweave/tx/{{stopStakeTxMessage}}" 
+				class="text-center">https://viewblock.io/arweave/tx/{{ stopStakeTxMessage }}
 			</a>
 			
 		</div>
