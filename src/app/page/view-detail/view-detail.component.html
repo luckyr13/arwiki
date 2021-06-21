@@ -38,16 +38,15 @@
 	  <div class="separator col-12"></div>
 	</div>
 	<mat-spinner class="spinner-center" *ngIf="loadingPage"></mat-spinner>
-	<div class="row" *ngIf="htmlContent">
+	<div class="row" *ngIf="!loadingPage && (htmlContent || pageImg)">
 		<div 
-			*ngIf="toc.length"
 			class="col-12 col-md-3 toc-parent-container fadeIn">
 			<mat-card *ngIf="pageImg" class="text-center">
 				<a target="_blank" href="{{ baseURL + pageImg }}">
 					<img class="toc-image" src="{{ baseURL + pageImg }}">
 				</a>
 			</mat-card>
-			<div class="toc-container">
+			<div *ngIf="toc.length" class="toc-container">
 				<h3 class="toc-container-title">Content overview</h3>
 				<div *ngIf="!toc.length">
 					--
@@ -71,7 +70,7 @@
 		<div 
 			id="arwiki-page-content-detail"
 			class="col-12 fadeIn" 
-			[class.col-md-9]="toc.length" 
+			[class.col-md-9]="toc.length || pageImg" 
 			[innerHTML]="htmlContent"></div>
 
 		<div 
