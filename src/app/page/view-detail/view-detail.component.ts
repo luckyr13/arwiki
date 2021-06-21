@@ -171,9 +171,10 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
             this.generateTOC();
             // Listen for fragments
             this.route.fragment.subscribe(fragment => {
-              this.fragment = fragment;
-              if (this.fragment) {
+              this.fragment = '';
+              if (fragment) {
                 this._userSettings.scrollTo(this.fragment, -80);
+                this.fragment = fragment;
               }
             });
             // Animate icons
@@ -341,8 +342,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(DialogDonateComponent, {
       data: {
-        title: 'Are you sure?',
-        content: 'You are about to remove an arwiki page from the index. Do you want to proceed?'
+        pageTx: ''
       },
       direction: direction
     });
