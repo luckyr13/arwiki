@@ -39,6 +39,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
   myAddress: string = '';
   currentBlockHeight: number = 0;
   heightSubscription: Subscription = Subscription.EMPTY;
+  baseURL = this._arweave.baseURL;
 
   constructor(
   	private _arweave: ArweaveService,
@@ -125,6 +126,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
               category: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category'),
               language: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang'),
               value: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Value'),
+              img: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img'),
               owner: p.node.owner.address,
               block: p.node.block,
               start: allVerifiedPages[slug].start,

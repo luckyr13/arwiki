@@ -36,6 +36,7 @@ export class PendingListComponent implements OnInit, OnDestroy {
   arwikiQuery!: ArwikiQuery;
   routeLang: string = '';
   private _arwiki!: Arwiki;
+  baseURL = this._arweave.baseURL;
 
   constructor(
   	private _arweave: ArweaveService,
@@ -93,6 +94,7 @@ export class PendingListComponent implements OnInit, OnDestroy {
               slug: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug'),
               category: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category'),
               language: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang'),
+              img: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img'),
               owner: p.node.owner.address,
               block: p.node.block,
               value: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Value'),

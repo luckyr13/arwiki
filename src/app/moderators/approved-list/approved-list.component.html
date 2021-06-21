@@ -23,6 +23,9 @@
 				<h2 routerLink="../../{{p.slug}}" class="link ellipsis card-header-title">
 					{{ p.title }} 
 				</h2>
+				<mat-card *ngIf="p.img" class="card-image text-center">
+					<img src="{{ baseURL + p.img }}">
+				</mat-card>
 				<div>
 					{{ 'PAGE.LABEL_SLUG' | translate }}: {{  p.slug }}
 				</div>

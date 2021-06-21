@@ -173,8 +173,8 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
             this.route.fragment.subscribe(fragment => {
               this.fragment = '';
               if (fragment) {
-                this._userSettings.scrollTo(this.fragment, -80);
                 this.fragment = fragment;
+                this._userSettings.scrollTo(this.fragment, -80);
               }
             });
             // Animate icons

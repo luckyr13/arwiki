@@ -19,6 +19,9 @@
 			class="fade-out" 
 			*ngIf="articleData"
 			[class.fade-out-black]="defaultTheme === 'arwiki-dark'"></div>
+		<mat-card *ngIf="article.img" class="card-image text-center">
+			<img src="{{ baseURL + article.img }}">
+		</mat-card>
 		<p 
 			class="article-data word-break" 
 			*ngIf="articleData" 

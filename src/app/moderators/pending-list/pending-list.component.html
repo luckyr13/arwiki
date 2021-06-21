@@ -14,6 +14,9 @@
 				<h2 class="link" routerLink="../../preview/{{pages[p].id}}">
 					{{ pages[p].title }} 
 				</h2>
+				<mat-card *ngIf="pages[p].img" class="card-image text-center">
+					<img src="{{ baseURL + pages[p].img }}">
+				</mat-card>
 				<div>
 					{{ 'PAGE.LABEL_SLUG' | translate }}: {{  pages[p].slug }}
 				</div>
