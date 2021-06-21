@@ -109,7 +109,8 @@ export class MyPagesComponent implements OnInit, OnDestroy {
           const owner = p.node.owner.address;
           const id = p.node.id;
           const pageValue = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Value');
-          const extraData = allVerifiedPages[slug] ? allVerifiedPages[slug] : {};
+          const extraData = allVerifiedPages[slug] && allVerifiedPages[slug].content == id 
+            ? allVerifiedPages[slug] : {};
           const start = extraData.start ? extraData.start : 0;
           const pageRewardAt = extraData.pageRewardAt ? extraData.pageRewardAt : 0;
           const paidAt = extraData.paidAt ? extraData.paidAt : 0;
