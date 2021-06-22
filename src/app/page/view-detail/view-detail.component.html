@@ -1,10 +1,10 @@
 <div class="container preview-page-container">
-	<div class="row" *ngIf="htmlContent">
+	<div class="row" *ngIf="pageData.content">
 		<h1 class="page-title col-12 col-md-9">
-			<span class="fadeIn" *ngIf="pageTitle">{{ pageTitle }}</span>
+			<span class="fadeIn" *ngIf="pageData.title">{{ pageData.title }}</span>
 		</h1>
 		<div 
-		  	*ngIf="pageTitle"
+		  	*ngIf="pageData.title"
 		  	class="text-right page-title-buttons fadeIn col-12 col-md-3">
 		  <button 
 	    	type="button"
@@ -26,10 +26,10 @@
 		  </button>
 
 		</div>
-	  <p class="subh-col-left fadeIn col-12 col-md-6" *ngIf="pageCategory">
+	  <p class="subh-col-left fadeIn col-12 col-md-6" *ngIf="pageData.category">
 	  	<strong>Category:</strong>
-	  	<a mat-button routerLink="../category/{{pageCategory}}">
-				{{ pageCategory }}
+	  	<a mat-button routerLink="../category/{{pageData.category}}">
+				{{ pageData.category }}
 			</a>
 	  </p>
 	  <p class="subh-col-right fadeIn col-12 col-md-6" *ngIf="block.timestamp">
@@ -38,12 +38,14 @@
 	  <div class="separator col-12"></div>
 	</div>
 	<mat-spinner class="spinner-center" *ngIf="loadingPage"></mat-spinner>
-	<div class="row" *ngIf="!loadingPage && (htmlContent || pageImg)">
+	<div 
+		class="row" 
+		*ngIf="!loadingPage && (pageData.content || pageData.img)">
 		<div 
 			class="col-12 col-md-3 toc-parent-container fadeIn">
-			<mat-card *ngIf="pageImg" class="text-center">
-				<a target="_blank" href="{{ baseURL + pageImg }}">
-					<img class="toc-image" src="{{ baseURL + pageImg }}">
+			<mat-card *ngIf="pageData.img" class="text-center">
+				<a target="_blank" href="{{ baseURL + pageData.img }}">
+					<img class="toc-image" src="{{ baseURL + pageData.img }}">
 				</a>
 			</mat-card>
 			<div *ngIf="toc.length" class="toc-container">
@@ -70,8 +72,8 @@
 		<div 
 			id="arwiki-page-content-detail"
 			class="col-12 fadeIn" 
-			[class.col-md-9]="toc.length || pageImg" 
-			[innerHTML]="htmlContent"></div>
+			[class.col-md-9]="toc.length || pageData.img" 
+			[innerHTML]="pageData.content"></div>
 
 		<div 
 			class="col-12 fadeIn text-right separator" >
@@ -103,14 +105,20 @@
 		    View history
 		  </button>
 		</div>
-		<p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageOwner">
-			<app-arweave-address [address]="pageOwner">Created by: </app-arweave-address>
+		<p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageData.owner">
+			<app-arweave-address [address]="pageData.owner">Created by: </app-arweave-address>
 	  </p>
-	  <p class="text-right mini-text fadeIn col-12 col-md-6" *ngIf="pageId">
-	  	<app-arweave-address [isAddress]="false" [address]="pageId">Page TX: </app-arweave-address>
+	  <p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageExtraMetadata.sponsor">
+			<app-arweave-address [address]="pageExtraMetadata.sponsor">Sponsor: </app-arweave-address>
+	  </p>
+	  <p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageData.id">
+	  	<app-arweave-address [isAddress]="false" [address]="pageData.id">Page TX: </app-arweave-address>
+	  </p>
+	  <p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageExtraMetadata.value">
+	  	<strong>Page value: </strong>{{ pageExtraMetadata.value }} $WIKI
 	  </p>
 	</div>
-	<div class="row" *ngIf="!htmlContent && pageNotFound && !loadingPage">
+	<div class="row" *ngIf="!pageData.content && pageNotFound && !loadingPage">
 		<h1 class="text-center col-12">Page not found! 😢</h1>
 		<div class="col-12 text-center" *ngIf="isUserLoggedIn">
 			<a mat-flat-button 

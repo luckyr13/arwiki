@@ -3,8 +3,12 @@
 	<span>Donations</span>
 </h2>
 <mat-dialog-content>
-  <p>Coming soon ...</p>
+  <div *ngIf="data.mainAddress">Coming soon ...</div>
+  <div *ngIf="!data.mainAddress">🙏 Please login first 👾</div>
 </mat-dialog-content>
+
+
+
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close cdkFocusInitial>Cancel</button>
 </mat-dialog-actions>

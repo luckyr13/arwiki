@@ -25,6 +25,7 @@ import { DialogDonateComponent } from '../../shared/dialog-donate/dialog-donate.
 import { Direction } from '@angular/cdk/bidi';
 import {MatDialog} from '@angular/material/dialog';
 import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confirm.component';
+import { ArwikiPage } from '../../core/interfaces/arwiki-page';
 
 @Component({
   templateUrl: './view-detail.component.html',
@@ -32,14 +33,8 @@ import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confi
 })
 export class ViewDetailComponent implements OnInit, OnDestroy {
 	arwikiQuery!: ArwikiQuery;
-  htmlContent: string = '';
 	pageSubscription: Subscription = Subscription.EMPTY;
   loadingPage: boolean = false;
-  pageTitle: string = '';
-  pageId: string = '';
-  pageImg: string = '';
-  pageOwner: string = '';
-  pageCategory: string = '';
   block: any;
   scrollTop: number = 0;
   toc: any[] = [];
@@ -48,9 +43,20 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   baseURL: string = this._arweave.baseURL;
   fragment: string = '';
   pageNotFound: boolean = false;
-  isUserLoggedIn: boolean = !!this._auth.getMainAddressSnapshot();
+  isUserLoggedIn: boolean = false;
   @ViewChild('donateIcon1', {read: ElementRef}) donateIcon1!: ElementRef;
   @ViewChild('donateIcon2', {read: ElementRef}) donateIcon2!: ElementRef;
+  mainAddress: string = '';
+  pageData: ArwikiPage = {
+    id: '',
+    title: '',
+    slug: '',
+    category: '',
+    language: '',
+    owner: '',
+    img: '',
+  };
+  pageExtraMetadata: any = {};
 
   constructor(
     private route: ActivatedRoute,
@@ -84,6 +90,13 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
       this._ref.detectChanges();
     })
 
+    this.isUserLoggedIn = !!this._auth.getMainAddressSnapshot();
+    this.mainAddress = this._auth.getMainAddressSnapshot();
+    this._auth.account$.subscribe((_mainAddress) => {
+      this.mainAddress = _mainAddress;
+      this.isUserLoggedIn = !!_mainAddress;
+    })
+
 
   }
 
@@ -101,12 +114,12 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
 
   async loadPageData(slug: string, langCode: string) {
      // Init page data 
-    this.pageTitle = '';
-    this.pageImg = '';
-    this.pageId = '';
-    this.htmlContent = '';
-    this.pageOwner = '';
-    this.pageCategory = '';
+    this.pageData.title = '';
+    this.pageData.img = '';
+    this.pageData.id = '';
+    this.pageData.content = '';
+    this.pageData.owner = '';
+    this.pageData.category = '';
     this.block = {};
     const numPages = 20;
   	this.loadingPage = true;
@@ -135,6 +148,8 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
           const owner = p.node.owner.address;
           const id = p.node.id;
           const block = p.node.block;
+          const extraMetadata = this.pageExtraMetadata;
+
           
           finalRes.push({
             title: title,
@@ -151,18 +166,18 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   			// If page exists
   			if (finalRes.length > 0) {
   				const page: any = finalRes[0];
-  				this.pageTitle = page.title ? page.title : '';
-  				this.pageImg = page.img ? page.img : '';
-  				this.pageId = page.id ? page.id : '';
-          this.pageOwner = page.owner ? page.owner : '';
-          this.pageCategory = page.category ? page.category : '';
+  				this.pageData.title = page.title ? page.title : '';
+  				this.pageData.img = page.img ? page.img : '';
+  				this.pageData.id = page.id ? page.id : '';
+          this.pageData.owner = page.owner ? page.owner : '';
+          this.pageData.category = page.category ? page.category : '';
           this.block = page.block;
 
           const content = await this._arweave.arweave.transactions.getData(
             page.id, 
             {decode: true, string: true}
           );
-          this.htmlContent = this.markdownToHTML(content);
+          this.pageData.content = this.markdownToHTML(content);
 
           this.loadingPage = false;
 
@@ -184,7 +199,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
 
 
   			} else {
-          this.htmlContent = '';
+          this.pageData.content = '';
           this.pageNotFound = true;
   				this.message('Page not found', 'error')
           this.loadingPage = false;
@@ -195,7 +210,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   		error: (error) => {
   			this.message(error, 'error')
         this.loadingPage = false;
-        this.htmlContent = '';
+        this.pageData.content = '';
         this.pageNotFound = true;
   		}
   	});
@@ -299,6 +314,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
         }),
         switchMap((verifiedPages) => {
           const p = verifiedPages[_slug];
+          this.pageExtraMetadata = verifiedPages[_slug];
 
           if (p && p.content) {
             verifiedPagesList.push(p.content);
@@ -335,14 +351,16 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
       );
   }
 
-  donate(_slug: string, _langCode: string) {
+  donate(_author: string, _sponsor: string) {
     const defLang = this._userSettings.getDefaultLang();
     let direction: Direction = defLang.writing_system === 'LTR' ? 
       'ltr' : 'rtl';
 
     const dialogRef = this._dialog.open(DialogDonateComponent, {
       data: {
-        pageTx: ''
+        author: _author,
+        sponsor: _sponsor,
+        mainAddress: this.mainAddress
       },
       direction: direction
     });
