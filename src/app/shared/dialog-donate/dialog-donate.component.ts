@@ -66,7 +66,7 @@ export class DialogDonateComponent implements OnInit, OnDestroy {
   	this.loadingDonationInProgress = true;
   	this.txDonation = '';
   	try {
-  		this.txDonation = await this._arweave.sendDonation(`${amount}`, to, this._auth.getPrivateKey());
+  		this.txDonation = await this._arweave.sendDonation(to, `${amount}`, this._auth.getPrivateKey());
   	} catch (err) {
   		this.message(err, 'error');
   	}
