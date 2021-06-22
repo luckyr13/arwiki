@@ -252,6 +252,20 @@ export class ArweaveService {
     return tx;
   }
 
+  async sendDonation(_to: string, _fee: string, jwk: any): Promise<any> {
+    // send a fee. You should inform the user about this fee and amount.
+    const tx = await this.arweave.createTransaction({ 
+      target: _to, quantity: this.arweave.ar.arToWinston(_fee) 
+    }, jwk)
+    tx.addTag('Service', 'ArWiki');
+    tx.addTag('Arwiki-Type', 'Donation');
+    tx.addTag('Arwiki-Version', arwikiVersion[0]);
+
+    await this.arweave.transactions.sign(tx, jwk)
+    await this.arweave.transactions.post(tx)
+    return tx;
+  }
+
   /*
   * @dev
   */

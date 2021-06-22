@@ -35,6 +35,7 @@ import {MatSliderModule} from '@angular/material/slider';
 import { BalanceCardComponent } from './balance-card/balance-card.component';
 import {MatTableModule} from '@angular/material/table';
 import { DialogDonateComponent } from './dialog-donate/dialog-donate.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,8 @@ import { DialogDonateComponent } from './dialog-donate/dialog-donate.component';
     RouterModule,
     ClipboardModule,
     MatTooltipModule,
+    MatSliderModule,
+    FormsModule
   ],
   exports: [
   	MatFormFieldModule,

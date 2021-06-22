@@ -2,13 +2,55 @@
 	<mat-icon class="red title-icon">volunteer_activism</mat-icon>
 	<span>Donations</span>
 </h2>
-<mat-dialog-content>
-  <div *ngIf="data.mainAddress">Coming soon ...</div>
+<mat-progress-bar 
+  color="warn"
+  mode="indeterminate"
+  *ngIf="loadingBalance || (loadingDonationInProgress && !txDonation)"
+  class="fadeIn"></mat-progress-bar>
+<mat-dialog-content class="container container-donate">
+  <div *ngIf="data.mainAddress && !loadingDonationInProgress" class="row">
+  	<p class="col-12 mini-text ellipsis">
+  		<strong>From: </strong>{{ data.mainAddress }}
+      <br>
+      <strong>Balance: </strong>{{ balance }}
+  	</p>
+  	<div *ngIf="data.author" class="col-12 text-right mini-text ellipsis">
+  		<mat-icon class="red">favorite</mat-icon>
+  		<strong>To author: </strong>{{ data.author }}
+  	</div>
+  	<div *ngIf="data.sponsor" class="col-12 text-right mini-text ellipsis">
+  		<mat-icon class="red">favorite</mat-icon>
+  		<strong>To sponsor: </strong>{{ data.sponsor }}
+  	</div>
+    <p class="col-12 mini-text">
+      <strong>Choose amount: </strong>
+    </p>
+  	<div  class="col-12 text-center mini-text">
+  		<mat-slider
+        [(ngModel)]="amount"
+        tickInterval="1"
+        step="0.00001"
+        min="0"
+        [disabled]="loadingBalance"
+        [max]="maxAmount"
+        aria-label="AR"></mat-slider>
+  	</div>
+    <div  class="col-12 text-right mini-text">
+      {{ amount }} AR
+    </div>
+  </div>
   <div *ngIf="!data.mainAddress">🙏 Please login first 👾</div>
+  <div *ngIf="loadingDonationInProgress">
+    <h1 *ngIf="!txDonation">🚀 Transaction in progress, hold on!</h1>
+    <h2 *ngIf="txDonation">🥳 Donation sent! Thank you very much for your support! 🙏🙌</h2>
+    <h2 *ngIf="txDonation">You can close this window now.</h2>
+  </div>
 </mat-dialog-content>
-
-
-
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close cdkFocusInitial>Cancel</button>
+	<button 
+  	mat-button 
+  	*ngIf="data.mainAddress && !loadingDonationInProgress" 
+    [disabled]="!amount"
+  	(click)="sendDonation(amount, data.author, data.sponsor)">Alright! Let's do it!</button>
+  <button mat-button mat-dialog-close cdkFocusInitial>Close</button>
 </mat-dialog-actions>

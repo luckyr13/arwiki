@@ -97,6 +97,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
       this.isUserLoggedIn = !!_mainAddress;
     })
 
+    
 
   }
 
@@ -356,6 +357,15 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     let direction: Direction = defLang.writing_system === 'LTR' ? 
       'ltr' : 'rtl';
 
+    // Select a winner 
+    const rn = Math.random();
+    if (rn > 0.5) {
+      _author = '';
+    } else {
+      _sponsor = '';
+    }
+    
+
     const dialogRef = this._dialog.open(DialogDonateComponent, {
       data: {
         author: _author,
@@ -366,10 +376,6 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe(async (result) => {
-      if (result) {
-        alert(result)
-
-      }
     });
   }
 
