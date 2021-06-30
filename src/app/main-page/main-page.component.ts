@@ -44,27 +44,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
   partners: any[] = [
     { img: './assets/img/partners/pn-1kx.png', alt: '1kx', href:'' },
     { img: './assets/img/partners/pn-a16z.png', alt: '', href:'' },
-    { img: './assets/img/partners/pn-coinbase.png', alt: 'Coinbase', href:'' },
-    { img: './assets/img/partners/pn-iwf.png', alt: '', href:'' },
-    { img: './assets/img/partners/pn-multicoin.png', alt: '', href:'' },
-    { img: './assets/img/partners/pn-techstar.png', alt: '', href:'' },
     { img: './assets/img/partners/pn-usv.png', alt: '', href:'' },
-    { 
-      img: './assets/img/partners/arconnectGray2.png',
-      alt: 'ArConnect',
-      href:'https://arconnect.io',
-      noInvert: true
-    },
-    { 
-      img: './assets/img/partners/argoLogoGray.png',
-      alt: 'ArGo',
-      href:'https://argoapp.live/'
-    },
-    { 
-      img: './assets/img/partners/communityLogoGray.png',
-      alt: 'Community.XYZ',
-      href:'https://community.xyz/'
-    },
+    { img: './assets/img/partners/pn-coinbase.png', alt: 'Coinbase', href:'' },
   ];
   @ViewChild('mainLogo1') mainLogo1!: ElementRef;
 

@@ -126,10 +126,10 @@
 </div>
 
 <div class="fadeIn container-partners" [class.dark]="this.defaultTheme === 'arwiki-dark'">
+	<h2 class="text-center">Our partners and friends</h2>
 	<div class="container">
-		<h2 class="text-center">Our partners and friends</h2>
 		<div class="row justify-content-center">
-			<div class="col-12 col-sm-4 col-md-2 text-center card-partner" *ngFor="let p of partners">
+			<div class="col-4 col-sm-4 col-md-2 text-center card-partner" *ngFor="let p of partners">
 				<a *ngIf="p.href" [href]="p.href" target="_blank">
 					<img  [class.dark]="this.defaultTheme === 'arwiki-dark' && !p.noInvert" [src]="p.img" [alt]="p.alt">
 				</a>

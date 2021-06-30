@@ -357,14 +357,8 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     let direction: Direction = defLang.writing_system === 'LTR' ? 
       'ltr' : 'rtl';
 
-    // Select a winner 
-    const rn = Math.random();
-    if (rn > 0.5) {
-      _author = '';
-    } else {
-      _sponsor = '';
-    }
-    
+    // The sponsor always gets the donation :)
+    _author = '';
 
     const dialogRef = this._dialog.open(DialogDonateComponent, {
       data: {

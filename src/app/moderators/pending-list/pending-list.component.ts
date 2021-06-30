@@ -203,7 +203,7 @@ export class PendingListComponent implements OnInit, OnDestroy {
     const dialogRef = this._dialog.open(DialogConfirmComponent, {
       data: {
         title: 'Are you sure?',
-        content: 'You are about to approve a new arwiki page. Do you want to proceed?'
+        content: `You are about to approve a new arwiki page. To do this you need to stake ${_pageValue} $WIKI tokens. Do you want to proceed?`
       },
       direction: direction
     });

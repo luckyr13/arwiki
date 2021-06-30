@@ -103,8 +103,13 @@ a.mat-button{
 
 .container-partners {
 	background-color: #F5F5F5;
-	padding: 24px;
 	margin-top: 40px;
+}
+
+.container-partners h2 {
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-top: 12px;
 }
 .container-partners.dark {
 	background-color: #212121;
@@ -112,7 +117,7 @@ a.mat-button{
 }
 
 .card-partner {
-	padding: 20px;
+	padding: 12px;
 	text-align: center;
   display: flex;
   align-items: center;
