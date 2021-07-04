@@ -60,6 +60,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
+    private _router: Router,
   	private _arweave: ArweaveService,
   	private _snackBar: MatSnackBar,
     private _location: Location,
@@ -374,25 +375,22 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   }
 
   editPage(_slug: string, _langCode: string) {
-    const defLang = this._userSettings.getDefaultLang();
-    let direction: Direction = defLang.writing_system === 'LTR' ? 
-      'ltr' : 'rtl';
+    if (!this.mainAddress) {
+      const defLang = this._userSettings.getDefaultLang();
+      let direction: Direction = defLang.writing_system === 'LTR' ? 
+        'ltr' : 'rtl';
+      const dialogRef = this._dialog.open(DialogConfirmComponent, {
+        data: {
+          title: 'Please login first',
+          content: 'You need to login first.',
+          type: 'info'
+        },
+        direction: direction
+      });
 
-    const dialogRef = this._dialog.open(DialogConfirmComponent, {
-      data: {
-        title: 'Coming soon ...',
-        content: 'This function will be available soon :)',
-        type: 'info'
-      },
-      direction: direction
-    });
-
-    dialogRef.afterClosed().subscribe(async (result) => {
-      if (result) {
-        alert(result)
-
-      }
-    });
+      return;
+    }
+    this._router.navigate([_langCode, _slug, 'edit']); 
   }
 
   viewHistory(_slug: string, _langCode: string) {

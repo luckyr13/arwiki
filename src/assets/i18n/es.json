@@ -114,5 +114,18 @@
 			"1": "Además del protocolo central de Arweave, tenemos la permaweb: una red global y permanente de páginas y aplicaciones que viven para siempre.",
 			"2": "Arweave es una red de código abierto completamente operada y de propiedad de la comunidad."
 		}
+	},
+	"EDIT_PAGE": {
+		"TITLE": "Editar página",
+		"FRM_TITLE": "Title",
+		"FRM_BY": "By",
+		"FRM_SLUG": "Page slug",
+		"FRM_CATEGORY": "Category",
+		"FRM_LANGUAGE": "Language",
+		"FRM_LOADING": "Loading ...",
+		"FRM_UPLOAD_FILE": "Upload file",
+		"FRM_CONTENT": "Content",
+		"FRM_BTN_SAVE": "Enviar actualización",
+		"FRM_BTN_GOBACK": "Go back"
 	}
 }

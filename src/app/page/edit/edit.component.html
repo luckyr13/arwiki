@@ -1,1 +1,158 @@
-<p>edit works!</p>
+<div class="mt-main"></div>
+<mat-progress-bar 
+	class="sticky-progress-bar"
+	mode="indeterminate"
+	*ngIf="loadingFrm || loadingPageData"></mat-progress-bar>
+
+<form class="frmNew" [formGroup]="frmNew" (ngSubmit)="onSubmit()">
+	<mat-toolbar class="fadeIn" color="default">
+	  <mat-icon 
+	  	aria-hidden="false"
+	  	aria-label="My pages">edit</mat-icon>
+		<span>&nbsp;{{ 'EDIT_PAGE.TITLE' | translate }}</span>
+		<div class="menu-spacer"></div>
+		<div class="text-right page-title-buttons">	
+      <button 
+      	type="button"
+		  	mat-button
+		  	color="default"
+		  	(click)="goBack()"
+		  	[disabled]="loadingFrm">
+		    <mat-icon>navigate_before</mat-icon>
+		    {{ 'GENERAL.BUTTONS.GO_BACK' | translate }}
+		  </button>
+     
+		</div>
+	</mat-toolbar>
+	<div class="container page-container fadeIn" *ngIf="!newPageTX && !loadingPageData && !pageNotFound">
+			<div class="row">
+				<div class="col-12 col-md-6">
+					<mat-form-field class="w100" appearance="outline">
+					  <mat-label>{{ 'EDIT_PAGE.FRM_TITLE' | translate }}</mat-label>
+					  <input
+					  	formControlName="title"
+					  	matInput
+					  	autocomplete="off"
+					  	maxlength="150">
+		    		<mat-hint align="end">{{title!.value.length}} / 150</mat-hint>
+					</mat-form-field>
+					<div class="author-address">
+						<strong>{{ 'EDIT_PAGE.FRM_BY' | translate }}</strong> {{ authorAddress }}
+					</div>
+					<mat-form-field class="w100" appearance="outline">
+					  <mat-label>{{ 'EDIT_PAGE.FRM_SLUG' | translate }}</mat-label>
+					  <input
+					  	formControlName="slug"
+					  	matInput
+					  	maxlength="150">
+		    		<mat-hint align="end">{{slug!.value.length}} / 150</mat-hint>
+					</mat-form-field>
+					<div class="w100" appearance="outline">
+					  <p>Page value in $WIKI tokens</p>
+					  <mat-slider 
+					  	class="w100" 
+					  	formControlName="pageValue" 
+					  	min="0" 
+					  	max="1000" 
+  					[displayWith]="formatLabel"
+					  	thumbLabel
+					  	tickInterval="1"
+					  	step="1" value="0"></mat-slider>
+					  <div class="mat-hint small-hint text-right">{{pageValue!.value}} $WIKI tokens</div>
+					</div>
+					
+					<mat-form-field class="w50" appearance="outline" >
+						<mat-label *ngIf="!categoryList || !categoryList.length">{{ 'EDIT_PAGE.FRM_LOADING' | translate }}</mat-label>
+					  <mat-label *ngIf="categoryList && categoryList.length">{{ 'EDIT_PAGE.FRM_CATEGORY' | translate }}</mat-label>
+					  <mat-select 
+					  	formControlName="category">
+					    <mat-option *ngFor="let cat of categoryList" [value]="cat.slug">
+					      {{ cat.label }}
+					    </mat-option>
+					  </mat-select>
+					</mat-form-field>
+					<mat-form-field class="w50" style="padding-left: 20px;" appearance="outline" >
+						<mat-label *ngIf="!languageList || !languageList.length">{{ 'EDIT_PAGE.FRM_LOADING' | translate }}</mat-label>
+					  <mat-label *ngIf="languageList && languageList.length">{{ 'EDIT_PAGE.FRM_LANGUAGE' | translate }}</mat-label>
+					  <mat-select 
+					  	formControlName="language">
+					    <mat-option 
+					    	*ngFor="let lang of languageList" 
+					    	[value]="lang.code">
+					      {{ lang.native_name }}
+					    </mat-option>
+					  </mat-select>
+					</mat-form-field>
+				</div>
+
+				<div class="col-12 col-md-6">
+					<mat-card class="card-img">
+						<ngx-skeleton-loader 
+					  	count="1" 
+					  	[animation]="getSkeletonLoaderAnimationType()"
+					  	[theme]="getSkeletonLoaderThemeNgStyle()"
+					  	*ngIf="!previewImgUrl"
+					  	></ngx-skeleton-loader>
+					  <img
+					  	*ngIf="previewImgUrl"
+					  	[src]="previewImgUrl"
+					  	class="card-preview-img"
+					  	>
+
+					</mat-card>
+					<div class="text-right">
+						<button 
+							class="btn-upload-file"
+				    	mat-flat-button
+				    	[disabled]="loadingFrm"
+				    	type="button"
+				    	(click)="openFileManager()"
+				    	color="primary">
+				    	<mat-icon>upload</mat-icon>
+				    	{{ 'EDIT_PAGE.FRM_UPLOAD_FILE' | translate }}
+				    </button>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12">
+					<h3>{{ 'EDIT_PAGE.FRM_CONTENT' | translate }}</h3>
+					<textarea id="create-page-textarea-simplemde-content"></textarea>
+				</div>
+				<div class="col-12 text-center">
+					<button 
+						class="btn-save-2"
+			    	mat-flat-button
+			    	type="submit"
+			    	[disabled]="!frmNew.valid ||  loadingFrm"
+			    	color="primary">
+			    	<mat-icon>upgrade</mat-icon>
+			    	{{ 'EDIT_PAGE.FRM_BTN_SAVE' | translate }}
+			    </button>
+				</div>
+				
+			</div>
+	</div>
+	<div class="container page-container fadeIn" *ngIf="pageNotFound && !loadingPageData">
+		<h1 class="text-center col-12">Page not found! 😢</h1>
+	</div>
+
+</form>
+<div class="container page-container fadeIn" style="margin-top: 120px" *ngIf="newPageTX">
+	<h1 class="text-center">
+		Congratulations! 🥳
+	</h1>
+	<h2 class="text-center">
+		You have successfully created a new arwiki page.
+	</h2>
+	<h3 class="text-center">
+		Now your page will live forever in the permaweb. But wait! Remember that we still need to validate your page in order to be included in our official arwiki index.
+	</h3>
+
+	<h4 class="text-center">
+		Redirecting to your dashboard in 20 seconds ...
+	</h4>
+	<p class="text-center">
+		You can track your transaction status here: <a mat-button href="https://viewblock.io/arweave/tx/{{newPageTX}}" class="text-center" target="_blank">{{newPageTX}}</a>
+	</p>
+</div>
