@@ -45,7 +45,8 @@ export class EditComponent implements OnInit, OnDestroy {
 		slug: new FormControl('', [Validators.required, Validators.maxLength(150)]),
     category: new FormControl('', [Validators.required]),
     language: new FormControl('', [Validators.required]),
-    pageValue: new FormControl(0)
+    pageValue: new FormControl(0),
+    pageId: new FormControl('', [Validators.required, Validators.maxLength(50)])
 	});
 	txmessage: string = '';
   previewImgUrl: string = '';
@@ -97,6 +98,9 @@ export class EditComponent implements OnInit, OnDestroy {
   public get pageValue() {
     return this.frmNew.get('pageValue')!;
   }
+  public get pageId() {
+    return this.frmNew.get('pageId')!;
+  }
 
 	goBack() {
   	this._location.back();
@@ -121,6 +125,7 @@ export class EditComponent implements OnInit, OnDestroy {
     this.routeSlug = this._route.snapshot.paramMap.get('slug')!;
     this.slug.disable();
     this.slug.setValue(this.routeSlug);
+    this.pageId.disable();
     this.language.disable();
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
     this.arwiki = new Arwiki(this._arweave.arweave);
@@ -281,7 +286,7 @@ export class EditComponent implements OnInit, OnDestroy {
           owner: this._auth.getMainAddressSnapshot(),
           content: content
       };
-      const txid = await this.arwiki.createNewArwikiPageTX(
+      const txid = await this.arwiki.createUpdateArwikiPageTX(
         newPage,
         this._auth.getPrivateKey()
       );
@@ -351,30 +356,6 @@ export class EditComponent implements OnInit, OnDestroy {
   */
   arToWinston(_v: string) {
     return this._arweave.arToWinston(_v);
-  }
-
-  /*
-  * @dev
-  */
-  isPageBySlugAlreadyTaken(
-    _slug: string,
-    _langCode: string,
-    _maxHeight: number,
-    _limit: number = 20
-  ) {
-    let categoriesCS: any = {};
-
-    let adminList: string[] = [];
-    let stakingPages: any = {};
-
-    const verifiedPagesDict: Record<string,boolean> = {};
-    return this._arwikiTokenContract.getApprovedPages(_langCode, -1)
-      .pipe(
-        switchMap((approvedPages) => {
-          return of(!!approvedPages[_slug]);
-        }),
-
-      );
   }
 
   formatLabel(value: number) {
@@ -451,9 +432,7 @@ export class EditComponent implements OnInit, OnDestroy {
             {decode: true, string: true}
           );
           this.pageData.content = content;
-
-
-
+          this.pageId.setValue(this.pageData.id);
           this.title.setValue(this.pageData.title);
           this.category.setValue(this.pageData.category);
           this.setPreviewImage(this.pageData.img!);

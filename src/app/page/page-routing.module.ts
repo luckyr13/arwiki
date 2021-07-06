@@ -7,6 +7,7 @@ import { EditComponent } from './edit/edit.component';
 import { NewComponent } from './new/new.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { MyPagesComponent } from './my-pages/my-pages.component';
+import { MyUpdatesComponent } from './my-updates/my-updates.component';
 
 import { AuthGuard } from '../auth/auth.guard';
 import { InitPlatformGuard } from '../auth/init-platform.guard';
@@ -22,6 +23,10 @@ const routes: Routes = [
 	},
 	{
 		path: ':lang/my-pages', component: MyPagesComponent, 
+		canActivate: [AuthGuard, InitPlatformGuard],
+	},
+	{
+		path: ':lang/my-updates', component: MyUpdatesComponent, 
 		canActivate: [AuthGuard, InitPlatformGuard],
 	},
 	{

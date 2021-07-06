@@ -105,8 +105,15 @@
 					<a
 						mat-flat-button
 						color="primary"
+						matTooltip="Page updates"
+						routerLink="../page-updates/{{p.slug}}">
+						<mat-icon>archive</mat-icon> Page updates
+					</a>
+					<a
+						mat-flat-button
+						color="primary"
 						matTooltip="Add tags"
-						routerLink="../tag-manager/{{p.id}}">
+						routerLink="../tag-manager/{{p.slug}}">
 						<mat-icon>sell</mat-icon> Tags
 					</a>
 					<a 

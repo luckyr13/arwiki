@@ -9,6 +9,7 @@ import { ViewAdminListComponent } from './view-admin-list/view-admin-list.compon
 import { ApprovedListComponent } from './approved-list/approved-list.component';
 import { DeletedListComponent } from './deleted-list/deleted-list.component';
 import { TagManagerComponent } from './tag-manager/tag-manager.component';
+import { PageUpdatesComponent } from './page-updates/page-updates.component';
 
 const routes: Routes = [
 	{
@@ -25,7 +26,10 @@ const routes: Routes = [
 				path: 'deleted', component: DeletedListComponent
 			},
 			{
-				path: 'tag-manager/:txId', component: TagManagerComponent
+				path: 'tag-manager/:slug', component: TagManagerComponent
+			},
+			{
+				path: 'page-updates/:slug', component: PageUpdatesComponent
 			},
 			{
 				path: 'add-admin', component: AddAdminComponent

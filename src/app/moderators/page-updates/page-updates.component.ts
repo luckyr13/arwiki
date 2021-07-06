@@ -23,10 +23,11 @@ import {
 } from '../../core/arwiki-contracts/arwiki-token';
 
 @Component({
-  templateUrl: './pending-list.component.html',
-  styleUrls: ['./pending-list.component.scss']
+  selector: 'app-page-updates',
+  templateUrl: './page-updates.component.html',
+  styleUrls: ['./page-updates.component.scss']
 })
-export class PendingListComponent implements OnInit, OnDestroy {
+export class PageUpdatesComponent implements OnInit , OnDestroy {
 	loadingPendingPages: boolean = false;
   pages: ArwikiPageIndex = {};
   pendingPagesSubscription: Subscription = Subscription.EMPTY;
@@ -37,6 +38,7 @@ export class PendingListComponent implements OnInit, OnDestroy {
   routeLang: string = '';
   private _arwiki!: Arwiki;
   baseURL = this._arweave.baseURL;
+  pageSlug: string = '';
 
   constructor(
   	private _arweave: ArweaveService,
@@ -52,6 +54,7 @@ export class PendingListComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     const adminList: any[] = this._auth.getAdminList();
     this.routeLang = this._route.snapshot.paramMap.get('lang')!;
+    this.pageSlug = this._route.snapshot.paramMap.get('slug')!;
 
     // Init arwiki 
     this._arwiki = new Arwiki(this._arweave.arweave);
@@ -72,22 +75,18 @@ export class PendingListComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.pendingPagesSubscription = this._categoriesContract
-      .getState()
+    this.pendingPagesSubscription = this.arwikiQuery
+      .getPendingPagesUpdates(
+        this.routeLang,
+        this.pageSlug,
+        numPages,
+        maxHeight
+      )
       .pipe(
-        switchMap((categories: ArwikiCategoryIndex) => {
-          return this.arwikiQuery.getPendingPages(
-            this.routeLang,
-            Object.keys(categories),
-            numPages,
-            maxHeight
-          );
-        }),
         switchMap((pendingPages) => {
-          let pages = pendingPages;
           let tmp_res: ArwikiPageIndex = {};
 
-          for (let p of pages) {
+          for (let p of pendingPages) {
             tmp_res[p.node.id] = {
               id: p.node.id,
               title: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title'),
@@ -109,16 +108,17 @@ export class PendingListComponent implements OnInit, OnDestroy {
               .pipe(
                 switchMap((_approvedPages) => {
                   let tmp_res: ArwikiPageIndex = {};
-                  const verifiedPages: string[] = Object.keys(_approvedPages).map((slug) => {
-                    return _approvedPages[slug].content;
-                  });
-                  // Check pending pages against verified pages
+                  let verifiedUpdates: string[] = [];
+                  for (const approvedSlug of Object.keys(_approvedPages)) {
+                    verifiedUpdates = verifiedUpdates.concat(_approvedPages[approvedSlug].updates)
+                  }
+
+                  // Check pending updates against verified updates
                   for (let pId in pendingPages) {
-                    if (!(verifiedPages.indexOf(pId) >= 0)) {
+                    if (!(verifiedUpdates.indexOf(pId) >= 0)) {
                       tmp_res[pId] = pendingPages[pId];
                     }
                   }
-
                   return of(tmp_res);
                 })
               )
@@ -203,7 +203,7 @@ export class PendingListComponent implements OnInit, OnDestroy {
     const dialogRef = this._dialog.open(DialogConfirmComponent, {
       data: {
         title: 'Are you sure?',
-        content: `You are about to approve a new arwiki page. To do this you need to stake ${_pageValue} $WIKI tokens. Do you want to proceed?`
+        content: `You are about to approve a new arwiki page update. Do you want to proceed?`
       },
       direction: direction
     });
@@ -213,7 +213,7 @@ export class PendingListComponent implements OnInit, OnDestroy {
         // Create arwiki page
         this.loadingInsertPageIntoIndex = true;
         try {
-          const tx = await this._arwikiTokenContract.approvePage(
+          const tx = await this._arwikiTokenContract.approvePageUpdate(
             _pageId,
             _author,
             _slug,
@@ -244,6 +244,5 @@ export class PendingListComponent implements OnInit, OnDestroy {
   getKeys(d: any) {
     return Object.keys(d);
   }
- 
 
 }

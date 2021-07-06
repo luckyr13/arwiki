@@ -17,6 +17,8 @@ import {MatDialog} from '@angular/material/dialog';
 import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confirm.component';
 import { AuthService } from '../../auth/auth.service';
 import { Arwiki } from '../../core/arwiki';
+import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   templateUrl: './tag-manager.component.html',
@@ -50,7 +52,8 @@ export class TagManagerComponent implements OnInit, OnDestroy {
   	private _snackBar: MatSnackBar,
     private _location: Location,
     private _dialog: MatDialog,
-    private _auth: AuthService
+    private _auth: AuthService,
+    private _arwikiToken: ArwikiTokenContract
   ) { }
 
   get newTags() {
@@ -62,10 +65,10 @@ export class TagManagerComponent implements OnInit, OnDestroy {
      // Init arwiki 
     this._arwiki = new Arwiki(this._arweave.arweave);
 
-  	const contractAddress = this.route.snapshot.paramMap.get('txId')!;
+  	const slug = this.route.snapshot.paramMap.get('slug')!;
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
-    this.loadPageTXData(contractAddress);
-    await this.loadTags(contractAddress);
+    this.loadPageTXData(slug);
+    await this.loadTags(slug);
 
   	
   }
@@ -79,9 +82,13 @@ export class TagManagerComponent implements OnInit, OnDestroy {
     }
   }
 
-  loadPageTXData(contractAddress: string) {
+  loadPageTXData(slug: string) {
     this.loadingPage = true;
-    this.pageSubscription = this.arwikiQuery.getTXsData([contractAddress]).subscribe({
+    this.pageSubscription = this._arwikiToken.getApprovedPages(this.routeLang).
+      pipe(switchMap((approvedPages) => {
+        const address = approvedPages && approvedPages[slug] ? approvedPages[slug].content : '';
+        return this.arwikiQuery.getTXsData([address]);
+      })).subscribe({
       next: (txData) => {
         if (txData && txData.length) {
           const p = txData[0];
@@ -105,7 +112,7 @@ export class TagManagerComponent implements OnInit, OnDestroy {
     });
   }
 
-  async loadTags(tx: string) {
+  async loadTags(slug: string) {
     const maxTags = 100;
     let networkInfo;
     let maxHeight = 0;
@@ -117,9 +124,9 @@ export class TagManagerComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.tagsSubscription = this.arwikiQuery.getVerifiedTagsFromPages(
+    this.tagsSubscription = this.arwikiQuery.getVerifiedTagsFromSlug(
       this._auth.getAdminList(), 
-      [tx],
+      slug,
       maxTags,
       maxHeight,
     ).subscribe({
@@ -196,7 +203,8 @@ export class TagManagerComponent implements OnInit, OnDestroy {
       this.tags,
       this.page.category,
       this.page.id,
-      this.page.language
+      this.page.language,
+      this.page.slug
     );
   }
 
@@ -205,7 +213,8 @@ export class TagManagerComponent implements OnInit, OnDestroy {
     _tags: any[],
     _category: string,
     _content_id: string,
-    _lang: string
+    _lang: string,
+    _slug: string
   ) {
     const tagsList = _tags.map(t => t.name);
     const msg = `You are about to create the next tags: ${ tagsList.join() }. Do you want to proceed?`;
@@ -229,6 +238,7 @@ export class TagManagerComponent implements OnInit, OnDestroy {
               tag,
               _category,
               this.routeLang,
+              _slug,
               this._auth.getPrivateKey()
             );
             

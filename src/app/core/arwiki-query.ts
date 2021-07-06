@@ -356,11 +356,56 @@ export class ArwikiQuery {
       },
       {
         name: 'Arwiki-Type',
-        values: ['Tag'],
+        values: ['PageTag'],
       },
       {
         name: 'Arwiki-Page-Id',
         values: pageIds,
+      },
+      {
+        name: 'Arwiki-Version',
+        values: arwikiVersion,
+      } 
+    ];
+
+    const obs = new Observable((subscriber) => {
+      this._ardb!.search('transactions')
+        .limit(limit)
+        .from(owners)
+        .max(maxHeight)
+        .tags(tags).find().then((res) => {
+          subscriber.next(res);
+          subscriber.complete();
+        })
+        .catch((error) => {
+          subscriber.error(error);
+        });
+
+    });
+    return obs;
+  }
+
+  /*
+  * @dev
+  */
+  getVerifiedTagsFromSlug(
+    owners: string[],
+    slug: string,
+    limit: number = 100,
+    maxHeight: number = 0
+  ): Observable<any> {
+    const tags = [
+      {
+        name: 'Service',
+        values: ['ArWiki'],
+      },
+      {
+        name: 'Arwiki-Type',
+        values: ['PageTag'],
+      },
+      {
+        name: 'Arwiki-Page-Slug',
+        values: [slug],
       },
       {
         name: 'Arwiki-Version',
@@ -403,7 +448,7 @@ export class ArwikiQuery {
       },
       {
         name: 'Arwiki-Type',
-        values: ['Tag'],
+        values: ['PageTag'],
       },
       {
         name: 'Arwiki-Page-Tag',
@@ -439,7 +484,7 @@ export class ArwikiQuery {
   /*
   * @dev
   */
-  getDeletedPagesTX(
+  getDeletedPagesTX_realQuery(
     owners: string[],
     pageIds: string[],
     langCode: string,
@@ -481,6 +526,25 @@ export class ArwikiQuery {
         .catch((error) => {
           subscriber.error(error);
         });
+
+    });
+    return obs;
+  }
+
+  /*
+  * @dev
+  */
+  getDeletedPagesTX(
+    owners: string[],
+    pageIds: string[],
+    langCode: string,
+    limit: number = 100,
+    maxHeight: number = 0
+  ): Observable<any> {
+    const obs = new Observable((subscriber) => {
+      // DO NOTHING!
+      subscriber.next([]);
+      subscriber.complete();
 
     });
     return obs;
@@ -575,6 +639,94 @@ export class ArwikiQuery {
           subscriber.complete();
         })
         .catch((error) => {
+          subscriber.error(error);
+        });
+
+    });
+    return obs;
+  }
+
+  /*
+  * @dev
+  */
+  getMyArWikiPagesUpdates(
+    owner: string,
+    langCode: string,
+    limit: number = 100): Observable<any> {
+    const tags = [
+      {
+        name: 'Service',
+        values: ['ArWiki'],
+      },
+      {
+        name: 'Arwiki-Type',
+        values: ['PageUpdate'],
+      },
+      {
+        name: 'Arwiki-Version',
+        values: arwikiVersion,
+      },
+      {
+        name: 'Arwiki-Page-Lang',
+        values: [langCode]
+      }     
+    ];
+
+    const obs = new Observable((subscriber) => {
+      this._ardb!.search('transactions')
+        .from(owner)
+        .limit(limit)
+        .tags(tags).find().then((res) => {
+          subscriber.next(res);
+          subscriber.complete();
+        }).catch((error) => {
+          subscriber.error(error);
+        });
+
+    });
+    return obs;
+  }
+
+  /*
+  * @dev
+  */
+  getPendingPagesUpdates(
+    _langCode: string,
+    _slug: string,
+    limit: number = 100, 
+    _maxHeight: number = 0
+  ): Observable<any> {
+    const tags = [
+      {
+        name: 'Service',
+        values: ['ArWiki'],
+      },
+      {
+        name: 'Arwiki-Type',
+        values: ['PageUpdate'],
+      },
+      {
+        name: 'Arwiki-Version',
+        values: arwikiVersion,
+      },
+      {
+        name: 'Arwiki-Page-Lang',
+        values: [_langCode]
+      },
+      {
+        name: 'Arwiki-Page-Slug',
+        values: [_slug]
+      }
+    ];
+
+    const obs = new Observable((subscriber) => {
+      this._ardb!.search('transactions')
+        .limit(limit)
+        .max(_maxHeight)
+        .tags(tags).find().then((res) => {
+          subscriber.next(res);
+          subscriber.complete();
+        }).catch((error) => {
           subscriber.error(error);
         });
 

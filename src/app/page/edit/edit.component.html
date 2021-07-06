@@ -3,7 +3,6 @@
 	class="sticky-progress-bar"
 	mode="indeterminate"
 	*ngIf="loadingFrm || loadingPageData"></mat-progress-bar>
-
 <form class="frmNew" [formGroup]="frmNew" (ngSubmit)="onSubmit()">
 	<mat-toolbar class="fadeIn" color="default">
 	  <mat-icon 
@@ -24,9 +23,18 @@
      
 		</div>
 	</mat-toolbar>
+	<mat-spinner class="spinner-center" *ngIf="loadingPageData"></mat-spinner>
 	<div class="container page-container fadeIn" *ngIf="!newPageTX && !loadingPageData && !pageNotFound">
 			<div class="row">
 				<div class="col-12 col-md-6">
+					<mat-form-field class="w100" appearance="outline">
+					  <mat-label>Id</mat-label>
+					  <input
+					  	formControlName="pageId"
+					  	matInput
+					  	maxlength="50">
+		    		<mat-hint align="end">{{pageId.value.length}} / 50</mat-hint>
+					</mat-form-field>
 					<mat-form-field class="w100" appearance="outline">
 					  <mat-label>{{ 'EDIT_PAGE.FRM_TITLE' | translate }}</mat-label>
 					  <input
@@ -143,10 +151,10 @@
 		Congratulations! 🥳
 	</h1>
 	<h2 class="text-center">
-		You have successfully created a new arwiki page.
+		Page update successfully created.
 	</h2>
 	<h3 class="text-center">
-		Now your page will live forever in the permaweb. But wait! Remember that we still need to validate your page in order to be included in our official arwiki index.
+		Thanks for helping us grow our wiki with your contribution. A Moderator needs to validate your update before being published.
 	</h3>
 
 	<h4 class="text-center">

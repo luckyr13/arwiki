@@ -90,6 +90,7 @@ export class Arwiki {
     _tag: string,
     _category_slug: string,
     _langCode: string,
+    _slug: string,
     _privateKey: any
   ) {
     _tag = _tag.toLowerCase().trim();
@@ -100,8 +101,9 @@ export class Arwiki {
     }, jwk);
     tx.addTag('Content-Type', 'text/json');
     tx.addTag('Service', 'ArWiki');
-    tx.addTag('Arwiki-Type', 'Tag');
+    tx.addTag('Arwiki-Type', 'PageTag');
     tx.addTag('Arwiki-Page-Id', _pageId);
+    tx.addTag('Arwiki-Page-Slug', _slug);
     tx.addTag('Arwiki-Page-Tag', _tag);
     tx.addTag('Arwiki-Page-Category', _category_slug);
     tx.addTag('Arwiki-Page-Lang', _langCode);
@@ -164,6 +166,34 @@ export class Arwiki {
     tx.addTag('Arwiki-Page-Slug', _slug);
     tx.addTag('Arwiki-Page-Category', _category);
     tx.addTag('Arwiki-Page-Lang', _langCode);
+    tx.addTag('Arwiki-Version', arwikiVersion[0]);
+    await this._arweave.transactions.sign(tx, jwk)
+    await this._arweave.transactions.post(tx)
+    return tx.id;
+  }
+
+  /*
+  * @dev Anyone can create a page update
+  * Page Updates needs to be validated by a Moderator to be listed in the ArWiki
+  */
+  async createUpdateArwikiPageTX(
+    _newPage: ArwikiPage,
+    _privateKey: any
+  ) {
+    const jwk = _privateKey;
+    const tx = await this._arweave.createTransaction({
+      data: _newPage.content
+    }, jwk);
+    tx.addTag('Content-Type', 'text/plain');
+    tx.addTag('Service', 'ArWiki');
+    tx.addTag('Arwiki-Type', 'PageUpdate');
+    tx.addTag('Arwiki-Page-Id', _newPage.id);
+    tx.addTag('Arwiki-Page-Slug', _newPage.slug);
+    tx.addTag('Arwiki-Page-Category', _newPage.category);
+    tx.addTag('Arwiki-Page-Title', _newPage.title);
+    tx.addTag('Arwiki-Page-Img', _newPage.img!);
+    tx.addTag('Arwiki-Page-Lang', _newPage.language);
+    tx.addTag('Arwiki-Page-Value', _newPage.value!.toString());
     tx.addTag('Arwiki-Version', arwikiVersion[0]);
     await this._arweave.transactions.sign(tx, jwk)
     await this._arweave.transactions.post(tx)

@@ -1,0 +1,71 @@
+.mt-main {
+	height:10px;
+	margin-top: 47px;
+}
+
+@media (min-width: 600px) {
+	.mt-main {
+		margin-top: 54px;
+	}
+}
+
+mat-toolbar {
+	font-family: "Roboto Mono", monospace;
+}
+
+
+.card-register-msg {
+
+}
+
+.card-register-msg p {
+	font-size: 16px;
+}
+
+.card-page-container {
+	margin-bottom: 20px;
+}
+.card-page {
+	min-height: 410px;
+}
+.card-page div {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.no-results {
+	margin-bottom: 40px;
+	font-size: 24px;
+}
+
+.card-page-img {
+	max-width: 80%;
+}
+
+.mb20 {
+	margin-bottom: 20px;
+}
+.mini-text {
+	font-size: 12px;
+}
+.mbt20 {
+	margin-bottom: 20px;
+	margin-top: 20px;
+}
+.link {
+	cursor: pointer;
+}
+
+.card-header-title {
+	margin-top: 0px;
+}
+.card-header-image {
+  background-size: cover;
+}
+.card-header-icon {
+  float: right;
+}
+.card-body, .card-footer {
+	padding-bottom: 20px;
+}

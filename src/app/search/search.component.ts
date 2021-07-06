@@ -183,25 +183,23 @@ export class SearchComponent implements OnInit, OnDestroy {
           );
         }),
         switchMap((_verifiedTags) => {
-          const verifiedPagesList = [];
-          const verifiedTXList = Object.keys(verifiedPages).map((slug) => {
-            return verifiedPages[slug].content;
-          });
+          const verifiedPagesList: string[] = [];
+          const verifiedSlugs = Object.keys(verifiedPages);
           for (let p of _verifiedTags) {
             const vrfdPageId = this.arwikiQuery.searchKeyNameInTags(
               p.node.tags, 'Arwiki-Page-Id'
             );
-
+            const vrfdSlug = this.arwikiQuery.searchKeyNameInTags(
+              p.node.tags, 'Arwiki-Page-Slug'
+            );
             if (verifiedPagesList.indexOf(vrfdPageId) >= 0) {
               continue;
             }
-            if (verifiedTXList.indexOf(vrfdPageId) < 0) {
+            if (verifiedSlugs.indexOf(vrfdSlug) < 0) {
               continue;
             }
-
             verifiedPagesList.push(vrfdPageId);
           }
-
           return this.arwikiQuery.getTXsData(verifiedPagesList);
         }),
         switchMap((txs) => {
