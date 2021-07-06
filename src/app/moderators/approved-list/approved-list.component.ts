@@ -84,7 +84,8 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
         switchMap((categories: ArwikiCategoryIndex) => {
           return this._arwikiToken.getApprovedPages(
             this.routeLang,
-            -1
+            -1,
+            true
           );
         }),
         switchMap((_approvedPages) => {

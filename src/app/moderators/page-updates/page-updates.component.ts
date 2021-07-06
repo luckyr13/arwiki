@@ -110,7 +110,10 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
                   let tmp_res: ArwikiPageIndex = {};
                   let verifiedUpdates: string[] = [];
                   for (const approvedSlug of Object.keys(_approvedPages)) {
-                    verifiedUpdates = verifiedUpdates.concat(_approvedPages[approvedSlug].updates)
+                    const updates = _approvedPages[approvedSlug].updates.map((c: any) => {
+                      return c.tx;
+                    });
+                    verifiedUpdates = verifiedUpdates.concat(updates);
                   }
 
                   // Check pending updates against verified updates

@@ -234,7 +234,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
         return this._categoriesContract.getState();
       }),
       switchMap((categories) => {
-        return this._arwikiTokenContract.getApprovedPages(langCode, -1);
+        return this._arwikiTokenContract.getApprovedPages(langCode, -1, true);
       }),
       switchMap((_approvedPages) => {
         allApprovedPages = _approvedPages;
@@ -455,7 +455,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
       }),
       switchMap((categories: ArwikiCategoryIndex) => {
         this.categories = categories;
-        return this._arwikiTokenContract.getApprovedPages(langCode);
+        return this._arwikiTokenContract.getApprovedPages(langCode, -1, true);
       }),
       switchMap((approvedPages: any) => {
         allApprovedPages = approvedPages;

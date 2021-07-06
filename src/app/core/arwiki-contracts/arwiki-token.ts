@@ -161,7 +161,7 @@ export class ArwikiTokenContract
 	getApprovedPages(
 		_langCode: string,
 		_numPages: number = -1,
-		_getOriginTX: boolean = false
+		_overrideContentWithUpd: boolean = false
 	): Observable<any> {
 		return this.getState().pipe(
 			map((_state: any) => {
@@ -174,9 +174,9 @@ export class ArwikiTokenContract
 					return _state.pages[_langCode][slug].active;
 				});
 				const pages = pagesIds.reduce((acum: any, slug) => {
-					acum[slug] = _state.pages[_langCode][slug];
+					acum[slug] = JSON.parse(JSON.stringify(_state.pages[_langCode][slug]));
 					const numUpdates = _state.pages[_langCode][slug].updates.length;
-					if (numUpdates && !_getOriginTX) {
+					if (numUpdates && _overrideContentWithUpd) {
 						acum[slug].content = _state.pages[_langCode][slug].updates[numUpdates - 1].tx;
 					}
 					return acum;
