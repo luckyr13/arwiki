@@ -12,7 +12,7 @@ import { JWKInterface } from 'arweave/node/lib/wallet';
 })
 export class ArwikiTokenContract
 {
-	private _contractAddress: string = 'IZa8YcXoD9TasS9EoGj5_L0yg_csx7UIQq2I3QWELwI';
+	private _contractAddress: string = '5hpzk2vzh-QiyvYqnVuaUFWr8--HfhcfK6HIix-ldJQ';
 	private _state: any = {};
 	private _adminList: string[] = [];
 
@@ -160,7 +160,8 @@ export class ArwikiTokenContract
 	*/
 	getApprovedPages(
 		_langCode: string,
-		_numPages: number = -1
+		_numPages: number = -1,
+		_getOriginTX: boolean = false
 	): Observable<any> {
 		return this.getState().pipe(
 			map((_state: any) => {
@@ -174,6 +175,10 @@ export class ArwikiTokenContract
 				});
 				const pages = pagesIds.reduce((acum: any, slug) => {
 					acum[slug] = _state.pages[_langCode][slug];
+					const numUpdates = _state.pages[_langCode][slug].updates.length;
+					if (numUpdates && !_getOriginTX) {
+						acum[slug].content = _state.pages[_langCode][slug].updates[numUpdates - 1].tx;
+					}
 					return acum;
 				}, {});
 				return pages;
@@ -313,6 +318,49 @@ export class ArwikiTokenContract
     ];
     const input = {
     	function: 'stopPageSponsorshipAndDeactivatePage',
+    	langCode: _langCode,
+    	slug: _slug
+    };
+
+    const tx = await interactWrite(
+      this._arweave.arweave,
+      jwk,
+      this._contractAddress,
+      input,
+      tags
+    );
+    return tx;
+  }
+
+  /*
+  * @dev All pages updates needs to be validated first 
+  * to be listed on the Arwiki. Validations are special TXs
+  * with custom tags (Arwiki-Type: Validation)
+  */
+  async approvePageUpdate(
+    _pageId: string,
+    _author: string,
+    _slug: string,
+    _category: string,
+    _langCode: string,
+    _pageValue: number,
+    _privateKey: any,
+    _arwikiVersion: string
+  ) {
+    const jwk = _privateKey;
+    const tags = [
+    	{name: 'Service', value: 'ArWiki'},
+    	{name: 'Arwiki-Type', value: 'PageUpdateValidation'},
+    	{name: 'Arwiki-Page-Id', value: _pageId},
+    	{name: 'Arwiki-Page-Slug', value: _slug},
+    	{name: 'Arwiki-Page-Category', value: _category},
+    	{name: 'Arwiki-Page-Lang', value: _langCode},
+    	{name: 'Arwiki-Page-Value', value: `${_pageValue}`},
+    	{name: 'Arwiki-Version', value: _arwikiVersion},
+    ];
+    const input = {
+    	function: 'addPageUpdate',
+    	updateTX: _pageId,
     	langCode: _langCode,
     	slug: _slug
     };

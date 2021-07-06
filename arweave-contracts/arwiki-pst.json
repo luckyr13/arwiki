@@ -7,7 +7,7 @@
   "vault": {},
   "votes": [],
   "roles": {
-    "7z8Vtlbdm-Vw6mQ_jZ7OEh3E-4RtUC1V5U0pQw8Flyg": "Moderator",
+    "7z8Vtlbdm-Vw6mQ_jZ7OEh3E-4RtUC1V5U0pQw8Flyg": "Moderator"
   },
   "settings": [
     [
@@ -32,15 +32,15 @@
     ],
     [
       "maxPagesPerLang",
-      200
+      500
     ],
     [
       "pageApprovalLength",
       2000
     ],
     [
-      "platformUsageCostInWinston",
-      "1000000"
+      "frozenLength",
+      2000
     ],
     [
       "communityLogo",
@@ -53,38 +53,20 @@
     [
       "communityAppUrl",
       "https://arwiki.wiki"
-    ],
-    [
-      "appLogo",
-      "5wYwaQP8eFQn_YK6rSB3zdH5Fu8c6J2LJK7nwfT7LeA"
-    ],
-    [
-      "appLogoDark",
-      "wJGdli6nMQKCyCdtCewn84ba9-WsJ80-GS-KtKdkCLg"
     ]
-
   ],
   "pages": {
-    "en": {
-    },
-    "es": {
-    },
-    "de": {
-    },
-    "hi": {
-    },
-    "ar": {
-    },
-    "he": {
-    },
-    "hu": {
-    },
-    "ga": {
-    },
-    "zh": {
-    },
-    "id": {
-    }
+    "en": {},
+    "es": {},
+    "de": {},
+    "hi": {},
+    "ar": {},
+    "he": {},
+    "hu": {},
+    "ga": {},
+    "zh": {},
+    "id": {}
   },
-  "stakes": {}
+  "stakes": {},
+  "frozenAdmins": {}
 }

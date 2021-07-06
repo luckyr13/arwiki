@@ -7,6 +7,7 @@ export function handle(state, action) {
   const caller = action.caller;
   const stakes = state.stakes;
   const pages = state.pages;
+  const frozenAdmins = state.frozenAdmins;
   if (input.function === "transfer") {
     const target = input.target;
     const qty = input.qty;
@@ -381,32 +382,35 @@ export function handle(state, action) {
       throw new ContractError('"pageValue" must be a positive integer.');
     }
     if (role.trim().toUpperCase() !== "MODERATOR") {
-      throw new Error("Caller must be an admin");
+      throw new ContractError("Caller must be an admin");
+    }
+    if (_is_admin_frozen(caller, frozenAdmins, start)) {
+      throw new ContractError("Error: Caller admin is frozen");
     }
     if (typeof author !== 'string' || !author.trim().length) {
-      throw new Error("Author address must be specified");
+      throw new ContractError("Author address must be specified");
     }
     if (typeof lang !== 'string' || !lang.trim().length) {
-      throw new Error("LangCode must be specified");
+      throw new ContractError("LangCode must be specified");
     }
     if (typeof slug !== 'string' || !slug.trim().length) {
-      throw new Error("Slug must be specified");
+      throw new ContractError("Slug must be specified");
     }
     if (typeof category !== 'string' || !category.trim().length) {
-      throw new Error("Category must be specified");
+      throw new ContractError("Category must be specified");
     }
     if (typeof pageTX !== 'string' || !pageTX.trim().length) {
-      throw new Error("PageTX must be specified");
+      throw new ContractError("PageTX must be specified");
     }
     if (!Object.prototype.hasOwnProperty.call(state.pages, lang)) {
-      throw new Error("Invalid LangCode"); 
+      throw new ContractError("Invalid LangCode"); 
     }
     if (Object.prototype.hasOwnProperty.call(state.pages[lang], slug)) {
-      throw new Error("Slug already taken!"); 
+      throw new ContractError("Slug already taken!"); 
     }
     if (Object.prototype.hasOwnProperty.call(stakes, caller) &&
         stakes[caller][pageTX]) {
-      throw new Error("User is already staking on this page");
+      throw new ContractError("User is already staking on this page");
     }
     if (isNaN(balance) || balance < value) {
       throw new ContractError("Not enough balance.");
@@ -439,16 +443,16 @@ export function handle(state, action) {
     const lang = input.langCode;
     const slug = input.slug;
     if (typeof lang !== 'string' || !lang.trim().length) {
-      throw new Error("LangCode must be specified");
+      throw new ContractError("LangCode must be specified");
     }
     if (typeof slug !== 'string' || !slug.trim().length) {
-      throw new Error("Slug must be specified");
+      throw new ContractError("Slug must be specified");
     }
     if (!Object.prototype.hasOwnProperty.call(pages, lang)) {
-      throw new Error("Invalid LangCode"); 
+      throw new ContractError("Invalid LangCode"); 
     }
     if (!Object.prototype.hasOwnProperty.call(pages[lang], slug)) {
-      throw new Error("Invalid slug!"); 
+      throw new ContractError("Invalid slug!"); 
     }
     if (pages[lang][slug] && pages[lang][slug].author === author &&
         currentHeight >= pages[lang][slug].pageRewardAt &&
@@ -467,22 +471,25 @@ export function handle(state, action) {
     const lang = input.langCode;
     const slug = input.slug;
     if (typeof lang !== 'string' || !lang.trim().length) {
-      throw new Error("LangCode must be specified");
+      throw new ContractError("LangCode must be specified");
     }
     if (typeof slug !== 'string' || !slug.trim().length) {
-      throw new Error("Slug must be specified");
+      throw new ContractError("Slug must be specified");
     }
     if (!Object.prototype.hasOwnProperty.call(pages, lang)) {
-      throw new Error("Invalid LangCode"); 
+      throw new ContractError("Invalid LangCode"); 
     }
     if (!Object.prototype.hasOwnProperty.call(pages[lang], slug)) {
-      throw new Error("Invalid slug!"); 
+      throw new ContractError("Invalid slug!"); 
     }
     if (!Number.isInteger(value) || value <= 0) {
       throw new ContractError('"pageValue" must be a positive integer.');
     }
     if (role.trim().toUpperCase() !== "MODERATOR") {
-      throw new Error("Caller must be an admin");
+      throw new ContractError("Caller must be an admin");
+    }
+    if (_is_admin_frozen(caller, frozenAdmins, currentHeight)) {
+      throw new ContractError("Error: Caller admin is frozen");
     }
     if (isNaN(balance) || balance < value) {
       throw new ContractError("Not enough balance.");
@@ -493,13 +500,13 @@ export function handle(state, action) {
     const pageTX = pages[lang][slug].content;
     if (Object.prototype.hasOwnProperty.call(stakes, caller) &&
         stakes[caller][pageTX]) {
-      throw new Error("User is already staking for this page");
+      throw new ContractError("User is already staking for this page");
     }
 
     const previousSponsor = pages[lang][slug].sponsor;
     const previousValue = pages[lang][slug].value;
     if (value <= previousValue) {
-      throw new Error("New page value must be greater than the previous one.");
+      throw new ContractError("New page value must be greater than the previous one.");
     }
     balances[caller] -= value;
     if (previousSponsor && Object.prototype.hasOwnProperty.call(balances, previousSponsor) &&
@@ -524,27 +531,27 @@ export function handle(state, action) {
     const lang = input.langCode;
     const slug = input.slug;
     if (typeof lang !== 'string' || !lang.trim().length) {
-      throw new Error("LangCode must be specified");
+      throw new ContractError("LangCode must be specified");
     }
     if (typeof slug !== 'string' || !slug.trim().length) {
-      throw new Error("Slug must be specified");
+      throw new ContractError("Slug must be specified");
     }
     if (!Object.prototype.hasOwnProperty.call(pages, lang)) {
-      throw new Error("Invalid LangCode"); 
+      throw new ContractError("Invalid LangCode"); 
     }
     if (!Object.prototype.hasOwnProperty.call(pages[lang], slug)) {
-      throw new Error("Invalid slug!"); 
+      throw new ContractError("Invalid slug!"); 
     }
     if (role.trim().toUpperCase() !== "MODERATOR") {
-      throw new Error("Caller must be an admin");
+      throw new ContractError("Caller must be an admin");
     }
     const pageTX = pages[lang][slug].content;
     if (!Object.prototype.hasOwnProperty.call(stakes, caller) ||
         !stakes[caller][pageTX]) {
-      throw new Error("User is not staking for this page");
+      throw new ContractError("User is not staking for this page");
     }
     if (pages[lang][slug].sponsor !== caller) {
-      throw new Error("User is not the sponsor");
+      throw new ContractError("User is not the sponsor");
     }
 
     const currentSponsor = pages[lang][slug].sponsor;
@@ -594,29 +601,102 @@ export function handle(state, action) {
     const slug = input.slug;
     const updateTX = input.updateTX;
     if (typeof lang !== 'string' || !lang.trim().length) {
-      throw new Error("LangCode must be specified");
+      throw new ContractError("LangCode must be specified");
     }
     if (typeof slug !== 'string' || !slug.trim().length) {
-      throw new Error("Slug must be specified");
+      throw new ContractError("Slug must be specified");
     }
     if (typeof updateTX !== 'string' || !updateTX.trim().length) {
-      throw new Error("UpdateTX must be specified");
+      throw new ContractError("UpdateTX must be specified");
     }
     if (!Object.prototype.hasOwnProperty.call(pages, lang)) {
-      throw new Error("Invalid LangCode"); 
+      throw new ContractError("Invalid LangCode"); 
     }
     if (!Object.prototype.hasOwnProperty.call(pages[lang], slug)) {
-      throw new Error("Invalid slug!"); 
+      throw new ContractError("Invalid slug!"); 
     }
     if (role.trim().toUpperCase() !== "MODERATOR") {
-      throw new Error("Caller must be an admin");
+      throw new ContractError("Caller must be an admin");
+    }
+    if (_is_admin_frozen(caller, frozenAdmins, currentHeight)) {
+      throw new ContractError("Error: Caller admin is frozen");
     }
     if (!pages[lang][slug].active) {
-      throw new Error("Page is inactive");
+      throw new ContractError("Page is inactive");
     }
     pages[lang][slug].updates.push({
       tx: updateTX, approvedBy: caller, at: currentHeight
     });
+    return { state };
+  }
+  if (input.function === "activateDeactivatePage") {
+    const role = caller in state.roles ? state.roles[caller] : "";
+    const currentHeight = +SmartWeave.block.height;
+    const lang = input.langCode;
+    const slug = input.slug;
+    const newStatus = !!input.active;
+    if (typeof lang !== 'string' || !lang.trim().length) {
+      throw new ContractError("LangCode must be specified");
+    }
+    if (typeof slug !== 'string' || !slug.trim().length) {
+      throw new ContractError("Slug must be specified");
+    }
+    if (!Object.prototype.hasOwnProperty.call(pages, lang)) {
+      throw new ContractError("Invalid LangCode"); 
+    }
+    if (!Object.prototype.hasOwnProperty.call(pages[lang], slug)) {
+      throw new ContractError("Invalid slug!"); 
+    }
+    if (role.trim().toUpperCase() !== "MODERATOR") {
+      throw new ContractError("Caller must be an admin");
+    }
+    if (_is_admin_frozen(caller, frozenAdmins, currentHeight)) {
+      throw new ContractError("Error: Caller admin is frozen");
+    }
+    const pageTX = pages[lang][slug].content;
+    if (!Object.prototype.hasOwnProperty.call(stakes, caller) ||
+        !stakes[caller][pageTX]) {
+      throw new ContractError("User is not staking for this page");
+    }
+    if (pages[lang][slug].sponsor !== caller) {
+      throw new ContractError("User is not the sponsor");
+    }
+
+    pages[lang][slug].active = newStatus;
+    
+    return { state };
+  }
+  if (input.function === "freezeAdmin") {
+    const role = caller in state.roles ? state.roles[caller] : "";
+    const currentHeight = +SmartWeave.block.height;
+    const adminToBeFrozen = input.target;
+    const frozenLength = +settings.get("frozenLength");
+    const roleT = adminToBeFrozen in state.roles ? state.roles[adminToBeFrozen] : "";
+    if (role.trim().toUpperCase() !== "MODERATOR") {
+      throw new ContractError("Caller must be an admin");
+    }
+    if (roleT.trim().toUpperCase() !== "MODERATOR") {
+      throw new ContractError("Target must be an admin");
+    }
+    if (_is_admin_frozen(adminToBeFrozen, frozenAdmins, currentHeight)) {
+      throw new ContractError("Target admin is already frozen :)");
+    }
+    if (_is_admin_frozen(caller, frozenAdmins, currentHeight)) {
+      throw new ContractError("Can't freeze admin. Caller is frozen!");
+    }
+    for (const fa in frozenAdmins) {
+      if (frozenAdmins[fa].frozenBy === caller &&
+          currentHeight < frozenAdmins[fa].frozenUntil) {
+        throw new ContractError("You already freezed an admin! Please wait until unfrozen to frost another one.");
+      }
+    }
+
+    frozenAdmins[adminToBeFrozen] = {
+      frozenAt: currentHeight,
+      frozenUntil: currentHeight + frozenLength,
+      frozenBy: caller
+    };
+
     return { state };
   }
   throw new ContractError(`No function supplied or function not recognised: "${input.function}"`);
@@ -643,4 +723,13 @@ function _calculate_total_supply(vault, balances, stakes) {
     }
   }
   return totalSupply;
+}
+
+function _is_admin_frozen(admin, frozenAdmins, currentHeight) {
+  if (frozenAdmins && Object.keys(frozenAdmins).length > 0 &&
+      frozenAdmins[admin] && 
+      currentHeight < frozenAdmins[admin].frozenUntil) {
+    return true;
+  }
+  return false;
 }
