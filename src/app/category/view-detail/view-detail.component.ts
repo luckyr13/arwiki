@@ -212,7 +212,8 @@ export class ViewDetailComponent implements OnInit {
           }
           return this._arwikiTokenContract.getApprovedPages(
             _langCode,
-            _limit
+            -1,
+            true
           );
         }),
         switchMap((_approvedPages) => {

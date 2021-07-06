@@ -311,7 +311,8 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
           adminList = _adminList;
           return this._arwikiTokenContract.getApprovedPages(
             _langCode,
-            -1
+            -1,
+            true
           );
         }),
         switchMap((verifiedPages) => {
