@@ -31,16 +31,16 @@
       21600
     ],
     [
-      "maxPagesPerLang",
-      500
-    ],
-    [
       "pageApprovalLength",
-      2000
+      2200
     ],
     [
-      "frozenLength",
-      2000
+      "frozenAdminLength",
+      4000
+    ],
+    [
+      "minimumStakedVault",
+      10000
     ],
     [
       "communityLogo",
@@ -67,6 +67,5 @@
     "zh": {},
     "id": {}
   },
-  "stakes": {},
   "frozenAdmins": {}
 }
