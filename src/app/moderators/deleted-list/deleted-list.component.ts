@@ -206,7 +206,6 @@ export class DeletedListComponent implements OnInit, OnDestroy {
               block: p.node.block,
               start: allPages[slug].start,
               sponsor: allPages[slug].sponsor,
-              paidAt: allPages[slug].paidAt,
               pageRewardAt: allPages[slug].pageRewardAt              
             });
           }

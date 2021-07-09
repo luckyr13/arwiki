@@ -113,7 +113,6 @@ export class MyUpdatesComponent implements OnInit , OnDestroy {
             ? allVerifiedPages[slug] : {};
           const start = extraData.start ? extraData.start : 0;
           const pageRewardAt = extraData.pageRewardAt ? extraData.pageRewardAt : 0;
-          const paidAt = extraData.paidAt ? extraData.paidAt : 0;
           const sponsor = extraData.sponsor ? extraData.sponsor : '';
           
           finalPages.push({
@@ -128,7 +127,6 @@ export class MyUpdatesComponent implements OnInit , OnDestroy {
             block: p.node.block,
             start,
             pageRewardAt,
-            paidAt,
             sponsor
           });
         }

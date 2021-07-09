@@ -64,14 +64,10 @@
 					<strong>{{ 'PAGE.LABEL_BLOCK_TIMESTAMP' | translate }}: </strong>
 					{{ timestampToDate(p.block.timestamp) | date:'short' }} 
 				</div>
-				<div *ngIf="p.paidAt" class="mini-text green">
-					<strong>Paid at:</strong>
-					{{ p.paidAt }}
-				</div>
 				<div *ngIf="p.pageRewardAt" class="mini-text">
 					<strong>Page reward at: </strong>
 					<span>{{ p.pageRewardAt }} block</span>
-					<strong class="green" *ngIf="currentBlockHeight >= p.pageRewardAt && !p.paidAt">
+					<strong class="green" *ngIf="currentBlockHeight >= p.pageRewardAt">
 						- Reward unlocked!
 					</strong>
 					<span *ngIf="currentBlockHeight < p.pageRewardAt">

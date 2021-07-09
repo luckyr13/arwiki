@@ -11,6 +11,5 @@ export interface ArwikiPage {
 	value?: number;
 	start?: number;
 	pageRewardAt?: number;
-	paidAt?: number;
 	sponsor?: string;
 }

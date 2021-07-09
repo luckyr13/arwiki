@@ -12,7 +12,7 @@ import { JWKInterface } from 'arweave/node/lib/wallet';
 })
 export class ArwikiTokenContract
 {
-	private _contractAddress: string = '5hpzk2vzh-QiyvYqnVuaUFWr8--HfhcfK6HIix-ldJQ';
+	private _contractAddress: string = 'CenjmhYiXD_8T-3znX9T5d43BtYSaphocH_QPA9v3iA';
 	private _state: any = {};
 	private _adminList: string[] = [];
 

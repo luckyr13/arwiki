@@ -132,7 +132,6 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
               block: p.node.block,
               start: allVerifiedPages[slug].start,
               sponsor: allVerifiedPages[slug].sponsor,
-              paidAt: allVerifiedPages[slug].paidAt,
               pageRewardAt: allVerifiedPages[slug].pageRewardAt              
             });
           }
