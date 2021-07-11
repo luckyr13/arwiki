@@ -42,7 +42,7 @@ export class NewComponent implements OnInit, OnDestroy {
 		slug: new FormControl('', [Validators.required, Validators.maxLength(150)]),
     category: new FormControl('', [Validators.required]),
     language: new FormControl('', [Validators.required]),
-    pageValue: new FormControl(0)
+    pageValue: new FormControl(1)
 	});
 	txmessage: string = '';
   previewImgUrl: string = '';
