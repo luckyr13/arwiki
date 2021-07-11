@@ -36,6 +36,7 @@ import { BalanceCardComponent } from './balance-card/balance-card.component';
 import {MatTableModule} from '@angular/material/table';
 import { DialogDonateComponent } from './dialog-donate/dialog-donate.component';
 import { FormsModule } from '@angular/forms';
+import { DialogConfirmAmountComponent } from './dialog-confirm-amount/dialog-confirm-amount.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { FormsModule } from '@angular/forms';
     ArweaveAddressComponent,
     BalanceCardComponent,
     DialogDonateComponent,
+    DialogConfirmAmountComponent,
   ],
   imports: [
     CommonModule,
@@ -66,7 +68,8 @@ import { FormsModule } from '@angular/forms';
     ClipboardModule,
     MatTooltipModule,
     MatSliderModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
   	MatFormFieldModule,

@@ -92,7 +92,9 @@
 			</mat-card>
 		</div>
 	</div>
-	<div class="row fadeIn" *ngIf="loadingInsertPageIntoIndex && !insertPageTxMessage">
+	<div 
+		class="row fadeIn" 
+		*ngIf="loadingInsertPageIntoIndex && (!insertPageTxMessage && !insertPageTxErrorMessage)">
 		<div class="col text-center">
 			<mat-spinner class="spinner-center"></mat-spinner>
 			<h1 class="text-center">🚀 Hold on! We are almost there!</h1>
@@ -107,9 +109,15 @@
 				target="_blank"
 				href="https://viewblock.io/arweave/tx/{{insertPageTxMessage}}" 
 				class="text-center">https://viewblock.io/arweave/tx/{{ insertPageTxMessage }}
-			</a>
-			
+			</a>	
 		</div>
 	</div>
+	<div class="row fadeIn" *ngIf="insertPageTxErrorMessage">
+		<div class="col text-center">
+			<h1 class="text-center">Oops! something went wrong</h1>
+			<p class="text-center">{{ insertPageTxErrorMessage }}</p>
+		</div>
+	</div>
+
 
 </div>

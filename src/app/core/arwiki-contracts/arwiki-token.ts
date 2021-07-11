@@ -132,6 +132,18 @@ export class ArwikiTokenContract
     	pageValue: `${_pageValue}`
     };
 
+    const testTX = await interactWriteDryRun(
+      this._arweave.arweave,
+      jwk,
+      this._contractAddress,
+      input,
+      tags
+    );
+
+    if (testTX && testTX.type==='error' && testTX.result) {
+      throw new Error(testTX.result)
+    }
+
     const tx = await interactWrite(
       this._arweave.arweave,
       jwk,

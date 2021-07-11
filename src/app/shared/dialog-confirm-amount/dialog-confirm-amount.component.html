@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>
+	<mat-icon *ngIf="!data.type || data.type ==='warning'" class="yellow title-icon">warning</mat-icon>
+	<mat-icon *ngIf="data.type ==='info'" class="blue title-icon">info</mat-icon>
+	<span>{{ data.title }}</span>
+</h2>
+<mat-dialog-content>
+  <p>{{ data.content }}</p>
+  <div class="w100" appearance="outline">
+	  <p>Please define the amount of $WIKI tokens to stake:</p>
+	  <mat-slider 
+	  	class="w100" 
+	  	[formControl]="pageValue" 
+	  	min="1" 
+	  	max="1000" 
+		  [displayWith]="formatLabel"
+	  	thumbLabel
+	  	tickInterval="1"
+	  	step="1"></mat-slider>
+	  <div class="mat-hint small-hint text-right">{{pageValue!.value}} $WIKI tokens</div>
+	</div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button 
+  	mat-button 
+  	*ngIf="data.type !=='info'" 
+  	[mat-dialog-close]="pageValue.value" >Alright! Let's do it!</button>
+  <button mat-button [mat-dialog-close]="-1" cdkFocusInitial>Cancel</button>
+</mat-dialog-actions>
