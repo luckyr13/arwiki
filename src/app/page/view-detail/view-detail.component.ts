@@ -368,7 +368,8 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
         sponsor: _sponsor,
         mainAddress: this.mainAddress
       },
-      direction: direction
+      direction: direction,
+      disableClose: true
     });
 
     dialogRef.afterClosed().subscribe(async (result) => {
