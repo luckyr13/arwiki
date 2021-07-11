@@ -119,7 +119,6 @@ export class PendingListComponent implements OnInit, OnDestroy {
                       tmp_res[pId] = pendingPages[pId];
                     }
                   }
-                  console.log(_approvedPages)
 
                   return of(tmp_res);
                 })
