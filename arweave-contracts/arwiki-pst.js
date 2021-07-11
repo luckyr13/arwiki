@@ -50,9 +50,12 @@ export function handle(state, action) {
       }
     }
     const stakingDict = stakes[target] ? stakes[target] : {};
-    for (const vPage of Object.keys(stakingDict)) {
-      balance += stakes[target][vPage];
+    for (const vLang of Object.keys(stakingDict)) {
+      for (const vSlug of Object.keys(stakingDict[vLang])) {
+        balance += stakes[target][vLang][vSlug];
+      }
     }
+    
     return {result: {target, balance}};
   }
   if (input.function === "unlockedBalance") {
@@ -431,7 +434,8 @@ export function handle(state, action) {
       throw new ContractError("Slug already taken!"); 
     }
     if (Object.prototype.hasOwnProperty.call(stakes, caller) &&
-        stakes[caller][slug]) {
+        Object.prototype.hasOwnProperty.call(stakes[caller], lang) &&
+        stakes[caller][lang][slug]) {
       throw new ContractError("User is already staking on this page");
     }
     if (isNaN(balance) || balance < value) {
@@ -444,7 +448,10 @@ export function handle(state, action) {
     if (!Object.prototype.hasOwnProperty.call(stakes, caller)) {
       stakes[caller] = {};
     }
-    stakes[caller][slug] = value;
+    if (!Object.prototype.hasOwnProperty.call(stakes[caller], lang)) {
+      stakes[caller][lang] = {};
+    }
+    stakes[caller][lang][slug] = value;
     if (author in vault) {
       vault[author].push({
         balance: value,
@@ -521,7 +528,8 @@ export function handle(state, action) {
     const previousSponsor = pages[lang][slug].sponsor;
     const previousValue = pages[lang][slug].value;
     if (Object.prototype.hasOwnProperty.call(stakes, caller) &&
-        stakes[caller][slug]) {
+        Object.prototype.hasOwnProperty.call(stakes[caller], lang) &&
+        stakes[caller][lang][slug]) {
       throw new ContractError("User is already staking for this page");
     }
     if (previousSponsor === caller) {
@@ -531,16 +539,19 @@ export function handle(state, action) {
       throw new ContractError("New page value must be greater than the previous one.");
     }
     balances[caller] -= value;
-    if (previousSponsor && Object.prototype.hasOwnProperty.call(balances, previousSponsor) &&
-      stakes[previousSponsor]) {
+    if (Object.prototype.hasOwnProperty.call(balances, previousSponsor) &&
+      stakes[previousSponsor][lang][slug]) {
       balances[previousSponsor] += previousValue;
-      delete stakes[previousSponsor][slug];
+      delete stakes[previousSponsor][lang][slug];
     }
 
     if (!Object.prototype.hasOwnProperty.call(stakes, caller)) {
       stakes[caller] = {};
     }
-    stakes[caller][slug] = value;
+    if (!Object.prototype.hasOwnProperty.call(stakes[caller], lang)) {
+      stakes[caller][lang] = {};
+    }
+    stakes[caller][lang][slug] = value;
     pages[lang][slug].sponsor = caller;
     pages[lang][slug].value = value;
     pages[lang][slug].active = true;
@@ -567,18 +578,18 @@ export function handle(state, action) {
       throw new ContractError("Caller must be an admin");
     }
     if (!Object.prototype.hasOwnProperty.call(stakes, caller) ||
-        !stakes[caller][slug]) {
+        !Object.prototype.hasOwnProperty.call(stakes[caller], lang) ||
+        !stakes[caller][lang][slug]) {
       throw new ContractError("User is not staking for this page");
     }
-    if (pages[lang][slug].sponsor !== caller) {
+    const currentSponsor = pages[lang][slug].sponsor;
+    const currentValue = stakes[currentSponsor][lang][slug];
+    if (currentSponsor !== caller) {
       throw new ContractError("User is not the sponsor");
     }
 
-    const currentSponsor = pages[lang][slug].sponsor;
-    const currentValue = stakes[currentSponsor][slug];
-
     balances[currentSponsor] += currentValue;
-    delete stakes[currentSponsor][slug];
+    delete stakes[currentSponsor][lang][slug];
 
     pages[lang][slug].sponsor = '';
     pages[lang][slug].active = false;
@@ -603,9 +614,12 @@ export function handle(state, action) {
       }
     }
     const stakingDict = stakes[target] ? stakes[target] : {};
-    for (const vPage of Object.keys(stakingDict)) {
-      stakingBalance += stakes[target][vPage];
+    for (const vLang of Object.keys(stakingDict)) {
+      for (const vSlug of Object.keys(stakingDict[vLang])) {
+        stakingBalance += stakes[target][vLang][vSlug];
+      }
     }
+
     return {result: {target, unlockedBalance, vaultBalance, stakingBalance}};
   }
   if (input.function === "addPageUpdate") {
@@ -701,7 +715,8 @@ export function handle(state, action) {
       throw new ContractError("Error: Caller admin is frozen");
     }
     if (!Object.prototype.hasOwnProperty.call(stakes, caller) ||
-        !stakes[caller][slug]) {
+        !Object.prototype.hasOwnProperty.call(stakes[caller], lang) ||
+        !stakes[caller][lang][slug]) {
       throw new ContractError("User is not staking for this page");
     }
     if (pages[lang][slug].sponsor !== caller) {
@@ -756,7 +771,7 @@ export function handle(state, action) {
   throw new ContractError(`No function supplied or function not recognised: "${input.function}"`);
 }
 
-function _calculate_total_supply(vault, balances) {
+function _calculate_total_supply(vault, balances, stakes) {
   const vaultValues2 = Object.values(vault);
   let totalSupply = 0;
   for (let i = 0, j = vaultValues2.length; i < j; i++) {
@@ -768,6 +783,13 @@ function _calculate_total_supply(vault, balances) {
   const balancesValues = Object.values(balances);
   for (let i = 0, j = balancesValues.length; i < j; i++) {
     totalSupply += balancesValues[i];
+  }
+  for (const target of Object.keys(stakes)) {
+    for (const vLang of Object.keys(stakes[target])) {
+      for (const vSlug of Object.keys(stakes[target][vLang])) {
+        totalSupply += stakes[target][vLang][vSlug];
+      }
+    }
   }
   return totalSupply;
 }
