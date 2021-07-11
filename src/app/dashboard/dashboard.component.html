@@ -1,7 +1,7 @@
 <div class="mt-main"></div>
 <mat-progress-bar 
 	mode="indeterminate"
-	*ngIf="loading"
+	*ngIf="loadingBalance || loadingSettings"
 	class="fadeIn"></mat-progress-bar>
 <mat-toolbar class="fadeIn mb20" color="default">
   <mat-icon 
@@ -21,14 +21,15 @@
 	</div>
 </mat-toolbar>
 
-<div *ngIf="!loading" class="container scoreboards-container fadeIn">
+<div class="container scoreboards-container fadeIn">
+	<h1>My account</h1>
 	<div class="row">
 		<div class="col-12 col-md-6 scoreboard">
 			<app-balance-card
 				label="Total AR balance"
 				icon="account_balance"
 				[balance]="balance"
-				[loading]="loading"
+				[loading]="loadingBalance"
 				unit="AR"
 				></app-balance-card>
 		</div>
@@ -63,8 +64,7 @@
 		</div>
 	</div>
 </div>
-
-<div class="container dashboard-container fadeIn" *ngIf="!loading" >
+<div class="container dashboard-container fadeIn">
 	<div class="row">
 		<div class="col-12 mini-text mb20">
 			<mat-card>
@@ -77,6 +77,34 @@
 					[isAddress]="false">
 					My last TX processed:
 				</app-arweave-address>
+			</mat-card>
+		</div>
+	</div>
+	<h1>DAO Settings</h1>
+	<div class="row">
+		<div class="col-12 mini-text mb20">
+			<mat-card>
+				<strong>Quorum: </strong> 
+				{{pstSettings.get('quorum')}} ({{decimalToPercentage(pstSettings.get('quorum'))}}) /
+				<strong>Support: </strong> 
+				{{pstSettings.get('support')}} ({{decimalToPercentage(pstSettings.get('support'))}}) /
+				<strong>Vote length: </strong> 
+				{{pstSettings.get('voteLength')}} blocks ({{formatBlocks(pstSettings.get('voteLength'))}}) /
+				<strong>Lock min length: </strong> 
+				{{pstSettings.get('lockMinLength')}} blocks ({{formatBlocks(pstSettings.get('lockMinLength'))}}) /
+				<strong>Lock max length: </strong> 
+				{{pstSettings.get('lockMaxLength')}} blocks ({{formatBlocks(pstSettings.get('lockMaxLength'))}})
+				<br>
+				<strong>Page approval length: </strong> 
+				{{pstSettings.get('pageApprovalLength')}} blocks ({{formatBlocks(pstSettings.get('pageApprovalLength'))}}) /
+				<strong>Frozen admin length: </strong> 
+				{{pstSettings.get('frozenAdminLength')}} blocks ({{formatBlocks(pstSettings.get('frozenAdminLength'))}}) /
+				<strong>Minimum Moderator's locked balance for page approval: </strong> 
+				{{pstSettings.get('minimumStakedVault')}} $WIKI
+			</mat-card>
+		</div>
+		<div class="col-12 mini-text mb20">
+			<mat-card>
 				<app-arweave-address 
 					class="addressurl" 
 					address="{{ getPSTContractAddress() }}">

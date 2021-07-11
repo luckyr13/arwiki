@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { ArweaveService } from '../core/arweave.service';
-import { Observable, Subscription, EMPTY } from 'rxjs';
+import { Observable, Subscription, EMPTY, of } from 'rxjs';
+import { switchMap, catchError } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserSettingsService } from '../core/user-settings.service';
@@ -27,7 +28,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   pstSettings: any = [];
   loadingBalance: boolean = false;
   loadingBalancePST: boolean = false;
-  loading: boolean = false;
+  loadingSettings: boolean = false;
   txmessage: string = '';
   lastTransactionID: Observable<string> = this._arweave.getLastTransactionID(
     this.mainAddress
@@ -76,14 +77,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
       });
 
+    this.loadingSettings = true;
     this.pstSettingsSubscription = this._arwikiTokenContract
       .getSettings()
       .subscribe({
         next: (res: any) => {
           this.pstSettings = res;
+          this.loadingSettings = false;
         },
         error: (error) => {
           this.message(error, 'error');
+          this.loadingSettings = false;
         }
       });
 
@@ -122,5 +126,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     return this._arwikiTokenContract.contractAddress;
   }
 
+  formatBlocks(len: number): string {
+    return this._arwikiTokenContract.formatBlocks(len);
+  }
+
+  decimalToPercentage(n: number): string {
+    return `${(n*100)}%`;
+  }
 
 }
