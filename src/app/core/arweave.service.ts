@@ -261,8 +261,18 @@ export class ArweaveService {
     tx.addTag('Arwiki-Type', 'Donation');
     tx.addTag('Arwiki-Version', arwikiVersion[0]);
 
-    await this.arweave.transactions.sign(tx, jwk)
-    await this.arweave.transactions.post(tx)
+    await this.arweave.transactions.sign(tx, jwk);
+    const response = await this.arweave.transactions.post(tx);
+
+    if (response && response.status) {
+      // 200 - ok, 400 - invalid transaction, 500 - error
+      if (response.status === 400) {
+        throw new Error('Invalid transaction! (400)');
+      }
+      if (response.status === 500) {
+        throw new Error('Error! (500)');
+      }
+    }
     return tx;
   }
 
