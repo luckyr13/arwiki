@@ -206,7 +206,8 @@ export class PendingListComponent implements OnInit, OnDestroy {
       data: {
         title: 'Are you sure?',
         content: `You are about to approve a new arwiki page. Do you want to proceed?`,
-        pageValue: _pageValue
+        pageValue: _pageValue,
+        second_content: 'Please define the amount of $WIKI tokens to stake:'
       },
       direction: direction
     });

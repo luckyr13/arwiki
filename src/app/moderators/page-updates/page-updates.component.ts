@@ -6,7 +6,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import { switchMap } from 'rxjs/operators';
 import { getVerification } from "arverify";
 import {MatDialog} from '@angular/material/dialog';
-import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confirm.component';
+import { DialogConfirmAmountComponent } from '../../shared/dialog-confirm-amount/dialog-confirm-amount.component';
 import { ArwikiQuery } from '../../core/arwiki-query';
 import { ActivatedRoute } from '@angular/router';
 import { Direction } from '@angular/cdk/bidi';
@@ -34,6 +34,7 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
   arverifyProcessedAddressesMap: any = {};
   loadingInsertPageIntoIndex: boolean = false;
   insertPageTxMessage: string = '';
+  insertPageTxErrorMessage: string = '';
   arwikiQuery!: ArwikiQuery;
   routeLang: string = '';
   private _arwiki!: Arwiki;
@@ -203,16 +204,19 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
     let direction: Direction = defLang.writing_system === 'LTR' ? 
       'ltr' : 'rtl';
 
-    const dialogRef = this._dialog.open(DialogConfirmComponent, {
+    const dialogRef = this._dialog.open(DialogConfirmAmountComponent, {
       data: {
         title: 'Are you sure?',
-        content: `You are about to approve a new arwiki page update. Do you want to proceed?`
+        content: `You are about to approve a new arwiki page update. Do you want to proceed?`,
+        second_content: 'Please define the page update value in $WIKI tokens:',
+        pageValue: _pageValue
       },
       direction: direction
     });
 
-    dialogRef.afterClosed().subscribe(async (result) => {
-      if (result) {
+    dialogRef.afterClosed().subscribe(async (_newPageValue) => {
+      const newPageValue = +_newPageValue;
+      if (Number.isInteger(newPageValue) && newPageValue > 0) {
         // Create arwiki page
         this.loadingInsertPageIntoIndex = true;
         try {
@@ -222,7 +226,7 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
             _slug,
             _category_slug,
             this.routeLang,
-            _pageValue,
+            newPageValue,
             this._auth.getPrivateKey(),
             arwikiVersion[0],
           ); 
@@ -230,9 +234,11 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
           this.insertPageTxMessage = tx;
           this.message('Success!', 'success');
         } catch (error) {
+          this.insertPageTxErrorMessage = error;
           this.message(error, 'error');
         }
-
+      } else if (newPageValue === 0) {
+        this.message('Page Value must be greater than 0 $WIKI tokens', 'error');
       }
     });
   }
