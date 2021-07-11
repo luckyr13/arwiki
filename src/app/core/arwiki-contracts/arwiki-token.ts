@@ -216,8 +216,10 @@ export class ArwikiTokenContract
       }
     }
     const stakingDict = stakes[target] ? stakes[target] : {};
-    for (const vPage of Object.keys(stakingDict)) {
-      stakingBalance += stakes[target][vPage];
+    for (const vLang of Object.keys(stakingDict)) {
+      for (const vSlug of Object.keys(stakingDict[vLang])) {
+        stakingBalance += stakes[target][vLang][vSlug];
+      }
     }
     return {result: {target, unlockedBalance, vaultBalance, stakingBalance}};
   }
