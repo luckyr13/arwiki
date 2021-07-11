@@ -75,6 +75,7 @@
 					</span>
 				</div>
 				<div class="text-right mt20 card-footer">
+					<!--
 					<a
 						mat-flat-button
 						color="warn"
@@ -82,13 +83,14 @@
 						matTooltip="Unlist page">
 						<mat-icon>delete</mat-icon> Unlist
 					</a>
+					-->
 					<a
 						mat-flat-button
 						color="warn"
 		    		*ngIf="p.sponsor === myAddress"
 						(click)="confirmStopStake(p.slug)"
-						matTooltip="Stop stake">
-						<mat-icon>casino</mat-icon> Stop stake
+						matTooltip="Stop staking">
+						<mat-icon>casino</mat-icon> Stop staking
 					</a>
 
 					<a

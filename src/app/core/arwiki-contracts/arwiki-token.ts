@@ -12,7 +12,7 @@ import { JWKInterface } from 'arweave/node/lib/wallet';
 })
 export class ArwikiTokenContract
 {
-	private _contractAddress: string = 'CenjmhYiXD_8T-3znX9T5d43BtYSaphocH_QPA9v3iA';
+	private _contractAddress: string = 'yWDo0H85PVimIpHM86qEP8BzXHIvyIfQE7NeVgTbhxs';
 	private _state: any = {};
 	private _adminList: string[] = [];
 
@@ -385,6 +385,37 @@ export class ArwikiTokenContract
       tags
     );
     return tx;
+  }
+
+  /**
+   * Formats a block number into human readable hours, days, months, years.
+   * Original src from: https://github.com/CommunityXYZ/community-js/blob/master/src/utils.ts
+   * @param len block length
+   */
+  public formatBlocks(len: number = 720): string {
+    const hour = 30;
+    const day = 720;
+    const week = 720 * 7;
+    const month = week * 4;
+    const year = month * 12;
+
+    let res = '';
+    if (len >= year) {
+      const years = Math.round(len / year);
+      res = `~${years} ${years === 1 ? 'year' : 'years'}`;
+    } else if (len >= month) {
+      const months = Math.round(len / month);
+      res = `~${months} ${months === 1 ? 'month' : 'months'}`;
+    } else if (len >= day) {
+      const days = Math.round(len / day);
+      res = `~${days} ${days === 1 ? 'day' : 'days'}`;
+    } else if (len >= hour) {
+      const hours = Math.round(len / hour);
+      res = `~${hours} ${hours === 1 ? 'hour' : 'hours'}`;
+    } else {
+      res = '<1 hour';
+    }
+    return res;
   }
 
 }
