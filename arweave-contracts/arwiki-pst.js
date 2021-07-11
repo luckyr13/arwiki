@@ -449,13 +449,15 @@ export function handle(state, action) {
       vault[author].push({
         balance: value,
         end,
-        start
+        start,
+        slug
       });
     } else {
       vault[author] = [{
         balance: value,
         end,
-        start
+        start,
+        slug
       }];
     }
     pages[lang][slug] = {
@@ -608,13 +610,21 @@ export function handle(state, action) {
   }
   if (input.function === "addPageUpdate") {
     const role = caller in state.roles ? state.roles[caller] : "";
-    const balance = +balances[caller];
     const currentHeight = +SmartWeave.block.height;
     const lang = input.langCode;
     const slug = input.slug;
     const updateTX = input.updateTX;
+    const author = input.author;
     const pageApprovalLength = +settings.get("pageApprovalLength");
     const end = currentHeight + pageApprovalLength;
+    const value = +input.pageValue;
+    const minimumStakedVault = +settings.get("minimumStakedVault");
+    if (!Number.isInteger(value) || value <= 0) {
+      throw new ContractError('"pageValue" must be a positive integer.');
+    }
+    if (typeof author !== 'string' || !author.trim().length) {
+      throw new ContractError("Author address must be specified");
+    }
     if (typeof lang !== 'string' || !lang.trim().length) {
       throw new ContractError("LangCode must be specified");
     }
@@ -647,8 +657,23 @@ export function handle(state, action) {
       throw new ContractError(`Caller doesn't have the minimum locked balance (min:${minimumStakedVault}, end:${end}, vault:${vaultBalance}).`);
     }
     pages[lang][slug].updates.push({
-      tx: updateTX, approvedBy: caller, at: currentHeight
+      tx: updateTX, approvedBy: caller, at: currentHeight, value
     });
+    if (author in vault) {
+      vault[author].push({
+        balance: value,
+        end,
+        start: currentHeight,
+        slug
+      });
+    } else {
+      vault[author] = [{
+        balance: value,
+        end,
+        start: currentHeight,
+        slug
+      }];
+    }
     return { state };
   }
   if (input.function === "activateDeactivatePage") {
@@ -693,6 +718,7 @@ export function handle(state, action) {
     const adminToBeFrozen = input.target;
     const frozenLength = +settings.get("frozenAdminLength");
     const roleT = adminToBeFrozen in state.roles ? state.roles[adminToBeFrozen] : "";
+    const minimumStakedVault = +settings.get("minimumStakedVault");
     if (role.trim().toUpperCase() !== "MODERATOR") {
       throw new ContractError("Caller must be an admin");
     }

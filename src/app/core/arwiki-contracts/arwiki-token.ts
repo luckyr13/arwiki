@@ -12,7 +12,7 @@ import { JWKInterface } from 'arweave/node/lib/wallet';
 })
 export class ArwikiTokenContract
 {
-	private _contractAddress: string = 'yWDo0H85PVimIpHM86qEP8BzXHIvyIfQE7NeVgTbhxs';
+	private _contractAddress: string = 'u7m6WwapDKXhcKmN1OrZW1VGtXWalm-C4QqHZNYIwug';
 	private _state: any = {};
 	private _adminList: string[] = [];
 
@@ -374,8 +374,22 @@ export class ArwikiTokenContract
     	function: 'addPageUpdate',
     	updateTX: _pageId,
     	langCode: _langCode,
-    	slug: _slug
+    	slug: _slug,
+      author: _author,
+      pageValue: _pageValue
     };
+
+    const testTX = await interactWriteDryRun(
+      this._arweave.arweave,
+      jwk,
+      this._contractAddress,
+      input,
+      tags
+    );
+
+    if (testTX && testTX.type==='error' && testTX.result) {
+      throw new Error(testTX.result)
+    }
 
     const tx = await interactWrite(
       this._arweave.arweave,
