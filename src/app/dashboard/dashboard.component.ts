@@ -127,7 +127,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   formatBlocks(len: number): string {
-    return this._arwikiTokenContract.formatBlocks(len);
+    return this._arweave.formatBlocks(len);
   }
 
   decimalToPercentage(n: number): string {

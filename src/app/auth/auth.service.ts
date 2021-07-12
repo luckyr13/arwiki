@@ -126,8 +126,7 @@ export class AuthService {
   }
 
   logout() {
-    this.removeAccount()
-    this._arweave.logout();
+    this.removeAccount();
     this.account.next('');
     this.updateUserIsModerator(false);
   }
