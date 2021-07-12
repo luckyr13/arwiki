@@ -21,7 +21,13 @@
 		"MENU_USER_CREATE": "Create page",
 		"MENU_USER_LOGOUT": "Logout",
 		"MENU_USER_MY_PAGES": "My pages",
-		"MENU_USER_MODERATORS": "Moderators"
+		"MENU_USER_MODERATORS": "Moderators",
+		"MENU_USER_MY_UPDATES": "My updates",
+		"MENU_MODERATOR_PENDING": "Pending pages",
+		"MENU_MODERATOR_APPROVED": "Approved pages",
+		"MENU_MODERATOR_DELETED": "Deleted pages",
+		"MENU_MODERATOR_ADD_MODERATOR": "Add Moderator",
+		"MENU_MODERATOR_VIEW_ADM_LIST": "View admin list"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "Welcome to the permaweb!",
@@ -70,7 +76,8 @@
 		"BTN_TXT_GO": "Go!"
 	},
 	"FOOTER": {
-		"LBL_POWERED": "Powered by"
+		"LBL_POWERED": "Powered by",
+		"LBL_PARTNERS": "Our partners and friends"
 	},
 	"DIALOGS": {
 		"TITLE_SELECT_LANG": "Select language",
@@ -94,7 +101,8 @@
 			"TIP_AUTHOR": "Tip the author",
 			"VIEW_ARTICLE": "Read full article",
 			"EDIT_PAGE": "Edit page",
-			"MORE_ARTICLES": "More articles"
+			"MORE_ARTICLES": "More articles",
+			"VIEW_ALL": "View all"
 		},
 		"LABELS": {
 			"NO_RESULTS": "No results"
@@ -103,7 +111,9 @@
 			"ARTICLE": {
 				"CATEGORY": "Category:",
 				"CREATED_BY": "Created by:",
-				"CREATION_DATE": "Created at:"
+				"CREATION_DATE": "Created at:",
+				"LAST_UPDATE": "Last update:",
+				"SPONSOR": "Sponsor:"
 			}
 		}
 	},

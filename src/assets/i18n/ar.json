@@ -16,19 +16,25 @@
 		"MENU_SETTINGS_LANGUAGE": "اختار اللغة",
 		"MENU_SETTINGS_THEME": "اختر نمطا",
 		"TOOLTIP_SEARCH": "بحث",
-		"TOOLTIP_SETTINGS": "Settings",
+		"TOOLTIP_SETTINGS": "إعدادات",
 		"MENU_USER_DASHBOARD": "لوحة القيادة",
 		"MENU_USER_CREATE": "إنشاء الصفحة",
 		"MENU_USER_LOGOUT": "تسجيل خروج",
-		"MENU_USER_MY_PAGES": "My pages",
-		"MENU_USER_MODERATORS": "Moderators"
+		"MENU_USER_MY_PAGES": "صفحاتي",
+		"MENU_USER_MODERATORS": "الوسطاء",
+		"MENU_USER_MY_UPDATES": "تحديثاتي",
+		"MENU_MODERATOR_PENDING": "الصفحات المعلقة",
+		"MENU_MODERATOR_APPROVED": "الصفحات المعتمدة",
+		"MENU_MODERATOR_DELETED": "الصفحات المحذوفة",
+		"MENU_MODERATOR_ADD_MODERATOR": "إضافة مشرف",
+		"MENU_MODERATOR_VIEW_ADM_LIST": "عرض قائمة الإدارة"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "مرحبًا بكم في موقع Permaweb!",
 		"SUBTITLE_L1": "arwiki هو موقع wiki اللامركزي لـ arweave يمكن لأي شخص تحريره.",
 		"TITLE_L2": "ابدء",
 		"TITLE_L3": "أحدث المقالات",
-		"LABEL_NO_RESULTS": "No results."
+		"LABEL_NO_RESULTS": "لا نتائج."
 	},
 	"PAGE": {
 		"LABEL_ID": "Id",
@@ -50,7 +56,7 @@
 
 	},
 	"CREATE_PAGE": {
-		"TITLE": "Create page",
+		"TITLE": "إنشاء الصفحة",
 		"FRM_TITLE": "لقب",
 		"FRM_BY": "بواسطة",
 		"FRM_SLUG": "Page slug",
@@ -70,7 +76,8 @@
 		"BTN_TXT_GO": "انطلق!"
 	},
 	"FOOTER": {
-		"LBL_POWERED": "مشغل بواسطة"
+		"LBL_POWERED": "مشغل بواسطة",
+		"LBL_PARTNERS": "شركاؤنا وأصدقائنا"
 	},
 	"DIALOGS": {
 		"TITLE_SELECT_LANG": "حدد اللغة",
@@ -84,26 +91,29 @@
 		"LABEL_TOOLBAR_TITLE": "لوحة المشرف"
 	},
 	"CATEGORY": {
-		"BREADCRUMB_LABEL": "Category:"
+		"BREADCRUMB_LABEL": "فئة:"
 	},
 	"GENERAL": {
 		"BUTTONS": {
-			"GO_BACK": "Go back",
-			"OPEN_VIEWBLOCK": "Open in Viewblock",
-			"COPY_ADDRESS": "Copy address",
-			"TIP_AUTHOR": "Tip the author",
-			"VIEW_ARTICLE": "View article",
-			"EDIT_PAGE": "Edit page",
-			"MORE_ARTICLES": "More articles"
+			"GO_BACK": "عد",
+			"OPEN_VIEWBLOCK": "فتح في Viewblock",
+			"COPY_ADDRESS": "نسخ العنوان",
+			"TIP_AUTHOR": "نصيحة المؤلف",
+			"VIEW_ARTICLE": "مشاهدة المقال",
+			"EDIT_PAGE": "تعديل الصفحة",
+			"MORE_ARTICLES": "المزيد من المقالات",
+			"VIEW_ALL": "مشاهدة الكل"
 		},
 		"LABELS": {
-			"NO_RESULTS": "No results"
+			"NO_RESULTS": "لا نتائج"
 		},
 		"CARDS": {
 			"ARTICLE": {
-				"CATEGORY": "Category:",
-				"CREATED_BY": "Created by:",
-				"CREATION_DATE": "Creation date:"
+				"CATEGORY": "فئة:",
+				"CREATED_BY": "انشأ من قبل:",
+				"CREATION_DATE": "تاريخ الإنشاء:",
+				"LAST_UPDATE": "اخر تحديث:",
+				"SPONSOR": "كفيل:"
 			}
 		}
 	},
@@ -111,21 +121,21 @@
 		"QUOTES_TITLE" : "هل كنت تعلم؟",
 		"QUOTES": {
 			"0": "Arweave هو بروتوكول يسمح لك بتخزين البيانات بشكل دائم ومستدام مقابل رسوم مقدمة واحدة.",
-			"1": "On top of the core Arweave protocol lives the permaweb: A global, permanent web of pages and applications that live forever.",
-			"2": "Arweave is a completely community-owned and -operated open source network."
+			"1": "على رأس بروتوكول Arweave الأساسي ، يعيش Permaweb: شبكة عالمية ودائمة من الصفحات والتطبيقات التي تعيش إلى الأبد.",
+			"2": "Arweave هي شبكة مفتوحة المصدر مملوكة ومدارة بالكامل من قبل المجتمع."
 		}
 	},
 	"EDIT_PAGE": {
-		"TITLE": "Edit page",
-		"FRM_TITLE": "Title",
-		"FRM_BY": "By",
+		"TITLE": "تعديل الصفحة",
+		"FRM_TITLE": "لقب",
+		"FRM_BY": "بواسطة",
 		"FRM_SLUG": "Page slug",
-		"FRM_CATEGORY": "Category",
-		"FRM_LANGUAGE": "Language",
-		"FRM_LOADING": "Loading ...",
-		"FRM_UPLOAD_FILE": "Upload file",
-		"FRM_CONTENT": "Content",
-		"FRM_BTN_SAVE": "Send update",
-		"FRM_BTN_GOBACK": "Go back"
+		"FRM_CATEGORY": "فئة",
+		"FRM_LANGUAGE": "لغة",
+		"FRM_LOADING": "جار التحميل ...",
+		"FRM_UPLOAD_FILE": "رفع ملف",
+		"FRM_CONTENT": "محتوى",
+		"FRM_BTN_SAVE": "إرسال التحديث",
+		"FRM_BTN_GOBACK": "عد"
 	}
 }

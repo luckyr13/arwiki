@@ -20,60 +20,67 @@
 		"MENU_USER_DASHBOARD": "Painéal na nIonstraimí",
 		"MENU_USER_CREATE": "Cruthaigh leathanach",
 		"MENU_USER_LOGOUT": "Logáil Amach",
-		"MENU_USER_MY_PAGES": "My pages",
-		"MENU_USER_MODERATORS": "Moderators"
+		"MENU_USER_MY_PAGES": "Mo leathanaigh",
+		"MENU_USER_MODERATORS": "Modhnóirí",
+		"MENU_USER_MY_UPDATES": "Mo nuashonruithe",
+		"MENU_MODERATOR_PENDING": "Leathanaigh ar feitheamh",
+		"MENU_MODERATOR_APPROVED": "Leathanaigh cheadaithe",
+		"MENU_MODERATOR_DELETED": "Leathanaigh scriosta",
+		"MENU_MODERATOR_ADD_MODERATOR": "Cuir Moderator leis",
+		"MENU_MODERATOR_VIEW_ADM_LIST": "Féach ar an liosta riaracháin"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "Fáilte go dtí an permaweb!",
 		"SUBTITLE_L1": "Is é arwiki an wiki díláraithe le haghaidh arweave is féidir le duine ar bith a chur in eagar.",
 		"TITLE_L2": "Ag tosú",
 		"TITLE_L3": "Na hailt is déanaí",
-		"LABEL_NO_RESULTS": "No results."
+		"LABEL_NO_RESULTS": "Gan torthaí."
 	},
 	"PAGE": {
 		"LABEL_ID": "Id",
-		"LABEL_TITLE": "Title",
+		"LABEL_TITLE": "Teideal",
 		"LABEL_SLUG": "Slug",
-		"LABEL_CATEGORY": "Category",
-		"LABEL_LANGUAGE": "Language",
-		"LABEL_OWNER": "Owner",
+		"LABEL_CATEGORY": "Catagóir",
+		"LABEL_LANGUAGE": "Teanga",
+		"LABEL_OWNER": "Úinéir",
 		"LABEL_TX_STATUS": "TX status",
-		"LABEL_BLOCK_HEIGHT": "Block height",
-		"LABEL_BLOCK_TIMESTAMP": "Block timestamp",
-		"LABEL_ARVERIFY_SCORE": "ArVerify Score",
-		"LABEL_OWNER_STATUS": "Owner status",
-		"STATUS_TX_PENDING": "Pending",
-		"STATUS_ADDRESS_VERIFIED": "Verified",
-		"STATUS_ADDRESS_NOTVERIFIED": "Not verified"
+		"LABEL_BLOCK_HEIGHT": "Airde bloc",
+		"LABEL_BLOCK_TIMESTAMP": "Bloc stampa ama",
+		"LABEL_ARVERIFY_SCORE": "Scór ArVerify",
+		"LABEL_OWNER_STATUS": "Stádas úinéara",
+		"STATUS_TX_PENDING": "Ar feitheamh",
+		"STATUS_ADDRESS_VERIFIED": "Fíoraithe",
+		"STATUS_ADDRESS_NOTVERIFIED": "Gan a bheith fíoraithe"
 	},
 	"NOT_FOUND": {
 
 	},
 	"CREATE_PAGE": {
-		"TITLE": "Create page",
-		"FRM_TITLE": "Title",
-		"FRM_BY": "By",
+		"TITLE": "Cruthaigh leathanach",
+		"FRM_TITLE": "Teideal",
+		"FRM_BY": "Le",
 		"FRM_SLUG": "Page slug",
-		"FRM_CATEGORY": "Category",
-		"FRM_LANGUAGE": "Language",
-		"FRM_LOADING": "Loading ...",
-		"FRM_UPLOAD_FILE": "Upload file",
-		"FRM_CONTENT": "Content",
-		"FRM_BTN_SAVE": "Save",
-		"FRM_BTN_GOBACK": "Go back"
+		"FRM_CATEGORY": "Catagóir",
+		"FRM_LANGUAGE": "Teanga",
+		"FRM_LOADING": "Ag luchtú ...",
+		"FRM_UPLOAD_FILE": "Uaslódáil comhad",
+		"FRM_CONTENT": "Ábhar",
+		"FRM_BTN_SAVE": "Sábháil",
+		"FRM_BTN_GOBACK": "Dul ar ais"
 	},
 	"SEARCH_ENGINE": {
 		"INPUT_SEARCH_LABEL": "Cuardaigh an arwiki",
 		"INPUT_SEARCH_PLACEHOLDER": "",
-		"LBL_DEFAULT_LANG": "Default language",
-		"LBL_SELECT_LANG":" Select language",
-		"BTN_TXT_GO": "Go!"
+		"LBL_DEFAULT_LANG": "Teanga réamhshocraithe",
+		"LBL_SELECT_LANG":" Roghnaigh teanga",
+		"BTN_TXT_GO": "Téigh!"
 	},
 	"FOOTER": {
-		"LBL_POWERED": "Cumhachtaithe ag"
+		"LBL_POWERED": "Cumhachtaithe ag",
+		"LBL_PARTNERS": "Ár gcomhpháirtithe agus ár gcairde"
 	},
 	"DIALOGS": {
-		"TITLE_SELECT_LANG": "Select language",
+		"TITLE_SELECT_LANG": "Roghnaigh teanga",
 		"TXT_CLOSE": "Dún"
 	},
 	"MODERATORS": {
@@ -84,26 +91,29 @@
 		"LABEL_TOOLBAR_TITLE": "Painéal an mhodhnóra"
 	},
 	"CATEGORY": {
-		"BREADCRUMB_LABEL": "Category:"
+		"BREADCRUMB_LABEL": "Catagóir:"
 	},
 	"GENERAL": {
 		"BUTTONS": {
-			"GO_BACK": "Go back",
-			"OPEN_VIEWBLOCK": "Open in Viewblock",
-			"COPY_ADDRESS": "Copy address",
-			"TIP_AUTHOR": "Tip the author",
-			"VIEW_ARTICLE": "View article",
-			"EDIT_PAGE": "Edit page",
-			"MORE_ARTICLES": "More articles"
+			"GO_BACK": "Dul ar ais",
+			"OPEN_VIEWBLOCK": "Oscail i Viewblock",
+			"COPY_ADDRESS": "Cóip seoladh",
+			"TIP_AUTHOR": "Leid an údair",
+			"VIEW_ARTICLE": "Féach an t-alt",
+			"EDIT_PAGE": "Cuir an leathanach in eagar",
+			"MORE_ARTICLES": "Tuilleadh alt",
+			"VIEW_ALL": "Féach ar gach"
 		},
 		"LABELS": {
-			"NO_RESULTS": "No results"
+			"NO_RESULTS": "Gan torthaí"
 		},
 		"CARDS": {
 			"ARTICLE": {
-				"CATEGORY": "Category:",
-				"CREATED_BY": "Created by:",
-				"CREATION_DATE": "Creation date:"
+				"CATEGORY": "Catagóir:",
+				"CREATED_BY": "Cruthaithe ag:",
+				"CREATION_DATE": "Dáta cruthaithe:",
+				"LAST_UPDATE": "Nuashonrú deireanach:",
+				"SPONSOR": "Urraitheoir:"
 			}
 		}
 	},
@@ -111,21 +121,21 @@
 		"QUOTES_TITLE" : "An raibh a fhios agat?",
 		"QUOTES": {
 			"0": "Is prótacal é Arweave a ligeann duit sonraí a stóráil go buan, go hinbhuanaithe, le táille tosaigh amháin.",
-			"1": "On top of the core Arweave protocol lives the permaweb: A global, permanent web of pages and applications that live forever.",
-			"2": "Arweave is a completely community-owned and -operated open source network."
+			"1": "Ar bharr phríomhphrótacal Arweave tá an permaweb: Gréasán domhanda buan de leathanaigh agus d’fheidhmchláir a mhaireann go deo.",
+			"2": "Is líonra foinse oscailte faoi úinéireacht an phobail agus faoi chomhoibriú é Arweave."
 		}
 	},
 	"EDIT_PAGE": {
-		"TITLE": "Edit page",
-		"FRM_TITLE": "Title",
-		"FRM_BY": "By",
+		"TITLE": "Cuir an leathanach in eagar",
+		"FRM_TITLE": "Teideal",
+		"FRM_BY": "Le",
 		"FRM_SLUG": "Page slug",
-		"FRM_CATEGORY": "Category",
-		"FRM_LANGUAGE": "Language",
-		"FRM_LOADING": "Loading ...",
-		"FRM_UPLOAD_FILE": "Upload file",
-		"FRM_CONTENT": "Content",
-		"FRM_BTN_SAVE": "Send update",
-		"FRM_BTN_GOBACK": "Go back"
+		"FRM_CATEGORY": "Catagóir",
+		"FRM_LANGUAGE": "Teanga",
+		"FRM_LOADING": "Ag luchtú ...",
+		"FRM_UPLOAD_FILE": "Uaslódáil comhad",
+		"FRM_CONTENT": "Ábhar",
+		"FRM_BTN_SAVE": "Seol nuashonrú",
+		"FRM_BTN_GOBACK": "Dul ar ais"
 	}
 }

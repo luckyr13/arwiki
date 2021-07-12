@@ -20,60 +20,67 @@
 		"MENU_USER_DASHBOARD": "Irányítópult",
 		"MENU_USER_CREATE": "Oldal létrehozása",
 		"MENU_USER_LOGOUT": "Kijelentkezés",
-		"MENU_USER_MY_PAGES": "My pages",
-		"MENU_USER_MODERATORS": "Moderators"
+		"MENU_USER_MY_PAGES": "Saját oldalak",
+		"MENU_USER_MODERATORS": "Moderátorok",
+		"MENU_USER_MY_UPDATES": "Frissítéseim",
+		"MENU_MODERATOR_PENDING": "Függőben lévő oldalak",
+		"MENU_MODERATOR_APPROVED": "Jóváhagyott oldalak",
+		"MENU_MODERATOR_DELETED": "Törölt oldalak",
+		"MENU_MODERATOR_ADD_MODERATOR": "Moderátor hozzáadása",
+		"MENU_MODERATOR_VIEW_ADM_LIST": "Adminisztrátori lista megtekintése"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "Üdvözöljük a permaweben!",
 		"SUBTITLE_L1": "Az arwiki az arweave decentralizált wiki, amelyet bárki szerkeszthet.",
 		"TITLE_L2": "Elkezdeni",
 		"TITLE_L3": "Legfrissebb cikkek",
-		"LABEL_NO_RESULTS": "No results."
+		"LABEL_NO_RESULTS": "Nincs eredmény."
 	},
 	"PAGE": {
 		"LABEL_ID": "Id",
-		"LABEL_TITLE": "Title",
+		"LABEL_TITLE": "Cím",
 		"LABEL_SLUG": "Slug",
-		"LABEL_CATEGORY": "Category",
-		"LABEL_LANGUAGE": "Language",
-		"LABEL_OWNER": "Owner",
+		"LABEL_CATEGORY": "Kategória",
+		"LABEL_LANGUAGE": "Nyelv",
+		"LABEL_OWNER": "Tulajdonos",
 		"LABEL_TX_STATUS": "TX status",
-		"LABEL_BLOCK_HEIGHT": "Block height",
-		"LABEL_BLOCK_TIMESTAMP": "Block timestamp",
+		"LABEL_BLOCK_HEIGHT": "Blokkmagasság",
+		"LABEL_BLOCK_TIMESTAMP": "Az időbélyeg blokkolása",
 		"LABEL_ARVERIFY_SCORE": "ArVerify Score",
-		"LABEL_OWNER_STATUS": "Owner status",
-		"STATUS_TX_PENDING": "Pending",
-		"STATUS_ADDRESS_VERIFIED": "Verified",
-		"STATUS_ADDRESS_NOTVERIFIED": "Not verified"
+		"LABEL_OWNER_STATUS": "Tulajdonos státusz",
+		"STATUS_TX_PENDING": "Függőben levő",
+		"STATUS_ADDRESS_VERIFIED": "Ellenőrzött",
+		"STATUS_ADDRESS_NOTVERIFIED": "Nem ellenőrzött"
 	},
 	"NOT_FOUND": {
 
 	},
 	"CREATE_PAGE": {
-		"TITLE": "Create page",
-		"FRM_TITLE": "Title",
-		"FRM_BY": "By",
+		"TITLE": "Oldal létrehozása",
+		"FRM_TITLE": "Cím",
+		"FRM_BY": "Által",
 		"FRM_SLUG": "Page slug",
-		"FRM_CATEGORY": "Category",
-		"FRM_LANGUAGE": "Language",
-		"FRM_LOADING": "Loading ...",
-		"FRM_UPLOAD_FILE": "Upload file",
-		"FRM_CONTENT": "Content",
-		"FRM_BTN_SAVE": "Save",
-		"FRM_BTN_GOBACK": "Go back"
+		"FRM_CATEGORY": "Kategória",
+		"FRM_LANGUAGE": "Nyelv",
+		"FRM_LOADING": "Betöltés ...",
+		"FRM_UPLOAD_FILE": "Fájl feltöltés",
+		"FRM_CONTENT": "Tartalom",
+		"FRM_BTN_SAVE": "Mentés",
+		"FRM_BTN_GOBACK": "Menjen vissza"
 	},
 	"SEARCH_ENGINE": {
 		"INPUT_SEARCH_LABEL": "Keressen az arwikiban",
 		"INPUT_SEARCH_PLACEHOLDER": "",
-		"LBL_DEFAULT_LANG": "Default language",
-		"LBL_SELECT_LANG":" Select language",
-		"BTN_TXT_GO": "Go!"
+		"LBL_DEFAULT_LANG": "Alapértelmezett nyelv",
+		"LBL_SELECT_LANG":" Válasszon nyelvet",
+		"BTN_TXT_GO": "Megy!"
 	},
 	"FOOTER": {
-		"LBL_POWERED": "Powered by"
+		"LBL_POWERED": "Powered by",
+		"LBL_PARTNERS": "Partnereink és barátaink"
 	},
 	"DIALOGS": {
-		"TITLE_SELECT_LANG": "Select language",
+		"TITLE_SELECT_LANG": "Válasszon nyelvet",
 		"TXT_CLOSE": "Bezárás"
 	},
 	"MODERATORS": {
@@ -84,26 +91,29 @@
 		"LABEL_TOOLBAR_TITLE": "Moderátor panelje"
 	},
 	"CATEGORY": {
-		"BREADCRUMB_LABEL": "Category:"
+		"BREADCRUMB_LABEL": "Kategória:"
 	},
 	"GENERAL": {
 		"BUTTONS": {
-			"GO_BACK": "Go back",
-			"OPEN_VIEWBLOCK": "Open in Viewblock",
-			"COPY_ADDRESS": "Copy address",
-			"TIP_AUTHOR": "Tip the author",
-			"VIEW_ARTICLE": "View article",
-			"EDIT_PAGE": "Edit page",
-			"MORE_ARTICLES": "More articles"
+			"GO_BACK": "Menjen vissza",
+			"OPEN_VIEWBLOCK": "Megnyitás a Viewblockban",
+			"COPY_ADDRESS": "Cím másolása",
+			"TIP_AUTHOR": "Tippeljen a szerzőnek",
+			"VIEW_ARTICLE": "Cikk megtekintése",
+			"EDIT_PAGE": "Oldal szerkesztése",
+			"MORE_ARTICLES": "További cikkek",
+			"VIEW_ALL": "Összes megtekintése"
 		},
 		"LABELS": {
-			"NO_RESULTS": "No results"
+			"NO_RESULTS": "Nincs eredmény"
 		},
 		"CARDS": {
 			"ARTICLE": {
-				"CATEGORY": "Category:",
-				"CREATED_BY": "Created by:",
-				"CREATION_DATE": "Creation date:"
+				"CATEGORY": "Kategória:",
+				"CREATED_BY": "Készítette:",
+				"CREATION_DATE": "Létrehozás dátuma:",
+				"LAST_UPDATE": "Utolsó frissítés:",
+				"SPONSOR": "Szponzor:"
 			}
 		}
 	},
@@ -111,21 +121,21 @@
 		"QUOTES_TITLE" : "Tudtad?",
 		"QUOTES": {
 			"0": "Az Arweave egy olyan protokoll, amely lehetővé teszi az adatok tartós, fenntartható tárolását egyetlen előzetes díjjal.",
-			"1": "On top of the core Arweave protocol lives the permaweb: A global, permanent web of pages and applications that live forever.",
-			"2": "Arweave is a completely community-owned and -operated open source network."
+			"1": "Az Arweave protokoll tetején él a permaweb: Az örökké élő oldalak és alkalmazások globális, állandó webe.",
+			"2": "Az Arweave egy teljesen közösségi tulajdonú és üzemeltetett nyílt forráskódú hálózat."
 		}
 	},
 	"EDIT_PAGE": {
-		"TITLE": "Edit page",
-		"FRM_TITLE": "Title",
-		"FRM_BY": "By",
-		"FRM_SLUG": "Page slug",
-		"FRM_CATEGORY": "Category",
-		"FRM_LANGUAGE": "Language",
-		"FRM_LOADING": "Loading ...",
-		"FRM_UPLOAD_FILE": "Upload file",
-		"FRM_CONTENT": "Content",
-		"FRM_BTN_SAVE": "Send update",
-		"FRM_BTN_GOBACK": "Go back"
+		"TITLE": "Oldal szerkesztése",
+		"FRM_TITLE": "Cím",
+		"FRM_BY": "Által",
+		"FRM_SLUG": "Oldal csiga",
+		"FRM_CATEGORY": "Kategória",
+		"FRM_LANGUAGE": "Nyelv",
+		"FRM_LOADING": "Betöltés ...",
+		"FRM_UPLOAD_FILE": "Fájl feltöltés",
+		"FRM_CONTENT": "Tartalom",
+		"FRM_BTN_SAVE": "Frissítés küldése",
+		"FRM_BTN_GOBACK": "Menjen vissza"
 	}
 }

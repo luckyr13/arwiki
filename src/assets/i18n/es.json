@@ -21,7 +21,13 @@
 		"MENU_USER_CREATE": "Crear página",
 		"MENU_USER_LOGOUT": "Cerrar sesión",
 		"MENU_USER_MY_PAGES": "Mis páginas",
-		"MENU_USER_MODERATORS": "Moderadores"
+		"MENU_USER_MODERATORS": "Moderadores",
+		"MENU_USER_MY_UPDATES": "Mis actualizaciones",
+		"MENU_MODERATOR_PENDING": "Páginas pendientes",
+		"MENU_MODERATOR_APPROVED": "Páginas aprobadas",
+		"MENU_MODERATOR_DELETED": "Páginas eliminadas",
+		"MENU_MODERATOR_ADD_MODERATOR": "Agregar Moderador",
+		"MENU_MODERATOR_VIEW_ADM_LIST": "Ver lista de administradores"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "¡Bienvenido a la permaweb!",
@@ -70,7 +76,8 @@
 		"BTN_TXT_GO": "¡Vamos!"
 	},
 	"FOOTER": {
-		"LBL_POWERED": "Energizado por"
+		"LBL_POWERED": "Energizado por",
+		"LBL_PARTNERS": "Nuestros socios y amigos"
 	},
 	"DIALOGS": {
 		"TITLE_SELECT_LANG": "Seleccionar idioma",
@@ -84,26 +91,29 @@
 		"LABEL_TOOLBAR_TITLE": "Panel de moderadores"
 	},
 	"CATEGORY": {
-		"BREADCRUMB_LABEL": "Category:"
+		"BREADCRUMB_LABEL": "Categoría:"
 	},
 	"GENERAL": {
 		"BUTTONS": {
-			"GO_BACK": "Go back",
-			"OPEN_VIEWBLOCK": "Open in Viewblock",
-			"COPY_ADDRESS": "Copy address",
-			"TIP_AUTHOR": "Tip the author",
-			"VIEW_ARTICLE": "View article",
-			"EDIT_PAGE": "Edit page",
-			"MORE_ARTICLES": "More articles"
+			"GO_BACK": "Regresar",
+			"OPEN_VIEWBLOCK": "Abrir en Viewblock",
+			"COPY_ADDRESS": "Copiar dirección",
+			"TIP_AUTHOR": "Dar propina al autor",
+			"VIEW_ARTICLE": "Ver artículo",
+			"EDIT_PAGE": "Editar página",
+			"MORE_ARTICLES": "Más artículos",
+			"VIEW_ALL": "Ver todo"
 		},
 		"LABELS": {
-			"NO_RESULTS": "No results"
+			"NO_RESULTS": "No hay resultados"
 		},
 		"CARDS": {
 			"ARTICLE": {
-				"CATEGORY": "Category:",
-				"CREATED_BY": "Created by:",
-				"CREATION_DATE": "Creation date:"
+				"CATEGORY": "Categoría:",
+				"CREATED_BY": "Creado por:",
+				"CREATION_DATE": "Fecha de creación:",
+				"LAST_UPDATE": "Última actualización:",
+				"SPONSOR": "Patrocinador:"
 			}
 		}
 	},
@@ -117,15 +127,15 @@
 	},
 	"EDIT_PAGE": {
 		"TITLE": "Editar página",
-		"FRM_TITLE": "Title",
-		"FRM_BY": "By",
-		"FRM_SLUG": "Page slug",
-		"FRM_CATEGORY": "Category",
-		"FRM_LANGUAGE": "Language",
-		"FRM_LOADING": "Loading ...",
-		"FRM_UPLOAD_FILE": "Upload file",
-		"FRM_CONTENT": "Content",
+		"FRM_TITLE": "Título",
+		"FRM_BY": "Por",
+		"FRM_SLUG": "Slug de página",
+		"FRM_CATEGORY": "Categoría",
+		"FRM_LANGUAGE": "Idioma",
+		"FRM_LOADING": "Cargando ...",
+		"FRM_UPLOAD_FILE": "Subir archivo",
+		"FRM_CONTENT": "Contenido",
 		"FRM_BTN_SAVE": "Enviar actualización",
-		"FRM_BTN_GOBACK": "Go back"
+		"FRM_BTN_GOBACK": "Regresar"
 	}
 }

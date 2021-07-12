@@ -16,19 +16,25 @@
 		"MENU_SETTINGS_LANGUAGE": "בחר שפה",
 		"MENU_SETTINGS_THEME": "בחר נושא",
 		"TOOLTIP_SEARCH": "לחפש",
-		"TOOLTIP_SETTINGS": "Settings",
+		"TOOLTIP_SETTINGS": "הגדרות",
 		"MENU_USER_DASHBOARD": "לוּחַ מַחווָנִים",
 		"MENU_USER_CREATE": "צור עמוד",
 		"MENU_USER_LOGOUT": "להתנתק",
-		"MENU_USER_MY_PAGES": "My pages",
-		"MENU_USER_MODERATORS": "Moderators"
+		"MENU_USER_MY_PAGES": "הדפים שלי",
+		"MENU_USER_MODERATORS": "מנחים",
+		"MENU_USER_MY_UPDATES": "העדכונים שלי",
+		"MENU_MODERATOR_PENDING": "דפים ממתינים",
+		"MENU_MODERATOR_APPROVED": "דפים מאושרים",
+		"MENU_MODERATOR_DELETED": "דפים שנמחקו",
+		"MENU_MODERATOR_ADD_MODERATOR": "הוסף מנחה",
+		"MENU_MODERATOR_VIEW_ADM_LIST": "הצג רשימת מנהלים"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "ברוך הבא ל- permaweb!",
 		"SUBTITLE_L1": "arwiki הוא הוויקי המבוזר עבור arweave שכל אחד יכול לערוך.",
 		"TITLE_L2": "מתחילים",
 		"TITLE_L3": "כתבות אחרונות",
-		"LABEL_NO_RESULTS": "No results."
+		"LABEL_NO_RESULTS": "אין תוצאות."
 	},
 	"PAGE": {
 		"LABEL_ID": "Id",
@@ -47,7 +53,7 @@
 		"STATUS_ADDRESS_NOTVERIFIED": "לא אומת"
 	},
 	"CREATE_PAGE": {
-		"TITLE": "Create page",
+		"TITLE": "צור עמוד",
 		"FRM_TITLE": "כותרת",
 		"FRM_BY": "על ידי",
 		"FRM_SLUG": "Page slug",
@@ -56,8 +62,8 @@
 		"FRM_LOADING": "טוען ...",
 		"FRM_UPLOAD_FILE": "העלה קובץ",
 		"FRM_CONTENT": "תוֹכֶן",
-		"FRM_BTN_SAVE": "Save",
-		"FRM_BTN_GOBACK": "Go back"
+		"FRM_BTN_SAVE": "שמור דף",
+		"FRM_BTN_GOBACK": "תחזור"
 	},
 	"NOT_FOUND": {
 
@@ -70,7 +76,8 @@
 		"BTN_TXT_GO": "ללכת!"
 	},
 	"FOOTER": {
-		"LBL_POWERED": "נתמך על ידי"
+		"LBL_POWERED": "נתמך על ידי",
+		"LBL_PARTNERS": "השותפים והחברים שלנו"
 	},
 	"DIALOGS": {
 		"TITLE_SELECT_LANG": "בחר שפה",
@@ -84,26 +91,29 @@
 		"LABEL_TOOLBAR_TITLE": "פאנל מנחה"
 	},
 	"CATEGORY": {
-		"BREADCRUMB_LABEL": "Category:"
+		"BREADCRUMB_LABEL": "קטגוריה:"
 	},
 	"GENERAL": {
 		"BUTTONS": {
-			"GO_BACK": "Go back",
-			"OPEN_VIEWBLOCK": "Open in Viewblock",
-			"COPY_ADDRESS": "Copy address",
-			"TIP_AUTHOR": "Tip the author",
-			"VIEW_ARTICLE": "View article",
-			"EDIT_PAGE": "Edit page",
-			"MORE_ARTICLES": "More articles"
+			"GO_BACK": "תחזור",
+			"OPEN_VIEWBLOCK": "פתח ב- Viewblock",
+			"COPY_ADDRESS": "העתק כתובת",
+			"TIP_AUTHOR": "עצה למחבר",
+			"VIEW_ARTICLE": "צפה במאמר",
+			"EDIT_PAGE": "ערוך דף",
+			"MORE_ARTICLES": "מאמרים נוספים",
+			"VIEW_ALL": "צפה בהכל"
 		},
 		"LABELS": {
-			"NO_RESULTS": "No results"
+			"NO_RESULTS": "אין תוצאות"
 		},
 		"CARDS": {
 			"ARTICLE": {
-				"CATEGORY": "Category:",
-				"CREATED_BY": "Created by:",
-				"CREATION_DATE": "Creation date:"
+				"CATEGORY": "קטגוריה:",
+				"CREATED_BY": "נוצר על ידי:",
+				"CREATION_DATE": "תאריך היווצרות:",
+				"LAST_UPDATE": "העדכון אחרון:",
+				"SPONSOR": "לָתֵת חָסוּת:"
 			}
 		}
 	},
@@ -111,21 +121,21 @@
 		"QUOTES_TITLE" : "האם ידעת?",
 		"QUOTES": {
 			"0": "Arweave הוא פרוטוקול המאפשר לך לאחסן נתונים באופן קבוע, בר קיימא, בתשלום מקדים יחיד.",
-			"1": "On top of the core Arweave protocol lives the permaweb: A global, permanent web of pages and applications that live forever.",
-			"2": "Arweave is a completely community-owned and -operated open source network."
+			"1": "על גבי פרוטוקול הליבה של Arweave, נמצא ה- permaweb: רשת גלובלית וקבועה של דפים ויישומים החיים לנצח.",
+			"2": "Arweave היא רשת קוד פתוח בבעלות קהילתית לחלוטין."
 		}
 	},
 	"EDIT_PAGE": {
-		"TITLE": "Edit page",
-		"FRM_TITLE": "Title",
-		"FRM_BY": "By",
+		"TITLE": "ערוך דף",
+		"FRM_TITLE": "כותרת",
+		"FRM_BY": "על ידי",
 		"FRM_SLUG": "Page slug",
-		"FRM_CATEGORY": "Category",
-		"FRM_LANGUAGE": "Language",
-		"FRM_LOADING": "Loading ...",
-		"FRM_UPLOAD_FILE": "Upload file",
-		"FRM_CONTENT": "Content",
-		"FRM_BTN_SAVE": "Send update",
-		"FRM_BTN_GOBACK": "Go back"
+		"FRM_CATEGORY": "קטגוריה",
+		"FRM_LANGUAGE": "שפה",
+		"FRM_LOADING": "טוען ...",
+		"FRM_UPLOAD_FILE": "העלה קובץ",
+		"FRM_CONTENT": "תוֹכֶן",
+		"FRM_BTN_SAVE": "שלח עדכון",
+		"FRM_BTN_GOBACK": "תחזור"
 	}
 }
