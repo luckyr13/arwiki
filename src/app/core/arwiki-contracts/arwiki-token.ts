@@ -316,7 +316,7 @@ export class ArwikiTokenContract
   /*
   * @dev Stop stake and sponsorship
   */
-  async stopStake(
+  async stopStaking(
     _slug: string,
     _langCode: string,
     _privateKey: any,
@@ -336,6 +336,19 @@ export class ArwikiTokenContract
     	slug: _slug
     };
 
+    
+    const testTX = await interactWriteDryRun(
+      this._arweave.arweave,
+      jwk,
+      this._contractAddress,
+      input,
+      tags
+    );
+
+    if (testTX && testTX.type==='error' && testTX.result) {
+      throw new Error(testTX.result)
+    }
+
     const tx = await interactWrite(
       this._arweave.arweave,
       jwk,
@@ -343,6 +356,7 @@ export class ArwikiTokenContract
       input,
       tags
     );
+
     return tx;
   }
 
@@ -379,6 +393,60 @@ export class ArwikiTokenContract
     	slug: _slug,
       author: _author,
       pageValue: _pageValue
+    };
+
+    const testTX = await interactWriteDryRun(
+      this._arweave.arweave,
+      jwk,
+      this._contractAddress,
+      input,
+      tags
+    );
+
+    if (testTX && testTX.type==='error' && testTX.result) {
+      throw new Error(testTX.result)
+    }
+
+    const tx = await interactWrite(
+      this._arweave.arweave,
+      jwk,
+      this._contractAddress,
+      input,
+      tags
+    );
+    return tx;
+  }
+
+  /*
+  * @dev Update sponsor
+  * Note: This can reactivate an inactive page
+  */
+  async updatePageSponsor(
+    _pageId: string,
+    _author: string,
+    _slug: string,
+    _category: string,
+    _langCode: string,
+    _pageValue: number,
+    _privateKey: any,
+    _arwikiVersion: string
+  ) {
+    const jwk = _privateKey;
+    const tags = [
+      {name: 'Service', value: 'ArWiki'},
+      {name: 'Arwiki-Type', value: 'UpdateSponsor'},
+      {name: 'Arwiki-Page-Id', value: _pageId},
+      {name: 'Arwiki-Page-Slug', value: _slug},
+      {name: 'Arwiki-Page-Category', value: _category},
+      {name: 'Arwiki-Page-Lang', value: _langCode},
+      {name: 'Arwiki-Page-Value', value: `${_pageValue}`},
+      {name: 'Arwiki-Version', value: _arwikiVersion},
+    ];
+    const input = {
+      function: 'updatePageSponsor',
+      langCode: _langCode,
+      slug: _slug,
+      pageValue: `${_pageValue}`
     };
 
     const testTX = await interactWriteDryRun(
