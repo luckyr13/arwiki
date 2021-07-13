@@ -106,7 +106,7 @@ export class PendingListComponent implements OnInit, OnDestroy {
         }),
         switchMap((pendingPages: ArwikiPageIndex) => {
           return (
-            this._arwikiTokenContract.getApprovedPages(this.routeLang, -1)
+            this._arwikiTokenContract.getAllPages(this.routeLang, -1)
               .pipe(
                 switchMap((_approvedPages) => {
                   let tmp_res: ArwikiPageIndex = {};
