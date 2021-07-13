@@ -9,6 +9,7 @@ import { ViewDetailComponent } from './view-detail/view-detail.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { MyPagesComponent } from './my-pages/my-pages.component';
 import { MyUpdatesComponent } from './my-updates/my-updates.component';
+import { HistoryComponent } from './history/history.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { MyUpdatesComponent } from './my-updates/my-updates.component';
   	EditComponent, PreviewComponent,
   	ViewDetailComponent,
    MyPagesComponent,
-   MyUpdatesComponent
+   MyUpdatesComponent,
+   HistoryComponent
   ],
   imports: [
     CommonModule,

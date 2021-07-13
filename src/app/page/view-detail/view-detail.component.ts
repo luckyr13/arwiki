@@ -371,26 +371,4 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     this._router.navigate([_langCode, _slug, 'edit']); 
   }
 
-  viewHistory(_slug: string, _langCode: string) {
-    const defLang = this._userSettings.getDefaultLang();
-    let direction: Direction = defLang.writing_system === 'LTR' ? 
-      'ltr' : 'rtl';
-
-    const dialogRef = this._dialog.open(DialogConfirmComponent, {
-      data: {
-        title: 'Coming soon ...',
-        content: 'This function will be available soon :)',
-        type: 'info'
-      },
-      direction: direction
-    });
-
-    dialogRef.afterClosed().subscribe(async (result) => {
-      if (result) {
-        alert(result)
-
-      }
-    });
-  }
-
 }

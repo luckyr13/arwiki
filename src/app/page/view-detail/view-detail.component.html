@@ -100,7 +100,7 @@
 		  	mat-button 
 		  	class="btn-toolbar" 
 		  	color="primary"
-		  	(click)="viewHistory(routeSlug, routeLang)">
+				[routerLink]="['/', routeLang, routeSlug, 'history']">
 		    <mat-icon>history</mat-icon>
 		    View history
 		  </button>
