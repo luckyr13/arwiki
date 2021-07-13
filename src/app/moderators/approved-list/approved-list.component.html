@@ -71,7 +71,8 @@
 						- Reward unlocked!
 					</strong>
 					<span *ngIf="currentBlockHeight < p.pageRewardAt">
-						- Reward unlocked in {{ p.pageRewardAt - currentBlockHeight }} blocks!
+						- Reward unlocked in {{ p.pageRewardAt - currentBlockHeight }} blocks! 
+						({{formatBlocks(p.pageRewardAt - currentBlockHeight)}})
 					</span>
 				</div>
 				<div class="text-right mt20 card-footer">

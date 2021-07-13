@@ -217,4 +217,8 @@ export class MyPagesComponent implements OnInit, OnDestroy {
     });
 
   }
+  
+  formatBlocks(_b: number) {
+    return `${this._arweave.formatBlocks(_b)}`;
+  }
 }

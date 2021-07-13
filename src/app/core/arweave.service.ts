@@ -19,6 +19,7 @@ export class ArweaveService {
   arweave: any = null;
   public baseURL: string = 'https://arweave.net/';
   arweaveNFT: ArweaveContractCreateNFT = new ArweaveContractCreateNFT();
+  blockToSeconds: number = 0.5 / 60;
 
   constructor() {
     this.arweave = Arweave.init({
@@ -524,28 +525,27 @@ export class ArweaveService {
    * @param len block length
    */
   public formatBlocks(len: number = 720): string {
-    const hour = 30;
-    const day = 720;
-    const week = 720 * 7;
+    const minute = this.blockToSeconds * 60;
+    const hour = minute * 60;
+    const day = hour * 24;
+    const week = day * 7;
     const month = week * 4;
     const year = month * 12;
-
+    const ops = [
+      ['Y', year], ['M', month], ['W', week], 
+      ['D', day], ['h', hour], ['m', minute],
+      ['s', this.blockToSeconds]
+    ];
     let res = '';
-    if (len >= year) {
-      const years = Math.round(len / year);
-      res = `~${years} ${years === 1 ? 'year' : 'years'}`;
-    } else if (len >= month) {
-      const months = Math.round(len / month);
-      res = `~${months} ${months === 1 ? 'month' : 'months'}`;
-    } else if (len >= day) {
-      const days = Math.round(len / day);
-      res = `~${days} ${days === 1 ? 'day' : 'days'}`;
-    } else if (len >= hour) {
-      const hours = Math.round(len / hour);
-      res = `~${hours} ${hours === 1 ? 'hour' : 'hours'}`;
-    } else {
-      res = '<1 hour';
+    let accum = len;
+    for (const o of ops) {
+      const val = Math.floor(accum / +o[1]);
+      accum = accum % +o[1];
+      if (val > 0) {
+        res += `${val}${o[0]} `;
+      }
     }
+    res = res ? `~${res}` : '';
     return res;
   }
 }
