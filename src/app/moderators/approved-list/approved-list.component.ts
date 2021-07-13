@@ -18,6 +18,7 @@ import { UserSettingsService } from '../../core/user-settings.service';
 import { Arwiki } from '../../core/arwiki';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
 import { arwikiVersion } from '../../core/arwiki';
+import { DialogConfirmAmountComponent } from '../../shared/dialog-confirm-amount/dialog-confirm-amount.component';
 
 @Component({
   templateUrl: './approved-list.component.html',
@@ -40,6 +41,9 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
   currentBlockHeight: number = 0;
   heightSubscription: Subscription = Subscription.EMPTY;
   baseURL = this._arweave.baseURL;
+  updateSponsorPageTxMessage: string = '';
+  updateSponsorPageTxErrorMessage: string = '';
+  loadingUpdateSponsorPageIntoIndex: boolean = false;
 
   constructor(
   	private _arweave: ArweaveService,
@@ -106,7 +110,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
               slug: slug,
               category: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category'),
               language: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang'),
-              value: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Value'),
+              value: allVerifiedPages[slug].value,
               img: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img'),
               owner: p.node.owner.address,
               block: p.node.block,
@@ -305,6 +309,56 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
 
   formatBlocks(_b: number) {
     return `${this._arweave.formatBlocks(_b)}`;
+  }
+
+  confirmSponsorArWikiPage(
+    _slug: string,
+    _pageId: string,
+    _category_slug: string,
+    _pageValue: number,
+    _author: string
+  ) {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
+    const dialogRef = this._dialog.open(DialogConfirmAmountComponent, {
+      data: {
+        title: 'Are you sure?',
+        content: `You are about to be the new sponsor for this arwiki page. Do you want to proceed?`,
+        pageValue: _pageValue + 1,
+        second_content: 'Please define the amount of $WIKI tokens to stake:'
+      },
+      direction: direction
+    });
+
+    dialogRef.afterClosed().subscribe(async (_newPageValue) => {
+      const newPageValue = +_newPageValue;
+      if (Number.isInteger(newPageValue) && newPageValue > 0) {
+        // Update page sponsor and reactivate page
+        this.loadingUpdateSponsorPageIntoIndex = true;
+        try {
+          const tx = await this._arwikiToken.updatePageSponsor(
+            _pageId,
+            _author,
+            _slug,
+            _category_slug,
+            this.routeLang,
+            newPageValue,
+            this._auth.getPrivateKey(),
+            arwikiVersion[0],
+          ); 
+
+          this.updateSponsorPageTxMessage = tx;
+          this.message('Success!', 'success');
+        } catch (error) {
+          this.updateSponsorPageTxErrorMessage = error;
+          this.message(error, 'error');
+        }
+      } else if (newPageValue === 0) {
+        this.message('Stake must be greater than 0 $WIKI tokens', 'error');
+      }
+    });
   }
 
 }

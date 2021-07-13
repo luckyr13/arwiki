@@ -2,7 +2,9 @@
 <mat-spinner class="spinner-center" *ngIf="loadingApprovedPages"></mat-spinner>
 <div class="container page-container fadeIn">
 
-	<div class="row" *ngIf="!loadingDeletePage && !loadingSetMainPage && !loadingStopStake">
+	<div 
+		class="row" 
+		*ngIf="!loadingDeletePage && !loadingSetMainPage && !loadingStopStake && !loadingUpdateSponsorPageIntoIndex">
 		<div 
 			class="col-12 card-page fadeIn" 
 			*ngIf="!loadingApprovedPages && (!pages || !pages.length)">
@@ -91,9 +93,16 @@
 		    		*ngIf="p.sponsor === myAddress"
 						(click)="confirmStopStake(p.slug)"
 						matTooltip="Stop staking">
-						<mat-icon>casino</mat-icon> Stop staking
+						<mat-icon>delete</mat-icon> Stop staking
 					</a>
-
+					<a
+						mat-flat-button
+						color="primary"
+						matTooltip="Sponsor page"
+						(click)="confirmSponsorArWikiPage(p.slug, p.id, p.category, p.value!, p.owner)">
+						<mat-icon>casino</mat-icon>
+						Sponsor page
+					</a>
 					<a
 						mat-flat-button
 						color="primary"
@@ -185,6 +194,33 @@
 				class="text-center">https://viewblock.io/arweave/tx/{{ stopStakeTxMessage }}
 			</a>
 			
+		</div>
+	</div>
+
+	<div 
+		class="row fadeIn" 
+		*ngIf="loadingUpdateSponsorPageIntoIndex && !updateSponsorPageTxMessage && !updateSponsorPageTxErrorMessage">
+		<div class="col text-center">
+			<mat-spinner class="spinner-center"></mat-spinner>
+			<h1 class="text-center">🚀 Hold on! Your transaction is processing ...</h1>
+		</div>
+	</div>
+	<div class="row fadeIn" *ngIf="updateSponsorPageTxMessage">
+		<div class="col text-center">
+			<h1 class="text-center">🥳 Page successfully updated!</h1>
+			<p class="text-center">TxID: {{ updateSponsorPageTxMessage }}</p>
+			<a 
+				mat-button 
+				target="_blank"
+				href="https://viewblock.io/arweave/tx/{{updateSponsorPageTxMessage}}" 
+				class="text-center">https://viewblock.io/arweave/tx/{{ updateSponsorPageTxMessage }}
+			</a>	
+		</div>
+	</div>
+	<div class="row fadeIn" *ngIf="updateSponsorPageTxErrorMessage">
+		<div class="col text-center">
+			<h1 class="text-center">Oops! something went wrong</h1>
+			<p class="text-center">{{ updateSponsorPageTxErrorMessage }}</p>
 		</div>
 	</div>
 
