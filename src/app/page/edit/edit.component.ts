@@ -504,31 +504,7 @@ export class EditComponent implements OnInit, OnDestroy {
             throw Error('Page does not exist!');
           }
 
-          return this.arwikiQuery.getDeletedPagesTX(
-            adminList,
-            verifiedPagesList,
-            _langCode,
-            _limit,
-            _maxHeight
-          );
-        }),
-        switchMap((deletedPagesTX) => {
-          const deletedPagesDict: Record<string,boolean> = {};
-          for (const p of deletedPagesTX) {
-            const arwikiId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
-            deletedPagesDict[arwikiId] = true;
-          }
-
-          const totalVerified = verifiedPagesList.length;
-          const finalList: string[] = [];
-          for (let i = 0; i < totalVerified; i++) {
-            if (!deletedPagesDict[verifiedPagesList[i]]) {
-              finalList.push(verifiedPagesList[i]);
-              break;
-            }
-          }
-          
-          return this.arwikiQuery.getTXsData(finalList);
+          return this.arwikiQuery.getTXsData(verifiedPagesList);
         })
       );
   }

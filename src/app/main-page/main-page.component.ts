@@ -248,26 +248,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
           return _approvedPages[slug].content;
         });
 
-        return this.arwikiQuery.getDeletedPagesTX(
-          admins,
-          verifiedPages,
-          langCode,
-          numArticles,
-          height
-        );
-      }),
-      switchMap((deletedPagesTX) => {
-        const deletedPagesDict: Record<string,boolean> = {};
-        for (const p of deletedPagesTX) {
-          const arwikiId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
-          deletedPagesDict[arwikiId] = true;
-        }
-
-        let finalList = verifiedPages.filter((vpId) => {
-          return !deletedPagesDict[vpId];
-        });
-        
-        return this.arwikiQuery.getTXsData(finalList);
+        return this.arwikiQuery.getTXsData(verifiedPages);
       }),
       switchMap((pages: any) => {
         const latestPages: ArwikiPage[] = [];
@@ -406,28 +387,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
           return _approvedPages[slug].content;
         });
 
-        return this.arwikiQuery.getDeletedPagesTX(
-          admins,
-          verifiedPages,
-          langCode,
-          numArticles,
-          height
-        );
-      }),
-      switchMap((deletedPagesTX) => {
-        const deletedPagesDict: Record<string,boolean> = {};
-        for (const p of deletedPagesTX) {
-          const arwikiId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
-          deletedPagesDict[arwikiId] = true;
-        }
-
-        let finalList = verifiedPages.filter((vpId) => {
-          return !deletedPagesDict[vpId];
-        });
-        
-        return this.arwikiQuery.getTXsData(finalList);
+        return this.arwikiQuery.getTXsData(verifiedPages);
       })
-      
     );
   }
 
@@ -445,7 +406,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
   */
   getMainPageTX(langCode: string, height: number) {
     let admins: string[] = [];
-    let numArticles = 10;
+    let numArticles = 1;
     const verifiedPagesDict: Record<string, boolean> = {};
     let allApprovedPages: any = {};
     return this._arwikiTokenContract.getAdminList().pipe(
@@ -467,40 +428,17 @@ export class MainPageComponent implements OnInit, OnDestroy {
           admins, Object.keys(this.categories), langCode, numArticles, height
         );
       }),
-      switchMap((verifiedPages) => {
-        for (let p of verifiedPages) {
+      switchMap((verifiedMainPages) => {
+        const mainTX = [];
+        for (let p of verifiedMainPages) {
           const vrfdPageId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
           const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
-
           if (allApprovedPages[slug] && allApprovedPages[slug].content === vrfdPageId) {
-            verifiedPagesDict[vrfdPageId] = true;
+            mainTX.push(vrfdPageId);
           }
-
         }
 
-        return this.arwikiQuery.getDeletedPagesTX(
-          admins,
-          Object.keys(verifiedPagesDict),
-          langCode,
-          numArticles,
-          height
-        );
-      }),
-      switchMap((deletedPagesTX) => {
-        const deletedPagesDict: Record<string,boolean> = {};
-        for (const p of deletedPagesTX) {
-          const arwikiId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
-          deletedPagesDict[arwikiId] = true;
-        }
-
-        let finalList = Object.keys(verifiedPagesDict).filter((vpId) => {
-
-          return !deletedPagesDict[vpId];
-        });
-
-        finalList = finalList.length ? [finalList[0]] : [];
-        
-        return this.arwikiQuery.getTXsData(finalList);
+        return this.arwikiQuery.getTXsData(mainTX);
       })
       
     );

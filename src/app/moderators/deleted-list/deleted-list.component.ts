@@ -15,8 +15,9 @@ import {
 import { ArwikiCategoryIndex } from '../../core/interfaces/arwiki-category-index';
 import { Direction } from '@angular/cdk/bidi';
 import { UserSettingsService } from '../../core/user-settings.service';
-import { Arwiki } from '../../core/arwiki';
+import { Arwiki, arwikiVersion } from '../../core/arwiki';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
+import { DialogConfirmAmountComponent } from '../../shared/dialog-confirm-amount/dialog-confirm-amount.component';
 
 @Component({
   selector: 'app-deleted-list',
@@ -29,14 +30,13 @@ export class DeletedListComponent implements OnInit, OnDestroy {
   pagesSubscription: Subscription = Subscription.EMPTY;
   arwikiQuery!: ArwikiQuery;
   routeLang: string = '';
-  loadingDeletePage: boolean = false;
-  deleteTxMessage: string = '';
-  loadingSetMainPage: boolean = false;
-  setMainTxMessage: string = '';
   private _arwiki!: Arwiki;
   myAddress: string = '';
   currentBlockHeight: number = 0;
   heightSubscription: Subscription = Subscription.EMPTY;
+  loadingReactivatePageIntoIndex: boolean = false;
+  updatePageTxMessage: string = '';
+  updatePageTxErrorMessage: string = '';
 
   constructor(
   	private _arweave: ArweaveService,
@@ -201,7 +201,7 @@ export class DeletedListComponent implements OnInit, OnDestroy {
               slug: slug,
               category: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category'),
               language: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang'),
-              value: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Value'),
+              value: allPages[slug].value,
               owner: p.node.owner.address,
               block: p.node.block,
               start: allPages[slug].start,
@@ -214,6 +214,57 @@ export class DeletedListComponent implements OnInit, OnDestroy {
       
 
       );
+  }
+
+
+  confirmReactivateArWikiPage(
+    _slug: string,
+    _pageId: string,
+    _category_slug: string,
+    _pageValue: number,
+    _author: string
+  ) {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
+    const dialogRef = this._dialog.open(DialogConfirmAmountComponent, {
+      data: {
+        title: 'Are you sure?',
+        content: `You are about to reactivate an old arwiki page. Do you want to proceed?`,
+        pageValue: _pageValue + 1,
+        second_content: 'Please define the amount of $WIKI tokens to stake:'
+      },
+      direction: direction
+    });
+
+    dialogRef.afterClosed().subscribe(async (_newPageValue) => {
+      const newPageValue = +_newPageValue;
+      if (Number.isInteger(newPageValue) && newPageValue > 0) {
+        // Update page sponsor and reactivate page
+        this.loadingReactivatePageIntoIndex = true;
+        try {
+          const tx = await this._arwikiToken.updatePageSponsor(
+            _pageId,
+            _author,
+            _slug,
+            _category_slug,
+            this.routeLang,
+            newPageValue,
+            this._auth.getPrivateKey(),
+            arwikiVersion[0],
+          ); 
+
+          this.updatePageTxMessage = tx;
+          this.message('Success!', 'success');
+        } catch (error) {
+          this.updatePageTxErrorMessage = error;
+          this.message(error, 'error');
+        }
+      } else if (newPageValue === 0) {
+        this.message('Stake must be greater than 0 $WIKI tokens', 'error');
+      }
+    });
   }
 
 }

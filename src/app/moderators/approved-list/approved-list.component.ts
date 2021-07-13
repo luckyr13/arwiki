@@ -94,27 +94,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
             return _approvedPages[slug].content;
           });
 
-          return this.arwikiQuery.getDeletedPagesTX(
-            owners,
-            verifiedPages,
-            this.routeLang,
-            numPages,
-            maxHeight
-          );
-        }),
-        switchMap((deletedPagesTX) => {
-          const deletedPagesDict: Record<string,boolean> = {};
-          for (const p of deletedPagesTX) {
-            const arwikiId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
-            deletedPagesDict[arwikiId] = true;
-          }
-
-          let finalList = verifiedPages.filter((vpId) => {
-            return !deletedPagesDict[vpId];
-          });
-
-          
-          return this.arwikiQuery.getTXsData(finalList);
+          return this.arwikiQuery.getTXsData(verifiedPages);
         }),
         switchMap((pages) => {
           let tmp_res: ArwikiPage[] = [];
@@ -306,7 +286,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
         // Create "delete" tx
         this.loadingStopStake = true;
         try {
-          const tx = await this._arwikiToken.stopStake(
+          const tx = await this._arwikiToken.stopStaking(
             _slug,
             this.routeLang,
             this._auth.getPrivateKey(),
@@ -321,6 +301,10 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
 
       }
     });
+  }
+
+  formatBlocks(_b: number) {
+    return `${this._arweave.formatBlocks(_b)}`;
   }
 
 }

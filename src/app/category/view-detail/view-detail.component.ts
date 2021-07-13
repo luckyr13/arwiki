@@ -223,27 +223,7 @@ export class ViewDetailComponent implements OnInit {
             }).map((slug) => {
               return _approvedPages[slug].content;
             })
-
-          return this.arwikiQuery.getDeletedPagesTX(
-            adminList,
-            verifiedPages,
-            _langCode,
-            _limit,
-            _maxHeight
-          );
-        }),
-        switchMap((deletedPagesTX) => {
-          const deletedPagesDict: Record<string,boolean> = {};
-          for (const p of deletedPagesTX) {
-            const arwikiId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
-            deletedPagesDict[arwikiId] = true;
-          }
-
-          let finalList = verifiedPages.filter((vpId) => {
-            return !deletedPagesDict[vpId];
-          });
-          
-          return this.arwikiQuery.getTXsData(finalList);
+          return this.arwikiQuery.getTXsData(verifiedPages);
         })
       );
   }

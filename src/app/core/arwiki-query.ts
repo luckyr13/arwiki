@@ -534,7 +534,7 @@ export class ArwikiQuery {
   /*
   * @dev
   */
-  getDeletedPagesTX(
+  getDeletedPagesTX_deprecated(
     owners: string[],
     pageIds: string[],
     langCode: string,
