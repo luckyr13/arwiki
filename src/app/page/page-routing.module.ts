@@ -40,7 +40,7 @@ const routes: Routes = [
 	},
 	{
 		path: ':lang/:slug/history', component: HistoryComponent, 
-		canActivate: [AuthGuard, InitPlatformGuard],
+		canActivate: [InitPlatformGuard],
 	},
 	{
 		path: '**', component: NotFoundComponent,
