@@ -11,7 +11,7 @@
 	  	class="w100" 
 	  	[formControl]="pageValue" 
 	  	min="1" 
-	  	max="1000" 
+	  	[max]="data.pageValue * 2" 
 		  [displayWith]="formatLabel"
 	  	thumbLabel
 	  	tickInterval="1"

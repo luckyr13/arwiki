@@ -8,7 +8,7 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./dialog-confirm-amount.component.scss']
 })
 export class DialogConfirmAmountComponent implements OnInit {
-	pageValue: FormControl = new FormControl('1');
+	pageValue: FormControl = new FormControl(this.data.pageValue);
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
 
