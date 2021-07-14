@@ -540,7 +540,7 @@ export class ArweaveService {
     let accum = len;
     for (const o of ops) {
       const val = Math.floor(accum / +o[1]);
-      accum = accum % +o[1];
+      accum = accum - (val * +o[1]);
       if (val > 0) {
         res += `${val}${o[0]} `;
       }
