@@ -1,11 +1,11 @@
 <div class="container preview-page-container">
 	<div class="row" *ngIf="pageData.content">
-		<h1 class="page-title col-12 col-md-9">
+		<h1 class="page-title col-12 col-md-8">
 			<span class="fadeIn" *ngIf="pageData.title">{{ pageData.title }}</span>
 		</h1>
 		<div 
 		  	*ngIf="pageData.title"
-		  	class="text-right page-title-buttons fadeIn col-12 col-md-3">
+		  	class="text-right page-title-buttons fadeIn col-12 col-md-4">
 		  <button 
 	    	type="button"
 		  	mat-button 
@@ -14,6 +14,15 @@
 		  	(click)="donate(pageData.owner, pageExtraMetadata.sponsor)">
 		    <mat-icon #donateIcon1 class="green-money">paid</mat-icon>
 		    Donate
+		  </button>
+		  <button 
+	    	type="button"
+		  	mat-button 
+		  	class="btn-toolbar" 
+		  	color="primary"
+		  	(click)="share(routeSlug, routeLang)">
+		    <mat-icon>share</mat-icon>
+		    Share
 		  </button>
 	    <button 
 	    	type="button"
@@ -85,6 +94,15 @@
 		  	(click)="donate(pageData.owner, pageExtraMetadata.sponsor)">
 		    <mat-icon #donateIcon2 class="green-money">paid</mat-icon>
 		    Donate
+		  </button>
+		  <button 
+	    	type="button"
+		  	mat-button 
+		  	class="btn-toolbar" 
+		  	color="primary"
+		  	(click)="share(routeSlug, routeLang)">
+		    <mat-icon>share</mat-icon>
+		    Share
 		  </button>
 			<button 
 	    	type="button"

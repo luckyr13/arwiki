@@ -37,6 +37,7 @@ import {MatTableModule} from '@angular/material/table';
 import { DialogDonateComponent } from './dialog-donate/dialog-donate.component';
 import { FormsModule } from '@angular/forms';
 import { DialogConfirmAmountComponent } from './dialog-confirm-amount/dialog-confirm-amount.component';
+import { BottomSheetShareComponent } from './bottom-sheet-share/bottom-sheet-share.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { DialogConfirmAmountComponent } from './dialog-confirm-amount/dialog-con
     BalanceCardComponent,
     DialogDonateComponent,
     DialogConfirmAmountComponent,
+    BottomSheetShareComponent,
   ],
   imports: [
     CommonModule,

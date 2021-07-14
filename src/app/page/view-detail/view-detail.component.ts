@@ -26,6 +26,8 @@ import { Direction } from '@angular/cdk/bidi';
 import {MatDialog} from '@angular/material/dialog';
 import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confirm.component';
 import { ArwikiPage } from '../../core/interfaces/arwiki-page';
+import {MatBottomSheet} from '@angular/material/bottom-sheet';
+import { BottomSheetShareComponent } from '../../shared/bottom-sheet-share/bottom-sheet-share.component';
 
 @Component({
   templateUrl: './view-detail.component.html',
@@ -69,7 +71,8 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     private _ref: ChangeDetectorRef,
     private _categoriesContract: ArwikiCategoriesContract,
     private _auth: AuthService,
-    public _dialog: MatDialog
+    public _dialog: MatDialog,
+    private _bottomSheetShare: MatBottomSheet
   ) { }
 
   ngOnInit(): void {
@@ -97,8 +100,6 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
       this.mainAddress = _mainAddress;
       this.isUserLoggedIn = !!_mainAddress;
     })
-
-    
 
   }
 
@@ -154,10 +155,10 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
 
           
           finalRes.push({
-            title: title,
-            slug: slug,
-            category: category,
-            img: img,
+            title: this.removeHTMLfromStr(title),
+            slug: this.removeHTMLfromStr(slug),
+            category: this.removeHTMLfromStr(category),
+            img: this.removeHTMLfromStr(img),
             owner: owner,
             id: id,
             block: block
@@ -199,6 +200,12 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
             this.animateDonateIcon(this.donateIcon2);
           }, 500);
 
+          // Update meta tags 
+          this.updateSocialMediaOGTags(
+            this.pageData.title,
+            this.pageData.content,
+            this.pageData.img!
+          );
 
   			} else {
           this.pageData.content = '';
@@ -229,6 +236,10 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   	var html = marked(_markdown);
 		var clean = DOMPurify.sanitize(html);
 		return html;
+  }
+
+  removeHTMLfromStr(_html: string) {
+    return DOMPurify.sanitize(_html, {ALLOWED_TAGS: []});
   }
 
 
@@ -369,6 +380,39 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
       return;
     }
     this._router.navigate([_langCode, _slug, 'edit']); 
+  }
+
+  share(_slug: string, _langCode: string) {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+    const url = `${_langCode}/${_slug}`;
+    const tmpContent = this.removeHTMLfromStr(this.pageData.content!);
+    const limit = tmpContent.indexOf('.') > 0 ? tmpContent.indexOf('.') + 1 : 100;
+
+    this._bottomSheetShare.open(BottomSheetShareComponent, {
+      data: {
+        url,
+        title: this.removeHTMLfromStr(this.pageData.title),
+        content: this.removeHTMLfromStr(`${tmpContent}`.substr(0, limit)),
+        img: this.removeHTMLfromStr(`${this.baseURL + this.pageData.img}`)
+      },
+      direction: direction,
+      ariaLabel: 'Share on social media'
+    });
+
+  }
+
+  updateSocialMediaOGTags(title: string, content: string, img: string) {
+    content = this.removeHTMLfromStr(content);
+    const limit = content!.indexOf('.') > 0 ? content!.indexOf('.') + 1 : 100;
+    const c2 = this.removeHTMLfromStr(`${content}`.substr(0, limit));
+    const t2 = this.removeHTMLfromStr(title);
+    const img2 = this.removeHTMLfromStr(`${this.baseURL + img}`);
+    document.getElementById('META_OG_TITLE').content = t2;
+    document.getElementById('META_OG_DESCRIPTION').content = c2;
+    document.getElementById('META_OG_IMAGE').content = img2;
+
   }
 
 }
