@@ -15,12 +15,12 @@ export class BottomSheetShareComponent implements OnInit {
 	previousURL: string = '';
 
   constructor(
-  	@Inject(MAT_BOTTOM_SHEET_DATA) public data: {url: string, title: string, img: string, content: string},
+  	@Inject(MAT_BOTTOM_SHEET_DATA) public data: {title: string, img: string, content: string},
     private _clipboard: Clipboard,
     private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-  	this.fullURL = `${window.location.origin}/#/${this.data.url}`;
+  	this.fullURL = `${window.location.href}`;
   }
 
   private _copyLinkToClipboard() {

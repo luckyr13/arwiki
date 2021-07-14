@@ -382,17 +382,15 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     this._router.navigate([_langCode, _slug, 'edit']); 
   }
 
-  share(_slug: string, _langCode: string) {
+  share() {
     const defLang = this._userSettings.getDefaultLang();
     let direction: Direction = defLang.writing_system === 'LTR' ? 
       'ltr' : 'rtl';
-    const url = `${_langCode}/${_slug}`;
     const tmpContent = this.removeHTMLfromStr(this.pageData.content!);
     const limit = tmpContent.indexOf('.') > 0 ? tmpContent.indexOf('.') + 1 : 100;
 
     this._bottomSheetShare.open(BottomSheetShareComponent, {
       data: {
-        url,
         title: this.removeHTMLfromStr(this.pageData.title),
         content: this.removeHTMLfromStr(`${tmpContent}`.substr(0, limit)),
         img: this.removeHTMLfromStr(`${this.baseURL + this.pageData.img}`)
