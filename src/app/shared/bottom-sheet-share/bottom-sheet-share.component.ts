@@ -41,20 +41,22 @@ export class BottomSheetShareComponent implements OnInit {
   }
 
   shareInSocialMedia(_socialMediaOption: string) {
+		const urlencodeddesc = encodeURIComponent(`${this.data.title}: ${this.data.content} ... Read full article: ${this.fullURL}`);
+		const urlencodedimg = encodeURIComponent(`${this.data.img}`);
+		const urlencodedtitle = encodeURIComponent(`${this.data.title}`);
+		const urlencodedurl = encodeURIComponent(`${this.fullURL}`);
   	switch (_socialMediaOption) {
   		case 'facebook':
-  			const urlencodedtext1 = encodeURIComponent(`${this.data.title}`);
-  			const facebookURL = `https://www.facebook.com/share.php?u=${encodeURIComponent(this.fullURL)}&quote=${urlencodedtext1}`;
+  			const facebookURL = `https://www.facebook.com/share.php?u=${urlencodedurl}&quote=${urlencodeddesc}&picture=${urlencodedimg}`;
   			this.openWindowPopup(facebookURL);
   		break;
   		case 'twitter':
-  			const urlencodedtext3 = encodeURIComponent(`${this.data.title}`);
-  			const twitterURL = `https://twitter.com/share?url=${encodeURIComponent(this.fullURL)}&text=${urlencodedtext3}`;
+  			const tweet = `${urlencodedtitle}: ${this.data.content}`.substr(0, 240);
+  			const twitterURL = `https://twitter.com/share?url=${urlencodedurl}&text=${tweet}`;
   			this.openWindowPopup(twitterURL);
   		break;
   		case 'whatsapp':
-  			const urlencodedtext2 = encodeURIComponent(`${this.data.title}: ${this.fullURL}`);
-  			const whatsappURL = `https://wa.me/?text=${urlencodedtext2}`;
+  			const whatsappURL = `https://wa.me/?text=${urlencodeddesc}`;
   			this.openWindowPopup(whatsappURL);
   		break;
   		case 'copyLink':
