@@ -41,7 +41,7 @@ export class BottomSheetShareComponent implements OnInit {
   }
 
   shareInSocialMedia(_socialMediaOption: string) {
-		const urlencodeddesc = encodeURIComponent(`${this.data.title}: ${this.data.content} ... Read full article: ${this.fullURL}`);
+		const urlencodeddesc = encodeURIComponent(`${this.data.title}: ${this.data.content} Read full article: ${this.fullURL}`);
 		const urlencodedimg = encodeURIComponent(`${this.data.img}`);
 		const urlencodedtitle = encodeURIComponent(`${this.data.title}`);
 		const urlencodedurl = encodeURIComponent(`${this.fullURL}`);
