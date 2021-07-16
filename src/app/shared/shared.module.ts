@@ -38,6 +38,7 @@ import { DialogDonateComponent } from './dialog-donate/dialog-donate.component';
 import { FormsModule } from '@angular/forms';
 import { DialogConfirmAmountComponent } from './dialog-confirm-amount/dialog-confirm-amount.component';
 import { BottomSheetShareComponent } from './bottom-sheet-share/bottom-sheet-share.component';
+import {MatBadgeModule} from '@angular/material/badge';
 
 @NgModule({
   declarations: [
@@ -101,7 +102,8 @@ import { BottomSheetShareComponent } from './bottom-sheet-share/bottom-sheet-sha
     ClipboardModule,
     MatSliderModule,
     BalanceCardComponent,
-    MatTableModule
+    MatTableModule,
+    MatBadgeModule
   ],
   // entryComponents: [DialogSelectLanguageComponent]
 })

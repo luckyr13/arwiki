@@ -46,3 +46,15 @@ mat-toolbar, mat-progress-bar {
 	padding: 10px;
 	width: 240px;
 }
+
+.sup-txt {
+	vertical-align: super;
+	font-size: 0.6rem;
+	margin-left: 6px;
+	border-radius: 10%;
+	padding: 2px;
+	padding-left: 6px;
+	padding-right: 6px;
+	background-color: black;
+	text-transform: uppercase;
+}

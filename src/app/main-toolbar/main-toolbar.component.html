@@ -11,10 +11,12 @@
     <mat-icon>menu</mat-icon>
   </button>
 
-  <span class="logo-text fadeIn" routerLink="{{ routerLang }}/">{{ appName }}</span>
-
+  <span 
+    class="logo-text fadeIn" 
+    routerLink="{{ routerLang }}/">{{ appName }}<span class="sup-txt">Alpha</span>
+  </span>
+ 
   <span class="menu-spacer"></span>
-  
   <button 
       [matMenuTriggerFor]="searchMenu"
       mat-icon-button 
