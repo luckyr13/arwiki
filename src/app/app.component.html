@@ -24,7 +24,18 @@
           id="main-loading-container-1" 
           #mainLoadingContainer1 
           class="loading loadingContainer">
-          <span *ngFor="let loadC of loadingLabel">{{loadC}}</span>
+          <div *ngIf="!(loadingLabel | async)">
+            <span>L</span>
+            <span>O</span>
+            <span>A</span>
+            <span>D</span>
+            <span>I</span>
+            <span>N</span>
+            <span>G</span>
+          </div>
+          <div *ngIf="loadingLabel | async">
+            <span *ngFor="let loadC of (loadingLabel | async)">{{loadC}}</span>
+          </div>
           <div class="text-center small fadeIn">
             <h2>{{ 'LOADING.QUOTES_TITLE' | translate }}</h2>
             <p>{{ 'LOADING.QUOTES.' + quoteNumber | translate }}</p>

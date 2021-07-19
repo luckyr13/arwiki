@@ -1,8 +1,9 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef  } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef  } from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import { UserSettingsService } from './core/user-settings.service';
 import { MatSidenavContainer } from '@angular/material/sidenav';
 import gsap from 'gsap';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -22,22 +23,26 @@ export class AppComponent implements OnInit, AfterViewInit  {
   appLogoDark: string = './assets/img/arweave-light.png';
   mainLogo: string = '';
   @ViewChild('mainLogoImg') mainLogoImg!: ElementRef;
-  loadingLabel: string[] = ['L', 'O', 'A', 'D', 'I', 'N', 'G'];
+  loadingLabel = this._translate.get('LOADING.LOADING_LABEL')
+    .pipe(map((res) => {
+      return Array.from(res);
+    }));
 
   constructor(
     private _translate: TranslateService,
-    private _userSettings: UserSettingsService
+    private _userSettings: UserSettingsService,
+    private _changeDetector: ChangeDetectorRef 
   ) {
     // this language will be used as a fallback when a translation isn't found in the current language
     // _translate.setDefaultLang('en');
     // the lang to use, if the lang isn't available, it will use the current loader to get them
     //_translate.use('en');
 
-    const updateWritingDirection = (langObj: any) => {
+    const updateWritingDirectionAndLoading = (langObj: any) => {
       this.menuPosition = langObj.writing_system == 'RTL' ? 'end' : 'start'
     }
-    updateWritingDirection(this._userSettings.getDefaultLang())
-    this._userSettings.settingsLangStream.subscribe(updateWritingDirection)
+    updateWritingDirectionAndLoading(this._userSettings.getDefaultLang())
+    this._userSettings.settingsLangStream.subscribe(updateWritingDirectionAndLoading)
 
     this.quoteNumber = this.getRandomInt(3);
   }
@@ -49,6 +54,7 @@ export class AppComponent implements OnInit, AfterViewInit  {
       const scroll: number = target.scrollTop;
       this._userSettings.updateScrollTop(scroll);
     });
+    
   }
 
   ngOnInit() {
@@ -58,7 +64,6 @@ export class AppComponent implements OnInit, AfterViewInit  {
 
     this.getDefaultTheme();
     this.mainLogo = this.getMainLogo();
-
     window.setTimeout(() => {
       this.animateLoadingContainer(this.mainLoadingContainer1);
       this.animateFlipLogo(this.mainLogoImg);
@@ -71,9 +76,6 @@ export class AppComponent implements OnInit, AfterViewInit  {
       this.mainToolbarIsVisible = res;
     })
 
-    this._translate.get('LOADING.LOADING_LABEL').subscribe((res: string) => {
-        this.loadingLabel = res.split('');
-    });
 
 
   }
@@ -115,6 +117,7 @@ export class AppComponent implements OnInit, AfterViewInit  {
 
     return '';
   }
+
 
     
 }
