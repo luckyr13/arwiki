@@ -22,7 +22,7 @@ export class AppComponent implements OnInit, AfterViewInit  {
   appLogoDark: string = './assets/img/arweave-light.png';
   mainLogo: string = '';
   @ViewChild('mainLogoImg') mainLogoImg!: ElementRef;
-
+  loadingLabel: string[] = ['L', 'O', 'A', 'D', 'I', 'N', 'G'];
 
   constructor(
     private _translate: TranslateService,
@@ -70,6 +70,10 @@ export class AppComponent implements OnInit, AfterViewInit  {
     this._userSettings.mainToolbarVisibilityStream.subscribe((res) => {
       this.mainToolbarIsVisible = res;
     })
+
+    this._translate.get('LOADING.LOADING_LABEL').subscribe((res: string) => {
+        this.loadingLabel = res.split('');
+    });
 
 
   }
