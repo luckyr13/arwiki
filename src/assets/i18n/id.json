@@ -123,7 +123,8 @@
 			"0": "Arweave adalah protokol yang memungkinkan Anda menyimpan data secara permanen, berkelanjutan, dengan satu biaya di muka.",
 			"1": "Di atas protokol inti Arweave hidup permaweb: Sebuah web global, halaman permanen dan aplikasi yang hidup selamanya.",
 			"2": "Arweave adalah jaringan sumber terbuka yang sepenuhnya dimiliki dan dioperasikan oleh komunitas."
-		}
+		},
+		"LOADING_LABEL": "Memuat"
 	},
 	"EDIT_PAGE": {
 		"TITLE": "Edit halaman",

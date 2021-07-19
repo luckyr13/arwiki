@@ -123,7 +123,8 @@
 			"0": "Az Arweave egy olyan protokoll, amely lehetővé teszi az adatok tartós, fenntartható tárolását egyetlen előzetes díjjal.",
 			"1": "Az Arweave protokoll tetején él a permaweb: Az örökké élő oldalak és alkalmazások globális, állandó webe.",
 			"2": "Az Arweave egy teljesen közösségi tulajdonú és üzemeltetett nyílt forráskódú hálózat."
-		}
+		},
+		"LOADING_LABEL": "Betöltés"
 	},
 	"EDIT_PAGE": {
 		"TITLE": "Oldal szerkesztése",

@@ -123,7 +123,8 @@
 			"0": "Arweave is a protocol that allows you to store data permanently, sustainably, with a single upfront fee.",
 			"1": "On top of the core Arweave protocol lives the permaweb: A global, permanent web of pages and applications that live forever.",
 			"2": "Arweave is a completely community-owned and -operated open source network."
-		}
+		},
+		"LOADING_LABEL": "Loading"
 	},
 	"EDIT_PAGE": {
 		"TITLE": "Edit page",

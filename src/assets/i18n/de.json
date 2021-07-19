@@ -123,7 +123,8 @@
 			"0": "Arweave ist ein Protokoll, mit dem Sie Daten mit einer einzigen Vorabgebühr dauerhaft und nachhaltig speichern können.",
 			"1": "Neben dem Kernprotokoll von Arweave lebt das Permaweb: Ein globales, permanentes Web aus Seiten und Anwendungen, das ewig lebt.",
 			"2": "Arweave ist ein vollständig von der Community besessenes und betriebenes Open-Source-Netzwerk."
-		}
+		},
+		"LOADING_LABEL": "Wird geladen"
 	},
 	"EDIT_PAGE": {
 		"TITLE": "Seite bearbeiten",

@@ -123,7 +123,8 @@
 			"0": "Is prótacal é Arweave a ligeann duit sonraí a stóráil go buan, go hinbhuanaithe, le táille tosaigh amháin.",
 			"1": "Ar bharr phríomhphrótacal Arweave tá an permaweb: Gréasán domhanda buan de leathanaigh agus d’fheidhmchláir a mhaireann go deo.",
 			"2": "Is líonra foinse oscailte faoi úinéireacht an phobail agus faoi chomhoibriú é Arweave."
-		}
+		},
+		"LOADING_LABEL": "Ag luchtú"
 	},
 	"EDIT_PAGE": {
 		"TITLE": "Cuir an leathanach in eagar",

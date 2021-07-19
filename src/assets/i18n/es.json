@@ -123,7 +123,8 @@
 			"0": "Arweave es un protocolo que le permite almacenar datos de forma permanente y sostenible con una única tarifa inicial.",
 			"1": "Además del protocolo central de Arweave, tenemos la permaweb: una red global y permanente de páginas y aplicaciones que viven para siempre.",
 			"2": "Arweave es una red de código abierto completamente operada y de propiedad de la comunidad."
-		}
+		},
+		"LOADING_LABEL": "Cargando"
 	},
 	"EDIT_PAGE": {
 		"TITLE": "Editar página",
