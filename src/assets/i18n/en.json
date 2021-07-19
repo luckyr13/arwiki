@@ -9,7 +9,8 @@
 		"the_arweave_protocol": "The Arweave Protocol",
 		"profit_sharing": "Profit Sharing",
 		"mining": "Mining",
-		"building_on_arweave": "Building on Arweave"
+		"building_on_arweave": "Building on Arweave",
+		"resources": "Resources"
 	},
 	"MAIN_TOOLBAR": {
 		"TOOLTIP_LOGIN": "Login",

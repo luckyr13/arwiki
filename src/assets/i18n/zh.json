@@ -9,7 +9,8 @@
 		"the_arweave_protocol": "Arweave協議",
 		"profit_sharing": "利潤分享",
 		"mining": "礦業",
-		"building_on_arweave": "在Arweave上構建"
+		"building_on_arweave": "在Arweave上構建",
+		"resources": "資源"
 	},
 	"MAIN_TOOLBAR": {
 		"TOOLTIP_LOGIN": "登錄",
