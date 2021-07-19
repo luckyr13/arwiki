@@ -57,7 +57,7 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
             isValidLang = _isValidLang;
             // Loader
             this._userSettings.updateMainToolbarLoading(true);
-            return this._arwikiTokenContract.getState();
+            return this._arwikiTokenContract.getStateFromKYVE();
           }),
           switchMap((_tokenContractState: any) => {
             // Loader

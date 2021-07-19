@@ -4,8 +4,9 @@ import {
 import { Injectable } from '@angular/core';
 import { Observable, of, from } from 'rxjs';
 import { ArweaveService } from '../arweave.service';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { JWKInterface } from 'arweave/node/lib/wallet';
+import { ArwikiKYVE } from '../arwiki-kyve';
 
 @Injectable({
   providedIn: 'root'
@@ -15,44 +16,82 @@ export class ArwikiTokenContract
 	private _contractAddress: string = 'a3WZd4Fa9gckxRqDyu-EAONy7v25J8kuqj75ZgtGoUg';
 	private _state: any = {};
 	private _adminList: string[] = [];
+  private _arwikiKYVE: ArwikiKYVE;
 
 	get contractAddress() {
 		return this._contractAddress;
 	}
 
 	constructor(private _arweave: ArweaveService) {
+    this._arwikiKYVE = new ArwikiKYVE(_arweave.arweave);
 	}
 
 	deployNewContract() {
 		
 	}
 
+  getStateFromKYVE(reload: boolean = false) {
+    if (Object.keys(this._state).length > 0 && !reload) {
+      return of(this._state);
+    }
+    return this._arwikiKYVE.getLastStates()
+      .pipe(
+        map((_kyveRes: any) => {
+          this._state = {};
+          this._adminList = [];
+          if (_kyveRes && _kyveRes[0]) {
+            _kyveRes = JSON.parse(_kyveRes[0]);
+            this._state = _kyveRes.state;
+            this._adminList = Object.keys(this._state.roles).filter((address) => {
+              return this._state.roles[address].toUpperCase() === 'MODERATOR';
+            });
+          } else {
+            throw Error('Error loading contract state :(');
+          }
+          return this._state;
+          
+        })
+      );
+  }
+
+  /*
+  *  @dev Get full contract state as Observable
+  */
+  getStateFromContract(reload: boolean = false, useKYVE: boolean = true): Observable<any> {
+    const obs = new Observable<any>((subscriber) => {
+      if (Object.keys(this._state).length > 0 && !reload) {
+        subscriber.next(this._state);
+        subscriber.complete();
+      } else {
+        readContract(this._arweave.arweave, this._contractAddress)
+          .then((state: any) => {
+            this._state = state;
+            this._adminList = Object.keys(state.roles).filter((address) => {
+              return state.roles[address].toUpperCase() === 'MODERATOR';
+            });
+
+            subscriber.next(state);
+            subscriber.complete();
+          }).catch((error) => {
+            subscriber.error(error);
+          });
+      }
+
+    });
+
+    return obs;
+  }
+
 	/*
-	*	@dev Get full contract state as Observable
+	*	@dev Return state
 	*/
-	getState(reload: boolean = false): Observable<any> {
-		const obs = new Observable<any>((subscriber) => {
-			if (Object.keys(this._state).length > 0 && !reload) {
-				subscriber.next(this._state);
-				subscriber.complete();
-			} else {
-				readContract(this._arweave.arweave, this._contractAddress)
-					.then((state: any) => {
-						this._state = state;
-						this._adminList = Object.keys(state.roles).filter((address) => {
-							return state.roles[address].toUpperCase() === 'MODERATOR';
-						});
-
-						subscriber.next(state);
-						subscriber.complete();
-					}).catch((error) => {
-						subscriber.error(error);
-					});
-			}
-
-		});
-
-		return obs;
+	getState(reload: boolean = false, useKYVE: boolean = true): Observable<any> {
+		if (useKYVE) {
+      return this.getStateFromKYVE(reload);
+    }
+    else {
+      return this.getStateFromContract(reload);
+    }
 	}
 
 	/*
