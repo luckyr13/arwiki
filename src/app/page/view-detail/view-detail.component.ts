@@ -200,13 +200,6 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
             this.animateDonateIcon(this.donateIcon2);
           }, 500);
 
-          // Update meta tags 
-          this.updateSocialMediaOGTags(
-            this.pageData.title,
-            this.pageData.content,
-            this.pageData.img!
-          );
-
   			} else {
           this.pageData.content = '';
           this.pageNotFound = true;
