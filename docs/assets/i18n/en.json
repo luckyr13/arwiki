@@ -9,7 +9,8 @@
 		"the_arweave_protocol": "The Arweave Protocol",
 		"profit_sharing": "Profit Sharing",
 		"mining": "Mining",
-		"building_on_arweave": "Building on Arweave"
+		"building_on_arweave": "Building on Arweave",
+		"resources": "Resources"
 	},
 	"MAIN_TOOLBAR": {
 		"TOOLTIP_LOGIN": "Login",
@@ -21,7 +22,13 @@
 		"MENU_USER_CREATE": "Create page",
 		"MENU_USER_LOGOUT": "Logout",
 		"MENU_USER_MY_PAGES": "My pages",
-		"MENU_USER_MODERATORS": "Moderators"
+		"MENU_USER_MODERATORS": "Moderators",
+		"MENU_USER_MY_UPDATES": "My updates",
+		"MENU_MODERATOR_PENDING": "Pending pages",
+		"MENU_MODERATOR_APPROVED": "Approved pages",
+		"MENU_MODERATOR_DELETED": "Deleted pages",
+		"MENU_MODERATOR_ADD_MODERATOR": "Add Moderator",
+		"MENU_MODERATOR_VIEW_ADM_LIST": "View admin list"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "Welcome to the permaweb!",
@@ -70,7 +77,8 @@
 		"BTN_TXT_GO": "Go!"
 	},
 	"FOOTER": {
-		"LBL_POWERED": "Powered by"
+		"LBL_POWERED": "Powered by",
+		"LBL_PARTNERS": "Our partners and friends"
 	},
 	"DIALOGS": {
 		"TITLE_SELECT_LANG": "Select language",
@@ -94,7 +102,8 @@
 			"TIP_AUTHOR": "Tip the author",
 			"VIEW_ARTICLE": "Read full article",
 			"EDIT_PAGE": "Edit page",
-			"MORE_ARTICLES": "More articles"
+			"MORE_ARTICLES": "More articles",
+			"VIEW_ALL": "View all"
 		},
 		"LABELS": {
 			"NO_RESULTS": "No results"
@@ -103,7 +112,9 @@
 			"ARTICLE": {
 				"CATEGORY": "Category:",
 				"CREATED_BY": "Created by:",
-				"CREATION_DATE": "Created at:"
+				"CREATION_DATE": "Created at:",
+				"LAST_UPDATE": "Last update:",
+				"SPONSOR": "Sponsor:"
 			}
 		}
 	},
@@ -113,6 +124,20 @@
 			"0": "Arweave is a protocol that allows you to store data permanently, sustainably, with a single upfront fee.",
 			"1": "On top of the core Arweave protocol lives the permaweb: A global, permanent web of pages and applications that live forever.",
 			"2": "Arweave is a completely community-owned and -operated open source network."
-		}
+		},
+		"LOADING_LABEL": "Loading"
+	},
+	"EDIT_PAGE": {
+		"TITLE": "Edit page",
+		"FRM_TITLE": "Title",
+		"FRM_BY": "By",
+		"FRM_SLUG": "Page slug",
+		"FRM_CATEGORY": "Category",
+		"FRM_LANGUAGE": "Language",
+		"FRM_LOADING": "Loading ...",
+		"FRM_UPLOAD_FILE": "Upload file",
+		"FRM_CONTENT": "Content",
+		"FRM_BTN_SAVE": "Send update",
+		"FRM_BTN_GOBACK": "Go back"
 	}
 }

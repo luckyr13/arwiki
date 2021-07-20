@@ -9,7 +9,8 @@
 		"the_arweave_protocol": "Protokol Arweave",
 		"profit_sharing": "Bagi hasil",
 		"mining": "Pertambangan",
-		"building_on_arweave": "Membangun di Arweave"
+		"building_on_arweave": "Membangun di Arweave",
+		"resources": "Sumber daya"
 	},
 	"MAIN_TOOLBAR": {
 		"TOOLTIP_LOGIN": "Gabung",
@@ -20,57 +21,64 @@
 		"MENU_USER_DASHBOARD": "Dasbor",
 		"MENU_USER_CREATE": "Membuat halaman",
 		"MENU_USER_LOGOUT": "Keluar",
-		"MENU_USER_MY_PAGES": "My pages",
-		"MENU_USER_MODERATORS": "Moderators"
+		"MENU_USER_MY_PAGES": "halaman saya",
+		"MENU_USER_MODERATORS": "Moderator",
+		"MENU_USER_MY_UPDATES": "Pembaruan saya",
+		"MENU_MODERATOR_PENDING": "halaman tertunda",
+		"MENU_MODERATOR_APPROVED": "Halaman yang disetujui",
+		"MENU_MODERATOR_DELETED": "Halaman yang dihapus",
+		"MENU_MODERATOR_ADD_MODERATOR": "Tambahkan Moderator",
+		"MENU_MODERATOR_VIEW_ADM_LIST": "Lihat daftar admin"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "Selamat datang di permaweb!",
 		"SUBTITLE_L1": "arwiki adalah wiki terdesentralisasi untuk arweave yang dapat diedit siapa saja.",
 		"TITLE_L2": "Mulai",
 		"TITLE_L3": "Artikel Terbaru",
-		"LABEL_NO_RESULTS": "No results."
+		"LABEL_NO_RESULTS": "Tidak ada hasil."
 	},
 	"PAGE": {
 		"LABEL_ID": "Id",
-		"LABEL_TITLE": "Title",
+		"LABEL_TITLE": "Judul",
 		"LABEL_SLUG": "Slug",
-		"LABEL_CATEGORY": "Category",
-		"LABEL_LANGUAGE": "Language",
-		"LABEL_OWNER": "Owner",
+		"LABEL_CATEGORY": "Kategori",
+		"LABEL_LANGUAGE": "Bahasa",
+		"LABEL_OWNER": "Pemilik",
 		"LABEL_TX_STATUS": "TX status",
-		"LABEL_BLOCK_HEIGHT": "Block height",
-		"LABEL_BLOCK_TIMESTAMP": "Block timestamp",
+		"LABEL_BLOCK_HEIGHT": "Tinggi blok",
+		"LABEL_BLOCK_TIMESTAMP": "Blok waktu stempel",
 		"LABEL_ARVERIFY_SCORE": "ArVerify Score",
-		"LABEL_OWNER_STATUS": "Owner status",
-		"STATUS_TX_PENDING": "Pending",
-		"STATUS_ADDRESS_VERIFIED": "Verified",
-		"STATUS_ADDRESS_NOTVERIFIED": "Not verified"
+		"LABEL_OWNER_STATUS": "Status pemilik",
+		"STATUS_TX_PENDING": "Tertunda",
+		"STATUS_ADDRESS_VERIFIED": "Diverifikasi",
+		"STATUS_ADDRESS_NOTVERIFIED": "Tidak diverifikasi"
 	},
 	"NOT_FOUND": {
 
 	},
 	"CREATE_PAGE": {
-		"TITLE": "Create page",
-		"FRM_TITLE": "Title",
-		"FRM_BY": "By",
-		"FRM_SLUG": "Page slug",
-		"FRM_CATEGORY": "Category",
-		"FRM_LANGUAGE": "Language",
-		"FRM_LOADING": "Loading ...",
-		"FRM_UPLOAD_FILE": "Upload file",
-		"FRM_CONTENT": "Content",
-		"FRM_BTN_SAVE": "Save",
-		"FRM_BTN_GOBACK": "Go back"
+		"TITLE": "Membuat halaman",
+		"FRM_TITLE": "Judul",
+		"FRM_BY": "Oleh",
+		"FRM_SLUG": "siput halaman",
+		"FRM_CATEGORY": "Kategori",
+		"FRM_LANGUAGE": "Bahasa",
+		"FRM_LOADING": "Memuat ...",
+		"FRM_UPLOAD_FILE": "Unggah data",
+		"FRM_CONTENT": "Kandungan",
+		"FRM_BTN_SAVE": "Menyimpan",
+		"FRM_BTN_GOBACK": "Kembali"
 	},
 	"SEARCH_ENGINE": {
 		"INPUT_SEARCH_LABEL": "Cari di arwiki",
 		"INPUT_SEARCH_PLACEHOLDER": "",
-		"LBL_DEFAULT_LANG": "Default language",
-		"LBL_SELECT_LANG":" Select language",
-		"BTN_TXT_GO": "Go!"
+		"LBL_DEFAULT_LANG": "Bahasa default",
+		"LBL_SELECT_LANG":" Pilih bahasa",
+		"BTN_TXT_GO": "Pergilah!"
 	},
 	"FOOTER": {
-		"LBL_POWERED": "Dipersembahkan oleh"
+		"LBL_POWERED": "Dipersembahkan oleh",
+		"LBL_PARTNERS": "Mitra dan teman kami"
 	},
 	"DIALOGS": {
 		"TITLE_SELECT_LANG": "Pilih bahasa",
@@ -84,26 +92,29 @@
 		"LABEL_TOOLBAR_TITLE": "Panel moderator"
 	},
 	"CATEGORY": {
-		"BREADCRUMB_LABEL": "Category:"
+		"BREADCRUMB_LABEL": "Kategori:"
 	},
 	"GENERAL": {
 		"BUTTONS": {
-			"GO_BACK": "Go back",
-			"OPEN_VIEWBLOCK": "Open in Viewblock",
-			"COPY_ADDRESS": "Copy address",
-			"TIP_AUTHOR": "Tip the author",
-			"VIEW_ARTICLE": "View article",
-			"EDIT_PAGE": "Edit page",
-			"MORE_ARTICLES": "More articles"
+			"GO_BACK": "Kembali",
+			"OPEN_VIEWBLOCK": "Buka di Viewblock",
+			"COPY_ADDRESS": "Salin alamat",
+			"TIP_AUTHOR": "Tip penulis",
+			"VIEW_ARTICLE": "Lihat artikel",
+			"EDIT_PAGE": "Edit halaman",
+			"MORE_ARTICLES": "Artikel lainnya",
+			"VIEW_ALL": "Lihat semua"
 		},
 		"LABELS": {
-			"NO_RESULTS": "No results"
+			"NO_RESULTS": "Tidak ada hasil"
 		},
 		"CARDS": {
 			"ARTICLE": {
-				"CATEGORY": "Category:",
-				"CREATED_BY": "Created by:",
-				"CREATION_DATE": "Creation date:"
+				"CATEGORY": "Kategori:",
+				"CREATED_BY": "Dibuat oleh:",
+				"CREATION_DATE": "Tanggal pembuatan:",
+				"LAST_UPDATE": "Pembaharuan Terakhir:",
+				"SPONSOR": "Sponsor:"
 			}
 		}
 	},
@@ -111,8 +122,22 @@
 		"QUOTES_TITLE" : "Tahukah kamu?",
 		"QUOTES": {
 			"0": "Arweave adalah protokol yang memungkinkan Anda menyimpan data secara permanen, berkelanjutan, dengan satu biaya di muka.",
-			"1": "On top of the core Arweave protocol lives the permaweb: A global, permanent web of pages and applications that live forever.",
-			"2": "Arweave is a completely community-owned and -operated open source network."
-		}
+			"1": "Di atas protokol inti Arweave hidup permaweb: Sebuah web global, halaman permanen dan aplikasi yang hidup selamanya.",
+			"2": "Arweave adalah jaringan sumber terbuka yang sepenuhnya dimiliki dan dioperasikan oleh komunitas."
+		},
+		"LOADING_LABEL": "Memuat"
+	},
+	"EDIT_PAGE": {
+		"TITLE": "Edit halaman",
+		"FRM_TITLE": "Judul",
+		"FRM_BY": "Oleh",
+		"FRM_SLUG": "siput halaman",
+		"FRM_CATEGORY": "Kategori",
+		"FRM_LANGUAGE": "Bahasa",
+		"FRM_LOADING": "Memuat ...",
+		"FRM_UPLOAD_FILE": "Unggah data",
+		"FRM_CONTENT": "Kandungan",
+		"FRM_BTN_SAVE": "Kirim pembaruan",
+		"FRM_BTN_GOBACK": "Kembali"
 	}
 }

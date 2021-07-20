@@ -9,7 +9,8 @@
 		"the_arweave_protocol": "Das Arweave-Protokoll",
 		"profit_sharing": "Gewinnbeteiligung",
 		"mining": "Bergbau",
-		"building_on_arweave": "Bauen auf Arweave"
+		"building_on_arweave": "Bauen auf Arweave",
+		"resources": "Ressourcen"
 	},
 	"MAIN_TOOLBAR": {
 		"TOOLTIP_LOGIN": "Anmeldung",
@@ -20,15 +21,21 @@
 		"MENU_USER_DASHBOARD": "Instrumententafel",
 		"MENU_USER_CREATE": "Seite erstellen",
 		"MENU_USER_LOGOUT": "Ausloggen",
-		"MENU_USER_MY_PAGES": "My pages",
-		"MENU_USER_MODERATORS": "Moderators"
+		"MENU_USER_MY_PAGES": "Meine Seiten",
+		"MENU_USER_MODERATORS": "Moderatorinnen",
+		"MENU_USER_MY_UPDATES": "Meine Updates",
+		"MENU_MODERATOR_PENDING": "Ausstehende Seiten",
+		"MENU_MODERATOR_APPROVED": "Genehmigte Seiten",
+		"MENU_MODERATOR_DELETED": "Gelöschte Seiten",
+		"MENU_MODERATOR_ADD_MODERATOR": "Moderator hinzufügen",
+		"MENU_MODERATOR_VIEW_ADM_LIST": "Admin-Liste anzeigen"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "Willkommen im Permaweb!",
 		"SUBTITLE_L1": "arwiki ist das dezentrale Wiki für arweave, das jeder bearbeiten kann.",
 		"TITLE_L2": "Einstieg",
 		"TITLE_L3": "Neueste Artikel",
-		"LABEL_NO_RESULTS": "No results."
+		"LABEL_NO_RESULTS": "Keine Ergebnisse."
 	},
 	"PAGE": {
 		"LABEL_ID": "Id",
@@ -50,7 +57,7 @@
 
 	},
 	"CREATE_PAGE": {
-		"TITLE": "Create page",
+		"TITLE": "Seite erstellen",
 		"FRM_TITLE": "Titel",
 		"FRM_BY": "Durch",
 		"FRM_SLUG": "Page slug",
@@ -70,7 +77,8 @@
 		"BTN_TXT_GO": "Los!"
 	},
 	"FOOTER": {
-		"LBL_POWERED": "Unterstützt von"
+		"LBL_POWERED": "Unterstützt von",
+		"LBL_PARTNERS": "Unsere Partner und Freunde"
 	},
 	"DIALOGS": {
 		"TITLE_SELECT_LANG": "Sprache auswählen",
@@ -84,26 +92,29 @@
 		"LABEL_TOOLBAR_TITLE": "Moderator-Panel"
 	},
 	"CATEGORY": {
-		"BREADCRUMB_LABEL": "Category:"
+		"BREADCRUMB_LABEL": "Kategorie:"
 	},
 	"GENERAL": {
 		"BUTTONS": {
-			"GO_BACK": "Go back",
-			"OPEN_VIEWBLOCK": "Open in Viewblock",
-			"COPY_ADDRESS": "Copy address",
-			"TIP_AUTHOR": "Tip the author",
-			"VIEW_ARTICLE": "View article",
-			"EDIT_PAGE": "Edit page",
-			"MORE_ARTICLES": "More articles"
+			"GO_BACK": "Geh zurück",
+			"OPEN_VIEWBLOCK": "In Viewblock öffnen",
+			"COPY_ADDRESS": "Adresse kopieren",
+			"TIP_AUTHOR": "Tipp an den Autor",
+			"VIEW_ARTICLE": "Artikel ansehen",
+			"EDIT_PAGE": "Seite bearbeiten",
+			"MORE_ARTICLES": "Weitere Artikel",
+			"VIEW_ALL": "Alle ansehen"
 		},
 		"LABELS": {
-			"NO_RESULTS": "No results"
+			"NO_RESULTS": "Keine Ergebnisse"
 		},
 		"CARDS": {
 			"ARTICLE": {
-				"CATEGORY": "Category:",
-				"CREATED_BY": "Created by:",
-				"CREATION_DATE": "Creation date:"
+				"CATEGORY": "Kategorie:",
+				"CREATED_BY": "Erstellt von:",
+				"CREATION_DATE": "Erstellungsdatum:",
+				"LAST_UPDATE": "Letztes Update:",
+				"SPONSOR": "Sponsor:"
 			}
 		}
 	},
@@ -111,8 +122,22 @@
 		"QUOTES_TITLE" : "Wusstest du schon?",
 		"QUOTES": {
 			"0": "Arweave ist ein Protokoll, mit dem Sie Daten mit einer einzigen Vorabgebühr dauerhaft und nachhaltig speichern können.",
-			"1": "On top of the core Arweave protocol lives the permaweb: A global, permanent web of pages and applications that live forever.",
-			"2": "Arweave is a completely community-owned and -operated open source network."
-		}
+			"1": "Neben dem Kernprotokoll von Arweave lebt das Permaweb: Ein globales, permanentes Web aus Seiten und Anwendungen, das ewig lebt.",
+			"2": "Arweave ist ein vollständig von der Community besessenes und betriebenes Open-Source-Netzwerk."
+		},
+		"LOADING_LABEL": "Wird geladen"
+	},
+	"EDIT_PAGE": {
+		"TITLE": "Seite bearbeiten",
+		"FRM_TITLE": "Titel",
+		"FRM_BY": "Durch",
+		"FRM_SLUG": "Page slug",
+		"FRM_CATEGORY": "Kategorie",
+		"FRM_LANGUAGE": "Sprache",
+		"FRM_LOADING": "Wird geladen ...",
+		"FRM_UPLOAD_FILE": "Datei hochladen",
+		"FRM_CONTENT": "Inhalt",
+		"FRM_BTN_SAVE": "Update senden",
+		"FRM_BTN_GOBACK": "Geh zurück"
 	}
 }
