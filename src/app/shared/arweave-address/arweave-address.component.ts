@@ -19,7 +19,7 @@ export class ArweaveAddressComponent implements OnInit {
     private _snackBar: MatSnackBar) {}
 
   async ngOnInit() {
-    if (this.isAddress) {
+    if (this.isAddress && this.address) {
       let verificationResult = await this._arverifyMap.getVerification(this.address)
       this.verified = verificationResult && verificationResult.verified
     }
