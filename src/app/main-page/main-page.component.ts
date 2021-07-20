@@ -261,6 +261,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
           const owner = p.node.owner.address;
           const id = p.node.id;
           const block = p.node.block;
+          const sponsor = allApprovedPages[slug].sponsor;
           
           latestPages.push({
             title: title,
@@ -271,7 +272,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
             id: id,
             block: block,
             language: language,
-            start: allApprovedPages[slug].start
+            start: allApprovedPages[slug].start,
+            sponsor: sponsor
           });
         }
         return of(latestPages);

@@ -29,8 +29,8 @@
 		</p>
 	</div>
 	<p class="mini-text ellipsis">
-		<app-arweave-address [address]="article.owner">
-			{{ 'GENERAL.CARDS.ARTICLE.CREATED_BY' | translate }}
+		<app-arweave-address [address]="article.sponsor!">
+			{{ 'GENERAL.CARDS.ARTICLE.SPONSOR' | translate }}
 		</app-arweave-address>
 	</p>
 	<p class="mini-text ellipsis">

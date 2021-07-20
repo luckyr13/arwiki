@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ArwikiQuery } from '../../core/arwiki-query';
 import { ArweaveService } from '../../core/arweave.service';
-import { Subscription, of } from 'rxjs';
+import { Subscription, of, Observable } from 'rxjs';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
 import { ArwikiCategoriesContract } from '../../core/arwiki-contracts/arwiki-categories';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -73,29 +73,7 @@ export class ViewDetailComponent implements OnInit {
       this.routeLang,
       maxHeight
     ).subscribe({
-      next: async (pages: any) => {
-        const finalRes: ArwikiPage[] = [];
-        for (let p of pages) {
-          const title = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
-          const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
-          const category = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
-          const img = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
-          const lang = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang');
-          const owner = p.node.owner.address;
-          const id = p.node.id;
-          
-          finalRes.push({
-            title: title,
-            slug: slug,
-            category: category,
-            img: img,
-            owner: owner,
-            id: id,
-            language: lang
-          });
-          
-        }
-
+      next: async (finalRes: ArwikiPage[]) => {
         this.pages = finalRes;
         this.pagesData = {};
         this.loadingPages = false;
@@ -110,7 +88,7 @@ export class ViewDetailComponent implements OnInit {
         // Verify addresses 
         // Validate owner address with ArVerify
         this.arverifyProcessedAddressesMap = {};
-        for (let p of pages) {
+        for (let p of this.pages) {
           // Avoid duplicates
           if (
             Object.prototype.hasOwnProperty.call(
@@ -196,9 +174,10 @@ export class ViewDetailComponent implements OnInit {
     _langCode: string,
     _maxHeight: number,
     _limit: number = 100
-  ) {
+  ): Observable<ArwikiPage[]> {
     let adminList: string[] = [];
     let verifiedPages: string[] = [];
+    let allApprovedPages: any = {};
     return this._arwikiTokenContract.getAdminList()
       .pipe(
         switchMap((_adminList: string[]) => {
@@ -217,6 +196,7 @@ export class ViewDetailComponent implements OnInit {
           );
         }),
         switchMap((_approvedPages) => {
+          allApprovedPages = _approvedPages;
           verifiedPages = Object.keys(_approvedPages)
             .filter((slug) => {
               return _approvedPages[slug].category === _category;
@@ -224,7 +204,36 @@ export class ViewDetailComponent implements OnInit {
               return _approvedPages[slug].content;
             })
           return this.arwikiQuery.getTXsData(verifiedPages);
-        })
+        }),
+        switchMap((_pages) => {
+          const finalRes: ArwikiPage[] = [];
+          for (let p of _pages) {
+            const title = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
+            const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
+            const category = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
+            const img = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
+            const lang = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang');
+            const owner = p.node.owner.address;
+            const id = p.node.id;
+            const sponsor = allApprovedPages[slug].sponsor;
+
+            finalRes.push({
+              title: title,
+              slug: slug,
+              category: category,
+              img: img,
+              owner: owner,
+              id: id,
+              language: lang,
+              sponsor: sponsor
+            });
+            
+          }
+          return of(finalRes);
+        }),
+
+
+
       );
   }
 
