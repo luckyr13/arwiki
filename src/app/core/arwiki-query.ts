@@ -152,9 +152,11 @@ export class ArwikiQuery {
   * @dev
   */
   getTXsData(transactions: string[]): Observable<any> {
-    
+    const limit = transactions.length && transactions.length <= 100 ?
+        transactions.length : 100;
     const obs = new Observable((subscriber) => {
       this._ardb!.search('transactions')
+        .limit(limit)
         .ids(transactions).find().then((res) => {
           subscriber.next(res);
           subscriber.complete();
