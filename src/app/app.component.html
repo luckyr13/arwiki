@@ -24,7 +24,7 @@
           id="main-loading-container-1" 
           #mainLoadingContainer1 
           class="loading loadingContainer">
-          <div *ngIf="!(loadingLabel | async)">
+          <div lang="en" dir="ltr">
             <span>L</span>
             <span>O</span>
             <span>A</span>
@@ -32,9 +32,9 @@
             <span>I</span>
             <span>N</span>
             <span>G</span>
-          </div>
-          <div *ngIf="loadingLabel | async">
-            <span *ngFor="let loadC of (loadingLabel | async)">{{loadC}}</span>
+            <span>.</span>
+            <span>.</span>
+            <span>.</span>
           </div>
           <div class="text-center small fadeIn">
             <h2>{{ 'LOADING.QUOTES_TITLE' | translate }}</h2>

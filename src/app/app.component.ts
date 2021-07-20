@@ -23,10 +23,6 @@ export class AppComponent implements OnInit, AfterViewInit  {
   appLogoDark: string = './assets/img/arweave-light.png';
   mainLogo: string = '';
   @ViewChild('mainLogoImg') mainLogoImg!: ElementRef;
-  loadingLabel = this._translate.get('LOADING.LOADING_LABEL')
-    .pipe(map((res) => {
-      return Array.from(res);
-    }));
 
   constructor(
     private _translate: TranslateService,
