@@ -28,6 +28,12 @@
 		"label": "Building on Arweave",
 		"order": 50,
 		"active": true
+	},
+	"resources": {
+		"slug": "resources",
+		"label": "Resources",
+		"order": 100,
+		"active": true
 	}
 }
 
