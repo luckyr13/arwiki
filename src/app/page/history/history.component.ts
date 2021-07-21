@@ -24,6 +24,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
   historyList: ArwikiPage[] = [];
   historySubscription: Subscription = Subscription.EMPTY;
   arwikiQuery!: ArwikiQuery;
+  error: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -88,6 +89,12 @@ export class HistoryComponent implements OnInit, OnDestroy {
       this._arwikiToken.getApprovedPages(lang)
         .pipe(
           switchMap((_approvedPages: ArwikiPageIndex) => {
+            if (!Object.prototype.hasOwnProperty.call(
+                _approvedPages, slug
+              )) {
+              this.error = true;
+              throw Error('Page does not exist!');
+            }
             const page = _approvedPages[slug];
             const mainTX: string = page.content!;
             historyData[mainTX] = [page.start!, page.sponsor!];

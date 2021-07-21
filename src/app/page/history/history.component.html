@@ -16,39 +16,44 @@
 	</div>
 </mat-toolbar>
 <mat-spinner class="spinner-center" *ngIf="loading"></mat-spinner>
-<div class="container" *ngIf="!loading">
-	<h2>List of changes:</h2>
+<div class="container" *ngIf="!loading && !error">
+	<h2>List of changes for `{{routeSlug}}`:</h2>
 	<div class="row justify-content-md-center">
-		<mat-card class="col col-md-10 card-history">
-			<mat-list>
-				<ng-container *ngFor="let h of historyList; index as i; count as total">
-					<mat-list-item 
-						class="card-history-list-item">
-				    <p matLine>
-				      <app-arweave-address [address]="h.id">Page TX ({{total - i}}): </app-arweave-address>
-				      <app-arweave-address [address]="h.id">Approved/Sponsored by: </app-arweave-address>
-				    </p>
-				    <p matLine>
-					    <span> 
-					    	<strong>TX timestamp:</strong> {{ timestampToDate(h.block.timestamp) }}
-					    </span>
-				      <span> 
-					      <strong>Approved at block:</strong> {{ h.start }}
-					    </span>
-				    </p>
-				    <p matLine class="text-right">
-					    <a
-							  mat-button
-							  class="card-btn"
-							  routerLink="/{{routeLang}}/preview/{{h.id}}">
-								<mat-icon>visibility</mat-icon>
-								Page preview
-							</a>
-				    </p>
-					</mat-list-item>
-					<mat-divider></mat-divider>
-				</ng-container>
-			</mat-list>
-		</mat-card>
+		<div class="col-12 col-md-10 ">
+			<mat-card class="card-history">
+				<mat-list>
+					<ng-container *ngFor="let h of historyList; index as i; count as total">
+						<mat-list-item 
+							class="card-history-list-item">
+					    <p matLine>
+					      <app-arweave-address [address]="h.id">Page TX ({{total - i}}): </app-arweave-address>
+					      <app-arweave-address [address]="h.sponsor!">Approved/Sponsored by: </app-arweave-address>
+					    </p>
+					    <p matLine>
+						    <span> 
+						    	<strong>TX timestamp:</strong> {{ timestampToDate(h.block.timestamp) }}
+						    </span>
+					      <span> 
+						      <strong>Approved at block:</strong> {{ h.start }}
+						    </span>
+					    </p>
+					    <p matLine class="text-right">
+						    <a
+								  mat-button
+								  class="card-btn"
+								  routerLink="/{{routeLang}}/preview/{{h.id}}">
+									<mat-icon>visibility</mat-icon>
+									Page preview
+								</a>
+					    </p>
+						</mat-list-item>
+						<mat-divider></mat-divider>
+					</ng-container>
+				</mat-list>
+			</mat-card>
+		</div>
 	</div>
+</div>
+<div class="container" *ngIf="!loading && error">
+	<h2>Page not found</h2>
 </div>
