@@ -42,13 +42,16 @@ export class HistoryComponent implements OnInit, OnDestroy {
       this.routeLang = lang!;
       this.routeSlug = slug!;
       if (slug) {
+        this.loading = true;
         this.historySubscription = this.loadHistory(slug!, lang!)
           .subscribe({
             next: (data: ArwikiPage[]) => {
               this.historyList = data;
+              this.loading = false;
             },
             error: (msg) => {
               this.message(msg, 'error');
+              this.loading = false;
             }
           });
 
@@ -80,27 +83,61 @@ export class HistoryComponent implements OnInit, OnDestroy {
   }
 
   loadHistory(slug: string, lang: string): Observable<ArwikiPage[]> {
+    const historyData: any = {};
     return (
       this._arwikiToken.getApprovedPages(lang)
         .pipe(
           switchMap((_approvedPages: ArwikiPageIndex) => {
             const page = _approvedPages[slug];
             const mainTX: string = page.content!;
+            historyData[mainTX] = [page.start!, page.sponsor!];
             const updates = page.updates!.map((v: ArwikiPageUpdate) => {
+              historyData[v.tx] = [v.at, v.approvedBy];
               return v.tx;
             });
             const finalList: string[] = [mainTX].concat(updates);
+           
             return this.arwikiQuery.getTXsData(finalList);
           }),
-          switchMap((_finalTXs) => {
-            const res: ArwikiPage[] = [];
-            console.log(_finalTXs);
-            return of(res);
+          switchMap(async (_finalTXs) => {
+            const tmpRes: ArwikiPage[] = [];
+            for (let p of _finalTXs) {
+              const title = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
+              const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
+              const category = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
+              const img = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
+              const owner = p.node.owner.address;
+              const id = p.node.id;
+              const block = p.node.block;
+              const start = historyData[id][0];
+              const sponsor = historyData[id][1];
+              
+              tmpRes.push({
+                title: title,
+                slug: slug,
+                category: category,
+                img: img,
+                owner: owner,
+                id: id,
+                block: block,
+                language: lang,
+                start: start,
+                sponsor: sponsor
+              });
+            }
+            const finalRes = tmpRes.sort((a, b) => {
+              return b.start! - a.start!;
+            });
+            return finalRes;
           }),
           
         )
     );
   }
 
+  timestampToDate(_time: number) {
+    let d = new Date(_time * 1000);
+    return d;
+  }
 
 }
