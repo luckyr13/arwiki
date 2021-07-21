@@ -13,6 +13,7 @@ import {
   ArwikiCategoriesContract 
 } from '../../core/arwiki-contracts/arwiki-categories';
 import { ArwikiCategoryIndex } from '../../core/interfaces/arwiki-category-index';
+import { ArwikiPageIndex } from '../../core/interfaces/arwiki-page-index';
 import { Direction } from '@angular/cdk/bidi';
 import { UserSettingsService } from '../../core/user-settings.service';
 import { Arwiki } from '../../core/arwiki';
@@ -92,10 +93,10 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
             true
           );
         }),
-        switchMap((_approvedPages) => {
+        switchMap((_approvedPages: ArwikiPageIndex) => {
           allVerifiedPages = _approvedPages;
           verifiedPages = Object.keys(_approvedPages).map((slug) => {
-            return _approvedPages[slug].content;
+            return _approvedPages[slug].content!;
           });
 
           return this.arwikiQuery.getTXsData(verifiedPages);

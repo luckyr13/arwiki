@@ -10,6 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { switchMap } from 'rxjs/operators';
 import { ArwikiPage } from '../../core/interfaces/arwiki-page';
+import { ArwikiPageIndex } from '../../core/interfaces/arwiki-page-index';
 import { UserSettingsService } from '../../core/user-settings.service';
 
 @Component({
@@ -177,7 +178,7 @@ export class ViewDetailComponent implements OnInit {
   ): Observable<ArwikiPage[]> {
     let adminList: string[] = [];
     let verifiedPages: string[] = [];
-    let allApprovedPages: any = {};
+    let allApprovedPages: ArwikiPageIndex = {};
     return this._arwikiTokenContract.getAdminList()
       .pipe(
         switchMap((_adminList: string[]) => {
@@ -195,13 +196,13 @@ export class ViewDetailComponent implements OnInit {
             true
           );
         }),
-        switchMap((_approvedPages) => {
+        switchMap((_approvedPages: ArwikiPageIndex) => {
           allApprovedPages = _approvedPages;
           verifiedPages = Object.keys(_approvedPages)
             .filter((slug) => {
               return _approvedPages[slug].category === _category;
             }).map((slug) => {
-              return _approvedPages[slug].content;
+              return _approvedPages[slug].content!;
             })
           return this.arwikiQuery.getTXsData(verifiedPages);
         }),

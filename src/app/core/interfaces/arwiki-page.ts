@@ -1,3 +1,5 @@
+import { ArwikiPageUpdate } from './arwiki-page-update';
+
 export interface ArwikiPage {
 	id: string;
 	title: string;
@@ -12,4 +14,7 @@ export interface ArwikiPage {
 	start?: number;
 	pageRewardAt?: number;
 	sponsor?: string;
+	author?: string;
+	active?: boolean;
+	updates?: ArwikiPageUpdate[]
 }

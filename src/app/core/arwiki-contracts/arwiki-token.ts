@@ -7,6 +7,7 @@ import { ArweaveService } from '../arweave.service';
 import { map, tap } from 'rxjs/operators';
 import { JWKInterface } from 'arweave/node/lib/wallet';
 import { ArwikiKYVE } from '../arwiki-kyve';
+import { ArwikiPageIndex } from '../interfaces/arwiki-page-index';
 
 @Injectable({
   providedIn: 'root'
@@ -213,7 +214,7 @@ export class ArwikiTokenContract
 		_langCode: string,
 		_numPages: number = -1,
 		_overrideContentWithUpd: boolean = false
-	): Observable<any> {
+	): Observable<ArwikiPageIndex> {
 		return this.getState().pipe(
 			map((_state: any) => {
 				let pageCounter = 0;
@@ -224,7 +225,7 @@ export class ArwikiTokenContract
 					pageCounter++;
 					return _state.pages[_langCode][slug].active;
 				});
-				const pages = pagesIds.reduce((acum: any, slug) => {
+				const pages: ArwikiPageIndex = pagesIds.reduce((acum: any, slug) => {
 					acum[slug] = JSON.parse(JSON.stringify(_state.pages[_langCode][slug]));
 					const numUpdates = _state.pages[_langCode][slug].updates.length;
 					if (numUpdates && _overrideContentWithUpd) {

@@ -86,7 +86,7 @@ export class TagManagerComponent implements OnInit, OnDestroy {
     this.loadingPage = true;
     this.pageSubscription = this._arwikiToken.getApprovedPages(this.routeLang).
       pipe(switchMap((approvedPages) => {
-        const address = approvedPages && approvedPages[slug] ? approvedPages[slug].content : '';
+        const address: string = approvedPages && approvedPages[slug] ? approvedPages[slug].content! : '';
         return this.arwikiQuery.getTXsData([address]);
       })).subscribe({
       next: (txData) => {

@@ -11,6 +11,7 @@ import { AuthService } from '../auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ArwikiCategoryIndex } from '../core/interfaces/arwiki-category-index';
 import { ArwikiPage } from '../core/interfaces/arwiki-page';
+import { ArwikiPageIndex } from '../core/interfaces/arwiki-page-index';
 import * as marked from 'marked';
 import DOMPurify from 'dompurify';
 import gsap from 'gsap';
@@ -236,16 +237,16 @@ export class MainPageComponent implements OnInit, OnDestroy {
       switchMap((categories) => {
         return this._arwikiTokenContract.getApprovedPages(langCode, -1, true);
       }),
-      switchMap((_approvedPages) => {
+      switchMap((_approvedPages: ArwikiPageIndex) => {
         allApprovedPages = _approvedPages;
         // Sort desc
         verifiedPages = Array.prototype.sort.call(Object.keys(_approvedPages), (a, b) => {
-          return _approvedPages[b].start - _approvedPages[a].start;
+          return _approvedPages[b].start! - _approvedPages[a].start!;
         });
         verifiedPages = Array.prototype.slice.call(verifiedPages, 0, numArticles);
 
         verifiedPages = verifiedPages.map((slug) => {
-          return _approvedPages[slug].content;
+          return _approvedPages[slug].content!;
         });
 
         return this.arwikiQuery.getTXsData(verifiedPages);
@@ -380,13 +381,13 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
         return this._arwikiTokenContract.getApprovedPages(langCode, numArticles);
       }),
-      switchMap((_approvedPages) => {
+      switchMap((_approvedPages: ArwikiPageIndex) => {
         verifiedPages = Array.prototype.sort.call(Object.keys(_approvedPages), (a, b) => {
-          return _approvedPages[a].start - _approvedPages[b].start;
+          return _approvedPages[a].start! - _approvedPages[b].start!;
         });
 
         verifiedPages = verifiedPages.map((slug) => {
-          return _approvedPages[slug].content;
+          return _approvedPages[slug].content!;
         });
 
         return this.arwikiQuery.getTXsData(verifiedPages);

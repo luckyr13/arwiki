@@ -1,11 +1,10 @@
-<div class="mt-main"></div>
-<mat-toolbar class="fadeIn" color="default">
+<mat-toolbar class="fadeIn mt-main" color="default">
   <mat-icon 
   	aria-hidden="false"
   	aria-label="History">history</mat-icon>
 	<span>&nbsp;History</span>
 	<div class="menu-spacer"></div>
-	<div class="text-right page-title-buttons">	
+	<div class="text-right page-title-buttons">
     <button 
     	type="button"
 	  	mat-button
@@ -16,4 +15,11 @@
 	  </button>
 	</div>
 </mat-toolbar>
-<h1 class="text-center">Coming soon 👾 👾 👾</h1>
+<mat-spinner class="spinner-center" *ngIf="loading"></mat-spinner>
+<div class="container" *ngIf="!loading">
+	<div class="row">
+		<div *ngFor="let h of historyList" class="col">
+			{{ h | json }}
+		</div>
+	</div>
+</div>

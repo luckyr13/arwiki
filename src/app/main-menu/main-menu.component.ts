@@ -196,12 +196,12 @@ export class MainMenuComponent implements OnInit, OnDestroy {
         switchMap((_approvedPages) => {
           // Sort asc by block height
           verifiedPages = Array.prototype.sort.call(Object.keys(_approvedPages), (a, b) => {
-            return _approvedPages[a].start - _approvedPages[b].start;
+            return _approvedPages[a].start! - _approvedPages[b].start!;
           });
 
 
           verifiedPages = verifiedPages.map((slug) => {
-            return _approvedPages[slug].content;
+            return _approvedPages[slug].content!;
           });
 
           return this.arwikiQuery.getTXsData(verifiedPages);

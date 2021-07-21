@@ -107,11 +107,11 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
           return (
             this._arwikiTokenContract.getApprovedPages(this.routeLang, -1, true)
               .pipe(
-                switchMap((_approvedPages) => {
+                switchMap((_approvedPages: ArwikiPageIndex) => {
                   let tmp_res: ArwikiPageIndex = {};
                   let verifiedUpdates: string[] = [];
                   for (const approvedSlug of Object.keys(_approvedPages)) {
-                    const updates = _approvedPages[approvedSlug].updates.map((c: any) => {
+                    const updates = _approvedPages[approvedSlug].updates!.map((c: any) => {
                       return c.tx;
                     });
                     verifiedUpdates = verifiedUpdates.concat(updates);
