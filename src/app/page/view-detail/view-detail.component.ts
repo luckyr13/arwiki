@@ -20,7 +20,6 @@ import { AuthService } from '../../auth/auth.service';
 import { switchMap } from 'rxjs/operators';
 declare const window: any;
 declare const document: any;
-import gsap from 'gsap';
 import { DialogDonateComponent } from '../../shared/dialog-donate/dialog-donate.component';
 import { Direction } from '@angular/cdk/bidi';
 import {MatDialog} from '@angular/material/dialog';
@@ -46,8 +45,6 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   fragment: string = '';
   pageNotFound: boolean = false;
   isUserLoggedIn: boolean = false;
-  @ViewChild('donateIcon1', {read: ElementRef}) donateIcon1!: ElementRef;
-  @ViewChild('donateIcon2', {read: ElementRef}) donateIcon2!: ElementRef;
   mainAddress: string = '';
   pageData: ArwikiPage = {
     id: '',
@@ -101,17 +98,6 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
       this.isUserLoggedIn = !!_mainAddress;
     })
 
-  }
-
-  animateDonateIcon(_icon: ElementRef) {
-    gsap.to(_icon.nativeElement,
-      {
-        ease: "elastic", 
-        duration: 3, 
-        repeat: -1, 
-        repeatDelay: 3,
-        rotationY: 360
-    });
   }
 
 
@@ -195,9 +181,6 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
                 this._userSettings.scrollTo(this.fragment, -80);
               }
             });
-            // Animate icons
-            this.animateDonateIcon(this.donateIcon1);
-            this.animateDonateIcon(this.donateIcon2);
           }, 500);
 
   			} else {

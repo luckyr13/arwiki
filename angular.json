@@ -27,11 +27,13 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/robots.txt"
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap-grid.min.css",
               "node_modules/simplemde/dist/simplemde.min.css",
+              "node_modules/animate.css/animate.min.css",
               "src/styles.scss"
             ],
             "scripts": [],

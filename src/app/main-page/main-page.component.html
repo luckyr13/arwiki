@@ -8,10 +8,9 @@
 		<div class="col-12 col-md-7 text-center">
 			<div *ngIf="loadingMainPageTX" class="fadeIn">
 				<img
-					#mainLogo1
-          class="main-logo"
+          class="main-logo animate__animated animate__flipInY"
           [src]="mainLogo">
-				<h3 class="text-left fadeIn">
+				<h3 class="text-left animate__animated animate__pulse animate__infinite">
 					{{ 'LOADING.LOADING_LABEL' | translate }}
 				</h3>
 			</div>

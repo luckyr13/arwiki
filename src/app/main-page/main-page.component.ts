@@ -14,7 +14,6 @@ import { ArwikiPage } from '../core/interfaces/arwiki-page';
 import { ArwikiPageIndex } from '../core/interfaces/arwiki-page-index';
 import * as marked from 'marked';
 import DOMPurify from 'dompurify';
-import gsap from 'gsap';
 
 @Component({
   selector: 'app-main-page',
@@ -48,7 +47,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
     { img: './assets/img/partners/pn-usv.png', alt: '', href:'' },
     { img: './assets/img/partners/pn-coinbase.png', alt: 'Coinbase', href:'' },
   ];
-  @ViewChild('mainLogo1') mainLogo1!: ElementRef;
 
   constructor(
     private _userSettings: UserSettingsService,
@@ -66,10 +64,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.loadingLatestArticles = true;
     this.loadingMainPageTX = true;
-
-    window.setTimeout(() => {
-      this.animateFlipLogo(this.mainLogo1);
-    }, 200);
 
     // Init ardb instance
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
@@ -466,10 +460,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
     }
 
     return '';
-  }
-
-  animateFlipLogo(_logo: ElementRef) {
-    gsap.to(_logo.nativeElement, {rotationY: 360, repeat: -1, duration: 2});
   }
 
 }

@@ -2,7 +2,6 @@ import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, ChangeDetector
 import {TranslateService} from '@ngx-translate/core';
 import { UserSettingsService } from './core/user-settings.service';
 import { MatSidenavContainer } from '@angular/material/sidenav';
-import gsap from 'gsap';
 import {map} from 'rxjs/operators';
 
 @Component({
@@ -15,14 +14,12 @@ export class AppComponent implements OnInit, AfterViewInit  {
   menuPosition: any = 'start';
   quoteNumber: number = 0;
   @ViewChild(MatSidenavContainer) sidenavContainer!: MatSidenavContainer;
-  @ViewChild('mainLoadingContainer1') mainLoadingContainer1!: ElementRef;
   mainToolbarLoading: boolean =  true;
   mainToolbarIsVisible: boolean = false;
   defaultTheme: string = '';
   appLogoLight: string = './assets/img/arweave-dark.png';
   appLogoDark: string = './assets/img/arweave-light.png';
   mainLogo: string = '';
-  @ViewChild('mainLogoImg') mainLogoImg!: ElementRef;
 
   constructor(
     private _translate: TranslateService,
@@ -60,10 +57,6 @@ export class AppComponent implements OnInit, AfterViewInit  {
 
     this.getDefaultTheme();
     this.mainLogo = this.getMainLogo();
-    window.setTimeout(() => {
-      this.animateLoadingContainer(this.mainLoadingContainer1);
-      this.animateFlipLogo(this.mainLogoImg);
-    }, 200);
 
     this._userSettings.mainToolbarLoadingStream.subscribe((res) => {
       this.mainToolbarLoading = res;
@@ -83,16 +76,6 @@ export class AppComponent implements OnInit, AfterViewInit  {
   consoleWelcomeMessage() {
     console.log('%cWelcome to the arwiki!', 'background: #000; color: #FFF; font-size: 32px; padding: 10px;');
     console.log('%cPlease let us know if you find some interesting bug 😄', 'font-weight: bold;');
-  }
-
-  animateLoadingContainer(_container: ElementRef) {
-    gsap.to(`#${_container.nativeElement.id} span`, {
-      opacity: 1, duration: 0.5, stagger: 0.1, repeat: -1, yoyo: true
-    });
-  }
-
-  animateFlipLogo(_logo: ElementRef) {
-    gsap.to(_logo.nativeElement, {rotationY: 360, repeat: -1, duration: 2});
   }
 
   getDefaultTheme() {
