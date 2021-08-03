@@ -2,9 +2,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
-import { Subscription } from 'rxjs';
+import { Subscription, from } from 'rxjs';
 import { ArweaveService } from '../../core/arweave.service';
 import { AuthService } from '../../auth/auth.service';
+import { arwikiVersion } from '../../core/arwiki';
 
 @Component({
   templateUrl: './add-admin.component.html',
@@ -43,14 +44,15 @@ export class AddAdminComponent implements OnInit, OnDestroy {
     // Disable form 
     this.formLoading = true;
     this.newAdminAddress.disable();
-    /*
-    this.saveAdminSubscription = this._arwikiTokenContract.registerAdmin(
+    
+    this.saveAdminSubscription = from(this._arwikiTokenContract.registerAdmin(
+      address,
       this._auth.getPrivateKey(),
-      address
-    ).subscribe({
+      arwikiVersion[0]
+    )).subscribe({
       next: (res) => {
         this.newadminTX = res;
-        this.message('New admin created!', 'success');
+        this.message('New admin proposal created!', 'success');
             
         // Enable form 
         this.formLoading = false;
@@ -65,7 +67,6 @@ export class AddAdminComponent implements OnInit, OnDestroy {
         this.newAdminAddress.enable();
       }
     });
-    */
 
   }
 
