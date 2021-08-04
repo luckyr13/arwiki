@@ -428,10 +428,11 @@ export class MainPageComponent implements OnInit, OnDestroy {
       switchMap((verifiedMainPages) => {
         const mainTX = [];
         for (let p of verifiedMainPages) {
-          const vrfdPageId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
+          // const vrfdPageId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
           const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
-          if (allApprovedPages[slug] && allApprovedPages[slug].content === vrfdPageId) {
-            mainTX.push(vrfdPageId);
+          if (allApprovedPages[slug] && allApprovedPages[slug].content) {
+            mainTX.push(allApprovedPages[slug].content);
+            break;
           }
         }
 
