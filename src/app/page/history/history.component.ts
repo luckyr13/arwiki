@@ -11,6 +11,7 @@ import { ArwikiPageIndex } from '../../core/interfaces/arwiki-page-index';
 import { ArwikiPageUpdate } from '../../core/interfaces/arwiki-page-update';
 import { ArwikiQuery } from '../../core/arwiki-query';
 import { ArweaveService } from '../../core/arweave.service';
+import { Diff, diffLines, Change } from 'diff';
 
 @Component({
   selector: 'app-history',
@@ -25,7 +26,8 @@ export class HistoryComponent implements OnInit, OnDestroy {
   historySubscription: Subscription = Subscription.EMPTY;
   arwikiQuery!: ArwikiQuery;
   error: boolean = false;
-
+  historyChanges: Record<number, Change[]> = {};
+  historyChLoad:  Record<number, boolean> = {};
   constructor(
     private route: ActivatedRoute,
   	private _location: Location,
@@ -145,6 +147,25 @@ export class HistoryComponent implements OnInit, OnDestroy {
   timestampToDate(_time: number) {
     let d = new Date(_time * 1000);
     return d;
+  }
+
+  async run_diff(tx1: string, tx2: string, currenthistoryId: number) {
+    let newData = '';
+    this.historyChLoad[currenthistoryId] = true;
+    let oldData = '';
+    try {
+      if (tx1.trim() != '') {
+        newData = await this._arweave.getDataAsString(tx1);
+      }
+      if (tx2.trim() != '') {
+        oldData = await this._arweave.getDataAsString(tx2);
+      }
+    } catch (err) {
+      this.message(err, 'error');
+    }
+    this.historyChLoad[currenthistoryId] = false;
+    const diff: Change[] = diffLines(oldData, newData);
+    this.historyChanges[currenthistoryId] = diff;
   }
 
 }

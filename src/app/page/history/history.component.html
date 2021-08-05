@@ -45,8 +45,27 @@
 									<mat-icon>visibility</mat-icon>
 									Page preview
 								</a>
+
+								<button
+								  mat-button
+								  class="card-btn"
+								  (click)="run_diff(h.id, historyList[i + 1] && historyList[i + 1].id ? historyList[i + 1].id : '', i)">
+									<mat-icon>compare_arrows</mat-icon>
+									Show Diff
+								</button>
 					    </p>
 						</mat-list-item>
+						<mat-spinner diameter="40" class="spinner-center"  *ngIf="historyChLoad && historyChLoad[i]"></mat-spinner>
+						<div class="changes-container" *ngIf="historyChanges && historyChanges[i]">
+							<div *ngFor="let change of historyChanges[i]">
+								<div *ngIf="change.added" class="green">
+									<strong>+ </strong> <strong>{{ change.value }}</strong>
+								</div>
+								<div *ngIf="change.removed" class="red">
+									<strong>- </strong> {{ change.value }}
+								</div>
+							</div>
+						</div>
 						<mat-divider></mat-divider>
 					</ng-container>
 				</mat-list>
