@@ -15,7 +15,7 @@ import { ArwikiPageIndex } from '../interfaces/arwiki-page-index';
 export class ArwikiTokenContract
 {
 	// private _contractAddress: string = 'a3WZd4Fa9gckxRqDyu-EAONy7v25J8kuqj75ZgtGoUg';
-  private _contractAddress: string = 'Z-ApYF1eUIgQcY-nZM8kOXULLaCzCqVwrsqKh2takcg';
+  private _contractAddress: string = '36fMEHLtKUke2sBYVHjcOtG-j2tfYnk9zunLSE7DPg4';
 	private _state: any = {};
 	private _adminList: string[] = [];
   private _arwikiKYVE: ArwikiKYVE;

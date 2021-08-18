@@ -410,8 +410,8 @@ export function handle(state, action) {
       throw new ContractError("Caller needs to have locked balances.");
     }
     let vaultBalance = _get_vaultBalance(vault, caller, end);
-    if (vaultBalance <= 0) {
-      throw new ContractError(`Caller doesn't have locked balances for enough time (start:${start}, end:${end}, vault:${vaultBalance}).`);
+    if (vaultBalance < value) {
+      throw new ContractError(`Caller doesn't have ${value} or more tokens locked for enough time (start:${start}, end:${end}, vault:${vaultBalance}).`);
     }
     if (!Object.prototype.hasOwnProperty.call(state.pages, lang)) {
       throw new ContractError("Invalid LangCode"); 
@@ -504,8 +504,8 @@ export function handle(state, action) {
       throw new ContractError("Caller needs to have locked balances.");
     }
     let vaultBalance = _get_vaultBalance(vault, caller, end);
-    if (vaultBalance <= 0) {
-      throw new ContractError(`Caller doesn't have locked balances for enough time (start:${currentHeight}, end:${end}, vault:${vaultBalance}).`);
+    if (vaultBalance < value) {
+      throw new ContractError(`Caller doesn't have ${value} or more tokens locked for enough time  (start:${currentHeight}, end:${end}, vault:${vaultBalance}).`);
     }
     if (totalSupply + value > Number.MAX_SAFE_INTEGER) {
       throw new ContractError("'value' too large.");
@@ -644,8 +644,8 @@ export function handle(state, action) {
       throw new ContractError("Caller needs to have locked balances.");
     }
     let vaultBalance = _get_vaultBalance(vault, caller, end);
-    if (vaultBalance <= 0) {
-      throw new ContractError(`Caller doesn't have locked balances for enough time (start:${currentHeight}, end:${end}, vault:${vaultBalance}).`);
+    if (vaultBalance < value) {
+      throw new ContractError(`Caller doesn't have ${value} or more tokens locked for enough time  (start:${currentHeight}, end:${end}, vault:${vaultBalance}).`);
     }
     pages[lang][slug].updates.push({
       tx: updateTX, approvedBy: caller, at: currentHeight, value
