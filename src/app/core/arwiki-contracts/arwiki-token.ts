@@ -14,7 +14,8 @@ import { ArwikiPageIndex } from '../interfaces/arwiki-page-index';
 })
 export class ArwikiTokenContract
 {
-	private _contractAddress: string = 'a3WZd4Fa9gckxRqDyu-EAONy7v25J8kuqj75ZgtGoUg';
+	// private _contractAddress: string = 'a3WZd4Fa9gckxRqDyu-EAONy7v25J8kuqj75ZgtGoUg';
+  private _contractAddress: string = 'Z-ApYF1eUIgQcY-nZM8kOXULLaCzCqVwrsqKh2takcg';
 	private _state: any = {};
 	private _adminList: string[] = [];
   private _arwikiKYVE: ArwikiKYVE;
@@ -58,7 +59,7 @@ export class ArwikiTokenContract
   /*
   *  @dev Get full contract state as Observable
   */
-  getStateFromContract(reload: boolean = false, useKYVE: boolean = true): Observable<any> {
+  getStateFromContract(reload: boolean = false): Observable<any> {
     const obs = new Observable<any>((subscriber) => {
       if (Object.keys(this._state).length > 0 && !reload) {
         subscriber.next(this._state);
@@ -86,7 +87,8 @@ export class ArwikiTokenContract
 	/*
 	*	@dev Return state
 	*/
-	getState(reload: boolean = false, useKYVE: boolean = true): Observable<any> {
+	getState(reload: boolean = false, useKYVE: boolean = false): Observable<any> {
+    console.log('use kyve', useKYVE)
 		if (useKYVE) {
       return this.getStateFromKYVE(reload);
     }
@@ -124,7 +126,7 @@ export class ArwikiTokenContract
 	/*
 	*	@dev Execute read function on PST contract
 	*/
-	getBalance(address: string, reload: boolean = true): Observable<any> {
+	getBalance(address: string, reload: boolean = false): Observable<any> {
 		return this.getState(reload).pipe(
 			map((_state: any) => {
 				const balances = _state.balances;
@@ -135,6 +137,46 @@ export class ArwikiTokenContract
 			})
 		);
 	}
+
+  /*
+  *  @dev Execute read function on PST contract
+  */
+  getTotalSupply(reload: boolean = false): Observable<any> {
+    return this.getState(reload).pipe(
+      map((_state: any) => {
+        const balances = _state.balances;
+        const vault = _state.vault;
+        const stakes = _state.stakes;
+        const totalSupply = this._calculate_total_supply(
+          vault, balances, stakes
+        );
+        return totalSupply;
+      })
+    );
+  }
+
+  _calculate_total_supply(vault: any, balances: any, stakes: any) {
+    const vaultValues2 = Object.values(vault);
+    let totalSupply = 0;
+    for (let i = 0, j = vaultValues2.length; i < j; i++) {
+      const locked: any = vaultValues2[i];
+      for (let j2 = 0, k = locked.length; j2 < k; j2++) {
+        totalSupply += locked[j2].balance;
+      }
+    }
+    const balancesValues: any = Object.values(balances);
+    for (let i = 0, j = balancesValues.length; i < j; i++) {
+      totalSupply += balancesValues[i];
+    }
+    for (const target of Object.keys(stakes)) {
+      for (const vLang of Object.keys(stakes[target])) {
+        for (const vSlug of Object.keys(stakes[target][vLang])) {
+          totalSupply += stakes[target][vLang][vSlug];
+        }
+      }
+    }
+  return totalSupply;
+}
 
 	/*
   * @dev All pages needs to be validated first 
