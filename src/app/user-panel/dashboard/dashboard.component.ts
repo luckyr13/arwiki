@@ -36,6 +36,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   daoSettings: any = [];
   displayedColumnsDaoSettings: string[] = ['label', 'value'];
 
+  loadingTotalSupply: boolean = false;
+  totalSupplySubscription: Subscription = Subscription.EMPTY;
+  totalSupply: number = 0;
+
   constructor(
   	private _snackBar: MatSnackBar,
   	private _arweave: ArweaveService,
@@ -85,7 +89,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res: any) => {
           this.pstSettings = res;
-          console.log(res)
           this.daoSettings = [];
           const settings = [
             {
@@ -139,6 +142,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
         error: (error) => {
           this.message(error, 'error');
           this.loadingSettings = false;
+        }
+      });
+
+    this.loadingTotalSupply = true;
+    this.totalSupplySubscription = this._arwikiTokenContract
+      .getTotalSupply()
+      .subscribe({
+        next: (res: any) => {
+          this.totalSupply = +res;
+          this.loadingTotalSupply = false;
+        },
+        error: (error) => {
+          this.message(error, 'error');
+          this.loadingTotalSupply = false;
         }
       });
 

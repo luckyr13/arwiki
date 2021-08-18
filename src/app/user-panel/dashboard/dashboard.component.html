@@ -22,7 +22,27 @@
 </mat-toolbar>
 
 <div class="container scoreboards-container fadeIn">
-	<h1>My account</h1>
+	<div class="row">
+		<div class="col-12 col-md-6">
+			<h1>My account</h1>
+		</div>
+		<div class="col-12 col-md-6 dashboard-toolbar">
+			<button 
+				class="btn-toolbar"
+				mat-button 
+				type="button"
+				color="primary">
+				<mat-icon>send</mat-icon> Transfer tokens
+			</button>
+			<button 
+				class="btn-toolbar"
+				mat-button 
+				type="button"
+				color="primary">
+				<mat-icon>vpn_key</mat-icon> Vault
+			</button>
+		</div>
+	</div>
 	<div class="row">
 		<div class="col-12 col-md-6 scoreboard">
 			<app-balance-card
@@ -84,11 +104,15 @@
 	<div class="row">
 		<div class="col-12 mini-text mb20">
 			<mat-card>
-				<app-arweave-address 
-					class="addressurl" 
-					address="{{ getPSTContractAddress() }}">
-					PST contract address:
-				</app-arweave-address>
+				<div class="addressurl">
+					<div class="card-row-container  text-center">
+						<span class="ellipsis text-center ">
+							<strong>Total Supply: </strong>
+							{{ totalSupply }} $WIKI
+						</span>
+					</div>
+				</div>
+				
 				<div class="addressurl">
 					<div class="card-row-container  text-center">
 						<span class="ellipsis text-center ">
@@ -99,9 +123,16 @@
 						</span>
 					</div>
 				</div>
+
+				<app-arweave-address 
+					class="addressurl" 
+					address="{{ getPSTContractAddress() }}">
+					PST contract address:
+				</app-arweave-address>
+				
 			</mat-card>
 		</div>
-		
+
 		<div class="col-12 mini-text mb20">
 			<table mat-table [dataSource]="daoSettings" class="mat-elevation-z8 settings-table">
 			  <!--- Note that these columns can be defined in any order.

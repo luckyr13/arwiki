@@ -79,6 +79,7 @@ mat-toolbar {
 .card-row-container {
 	display: flex;
 	justify-content: inherit;
+	margin-top: 5px;
 
 }
 .address-tx {
@@ -87,4 +88,21 @@ mat-toolbar {
 
 .settings-table {
 	width: 100%;
+}
+
+
+.btn-toolbar {
+	margin-left: 10px;
+	padding-right: 5px;
+	padding-left: 5px;
+	color: inherit;
+}
+
+.dashboard-toolbar {
+	text-align: right;
+	padding-top: 26px;
+}
+
+.dashboard-toolbar button {
+  margin-left: 10px;
 }
