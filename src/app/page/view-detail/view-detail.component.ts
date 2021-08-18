@@ -14,7 +14,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
-import { ArwikiCategoriesContract } from '../../core/arwiki-contracts/arwiki-categories';
 import { UserSettingsService } from '../../core/user-settings.service';
 import { AuthService } from '../../auth/auth.service';
 import { switchMap } from 'rxjs/operators';
@@ -66,7 +65,6 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     private _arwikiTokenContract: ArwikiTokenContract,
     private _userSettings: UserSettingsService,
     private _ref: ChangeDetectorRef,
-    private _categoriesContract: ArwikiCategoriesContract,
     private _auth: AuthService,
     public _dialog: MatDialog,
     private _bottomSheetShare: MatBottomSheet
@@ -288,7 +286,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     let categoriesCS: any = {};
     let adminList: string[] = [];
     const verifiedPagesList: string[] = [];
-    return this._categoriesContract.getState()
+    return this._arwikiTokenContract.getCategories()
       .pipe(
         switchMap((categoriesContractState) => {
           categoriesCS = Object.keys(categoriesContractState);

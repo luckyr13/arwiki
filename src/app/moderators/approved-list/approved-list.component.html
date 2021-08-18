@@ -1,14 +1,23 @@
 <app-moderators-menu title="Approved list"></app-moderators-menu>
 <mat-spinner class="spinner-center" *ngIf="loadingApprovedPages"></mat-spinner>
 <div class="container page-container fadeIn">
-
 	<div 
 		class="row" 
 		*ngIf="!loadingDeletePage && !loadingSetMainPage && !loadingStopStake && !loadingUpdateSponsorPageIntoIndex">
+
 		<div 
 			class="col-12 card-page fadeIn" 
 			*ngIf="!loadingApprovedPages && (!pages || !pages.length)">
 			{{ 'MODERATORS.LABEL_NO_RESULTS' | translate }}
+		</div>
+
+		<div class="col-12 text-right sec-toolbar" *ngIf="pages && pages.length">
+			<button
+				mat-button
+				color="primary"
+				matTooltip="Search for updates">
+				<mat-icon>search</mat-icon> Search for updates
+			</button>
 		</div>
 
 		<div class="col-12 col-md-6 card-page fadeIn" *ngFor="let p of pages">

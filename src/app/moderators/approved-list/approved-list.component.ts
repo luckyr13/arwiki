@@ -9,9 +9,6 @@ import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confi
 import { ArwikiQuery } from '../../core/arwiki-query';
 import { ActivatedRoute } from '@angular/router';
 import { ArwikiPage } from '../../core/interfaces/arwiki-page';
-import { 
-  ArwikiCategoriesContract 
-} from '../../core/arwiki-contracts/arwiki-categories';
 import { ArwikiCategoryIndex } from '../../core/interfaces/arwiki-category-index';
 import { ArwikiPageIndex } from '../../core/interfaces/arwiki-page-index';
 import { Direction } from '@angular/cdk/bidi';
@@ -45,6 +42,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
   updateSponsorPageTxMessage: string = '';
   updateSponsorPageTxErrorMessage: string = '';
   loadingUpdateSponsorPageIntoIndex: boolean = false;
+  loadingPendingUpdates: boolean = false;
 
   constructor(
   	private _arweave: ArweaveService,
@@ -52,7 +50,6 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
     private _snackBar: MatSnackBar,
     public _dialog: MatDialog,
     private _route: ActivatedRoute,
-    private _categoriesContract: ArwikiCategoriesContract,
     private _userSettings: UserSettingsService,
     private _arwikiToken: ArwikiTokenContract
   ) { }
@@ -83,8 +80,8 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
     const owners = this._auth.getAdminList();
     let verifiedPages: string[] = [];
     let allVerifiedPages: any = {};
-    this.approvedPagesSubscription = this._categoriesContract
-      .getState()
+    this.approvedPagesSubscription = this._arwikiToken
+      .getCategories()
       .pipe(
         switchMap((categories: ArwikiCategoryIndex) => {
           return this._arwikiToken.getApprovedPages(

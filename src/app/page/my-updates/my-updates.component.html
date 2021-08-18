@@ -93,14 +93,7 @@
 
 				</mat-card-content>
 				<mat-card-actions class="text-right card-footer">
-					<button 
-						mat-flat-button color="primary" 
-			    	*ngIf="page.sponsor && page.pageRewardAt && currentBlockHeight >= page.pageRewardAt"
-			    	(click)="unlockReward(page.language, page.slug)"
-			    	[disabled]="lockButtons">
-						<mat-icon class="yellow" >emoji_events</mat-icon> Claim reward
-					</button>
-					&nbsp;
+					
 					<button 
 			    	*ngIf="!page.sponsor " 
 			    	mat-flat-button color="primary" routerLink="../preview/{{page.id}}"

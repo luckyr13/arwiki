@@ -13,8 +13,6 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription, of, from } from 'rxjs'; 
 import { switchMap } from 'rxjs/operators';
-import { ArwikiCategoriesContract } from '../../core/arwiki-contracts/arwiki-categories';
-import { ArwikiLangIndexContract } from '../../core/arwiki-contracts/arwiki-lang-index';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
 import { ActivatedRoute } from '@angular/router';
 import { ArwikiQuery } from '../../core/arwiki-query';
@@ -114,8 +112,6 @@ export class EditComponent implements OnInit, OnDestroy {
     public _dialog: MatDialog,
   	private _router: Router,
   	private _snackBar: MatSnackBar,
-    private _langIndexContract: ArwikiLangIndexContract,
-    private _categoriesContract: ArwikiCategoriesContract,
     private _arwikiTokenContract: ArwikiTokenContract,
     private _route: ActivatedRoute
   ) { }
@@ -131,8 +127,8 @@ export class EditComponent implements OnInit, OnDestroy {
     this.arwiki = new Arwiki(this._arweave.arweave);
   	this.getDefaultTheme();
     
-    this.categoryListSubscription = this._categoriesContract
-      .getState()
+    this.categoryListSubscription = this._arwikiTokenContract
+      .getCategories()
       .subscribe({
         next: (state: ArwikiCategoryIndex) => {
           this.categoryList = [];
@@ -149,8 +145,8 @@ export class EditComponent implements OnInit, OnDestroy {
 
     // DIsable title and slug while loading langs combo
     this.title!.disable();
-    this.languageListSubscription = this._langIndexContract
-      .getState()
+    this.languageListSubscription = this._arwikiTokenContract
+      .getLanguages()
       .subscribe({
         next: (state: ArwikiLangIndex) => {
           this.languageList = [];
@@ -480,7 +476,7 @@ export class EditComponent implements OnInit, OnDestroy {
     let categoriesCS: any = {};
     let adminList: string[] = [];
     const verifiedPagesList: string[] = [];
-    return this._categoriesContract.getState()
+    return this._arwikiTokenContract.getCategories()
       .pipe(
         switchMap((categoriesContractState) => {
           categoriesCS = Object.keys(categoriesContractState);

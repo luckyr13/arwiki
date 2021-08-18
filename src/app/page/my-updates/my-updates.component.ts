@@ -194,28 +194,4 @@ export class MyUpdatesComponent implements OnInit , OnDestroy {
     return maxHeight;
   }
 
-  async unlockReward(lang: string, slug: string) {
-    this.lockButtons = true;
-    this.loadingAction = true;
-
-    const target = this._auth.getMainAddressSnapshot();
-    const key = this._auth.getPrivateKey();
-
-    this.rewardSubscription = from(this._arwikiTokenContract.claimReward( 
-      target, slug, lang, key, arwikiVersion[0]
-    )).subscribe({
-      next: (res) => {
-        this.rewardTX = res;
-        this.lockButtons = false;
-        this.loadingAction = false;
-      },
-      error: (error) => {
-        this.message(error, 'error');
-        this.lockButtons = false;
-        this.loadingAction = false;
-      }
-    });
-
-  }
-
 }

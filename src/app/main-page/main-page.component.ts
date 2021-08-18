@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { UserSettingsService } from '../core/user-settings.service';
-import { ArwikiCategoriesContract } from '../core/arwiki-contracts/arwiki-categories';
 import { Subscription, of, Observable } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
 import { ArweaveService } from '../core/arweave.service';
@@ -50,7 +49,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private _userSettings: UserSettingsService,
-    private _categoriesContract: ArwikiCategoriesContract,
     private _arweave: ArweaveService,
     private _arwikiTokenContract: ArwikiTokenContract,
     private _snackBar: MatSnackBar,
@@ -226,7 +224,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     return this._arwikiTokenContract.getAdminList().pipe(
       switchMap((_adminList: string[]) => {
         admins = _adminList;
-        return this._categoriesContract.getState();
+        return this._arwikiTokenContract.getCategories();
       }),
       switchMap((categories) => {
         return this._arwikiTokenContract.getApprovedPages(langCode, -1, true);
@@ -364,7 +362,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     return this._arwikiTokenContract.getAdminList().pipe(
       switchMap((adminList: string[]) => {
         admins = adminList;
-        return this._categoriesContract.getState();
+        return this._arwikiTokenContract.getCategories();
       }),
       switchMap((categories: ArwikiCategoryIndex) => {
         this.categories = categories;
@@ -409,7 +407,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     return this._arwikiTokenContract.getAdminList().pipe(
       switchMap((adminList: string[]) => {
         admins = adminList;
-        return this._categoriesContract.getState();
+        return this._arwikiTokenContract.getCategories();
       }),
       switchMap((categories: ArwikiCategoryIndex) => {
         this.categories = categories;

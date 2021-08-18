@@ -3,7 +3,6 @@ import { ArwikiQuery } from '../../core/arwiki-query';
 import { ArweaveService } from '../../core/arweave.service';
 import { Subscription, of, Observable } from 'rxjs';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
-import { ArwikiCategoriesContract } from '../../core/arwiki-contracts/arwiki-categories';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { getVerification } from "arverify";
 import { ActivatedRoute } from '@angular/router';
@@ -33,7 +32,6 @@ export class ViewDetailComponent implements OnInit {
   constructor(
   	private _arweave: ArweaveService,
   	private _arwikiTokenContract: ArwikiTokenContract,
-    private _categoriesContract: ArwikiCategoriesContract,
   	private _snackBar: MatSnackBar,
   	private _route: ActivatedRoute,
     private _location: Location,
@@ -183,7 +181,7 @@ export class ViewDetailComponent implements OnInit {
       .pipe(
         switchMap((_adminList: string[]) => {
           adminList = _adminList;
-          return this._categoriesContract.getState();
+          return this._arwikiTokenContract.getCategories();
         }),
         switchMap((categoriesContractState) => {
           // Validate category 

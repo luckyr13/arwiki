@@ -4,7 +4,6 @@ import { switchMap, map } from 'rxjs/operators';
 import { ArweaveService } from '../core/arweave.service';
 import { Observable, Subscription, of } from 'rxjs';
 import { ArwikiQuery } from '../core/arwiki-query';
-import { ArwikiCategoriesContract } from '../core/arwiki-contracts/arwiki-categories';
 import { ArwikiTokenContract } from '../core/arwiki-contracts/arwiki-token';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -31,7 +30,6 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   constructor(
       private _userSettings: UserSettingsService,
       private _arweave: ArweaveService,
-      private _categoriesContract: ArwikiCategoriesContract,
       private _arwikiTokenContract: ArwikiTokenContract,
       private _snackBar: MatSnackBar,
       private _router: Router
@@ -183,7 +181,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     let adminList: string[] = [];
     let verifiedPages: string[] = [];
 
-    return this._categoriesContract.getState()
+    return this._arwikiTokenContract.getCategories()
       .pipe(
         switchMap((_categories: ArwikiCategoryIndex) => {
           globalCat = _categories;

@@ -8,6 +8,8 @@ import { map, tap } from 'rxjs/operators';
 import { JWKInterface } from 'arweave/node/lib/wallet';
 import { ArwikiKYVE } from '../arwiki-kyve';
 import { ArwikiPageIndex } from '../interfaces/arwiki-page-index';
+import { ArwikiLangIndex } from '../interfaces/arwiki-lang-index';
+import { ArwikiCategoryIndex } from '../interfaces/arwiki-category-index';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +17,7 @@ import { ArwikiPageIndex } from '../interfaces/arwiki-page-index';
 export class ArwikiTokenContract
 {
 	// private _contractAddress: string = 'a3WZd4Fa9gckxRqDyu-EAONy7v25J8kuqj75ZgtGoUg';
-  private _contractAddress: string = '36fMEHLtKUke2sBYVHjcOtG-j2tfYnk9zunLSE7DPg4';
+  private _contractAddress: string = 'hUXi7V8uqjS7XImfzNLTTUKA6yuJ5jytJgWDnlq_TF8';
 	private _state: any = {};
 	private _adminList: string[] = [];
   private _arwikiKYVE: ArwikiKYVE;
@@ -360,41 +362,6 @@ export class ArwikiTokenContract
 		);
 	}
 
-	/*
-  * @dev Claim reward function if available
-  */
-  async claimReward(
-    _target: string,
-    _slug: string,
-    _langCode: string,
-    _privateKey: any,
-    _arwikiVersion: string
-  ) {
-    const jwk = _privateKey;
-    const tags = [
-    	{name: 'Service', value: 'ArWiki'},
-    	{name: 'Arwiki-Type', value: 'ClaimReward'},
-    	{name: 'Arwiki-Page-Slug', value: _slug},
-    	{name: 'Arwiki-Page-Lang', value: _langCode},
-    	{name: 'Arwiki-Version', value: _arwikiVersion},
-    ];
-    const input = {
-    	function: 'unlockPageReward',
-    	target: _target,
-    	langCode: _langCode,
-    	slug: _slug
-    };
-
-    const tx = await interactWrite(
-      this._arweave.arweave,
-      jwk,
-      this._contractAddress,
-      input,
-      tags
-    );
-    return tx;
-  }
-
   /*
   * @dev Stop stake and sponsorship
   */
@@ -599,6 +566,30 @@ export class ArwikiTokenContract
     );
 
     return tx;
+  }
+
+  /*
+  *  @dev Get Categories
+  */
+  getCategories(): Observable<ArwikiCategoryIndex> {
+    return this.getState().pipe(
+      map((_state: any) => {
+        const categories = _state.categories;
+        return categories;
+      })
+    );
+  }
+
+  /*
+  *  @dev Get Categories
+  */
+  getLanguages(): Observable<ArwikiLangIndex> {
+    return this.getState().pipe(
+      map((_state: any) => {
+        const languages = _state.languages;
+        return languages;
+      })
+    );
   }
 
 }

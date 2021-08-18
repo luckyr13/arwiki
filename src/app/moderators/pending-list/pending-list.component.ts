@@ -13,9 +13,6 @@ import { Direction } from '@angular/cdk/bidi';
 import { UserSettingsService } from '../../core/user-settings.service';
 import { Arwiki, arwikiVersion } from '../../core/arwiki';
 import { ArwikiPage } from '../../core/interfaces/arwiki-page';
-import { 
-  ArwikiCategoriesContract 
-} from '../../core/arwiki-contracts/arwiki-categories';
 import { ArwikiCategoryIndex } from '../../core/interfaces/arwiki-category-index';
 import { ArwikiPageIndex } from '../../core/interfaces/arwiki-page-index';
 import { 
@@ -46,7 +43,6 @@ export class PendingListComponent implements OnInit, OnDestroy {
     public _dialog: MatDialog,
     private _route: ActivatedRoute,
     private _userSettings: UserSettingsService,
-    private _categoriesContract: ArwikiCategoriesContract,
     private _arwikiTokenContract: ArwikiTokenContract
   ) { }
 
@@ -73,8 +69,8 @@ export class PendingListComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.pendingPagesSubscription = this._categoriesContract
-      .getState()
+    this.pendingPagesSubscription = this._arwikiTokenContract
+      .getCategories()
       .pipe(
         switchMap((categories: ArwikiCategoryIndex) => {
           return this.arwikiQuery.getPendingPages(

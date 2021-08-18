@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ArwikiLangIndexContract } from '../../core/arwiki-contracts/arwiki-lang-index';
+import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
 import { Subscription, Observable } from 'rxjs'; 
 import { ArweaveService } from '../../core/arweave.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -19,7 +19,7 @@ export class DialogSelectLanguageComponent implements OnInit, OnDestroy {
   defaultTheme: string = '';
 
   constructor(
-  	private _arwikiLangIndex: ArwikiLangIndexContract,
+  	private _arwikiToken: ArwikiTokenContract,
   	private _arweave: ArweaveService,
   	private _snackBar: MatSnackBar,
     private _userSettings: UserSettingsService
@@ -29,8 +29,8 @@ export class DialogSelectLanguageComponent implements OnInit, OnDestroy {
   	this.loading = true;
     this.getDefaultTheme();
 
-  	this.langsSubscription = this._arwikiLangIndex
-  		.getState()
+  	this.langsSubscription = this._arwikiToken
+  		.getLanguages()
   		.subscribe({
   			next: (state: ArwikiLangIndex) => {
 	  			this.langs = {};

@@ -8,7 +8,6 @@ import { switchMap, catchError } from 'rxjs/operators';
 import { UserSettingsService } from '../core/user-settings.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { ArwikiLangIndexContract } from '../core/arwiki-contracts/arwiki-lang-index';
 import { ArwikiLangIndex } from '../core/interfaces/arwiki-lang-index';
 import { ArweaveService } from '../core/arweave.service';
 import { ArwikiTokenContract } from '../core/arwiki-contracts/arwiki-token';
@@ -22,7 +21,6 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
 		private _userSettings: UserSettingsService,
     private _snackBar: MatSnackBar,
     private _router: Router,
-    private _langIndexContract: ArwikiLangIndexContract,
     private _arweave: ArweaveService,
     private _arwikiTokenContract: ArwikiTokenContract,
     private _auth: AuthService,
@@ -93,52 +91,19 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
     state: RouterStateSnapshot): Observable<boolean> {
     // Init loader
     this._userSettings.updateMainToolbarLoading(true);
-
-    // If language detected
     if (lang) {
-      const langState = this._langIndexContract.getLangsLocalCopy();
-      // Check if we already have a copy of language contract state
-      if (Object.keys(langState).length > 0) {
-        // Loader
-        this._userSettings.updateMainToolbarLoading(false);
-        // Show main toolbar 
-        this._userSettings.updateMainToolbarVisiblity(true);
-        // Scroll to top 
-        this._userSettings.scrollToTop();
-
-        // If success
-        if (Object.prototype.hasOwnProperty.call(langState, lang) &&
-            langState[lang].active) {
-          // Update lang stream 
-          this._userSettings.updateRouteLangObservable(lang);
-          // Set default settings language 
-          const currentDefaultLang = this._userSettings.getDefaultLang();
-          if (!currentDefaultLang || currentDefaultLang.code != lang) {
-            this._userSettings.setDefaultLang(langState[lang]);
-          }
-          return of(true);
-        }
-        // Else
-        this.message('Language not supported', 'error');
-        this._router.navigate(['/']);
-
-        return of(false);
-      }
+      // If language detected
       return (
         // If no copy detected, get the state from the contract
-        this._langIndexContract.getState()
+        this._arwikiTokenContract.getLanguages()
           .pipe(
             switchMap((state: ArwikiLangIndex) => {
-              // Save a copy of the state on local property
-              this._langIndexContract.setLangsLocalCopy(state);
-
               // Loader
               this._userSettings.updateMainToolbarLoading(false);
               // Show main toolbar 
               this._userSettings.updateMainToolbarVisiblity(true);
               // Scroll to top 
               this._userSettings.scrollToTop();
-
 
               // If success
               if (Object.prototype.hasOwnProperty.call(state, lang) &&
@@ -162,7 +127,7 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
           )
       );
     }
-
+    
     // No lang detected in route
     this._userSettings.updateRouteLangObservable('');
     // Loader

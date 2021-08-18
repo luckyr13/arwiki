@@ -13,8 +13,6 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription, of } from 'rxjs'; 
 import { switchMap } from 'rxjs/operators';
-import { ArwikiCategoriesContract } from '../../core/arwiki-contracts/arwiki-categories';
-import { ArwikiLangIndexContract } from '../../core/arwiki-contracts/arwiki-lang-index';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
 import { ActivatedRoute } from '@angular/router';
 import { ArwikiQuery } from '../../core/arwiki-query';
@@ -93,8 +91,6 @@ export class NewComponent implements OnInit, OnDestroy {
     public _dialog: MatDialog,
   	private _router: Router,
   	private _snackBar: MatSnackBar,
-    private _langIndexContract: ArwikiLangIndexContract,
-    private _categoriesContract: ArwikiCategoriesContract,
     private _arwikiTokenContract: ArwikiTokenContract,
     private _route: ActivatedRoute
   ) { }
@@ -112,8 +108,8 @@ export class NewComponent implements OnInit, OnDestroy {
     }, 500);
     
 
-    this.categoryListSubscription = this._categoriesContract
-      .getState()
+    this.categoryListSubscription = this._arwikiTokenContract
+      .getCategories()
       .subscribe({
         next: (state: ArwikiCategoryIndex) => {
           this.categoryList = [];
@@ -131,8 +127,8 @@ export class NewComponent implements OnInit, OnDestroy {
     // DIsable title and slug while loading langs combo
     this.title!.disable();
     this.slug!.disable();
-    this.languageListSubscription = this._langIndexContract
-      .getState()
+    this.languageListSubscription = this._arwikiTokenContract
+      .getLanguages()
       .subscribe({
         next: (state: ArwikiLangIndex) => {
           this.languageList = [];

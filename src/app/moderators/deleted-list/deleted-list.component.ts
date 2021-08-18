@@ -9,9 +9,6 @@ import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confi
 import { ArwikiQuery } from '../../core/arwiki-query';
 import { ActivatedRoute } from '@angular/router';
 import { ArwikiPage } from '../../core/interfaces/arwiki-page';
-import { 
-  ArwikiCategoriesContract 
-} from '../../core/arwiki-contracts/arwiki-categories';
 import { ArwikiCategoryIndex } from '../../core/interfaces/arwiki-category-index';
 import { Direction } from '@angular/cdk/bidi';
 import { UserSettingsService } from '../../core/user-settings.service';
@@ -44,7 +41,6 @@ export class DeletedListComponent implements OnInit, OnDestroy {
     private _snackBar: MatSnackBar,
     public _dialog: MatDialog,
     private _route: ActivatedRoute,
-    private _categoriesContract: ArwikiCategoriesContract,
     private _userSettings: UserSettingsService,
     private _arwikiToken: ArwikiTokenContract
   ) { }
@@ -146,8 +142,8 @@ export class DeletedListComponent implements OnInit, OnDestroy {
     let allVerifiedPages: string[] = [];
     let allPages: any = {};
     let allInactivePages: string[] = [];
-    return this._categoriesContract
-      .getState()
+    return this._arwikiToken
+      .getCategories()
       .pipe(
         switchMap((categories: ArwikiCategoryIndex) => {
           return this._arwikiToken.getAllPages(
