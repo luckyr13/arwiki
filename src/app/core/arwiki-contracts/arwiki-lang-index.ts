@@ -84,6 +84,13 @@ export class ArwikiLangIndexContract
 		"native_name": "Bahasa Indonesia",
 		"writing_system": "LTR",
 		"active": true
+	},
+	"ko": {
+		"code": "ko",
+		"iso_name": "Korean",
+		"native_name": "한국어",
+		"writing_system": "LTR",
+		"active": true
 	}
 };
 
