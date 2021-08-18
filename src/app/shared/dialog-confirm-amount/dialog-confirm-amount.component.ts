@@ -21,7 +21,7 @@ export class DialogConfirmAmountComponent implements OnInit {
 
   formatLabel(value: number) {
     if (value >= 1000) {
-      return Math.round(value / 1000) + 'k';
+      return Math.floor(value / 1000) + 'k';
     }
     return value;
   }
