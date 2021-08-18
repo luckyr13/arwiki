@@ -17,6 +17,7 @@ import { Arwiki } from '../../core/arwiki';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
 import { arwikiVersion } from '../../core/arwiki';
 import { DialogConfirmAmountComponent } from '../../shared/dialog-confirm-amount/dialog-confirm-amount.component';
+import { DialogSearchPageUpdateComponent } from '../dialog-search-page-update/dialog-search-page-update.component';
 
 @Component({
   templateUrl: './approved-list.component.html',
@@ -356,6 +357,23 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
       } else if (newPageValue === 0) {
         this.message('Stake must be greater than 0 $WIKI tokens', 'error');
       }
+    });
+  }
+
+  searchUpdates() {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
+    const dialogRef = this._dialog.open(DialogSearchPageUpdateComponent, {
+      data: {},
+      direction: direction,
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(async (res) => {
+      
+
     });
   }
 

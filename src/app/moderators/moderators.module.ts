@@ -10,10 +10,11 @@ import { ApprovedListComponent } from './approved-list/approved-list.component';
 import { TagManagerComponent } from './tag-manager/tag-manager.component';
 import { DeletedListComponent } from './deleted-list/deleted-list.component';
 import { PageUpdatesComponent } from './page-updates/page-updates.component';
+import { DialogSearchPageUpdateComponent } from './dialog-search-page-update/dialog-search-page-update.component';
 
 
 @NgModule({
-  declarations: [PendingListComponent, MenuComponent, AddAdminComponent, ViewAdminListComponent, ApprovedListComponent, TagManagerComponent, DeletedListComponent, PageUpdatesComponent],
+  declarations: [PendingListComponent, MenuComponent, AddAdminComponent, ViewAdminListComponent, ApprovedListComponent, TagManagerComponent, DeletedListComponent, PageUpdatesComponent, DialogSearchPageUpdateComponent],
   imports: [
     CommonModule,
     ModeratorsRoutingModule,
