@@ -85,6 +85,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res: any) => {
           this.pstSettings = res;
+          console.log(res)
           this.daoSettings = [];
           const settings = [
             {
@@ -116,17 +117,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
               key: 'pageApprovalLength',
               label: 'Page approval length',
               formatFunction: (val: any) => this.formatBlocks(val)
-            },
-            {
-              key: 'frozenAdminLength',
-              label: 'Frozen admin length',
-              formatFunction: (val: any) => this.formatBlocks(val)
-            },
-            {
-              key: 'minimumStakedVault',
-              label: 'Minimum Moderator\'s locked balance for page approval',
-              formatFunction: (qty: any) => `${ qty } $WIKI`
-            },
+            }
           ];
 
           for (const i in settings) {
