@@ -7,7 +7,6 @@ export function handle(state, action) {
   const caller = action.caller;
   const stakes = state.stakes;
   const pages = state.pages;
-  const frozenAdmins = state.frozenAdmins;
   if (input.function === "transfer") {
     const target = input.target;
     const qty = input.qty;
@@ -219,8 +218,7 @@ export function handle(state, action) {
       }
       if (input.key === "quorum" || input.key === "support" || input.key === "lockMinLength" ||
          input.key === "lockMaxLength" || 
-         input.key === "pageApprovalLength" || input.key === "frozenAdminLength" ||
-         input.key === "minimumStakedVault") {
+         input.key === "pageApprovalLength") {
         input.value = +input.value;
       }
       if (input.key === "quorum") {
@@ -242,14 +240,6 @@ export function handle(state, action) {
       } else if (input.key === "pageApprovalLength" || input.value <= settings.get("voteLength")) {
         if (!Number.isInteger(input.value) || input.value <= 0) {
           throw new ContractError(`pageApprovalLength must be a positive integer and greater than voteLength ${settings.get("voteLength")}.`);
-        }
-      } else if (input.key === "frozenAdminLength") {
-        if (!Number.isInteger(input.value) || input.value <= 0) {
-          throw new ContractError("frozenAdminLength must be a positive integer.");
-        }
-      } else if (input.key === "minimumStakedVault") {
-        if (!Number.isInteger(input.value) || input.value <= 0) {
-          throw new ContractError("minimumStakedVault must be a positive integer.");
         }
       }
       if (input.key === "role") {
@@ -392,7 +382,6 @@ export function handle(state, action) {
     const role = caller in state.roles ? state.roles[caller] : "";
     const start = +SmartWeave.block.height;
     const pageApprovalLength = +settings.get("pageApprovalLength");
-    const minimumStakedVault = +settings.get("minimumStakedVault");
     const end = start + pageApprovalLength;
     const balance = balances[caller];
     let totalSupply = _calculate_total_supply(vault, balances, stakes);
@@ -401,9 +390,6 @@ export function handle(state, action) {
     }
     if (role.trim().toUpperCase() !== "MODERATOR") {
       throw new ContractError("Caller must be an admin");
-    }
-    if (_is_admin_frozen(caller, frozenAdmins, start)) {
-      throw new ContractError("Error: Caller admin is frozen");
     }
     if (typeof author !== 'string' || !author.trim().length) {
       throw new ContractError("Author address must be specified");
@@ -424,8 +410,8 @@ export function handle(state, action) {
       throw new ContractError("Caller needs to have locked balances.");
     }
     let vaultBalance = _get_vaultBalance(vault, caller, end);
-    if (vaultBalance < minimumStakedVault) {
-      throw new ContractError(`Caller doesn't have the minimum locked balance (min:${minimumStakedVault}, end:${end}, vault:${vaultBalance}).`);
+    if (vaultBalance <= 0) {
+      throw new ContractError(`Caller doesn't have locked balances for enough time (start:${start}, end:${end}, vault:${vaultBalance}).`);
     }
     if (!Object.prototype.hasOwnProperty.call(state.pages, lang)) {
       throw new ContractError("Invalid LangCode"); 
@@ -457,14 +443,18 @@ export function handle(state, action) {
         balance: value,
         end,
         start,
-        slug
+        slug,
+        lang,
+        action: "new"
       });
     } else {
       vault[author] = [{
         balance: value,
         end,
         start,
-        slug
+        slug,
+        lang,
+        action: "new"
       }];
     }
     pages[lang][slug] = {
@@ -476,6 +466,8 @@ export function handle(state, action) {
       pageRewardAt: end,
       category: category,
       updates: [],
+      upvotes: 0,
+      downvotes: 0,
       active: true
     };
     return { state };
@@ -489,7 +481,6 @@ export function handle(state, action) {
     const lang = input.langCode;
     const slug = input.slug;
     const pageApprovalLength = +settings.get("pageApprovalLength");
-    const minimumStakedVault = +settings.get("minimumStakedVault");
     const end = currentHeight + pageApprovalLength;
     if (typeof lang !== 'string' || !lang.trim().length) {
       throw new ContractError("LangCode must be specified");
@@ -506,21 +497,15 @@ export function handle(state, action) {
     if (!Number.isInteger(value) || value <= 0) {
       throw new ContractError('"pageValue" must be a positive integer.');
     }
-    if (role.trim().toUpperCase() !== "MODERATOR") {
-      throw new ContractError("Caller must be an admin");
-    }
-    if (_is_admin_frozen(caller, frozenAdmins, currentHeight)) {
-      throw new ContractError("Error: Caller admin is frozen");
-    }
     if (isNaN(balance) || balance < value) {
-      throw new ContractError("Not enough balance.");
+      throw new ContractError(`Not enough balance :: ${balance} vs ${value}`);
     }
     if (!(caller in vault)) {
       throw new ContractError("Caller needs to have locked balances.");
     }
     let vaultBalance = _get_vaultBalance(vault, caller, end);
-    if (vaultBalance < minimumStakedVault) {
-      throw new ContractError(`Caller doesn't have the minimum locked balance (min:${minimumStakedVault}, end:${end}, vault:${vaultBalance}).`);
+    if (vaultBalance <= 0) {
+      throw new ContractError(`Caller doesn't have locked balances for enough time (start:${currentHeight}, end:${end}, vault:${vaultBalance}).`);
     }
     if (totalSupply + value > Number.MAX_SAFE_INTEGER) {
       throw new ContractError("'value' too large.");
@@ -558,7 +543,6 @@ export function handle(state, action) {
     return { state };
   }
   if (input.function === "stopPageSponsorshipAndDeactivatePage") {
-    const role = caller in state.roles ? state.roles[caller] : "";
     const currentHeight = +SmartWeave.block.height;
     const lang = input.langCode;
     const slug = input.slug;
@@ -573,9 +557,6 @@ export function handle(state, action) {
     }
     if (!Object.prototype.hasOwnProperty.call(pages[lang], slug)) {
       throw new ContractError("Invalid slug!"); 
-    }
-    if (role.trim().toUpperCase() !== "MODERATOR") {
-      throw new ContractError("Caller must be an admin");
     }
     if (!Object.prototype.hasOwnProperty.call(stakes, caller) ||
         !Object.prototype.hasOwnProperty.call(stakes[caller], lang) ||
@@ -632,7 +613,6 @@ export function handle(state, action) {
     const pageApprovalLength = +settings.get("pageApprovalLength");
     const end = currentHeight + pageApprovalLength;
     const value = +input.pageValue;
-    const minimumStakedVault = +settings.get("minimumStakedVault");
     if (!Number.isInteger(value) || value <= 0) {
       throw new ContractError('"pageValue" must be a positive integer.');
     }
@@ -657,9 +637,6 @@ export function handle(state, action) {
     if (role.trim().toUpperCase() !== "MODERATOR") {
       throw new ContractError("Caller must be an admin");
     }
-    if (_is_admin_frozen(caller, frozenAdmins, currentHeight)) {
-      throw new ContractError("Error: Caller admin is frozen");
-    }
     if (!pages[lang][slug].active) {
       throw new ContractError("Page is inactive");
     }
@@ -667,8 +644,8 @@ export function handle(state, action) {
       throw new ContractError("Caller needs to have locked balances.");
     }
     let vaultBalance = _get_vaultBalance(vault, caller, end);
-    if (vaultBalance < minimumStakedVault) {
-      throw new ContractError(`Caller doesn't have the minimum locked balance (min:${minimumStakedVault}, end:${end}, vault:${vaultBalance}).`);
+    if (vaultBalance <= 0) {
+      throw new ContractError(`Caller doesn't have locked balances for enough time (start:${currentHeight}, end:${end}, vault:${vaultBalance}).`);
     }
     pages[lang][slug].updates.push({
       tx: updateTX, approvedBy: caller, at: currentHeight, value
@@ -678,14 +655,18 @@ export function handle(state, action) {
         balance: value,
         end,
         start: currentHeight,
-        slug
+        slug,
+        lang,
+        action: "update"
       });
     } else {
       vault[author] = [{
         balance: value,
         end,
         start: currentHeight,
-        slug
+        slug,
+        lang,
+        action: "update"
       }];
     }
     return { state };
@@ -711,9 +692,6 @@ export function handle(state, action) {
     if (role.trim().toUpperCase() !== "MODERATOR") {
       throw new ContractError("Caller must be an admin");
     }
-    if (_is_admin_frozen(caller, frozenAdmins, currentHeight)) {
-      throw new ContractError("Error: Caller admin is frozen");
-    }
     if (!Object.prototype.hasOwnProperty.call(stakes, caller) ||
         !Object.prototype.hasOwnProperty.call(stakes[caller], lang) ||
         !stakes[caller][lang][slug]) {
@@ -727,45 +705,37 @@ export function handle(state, action) {
     
     return { state };
   }
-  if (input.function === "freezeAdmin") {
-    const role = caller in state.roles ? state.roles[caller] : "";
+  if (input.function === "votePage") {
     const currentHeight = +SmartWeave.block.height;
-    const adminToBeFrozen = input.target;
-    const frozenLength = +settings.get("frozenAdminLength");
-    const roleT = adminToBeFrozen in state.roles ? state.roles[adminToBeFrozen] : "";
-    const minimumStakedVault = +settings.get("minimumStakedVault");
-    if (role.trim().toUpperCase() !== "MODERATOR") {
-      throw new ContractError("Caller must be an admin");
+    const target = SmartWeave.transaction.target;
+    const targetQty = +SmartWeave.transaction.quantity;
+    const lang = input.langCode;
+    const slug = input.slug;
+    const vote = !!input.vote;
+    if (typeof lang !== 'string' || !lang.trim().length) {
+      throw new ContractError("LangCode must be specified");
     }
-    if (roleT.trim().toUpperCase() !== "MODERATOR") {
-      throw new ContractError("Target must be an admin");
+    if (typeof slug !== 'string' || !slug.trim().length) {
+      throw new ContractError("Slug must be specified");
     }
-    if (_is_admin_frozen(adminToBeFrozen, frozenAdmins, currentHeight)) {
-      throw new ContractError("Target admin is already frozen :)");
+    if (!Object.prototype.hasOwnProperty.call(pages, lang)) {
+      throw new ContractError("Invalid LangCode"); 
     }
-    if (_is_admin_frozen(caller, frozenAdmins, currentHeight)) {
-      throw new ContractError("Can't freeze admin. Caller is frozen!");
+    if (!Object.prototype.hasOwnProperty.call(pages[lang], slug)) {
+      throw new ContractError("Invalid slug!"); 
     }
-    for (const fa in frozenAdmins) {
-      if (frozenAdmins[fa].frozenBy === caller &&
-          currentHeight < frozenAdmins[fa].frozenUntil) {
-        throw new ContractError("You already freezed an admin! Please wait until unfrozen to frost another one.");
-      }
+    if (pages[lang][slug].sponsor !== target) {
+      throw new ContractError("The sponsor must be the target :)");
     }
-    if (!(caller in vault)) {
-      throw new ContractError("Caller needs to have locked balances.");
+    if (targetQty <= 0) {
+      throw new ContractError("You must donate some AR to the page sponsor for voting");
     }
-    let vaultBalance = _get_vaultBalance(vault, caller, end);
-    if (vaultBalance < minimumStakedVault) {
-      throw new ContractError(`Caller doesn't have the minimum locked balance (min:${minimumStakedVault}, end:${end}, vault:${vaultBalance}).`);
+    if (vote) {
+      pages[lang][slug].upvote += 1;
+    } else {
+      pages[lang][slug].downvote += 1;
     }
-
-    frozenAdmins[adminToBeFrozen] = {
-      frozenAt: currentHeight,
-      frozenUntil: currentHeight + frozenLength,
-      frozenBy: caller
-    };
-
+    
     return { state };
   }
   throw new ContractError(`No function supplied or function not recognised: "${input.function}"`);
@@ -792,15 +762,6 @@ function _calculate_total_supply(vault, balances, stakes) {
     }
   }
   return totalSupply;
-}
-
-function _is_admin_frozen(admin, frozenAdmins, currentHeight) {
-  if (frozenAdmins && Object.keys(frozenAdmins).length > 0 &&
-      frozenAdmins[admin] && 
-      currentHeight < frozenAdmins[admin].frozenUntil) {
-    return true;
-  }
-  return false;
 }
 
 function _get_vaultBalance(vault, caller, end) {
