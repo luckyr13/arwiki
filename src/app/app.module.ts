@@ -16,11 +16,11 @@ import {HttpClientModule, HttpClient} from '@angular/common/http';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { SearchComponent } from './search/search.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { CategoryModule } from './category/category.module';
 import { PageModule } from './page/page.module';
 import { ModeratorsModule } from './moderators/moderators.module';
 import { ErrorComponent } from './error/error.component';
+import { UserPanelModule } from './user-panel/user-panel.module';
 
 
 // AoT requires an exported function for factories
@@ -38,7 +38,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     MainPageComponent,
     MainMenuComponent,
     SearchComponent,
-    DashboardComponent,
     ErrorComponent,
   ],
   imports: [
@@ -55,6 +54,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       defaultLanguage: 'en'
     }),
     CategoryModule,
+    UserPanelModule,
     ModeratorsModule,
     AppRoutingModule,
     PageModule

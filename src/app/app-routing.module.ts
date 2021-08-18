@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { SearchComponent } from './search/search.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthGuard } from './auth/auth.guard';
 import { InitPlatformGuard } from './auth/init-platform.guard';
 import { SearchEngineComponent } from './search-engine/search-engine.component';
@@ -26,10 +25,6 @@ const routes: Routes = [
 			},
 			{
 				path: ':lang/main', component: MainPageComponent,
-			},
-			{
-				path: ':lang/dashboard', component: DashboardComponent, 
-				canActivate: [AuthGuard],
 			},
 			{
 				path: ':lang/search/:query', component: SearchComponent,
