@@ -26,6 +26,8 @@ import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confi
 import { ArwikiPage } from '../../core/interfaces/arwiki-page';
 import {MatBottomSheet} from '@angular/material/bottom-sheet';
 import { BottomSheetShareComponent } from '../../shared/bottom-sheet-share/bottom-sheet-share.component';
+import { DialogConfirmAmountComponent } from '../../shared/dialog-confirm-amount/dialog-confirm-amount.component';
+import { arwikiVersion } from '../../core/arwiki';
 
 @Component({
   templateUrl: './view-detail.component.html',
@@ -55,6 +57,8 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     img: '',
   };
   pageExtraMetadata: any = {};
+  loadingUpdateSponsorPage: boolean = false;
+  loadingStopStake: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -339,21 +343,24 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
 
   editPage(_slug: string, _langCode: string) {
     if (!this.mainAddress) {
-      const defLang = this._userSettings.getDefaultLang();
-      let direction: Direction = defLang.writing_system === 'LTR' ? 
-        'ltr' : 'rtl';
-      const dialogRef = this._dialog.open(DialogConfirmComponent, {
-        data: {
-          title: 'Please login first',
-          content: 'You need to login first.',
-          type: 'info'
-        },
-        direction: direction
-      });
-
+      this.dialogLoginFirst();
       return;
     }
     this._router.navigate([_langCode, _slug, 'edit']); 
+  }
+
+  dialogLoginFirst() {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+    const dialogRef = this._dialog.open(DialogConfirmComponent, {
+      data: {
+        title: 'Please login first',
+        content: 'You need to login first.',
+        type: 'info'
+      },
+      direction: direction
+    });
   }
 
   share() {
@@ -385,6 +392,104 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     document.getElementById('META_OG_DESCRIPTION').content = c2;
     document.getElementById('META_OG_IMAGE').content = img2;
 
+  }
+
+
+  confirmSponsorArWikiPage(
+    _slug: string,
+    _category_slug: string,
+    _pageValue: number,
+  ) {
+    if (!this.mainAddress) {
+      this.dialogLoginFirst();
+      return;
+    }
+
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
+    const dialogRef = this._dialog.open(DialogConfirmAmountComponent, {
+      data: {
+        title: 'Are you sure?',
+        content: `You are about to be the new sponsor for this arwiki page. Do you want to proceed?`,
+        pageValue: _pageValue + 1,
+        second_content: 'Please define the amount of $WIKI tokens to stake:'
+      },
+      direction: direction,
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(async (_newPageValue) => {
+      const newPageValue = +_newPageValue;
+      if (Number.isInteger(newPageValue) && newPageValue > 0) {
+        // Update page sponsor and reactivate page
+        this.loadingUpdateSponsorPage = true;
+        try {
+          const tx = await this._arwikiTokenContract.updatePageSponsor(
+            _slug,
+            _category_slug,
+            this.routeLang,
+            newPageValue,
+            this._auth.getPrivateKey(),
+            arwikiVersion[0],
+          ); 
+
+          
+          this.message('Success!', 'success');
+          this.loadingUpdateSponsorPage = false;
+        } catch (error) {
+          this.message(error, 'error');
+          this.loadingUpdateSponsorPage = false;
+        }
+      } else if (newPageValue === 0) {
+        this.message('Stake must be greater than 0 $WIKI tokens', 'error');
+      }
+    });
+  }
+
+  confirmStopStake(
+    _slug: string
+  ) {
+    if (!this.mainAddress) {
+      this.dialogLoginFirst();
+      return;
+    }
+
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
+    const dialogRef = this._dialog.open(DialogConfirmComponent, {
+      data: {
+        title: 'Are you sure?',
+        content: 'You are about to stop your stake and sponsorship for this page. This will unlist the page. Do you want to proceed?'
+      },
+      direction: direction,
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(async (result) => {
+      if (result) {
+        // Create "delete" tx
+        this.loadingStopStake = true;
+        try {
+          const tx = await this._arwikiTokenContract.stopStaking(
+            _slug,
+            this.routeLang,
+            this._auth.getPrivateKey(),
+            arwikiVersion[0]
+          ); 
+
+          this.message('Success!', 'success');
+          this.loadingStopStake = false;
+        } catch (error) {
+          this.message(error, 'error');
+          this.loadingStopStake = false;
+        }
+
+      }
+    });
   }
 
 }

@@ -471,8 +471,6 @@ export class ArwikiTokenContract
   * Note: This can reactivate an inactive page
   */
   async updatePageSponsor(
-    _pageId: string,
-    _author: string,
     _slug: string,
     _category: string,
     _langCode: string,
@@ -484,7 +482,6 @@ export class ArwikiTokenContract
     const tags = [
       {name: 'Service', value: 'ArWiki'},
       {name: 'Arwiki-Type', value: 'UpdateSponsor'},
-      {name: 'Arwiki-Page-Id', value: _pageId},
       {name: 'Arwiki-Page-Slug', value: _slug},
       {name: 'Arwiki-Page-Category', value: _category},
       {name: 'Arwiki-Page-Lang', value: _langCode},

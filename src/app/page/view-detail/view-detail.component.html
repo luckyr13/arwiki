@@ -122,6 +122,28 @@
 		    <mat-icon>history</mat-icon>
 		    View history
 		  </button>
+		  <button
+				mat-button
+				color="warn"
+		  	class="btn-toolbar" 
+    		*ngIf="pageExtraMetadata.sponsor === mainAddress"
+				(click)="confirmStopStake(routeSlug)"
+				[disabled]="loadingStopStake"
+				matTooltip="Stop staking">
+				<mat-spinner *ngIf="loadingStopStake" class="spinner-btn" diameter="20"></mat-spinner>
+				<mat-icon *ngIf="!loadingStopStake" >delete</mat-icon> Stop staking
+			</button>
+			<button
+				mat-button
+				color="primary"
+    		*ngIf="pageExtraMetadata.sponsor !== mainAddress"
+				matTooltip="Sponsor page"
+				[disabled]="loadingUpdateSponsorPage"
+				(click)="confirmSponsorArWikiPage(routeSlug, pageData.category, pageExtraMetadata.value)">
+				<mat-spinner *ngIf="loadingUpdateSponsorPage" class="spinner-btn" diameter="20"></mat-spinner>
+				<mat-icon *ngIf="!loadingUpdateSponsorPage" >casino</mat-icon>
+				Sponsor page
+			</button>
 		</div>
 		<p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageData.owner">
 			<app-arweave-address [address]="pageData.owner">Created by: </app-arweave-address>

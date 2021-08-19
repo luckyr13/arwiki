@@ -212,13 +212,10 @@ export class DeletedListComponent implements OnInit, OnDestroy {
       );
   }
 
-
   confirmReactivateArWikiPage(
     _slug: string,
-    _pageId: string,
     _category_slug: string,
-    _pageValue: number,
-    _author: string
+    _pageValue: number
   ) {
     const defLang = this._userSettings.getDefaultLang();
     let direction: Direction = defLang.writing_system === 'LTR' ? 
@@ -241,8 +238,6 @@ export class DeletedListComponent implements OnInit, OnDestroy {
         this.loadingReactivatePageIntoIndex = true;
         try {
           const tx = await this._arwikiToken.updatePageSponsor(
-            _pageId,
-            _author,
             _slug,
             _category_slug,
             this.routeLang,
