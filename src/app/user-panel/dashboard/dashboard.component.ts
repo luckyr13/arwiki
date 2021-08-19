@@ -10,6 +10,14 @@ import { ArwikiQuery } from '../../core/arwiki-query';
 import { Location } from '@angular/common';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
 declare const window: any;
+import {MatDialog} from '@angular/material/dialog';
+import { Direction } from '@angular/cdk/bidi';
+import { 
+  DialogTransferTokensComponent 
+} from '../../shared/dialog-transfer-tokens/dialog-transfer-tokens.component';
+import { 
+  DialogVaultComponent 
+} from '../../shared/dialog-vault/dialog-vault.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -46,7 +54,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private _auth: AuthService,
     private _userSettings: UserSettingsService,
     private _location: Location,
-    private _arwikiTokenContract: ArwikiTokenContract
+    private _arwikiTokenContract: ArwikiTokenContract,
+    public _dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -202,6 +211,46 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   decimalToPercentage(n: number): string {
     return `${(n*100)}%`;
+  }
+
+  
+
+  transferTokensDialog() {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
+    const dialogRef = this._dialog.open(DialogTransferTokensComponent, {
+      data: {
+        langCode: defLang.code
+      },
+      direction: direction,
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(async (res) => {
+      
+
+    });
+  }
+
+  vaultDialog() {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
+    const dialogRef = this._dialog.open(DialogVaultComponent, {
+      data: {
+        langCode: defLang.code
+      },
+      direction: direction,
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(async (res) => {
+      
+
+    });
   }
 
 }

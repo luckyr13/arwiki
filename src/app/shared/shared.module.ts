@@ -39,6 +39,8 @@ import { FormsModule } from '@angular/forms';
 import { DialogConfirmAmountComponent } from './dialog-confirm-amount/dialog-confirm-amount.component';
 import { BottomSheetShareComponent } from './bottom-sheet-share/bottom-sheet-share.component';
 import {MatBadgeModule} from '@angular/material/badge';
+import { DialogTransferTokensComponent } from './dialog-transfer-tokens/dialog-transfer-tokens.component';
+import { DialogVaultComponent } from './dialog-vault/dialog-vault.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +54,8 @@ import {MatBadgeModule} from '@angular/material/badge';
     DialogDonateComponent,
     DialogConfirmAmountComponent,
     BottomSheetShareComponent,
+    DialogTransferTokensComponent,
+    DialogVaultComponent,
   ],
   imports: [
     CommonModule,
