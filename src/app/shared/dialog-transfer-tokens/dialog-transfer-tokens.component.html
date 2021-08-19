@@ -3,8 +3,19 @@
 	<span>Transfer tokens</span>
 </h2>
 <mat-dialog-content>
-  Coming soon ...
+  <p>
+	  <mat-form-field appearance="outline">
+	    <mat-label>Recipient</mat-label>
+	    <input matInput placeholder="Arweave address" autocomplete="off">
+	  </mat-form-field>
+	  <mat-form-field appearance="outline">
+	    <mat-label>Transfer amount</mat-label>
+	    <input matInput placeholder="AR amount" type="number" min="0" max="1" autocomplete="off">
+	    <mat-hint>Total available: {{ 1 }} </mat-hint>
+	  </mat-form-field>
+	</p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close cdkFocusInitial>Cancel</button>
+  <button mat-button><mat-icon>send</mat-icon> Send</button>
+  <button mat-flat-button mat-dialog-close cdkFocusInitial>Close</button>
 </mat-dialog-actions>

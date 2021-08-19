@@ -76,7 +76,9 @@ import { DialogVaultComponent } from './dialog-vault/dialog-vault.component';
     MatTooltipModule,
     MatSliderModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   exports: [
   	MatFormFieldModule,
