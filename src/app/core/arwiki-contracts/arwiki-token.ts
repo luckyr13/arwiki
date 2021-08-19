@@ -592,4 +592,48 @@ export class ArwikiTokenContract
     );
   }
 
+  /*
+  * @dev Transfer wiki tokens
+  */
+  async transferTokens(
+    _target: string,
+    _privateKey: any,
+    _amount: number,
+    _arwikiVersion: string
+  ) {
+    const jwk = _privateKey;
+    const tags = [
+      {name: 'Service', value: 'ArWiki'},
+      {name: 'Arwiki-Type', value: 'TransferTokens'},
+      {name: 'Arwiki-Version', value: _arwikiVersion},
+    ];
+    const input = {
+      function: 'transfer',
+      target: _target,
+      qty: _amount,
+    };
+    
+    const testTX = await interactWriteDryRun(
+      this._arweave.arweave,
+      jwk,
+      this._contractAddress,
+      input,
+      tags
+    );
+
+    if (testTX && testTX.type==='error' && testTX.result) {
+      throw new Error(testTX.result)
+    }
+
+    const tx = await interactWrite(
+      this._arweave.arweave,
+      jwk,
+      this._contractAddress,
+      input,
+      tags
+    );
+
+    return tx;
+  }
+
 }

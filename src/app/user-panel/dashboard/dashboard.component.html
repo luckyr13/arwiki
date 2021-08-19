@@ -32,6 +32,7 @@
 				mat-flat-button 
 				type="button"
 				(click)="transferTokensDialog()"
+				[disabled]="loadingBalancePST"
 				color="primary">
 				<mat-icon>send</mat-icon> Transfer tokens
 			</button>
@@ -39,6 +40,7 @@
 				class="btn-toolbar"
 				mat-flat-button 
 				type="button"
+				[disabled]="loadingBalancePST"
 				(click)="vaultDialog()"
 				color="primary">
 				<mat-icon class="yellow">vpn_key</mat-icon> Vault

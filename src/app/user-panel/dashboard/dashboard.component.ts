@@ -222,7 +222,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(DialogTransferTokensComponent, {
       data: {
-        langCode: defLang.code
+        langCode: defLang.code,
+        balance: this.balancePST
       },
       direction: direction,
       disableClose: true

@@ -1,21 +1,60 @@
 <h2 mat-dialog-title>
 	<mat-icon class="title-icon">send</mat-icon>
-	<span>Transfer tokens</span>
+	<span>Transfer $WIKI tokens</span>
 </h2>
-<mat-dialog-content>
-  <p>
-	  <mat-form-field appearance="outline">
-	    <mat-label>Recipient</mat-label>
-	    <input matInput placeholder="Arweave address" autocomplete="off">
-	  </mat-form-field>
-	  <mat-form-field appearance="outline">
-	    <mat-label>Transfer amount</mat-label>
-	    <input matInput placeholder="AR amount" type="number" min="0" max="1" autocomplete="off">
-	    <mat-hint>Total available: {{ 1 }} </mat-hint>
-	  </mat-form-field>
-	</p>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button><mat-icon>send</mat-icon> Send</button>
-  <button mat-flat-button mat-dialog-close cdkFocusInitial>Close</button>
-</mat-dialog-actions>
+<form [formGroup]="frmTransfer" (ngSubmit)="onSubmit()">
+	<mat-dialog-content>
+			<ng-container *ngIf="!loadingSendTokens">
+			  <mat-form-field appearance="outline">
+			    <mat-label>Recipient</mat-label>
+			    <input 
+			    	matInput 
+			    	placeholder="Arweave address" 
+			    	autocomplete="off" 
+			    	formControlName="recipient">
+			  </mat-form-field>
+			  <mat-form-field appearance="outline" hintLabel="Total $WIKI available: {{ data.balance }}">
+			    <mat-label>Transfer amount</mat-label>
+			    <input 
+			    	matInput 
+			    	placeholder="$WIKI amount" 
+			    	type="number" min="0" 
+			    	[max]="data.balance" 
+			    	formControlName="amount"
+			    	autocomplete="off">
+		    	<span matSuffix>$WIKI</span>
+			    <mat-hint class="link" (click)="amount!.setValue(data.balance)" align="end">Use max</mat-hint>
+			  </mat-form-field>
+			</ng-container>
+			<div *ngIf="loadingSendTokens">
+				<div *ngIf="!transferTX" class="text-center">
+					<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+					🚀 Sending tokens, please hold on ...
+				</div>
+				<div *ngIf="transferTX">
+			    <div>
+			    	🥳 Tokens sent! You can follow your tx status here:
+			    	<a 
+							mat-button 
+							target="_blank"
+							href="https://viewblock.io/arweave/tx/{{transferTX}}" 
+							class="text-center">https://viewblock.io/arweave/tx/{{ transferTX }}
+						</a>	
+			    </div>
+			    <div>You can close this window now.</div>
+				</div>
+			</div>
+	</mat-dialog-content>
+	<mat-dialog-actions align="end">
+	  <button 
+	  	mat-button 
+	  	type="submit" 
+	  	[disabled]="!frmTransfer.valid || loadingSendTokens">
+	  	<mat-icon>send</mat-icon> Send
+	  </button>
+	  <button 
+	  	mat-flat-button 
+	  	mat-dialog-close 
+	  	cdkFocusInitial>Close</button>
+	</mat-dialog-actions>
+</form>
