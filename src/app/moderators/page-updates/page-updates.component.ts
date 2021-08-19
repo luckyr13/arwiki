@@ -11,7 +11,7 @@ import { ArwikiQuery } from '../../core/arwiki-query';
 import { ActivatedRoute } from '@angular/router';
 import { Direction } from '@angular/cdk/bidi';
 import { UserSettingsService } from '../../core/user-settings.service';
-import { Arwiki, arwikiVersion } from '../../core/arwiki';
+import { arwikiVersion } from '../../core/arwiki';
 import { ArwikiPage } from '../../core/interfaces/arwiki-page';
 import { ArwikiCategoryIndex } from '../../core/interfaces/arwiki-category-index';
 import { ArwikiPageIndex } from '../../core/interfaces/arwiki-page-index';
@@ -34,7 +34,6 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
   insertPageTxErrorMessage: string = '';
   arwikiQuery!: ArwikiQuery;
   routeLang: string = '';
-  private _arwiki!: Arwiki;
   baseURL = this._arweave.baseURL;
   pageSlug: string = '';
 
@@ -52,9 +51,6 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
     const adminList: any[] = this._auth.getAdminList();
     this.routeLang = this._route.snapshot.paramMap.get('lang')!;
     this.pageSlug = this._route.snapshot.paramMap.get('slug')!;
-
-    // Init arwiki 
-    this._arwiki = new Arwiki(this._arweave.arweave);
 
     // Init ardb instance
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);

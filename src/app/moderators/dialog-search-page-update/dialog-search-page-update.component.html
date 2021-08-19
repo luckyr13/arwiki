@@ -3,7 +3,14 @@
 	<span>Pending updates</span>
 </h2>
 <mat-dialog-content>
-  <p>Pending ...</p>
+  <p *ngIf="loadingPendingPages">Loading ...</p>
+  <ng-container *ngIf="!loadingPendingPages">
+  	<div *ngFor="let p of pages">
+	  	<p>
+		  	<button mat-button (click)="viewUpdates(p.slug)">{{ p.title }} </button>
+		  </p>
+	  </div>
+  </ng-container>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close cdkFocusInitial>Cancel</button>

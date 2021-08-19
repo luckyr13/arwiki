@@ -366,7 +366,9 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
       'ltr' : 'rtl';
 
     const dialogRef = this._dialog.open(DialogSearchPageUpdateComponent, {
-      data: {},
+      data: {
+        langCode: defLang.code
+      },
       direction: direction,
       disableClose: true
     });

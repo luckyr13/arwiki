@@ -736,4 +736,46 @@ export class ArwikiQuery {
     return obs;
   }
 
+  /*
+  * @dev
+  */
+  getPendingPagesUpdatesByLang(
+    _langCode: string,
+    limit: number = 100, 
+    _maxHeight: number = 0
+  ): Observable<any> {
+    const tags = [
+      {
+        name: 'Service',
+        values: ['ArWiki'],
+      },
+      {
+        name: 'Arwiki-Type',
+        values: ['PageUpdate'],
+      },
+      {
+        name: 'Arwiki-Version',
+        values: arwikiVersion,
+      },
+      {
+        name: 'Arwiki-Page-Lang',
+        values: [_langCode]
+      },
+    ];
+
+    const obs = new Observable((subscriber) => {
+      this._ardb!.search('transactions')
+        .limit(limit)
+        .max(_maxHeight)
+        .tags(tags).find().then((res) => {
+          subscriber.next(res);
+          subscriber.complete();
+        }).catch((error) => {
+          subscriber.error(error);
+        });
+
+    });
+    return obs;
+  }
+
 }
