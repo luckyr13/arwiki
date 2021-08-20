@@ -730,10 +730,17 @@ export function handle(state, action) {
     if (targetQty <= 0) {
       throw new ContractError("You must donate some AR to the page sponsor for voting");
     }
+
+    if (pages[lang][slug].upvotes + 1 > Number.MAX_SAFE_INTEGER) {
+      throw new ContractError("Upvotes too large.");
+    }
+    if (pages[lang][slug].downvotes + 1 > Number.MAX_SAFE_INTEGER) {
+      throw new ContractError("Downvotes too large.");
+    }
     if (vote) {
-      pages[lang][slug].upvote += 1;
+      pages[lang][slug].upvotes += 1;
     } else {
-      pages[lang][slug].downvote += 1;
+      pages[lang][slug].downvotes += 1;
     }
     
     return { state };
