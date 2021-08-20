@@ -41,6 +41,7 @@ import { BottomSheetShareComponent } from './bottom-sheet-share/bottom-sheet-sha
 import {MatBadgeModule} from '@angular/material/badge';
 import { DialogTransferTokensComponent } from './dialog-transfer-tokens/dialog-transfer-tokens.component';
 import { DialogVaultComponent } from './dialog-vault/dialog-vault.component';
+import { DialogVotePageComponent } from './dialog-vote-page/dialog-vote-page.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { DialogVaultComponent } from './dialog-vault/dialog-vault.component';
     BottomSheetShareComponent,
     DialogTransferTokensComponent,
     DialogVaultComponent,
+    DialogVotePageComponent,
   ],
   imports: [
     CommonModule,

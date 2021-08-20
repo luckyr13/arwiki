@@ -1,0 +1,68 @@
+<h2 mat-dialog-title>
+	<ng-container *ngIf="data.upvote">
+		<mat-icon class="green title-icon">thumb_up</mat-icon>
+		<span>Upvote page</span>
+	</ng-container>
+	<ng-container *ngIf="!data.upvote">
+		<mat-icon class="red title-icon">thumb_down</mat-icon>
+		<span>Downvote page</span>
+	</ng-container>
+</h2>
+<mat-progress-bar 
+  [color]="data.upvote ? 'primary' : 'warn'"
+  mode="indeterminate"
+  *ngIf="(loadingBalance || (loadingDonationInProgress && !txDonation)) && !errorMsg"
+  class="fadeIn"></mat-progress-bar>
+<mat-dialog-content class="container container-donate">
+  <div *ngIf="data.mainAddress && !loadingDonationInProgress" class="row">
+  	<p class="col-12 mini-text ellipsis">
+  		*You need to donate some AR to the page sponsor to vote.<br>
+  		<strong>From: </strong>{{ data.mainAddress }}
+      <br>
+      <strong>Balance: </strong>{{ balance }}
+      <br>
+      <strong>Page: </strong>{{ data.langCode }}/{{ data.slug }}
+  	</p>
+  	<div *ngIf="data.author" class="col-12 text-right mini-text ellipsis">
+  		<mat-icon class="red">favorite</mat-icon>
+  		<strong>To author: </strong>{{ data.author }}
+  	</div>
+  	<div *ngIf="data.sponsor" class="col-12 text-right mini-text ellipsis">
+  		<mat-icon class="red">favorite</mat-icon>
+  		<strong>To sponsor: </strong>{{ data.sponsor }}
+  	</div>
+    <p class="col-12 mini-text">
+      <strong>Choose amount: </strong>
+    </p>
+  	<div  class="col-12 text-center mini-text">
+  		<mat-slider
+        [(ngModel)]="amount"
+        tickInterval="1"
+        step="0.00001"
+        min="0"
+        [disabled]="loadingBalance"
+        [max]="maxAmount"
+        aria-label="AR"></mat-slider>
+  	</div>
+    <div  class="col-12 text-right mini-text">
+      {{ amount }} AR
+    </div>
+  </div>
+  <div *ngIf="!data.mainAddress">🙏 Please login first 👾</div>
+  <div *ngIf="loadingDonationInProgress && !errorMsg">
+    <h1 *ngIf="!txDonation">🚀 Transaction in progress, hold on!</h1>
+    <h2 *ngIf="txDonation">🥳 Vote sent! Thank you very much for your support! 🙏🙌</h2>
+    <h2 *ngIf="txDonation">You can close this window now.</h2>
+  </div>
+  <div *ngIf="errorMsg">
+    Error: {{ errorMsg }}
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+	<button 
+  	mat-button 
+  	*ngIf="data.mainAddress && !loadingDonationInProgress" 
+    [disabled]="!amount"
+  	(click)="voteAndDonate(amount, data.sponsor, data.slug, data.langCode, data.upvote)">Alright! Let's do it!</button>
+  <button mat-button mat-dialog-close cdkFocusInitial>Close</button>
+</mat-dialog-actions>

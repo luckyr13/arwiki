@@ -16,5 +16,7 @@ export interface ArwikiPage {
 	sponsor?: string;
 	author?: string;
 	active?: boolean;
-	updates?: ArwikiPageUpdate[]
+	updates?: ArwikiPageUpdate[],
+	upvotes?: number;
+	downvotes?: number;
 }

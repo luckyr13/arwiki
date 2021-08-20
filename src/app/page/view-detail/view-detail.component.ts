@@ -20,6 +20,7 @@ import { switchMap } from 'rxjs/operators';
 declare const window: any;
 declare const document: any;
 import { DialogDonateComponent } from '../../shared/dialog-donate/dialog-donate.component';
+import { DialogVotePageComponent } from '../../shared/dialog-vote-page/dialog-vote-page.component';
 import { Direction } from '@angular/cdk/bidi';
 import {MatDialog} from '@angular/material/dialog';
 import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confirm.component';
@@ -140,7 +141,6 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
           const id = p.node.id;
           const block = p.node.block;
           const extraMetadata = this.pageExtraMetadata;
-
           
           finalRes.push({
             title: this.removeHTMLfromStr(title),
@@ -149,7 +149,9 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
             img: this.removeHTMLfromStr(img),
             owner: owner,
             id: id,
-            block: block
+            block: block,
+            upvotes: extraMetadata.upvotes,
+            downvotes: extraMetadata.downvotes
           });
           
         }
@@ -489,6 +491,27 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
         }
 
       }
+    });
+  }
+
+  upvote(upvote: boolean, sponsor: string, slug: string, lang: string) {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
+    const dialogRef = this._dialog.open(DialogVotePageComponent, {
+      data: {
+        sponsor: sponsor,
+        mainAddress: this.mainAddress,
+        upvote: upvote,
+        slug: slug,
+        langCode: lang
+      },
+      direction: direction,
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(async (result) => {
     });
   }
 

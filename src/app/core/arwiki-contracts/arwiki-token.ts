@@ -90,7 +90,6 @@ export class ArwikiTokenContract
 	*	@dev Return state
 	*/
 	getState(reload: boolean = false, useKYVE: boolean = false): Observable<any> {
-    console.log('use kyve', useKYVE)
 		if (useKYVE) {
       return this.getStateFromKYVE(reload);
     }
@@ -628,6 +627,58 @@ export class ArwikiTokenContract
       this._contractAddress,
       input,
       tags
+    );
+
+    return tx;
+  }
+
+  /*
+  * @dev Create vote proposal for new Moderator
+  */
+  async votePage(
+    _target: string,
+    _qty: number,
+    _lang: string,
+    _slug: string,
+    _vote: boolean,
+    _privateKey: any,
+    _arwikiVersion: string
+  ) {
+    const jwk = _privateKey;
+    const tags = [
+      {name: 'Service', value: 'ArWiki'},
+      {name: 'Arwiki-Type', value: 'VotePageAndDonate'},
+      {name: 'Arwiki-Version', value: _arwikiVersion},
+    ];
+    const input = {
+      function: 'votePage',
+      langCode: _lang,
+      slug: _slug,
+      vote: _vote,
+    };
+    
+    const testTX = await interactWriteDryRun(
+      this._arweave.arweave,
+      jwk,
+      this._contractAddress,
+      input,
+      tags,
+      _target,
+      this._arweave.arweave.ar.arToWinston(_qty)
+    );
+
+    if (testTX && testTX.type==='error' && testTX.result) {
+      throw new Error(testTX.result)
+    }
+
+    const tx = await interactWrite(
+      this._arweave.arweave,
+      jwk,
+      this._contractAddress,
+      input,
+      tags,
+      _target,
+      this._arweave.arweave.ar.arToWinston(_qty)
     );
 
     return tx;

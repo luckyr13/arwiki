@@ -24,6 +24,24 @@
 		    <mat-icon>share</mat-icon>
 		    Share
 		  </button>
+		  <button 
+	    	type="button"
+		  	mat-button 
+		  	class="btn-toolbar vote-btn" 
+		  	color="primary"
+		  	(click)="upvote(true, pageExtraMetadata.sponsor, routeSlug, routeLang)">
+		    <mat-icon>thumb_up</mat-icon>
+		    {{ pageData.upvotes ? pageData.upvotes : '0' }}
+		  </button>
+		  <button 
+	    	type="button"
+		  	mat-button 
+		  	class="btn-toolbar vote-btn" 
+		  	color="primary"
+		  	(click)="upvote(false, pageExtraMetadata.sponsor, routeSlug, routeLang)">
+		    <mat-icon>thumb_down</mat-icon>
+		    {{ pageData.downvotes ? pageData.downvotes : '0' }}
+		  </button>
 	    <button 
 	    	type="button"
 		  	mat-button 
