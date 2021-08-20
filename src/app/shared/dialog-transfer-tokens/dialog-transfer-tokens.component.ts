@@ -17,7 +17,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class DialogTransferTokensComponent implements OnInit {
 	frmTransfer: FormGroup = new FormGroup({
 		recipient: new FormControl('', [Validators.required]),
-		amount: new FormControl('0', [Validators.required])
+		amount: new FormControl('0', [Validators.required, Validators.min(1)])
 	});
 	loadingSendTokens: boolean = false;
 	transferTX: string = '';

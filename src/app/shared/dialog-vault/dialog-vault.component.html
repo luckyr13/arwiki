@@ -2,9 +2,79 @@
 	<mat-icon class="title-icon yellow">vpn_key</mat-icon>
 	<span>Vault</span>
 </h2>
-<mat-dialog-content>
-	coming soon ...
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close cdkFocusInitial>Cancel</button>
-</mat-dialog-actions>
+	<mat-dialog-content>
+		<mat-tab-group>
+		  <mat-tab label="Lock balance">
+		  	<form [formGroup]="frmTransfer" (ngSubmit)="onSubmit()" class="tab-container">
+					<ng-container *ngIf="!loadingSendTokens">
+					  <mat-form-field appearance="outline" hintLabel="Min lock length: {{ data.lockMinLength }} blocks {{ formatBlocks(data.lockMinLength) }}">
+					    <mat-label>Block length</mat-label>
+					    <input 
+					    	matInput 
+					    	type="number"
+					    	min="data.lockMinLength" 
+					    	[max]="data.lockMaxLength" 
+					    	placeholder="Time that balance must be locked" 
+					    	autocomplete="off" 
+					    	formControlName="lockLength">
+					    <mat-hint class="link" (click)="lockLength!.setValue(data.lockMaxLength)" align="end">Use max</mat-hint>
+					  </mat-form-field>
+					  <mat-form-field appearance="outline" hintLabel="Total $WIKI available: {{ data.balance }}">
+					    <mat-label>Amount</mat-label>
+					    <input 
+					    	matInput 
+					    	placeholder="$WIKI amount" 
+					    	type="number"
+					    	 min="0" 
+					    	[max]="data.balance" 
+					    	formControlName="amount"
+					    	autocomplete="off">
+				    	<span matSuffix>$WIKI</span>
+					    <mat-hint class="link" (click)="amount!.setValue(data.balance)" align="end">Use max</mat-hint>
+					  </mat-form-field>
+					</ng-container>
+					<div *ngIf="loadingSendTokens">
+						<div *ngIf="!transferTX" class="text-center">
+							<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+							🔐 Locking tokens, please hold on ...
+						</div>
+						<div *ngIf="transferTX">
+					    <div>
+					    	🥳 Tokens locked! You can follow your tx status here:
+					    	<a 
+									mat-button 
+									target="_blank"
+									href="https://viewblock.io/arweave/tx/{{transferTX}}" 
+									class="text-center">https://viewblock.io/arweave/tx/{{ transferTX }}
+								</a>	
+					    </div>
+					    <div>You can close this window now.</div>
+						</div>
+						<div *ngIf="errorMsg">
+					    Error: {{errorMsg  }}
+						</div>
+					</div>
+					<button 
+				  	mat-button 
+				  	class="big-btn"
+				  	type="submit" 
+				  	[disabled]="!frmTransfer.valid || loadingSendTokens">
+				  	<mat-icon>lock</mat-icon> Lock balance
+				  </button>
+				</form>
+		  </mat-tab>
+		  <mat-tab label="View vault">
+		  	<div class="tab-container">
+		  		<h3> Vault content </h3>
+		  		{{ data.vault | json }}
+		  	</div>
+		  </mat-tab>
+		</mat-tab-group>
+		
+	</mat-dialog-content>
+	<mat-dialog-actions align="end">
+	  <button 
+	  	mat-flat-button 
+	  	mat-dialog-close 
+	  	cdkFocusInitial>Close</button>
+	</mat-dialog-actions>

@@ -72,15 +72,6 @@ export class DialogVotePageComponent implements OnInit, OnDestroy {
   	this.loadingDonationInProgress = true;
   	this.txDonation = '';
   	try {
-  		console.log(
-  				sponsor,
-			    amount,
-			    langCode,
-			    slug,
-			    upvote,
-			    this._auth.getPrivateKey(),
-			    arwikiVersion[0]
-  			)
   		this.txDonation = await this._arwikiTokenContract
   			.votePage(
 			    sponsor,

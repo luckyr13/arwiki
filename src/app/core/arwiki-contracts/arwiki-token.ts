@@ -683,4 +683,64 @@ export class ArwikiTokenContract
     return tx;
   }
 
+  /*
+  *  @dev Get all balances variables
+  */
+  getAllBalances(): Observable<any> {
+    return this.getState().pipe(
+      map((_state: any) => {
+        const res = {
+          'vault': _state.vault,
+          'stakes': _state.stakes,
+          'balance': _state.balances
+        };
+        return res;
+      })
+    );
+  }
+
+  /*
+  * @dev Lock tokens in vault
+  */
+  async lockTokensInVault(
+    _lockLength: number,
+    _amount: number,
+    _privateKey: any,
+    _arwikiVersion: string
+  ) {
+    const jwk = _privateKey;
+    const tags = [
+      {name: 'Service', value: 'ArWiki'},
+      {name: 'Arwiki-Type', value: 'LockInVault'},
+      {name: 'Arwiki-Version', value: _arwikiVersion},
+    ];
+    const input = {
+      function: 'lock',
+      lockLength: _lockLength,
+      qty: _amount,
+    };
+    
+    const testTX = await interactWriteDryRun(
+      this._arweave.arweave,
+      jwk,
+      this._contractAddress,
+      input,
+      tags
+    );
+
+    if (testTX && testTX.type==='error' && testTX.result) {
+      throw new Error(testTX.result)
+    }
+
+    const tx = await interactWrite(
+      this._arweave.arweave,
+      jwk,
+      this._contractAddress,
+      input,
+      tags
+    );
+
+    return tx;
+  }
+
 }

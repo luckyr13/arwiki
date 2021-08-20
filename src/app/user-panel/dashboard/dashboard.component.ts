@@ -33,10 +33,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   balanceSubscription: Subscription = Subscription.EMPTY;
   balancePSTSubscription: Subscription = Subscription.EMPTY;
   pstSettingsSubscription: Subscription = Subscription.EMPTY;
+  allBalancesSubscription: Subscription = Subscription.EMPTY;
   pstSettings: any = [];
   loadingBalance: boolean = false;
   loadingBalancePST: boolean = false;
   loadingSettings: boolean = false;
+  loadingAllBalances: boolean = false;
   txmessage: string = '';
   lastTransactionID: Observable<string> = this._arweave.getLastTransactionID(
     this.mainAddress
@@ -47,6 +49,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   loadingTotalSupply: boolean = false;
   totalSupplySubscription: Subscription = Subscription.EMPTY;
   totalSupply: number = 0;
+  lockMinLength: number = 0;
+  lockMaxLength: number = 0;
+  vault: any = null;
 
   constructor(
   	private _snackBar: MatSnackBar,
@@ -137,6 +142,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
             const formatFunction = settings[i].formatFunction;
             const value = this.pstSettings.get(key);
 
+            if (key === 'lockMinLength') {
+              this.lockMinLength = value;
+            }
+            if (key === 'lockMaxLength') {
+              this.lockMaxLength = value;
+            }
+            
+
             this.daoSettings.push({
               position: i + 1,
               label: key,
@@ -167,6 +180,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.loadingTotalSupply = false;
         }
       });
+
+    this.loadingAllBalances = true;
+    this.allBalancesSubscription = this._arwikiTokenContract
+      .getAllBalances()
+      .subscribe({
+        next: (res: any) => {
+          this.vault = Object.prototype.hasOwnProperty.call(res.vault, this.mainAddress) ?
+             res.vault[this.mainAddress] : [];
+          this.loadingAllBalances = false;
+        },
+        error: (error) => {
+          this.message(error, 'error');
+          this.loadingAllBalances = false;
+        }
+      });
+
+
 
   }
 
@@ -242,7 +272,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(DialogVaultComponent, {
       data: {
-        langCode: defLang.code
+        balance: this.balancePST,
+        lockMinLength: this.lockMinLength,
+        lockMaxLength: this.lockMaxLength,
+        vault: this.vault
       },
       direction: direction,
       disableClose: true
