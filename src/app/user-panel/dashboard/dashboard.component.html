@@ -151,7 +151,11 @@
 			  <!-- Position Column -->
 			  <ng-container matColumnDef="value">
 			    <th mat-header-cell *matHeaderCellDef> Value </th>
-			    <td mat-cell *matCellDef="let element"> {{element.specialValue}} </td>
+			    <td mat-cell *matCellDef="let element">
+			    	{{
+			    		element.specialValue + ' (' + element.value + ')'
+			    	}} 
+			    </td>
 			  </ng-container>
 
 			  <tr mat-header-row *matHeaderRowDef="displayedColumnsDaoSettings"></tr>
