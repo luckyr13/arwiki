@@ -164,6 +164,8 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   				this.pageData.id = page.id ? page.id : '';
           this.pageData.owner = page.owner ? page.owner : '';
           this.pageData.category = page.category ? page.category : '';
+          this.pageData.upvotes = page.upvotes ? page.upvotes : 0;
+          this.pageData.downvotes = page.downvotes ? page.downvotes : 0;
           this.block = page.block;
 
           const content = await this._arweave.arweave.transactions.getData(

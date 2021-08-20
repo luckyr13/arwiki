@@ -31,7 +31,7 @@
 		  	color="primary"
 		  	(click)="upvote(true, pageExtraMetadata.sponsor, routeSlug, routeLang)">
 		    <mat-icon>thumb_up</mat-icon>
-		    {{ pageData.upvotes ? pageData.upvotes : '0' }}
+		    {{ pageData.upvotes }}
 		  </button>
 		  <button 
 	    	type="button"
@@ -40,7 +40,7 @@
 		  	color="primary"
 		  	(click)="upvote(false, pageExtraMetadata.sponsor, routeSlug, routeLang)">
 		    <mat-icon>thumb_down</mat-icon>
-		    {{ pageData.downvotes ? pageData.downvotes : '0' }}
+		    {{ pageData.downvotes }}
 		  </button>
 	    <button 
 	    	type="button"
