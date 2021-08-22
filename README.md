@@ -7,6 +7,7 @@ ArWiki is an Arweave dapp, a web3 website that lives on the permaweb.
 You can visit the ArWiki using the next links: 
 ArWiki (ALPHA): https://arwiki.wiki
 Arwiki (GitHub pages demo): http://luckyr13.github.io/arwiki
+Arwiki (Arweave gateway - 2021-08-21): https://arweave.net/8cKNaLZgd7Ln-P78QTqKrVXO2jpVn6BTwZeWhD4n1xI
 
 ## Release notes
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.5.
