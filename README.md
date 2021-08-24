@@ -10,7 +10,7 @@ ArWiki (ALPHA): https://arwiki.wiki
 
 Arwiki (GitHub pages demo): http://luckyr13.github.io/arwiki
 
-Arwiki (Arweave gateway - 2021-08-21): https://arweave.net/8cKNaLZgd7Ln-P78QTqKrVXO2jpVn6BTwZeWhD4n1xI
+Arwiki (Permaweb link - 2021-08-24): https://arweave.net/6ORB_cb8aqwYWd2lqjKKLyyD0CcMXm-TF7JIagK5Dn0
 
 ## Release notes
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.5.
