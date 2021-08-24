@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { ArweaveService } from '../../core/arweave.service';
-import { Observable, Subscription, EMPTY, of } from 'rxjs';
+import { Observable, Subscription, EMPTY, of, from } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
 import { AuthService } from '../../auth/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -34,6 +34,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   balancePSTSubscription: Subscription = Subscription.EMPTY;
   pstSettingsSubscription: Subscription = Subscription.EMPTY;
   allBalancesSubscription: Subscription = Subscription.EMPTY;
+  networkInfoSubscription: Subscription = Subscription.EMPTY;
   pstSettings: any = [];
   loadingBalance: boolean = false;
   loadingBalancePST: boolean = false;
@@ -52,6 +53,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   lockMinLength: number = 0;
   lockMaxLength: number = 0;
   vault: any = null;
+  currentHeight: number = 0;
 
   constructor(
   	private _snackBar: MatSnackBar,
@@ -196,7 +198,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
       });
 
+      this.networkInfoSubscription = from(
+        this._arweave.arweave.network.getInfo()
+      ).subscribe({
+        next: (networkInfo: any) => {
+          this.currentHeight = networkInfo.height;
+        },
+        error: (error) => {
+          this.message(error, 'error');
 
+        }
+      });
 
   }
 
@@ -211,6 +223,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
     if (this.pstSettingsSubscription) {
       this.pstSettingsSubscription.unsubscribe();
+    }
+    if (this.allBalancesSubscription) {
+      this.allBalancesSubscription.unsubscribe();
+    }
+    if (this.networkInfoSubscription) {
+      this.networkInfoSubscription.unsubscribe();
     }
   }
 
@@ -265,17 +283,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  vaultDialog() {
+  async vaultDialog() {
     const defLang = this._userSettings.getDefaultLang();
     let direction: Direction = defLang.writing_system === 'LTR' ? 
       'ltr' : 'rtl';
+
+    
 
     const dialogRef = this._dialog.open(DialogVaultComponent, {
       data: {
         balance: this.balancePST,
         lockMinLength: this.lockMinLength,
         lockMaxLength: this.lockMaxLength,
-        vault: this.vault
+        vault: this.vault,
+        currentHeight: this.currentHeight
       },
       direction: direction,
       disableClose: true

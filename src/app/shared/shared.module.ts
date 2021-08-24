@@ -42,6 +42,7 @@ import {MatBadgeModule} from '@angular/material/badge';
 import { DialogTransferTokensComponent } from './dialog-transfer-tokens/dialog-transfer-tokens.component';
 import { DialogVaultComponent } from './dialog-vault/dialog-vault.component';
 import { DialogVotePageComponent } from './dialog-vote-page/dialog-vote-page.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,9 @@ import { DialogVotePageComponent } from './dialog-vote-page/dialog-vote-page.com
     FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatPaginatorModule,
+    MatTableModule,
   ],
   exports: [
   	MatFormFieldModule,
@@ -111,7 +114,8 @@ import { DialogVotePageComponent } from './dialog-vote-page/dialog-vote-page.com
     MatSliderModule,
     BalanceCardComponent,
     MatTableModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatPaginatorModule
   ],
   // entryComponents: [DialogSelectLanguageComponent]
 })

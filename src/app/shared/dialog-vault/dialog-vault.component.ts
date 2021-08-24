@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, AfterViewInit  } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -8,13 +8,15 @@ import { ArweaveService } from '../../core/arweave.service';
 import { AuthService } from '../../auth/auth.service';
 import { arwikiVersion } from '../../core/arwiki';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatTableDataSource} from '@angular/material/table';
 
 @Component({
   selector: 'app-dialog-vault',
   templateUrl: './dialog-vault.component.html',
   styleUrls: ['./dialog-vault.component.scss']
 })
-export class DialogVaultComponent implements OnInit {
+export class DialogVaultComponent implements OnInit, AfterViewInit  {
   frmTransfer: FormGroup = new FormGroup({
 		lockLength: new FormControl(
       this.data.lockMinLength, [Validators.required]
@@ -26,6 +28,17 @@ export class DialogVaultComponent implements OnInit {
 	loadingSendTokens: boolean = false;
 	transferTX: string = '';
   errorMsg: string = '';
+  columnsToDisplay = ['balance', 'lockedLength', 'page', 'status'];
+  dataSource!: MatTableDataSource<any>;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  ngOnInit(): void {
+    this.dataSource = new MatTableDataSource<any>(this.data.vault);
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
 
   constructor(
   	@Inject(MAT_DIALOG_DATA) public data: any,
@@ -36,8 +49,6 @@ export class DialogVaultComponent implements OnInit {
     public _dialogRef: MatDialogRef<DialogVaultComponent>
   ) { }
 
-  ngOnInit(): void {
-  }
 
   public get amount() {
   	return this.frmTransfer.get('amount');

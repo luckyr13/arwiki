@@ -3,7 +3,7 @@
 	<span>Vault</span>
 </h2>
 	<mat-dialog-content>
-		<mat-tab-group>
+		<mat-tab-group animationDuration="0ms">
 		  <mat-tab label="Lock balance">
 		  	<form [formGroup]="frmTransfer" (ngSubmit)="onSubmit()" class="tab-container">
 					<ng-container *ngIf="!loadingSendTokens">
@@ -65,8 +65,50 @@
 		  </mat-tab>
 		  <mat-tab label="View vault">
 		  	<div class="tab-container">
-		  		<h3> Vault content </h3>
-		  		{{ data.vault | json }}
+		  		<table mat-table [dataSource]="dataSource">
+					  <ng-container matColumnDef="balance">
+						  <th mat-header-cell *matHeaderCellDef> Balance </th>
+						  <td mat-cell *matCellDef="let vault"> {{vault.balance}} </td>
+						</ng-container>
+					  <ng-container matColumnDef="lockedLength">
+						  <th mat-header-cell *matHeaderCellDef> Locked Length </th>
+						  <td mat-cell *matCellDef="let vault">
+						  	Start: {{vault.start}} <br> 
+						    End: {{vault.end}} 
+							</td>
+						</ng-container>
+						<ng-container matColumnDef="page">
+						  <th mat-header-cell *matHeaderCellDef> Page Data </th>
+						  <td mat-cell *matCellDef="let vault">
+						  	<ng-container *ngIf="vault.slug">
+						  		{{vault.lang}}/{{vault.slug}} ({{vault.action}})
+						  	</ng-container>
+							</td>
+						</ng-container>
+						<ng-container matColumnDef="status">
+						  <th mat-header-cell *matHeaderCellDef> Status </th>
+						  <td mat-cell *matCellDef="let vault">
+						  	<div class="red" *ngIf="vault.end >= data.currentHeight">
+						  		Locked! ({{ formatBlocks(vault.end - data.currentHeight) }})
+						  	</div>
+						  	<div class="green" *ngIf="vault.end < data.currentHeight">
+						  		Unlocked!
+						  	</div>
+							</td>
+						</ng-container>
+						<tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+						<tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+					</table>
+					<mat-paginator [pageSizeOptions]="[5, 10, 20]"
+				                 showFirstLastButtons 
+				                 aria-label="Select page of vault">
+				  </mat-paginator>
+		  	</div>
+		  </mat-tab>
+		  <mat-tab label="Unlock vault">
+		  	<div class="tab-container">
+		  		<h3> Unlock available tokens </h3>
+		  		
 		  	</div>
 		  </mat-tab>
 		</mat-tab-group>
