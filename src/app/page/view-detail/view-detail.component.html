@@ -131,18 +131,8 @@
 		    <mat-icon>edit</mat-icon>
 		    {{ 'GENERAL.BUTTONS.EDIT_PAGE' | translate }}
 		  </button>
-		  <button 
-	    	type="button"
-		  	mat-button 
-		  	class="btn-toolbar" 
-		  	color="primary"
-				[routerLink]="['/', routeLang, routeSlug, 'history']">
-		    <mat-icon>history</mat-icon>
-		    View history
-		  </button>
 		  <button
 				mat-button
-				color="warn"
 		  	class="btn-toolbar" 
     		*ngIf="pageExtraMetadata.sponsor === mainAddress"
 				(click)="confirmStopStake(routeSlug)"
@@ -153,6 +143,7 @@
 			</button>
 			<button
 				mat-button
+		  	class="btn-toolbar" 
 				color="primary"
     		*ngIf="pageExtraMetadata.sponsor !== mainAddress"
 				matTooltip="Sponsor page"
@@ -162,6 +153,16 @@
 				<mat-icon *ngIf="!loadingUpdateSponsorPage" >casino</mat-icon>
 				Sponsor page
 			</button>
+		  <button 
+	    	type="button"
+		  	mat-button 
+		  	class="btn-toolbar" 
+		  	color="primary"
+				[routerLink]="['/', routeLang, routeSlug, 'history']">
+		    <mat-icon>history</mat-icon>
+		    View history
+		  </button>
+		  
 		</div>
 		<p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageData.owner">
 			<app-arweave-address [address]="pageData.owner">Created by: </app-arweave-address>
