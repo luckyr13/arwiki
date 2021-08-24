@@ -33,3 +33,31 @@
 	font-size: 12px;
 	word-break: break-word;
 }
+
+      
+
+.card-history-list-item-img {
+    width: 100% !important;
+    height: auto !important;
+    border-radius: 0 !important;
+}
+
+.xs-show {
+	display: block;
+}
+.md-show {
+	display: none;
+}
+
+
+@media (min-width: 800px) {
+	.card-history-list-item-img {
+    width: 180px !important;
+	}
+	.xs-show {
+		display: none;
+	}
+	.md-show {
+		display: block;
+	}
+}

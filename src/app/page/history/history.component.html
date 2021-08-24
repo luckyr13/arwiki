@@ -25,14 +25,20 @@
 					<ng-container *ngFor="let h of historyList; index as i; count as total">
 						<mat-list-item 
 							class="card-history-list-item">
+							<img matListAvatar class="card-history-list-item-img md-show" *ngIf="h.img" [src]="h.img" alt="Mini">
+    					<p matLine>
+					      <img matListAvatar class="card-history-list-item-img xs-show" *ngIf="h.img" [src]="h.img" alt="Mini">
+					    </p>
 					    <p matLine>
-					      <app-arweave-address [address]="h.id">Page TX ({{total - i}}): </app-arweave-address>
-					      <app-arweave-address [address]="h.sponsor!">Approved/Sponsored by: </app-arweave-address>
+					      <app-arweave-address [address]="h.id">TX ({{total - i}}): </app-arweave-address>
+					      <app-arweave-address [address]="h.sponsor!">Sponsor: </app-arweave-address>
 					    </p>
 					    <p matLine>
 						    <span> 
 						    	<strong>TX timestamp:</strong> {{ timestampToDate(h.block.timestamp) }}
 						    </span>
+					    </p>
+					    <p matLine>
 					      <span> 
 						      <strong>Approved at block:</strong> {{ h.start }}
 						    </span>
