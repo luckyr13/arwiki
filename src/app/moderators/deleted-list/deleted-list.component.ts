@@ -15,6 +15,8 @@ import { UserSettingsService } from '../../core/user-settings.service';
 import { Arwiki, arwikiVersion } from '../../core/arwiki';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
 import { DialogConfirmAmountComponent } from '../../shared/dialog-confirm-amount/dialog-confirm-amount.component';
+import ArdbBlock from 'ardb/lib/models/block';
+import ArdbTransaction from 'ardb/lib/models/transaction';
 
 @Component({
   selector: 'app-deleted-list',
@@ -172,10 +174,11 @@ export class DeletedListComponent implements OnInit, OnDestroy {
             maxHeight
           );
         }),
-        switchMap((deletedPagesTX) => {
+        switchMap((deletedPagesTX: ArdbTransaction[]|ArdbBlock[]) => {
           const deletedPagesDict: Record<string,boolean> = {};
           for (const p of deletedPagesTX) {
-            const arwikiId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
+            const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
+            const arwikiId = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Id');
             deletedPagesDict[arwikiId] = true;
           }
 
@@ -187,19 +190,20 @@ export class DeletedListComponent implements OnInit, OnDestroy {
           
           return this.arwikiQuery.getTXsData(finalList);
         }),
-        switchMap((pages) => {
+        switchMap((pages: ArdbTransaction[]|ArdbBlock[]) => {
           let tmp_res: ArwikiPage[] = [];
           for (let p of pages) {
-            const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
+            const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
+            const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
             tmp_res.push({
-              id: p.node.id,
-              title: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title'),
+              id: pTX.id,
+              title: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title'),
               slug: slug,
-              category: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category'),
-              language: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang'),
+              category: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category'),
+              language: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang'),
               value: allPages[slug].value,
-              owner: p.node.owner.address,
-              block: p.node.block,
+              owner: pTX.owner.address,
+              block: pTX.block,
               start: allPages[slug].start,
               sponsor: allPages[slug].sponsor,
               pageRewardAt: allPages[slug].pageRewardAt              

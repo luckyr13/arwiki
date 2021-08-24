@@ -14,6 +14,8 @@ import {
   ArwikiTokenContract 
 } from '../../core/arwiki-contracts/arwiki-token';
 declare const window: any;
+import ArdbBlock from 'ardb/lib/models/block';
+import ArdbTransaction from 'ardb/lib/models/transaction';
 
 @Component({
   selector: 'app-my-pages',
@@ -82,33 +84,29 @@ export class MyPagesComponent implements OnInit, OnDestroy {
 
   getMyArWikiPages() {
     this.loading = true;
-    let myPagesTX = {};
-    let allVerifiedPages: any = {};
+    let myPagesTX: ArdbTransaction[]|ArdbBlock[] = [];
     this.myPagesSubscription = this.arwikiQuery!.getMyArWikiPages(
       this._auth.getMainAddressSnapshot(),
       this.routeLang
     ).pipe(
-      switchMap((pages) => {
+      switchMap((pages: ArdbTransaction[]|ArdbBlock[]) => {
         myPagesTX = pages;
         return this._arwikiTokenContract.getApprovedPages(this.routeLang, -1);
-      }),
-      switchMap((_approvedPages) => {
-        allVerifiedPages = _approvedPages;
-        return of(myPagesTX);
-      }),
+      })
     )
     .subscribe({
-      next: (pages: any) => {
+      next: (allVerifiedPages: any) => {
         const finalPages: ArwikiPage[] = [];
-        for (let p of pages) {
-          const title = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
-          const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
-          const category = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
-          const lang = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang');
-          const img = this.sanitizeImg(this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img'));
-          const owner = p.node.owner.address;
-          const id = p.node.id;
-          const pageValue = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Value');
+        for (let p of myPagesTX) {
+          const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
+          const title = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title');
+          const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
+          const category = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category');
+          const lang = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang');
+          const img = this.sanitizeImg(this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img'));
+          const owner = pTX.owner.address;
+          const id = pTX.id;
+          const pageValue = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Value');
           const extraData = allVerifiedPages[slug] && allVerifiedPages[slug].content == id 
             ? allVerifiedPages[slug] : {};
           const start = extraData.start ? extraData.start : 0;
@@ -124,7 +122,7 @@ export class MyPagesComponent implements OnInit, OnDestroy {
             language: lang,
             id,
             value: pageValue,
-            block: p.node.block,
+            block: pTX.block,
             start,
             pageRewardAt,
             sponsor

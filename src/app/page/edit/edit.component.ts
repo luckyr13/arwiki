@@ -28,6 +28,8 @@ declare const document: any;
 declare const window: any;
 import * as marked from 'marked';
 import DOMPurify from 'dompurify';
+import ArdbBlock from 'ardb/lib/models/block';
+import ArdbTransaction from 'ardb/lib/models/transaction';
 
 @Component({
   templateUrl: './edit.component.html',
@@ -388,16 +390,17 @@ export class EditComponent implements OnInit, OnDestroy {
     this.pageSubscription = this.getPageBySlug(
       slug, langCode, maxHeight, numPages
     ).subscribe({
-      next: async (data) => {
+      next: async (data: ArdbTransaction[]|ArdbBlock[]) => {
         const finalRes: any = [];
         for (let p of data) {
-          const title = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
-          const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
-          const category = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
-          const img = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
-          const owner = p.node.owner.address;
-          const id = p.node.id;
-          const block = p.node.block;
+          const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
+          const title = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title');
+          const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
+          const category = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category');
+          const img = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img');
+          const owner = pTX.owner.address;
+          const id = pTX.id;
+          const block = pTX.block;
           const extraMetadata = this.pageExtraMetadata;
 
           

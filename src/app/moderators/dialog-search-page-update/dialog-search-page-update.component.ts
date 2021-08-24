@@ -12,6 +12,8 @@ import {
 } from '../../core/arwiki-contracts/arwiki-token';
 import { Router } from '@angular/router';
 import { MatDialogRef } from '@angular/material/dialog';
+import ArdbBlock from 'ardb/lib/models/block';
+import ArdbTransaction from 'ardb/lib/models/transaction';
 
 @Component({
   selector: 'app-dialog-search-page-update',
@@ -83,20 +85,21 @@ export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
         maxHeight
       )
       .pipe(
-        switchMap((pendingPages) => {
+        switchMap((pendingPages: ArdbTransaction[]|ArdbBlock[]) => {
           let tmp_res: ArwikiPageIndex = {};
 
           for (let p of pendingPages) {
-            tmp_res[p.node.id] = {
-              id: p.node.id,
-              title: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title'),
-              slug: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug'),
-              category: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category'),
-              language: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang'),
-              img: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img'),
-              owner: p.node.owner.address,
-              block: p.node.block,
-              value: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Value'),
+            const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
+            tmp_res[pTX.id] = {
+              id: pTX.id,
+              title: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title'),
+              slug: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug'),
+              category: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category'),
+              language: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang'),
+              img: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img'),
+              owner: pTX.owner.address,
+              block: pTX.block,
+              value: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Value'),
               
             };
           }

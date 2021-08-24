@@ -11,6 +11,8 @@ import { switchMap } from 'rxjs/operators';
 import { ArwikiPage } from '../../core/interfaces/arwiki-page';
 import { ArwikiPageIndex } from '../../core/interfaces/arwiki-page-index';
 import { UserSettingsService } from '../../core/user-settings.service';
+import ArdbBlock from 'ardb/lib/models/block';
+import ArdbTransaction from 'ardb/lib/models/transaction';
 
 @Component({
   templateUrl: './view-detail.component.html',
@@ -204,16 +206,17 @@ export class ViewDetailComponent implements OnInit {
             })
           return this.arwikiQuery.getTXsData(verifiedPages);
         }),
-        switchMap((_pages) => {
+        switchMap((_pages: ArdbTransaction[]|ArdbBlock[]) => {
           const finalRes: ArwikiPage[] = [];
           for (let p of _pages) {
-            const title = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
-            const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
-            const category = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
-            const img = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
-            const lang = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang');
-            const owner = p.node.owner.address;
-            const id = p.node.id;
+            const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
+            const title = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title');
+            const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
+            const category = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category');
+            const img = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img');
+            const lang = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang');
+            const owner = pTX.owner.address;
+            const id = pTX.id;
             const sponsor = allApprovedPages[slug].sponsor;
 
             finalRes.push({

@@ -19,6 +19,8 @@ import { AuthService } from '../../auth/auth.service';
 import { Arwiki } from '../../core/arwiki';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
 import { switchMap } from 'rxjs/operators';
+import ArdbBlock from 'ardb/lib/models/block';
+import ArdbTransaction from 'ardb/lib/models/transaction';
 
 @Component({
   templateUrl: './tag-manager.component.html',
@@ -89,18 +91,19 @@ export class TagManagerComponent implements OnInit, OnDestroy {
         const address: string = approvedPages && approvedPages[slug] ? approvedPages[slug].content! : '';
         return this.arwikiQuery.getTXsData([address]);
       })).subscribe({
-      next: (txData) => {
+      next: (txData: ArdbTransaction[]|ArdbBlock[]) => {
         if (txData && txData.length) {
           const p = txData[0];
+          const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
           this.page = {
-            id: p.node.id,
-            title: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title'),
-            slug: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug'),
-            category: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category'),
-            language: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang'),
-            img: this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img'),
-            owner: p.node.owner.address,
-            block: p.node.block
+            id: pTX.id,
+            title: this.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title'),
+            slug: this.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug'),
+            category: this.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category'),
+            language: this.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang'),
+            img: this.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img'),
+            owner: pTX.owner.address,
+            block: pTX.block
           };
         }
         this.loadingPage = false;
@@ -130,11 +133,12 @@ export class TagManagerComponent implements OnInit, OnDestroy {
       maxTags,
       maxHeight,
     ).subscribe({
-      next: (tags) => {
+      next: (tags: ArdbTransaction[]|ArdbBlock[]) => {
         this.currentTags = [];
         for (let p of tags) {
+          const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
           this.currentTags.push(
-            this.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Tag')
+            this.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Tag')
           );
         }
         

@@ -18,6 +18,8 @@ import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
 import { arwikiVersion } from '../../core/arwiki';
 import { DialogConfirmAmountComponent } from '../../shared/dialog-confirm-amount/dialog-confirm-amount.component';
 import { DialogSearchPageUpdateComponent } from '../dialog-search-page-update/dialog-search-page-update.component';
+import ArdbBlock from 'ardb/lib/models/block';
+import ArdbTransaction from 'ardb/lib/models/transaction';
 
 @Component({
   templateUrl: './approved-list.component.html',
@@ -99,20 +101,21 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
 
           return this.arwikiQuery.getTXsData(verifiedPages);
         }),
-        switchMap((pages) => {
+        switchMap((pages: ArdbTransaction[]|ArdbBlock[]) => {
           let tmp_res: ArwikiPage[] = [];
           for (let p of pages) {
-            const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
+            const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
+            const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
             tmp_res.push({
-              id: p.node.id,
-              title: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title'),
+              id: pTX.id,
+              title: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title'),
               slug: slug,
-              category: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category'),
-              language: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang'),
+              category: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category'),
+              language: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang'),
               value: allVerifiedPages[slug].value,
-              img: this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img'),
-              owner: p.node.owner.address,
-              block: p.node.block,
+              img: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img'),
+              owner: pTX.owner.address,
+              block: pTX.block,
               start: allVerifiedPages[slug].start,
               sponsor: allVerifiedPages[slug].sponsor,
               pageRewardAt: allVerifiedPages[slug].pageRewardAt              

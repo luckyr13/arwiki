@@ -12,6 +12,8 @@ import { ArwikiPageUpdate } from '../../core/interfaces/arwiki-page-update';
 import { ArwikiQuery } from '../../core/arwiki-query';
 import { ArweaveService } from '../../core/arweave.service';
 import { Diff, diffLines, Change } from 'diff';
+import ArdbBlock from 'ardb/lib/models/block';
+import ArdbTransaction from 'ardb/lib/models/transaction';
 
 @Component({
   selector: 'app-history',
@@ -108,16 +110,17 @@ export class HistoryComponent implements OnInit, OnDestroy {
            
             return this.arwikiQuery.getTXsData(finalList);
           }),
-          switchMap(async (_finalTXs) => {
+          switchMap((_finalTXs: ArdbTransaction[]|ArdbBlock[]) => {
             const tmpRes: ArwikiPage[] = [];
             for (let p of _finalTXs) {
-              const title = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
-              const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
-              const category = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
-              const img = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
-              const owner = p.node.owner.address;
-              const id = p.node.id;
-              const block = p.node.block;
+              const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
+              const title = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title');
+              const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
+              const category = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category');
+              const img = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img');
+              const owner = pTX.owner.address;
+              const id = pTX.id;
+              const block = pTX.block;
               const start = historyData[id][0];
               const sponsor = historyData[id][1];
               
@@ -137,7 +140,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
             const finalRes = tmpRes.sort((a, b) => {
               return b.start! - a.start!;
             });
-            return finalRes;
+            return of(finalRes);
           }),
           
         )

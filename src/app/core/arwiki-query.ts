@@ -3,6 +3,8 @@ import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import Arweave from 'arweave';
 import { arwikiVersion } from './arwiki';
+import ArdbBlock from 'ardb/lib/models/block';
+import ArdbTransaction from 'ardb/lib/models/transaction';
 
 /*
 *  Search the weave for arwiki data
@@ -24,7 +26,7 @@ export class ArwikiQuery {
   getMyArWikiPages(
     owner: string,
     langCode: string,
-    limit: number = 100): Observable<any> {
+    limit: number = 100): Observable<ArdbTransaction[]|ArdbBlock[]> {
     const tags = [
       {
         name: 'Service',
@@ -44,11 +46,11 @@ export class ArwikiQuery {
       }     
     ];
 
-    const obs = new Observable((subscriber) => {
-      this._ardb!.search('transactions')
+    const obs = new Observable<ArdbTransaction[]|ArdbBlock[]>((subscriber) => {
+      this._ardb.search('transactions')
         .from(owner)
         .limit(limit)
-        .tags(tags).find().then((res) => {
+        .tags(tags).find().then((res: ArdbTransaction[]|ArdbBlock[]) => {
           subscriber.next(res);
           subscriber.complete();
         }).catch((error) => {
@@ -68,7 +70,7 @@ export class ArwikiQuery {
     owners: string[],
     langCode: string,
     limit: number = 100,
-    maxHeight: number = 0): Observable<any> {
+    maxHeight: number = 0): Observable<ArdbTransaction[]|ArdbBlock[]> {
     const tags = [
       {
         name: 'Service',
@@ -88,12 +90,12 @@ export class ArwikiQuery {
       }
     ];
 
-    const obs = new Observable((subscriber) => {
-      this._ardb!.search('transactions')
+    const obs = new Observable<ArdbTransaction[]|ArdbBlock[]>((subscriber) => {
+      this._ardb.search('transactions')
         .limit(limit)
         .from(owners)
         .max(maxHeight)
-        .tags(tags).find().then((res) => {
+        .tags(tags).find().then((res: ArdbTransaction[]|ArdbBlock[]) => {
           subscriber.next(res);
           subscriber.complete();
         })
@@ -112,7 +114,7 @@ export class ArwikiQuery {
     owners: string[],
     pagesToVerify: string[],
     limit: number = 100
-  ): Observable<any> {
+  ): Observable<ArdbTransaction[]|ArdbBlock[]> {
     const tags = [
       {
         name: 'Service',
@@ -132,11 +134,11 @@ export class ArwikiQuery {
       }    
     ];
 
-    const obs = new Observable((subscriber) => {
-      this._ardb!.search('transactions')
+    const obs = new Observable<ArdbTransaction[]|ArdbBlock[]>((subscriber) => {
+      this._ardb.search('transactions')
         .limit(limit)
         .from(owners)
-        .tags(tags).find().then((res) => {
+        .tags(tags).find().then((res: ArdbTransaction[]|ArdbBlock[]) => {
           subscriber.next(res);
           subscriber.complete();
         })
@@ -151,13 +153,13 @@ export class ArwikiQuery {
   /*
   * @dev
   */
-  getTXsData(transactions: string[]): Observable<any> {
+  getTXsData(transactions: string[]): Observable<ArdbTransaction[]|ArdbBlock[]> {
     const limit = transactions.length && transactions.length <= 100 ?
         transactions.length : 100;
-    const obs = new Observable((subscriber) => {
-      this._ardb!.search('transactions')
+    const obs = new Observable<ArdbTransaction[]|ArdbBlock[]>((subscriber) => {
+      this._ardb.search('transactions')
         .limit(limit)
-        .ids(transactions).find().then((res) => {
+        .ids(transactions).find().then((res: ArdbTransaction[]|ArdbBlock[]) => {
           subscriber.next(res);
           subscriber.complete();
         })
@@ -178,7 +180,7 @@ export class ArwikiQuery {
     _categories: string[],
     limit: number = 100, 
     _maxHeight: number = 0
-  ): Observable<any> {
+  ): Observable<ArdbTransaction[]|ArdbBlock[]> {
     const tags = [
       {
         name: 'Service',
@@ -202,11 +204,11 @@ export class ArwikiQuery {
       }
     ];
 
-    const obs = new Observable((subscriber) => {
-      this._ardb!.search('transactions')
+    const obs = new Observable<ArdbTransaction[]|ArdbBlock[]>((subscriber) => {
+      this._ardb.search('transactions')
         .limit(limit)
         .max(_maxHeight)
-        .tags(tags).find().then((res) => {
+        .tags(tags).find().then((res: ArdbTransaction[]|ArdbBlock[]) => {
           subscriber.next(res);
           subscriber.complete();
         }).catch((error) => {
@@ -240,7 +242,7 @@ export class ArwikiQuery {
     langCode: string,
     limit: number = 100,
     maxHeight: number = 0
-  ): Observable<any> {
+  ): Observable<ArdbTransaction[]|ArdbBlock[]> {
     const tags = [
       {
         name: 'Service',
@@ -264,12 +266,12 @@ export class ArwikiQuery {
       }
     ];
 
-    const obs = new Observable((subscriber) => {
-      this._ardb!.search('transactions')
+    const obs = new Observable<ArdbTransaction[]|ArdbBlock[]>((subscriber) => {
+      this._ardb.search('transactions')
         .limit(limit)
         .from(owners)
         .max(maxHeight)
-        .tags(tags).find().then((res) => {
+        .tags(tags).find().then((res: ArdbTransaction[]|ArdbBlock[]) => {
           subscriber.next(res);
           subscriber.complete();
         })
@@ -291,7 +293,7 @@ export class ArwikiQuery {
     langCode: string,
     limit: number = 1,
     maxHeight: number = 0
-  ): Observable<any> {
+  ): Observable<ArdbTransaction[]|ArdbBlock[]> {
     const tags = [
       {
         name: 'Service',
@@ -322,14 +324,14 @@ export class ArwikiQuery {
     // Sort in ascending mode
     // This means that first slug validated is the right one 
     // (avoid duplicates)
-    const obs = new Observable((subscriber) => {
-      this._ardb!.search('transactions')
+    const obs = new Observable<ArdbTransaction[]|ArdbBlock[]>((subscriber) => {
+      this._ardb.search('transactions')
         .limit(limit)
         .from(owners)
         .max(maxHeight)
         .sort("HEIGHT_ASC")
         .tags(tags)
-        .find().then((res) => {
+        .find().then((res: ArdbTransaction[]|ArdbBlock[]) => {
           subscriber.next(res);
           subscriber.complete();
         })
@@ -350,7 +352,7 @@ export class ArwikiQuery {
     pageIds: string[],
     limit: number = 100,
     maxHeight: number = 0
-  ): Observable<any> {
+  ): Observable<ArdbTransaction[]|ArdbBlock[]> {
     const tags = [
       {
         name: 'Service',
@@ -370,12 +372,12 @@ export class ArwikiQuery {
       } 
     ];
 
-    const obs = new Observable((subscriber) => {
-      this._ardb!.search('transactions')
+    const obs = new Observable<ArdbTransaction[]|ArdbBlock[]>((subscriber) => {
+      this._ardb.search('transactions')
         .limit(limit)
         .from(owners)
         .max(maxHeight)
-        .tags(tags).find().then((res) => {
+        .tags(tags).find().then((res: ArdbTransaction[]|ArdbBlock[]) => {
           subscriber.next(res);
           subscriber.complete();
         })
@@ -395,7 +397,7 @@ export class ArwikiQuery {
     slug: string,
     limit: number = 100,
     maxHeight: number = 0
-  ): Observable<any> {
+  ): Observable<ArdbTransaction[]|ArdbBlock[]> {
     const tags = [
       {
         name: 'Service',
@@ -415,12 +417,12 @@ export class ArwikiQuery {
       } 
     ];
 
-    const obs = new Observable((subscriber) => {
-      this._ardb!.search('transactions')
+    const obs = new Observable<ArdbTransaction[]|ArdbBlock[]>((subscriber) => {
+      this._ardb.search('transactions')
         .limit(limit)
         .from(owners)
         .max(maxHeight)
-        .tags(tags).find().then((res) => {
+        .tags(tags).find().then((res: ArdbTransaction[]|ArdbBlock[]) => {
           subscriber.next(res);
           subscriber.complete();
         })
@@ -442,7 +444,7 @@ export class ArwikiQuery {
     langCode: string,
     limit: number = 100,
     maxHeight: number = 0
-  ): Observable<any> {
+  ): Observable<ArdbTransaction[]|ArdbBlock[]> {
     const tags = [
       {
         name: 'Service',
@@ -466,12 +468,12 @@ export class ArwikiQuery {
       } 
     ];
 
-    const obs = new Observable((subscriber) => {
-      this._ardb!.search('transactions')
+    const obs = new Observable<ArdbTransaction[]|ArdbBlock[]>((subscriber) => {
+      this._ardb.search('transactions')
         .limit(limit)
         .from(owners)
         .max(maxHeight)
-        .tags(tags).find().then((res) => {
+        .tags(tags).find().then((res: ArdbTransaction[]|ArdbBlock[]) => {
           subscriber.next(res);
           subscriber.complete();
         })
@@ -492,7 +494,7 @@ export class ArwikiQuery {
     langCode: string,
     limit: number = 100,
     maxHeight: number = 0
-  ): Observable<any> {
+  ): Observable<ArdbTransaction[]|ArdbBlock[]> {
     const tags = [
       {
         name: 'Service',
@@ -516,12 +518,12 @@ export class ArwikiQuery {
       } 
     ];
 
-    const obs = new Observable((subscriber) => {
+    const obs = new Observable<ArdbTransaction[]|ArdbBlock[]>((subscriber) => {
       this._ardb!.search('transactions')
         .limit(limit)
         .from(owners)
         .max(maxHeight)
-        .tags(tags).find().then((res) => {
+        .tags(tags).find().then((res: ArdbTransaction[]|ArdbBlock[]) => {
           subscriber.next(res);
           subscriber.complete();
         })
@@ -561,7 +563,7 @@ export class ArwikiQuery {
     langCode: string,
     limit: number = 1,
     maxHeight: number = 0
-  ): Observable<any> {
+  ): Observable<ArdbTransaction[]|ArdbBlock[]> {
     const tags = [
       {
         name: 'Service',
@@ -585,13 +587,13 @@ export class ArwikiQuery {
       }
     ];
 
-    const obs = new Observable((subscriber) => {
+    const obs = new Observable<ArdbTransaction[]|ArdbBlock[]>((subscriber) => {
       this._ardb!.search('transactions')
         .limit(limit)
         .from(owners)
         .max(maxHeight)
         .tags(tags)
-        .find().then((res) => {
+        .find().then((res: ArdbTransaction[]|ArdbBlock[]) => {
           subscriber.next(res);
           subscriber.complete();
         })
@@ -611,7 +613,7 @@ export class ArwikiQuery {
     langCode: string,
     limit: number = 100,
     maxHeight: number = 0
-  ): Observable<any> {
+  ): Observable<ArdbTransaction[]|ArdbBlock[]> {
     const tags = [
       {
         name: 'Service',
@@ -631,12 +633,12 @@ export class ArwikiQuery {
       } 
     ];
 
-    const obs = new Observable((subscriber) => {
+    const obs = new Observable<ArdbTransaction[]|ArdbBlock[]>((subscriber) => {
       this._ardb!.search('transactions')
         .limit(limit)
         .from(owners)
         .max(maxHeight)
-        .tags(tags).find().then((res) => {
+        .tags(tags).find().then((res: ArdbTransaction[]|ArdbBlock[]) => {
           subscriber.next(res);
           subscriber.complete();
         })
@@ -654,7 +656,7 @@ export class ArwikiQuery {
   getMyArWikiPagesUpdates(
     owner: string,
     langCode: string,
-    limit: number = 100): Observable<any> {
+    limit: number = 100): Observable<ArdbTransaction[]|ArdbBlock[]> {
     const tags = [
       {
         name: 'Service',
@@ -674,11 +676,11 @@ export class ArwikiQuery {
       }     
     ];
 
-    const obs = new Observable((subscriber) => {
+    const obs = new Observable<ArdbTransaction[]|ArdbBlock[]>((subscriber) => {
       this._ardb!.search('transactions')
         .from(owner)
         .limit(limit)
-        .tags(tags).find().then((res) => {
+        .tags(tags).find().then((res: ArdbTransaction[]|ArdbBlock[]) => {
           subscriber.next(res);
           subscriber.complete();
         }).catch((error) => {
@@ -697,7 +699,7 @@ export class ArwikiQuery {
     _slug: string,
     limit: number = 100, 
     _maxHeight: number = 0
-  ): Observable<any> {
+  ): Observable<ArdbTransaction[]|ArdbBlock[]> {
     const tags = [
       {
         name: 'Service',
@@ -721,11 +723,11 @@ export class ArwikiQuery {
       }
     ];
 
-    const obs = new Observable((subscriber) => {
+    const obs = new Observable<ArdbTransaction[]|ArdbBlock[]>((subscriber) => {
       this._ardb!.search('transactions')
         .limit(limit)
         .max(_maxHeight)
-        .tags(tags).find().then((res) => {
+        .tags(tags).find().then((res: ArdbTransaction[]|ArdbBlock[]) => {
           subscriber.next(res);
           subscriber.complete();
         }).catch((error) => {
@@ -743,7 +745,7 @@ export class ArwikiQuery {
     _langCode: string,
     limit: number = 100, 
     _maxHeight: number = 0
-  ): Observable<any> {
+  ): Observable<ArdbTransaction[]|ArdbBlock[]> {
     const tags = [
       {
         name: 'Service',
@@ -763,11 +765,11 @@ export class ArwikiQuery {
       },
     ];
 
-    const obs = new Observable((subscriber) => {
+    const obs = new Observable<ArdbTransaction[]|ArdbBlock[]>((subscriber) => {
       this._ardb!.search('transactions')
         .limit(limit)
         .max(_maxHeight)
-        .tags(tags).find().then((res) => {
+        .tags(tags).find().then((res: ArdbTransaction[]|ArdbBlock[]) => {
           subscriber.next(res);
           subscriber.complete();
         }).catch((error) => {

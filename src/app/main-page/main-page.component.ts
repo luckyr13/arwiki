@@ -13,6 +13,8 @@ import { ArwikiPage } from '../core/interfaces/arwiki-page';
 import { ArwikiPageIndex } from '../core/interfaces/arwiki-page-index';
 import * as marked from 'marked';
 import DOMPurify from 'dompurify';
+import ArdbBlock from 'ardb/lib/models/block';
+import ArdbTransaction from 'ardb/lib/models/transaction';
 
 @Component({
   selector: 'app-main-page',
@@ -82,17 +84,18 @@ export class MainPageComponent implements OnInit, OnDestroy {
         maxPagesByCategory, this.routeLang, maxHeight
       )
       .subscribe({
-        next: (txs: any[]) => {
+        next: (txs: ArdbTransaction[]|ArdbBlock[]) => {
           this.pagesByCategory = {};
           for (let p of txs) {
-            const title = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
-            const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
-            const category = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
-            const img = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
-            const owner = p.node.owner.address;
-            const id = p.node.id;
-            const block = p.node.block;
-            const language = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang');
+            const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
+            const title = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title');
+            const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
+            const category = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category');
+            const img = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img');
+            const owner = pTX.owner.address;
+            const id = pTX.id;
+            const block = pTX.block;
+            const language = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang');
             
             
             if (!Array.isArray(this.pagesByCategory[category])) {
@@ -159,17 +162,18 @@ export class MainPageComponent implements OnInit, OnDestroy {
         this.routeLang, maxHeight
       )
       .subscribe({
-        next: async (txs: any[]) => {
+        next: async (txs: ArdbTransaction[]|ArdbBlock[]) => {
           this.mainPage = null!;
           for (let p of txs) {
-            const title = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
-            const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
-            const category = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
-            const img = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
-            const owner = p.node.owner.address;
-            const id = p.node.id;
-            const block = p.node.block;
-            const language = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang');
+            const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
+            const title = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title');
+            const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
+            const category = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category');
+            const img = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img');
+            const owner = pTX.owner.address;
+            const id = pTX.id;
+            const block = pTX.block;
+            const language = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang');
             
             this.mainPage = {
               title: title,
@@ -243,17 +247,18 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
         return this.arwikiQuery.getTXsData(verifiedPages);
       }),
-      switchMap((pages: any) => {
+      switchMap((pages: ArdbTransaction[]|ArdbBlock[]) => {
         const latestPages: ArwikiPage[] = [];
         for (let p of pages) {
-          const title = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
-          const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
-          const category = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
-          const img = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Img');
-          const language = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Lang');
-          const owner = p.node.owner.address;
-          const id = p.node.id;
-          const block = p.node.block;
+          const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
+          const title = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title');
+          const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
+          const category = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category');
+          const img = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img');
+          const language = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang');
+          const owner = pTX.owner.address;
+          const id = pTX.id;
+          const block = pTX.block;
           const sponsor = allApprovedPages[slug].sponsor;
           
           latestPages.push({
@@ -423,11 +428,12 @@ export class MainPageComponent implements OnInit, OnDestroy {
           admins, Object.keys(this.categories), langCode, numArticles, height
         );
       }),
-      switchMap((verifiedMainPages) => {
+      switchMap((verifiedMainPages: ArdbTransaction[]|ArdbBlock[]) => {
         const mainTX = [];
         for (let p of verifiedMainPages) {
+          const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
           // const vrfdPageId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
-          const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
+          const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
           if (allApprovedPages[slug] && allApprovedPages[slug].content) {
             mainTX.push(allApprovedPages[slug].content);
             break;

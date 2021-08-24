@@ -8,6 +8,8 @@ import { ArwikiTokenContract } from '../core/arwiki-contracts/arwiki-token';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ArwikiCategoryIndex } from '../core/interfaces/arwiki-category-index';
+import ArdbBlock from 'ardb/lib/models/block';
+import ArdbTransaction from 'ardb/lib/models/transaction';
 
 @Component({
   selector: 'app-main-menu',
@@ -204,13 +206,14 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
           return this.arwikiQuery.getTXsData(verifiedPages);
         }),
-        switchMap((txs) => {
+        switchMap((txs: ArdbTransaction[]|ArdbBlock[]) => {
           const finalRes: any = {};
           for (let p of txs) {
-            const title = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Title');
-            const slug = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Slug');
-            const category = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Category');
-            const id = p.node.id;
+            const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave); 
+            const title = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title');
+            const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
+            const category = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category');
+            const id = pTX.id;
             if (!Object.prototype.hasOwnProperty.call(finalRes, category)) {
               finalRes[category] = {};
             }
