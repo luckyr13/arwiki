@@ -16,7 +16,7 @@ import { ArwikiCategoryIndex } from '../interfaces/arwiki-category-index';
 })
 export class ArwikiTokenContract
 {
-  private _contractAddress: string = 'o8alEJMHokE1cILE57KCm70N9v42zM_dsoO6ee3q5ew';
+  private _contractAddress: string = 'ewepANKEVffP0cm_XKjwTYhSBqaiQrJbVrCcBiWqw-s';
 	private _state: any = {};
 	private _adminList: string[] = [];
   private _arwikiKYVE: ArwikiKYVE;

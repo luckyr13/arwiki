@@ -500,13 +500,13 @@ export function handle(state, action) {
     if (isNaN(balance) || balance < value) {
       throw new ContractError(`Not enough balance :: ${balance} vs ${value}`);
     }
-    if (!(caller in vault)) {
-      throw new ContractError("Caller needs to have locked balances.");
-    }
-    let vaultBalance = _get_vaultBalance(vault, caller, end);
-    if (vaultBalance < value) {
-      throw new ContractError(`Caller doesn't have ${value} or more tokens locked for enough time  (start:${currentHeight}, end:${end}, vault:${vaultBalance}).`);
-    }
+    // if (!(caller in vault)) {
+    //  throw new ContractError("Caller needs to have locked balances.");
+    // }
+    // let vaultBalance = _get_vaultBalance(vault, caller, end);
+    // if (vaultBalance < value) {
+    //  throw new ContractError(`Caller doesn't have ${value} or more tokens locked for enough time  (start:${currentHeight}, end:${end}, vault:${vaultBalance}).`);
+    // }
     if (totalSupply + value > Number.MAX_SAFE_INTEGER) {
       throw new ContractError("'value' too large.");
     }
