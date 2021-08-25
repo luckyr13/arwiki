@@ -5,6 +5,27 @@
 	<mat-dialog-content>
 		<mat-tab-group animationDuration="0ms">
 		  <mat-tab label="Lock balance" class="tab-container">
+		  	<div *ngIf="loadingSendTokens">
+					<div *ngIf="!transferTX" class="text-center">
+						<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+						🔐 Locking tokens, please hold on ...
+					</div>
+					<div *ngIf="transferTX">
+				    <div>
+				    	🥳 Tokens locked! You can follow your tx status here:
+				    	<a 
+								mat-button 
+								target="_blank"
+								href="https://viewblock.io/arweave/tx/{{transferTX}}" 
+								class="text-center">https://viewblock.io/arweave/tx/{{ transferTX }}
+							</a>	
+				    </div>
+				    <div>You can close this window now.</div>
+					</div>
+					<div *ngIf="errorMsg">
+				    Error: {{errorMsg  }}
+					</div>
+				</div>
 		  	<form [formGroup]="frmTransfer" (ngSubmit)="onSubmit()" class="frm-transfer">
 					<ng-container *ngIf="!loadingSendTokens">
 					  <mat-form-field appearance="outline" hintLabel="Min lock length: {{ data.lockMinLength }} blocks {{ formatBlocks(data.lockMinLength) }}">
@@ -33,27 +54,6 @@
 					    <mat-hint class="link" (click)="amount!.setValue(data.balance)" align="end">Use max</mat-hint>
 					  </mat-form-field>
 					</ng-container>
-					<div *ngIf="loadingSendTokens">
-						<div *ngIf="!transferTX" class="text-center">
-							<mat-progress-bar mode="indeterminate"></mat-progress-bar>
-							🔐 Locking tokens, please hold on ...
-						</div>
-						<div *ngIf="transferTX">
-					    <div>
-					    	🥳 Tokens locked! You can follow your tx status here:
-					    	<a 
-									mat-button 
-									target="_blank"
-									href="https://viewblock.io/arweave/tx/{{transferTX}}" 
-									class="text-center">https://viewblock.io/arweave/tx/{{ transferTX }}
-								</a>	
-					    </div>
-					    <div>You can close this window now.</div>
-						</div>
-						<div *ngIf="errorMsg">
-					    Error: {{errorMsg  }}
-						</div>
-					</div>
 					<button 
 				  	mat-button 
 				  	class="big-btn"
