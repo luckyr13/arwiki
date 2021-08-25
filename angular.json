@@ -42,7 +42,8 @@
               "simplemde",
               "arweave",
               "axios",
-              "ar-gql"
+              "ar-gql",
+              "ardb/lib/models/transaction"
             ],
             "vendorChunk": true,
             "extractLicenses": false,

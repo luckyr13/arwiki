@@ -35,7 +35,7 @@
     "ngx-skeleton-loader": "^2.10.1",
     "rxjs": "^6.6.7",
     "simplemde": "^1.11.2",
-    "smartweave": "^0.4.41",
+    "smartweave": "^0.4.42",
     "tslib": "^2.3.1",
     "util": "^0.12.4",
     "zone.js": "~0.11.4"
