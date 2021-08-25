@@ -31,6 +31,8 @@ export class DialogVaultComponent implements OnInit, AfterViewInit  {
   columnsToDisplay = ['balance', 'lockedLength', 'page', 'status'];
   dataSource!: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  loadingUnlockVault: boolean = false;
+  unlockVaultTX: string = '';
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<any>(this.data.vault);
@@ -99,6 +101,21 @@ export class DialogVaultComponent implements OnInit, AfterViewInit  {
 
   formatBlocks(len: number): string {
     return this._arweave.formatBlocks(len);
+  }
+
+  async unlockVault() {
+    this.loadingUnlockVault = true;
+    this.unlockVaultTX = '';
+    try {
+      this.unlockVaultTX = await this._arwikiTokenContract
+        .unlockVault(
+          this._auth.getPrivateKey(),
+          arwikiVersion[0]
+        );
+    } catch (err) {
+      this.errorMsg = err;
+      this.message(err, 'error');
+    }
   }
 
 }

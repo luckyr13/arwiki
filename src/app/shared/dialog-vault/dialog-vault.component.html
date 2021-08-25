@@ -4,8 +4,8 @@
 </h2>
 	<mat-dialog-content>
 		<mat-tab-group animationDuration="0ms">
-		  <mat-tab label="Lock balance">
-		  	<form [formGroup]="frmTransfer" (ngSubmit)="onSubmit()" class="tab-container">
+		  <mat-tab label="Lock balance" class="tab-container">
+		  	<form [formGroup]="frmTransfer" (ngSubmit)="onSubmit()" class="frm-transfer">
 					<ng-container *ngIf="!loadingSendTokens">
 					  <mat-form-field appearance="outline" hintLabel="Min lock length: {{ data.lockMinLength }} blocks {{ formatBlocks(data.lockMinLength) }}">
 					    <mat-label>Block length</mat-label>
@@ -92,7 +92,7 @@
 						  		Locked! ({{ formatBlocks(vault.end - data.currentHeight) }})
 						  	</div>
 						  	<div class="green" *ngIf="vault.end < data.currentHeight">
-						  		Unlocked!
+						  		Tokens can be unlocked!
 						  	</div>
 							</td>
 						</ng-container>
@@ -107,7 +107,35 @@
 		  </mat-tab>
 		  <mat-tab label="Unlock vault">
 		  	<div class="tab-container">
-		  		<h3> Unlock available tokens </h3>
+		  		<div *ngIf="loadingUnlockVault">
+						<div *ngIf="!unlockVaultTX" class="text-center">
+							<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+							🔑 Unlocking vault, please hold on ...
+						</div>
+						<div *ngIf="unlockVaultTX">
+					    <div>
+					    	🥳 Tokens unlocked! You can follow your tx status here:
+					    	<a 
+									mat-button 
+									target="_blank"
+									href="https://viewblock.io/arweave/tx/{{unlockVaultTX}}" 
+									class="text-center">https://viewblock.io/arweave/tx/{{ unlockVaultTX }}
+								</a>	
+					    </div>
+					    <div>You can close this window now.</div>
+						</div>
+						<div *ngIf="errorMsg">
+					    Error: {{errorMsg  }}
+						</div>
+					</div>
+		  		<button 
+				  	mat-button 
+				  	class="big-btn"
+				  	type="button"
+				  	[disabled]="loadingUnlockVault"
+				  	(click)="unlockVault()">
+				  	<mat-icon class="yellow">vpn_key</mat-icon> Unlock vault
+				  </button>
 		  		
 		  	</div>
 		  </mat-tab>

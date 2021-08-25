@@ -9,7 +9,7 @@ export class ArwikiKYVE {
 	private _ardb: ArDB;
 	private _arweave: Arweave;
 	private _query: Query;
-	private _poolID: string = 'jFInOjLc_FFt802OmUObIIOlY1xNKvomzUTkoUpyP9U';
+	private _poolID: string = 'KXeqPReolrKuSKCqFaemdt4hGzp9F5FdzpdZnoPW-Gs';
 
 	constructor(
     _arweave: Arweave
