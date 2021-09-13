@@ -1,84 +1,84 @@
 {
 	"HOME": {
-		"SECONDARY_TITLE": "퍼머웹에 오신 것을 환영합니다!"
+		"SECONDARY_TITLE": "영구웹에 오신 것을 환영합니다!"
 	},
 	"MAIN_MENU": {
-		"HOME": "집",
-		"ABOUT": "에 대한",
-		"the_arweave_project": "아르위브 프로젝트",
-		"the_arweave_protocol": "Arweave 프로토콜",
+		"HOME": "홈",
+		"ABOUT": "소개",
+		"the_arweave_project": "알위브 프로젝트",
+		"the_arweave_protocol": "알위브 프로토콜",
 		"profit_sharing": "이익 공유",
-		"mining": "채광",
-		"building_on_arweave": "Arweave 기반 구축",
-		"resources": "자원"
+		"mining": "채굴",
+		"building_on_arweave": "알위브 상에서의 개발",
+		"resources": "참고 자료"
 	},
 	"MAIN_TOOLBAR": {
 		"TOOLTIP_LOGIN": "로그인",
 		"MENU_SETTINGS_LANGUAGE": "언어 선택",
 		"MENU_SETTINGS_THEME": "테마 선택",
-		"TOOLTIP_SEARCH": "찾다",
+		"TOOLTIP_SEARCH": "검색",
 		"TOOLTIP_SETTINGS": "설정",
-		"MENU_USER_DASHBOARD": "계기반",
-		"MENU_USER_CREATE": "페이지 만들기",
-		"MENU_USER_LOGOUT": "로그 아웃",
+		"MENU_USER_DASHBOARD": "대시보드",
+		"MENU_USER_CREATE": "페이지 생성",
+		"MENU_USER_LOGOUT": "로그아웃",
 		"MENU_USER_MY_PAGES": "내 페이지",
-		"MENU_USER_MODERATORS": "중재자",
+		"MENU_USER_MODERATORS": "모더레이터",
 		"MENU_USER_MY_UPDATES": "내 업데이트",
-		"MENU_MODERATOR_PENDING": "보류 중인 페이지",
-		"MENU_MODERATOR_APPROVED": "승인된 페이지",
+		"MENU_MODERATOR_PENDING": "승인 대기 페이지",
+		"MENU_MODERATOR_APPROVED": "승인 완료 페이지",
 		"MENU_MODERATOR_DELETED": "삭제된 페이지",
-		"MENU_MODERATOR_ADD_MODERATOR": "중재자 추가",
+		"MENU_MODERATOR_ADD_MODERATOR": "모더레이터 추가",
 		"MENU_MODERATOR_VIEW_ADM_LIST": "관리자 목록 보기"
 	},
 	"MAIN_PAGE": {
-		"TITLE_L1": "퍼머웹에 오신 것을 환영합니다!",
-		"SUBTITLE_L1": "arwiki는 누구나 편집할 수 있는 arweave용 분산형 위키입니다.",
+		"TITLE_L1": "영구웹에 오신 것을 환영합니다!",
+		"SUBTITLE_L1": "알위키는 누구나 편집할 수 있는 알위브를 위한 탈중앙화된 위키입니다. ",
 		"TITLE_L2": "시작하기",
-		"TITLE_L3": "최신 기사",
-		"LABEL_NO_RESULTS": "결과가 없습니다."
+		"TITLE_L3": "최신 아티클",
+		"LABEL_NO_RESULTS": "결과 없음"
 	},
 	"PAGE": {
 		"LABEL_ID": "Id",
 		"LABEL_TITLE": "제목",
-		"LABEL_SLUG": "Slug",
-		"LABEL_CATEGORY": "범주",
+		"LABEL_SLUG": "슬러그",
+		"LABEL_CATEGORY": "분류",
 		"LABEL_LANGUAGE": "언어",
-		"LABEL_OWNER": "Owner",
-		"LABEL_TX_STATUS": "TX status",
-		"LABEL_BLOCK_HEIGHT": "Block height",
-		"LABEL_BLOCK_TIMESTAMP": "Block timestamp",
-		"LABEL_ARVERIFY_SCORE": "ArVerify Score",
+		"LABEL_OWNER": "소유자",
+		"LABEL_TX_STATUS": "TX 상태",
+		"LABEL_BLOCK_HEIGHT": "블록 높이",
+		"LABEL_BLOCK_TIMESTAMP": "블록 타임스탬프",
+		"LABEL_ARVERIFY_SCORE": "ArVerify 지표",
 		"LABEL_OWNER_STATUS": "소유자 상태",
-		"STATUS_TX_PENDING": "보류 중",
-		"STATUS_ADDRESS_VERIFIED": "확인됨",
-		"STATUS_ADDRESS_NOTVERIFIED": "확인되지 않음"
+		"STATUS_TX_PENDING": "승인 대기",
+		"STATUS_ADDRESS_VERIFIED": "승인 완료",
+		"STATUS_ADDRESS_NOTVERIFIED": "검증되지 않음"
 	},
 	"NOT_FOUND": {
 
 	},
 	"CREATE_PAGE": {
-		"TITLE": "페이지 만들기",
+		"TITLE": "페이지 생성",
 		"FRM_TITLE": "제목",
-		"FRM_BY": "에 의해",
-		"FRM_SLUG": "Page slug",
-		"FRM_CATEGORY": "범주",
+		"FRM_BY": "작성자",
+		"FRM_SLUG": "페이지 슬러그",
+		"FRM_CATEGORY": "분류",
 		"FRM_LANGUAGE": "언어",
-		"FRM_LOADING": "로드 중...",
+		"FRM_LOADING": "로딩중 ...",
 		"FRM_UPLOAD_FILE": "파일 업로드",
-		"FRM_CONTENT": "콘텐츠",
-		"FRM_BTN_SAVE": "구하다",
+		"FRM_CONTENT": "내용",
+		"FRM_BTN_SAVE": "제출하기",
 		"FRM_BTN_GOBACK": "돌아가기"
 	},
 	"SEARCH_ENGINE": {
-		"INPUT_SEARCH_LABEL": "아르위키 검색",
+		"INPUT_SEARCH_LABEL": "알위키 검색",
 		"INPUT_SEARCH_PLACEHOLDER": "",
-		"LBL_DEFAULT_LANG": "기본 설정 언어",
-		"LBL_SELECT_LANG":" 언어 선택",
-		"BTN_TXT_GO": "가다!"
+		"LBL_DEFAULT_LANG": "기본 언어",
+		"LBL_SELECT_LANG":"언어 선택",
+		"BTN_TXT_GO": "실행"
 	},
 	"FOOTER": {
-		"LBL_POWERED": "에 의해 구동",
-		"LBL_PARTNERS": "우리의 파트너와 친구들"
+		"LBL_POWERED": "Powered by",
+		"LBL_PARTNERS": "파트너"
 	},
 	"DIALOGS": {
 		"TITLE_SELECT_LANG": "언어 선택",
@@ -86,33 +86,33 @@
 	},
 	"MODERATORS": {
 		"PENDING_PAGE": {
-			"TITLE_PENDING": "대기 목록"
+			"TITLE_PENDING": "승인 대기 목록"
 		},
-		"LABEL_NO_RESULTS": "결과가 없습니다.",
-		"LABEL_TOOLBAR_TITLE": "중재자 패널"
+		"LABEL_NO_RESULTS": "결과 없음",
+		"LABEL_TOOLBAR_TITLE": "모더레이터 패널"
 	},
 	"CATEGORY": {
-		"BREADCRUMB_LABEL": "범주:"
+		"BREADCRUMB_LABEL": "분류:"
 	},
 	"GENERAL": {
 		"BUTTONS": {
 			"GO_BACK": "돌아가기",
-			"OPEN_VIEWBLOCK": "Viewblock에서 열기",
+			"OPEN_VIEWBLOCK": "Viewblock 열기",
 			"COPY_ADDRESS": "주소 복사",
-			"TIP_AUTHOR": "작성자에게 팁",
-			"VIEW_ARTICLE": "전체 기사 읽기",
-			"EDIT_PAGE": "페이지 수정",
-			"MORE_ARTICLES": "더 많은 기사",
-			"VIEW_ALL": "모두보기"
+			"TIP_AUTHOR": "작성자에게 팁 제공",
+			"VIEW_ARTICLE": "전체 아티클 읽기",
+			"EDIT_PAGE": "페이지 편집하기",
+			"MORE_ARTICLES": "다른 아티클",
+			"VIEW_ALL": "전체 보기"
 		},
 		"LABELS": {
 			"NO_RESULTS": "결과 없음"
 		},
 		"CARDS": {
 			"ARTICLE": {
-				"CATEGORY": "범주:",
-				"CREATED_BY": "만든 사람:",
-				"CREATION_DATE": "생성 위치:",
+				"CATEGORY": "분류:",
+				"CREATED_BY": "생성자:",
+				"CREATION_DATE": "생성 시점:",
 				"LAST_UPDATE": "마지막 업데이트:",
 				"SPONSOR": "스폰서:"
 			}
@@ -121,23 +121,23 @@
 	"LOADING": {
 		"QUOTES_TITLE" : "알고 계셨나요?",
 		"QUOTES": {
-			"0": "Arweave는 단일 선불 요금으로 데이터를 영구적이고 지속 가능하게 저장할 수 있는 프로토콜입니다.",
-			"1": "핵심 Arweave 프로토콜 위에는 영구 웹이 있습니다. 영구 웹 페이지와 애플리케이션의 글로벌 영구 웹입니다.",
-			"2": "Arweave는 완전히 커뮤니티 소유 및 운영되는 오픈 소스 네트워크입니다."
+			"0": "알위브는 데이터를 한 번의 비용으로 지속 가능하고 영구적으로 데이터를 저장할 수 있게 해주는 프로토콜입니다.",
+			"1": "알위브 프로토콜 상에는 웹페이자와 애플리케이션이 영구적으로 구동되는 영구웹이 있습니다. ",
+			"2": "알위브는 완전히 커뮤니티가 소유하고, 운영관리하는 오픈소스 네트워크입니다. "
 		},
-		"LOADING_LABEL": "로딩 중"
+		"LOADING_LABEL": "로딩중"
 	},
 	"EDIT_PAGE": {
-		"TITLE": "페이지 수정",
+		"TITLE": "페이지 편집하기",
 		"FRM_TITLE": "제목",
-		"FRM_BY": "에 의해",
-		"FRM_SLUG": "Page slug",
-		"FRM_CATEGORY": "범주",
+		"FRM_BY": "작성자",
+		"FRM_SLUG": "페이지 슬러그",
+		"FRM_CATEGORY": "분류",
 		"FRM_LANGUAGE": "언어",
-		"FRM_LOADING": "로드 중...",
+		"FRM_LOADING": "로딩중 ...",
 		"FRM_UPLOAD_FILE": "파일 업로드",
-		"FRM_CONTENT": "콘텐츠",
-		"FRM_BTN_SAVE": "업데이트 보내기",
+		"FRM_CONTENT": "내용",
+		"FRM_BTN_SAVE": "업데이트 제출하기",
 		"FRM_BTN_GOBACK": "돌아가기"
 	}
 }
