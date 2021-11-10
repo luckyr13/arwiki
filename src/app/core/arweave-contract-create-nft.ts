@@ -1,5 +1,4 @@
 import Arweave from 'arweave';
-import Transaction from 'arweave/node/lib/transaction';
 import { JWKInterface } from 'arweave/node/lib/wallet';
 import { arwikiVersion } from './arwiki';
 /*
