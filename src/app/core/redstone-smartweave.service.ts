@@ -36,7 +36,7 @@ export class RedstoneSmartweaveService {
 	    .connect(jwk)
 	    .setEvaluationOptions({
 	      // with this flag set to true, the write will wait for the transaction to be confirmed
-	      waitForConfirmation: true,
+	      waitForConfirmation: false,
 	    });
 	  return from(contract.writeInteraction(input, tags, transfer));
   }
