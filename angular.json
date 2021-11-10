@@ -43,7 +43,8 @@
               "arweave",
               "axios",
               "ar-gql",
-              "ardb/lib/models/transaction"
+              "ardb/lib/models/transaction",
+              "crypto"
             ],
             "vendorChunk": true,
             "extractLicenses": false,

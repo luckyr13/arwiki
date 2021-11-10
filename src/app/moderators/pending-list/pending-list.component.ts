@@ -210,13 +210,13 @@ export class PendingListComponent implements OnInit, OnDestroy {
       direction: direction
     });
 
-    dialogRef.afterClosed().subscribe(async (_newPageValue) => {
-      const newPageValue = +_newPageValue;
-      if (Number.isInteger(newPageValue) && newPageValue > 0) {
-        // Create arwiki page
-        this.loadingInsertPageIntoIndex = true;
-        try {
-          const tx = await this._arwikiTokenContract.approvePage(
+
+    dialogRef.afterClosed().pipe(
+      switchMap((_newPageValue: number) => {
+        const newPageValue = +_newPageValue;
+        if (Number.isInteger(newPageValue) && newPageValue > 0) {
+          this.loadingInsertPageIntoIndex = true;
+          return this._arwikiTokenContract.approvePage(
             _pageId,
             _author,
             _slug,
@@ -227,14 +227,20 @@ export class PendingListComponent implements OnInit, OnDestroy {
             arwikiVersion[0],
           ); 
 
-          this.insertPageTxMessage = tx;
-          this.message('Success!', 'success');
-        } catch (error) {
-          this.insertPageTxErrorMessage = `${error}`;
-          this.message(`${error}`, 'error');
+        } else if (newPageValue === 0) {
+          throw Error('Stake must be greater than 0 $WIKI tokens');
         }
-      } else if (newPageValue === 0) {
-        this.message('Stake must be greater than 0 $WIKI tokens', 'error');
+        
+        return of(null);
+      })
+    ).subscribe({
+      next: (tx) => {
+        this.insertPageTxMessage = `${tx}`;
+        this.message('Success!', 'success');
+      },
+      error: (error) => {
+        this.insertPageTxErrorMessage = `${error}`;
+        this.message(`${error}`, 'error');
       }
     });
   }

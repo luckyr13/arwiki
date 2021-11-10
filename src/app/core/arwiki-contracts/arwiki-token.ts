@@ -1,6 +1,3 @@
-import { 
-	readContract, interactWrite, interactRead, interactWriteDryRun, loadContract
-} from 'smartweave';
 import { Injectable } from '@angular/core';
 import { Observable, of, from } from 'rxjs';
 import { ArweaveService } from '../arweave.service';
@@ -10,6 +7,7 @@ import { ArwikiKYVE } from '../arwiki-kyve';
 import { ArwikiPageIndex } from '../interfaces/arwiki-page-index';
 import { ArwikiLangIndex } from '../interfaces/arwiki-lang-index';
 import { ArwikiCategoryIndex } from '../interfaces/arwiki-category-index';
+import { RedstoneSmartweaveService } from '../redstone-smartweave.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +23,10 @@ export class ArwikiTokenContract
 		return this._contractAddress;
 	}
 
-	constructor(private _arweave: ArweaveService) {
+	constructor(
+    private _arweave: ArweaveService,
+    private _smartweave: RedstoneSmartweaveService
+  ) {
     this._arwikiKYVE = new ArwikiKYVE(_arweave.arweave);
 	}
 
@@ -66,18 +67,20 @@ export class ArwikiTokenContract
         subscriber.next(this._state);
         subscriber.complete();
       } else {
-        readContract(this._arweave.arweave, this._contractAddress)
-          .then((state: any) => {
-            this._state = state;
-            this._adminList = Object.keys(state.roles).filter((address) => {
-              return state.roles[address].toUpperCase() === 'MODERATOR';
+        this._smartweave.readState(this._contractAddress).subscribe({
+          next: (res) => {
+            this._state = res.state;
+            this._adminList = Object.keys(this._state.roles).filter((address) => {
+              return this._state.roles[address].toUpperCase() === 'MODERATOR';
             });
 
-            subscriber.next(state);
+            subscriber.next(this._state);
             subscriber.complete();
-          }).catch((error) => {
-            subscriber.error(error);
-          });
+          }, error: (err) => {
+            subscriber.error(err);
+          }
+        })
+
       }
 
     });
@@ -183,7 +186,7 @@ export class ArwikiTokenContract
   * to be listed on the Arwiki. Validations are special TXs
   * with custom tags (Arwiki-Type: Validation)
   */
-  async approvePage(
+  approvePage(
     _pageId: string,
     _author: string,
     _slug: string,
@@ -192,7 +195,8 @@ export class ArwikiTokenContract
     _pageValue: number,
     _privateKey: any,
     _arwikiVersion: string
-  ) {
+  ): Observable<string|null> {
+
     const jwk = _privateKey;
     const tags = [
     	{name: 'Service', value: 'ArWiki'},
@@ -214,26 +218,9 @@ export class ArwikiTokenContract
     	pageValue: `${_pageValue}`
     };
 
-    const testTX = await interactWriteDryRun(
-      this._arweave.arweave,
-      jwk,
-      this._contractAddress,
-      input,
-      tags
+    return this._smartweave.writeInteraction(
+      this._contractAddress, jwk, input, tags
     );
-
-    if (testTX && testTX.type==='error' && testTX.result) {
-      throw new Error(testTX.result)
-    }
-
-    const tx = await interactWrite(
-      this._arweave.arweave,
-      jwk,
-      this._contractAddress,
-      input,
-      tags
-    );
-    return tx;
   }
 
   /*
@@ -363,12 +350,12 @@ export class ArwikiTokenContract
   /*
   * @dev Stop stake and sponsorship
   */
-  async stopStaking(
+  stopStaking(
     _slug: string,
     _langCode: string,
     _privateKey: any,
     _arwikiVersion: string
-  ) {
+  ): Observable<string | null> {
     const jwk = _privateKey;
     const tags = [
     	{name: 'Service', value: 'ArWiki'},
@@ -383,28 +370,9 @@ export class ArwikiTokenContract
     	slug: _slug
     };
 
-    
-    const testTX = await interactWriteDryRun(
-      this._arweave.arweave,
-      jwk,
-      this._contractAddress,
-      input,
-      tags
+    return this._smartweave.writeInteraction(
+      this._contractAddress, jwk, input, tags
     );
-
-    if (testTX && testTX.type==='error' && testTX.result) {
-      throw new Error(testTX.result)
-    }
-
-    const tx = await interactWrite(
-      this._arweave.arweave,
-      jwk,
-      this._contractAddress,
-      input,
-      tags
-    );
-
-    return tx;
   }
 
   /*
@@ -412,7 +380,7 @@ export class ArwikiTokenContract
   * to be listed on the Arwiki. Validations are special TXs
   * with custom tags (Arwiki-Type: Validation)
   */
-  async approvePageUpdate(
+  approvePageUpdate(
     _pageId: string,
     _author: string,
     _slug: string,
@@ -421,7 +389,7 @@ export class ArwikiTokenContract
     _pageValue: number,
     _privateKey: any,
     _arwikiVersion: string
-  ) {
+  ): Observable<string | null> {
     const jwk = _privateKey;
     const tags = [
     	{name: 'Service', value: 'ArWiki'},
@@ -442,40 +410,23 @@ export class ArwikiTokenContract
       pageValue: _pageValue
     };
 
-    const testTX = await interactWriteDryRun(
-      this._arweave.arweave,
-      jwk,
-      this._contractAddress,
-      input,
-      tags
+    return this._smartweave.writeInteraction(
+      this._contractAddress, jwk, input, tags
     );
-
-    if (testTX && testTX.type==='error' && testTX.result) {
-      throw new Error(testTX.result)
-    }
-
-    const tx = await interactWrite(
-      this._arweave.arweave,
-      jwk,
-      this._contractAddress,
-      input,
-      tags
-    );
-    return tx;
   }
 
   /*
   * @dev Update sponsor
   * Note: This can reactivate an inactive page
   */
-  async updatePageSponsor(
+  updatePageSponsor(
     _slug: string,
     _category: string,
     _langCode: string,
     _pageValue: number,
     _privateKey: any,
     _arwikiVersion: string
-  ) {
+  ): Observable<string | null> {
     const jwk = _privateKey;
     const tags = [
       {name: 'Service', value: 'ArWiki'},
@@ -493,37 +444,20 @@ export class ArwikiTokenContract
       pageValue: `${_pageValue}`
     };
 
-    const testTX = await interactWriteDryRun(
-      this._arweave.arweave,
-      jwk,
-      this._contractAddress,
-      input,
-      tags
+    return this._smartweave.writeInteraction(
+      this._contractAddress, jwk, input, tags
     );
-
-    if (testTX && testTX.type==='error' && testTX.result) {
-      throw new Error(testTX.result)
-    }
-
-    const tx = await interactWrite(
-      this._arweave.arweave,
-      jwk,
-      this._contractAddress,
-      input,
-      tags
-    );
-    return tx;
   }
 
 
   /*
   * @dev Create vote proposal for new Moderator
   */
-  async registerAdmin(
+  registerAdmin(
     _target: string,
     _privateKey: any,
     _arwikiVersion: string
-  ) {
+  ): Observable<string | null> {
     const jwk = _privateKey;
     const tags = [
       {name: 'Service', value: 'ArWiki'},
@@ -538,29 +472,9 @@ export class ArwikiTokenContract
       value: 'Moderator',
       note: 'New Moderator'
     };
-
-    
-    const testTX = await interactWriteDryRun(
-      this._arweave.arweave,
-      jwk,
-      this._contractAddress,
-      input,
-      tags
+    return this._smartweave.writeInteraction(
+      this._contractAddress, jwk, input, tags
     );
-
-    if (testTX && testTX.type==='error' && testTX.result) {
-      throw new Error(testTX.result)
-    }
-
-    const tx = await interactWrite(
-      this._arweave.arweave,
-      jwk,
-      this._contractAddress,
-      input,
-      tags
-    );
-
-    return tx;
   }
 
   /*
@@ -590,12 +504,12 @@ export class ArwikiTokenContract
   /*
   * @dev Transfer wiki tokens
   */
-  async transferTokens(
+  transferTokens(
     _target: string,
     _privateKey: any,
     _amount: number,
     _arwikiVersion: string
-  ) {
+  ): Observable<string | null> {
     const jwk = _privateKey;
     const tags = [
       {name: 'Service', value: 'ArWiki'},
@@ -608,33 +522,15 @@ export class ArwikiTokenContract
       qty: _amount,
     };
     
-    const testTX = await interactWriteDryRun(
-      this._arweave.arweave,
-      jwk,
-      this._contractAddress,
-      input,
-      tags
+    return this._smartweave.writeInteraction(
+      this._contractAddress, jwk, input, tags
     );
-
-    if (testTX && testTX.type==='error' && testTX.result) {
-      throw new Error(testTX.result)
-    }
-
-    const tx = await interactWrite(
-      this._arweave.arweave,
-      jwk,
-      this._contractAddress,
-      input,
-      tags
-    );
-
-    return tx;
   }
 
   /*
   * @dev Create vote proposal for new Moderator
   */
-  async votePage(
+  votePage(
     _target: string,
     _qty: number,
     _lang: string,
@@ -642,7 +538,7 @@ export class ArwikiTokenContract
     _vote: boolean,
     _privateKey: any,
     _arwikiVersion: string
-  ) {
+  ): Observable<string | null> {
     const jwk = _privateKey;
     const tags = [
       {name: 'Service', value: 'ArWiki'},
@@ -656,31 +552,9 @@ export class ArwikiTokenContract
       vote: _vote,
     };
     
-    const testTX = await interactWriteDryRun(
-      this._arweave.arweave,
-      jwk,
-      this._contractAddress,
-      input,
-      tags,
-      _target,
-      this._arweave.arweave.ar.arToWinston(_qty)
+    return this._smartweave.writeInteraction(
+      this._contractAddress, jwk, input, tags
     );
-
-    if (testTX && testTX.type==='error' && testTX.result) {
-      throw new Error(testTX.result)
-    }
-
-    const tx = await interactWrite(
-      this._arweave.arweave,
-      jwk,
-      this._contractAddress,
-      input,
-      tags,
-      _target,
-      this._arweave.arweave.ar.arToWinston(_qty)
-    );
-
-    return tx;
   }
 
   /*
@@ -702,12 +576,12 @@ export class ArwikiTokenContract
   /*
   * @dev Lock tokens in vault
   */
-  async lockTokensInVault(
+  lockTokensInVault(
     _lockLength: number,
     _amount: number,
     _privateKey: any,
     _arwikiVersion: string
-  ) {
+  ): Observable<string | null> {
     const jwk = _privateKey;
     const tags = [
       {name: 'Service', value: 'ArWiki'},
@@ -720,36 +594,18 @@ export class ArwikiTokenContract
       qty: _amount,
     };
     
-    const testTX = await interactWriteDryRun(
-      this._arweave.arweave,
-      jwk,
-      this._contractAddress,
-      input,
-      tags
+    return this._smartweave.writeInteraction(
+      this._contractAddress, jwk, input, tags
     );
-
-    if (testTX && testTX.type==='error' && testTX.result) {
-      throw new Error(testTX.result)
-    }
-
-    const tx = await interactWrite(
-      this._arweave.arweave,
-      jwk,
-      this._contractAddress,
-      input,
-      tags
-    );
-
-    return tx;
   }
 
   /*
   * @dev Unlock vault
   */
-  async unlockVault(
+  unlockVault(
     _privateKey: any,
     _arwikiVersion: string
-  ) {
+  ): Observable<string | null> {
     const jwk = _privateKey;
     const tags = [
       {name: 'Service', value: 'ArWiki'},
@@ -760,27 +616,9 @@ export class ArwikiTokenContract
       function: 'unlock'
     };
     
-    const testTX = await interactWriteDryRun(
-      this._arweave.arweave,
-      jwk,
-      this._contractAddress,
-      input,
-      tags
+    return this._smartweave.writeInteraction(
+      this._contractAddress, jwk, input, tags
     );
-
-    if (testTX && testTX.type==='error' && testTX.result) {
-      throw new Error(testTX.result)
-    }
-
-    const tx = await interactWrite(
-      this._arweave.arweave,
-      jwk,
-      this._contractAddress,
-      input,
-      tags
-    );
-
-    return tx;
   }
 
 }

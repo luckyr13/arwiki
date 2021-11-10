@@ -235,13 +235,12 @@ export class DeletedListComponent implements OnInit, OnDestroy {
       direction: direction
     });
 
-    dialogRef.afterClosed().subscribe(async (_newPageValue) => {
-      const newPageValue = +_newPageValue;
-      if (Number.isInteger(newPageValue) && newPageValue > 0) {
-        // Update page sponsor and reactivate page
-        this.loadingReactivatePageIntoIndex = true;
-        try {
-          const tx = await this._arwikiToken.updatePageSponsor(
+    dialogRef.afterClosed().pipe(
+      switchMap((_newPageValue: number) => {
+        const newPageValue = +_newPageValue;
+        if (Number.isInteger(newPageValue) && newPageValue > 0) {
+          this.loadingReactivatePageIntoIndex = true;
+          return this._arwikiToken.updatePageSponsor(
             _slug,
             _category_slug,
             this.routeLang,
@@ -249,15 +248,20 @@ export class DeletedListComponent implements OnInit, OnDestroy {
             this._auth.getPrivateKey(),
             arwikiVersion[0],
           ); 
-
-          this.updatePageTxMessage = tx;
-          this.message('Success!', 'success');
-        } catch (error) {
-          this.updatePageTxErrorMessage = `${error}`;
-          this.message(`${error}`, 'error');
+        } else if (newPageValue === 0) {
+          throw Error('Stake must be greater than 0 $WIKI tokens');
         }
-      } else if (newPageValue === 0) {
-        this.message('Stake must be greater than 0 $WIKI tokens', 'error');
+        
+        return of(null);
+      })
+    ).subscribe({
+      next: (tx) => {
+        this.updatePageTxMessage = `${tx}`;
+        this.message('Success!', 'success');
+      },
+      error: (error) => {
+        this.updatePageTxErrorMessage = `${error}`;
+        this.message(`${error}`, 'error');
       }
     });
   }

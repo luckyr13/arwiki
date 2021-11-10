@@ -208,13 +208,12 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
       direction: direction
     });
 
-    dialogRef.afterClosed().subscribe(async (_newPageValue) => {
-      const newPageValue = +_newPageValue;
-      if (Number.isInteger(newPageValue) && newPageValue > 0) {
-        // Create arwiki page
-        this.loadingInsertPageIntoIndex = true;
-        try {
-          const tx = await this._arwikiTokenContract.approvePageUpdate(
+    dialogRef.afterClosed().pipe(
+      switchMap((_newPageValue: number) => {
+        const newPageValue = +_newPageValue;
+        if (Number.isInteger(newPageValue) && newPageValue > 0) {
+          this.loadingInsertPageIntoIndex = true;
+          return this._arwikiTokenContract.approvePageUpdate(
             _pageId,
             _author,
             _slug,
@@ -223,21 +222,24 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
             newPageValue,
             this._auth.getPrivateKey(),
             arwikiVersion[0],
-          ); 
-
-          this.insertPageTxMessage = tx;
-          this.message('Success!', 'success');
-        } catch (error) {
-          this.insertPageTxErrorMessage = `${error}`;
-          this.message(`${error}`, 'error');
+          );
+        } else if (newPageValue === 0) {
+          throw Error('Stake must be greater than 0 $WIKI tokens');
         }
-      } else if (newPageValue === 0) {
-        this.message('Page Value must be greater than 0 $WIKI tokens', 'error');
+        
+        return of(null);
+      })
+    ).subscribe({
+      next: (tx) => {
+        this.insertPageTxMessage = `${tx}`;
+        this.message('Success!', 'success');
+      },
+      error: (error) => {
+        this.insertPageTxErrorMessage = `${error}`;
+        this.message(`${error}`, 'error');
       }
     });
   }
-
-
 
   timestampToDate(_time: number) {
     let d = new Date(_time * 1000);

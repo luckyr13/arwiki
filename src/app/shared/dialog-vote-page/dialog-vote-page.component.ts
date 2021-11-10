@@ -21,6 +21,7 @@ export class DialogVotePageComponent implements OnInit, OnDestroy {
   loadingDonationInProgress: boolean = false;
   txDonation: string = '';
   errorMsg: string = '';
+  voteAndDonateSubscription: Subscription = Subscription.EMPTY;
 
   constructor(
   	@Inject(MAT_DIALOG_DATA) public data: any,
@@ -62,30 +63,37 @@ export class DialogVotePageComponent implements OnInit, OnDestroy {
   	if (this.balanceSubscription) {
   		this.balanceSubscription.unsubscribe();
   	}
+    if (this.voteAndDonateSubscription) {
+      this.voteAndDonateSubscription.unsubscribe();
+    }
   }
 
-  async voteAndDonate(
+  voteAndDonate(
   	amount: number, sponsor: string,
   	slug: string, langCode: string,
   	upvote: boolean
   ) {
   	this.loadingDonationInProgress = true;
-  	this.txDonation = '';
-  	try {
-  		this.txDonation = await this._arwikiTokenContract
-  			.votePage(
-			    sponsor,
-			    amount,
-			    langCode,
-			    slug,
-			    upvote,
-			    this._auth.getPrivateKey(),
-			    arwikiVersion[0]
-			  )
-  	} catch (err) {
-  		this.errorMsg = `${err}`;
-  		this.message(`${err}`, 'error');
-  	}
+  	
+  	this.voteAndDonateSubscription = this._arwikiTokenContract
+			.votePage(
+		    sponsor,
+		    amount,
+		    langCode,
+		    slug,
+		    upvote,
+		    this._auth.getPrivateKey(),
+		    arwikiVersion[0]
+		  ).subscribe({
+        next: (res) => {
+          this.txDonation = `${res}`;
+        }, 
+        error: (error) => {
+          this.errorMsg = `${error}`;
+          this.message(`${error}`, 'error');
+        }
+      })
+  	
   }
 
 	/*

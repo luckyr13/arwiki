@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -8,19 +8,21 @@ import { ArweaveService } from '../../core/arweave.service';
 import { AuthService } from '../../auth/auth.service';
 import { arwikiVersion } from '../../core/arwiki';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dialog-transfer-tokens',
   templateUrl: './dialog-transfer-tokens.component.html',
   styleUrls: ['./dialog-transfer-tokens.component.scss']
 })
-export class DialogTransferTokensComponent implements OnInit {
+export class DialogTransferTokensComponent implements OnInit, OnDestroy {
 	frmTransfer: FormGroup = new FormGroup({
 		recipient: new FormControl('', [Validators.required]),
 		amount: new FormControl('0', [Validators.required, Validators.min(1)])
 	});
 	loadingSendTokens: boolean = false;
 	transferTX: string = '';
+  transferSubscription: Subscription = Subscription.EMPTY;
 
   constructor(
   	@Inject(MAT_DIALOG_DATA) public data: any,
@@ -33,6 +35,11 @@ export class DialogTransferTokensComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  ngOnDestroy() {
+    if (this.transferSubscription) {
+      this.transferSubscription.unsubscribe();
+    }
+  }
 
   public get amount() {
   	return this.frmTransfer.get('amount');
@@ -42,26 +49,29 @@ export class DialogTransferTokensComponent implements OnInit {
   	return this.frmTransfer.get('recipient');
   }
 
-
-  async onSubmit() {
+  onSubmit() {
   	const recipient = this.recipient!.value;
   	const amount = +this.amount!.value;
-  	await this.transferTokens(recipient, amount);
+  	this.transferTokens(recipient, amount);
   }
 
-  async transferTokens(recipient: string, amount: number) {
+  transferTokens(recipient: string, amount: number) {
   	this.loadingSendTokens = true;
-  	try {
-  		this.transferTX = await this._arwikiTokenContract.transferTokens(
-  			recipient,
-  			this._auth.getPrivateKey(),
-  			amount,
-  			arwikiVersion[0]
-  		);
-  	} catch (error) {
-  		this.message(`${error}`, 'error');
-  		this._dialogRef.close();
-  	}
+  	this.transferSubscription = this._arwikiTokenContract.transferTokens(
+			recipient,
+			this._auth.getPrivateKey(),
+			amount,
+			arwikiVersion[0]
+		).subscribe({
+      next: (res) => {
+        this.transferTX = `${res}`
+      },
+      error: (error) => {
+        this.message(`${error}`, 'error');
+        this._dialogRef.close();
+      }
+    });
+  	
   }
 
 	/*

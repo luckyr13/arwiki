@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild, AfterViewInit  } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, AfterViewInit, OnDestroy  } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -10,13 +10,14 @@ import { arwikiVersion } from '../../core/arwiki';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dialog-vault',
   templateUrl: './dialog-vault.component.html',
   styleUrls: ['./dialog-vault.component.scss']
 })
-export class DialogVaultComponent implements OnInit, AfterViewInit  {
+export class DialogVaultComponent implements OnInit, AfterViewInit, OnDestroy  {
   frmTransfer: FormGroup = new FormGroup({
 		lockLength: new FormControl(
       this.data.lockMinLength, [Validators.required]
@@ -33,6 +34,8 @@ export class DialogVaultComponent implements OnInit, AfterViewInit  {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   loadingUnlockVault: boolean = false;
   unlockVaultTX: string = '';
+  lockVaultSubscription: Subscription = Subscription.EMPTY;
+  unlockVaultSubscription: Subscription = Subscription.EMPTY;
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<any>(this.data.vault);
@@ -40,6 +43,16 @@ export class DialogVaultComponent implements OnInit, AfterViewInit  {
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+  }
+
+  ngOnDestroy() {
+    if (this.lockVaultSubscription) {
+      this.lockVaultSubscription.unsubscribe();
+    }
+    if (this.unlockVaultSubscription) {
+      this.unlockVaultSubscription.unsubscribe();
+    }
+    
   }
 
   constructor(
@@ -61,10 +74,10 @@ export class DialogVaultComponent implements OnInit, AfterViewInit  {
   }
 
 
-  async onSubmit() {
+  onSubmit() {
   	const lockLength = +this.lockLength!.value;
   	const amount = +this.amount!.value;
-  	await this.lockTokensInVault(lockLength, amount);
+  	this.lockTokensInVault(lockLength, amount);
   }
 
 
@@ -72,19 +85,21 @@ export class DialogVaultComponent implements OnInit, AfterViewInit  {
     lockLength: number, amount: number
   ) {
     this.loadingSendTokens = true;
-    this.transferTX = '';
-    try {
-      this.transferTX = await this._arwikiTokenContract
-        .lockTokensInVault(
-          lockLength,
-          amount,
-          this._auth.getPrivateKey(),
-          arwikiVersion[0]
-        )
-    } catch (error) {
-      this.errorMsg = `${error}`;
-      this.message(`${error}`, 'error');
-    }
+    this.lockVaultSubscription = this._arwikiTokenContract.lockTokensInVault(
+        lockLength,
+        amount,
+        this._auth.getPrivateKey(),
+        arwikiVersion[0]
+      ).subscribe({
+        next: (res) => {
+          this.transferTX = `${res}`;
+        }, 
+        error: (error) => {
+          this.errorMsg = `${error}`;
+          this.message(`${error}`);
+        }
+      })
+    
   }
 
 	/*
@@ -103,19 +118,21 @@ export class DialogVaultComponent implements OnInit, AfterViewInit  {
     return this._arweave.formatBlocks(len);
   }
 
-  async unlockVault() {
+  unlockVault() {
     this.loadingUnlockVault = true;
-    this.unlockVaultTX = '';
-    try {
-      this.unlockVaultTX = await this._arwikiTokenContract
-        .unlockVault(
-          this._auth.getPrivateKey(),
-          arwikiVersion[0]
-        );
-    } catch (error) {
-      this.errorMsg = `${error}`;
-      this.message(`${error}`, 'error');
-    }
+    this.unlockVaultSubscription = this._arwikiTokenContract
+      .unlockVault(
+        this._auth.getPrivateKey(),
+        arwikiVersion[0]
+      ).subscribe({
+        next: (res) => {
+          this.unlockVaultTX = `${res}`;
+        },
+        error: (error) => {
+          this.errorMsg = `${error}`;
+          this.message(`${error}`, 'error');
+        }
+      });
   }
 
 }

@@ -287,26 +287,30 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
       direction: direction
     });
 
-    dialogRef.afterClosed().subscribe(async (result) => {
-      if (result) {
-        // Create "delete" tx
-        this.loadingStopStake = true;
-        try {
-          const tx = await this._arwikiToken.stopStaking(
-            _slug,
-            this.routeLang,
-            this._auth.getPrivateKey(),
-            arwikiVersion[0]
-          ); 
-
-          this.stopStakeTxMessage = tx;
+    dialogRef.afterClosed().pipe(
+        switchMap((result: any) => {
+          if (result) {
+            this.loadingStopStake = true;
+            return this._arwikiToken.stopStaking(
+              _slug,
+              this.routeLang,
+              this._auth.getPrivateKey(),
+              arwikiVersion[0]
+            );
+          }
+          return of(null);
+        })
+      ).subscribe({
+        next: (tx) => {
+          this.stopStakeTxMessage = `${tx}`;
           this.message('Success!', 'success');
-        } catch (error) {
+          //this.loadingStopStake = false;
+        },
+        error: (error) => {
           this.message(`${error}`, 'error');
+          //this.loadingStopStake = false;
         }
-
-      }
-    });
+      });
   }
 
   formatBlocks(_b: number) {
@@ -332,13 +336,12 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
       direction: direction
     });
 
-    dialogRef.afterClosed().subscribe(async (_newPageValue) => {
-      const newPageValue = +_newPageValue;
-      if (Number.isInteger(newPageValue) && newPageValue > 0) {
-        // Update page sponsor and reactivate page
-        this.loadingUpdateSponsorPageIntoIndex = true;
-        try {
-          const tx = await this._arwikiToken.updatePageSponsor(
+    dialogRef.afterClosed().pipe(
+      switchMap((_newPageValue: number) => {
+        const newPageValue = +_newPageValue;
+        if (Number.isInteger(newPageValue) && newPageValue > 0) {
+          this.loadingUpdateSponsorPageIntoIndex = true;
+          return this._arwikiToken.updatePageSponsor(
             _slug,
             _category_slug,
             this.routeLang,
@@ -346,15 +349,20 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
             this._auth.getPrivateKey(),
             arwikiVersion[0],
           ); 
-
-          this.updateSponsorPageTxMessage = tx;
-          this.message('Success!', 'success');
-        } catch (error) {
-          this.updateSponsorPageTxErrorMessage = `${error}`;
-          this.message(`${error}`, 'error');
+        } else if (newPageValue === 0) {
+          throw Error('Stake must be greater than 0 $WIKI tokens');
         }
-      } else if (newPageValue === 0) {
-        this.message('Stake must be greater than 0 $WIKI tokens', 'error');
+        
+        return of(null);
+      })
+    ).subscribe({
+      next: (tx) => {
+        this.updateSponsorPageTxMessage = `${tx}`;
+        this.message('Success!', 'success');
+      },
+      error: (error) => {
+        this.updateSponsorPageTxErrorMessage = `${error}`;
+        this.message(`${error}`, 'error');
       }
     });
   }
