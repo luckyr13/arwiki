@@ -444,7 +444,7 @@ export class ArweaveService {
       );
 
     } catch (error) {
-      throw Error(error);
+      throw Error(`${error}`);
     }
 
     return txid;
@@ -504,7 +504,7 @@ export class ArweaveService {
       );
 
     } catch (error) {
-      throw Error(error);
+      throw Error(`${error}`);
     }
 
     return txid;

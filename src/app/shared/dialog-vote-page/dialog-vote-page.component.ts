@@ -83,8 +83,8 @@ export class DialogVotePageComponent implements OnInit, OnDestroy {
 			    arwikiVersion[0]
 			  )
   	} catch (err) {
-  		this.errorMsg = err;
-  		this.message(err, 'error');
+  		this.errorMsg = `${err}`;
+  		this.message(`${err}`, 'error');
   	}
   }
 

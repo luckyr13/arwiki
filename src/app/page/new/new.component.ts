@@ -261,7 +261,7 @@ export class NewComponent implements OnInit, OnDestroy {
       }, 20000);
 
     } catch (error) {
-      this.message(error, 'error');
+      this.message(`${error}`, 'error');
       this.disableForm(false);
     }
 
@@ -321,7 +321,7 @@ export class NewComponent implements OnInit, OnDestroy {
       networkInfo = await this._arweave.arweave.network.getInfo();
       maxHeight = networkInfo.height;
     } catch (error) {
-      this.message(error, 'error');
+      this.message(`${error}`, 'error');
       this.slug!.setValue('');
       this.slug!.enable();
     }

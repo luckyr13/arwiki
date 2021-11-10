@@ -58,8 +58,8 @@ export class DialogTransferTokensComponent implements OnInit {
   			amount,
   			arwikiVersion[0]
   		);
-  	} catch (err) {
-  		this.message(err, 'error');
+  	} catch (error) {
+  		this.message(`${error}`, 'error');
   		this._dialogRef.close();
   	}
   }

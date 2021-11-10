@@ -66,7 +66,7 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
       networkInfo = await this._arweave.arweave.network.getInfo();
       maxHeight = networkInfo.height;
     } catch (error) {
-      this.message(error, 'error');
+      this.message(`${error}`, 'error');
       return;
     }
 
@@ -228,8 +228,8 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
           this.insertPageTxMessage = tx;
           this.message('Success!', 'success');
         } catch (error) {
-          this.insertPageTxErrorMessage = error;
-          this.message(error, 'error');
+          this.insertPageTxErrorMessage = `${error}`;
+          this.message(`${error}`, 'error');
         }
       } else if (newPageValue === 0) {
         this.message('Page Value must be greater than 0 $WIKI tokens', 'error');

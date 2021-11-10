@@ -76,7 +76,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
       networkInfo = await this._arweave.arweave.network.getInfo();
       maxHeight = networkInfo.height;
     } catch (error) {
-      this.message(error, 'error');
+      this.message(`${error}`, 'error');
       return;
     }
 
@@ -213,7 +213,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
           this.deleteTxMessage = tx;
           this.message('Success!', 'success');
         } catch (error) {
-          this.message(error, 'error');
+          this.message(`${error}`, 'error');
         }
 
       }
@@ -253,7 +253,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
           this.setMainTxMessage = tx;
           this.message('Success!', 'success');
         } catch (error) {
-          this.message(error, 'error');
+          this.message(`${error}`, 'error');
         }
 
       }
@@ -267,7 +267,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
       networkInfo = await this._arweave.arweave.network.getInfo();
       maxHeight = networkInfo.height ? networkInfo.height : 0;
     } catch (error) {
-      throw Error(error);
+      throw Error(`${error}`);
     }
     return maxHeight;
   }
@@ -302,7 +302,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
           this.stopStakeTxMessage = tx;
           this.message('Success!', 'success');
         } catch (error) {
-          this.message(error, 'error');
+          this.message(`${error}`, 'error');
         }
 
       }
@@ -350,8 +350,8 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
           this.updateSponsorPageTxMessage = tx;
           this.message('Success!', 'success');
         } catch (error) {
-          this.updateSponsorPageTxErrorMessage = error;
-          this.message(error, 'error');
+          this.updateSponsorPageTxErrorMessage = `${error}`;
+          this.message(`${error}`, 'error');
         }
       } else if (newPageValue === 0) {
         this.message('Stake must be greater than 0 $WIKI tokens', 'error');

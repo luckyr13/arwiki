@@ -81,9 +81,9 @@ export class DialogVaultComponent implements OnInit, AfterViewInit  {
           this._auth.getPrivateKey(),
           arwikiVersion[0]
         )
-    } catch (err) {
-      this.errorMsg = err;
-      this.message(err, 'error');
+    } catch (error) {
+      this.errorMsg = `${error}`;
+      this.message(`${error}`, 'error');
     }
   }
 
@@ -112,9 +112,9 @@ export class DialogVaultComponent implements OnInit, AfterViewInit  {
           this._auth.getPrivateKey(),
           arwikiVersion[0]
         );
-    } catch (err) {
-      this.errorMsg = err;
-      this.message(err, 'error');
+    } catch (error) {
+      this.errorMsg = `${error}`;
+      this.message(`${error}`, 'error');
     }
   }
 

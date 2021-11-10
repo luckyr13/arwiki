@@ -187,7 +187,7 @@ export class MyPagesComponent implements OnInit, OnDestroy {
       networkInfo = await this._arweave.arweave.network.getInfo();
       maxHeight = networkInfo.height ? networkInfo.height : 0;
     } catch (error) {
-      throw Error(error);
+      throw Error(`${error}`);
     }
     return maxHeight;
   }

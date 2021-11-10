@@ -74,7 +74,7 @@ export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
       networkInfo = await this._arweave.arweave.network.getInfo();
       maxHeight = networkInfo.height;
     } catch (error) {
-      this.message(error, 'error');
+      this.message(`${error}`, 'error');
       return;
     }
 

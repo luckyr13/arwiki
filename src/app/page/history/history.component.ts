@@ -166,8 +166,8 @@ export class HistoryComponent implements OnInit, OnDestroy {
       if (tx2.trim() != '') {
         oldData = await this._arweave.getDataAsString(tx2);
       }
-    } catch (err) {
-      this.message(err, 'error');
+    } catch (error) {
+      this.message(`${error}`, 'error');
     }
     this.historyChLoad[currenthistoryId] = false;
     const diff: Change[] = diffLines(oldData, newData);

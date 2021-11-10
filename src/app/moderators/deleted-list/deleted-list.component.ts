@@ -66,7 +66,7 @@ export class DeletedListComponent implements OnInit, OnDestroy {
       networkInfo = await this._arweave.arweave.network.getInfo();
       maxHeight = networkInfo.height;
     } catch (error) {
-      this.message(error, 'error');
+      this.message(`${error}`, 'error');
       return;
     }
 
@@ -134,7 +134,7 @@ export class DeletedListComponent implements OnInit, OnDestroy {
       networkInfo = await this._arweave.arweave.network.getInfo();
       maxHeight = networkInfo.height ? networkInfo.height : 0;
     } catch (error) {
-      throw Error(error);
+      throw Error(`${error}`);
     }
     return maxHeight;
   }
@@ -253,8 +253,8 @@ export class DeletedListComponent implements OnInit, OnDestroy {
           this.updatePageTxMessage = tx;
           this.message('Success!', 'success');
         } catch (error) {
-          this.updatePageTxErrorMessage = error;
-          this.message(error, 'error');
+          this.updatePageTxErrorMessage = `${error}`;
+          this.message(`${error}`, 'error');
         }
       } else if (newPageValue === 0) {
         this.message('Stake must be greater than 0 $WIKI tokens', 'error');

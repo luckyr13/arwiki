@@ -124,7 +124,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
       networkInfo = await this._arweave.arweave.network.getInfo();
       maxHeight = networkInfo.height;
     } catch (error) {
-      this.message(error, 'error');
+      this.message(`${error}`, 'error');
       return;
     }
    
@@ -446,7 +446,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
           this.message('Success!', 'success');
           this.loadingUpdateSponsorPage = false;
         } catch (error) {
-          this.message(error, 'error');
+          this.message(`${error}`, 'error');
           this.loadingUpdateSponsorPage = false;
         }
       } else if (newPageValue === 0) {
@@ -491,7 +491,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
           this.message('Success!', 'success');
           this.loadingStopStake = false;
         } catch (error) {
-          this.message(error, 'error');
+          this.message(`${error}`, 'error');
           this.loadingStopStake = false;
         }
 

@@ -66,7 +66,7 @@ export class ViewDetailComponent implements OnInit {
       networkInfo = await this._arweave.arweave.network.getInfo();
       maxHeight = networkInfo.height;
     } catch (error) {
-      this.message(error, 'error');
+      this.message(`${error}`, 'error');
       return;
     }
     this.pagesSubscription = this.getPagesByCategory(
