@@ -43,10 +43,10 @@ export class DialogDonateComponent implements OnInit, OnDestroy {
         next: (res: string) => {
           this.balance = +res;
           this.loadingBalance = false;
-          if (this.balance > 10) {
+          if (this.balance >= 10) {
           	this.maxAmount = 10;
           } else if (this.balance > 0) {
-          	this.maxAmount = this.balance / 2;
+          	this.maxAmount = this.balance;
           }
         },
         error: (error: any) => {

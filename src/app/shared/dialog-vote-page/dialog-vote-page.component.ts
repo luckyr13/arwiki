@@ -78,7 +78,7 @@ export class DialogVotePageComponent implements OnInit, OnDestroy {
   	this.voteAndDonateSubscription = this._arwikiTokenContract
 			.votePage(
 		    sponsor,
-		    amount,
+		    `${amount}`,
 		    langCode,
 		    slug,
 		    upvote,

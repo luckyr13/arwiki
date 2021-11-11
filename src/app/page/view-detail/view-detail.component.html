@@ -96,10 +96,10 @@
 						[class.active]="validateTOCactiveMenu(tocLink.top)" 
 						[routerLink]="['/', routeLang, routeSlug]"
 						[fragment]="tocLink.id">
-						<span *ngIf="tocLink.type === 'H1'">{{ tocLink.text }}</span>
-						<span *ngIf="tocLink.type === 'H2'" style="margin-left: 5px;">{{ tocLink.text }}</span>
-						<span *ngIf="tocLink.type === 'H3'" style="margin-left: 10px;">{{ tocLink.text }}</span>
-						<span *ngIf="tocLink.type === 'H4'" style="margin-left: 15px;">{{ tocLink.text }}</span>
+						<div *ngIf="tocLink.type === 'H1'">{{ tocLink.text }}</div>
+						<div *ngIf="tocLink.type === 'H2'" style="margin-left: 6px;">{{ tocLink.text }}</div>
+						<div *ngIf="tocLink.type === 'H3'" style="margin-left: 12px;">{{ tocLink.text }}</div>
+						<div *ngIf="tocLink.type === 'H4'" style="margin-left: 18px;">{{ tocLink.text }}</div>
 						
 					</a>
 				</div>

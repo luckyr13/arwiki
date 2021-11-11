@@ -235,8 +235,10 @@ export class PendingListComponent implements OnInit, OnDestroy {
       })
     ).subscribe({
       next: (tx) => {
-        this.insertPageTxMessage = `${tx}`;
-        this.message('Success!', 'success');
+        if (tx) {
+          this.insertPageTxMessage = `${tx}`;
+          this.message('Success!', 'success');
+        }
       },
       error: (error) => {
         this.insertPageTxErrorMessage = `${error}`;

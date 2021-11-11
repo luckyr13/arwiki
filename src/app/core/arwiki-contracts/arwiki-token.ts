@@ -532,7 +532,7 @@ export class ArwikiTokenContract
   */
   votePage(
     _target: string,
-    _qty: number,
+    _qty: string,
     _lang: string,
     _slug: string,
     _vote: boolean,
@@ -551,9 +551,10 @@ export class ArwikiTokenContract
       slug: _slug,
       vote: _vote,
     };
+    const transfer = {target: _target, winstonQty: _qty};
     
     return this._smartweave.writeInteraction(
-      this._contractAddress, jwk, input, tags
+      this._contractAddress, jwk, input, tags, transfer
     );
   }
 

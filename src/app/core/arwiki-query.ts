@@ -395,6 +395,7 @@ export class ArwikiQuery {
   getVerifiedTagsFromSlug(
     owners: string[],
     slug: string,
+    langCode: string,
     limit: number = 100,
     maxHeight: number = 0
   ): Observable<ArdbTransaction[]|ArdbBlock[]> {
@@ -414,7 +415,11 @@ export class ArwikiQuery {
       {
         name: 'Arwiki-Version',
         values: arwikiVersion,
-      } 
+      },
+      {
+        name: 'Arwiki-Page-Lang',
+        values: [langCode],
+      }
     ];
 
     const obs = new Observable<ArdbTransaction[]|ArdbBlock[]>((subscriber) => {

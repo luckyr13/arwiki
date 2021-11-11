@@ -130,6 +130,7 @@ export class TagManagerComponent implements OnInit, OnDestroy {
     this.tagsSubscription = this.arwikiQuery.getVerifiedTagsFromSlug(
       this._auth.getAdminList(), 
       slug,
+      this.routeLang,
       maxTags,
       maxHeight,
     ).subscribe({

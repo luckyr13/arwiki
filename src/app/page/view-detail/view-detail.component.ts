@@ -564,7 +564,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     return this._arwikiTokenContract.getAdminList()
       .pipe(
         switchMap((_adminList: string[]) => {
-          return this.arwikiQuery.getVerifiedTagsFromSlug(_adminList, _slug, _limit, _maxHeight);
+          return this.arwikiQuery.getVerifiedTagsFromSlug(_adminList, _slug, _langCode, _limit, _maxHeight);
         }),
         switchMap((verifiedTags) => {
           const verifiedTagsTxList: string[] = [];
