@@ -302,8 +302,10 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
         })
       ).subscribe({
         next: (tx) => {
-          this.stopStakeTxMessage = `${tx}`;
-          this.message('Success!', 'success');
+          if (tx) {
+            this.stopStakeTxMessage = `${tx}`;
+            this.message('Success!', 'success');
+          }
           //this.loadingStopStake = false;
         },
         error: (error) => {
@@ -357,8 +359,10 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
       })
     ).subscribe({
       next: (tx) => {
-        this.updateSponsorPageTxMessage = `${tx}`;
-        this.message('Success!', 'success');
+        if (tx) {
+          this.updateSponsorPageTxMessage = `${tx}`;
+          this.message('Success!', 'success');
+        }
       },
       error: (error) => {
         this.updateSponsorPageTxErrorMessage = `${error}`;

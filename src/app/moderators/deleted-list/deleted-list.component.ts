@@ -256,8 +256,10 @@ export class DeletedListComponent implements OnInit, OnDestroy {
       })
     ).subscribe({
       next: (tx) => {
-        this.updatePageTxMessage = `${tx}`;
-        this.message('Success!', 'success');
+        if (tx) {
+          this.updatePageTxMessage = `${tx}`;
+          this.message('Success!', 'success');
+        }
       },
       error: (error) => {
         this.updatePageTxErrorMessage = `${error}`;
