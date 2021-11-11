@@ -73,7 +73,7 @@
 		      <a mat-button
 		        *ngFor="let page of pagesByCategory[cs]"
 		        routerLink="/{{ routeLang }}/{{ page.slug }}" >
-		        <div mat-line>{{ page.title }}</div>
+		        <div mat-line class="ellipsis">{{ page.title }}</div>
 		      </a>
 		      <a mat-button
 		        routerLink="/{{ routeLang }}/category/{{ cs }}" >

@@ -1,12 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ArweaveService } from '../../core/arweave.service';
-import { Observable, Subscription, EMPTY, of } from 'rxjs';
+import { Observable, Subscription, EMPTY, of, from } from 'rxjs';
 import { AuthService } from '../../auth/auth.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { switchMap } from 'rxjs/operators';
 import { getVerification } from "arverify";
 import {MatDialog} from '@angular/material/dialog';
 import { DialogConfirmAmountComponent } from '../../shared/dialog-confirm-amount/dialog-confirm-amount.component';
+import { DialogRejectReasonComponent } from '../../shared/dialog-reject-reason/dialog-reject-reason.component';
 import { ArwikiQuery } from '../../core/arwiki-query';
 import { ActivatedRoute } from '@angular/router';
 import { Direction } from '@angular/cdk/bidi';
@@ -37,6 +38,9 @@ export class PendingListComponent implements OnInit, OnDestroy {
   routeLang: string = '';
   private _arwiki!: Arwiki;
   baseURL = this._arweave.baseURL;
+  loadingRejectPage: boolean = false;
+  rejectPageTxMessage: string = '';
+  rejectPageTxErrorMessage: string = '';
 
   constructor(
   	private _arweave: ArweaveService,
@@ -70,6 +74,7 @@ export class PendingListComponent implements OnInit, OnDestroy {
       this.message(`${error}`, 'error');
       return;
     }
+    let allPendingPages: ArwikiPageIndex = {};
 
     this.pendingPagesSubscription = this._arwikiTokenContract
       .getCategories()
@@ -83,12 +88,9 @@ export class PendingListComponent implements OnInit, OnDestroy {
           );
         }),
         switchMap((pendingPages: ArdbTransaction[]|ArdbBlock[]) => {
-          let pages = pendingPages;
-          let tmp_res: ArwikiPageIndex = {};
-
-          for (let p of pages) {
+          for (let p of pendingPages) {
             const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
-            tmp_res[pTX.id] = {
+            allPendingPages[pTX.id] = {
               id: pTX.id,
               title: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title'),
               slug: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug'),
@@ -101,7 +103,7 @@ export class PendingListComponent implements OnInit, OnDestroy {
               
             };
           }
-          return of(tmp_res);
+          return of(allPendingPages);
         }),
         switchMap((pendingPages: ArwikiPageIndex) => {
           return (
@@ -123,7 +125,35 @@ export class PendingListComponent implements OnInit, OnDestroy {
                 })
               )
           );
-        })
+        }),
+        switchMap((pendingPages: ArwikiPageIndex) => {
+          return (
+            this.arwikiQuery.getRejectedPagesByIds(
+                adminList, Object.keys(pendingPages), numPages, maxHeight
+              )
+              .pipe(
+                switchMap((_rejectedIntersection: ArdbTransaction[]|ArdbBlock[]) => {
+                  let rejected: string[] = [];
+                  let finalIndex: ArwikiPageIndex = {};
+
+                  for (let p of _rejectedIntersection) {
+                    const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
+                    const rejectedId = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Id');
+                    rejected.push(rejectedId);
+                  }
+
+                  for (let pId in pendingPages) {
+                    if (rejected.indexOf(pId) < 0) {
+                      finalIndex[pId] = pendingPages[pId];
+                    }
+                  }
+
+                  return of(finalIndex);
+                })
+              )
+          );
+        }),
+
       ).subscribe({
         next: async (pages: ArwikiPageIndex) => {
           this.pages = pages;
@@ -256,6 +286,46 @@ export class PendingListComponent implements OnInit, OnDestroy {
 
   getKeys(d: any) {
     return Object.keys(d);
+  }
+
+  confirmRejectArWikiPage(
+    _slug: string,
+    _pageId: string
+  ) {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
+    const dialogRef = this._dialog.open(DialogRejectReasonComponent, {
+      data: {
+        id: _pageId
+      },
+      direction: direction
+    });
+
+
+    dialogRef.afterClosed().pipe(
+      switchMap((_reason: string) => {
+        if (_reason) {
+          this.loadingRejectPage = true;
+          const jwk = this._auth.getPrivateKey();
+          return this._arwiki.createRejectTXForArwikiPage(_pageId, _slug, this.routeLang, _reason, jwk);
+        }
+        
+        return of(null);
+      })
+    ).subscribe({
+      next: (tx) => {
+        if (tx) {
+          this.rejectPageTxMessage = `${tx}`;
+          this.message('Page rejected!', 'success');
+        }
+      },
+      error: (error) => {
+        this.rejectPageTxErrorMessage = `${error}`;
+        this.message(`${error}`, 'error');
+      }
+    });
   }
  
 

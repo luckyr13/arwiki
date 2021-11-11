@@ -3,7 +3,7 @@ import { ArweaveService } from './arweave.service';
 import { 
 	SmartWeaveWebFactory, SmartWeave, 
 	EvalStateResult, ArWallet, 
-	Tags, ArTransfer } from 'redstone-smartweave';
+	Tags, ArTransfer, LoggerFactory } from 'redstone-smartweave';
 import { from, Observable } from 'rxjs';
 
 @Injectable({
@@ -13,6 +13,7 @@ export class RedstoneSmartweaveService {
 	private _smartweave?: SmartWeave;
 
   constructor(private _arweave: ArweaveService) {
+    LoggerFactory.INST.logLevel('fatal')
   	this._smartweave = SmartWeaveWebFactory.memCached(_arweave.arweave);
   }
 

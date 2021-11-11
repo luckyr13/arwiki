@@ -551,6 +551,7 @@ export class ArwikiTokenContract
       slug: _slug,
       vote: _vote,
     };
+    _qty = this._arweave.arToWinston(_qty);
     const transfer = {target: _target, winstonQty: _qty};
     
     return this._smartweave.writeInteraction(

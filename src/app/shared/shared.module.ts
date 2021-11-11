@@ -43,6 +43,7 @@ import { DialogTransferTokensComponent } from './dialog-transfer-tokens/dialog-t
 import { DialogVaultComponent } from './dialog-vault/dialog-vault.component';
 import { DialogVotePageComponent } from './dialog-vote-page/dialog-vote-page.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { DialogRejectReasonComponent } from './dialog-reject-reason/dialog-reject-reason.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     DialogTransferTokensComponent,
     DialogVaultComponent,
     DialogVotePageComponent,
+    DialogRejectReasonComponent,
   ],
   imports: [
     CommonModule,

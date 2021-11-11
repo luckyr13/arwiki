@@ -200,6 +200,34 @@ export class Arwiki {
     return tx.id;
   }
 
+  /*
+  * @dev Pages can be rejected
+  * if an admin creates a Reject TX (Arwiki-Type: PageRejected)
+  */
+  async createRejectTXForArwikiPage(
+    _pageId: string,
+    _slug: string,
+    _langCode: string,
+    _reason: string,
+    _privateKey: any
+  ) {
+    const jwk = _privateKey;
+    const data = `${_reason}`.trim();
+    const tx = await this._arweave.createTransaction({
+      data
+    }, jwk);
+    tx.addTag('Content-Type', 'text/plain');
+    tx.addTag('Service', 'ArWiki');
+    tx.addTag('Arwiki-Type', 'PageRejected');
+    tx.addTag('Arwiki-Page-Id', _pageId);
+    tx.addTag('Arwiki-Page-Slug', _slug);
+    tx.addTag('Arwiki-Page-Lang', _langCode);
+    tx.addTag('Arwiki-Version', arwikiVersion[0]);
+    await this._arweave.transactions.sign(tx, jwk)
+    await this._arweave.transactions.post(tx)
+    return tx.id;
+  }
+
 
 }
 
