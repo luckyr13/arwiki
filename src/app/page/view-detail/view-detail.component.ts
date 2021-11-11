@@ -64,6 +64,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   loadingStopStake: boolean = false;
   loadingTags: boolean = false;
   tags: any[] = [];
+  tagsSubscription: Subscription = Subscription.EMPTY;
 
   constructor(
     private route: ActivatedRoute,
@@ -171,6 +172,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
           this.pageData.category = page.category ? page.category : '';
           this.pageData.upvotes = page.upvotes ? page.upvotes : 0;
           this.pageData.downvotes = page.downvotes ? page.downvotes : 0;
+          this.pageData.slug = page.slug ? page.slug : '';
           this.block = page.block;
 
           const content = await this._arweave.arweave.transactions.getData(
@@ -193,6 +195,31 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
               }
             });
           }, 500);
+
+          // Load tags 
+          this.loadingTags = true;
+          this.tagsSubscription = this.searchTagsBySlug(
+            this.pageData.slug, langCode, maxHeight
+          ).subscribe({
+            next: (res) => {
+              for (let p of res) {
+                const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
+                const tag = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Tag');
+                const owner = pTX.owner.address;
+                const id = pTX.id;
+                const block = pTX.block;
+                this.tags.push(tag);
+              }
+              this.loadingTags = false;
+
+            },
+            error: (error) => {
+              this.message(`${error}`, 'error');
+              this.loadingTags = false;
+            }
+          });
+
+
 
   			} else {
           this.pageData.content = '';
@@ -217,6 +244,9 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   	if (this.pageSubscription) {
   		this.pageSubscription.unsubscribe();
   	}
+    if (this.tagsSubscription) {
+      this.tagsSubscription.unsubscribe();
+    }
   }
 
   markdownToHTML(_markdown: string) {
@@ -520,6 +550,31 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(async (result) => {
     });
+  }
+
+  /*
+  * @dev
+  */
+  searchTagsBySlug(
+    _slug: string,
+    _langCode: string,
+    _maxHeight: number,
+    _limit: number = 30
+  ) {
+    return this._arwikiTokenContract.getAdminList()
+      .pipe(
+        switchMap((_adminList: string[]) => {
+          return this.arwikiQuery.getVerifiedTagsFromSlug(_adminList, _slug, _limit, _maxHeight);
+        }),
+        switchMap((verifiedTags) => {
+          const verifiedTagsTxList: string[] = [];
+          for (const t of verifiedTags) {
+            verifiedTagsTxList.push(t.id);
+          }
+
+          return this.arwikiQuery.getTXsData(verifiedTagsTxList);
+        })
+      );
   }
 
 }

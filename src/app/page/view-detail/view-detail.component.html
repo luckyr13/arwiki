@@ -115,8 +115,13 @@
 				Tags
 			</h2>
 			<div class="col-12 tags-container">
+				<div *ngIf="loadingTags">
+					Loading ...
+				</div>
 				<div class="col-12 tags-container" *ngIf="tags.length">
-					T
+					<mat-chip-list>
+					  <mat-chip *ngFor="let tag of tags" [routerLink]="['/', routeLang, 'search', tag]" style="cursor: pointer">{{tag}}</mat-chip>
+					</mat-chip-list>
 				</div>
 				<div class="col-12 tags-container" *ngIf="!tags.length">
 					No results found.
