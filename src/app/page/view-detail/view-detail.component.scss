@@ -36,6 +36,7 @@
 	position: -webkit-sticky;
 	position: sticky;
 	top: 120px;
+	margin-bottom: 20px;
 }
 
 .toc-container-title {
@@ -51,6 +52,7 @@
 	display: block;
 	font-size: 12.5px;
 	padding-left: 10px;
+	margin-bottom: 0px;
 }
 
 .toc-link.active {
@@ -130,4 +132,12 @@
 
 .vote-btn .mat-icon {
 	color: #909090;
+}
+
+.tags-main-container {
+	margin-bottom: 20px;
+}
+
+.tags-container {
+	margin-bottom: 30px;
 }

@@ -65,6 +65,15 @@
 	  <div class="separator col-12"></div>
 	</div>
 	<mat-spinner class="spinner-center" *ngIf="loadingPage"></mat-spinner>
+	<div class="row" *ngIf="!pageData.content && pageNotFound && !loadingPage">
+		<h1 class="text-center col-12">Page not found! 😢</h1>
+		<div class="col-12 text-center" *ngIf="isUserLoggedIn">
+			<a mat-flat-button 
+        routerLink="/{{ routeLang }}/create-page" color="primary">
+				Create new arwiki page
+			</a>
+		</div>
+	</div>
 	<div 
 		class="row" 
 		*ngIf="!loadingPage && (pageData.content || pageData.img)">
@@ -87,11 +96,11 @@
 						[class.active]="validateTOCactiveMenu(tocLink.top)" 
 						[routerLink]="['/', routeLang, routeSlug]"
 						[fragment]="tocLink.id">
-						<span *ngIf="tocLink.type === 'H1'"></span>
-						<span *ngIf="tocLink.type === 'H2'">&nbsp;</span>
-						<span *ngIf="tocLink.type === 'H3'">&nbsp;&nbsp;</span>
-						<span *ngIf="tocLink.type === 'H4'">&nbsp;&nbsp;&nbsp;</span>
-						{{ tocLink.text }}
+						<span *ngIf="tocLink.type === 'H1'">{{ tocLink.text }}</span>
+						<span *ngIf="tocLink.type === 'H2'" style="margin-left: 5px;">{{ tocLink.text }}</span>
+						<span *ngIf="tocLink.type === 'H3'" style="margin-left: 10px;">{{ tocLink.text }}</span>
+						<span *ngIf="tocLink.type === 'H4'" style="margin-left: 15px;">{{ tocLink.text }}</span>
+						
 					</a>
 				</div>
 			</div>
@@ -101,7 +110,31 @@
 			class="col-12 fadeIn" 
 			[class.col-md-9]="toc.length || pageData.img" 
 			[innerHTML]="pageData.content"></div>
-
+		<div class="row tags-main-container" *ngIf="pageData.content" >
+			<h2 class="page-title col-12">
+				Tags
+			</h2>
+			<div class="col-12 tags-container">
+				<div class="col-12 tags-container" *ngIf="tags.length">
+					T
+				</div>
+				<div class="col-12 tags-container" *ngIf="!tags.length">
+					No results found.
+				</div>
+			</div>
+			<p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageData.owner">
+				<app-arweave-address [address]="pageData.owner">Created by: </app-arweave-address>
+		  </p>
+		  <p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageExtraMetadata.sponsor">
+				<app-arweave-address [address]="pageExtraMetadata.sponsor">Sponsor: </app-arweave-address>
+		  </p>
+		  <p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageData.id">
+		  	<app-arweave-address [isAddress]="false" [address]="pageData.id">Page TX: </app-arweave-address>
+		  </p>
+		  <p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageExtraMetadata.value">
+		  	<strong>Page value: </strong>{{ pageExtraMetadata.value }} $WIKI
+		  </p>
+		</div>
 		<div 
 			class="col-12 fadeIn text-right separator" >
 			<button 
@@ -162,33 +195,11 @@
 		    <mat-icon>history</mat-icon>
 		    View history
 		  </button>
-		  
 		</div>
-		<p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageData.owner">
-			<app-arweave-address [address]="pageData.owner">Created by: </app-arweave-address>
-	  </p>
-	  <p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageExtraMetadata.sponsor">
-			<app-arweave-address [address]="pageExtraMetadata.sponsor">Sponsor: </app-arweave-address>
-	  </p>
-	  <p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageData.id">
-	  	<app-arweave-address [isAddress]="false" [address]="pageData.id">Page TX: </app-arweave-address>
-	  </p>
-	  <p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageExtraMetadata.value">
-	  	<strong>Page value: </strong>{{ pageExtraMetadata.value }} $WIKI
-	  </p>
-	</div>
-	<div class="row" *ngIf="!pageData.content && pageNotFound && !loadingPage">
-		<h1 class="text-center col-12">Page not found! 😢</h1>
-		<div class="col-12 text-center" *ngIf="isUserLoggedIn">
-			<a mat-flat-button 
-        routerLink="/{{ routeLang }}/create-page" color="primary">
-				Create new arwiki page
-			</a>
-		</div>
-
 		
-
 	</div>
+	
+
 </div>
 
 

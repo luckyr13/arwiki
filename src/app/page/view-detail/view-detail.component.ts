@@ -62,6 +62,8 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   pageExtraMetadata: any = {};
   loadingUpdateSponsorPage: boolean = false;
   loadingStopStake: boolean = false;
+  loadingTags: boolean = false;
+  tags: any[] = [];
 
   constructor(
     private route: ActivatedRoute,

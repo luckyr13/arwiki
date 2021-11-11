@@ -30,8 +30,8 @@
 					      <img matListAvatar class="card-history-list-item-img xs-show" *ngIf="h.img" [src]="h.img" alt="Mini">
 					    </p>
 					    <p matLine>
-					      <app-arweave-address [address]="h.id">TX ({{total - i}}): </app-arweave-address>
-					      <app-arweave-address [address]="h.sponsor!">Approved by: </app-arweave-address>
+					      <app-arweave-address [address]="h.id" [isAddress]="false">TX ({{total - i}}): </app-arweave-address>
+					      <app-arweave-address *ngIf="total - i != 1" [address]="h.sponsor!">Approved by: </app-arweave-address>
 					    </p>
 					    <p matLine>
 						    <span> 
