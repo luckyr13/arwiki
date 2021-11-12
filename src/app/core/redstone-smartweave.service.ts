@@ -11,19 +11,19 @@ import { switchMap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class RedstoneSmartweaveService {
-	private _smartweave?: SmartWeave;
+	private readonly _smartweave: SmartWeave;
 
   constructor(private _arweave: ArweaveService) {
-    LoggerFactory.INST.logLevel('fatal')
+    LoggerFactory.INST.logLevel('fatal');
   	this._smartweave = SmartWeaveWebFactory.memCached(_arweave.arweave);
   }
 
   getSmartweave(): SmartWeave {
-  	return this._smartweave!;
+  	return this._smartweave;
   }
 
   readState(contractAddress: string): Observable<EvalStateResult<any>> {
-  	const contract = this._smartweave!.contract(contractAddress);
+  	const contract = this._smartweave.contract(contractAddress);
   	return from(contract.readState());
   }
 
@@ -34,7 +34,7 @@ export class RedstoneSmartweaveService {
   	tags?: Tags,
   	transfer?: ArTransfer,
     strict: boolean = true): Observable<string | null> {
-  	const contract = this._smartweave!
+  	const contract = this._smartweave
 	    .contract(contractAddress)
 	    .connect(jwk)
 	    .setEvaluationOptions({
