@@ -7,6 +7,7 @@ import { switchMap } from 'rxjs/operators';
 import { getVerification } from "arverify";
 import {MatDialog} from '@angular/material/dialog';
 import { DialogConfirmAmountComponent } from '../../shared/dialog-confirm-amount/dialog-confirm-amount.component';
+import { DialogCompareComponent } from '../../shared/dialog-compare/dialog-compare.component';
 import { ArwikiQuery } from '../../core/arwiki-query';
 import { ActivatedRoute } from '@angular/router';
 import { Direction } from '@angular/cdk/bidi';
@@ -250,6 +251,30 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
 
   getKeys(d: any) {
     return Object.keys(d);
+  }
+
+  compare(newPage: string, slug: string) {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
+    const dialogRef = this._dialog.open(DialogCompareComponent, {
+      data: {
+        newPage,
+        slug,
+        lang: this.routeLang
+      },
+      direction: direction
+    });
+
+    dialogRef.afterClosed().subscribe({
+      next: () => {
+        
+      },
+      error: (error) => {
+        this.message(`${error}`, 'error');
+      }
+    });
   }
 
 }

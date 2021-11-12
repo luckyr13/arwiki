@@ -623,4 +623,31 @@ export class ArwikiTokenContract
     );
   }
 
+  /*
+  *  @dev Get the list of all pages from full state contract
+  * @param _numPages: -1 returns all values
+  */
+  getPageId(
+    _langCode: string,
+    _slug: string
+  ): Observable<any> {
+    return this.getState().pipe(
+      map((_state: any) => {
+        if (_state &&
+            Object.prototype.hasOwnProperty.call(_state, 'pages') &&
+            Object.prototype.hasOwnProperty.call(_state.pages, _langCode) &&
+            Object.prototype.hasOwnProperty.call(_state.pages[_langCode], _slug) 
+          ) {
+          let page = _state.pages[_langCode][_slug];
+          if (page.updates.length > 0) {
+            return page.updates[page.updates.length - 1].tx;
+          }
+
+          return page.content;
+        }
+        return null;
+      })
+    );
+  }
+
 }

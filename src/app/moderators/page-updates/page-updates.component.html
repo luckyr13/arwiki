@@ -75,27 +75,36 @@
 						mat-flat-button
 						matTooltip="Approve page update"
 						(click)="confirmValidateArWikiPage(pages[p].slug, pages[p].id, pages[p].category, pages[p].value!, pages[p].owner)"
-						class="approve-btn">
+						class="approve-btn card-btn">
 						<mat-icon>done</mat-icon>
-						Approve page update
+						Approve
 					</a>
-					&nbsp;
 					<a 
 						mat-flat-button
 						color="primary"
 						matTooltip="Preview"
-						routerLink="../../../preview/{{pages[p].id}}">
+						routerLink="../../../preview/{{pages[p].id}}"
+						class="card-btn">
 						<mat-icon>visibility</mat-icon>
 						Preview
 					</a>
-					&nbsp;
 					<a 
 						mat-flat-button
 						color="primary"
 						matTooltip="Original"
-						routerLink="../../../{{pages[p].slug}}">
+						routerLink="../../../{{pages[p].slug}}"
+						class="card-btn">
 						<mat-icon>visibility</mat-icon>
-						View original
+						Original
+					</a>
+					<a 
+						mat-flat-button
+						color="primary"
+						matTooltip="Compare versions"
+						(click)="compare(pages[p].id, pages[p].slug)"
+						class="card-btn">
+						<mat-icon>difference</mat-icon>
+						Differences
 					</a>
 				</div>
 			</mat-card>
