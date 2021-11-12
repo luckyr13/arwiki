@@ -51,6 +51,6 @@
   	mat-button 
   	*ngIf="data.mainAddress && !loadingDonationInProgress" 
     [disabled]="!amount"
-  	(click)="sendDonation(amount, data.author, data.sponsor)">Alright! Let's do it!</button>
+  	(click)="sendDonation(amount, data.sponsor)">Alright! Let's do it!</button>
   <button mat-button mat-dialog-close cdkFocusInitial>Close</button>
 </mat-dialog-actions>

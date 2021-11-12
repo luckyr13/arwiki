@@ -10,6 +10,7 @@ import { ArwikiQuery } from '../../core/arwiki-query';
 import { arwikiVersion } from '../../core/arwiki';
 import { Location } from '@angular/common';
 import { ArwikiPage } from '../../core/interfaces/arwiki-page';
+import { ArwikiPageIndex } from '../../core/interfaces/arwiki-page-index';
 import { 
   ArwikiTokenContract 
 } from '../../core/arwiki-contracts/arwiki-token';
@@ -35,6 +36,7 @@ export class MyPagesComponent implements OnInit, OnDestroy {
   loadingAction: boolean = false;
   rewardSubscription: Subscription = Subscription.EMPTY;
   rewardTX: string = '';
+  rejectedPagesTX: any = {};
 
   constructor(
     private _router: Router,
@@ -85,17 +87,38 @@ export class MyPagesComponent implements OnInit, OnDestroy {
   getMyArWikiPages() {
     this.loading = true;
     let myPagesTX: ArdbTransaction[]|ArdbBlock[] = [];
+    const adminList = this._auth.getAdminList();
+
     this.myPagesSubscription = this.arwikiQuery!.getMyArWikiPages(
       this._auth.getMainAddressSnapshot(),
       this.routeLang
     ).pipe(
       switchMap((pages: ArdbTransaction[]|ArdbBlock[]) => {
         myPagesTX = pages;
+        const myPagesList = [];
+
+        for (let p of pages) {
+          myPagesList.push(p.id);
+        }
+        return this.arwikiQuery.getRejectedPagesByIds(adminList, myPagesList);
+      }),
+      switchMap((rejectedPages: ArdbTransaction[]|ArdbBlock[]) => {
+        for (const rp of rejectedPages) {
+          const pTX: ArdbTransaction = new ArdbTransaction(rp, this._arweave.arweave);
+          const pageId = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Id');
+          const reason = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Reason');
+
+          this.rejectedPagesTX[pageId] = {
+            tx: rp.id,
+            reason: reason,
+            moderator: pTX.owner.address
+          };
+        }
         return this._arwikiTokenContract.getApprovedPages(this.routeLang, -1);
       })
     )
     .subscribe({
-      next: (allVerifiedPages: any) => {
+      next: (allApprovedPages: ArwikiPageIndex) => {
         const finalPages: ArwikiPage[] = [];
         for (let p of myPagesTX) {
           const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
@@ -107,8 +130,8 @@ export class MyPagesComponent implements OnInit, OnDestroy {
           const owner = pTX.owner.address;
           const id = pTX.id;
           const pageValue = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Value');
-          const extraData = allVerifiedPages[slug] && allVerifiedPages[slug].content == id 
-            ? allVerifiedPages[slug] : {};
+          const extraData: any = allApprovedPages[slug] && allApprovedPages[slug].content == id 
+            ? allApprovedPages[slug] : {};
           const start = extraData.start ? extraData.start : 0;
           const pageRewardAt = extraData.pageRewardAt ? extraData.pageRewardAt : 0;
           const sponsor = extraData.sponsor ? extraData.sponsor : '';

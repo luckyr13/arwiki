@@ -74,6 +74,13 @@ export class DialogVotePageComponent implements OnInit, OnDestroy {
   	upvote: boolean
   ) {
   	this.loadingDonationInProgress = true;
+
+    if (sponsor == this._auth.getMainAddressSnapshot()) {
+      const error = 'Invalid action. You are the sponsor!';
+      this.errorMsg = `${error}`;
+      this.message(`${error}`, 'error');
+      return;
+    }
   	
   	this.voteAndDonateSubscription = this._arwikiTokenContract
 			.votePage(
@@ -83,7 +90,7 @@ export class DialogVotePageComponent implements OnInit, OnDestroy {
 		    slug,
 		    upvote,
 		    this._auth.getPrivateKey(),
-		    arwikiVersion[0]
+		    arwikiVersion[0],
 		  ).subscribe({
         next: (res) => {
           this.txDonation = `${res}`;

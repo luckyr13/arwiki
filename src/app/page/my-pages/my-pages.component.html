@@ -48,6 +48,14 @@
 		    	aria-label="Page approved!">
 	        <mat-icon>recommend</mat-icon>
 	      </button>
+	      <button 
+		    	mat-icon-button 
+		    	class="card-header-icon red" 
+		    	*ngIf="rejectedPagesTX[page.id]"
+		    	matTooltip="Page rejected!"
+		    	aria-label="Page rejected!">
+	        <mat-icon>delete</mat-icon>
+	      </button>
 		    <h2 class="link ellipsis card-header-title" routerLink="../preview/{{page.id}}">
 		    	{{  page.title }}
 		    </h2>
@@ -97,6 +105,18 @@
 								({{formatBlocks(page.pageRewardAt - currentBlockHeight)}})
 						</span>
 					</div>
+					<div *ngIf="rejectedPagesTX[page.id]" class="mini-text">
+						<app-arweave-address 
+							[address]="rejectedPagesTX[page.id].moderator"
+							[isAddress]="true">Page rejected by: </app-arweave-address>
+						<app-arweave-address 
+							[address]="rejectedPagesTX[page.id].tx"
+							[isAddress]="false">Page rejected TX: </app-arweave-address>
+						<strong>Reason: </strong>
+						<span>{{ rejectedPagesTX[page.id].reason }}</span>
+						
+					</div>
+
 
 				</mat-card-content>
 				<mat-card-actions class="text-right card-footer">

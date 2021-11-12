@@ -363,12 +363,8 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     let direction: Direction = defLang.writing_system === 'LTR' ? 
       'ltr' : 'rtl';
 
-    // The sponsor always gets the donation :)
-    _author = '';
-
     const dialogRef = this._dialog.open(DialogDonateComponent, {
       data: {
-        author: _author,
         sponsor: _sponsor,
         mainAddress: this.mainAddress
       },
@@ -459,32 +455,37 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
       disableClose: true
     });
 
-    dialogRef.afterClosed().subscribe(async (_newPageValue) => {
-      const newPageValue = +_newPageValue;
-      if (Number.isInteger(newPageValue) && newPageValue > 0) {
-        // Update page sponsor and reactivate page
-        this.loadingUpdateSponsorPage = true;
-        try {
-          const tx = await this._arwikiTokenContract.updatePageSponsor(
-            _slug,
-            _category_slug,
-            this.routeLang,
-            newPageValue,
-            this._auth.getPrivateKey(),
-            arwikiVersion[0],
-          ); 
-
-          
-          this.message('Success!', 'success');
+    dialogRef.afterClosed().pipe(
+        switchMap((_newPageValue) => {
+          const newPageValue = +_newPageValue;
+          if (Number.isInteger(newPageValue) && newPageValue > 0) {
+            this.loadingUpdateSponsorPage = true;
+            return this._arwikiTokenContract.updatePageSponsor(
+              _slug,
+              _category_slug,
+              this.routeLang,
+              newPageValue,
+              this._auth.getPrivateKey(),
+              arwikiVersion[0],
+            ); 
+          } else if (newPageValue === 0) {
+            throw Error('Stake must be greater than 0 $WIKI tokens');
+          }
+          return of(null);
+        })
+      ).subscribe({
+        next: (tx) => {
+          if (tx) {
+            this.message(`Success ${tx}`, 'success');
+          }
           this.loadingUpdateSponsorPage = false;
-        } catch (error) {
+
+        },
+        error: (error) => {
           this.message(`${error}`, 'error');
           this.loadingUpdateSponsorPage = false;
         }
-      } else if (newPageValue === 0) {
-        this.message('Stake must be greater than 0 $WIKI tokens', 'error');
-      }
-    });
+      });
   }
 
   confirmStopStake(

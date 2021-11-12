@@ -42,8 +42,11 @@ export class Arwiki {
     tx.addTag('Arwiki-Page-Lang', _newPage.language);
     tx.addTag('Arwiki-Page-Value', _newPage.value!.toString());
     tx.addTag('Arwiki-Version', arwikiVersion[0]);
-    await this._arweave.transactions.sign(tx, jwk)
-    await this._arweave.transactions.post(tx)
+    await this._arweave.transactions.sign(tx, jwk);
+    const response = await this._arweave.transactions.post(tx);
+    if (response.status != 200) {
+      throw Error(`Error ${response.statusText}`);
+    }
     return tx.id;
   }
 
@@ -74,8 +77,11 @@ export class Arwiki {
     tx.addTag('Arwiki-Page-Category', _category);
     tx.addTag('Arwiki-Page-Lang', _langCode);
     tx.addTag('Arwiki-Version', arwikiVersion[0]);
-    await this._arweave.transactions.sign(tx, jwk)
-    await this._arweave.transactions.post(tx)
+    await this._arweave.transactions.sign(tx, jwk);
+    const response = await this._arweave.transactions.post(tx);
+    if (response.status != 200) {
+      throw Error(`Error ${response.statusText}`);
+    }
     return tx.id;
   }
   
@@ -109,7 +115,10 @@ export class Arwiki {
     tx.addTag('Arwiki-Page-Lang', _langCode);
     tx.addTag('Arwiki-Version', arwikiVersion[0]);
     await this._arweave.transactions.sign(tx, jwk)
-    await this._arweave.transactions.post(tx)
+    const response = await this._arweave.transactions.post(tx);
+    if (response.status != 200) {
+      throw Error(`Error ${response.statusText}`);
+    }
     return tx.id;
   }
 
@@ -137,8 +146,11 @@ export class Arwiki {
     tx.addTag('Arwiki-Page-Category', _category);
     tx.addTag('Arwiki-Page-Lang', _langCode);
     tx.addTag('Arwiki-Version', arwikiVersion[0]);
-    await this._arweave.transactions.sign(tx, jwk)
-    await this._arweave.transactions.post(tx)
+    await this._arweave.transactions.sign(tx, jwk);
+    const response = await this._arweave.transactions.post(tx);
+    if (response.status != 200) {
+      throw Error(`Error ${response.statusText}`);
+    }
     return tx.id;
   }
 
@@ -167,8 +179,11 @@ export class Arwiki {
     tx.addTag('Arwiki-Page-Category', _category);
     tx.addTag('Arwiki-Page-Lang', _langCode);
     tx.addTag('Arwiki-Version', arwikiVersion[0]);
-    await this._arweave.transactions.sign(tx, jwk)
-    await this._arweave.transactions.post(tx)
+    await this._arweave.transactions.sign(tx, jwk);
+    const response = await this._arweave.transactions.post(tx);
+    if (response.status != 200) {
+      throw Error(`Error ${response.statusText}`);
+    }
     return tx.id;
   }
 
@@ -195,8 +210,11 @@ export class Arwiki {
     tx.addTag('Arwiki-Page-Lang', _newPage.language);
     tx.addTag('Arwiki-Page-Value', _newPage.value!.toString());
     tx.addTag('Arwiki-Version', arwikiVersion[0]);
-    await this._arweave.transactions.sign(tx, jwk)
-    await this._arweave.transactions.post(tx)
+    await this._arweave.transactions.sign(tx, jwk);
+    const response = await this._arweave.transactions.post(tx);
+    if (response.status != 200) {
+      throw Error(`Error ${response.statusText}`);
+    }
     return tx.id;
   }
 
@@ -222,9 +240,13 @@ export class Arwiki {
     tx.addTag('Arwiki-Page-Id', _pageId);
     tx.addTag('Arwiki-Page-Slug', _slug);
     tx.addTag('Arwiki-Page-Lang', _langCode);
+    tx.addTag('Arwiki-Page-Reason', _reason);
     tx.addTag('Arwiki-Version', arwikiVersion[0]);
-    await this._arweave.transactions.sign(tx, jwk)
-    await this._arweave.transactions.post(tx)
+    await this._arweave.transactions.sign(tx, jwk);
+    const response = await this._arweave.transactions.post(tx);
+    if (response.status != 200) {
+      throw Error(`Error ${response.statusText}`);
+    }
     return tx.id;
   }
 

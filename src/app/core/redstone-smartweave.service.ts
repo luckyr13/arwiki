@@ -3,8 +3,9 @@ import { ArweaveService } from './arweave.service';
 import { 
 	SmartWeaveWebFactory, SmartWeave, 
 	EvalStateResult, ArWallet, 
-	Tags, ArTransfer, LoggerFactory } from 'redstone-smartweave';
-import { from, Observable } from 'rxjs';
+	Tags, ArTransfer, LoggerFactory, InteractionResult } from 'redstone-smartweave';
+import { from, Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +32,8 @@ export class RedstoneSmartweaveService {
   	jwk: ArWallet,
   	input: any,
   	tags?: Tags,
-  	transfer?: ArTransfer) {
+  	transfer?: ArTransfer,
+    strict: boolean = true): Observable<string | null> {
   	const contract = this._smartweave!
 	    .contract(contractAddress)
 	    .connect(jwk)
@@ -39,7 +41,7 @@ export class RedstoneSmartweaveService {
 	      // with this flag set to true, the write will wait for the transaction to be confirmed
 	      waitForConfirmation: false,
 	    });
-	  return from(contract.writeInteraction(input, tags, transfer));
+	  return from(contract.writeInteraction(input, tags, transfer, strict));
   }
 
 }

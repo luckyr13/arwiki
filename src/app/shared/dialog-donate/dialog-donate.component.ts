@@ -61,14 +61,20 @@ export class DialogDonateComponent implements OnInit, OnDestroy {
   	}
   }
 
-  async sendDonation(amount: number, author: string, sponsor: string) {
-  	const to = author ? author : sponsor;
+  async sendDonation(amount: number, sponsor: string) {
+  	const to = sponsor;
   	this.loadingDonationInProgress = true;
   	this.txDonation = '';
   	try {
+
+      if (sponsor == this._auth.getMainAddressSnapshot()) {
+        throw Error('Invalid action. You are the sponsor!');
+      }
+
   		this.txDonation = await this._arweave.sendDonation(to, `${amount}`, this._auth.getPrivateKey());
   	} catch (error) {
   		this.message(`${error}`, 'error');
+      this.loadingDonationInProgress = false;
   	}
   }
 
