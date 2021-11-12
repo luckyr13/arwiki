@@ -3,7 +3,7 @@ import { ArweaveService } from './arweave.service';
 import { 
 	SmartWeaveWebFactory, SmartWeave, 
 	EvalStateResult, ArWallet, 
-	Tags, ArTransfer, LoggerFactory, InteractionResult } from 'redstone-smartweave';
+	Tags, ArTransfer, LoggerFactory } from 'redstone-smartweave';
 import { from, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
