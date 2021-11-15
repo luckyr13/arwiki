@@ -10,7 +10,7 @@ ArWiki (ALPHA): https://arwiki.wiki
 
 Arwiki (GitHub pages demo): http://luckyr13.github.io/arwiki
 
-Arwiki (Permaweb link - 2021-11-12): https://arweave.net/Vv3KLCLw3fzPsZOORwcBoJC4meSsUx1EFkSllLP060A
+Arwiki (Permaweb link - 2021-11-14): https://arweave.net/o7jat3RDIjSZ8q7PmfAj98YHj42QZVB8-e3RBQSBH2I
 
 
 ## Development server
