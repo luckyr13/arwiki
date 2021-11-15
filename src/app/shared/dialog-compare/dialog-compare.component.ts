@@ -30,7 +30,7 @@ export class DialogCompareComponent implements OnInit, OnDestroy {
   	this.listOfChangesSubscription = this.loadOldData(this.data.slug).pipe(
   			switchMap((pageId) => {
   				this.txOld = pageId;
-  				return this.run_diff(this.data.newPage, this.txOld);
+  				return this.run_diff(this.txOld, this.data.newPage);
   			})
   		).subscribe({
   			next: (changes) => {
