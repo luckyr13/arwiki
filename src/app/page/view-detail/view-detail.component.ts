@@ -5,7 +5,7 @@ import {
 import { ArwikiQuery } from '../../core/arwiki-query';
 import * as marked from 'marked';
 import DOMPurify from 'dompurify';
-import { Observable, Subscription, of } from 'rxjs';
+import { Observable, Subscription, of} from 'rxjs';
 import { 
 	readContract
 } from 'smartweave';
@@ -31,6 +31,7 @@ import { DialogConfirmAmountComponent } from '../../shared/dialog-confirm-amount
 import { arwikiVersion } from '../../core/arwiki';
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
+import {SeoService } from '../../core/seo.service';
 
 @Component({
   templateUrl: './view-detail.component.html',
@@ -77,11 +78,17 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     private _ref: ChangeDetectorRef,
     private _auth: AuthService,
     public _dialog: MatDialog,
-    private _bottomSheetShare: MatBottomSheet
+    private _bottomSheetShare: MatBottomSheet,
+    private _seo: SeoService
   ) { }
+
+ 
 
   ngOnInit(): void {
   	this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
+
+    const tmpPageData: ArwikiPage = this.route.snapshot.data[0];
+    this.updateMetaTags(tmpPageData);
 
     this.route.paramMap.subscribe(async params => {
       const slug = params.get('slug');
@@ -133,10 +140,11 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
    
 
   	this.pageSubscription = this.getPageBySlug(
-  		slug, langCode, maxHeight, numPages
+  		slug, langCode
   	).subscribe({
   		next: async (data: ArdbTransaction[]|ArdbBlock[]) => {
         const finalRes: any = [];
+        
         for (let p of data) {
           const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
           const title = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title');
@@ -175,13 +183,21 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
           this.pageData.slug = page.slug ? page.slug : '';
           this.block = page.block;
 
-          const content = await this._arweave.arweave.transactions.getData(
-            page.id, 
-            {decode: true, string: true}
-          );
+          let content = '';
+          try {
+             content = await this._arweave.arweave.transactions.getData(
+              page.id, 
+              {decode: true, string: true}
+            );
+          } catch (err) {
+            console.error('TX ID:', page.id);
+            this.message(`${err}`, 'error');
+            throw Error(`${err}`);
+          }
+          
           this.pageData.content = this.markdownToHTML(content);
-
           this.loadingPage = false;
+
 
           // Generate TOC 
           window.setTimeout(() => {
@@ -218,8 +234,6 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
               this.loadingTags = false;
             }
           });
-
-
 
   			} else {
           this.pageData.content = '';
@@ -322,27 +336,14 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   */
   getPageBySlug(
     _slug: string,
-    _langCode: string,
-    _maxHeight: number,
-    _limit: number = 20
+    _langCode: string
   ) {
-    let categoriesCS: any = {};
-    let adminList: string[] = [];
     const verifiedPagesList: string[] = [];
-    return this._arwikiTokenContract.getCategories()
-      .pipe(
-        switchMap((categoriesContractState) => {
-          categoriesCS = Object.keys(categoriesContractState);
-          return this._arwikiTokenContract.getAdminList();
-        }),
-        switchMap((_adminList: string[]) => {
-          adminList = _adminList;
-          return this._arwikiTokenContract.getApprovedPages(
-            _langCode,
-            -1,
-            true
-          );
-        }),
+    return this._arwikiTokenContract.getApprovedPages(
+        _langCode,
+        -1,
+        true
+      ).pipe(
         switchMap((verifiedPages) => {
           const p = verifiedPages[_slug];
           this.pageExtraMetadata = verifiedPages[_slug];
@@ -576,6 +577,11 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
           return this.arwikiQuery.getTXsData(verifiedTagsTxList);
         })
       );
+  }
+
+  updateMetaTags(page: ArwikiPage) {
+    this._seo.updateMetaTag({property: 'og:image', content: page.img!});
+    this._seo.updateMetaTag({property: 'og:description', content: page.title!});
   }
 
 }

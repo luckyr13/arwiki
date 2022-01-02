@@ -11,6 +11,7 @@
 		<app-main-toolbar [(opened)]="opened"></app-main-toolbar>
 		<router-outlet>
       <div 
+        *ngIf="!mainToolbarIsVisible"
         [style.display]="mainToolbarLoading ? null : 'none'"
         class="full-init-loader">
         <div 
