@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1641183160617,
+  "timestamp": 1641186949647,
   "index": "/arwiki/index.html",
   "assetGroups": [
     {
@@ -13,7 +13,7 @@
       "urls": [
         "/arwiki/favicon.ico",
         "/arwiki/index.html",
-        "/arwiki/main.6b3a3acfa6938b3d.js",
+        "/arwiki/main.fa14fdb817e0e4c1.js",
         "/arwiki/manifest.webmanifest",
         "/arwiki/polyfills.c99e2efb71ede6d6.js",
         "/arwiki/runtime.235435e50ec3f27f.js",
@@ -136,8 +136,8 @@
     "/arwiki/bottom-fade-black.6fc512d279d91c1b.png": "dea2852bf2df382b44da79b33218d8dc1706131e",
     "/arwiki/bottom-fade.416a6c015880c038.png": "ac501c3cd9bd88711f0c01317c38ce89d0dabd54",
     "/arwiki/favicon.ico": "966760fada50baea2d11db115c8086073fa49f80",
-    "/arwiki/index.html": "cb2418f1db44413b848312bb4252d54c5e70e1cf",
-    "/arwiki/main.6b3a3acfa6938b3d.js": "7b742d6e0c1c2456dcb69e462d6deb41c17c88c2",
+    "/arwiki/index.html": "8ae07d10b8505cfc2d666753aefe423baeddea67",
+    "/arwiki/main.fa14fdb817e0e4c1.js": "fb854ec2d9585da28435e8b7e245c38637af1336",
     "/arwiki/manifest.webmanifest": "80102d95fc80ca1a95b0ff8d94b8506218ce9d62",
     "/arwiki/polyfills.c99e2efb71ede6d6.js": "2d83953a725ab04f3627b24309a20abc49da9b05",
     "/arwiki/runtime.235435e50ec3f27f.js": "1687a9f5c8a27611129c31dae9be279724f46d3b",

@@ -87,8 +87,8 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
   	this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
 
-    const tmpPageData: ArwikiPage = this.route.snapshot.data[0];
-    this.updateMetaTags(tmpPageData);
+    //const tmpPageData: ArwikiPage = this.route.snapshot.data[0];
+    //this.updateMetaTags(tmpPageData);
 
     this.route.paramMap.subscribe(async params => {
       const slug = params.get('slug');

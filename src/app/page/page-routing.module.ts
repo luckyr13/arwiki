@@ -12,7 +12,7 @@ import { MyUpdatesComponent } from './my-updates/my-updates.component';
 
 import { AuthGuard } from '../auth/auth.guard';
 import { InitPlatformGuard } from '../auth/init-platform.guard';
-import { SeoResolverService } from '../core/seo-resolver.service';
+//import { SeoResolverService } from '../core/seo-resolver.service';
 
 const routes: Routes = [
 	{
@@ -33,10 +33,12 @@ const routes: Routes = [
 	},
 	{
 		path: ':lang/:slug', component: ViewDetailComponent,
-		canActivate: [InitPlatformGuard],
+		canActivate: [InitPlatformGuard]
+		/*
 		resolve: [
 			SeoResolverService
 		]
+		*/
 	},
 	{
 		path: ':lang/:slug/edit', component: EditComponent, 
