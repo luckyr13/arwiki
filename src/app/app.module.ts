@@ -21,6 +21,8 @@ import { PageModule } from './page/page.module';
 import { ModeratorsModule } from './moderators/moderators.module';
 import { ErrorComponent } from './error/error.component';
 import { UserPanelModule } from './user-panel/user-panel.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 
 // AoT requires an exported function for factories
@@ -57,7 +59,13 @@ export function HttpLoaderFactory(http: HttpClient) {
     UserPanelModule,
     ModeratorsModule,
     AppRoutingModule,
-    PageModule
+    PageModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
