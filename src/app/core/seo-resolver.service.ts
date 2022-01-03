@@ -90,7 +90,9 @@ export class SeoResolverService implements Resolve<ArwikiPage> {
 	          const title = arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title');
 	          const slug = arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
 	          const category = arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category');
-	          const img = arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img');
+	          const img = arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img') ?
+              arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img') :
+              'bmEOxcJ8s871m6CZxnXGhuhYtroRZrwb9GgBuABGVTE';
 	          const owner = pTX.owner.address;
 	          const id = pTX.id;
 	          const block = pTX.block;

@@ -4,12 +4,14 @@
   <mat-list-item (click)="login('arconnect')">
     <img matListAvatar src="./assets/img/arconnect.jpg">
     <span mat-line>ArConnect</span>
-    <span mat-line>*Recommended</span>
   </mat-list-item>
-  <mat-list-item *ngIf="false" (click)="login('weaveid')">
-    <img matListAvatar src="./assets/img/weaveid_logo.png">
-    <span mat-line>WaveID</span>
-    <span mat-line>*Use your email address to generate a key</span>
+  <mat-list-item (click)="login('koi')">
+    <img matListAvatar src="./assets/img/koi.png">
+    <span mat-line>Finnie Wallet</span>
+  </mat-list-item>
+  <mat-list-item (click)="login('arweaveApp')">
+    <img matListAvatar src="./assets/img/arweaveViewSmall.svg">
+    <span mat-line>Arweave.app</span>
   </mat-list-item>
   <mat-list-item (click)="uploadFileListener(fileUploader)" >
   	<mat-icon matListIcon>upload</mat-icon>

@@ -103,11 +103,6 @@ export class AuthService {
             })
           );
       break;
-
-      case 'waveid':
-        return throwError('Not implemented yet :)');
-      break;
-
       case 'arconnect':
         method = this._arweave.getAccount().pipe(
             tap( (_account: any) => {
@@ -116,7 +111,17 @@ export class AuthService {
             })
           );
       break;
-
+      case 'arweaveApp':
+        return throwError('Coming soon :)');
+      break;
+      case 'koi':
+        method = this._arweave.getAccount().pipe(
+            tap( (_account: any) => {
+              this.removeAccount()
+              this.setAccount(_account.toString(), null, stayLoggedIn)
+            })
+          );
+      break;
       default:
         return throwError('Wallet not supported');
       break;
