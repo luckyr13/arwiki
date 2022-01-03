@@ -1,4 +1,8 @@
-# ArWiki
+<p align="center">
+  <img src="https://arweave.net/bmEOxcJ8s871m6CZxnXGhuhYtroRZrwb9GgBuABGVTE" width="200">
+</p>
+
+# ArWiki: The decentralized Arweave wiki
 The source code behind the ArWiki platform. ArWiki is the decentralized wiki for Arweave docs.
 
 ArWiki is an Arweave dapp, a web3 website that lives on the permaweb.
