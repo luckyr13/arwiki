@@ -21,18 +21,7 @@
       "dom"
     ],
     "allowSyntheticDefaultImports": true,
-    "skipLibCheck": true,
-    "paths": {
-      "crypto": [
-        "node_modules/crypto-browserify"
-      ],
-      "stream": [
-        "node_modules/stream-browserify"
-      ],
-      "path": [
-        "node_modules/path-browserify"
-      ]
-    }
+    "skipLibCheck": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

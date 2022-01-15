@@ -45,7 +45,7 @@
               "axios",
               "ar-gql",
               "ardb/lib/models/transaction",
-              "crypto"
+              "lodash/cloneDeep"
             ],
             "vendorChunk": true,
             "extractLicenses": false,
