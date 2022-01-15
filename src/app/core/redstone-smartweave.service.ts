@@ -3,7 +3,7 @@ import { ArweaveService } from './arweave.service';
 import { 
 	SmartWeaveWebFactory, SmartWeave, 
 	EvalStateResult, ArWallet, 
-	Tags, ArTransfer, LoggerFactory } from 'redstone-smartweave';
+	Tags, ArTransfer, LoggerFactory, RedstoneGatewayInteractionsLoader } from 'redstone-smartweave';
 import { from, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
@@ -12,10 +12,13 @@ import { switchMap } from 'rxjs/operators';
 })
 export class RedstoneSmartweaveService {
 	private readonly _smartweave: SmartWeave;
+  public readonly gatewayUrl = `https://gateway.redstone.finance`;
 
   constructor(private _arweave: ArweaveService) {
     LoggerFactory.INST.logLevel('fatal');
-  	this._smartweave = SmartWeaveWebFactory.memCached(_arweave.arweave);
+  	this._smartweave = SmartWeaveWebFactory.memCachedBased(_arweave.arweave)
+      .setInteractionsLoader(new RedstoneGatewayInteractionsLoader(this.gatewayUrl, {confirmed: true}))
+      .build();
   }
 
   getSmartweave(): SmartWeave {
