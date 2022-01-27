@@ -18,6 +18,8 @@ export class AuthService {
   private _mainAddress: string = '';
   // Save a temporal copy of the admin list
   private _adminList: string[] = [];
+  // Login method 
+  private _method: string = '';
 
   // Observable source
   private _userIsModeratorSource = new Subject<boolean>();
@@ -45,21 +47,33 @@ export class AuthService {
 
   loadAccount() {
     const mainAddress = window.sessionStorage.getItem('MAINADDRESS')
-      || window.localStorage.getItem('MAINADDRESS')
+      || window.localStorage.getItem('MAINADDRESS');
     const arkey = window.sessionStorage.getItem('ARKEY')
-      || window.localStorage.getItem('ARKEY')
+      || window.localStorage.getItem('ARKEY');
+    const method = window.sessionStorage.getItem('METHOD')
+      || window.localStorage.getItem('METHOD');
 
     if (mainAddress) {
       this._mainAddress = mainAddress
+      this._method = method!;
       if (arkey) { this._arKey = JSON.parse(arkey) }
       this.account.next(mainAddress);
+      if (this._method === 'webwallet') {
+        this._arweave.arweaveWebWallet.connect().then((res: any) => {
+          this._mainAddress = res;
+        }).catch((error: any) => {
+          console.log('Error loading address');
+        });
+      }
     }
   }
 
-  setAccount(mainAddress: string, arKey: any = null, stayLoggedIn: boolean = false) {
-    const storage = stayLoggedIn ? window.localStorage : window.sessionStorage
-    this._mainAddress = mainAddress
+  setAccount(mainAddress: string, arKey: any = null, stayLoggedIn: boolean = false, method='') {
+    const storage = stayLoggedIn ? window.localStorage : window.sessionStorage;
+    this._mainAddress = mainAddress;
+    this._method = method;
     storage.setItem('MAINADDRESS', mainAddress);
+    storage.setItem('METHOD', method);
     if (arKey) {
       this._arKey = arKey
       storage.setItem('ARKEY', JSON.stringify(this._arKey))
@@ -74,7 +88,7 @@ export class AuthService {
   }
 
   removeAccount() {
-    for (let key of ['MAINADDRESS', 'ARKEY']) {
+    for (let key of ['MAINADDRESS', 'ARKEY', 'METHOD']) {
       window.sessionStorage.removeItem(key)
       window.localStorage.removeItem(key)
     }
@@ -89,8 +103,6 @@ export class AuthService {
     return this._arKey ? this._arKey : 'use_wallet'
   }
 
-
-
   login(walletOption: string, uploadInputEvent: any = null, stayLoggedIn: boolean = false): Observable<any> {
     let method = of({});
 
@@ -99,26 +111,31 @@ export class AuthService {
         method = this._arweave.uploadKeyFile(uploadInputEvent).pipe(
             tap( (_res: any) => {
               this.removeAccount()
-              this.setAccount(_res.address, _res.key, stayLoggedIn)
+              this.setAccount(_res.address, _res.key, stayLoggedIn, walletOption)
             })
           );
       break;
       case 'arconnect':
-        method = this._arweave.getAccount().pipe(
+        method = this._arweave.getAccount(walletOption).pipe(
             tap( (_account: any) => {
               this.removeAccount()
-              this.setAccount(_account.toString(), null, stayLoggedIn)
+              this.setAccount(_account.toString(), null, stayLoggedIn, walletOption)
             })
           );
       break;
-      case 'arweaveApp':
-        return throwError('Coming soon :)');
-      break;
-      case 'koi':
-        method = this._arweave.getAccount().pipe(
+      case 'webwallet':
+        method = this._arweave.getAccount(walletOption).pipe(
             tap( (_account: any) => {
               this.removeAccount()
-              this.setAccount(_account.toString(), null, stayLoggedIn)
+              this.setAccount(_account.toString(), null, stayLoggedIn, walletOption)
+            })
+          );
+      break;
+      case 'finnie':
+        method = this._arweave.getAccount(walletOption).pipe(
+            tap( (_account: any) => {
+              this.removeAccount()
+              this.setAccount(_account.toString(), null, stayLoggedIn, walletOption)
             })
           );
       break;
@@ -134,6 +151,12 @@ export class AuthService {
     this.removeAccount();
     this.account.next('');
     this.updateUserIsModerator(false);
+    if ((this._method === 'finnie' || 
+        this._method === 'arconnect' || 
+        this._method === 'webwallet') &&
+        (window && window.arweaveWallet)) {
+      window.arweaveWallet.disconnect();
+    }
   }
 
 

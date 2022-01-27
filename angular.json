@@ -45,7 +45,8 @@
               "axios",
               "ar-gql",
               "ardb/lib/models/transaction",
-              "lodash/cloneDeep"
+              "lodash/cloneDeep",
+              "typescript-is"
             ],
             "vendorChunk": true,
             "extractLicenses": false,

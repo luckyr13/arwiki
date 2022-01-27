@@ -10,6 +10,7 @@ import {
 } from './arweave-contract-create-nft';
 import Arweave from 'arweave';
 import { arwikiVersion } from './arwiki';
+import { ArweaveWebWallet } from 'arweave-wallet-connector';
 declare const window: any;
 
 @Injectable({
@@ -20,6 +21,7 @@ export class ArweaveService {
   public baseURL: string = 'https://arweave.net/';
   arweaveNFT: ArweaveContractCreateNFT = new ArweaveContractCreateNFT();
   blockToSeconds: number = 0.5 / 60;
+  arweaveWebWallet: ArweaveWebWallet;
 
   constructor() {
     this.arweave = Arweave.init({
@@ -28,6 +30,11 @@ export class ArweaveService {
       protocol: "https",
     });
 
+    this.arweaveWebWallet = new ArweaveWebWallet({
+      name: 'ArWiki',
+      logo: 'https://arweave.net/wJGdli6nMQKCyCdtCewn84ba9-WsJ80-GS-KtKdkCLg'
+    })
+    this.arweaveWebWallet.setUrl('arweave.app');
   }
 
   getNetworkInfo(): Observable<any> {
@@ -62,17 +69,34 @@ export class ArweaveService {
     );
   }
 
-  getAccount(): Observable<any> {
+  getAccount(method: string): Observable<any> {
     const obs = new Observable<any>((subscriber) => {
-      // Get main account
-      // very similar to window.ethereum.enable
-      this.arweave.wallets.getAddress().then((res: any) => {
-        
-        subscriber.next(res);
-        subscriber.complete();
-      }).catch((error: any) => {
-        subscriber.error(error);
-      });
+      if (method === 'arconnect' || method === 'finnie') {
+        if (!(window && window.arweaveWallet)) {
+          subscriber.error('Login method not available!');
+        }
+        // Get main account
+        // very similar to window.ethereum.enable
+        this.arweave.wallets.getAddress().then((res: any) => {
+          subscriber.next(res);
+          subscriber.complete();
+        }).catch((error: any) => {
+          subscriber.error(error);
+        });
+
+      } else if (method === 'webwallet') {
+
+        this.arweaveWebWallet.connect().then((res: any) => {
+          subscriber.next(res);
+          subscriber.complete();
+        }).catch((error: any) => {
+          subscriber.error(error);
+        });
+
+      } else {
+        subscriber.error('Wrong login method!');
+      }
+      
     })
 
     return obs.pipe(
@@ -86,7 +110,7 @@ export class ArweaveService {
   ) {
     let errorMsg = 'Error!!';
     console.log('Debug ArweaveServ:', error);
-    return throwError(errorMsg);
+    return throwError(error);
   }
 
   uploadKeyFile(inputEvent: any): Observable<any> {
