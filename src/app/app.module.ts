@@ -16,11 +16,8 @@ import {HttpClientModule, HttpClient} from '@angular/common/http';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { SearchComponent } from './search/search.component';
-import { CategoryModule } from './category/category.module';
 import { PageModule } from './page/page.module';
-import { ModeratorsModule } from './moderators/moderators.module';
 import { ErrorComponent } from './error/error.component';
-import { UserPanelModule } from './user-panel/user-panel.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
@@ -55,9 +52,6 @@ export function HttpLoaderFactory(http: HttpClient) {
       },
       defaultLanguage: 'en'
     }),
-    CategoryModule,
-    UserPanelModule,
-    ModeratorsModule,
     AppRoutingModule,
     PageModule,
     ServiceWorkerModule.register('ngsw-worker.js', {

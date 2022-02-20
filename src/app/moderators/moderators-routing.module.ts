@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../auth/auth.guard';
 import { ModeratorGuard } from '../auth/moderator.guard';
-import { InitPlatformGuard } from '../auth/init-platform.guard';
 import { PendingListComponent } from './pending-list/pending-list.component';
 import { AddAdminComponent } from './add-admin/add-admin.component';
 import { ViewAdminListComponent } from './view-admin-list/view-admin-list.component';
@@ -13,8 +12,8 @@ import { PageUpdatesComponent } from './page-updates/page-updates.component';
 
 const routes: Routes = [
 	{
-		path: ':lang/moderators',
-		canActivateChild: [InitPlatformGuard, AuthGuard, ModeratorGuard],
+		path: '',
+		canActivateChild: [AuthGuard, ModeratorGuard],
 		children: [
 			{
 				path: 'pending', component: PendingListComponent
