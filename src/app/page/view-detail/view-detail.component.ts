@@ -31,7 +31,6 @@ import { DialogConfirmAmountComponent } from '../../shared/dialog-confirm-amount
 import { arwikiVersion } from '../../core/arwiki';
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
-import {SeoService } from '../../core/seo.service';
 
 @Component({
   templateUrl: './view-detail.component.html',
@@ -78,8 +77,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     private _ref: ChangeDetectorRef,
     private _auth: AuthService,
     public _dialog: MatDialog,
-    private _bottomSheetShare: MatBottomSheet,
-    private _seo: SeoService
+    private _bottomSheetShare: MatBottomSheet
   ) { }
 
  
@@ -577,11 +575,6 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
           return this.arwikiQuery.getTXsData(verifiedTagsTxList);
         })
       );
-  }
-
-  updateMetaTags(page: ArwikiPage) {
-    this._seo.updateMetaTag({property: 'og:image', content: page.img!});
-    this._seo.updateMetaTag({property: 'og:description', content: page.title!});
   }
 
 }

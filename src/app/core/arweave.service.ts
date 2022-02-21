@@ -2,12 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { selectWeightedPstHolder } from 'smartweave';
-import { 
-  contractTemplateNFT,
-  INFTStateTemplate,
-  ArweaveContractCreateNFT,
-  contractNFTBaseTxId
-} from './arweave-contract-create-nft';
 import Arweave from 'arweave';
 import { arwikiVersion } from './arwiki';
 import { ArweaveWebWallet } from 'arweave-wallet-connector';
@@ -19,7 +13,6 @@ declare const window: any;
 export class ArweaveService {
   arweave: any = null;
   public baseURL: string = 'https://arweave.net/';
-  arweaveNFT: ArweaveContractCreateNFT = new ArweaveContractCreateNFT();
   blockToSeconds: number = 0.5 / 60;
   arweaveWebWallet: ArweaveWebWallet;
 
@@ -422,116 +415,6 @@ export class ArweaveService {
     return obs.pipe(
       catchError(this.errorHandler)
     );
-  }
-
-  async createNFT(
-    name: string,
-    ticker: string,
-    description: string,
-    balance: number,
-    owner: string,
-    key: any,
-    fileData: string,
-    fileContentType: string,
-    target: string = '',
-    winstonQty: string = '',
-    langCode: string = '',
-    categorySlug: string = '',
-    slug: string = '',
-    img: string = ''
-   ) {
-    let txid = '';
-    try {
-      const contractSrc = contractTemplateNFT;
-      const fbalance: any= {};
-      fbalance[owner] = balance;
-      const initState = this.arweaveNFT.stateToString({
-        name: name,
-        ticker: ticker,
-        description: description,
-        balances: fbalance
-      })
-      txid = await this.arweaveNFT.createNFTContract(
-        this.arweave,
-        key,
-        contractSrc,
-        initState,
-        fileData,
-        fileContentType,
-        target,
-        winstonQty,
-        langCode,
-        categorySlug,
-        slug,
-        img,
-        name
-      );
-
-    } catch (error) {
-      throw Error(`${error}`);
-    }
-
-    return txid;
-  }
-
-  /*
-  *  Create new state linked to an already known base contract txid
-  */
-  async createNFTFromTX(
-    name: string,
-    ticker: string,
-    description: string,
-    balance: number,
-    owner: string,
-    key: any,
-    fileData: string,
-    fileContentType: string,
-    target: string = '',
-    winstonQty: string = '',
-    langCode: string = '',
-    categorySlug: string = '',
-    slug: string = '',
-    img: string = ''
-   ) {
-    let txid = '';
-    try {
-      const srcTxId = contractNFTBaseTxId;
-      const fbalance: any= {};
-      fbalance[owner] = balance;
-      const initState = this.arweaveNFT.stateToString({
-        name: name,
-        ticker: ticker,
-        description: description,
-        balances: fbalance
-      })
-
-      const extraTags: any = [
-        {name:'Exchange', value: 'Verto'},
-        {name: 'Action', value: 'marketplace/create'}
-      ];
-      // Create NFT from base contract TXid
-      txid = await this.arweaveNFT.createNFTContractFromTx(
-        this.arweave,
-        key,
-        srcTxId,
-        initState,
-        extraTags,
-        fileData,
-        fileContentType,
-        target,
-        winstonQty,
-        langCode,
-        categorySlug,
-        slug,
-        img,
-        name
-      );
-
-    } catch (error) {
-      throw Error(`${error}`);
-    }
-
-    return txid;
   }
 
 
