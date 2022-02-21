@@ -46,7 +46,8 @@
               "ar-gql",
               "ardb/lib/models/transaction",
               "lodash/cloneDeep",
-              "typescript-is"
+              "typescript-is",
+              "@verto/js"
             ],
             "vendorChunk": true,
             "extractLicenses": false,

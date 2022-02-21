@@ -34,6 +34,30 @@
   </mat-menu>
 
   <button 
+      [matMenuTriggerFor]="settingsMenu"
+      mat-icon-button 
+      class="theme-icon"
+      matTooltip="{{ 'MAIN_TOOLBAR.TOOLTIP_SETTINGS' | translate }}">
+    <mat-icon>settings</mat-icon>
+  </button>
+  <mat-menu #settingsMenu="matMenu">
+    <button mat-menu-item [matMenuTriggerFor]="themeMenuOptions">
+      <mat-icon>format_color_fill</mat-icon> {{ 'MAIN_TOOLBAR.MENU_SETTINGS_THEME' | translate }}
+    </button>
+    <button mat-menu-item (click)="openLangModal()">
+      <mat-icon>language</mat-icon> {{ 'MAIN_TOOLBAR.MENU_SETTINGS_LANGUAGE' | translate }}
+    </button>
+  </mat-menu>
+  <mat-menu #themeMenuOptions="matMenu">
+    <button mat-menu-item (click)="setMainTheme('arwiki-light')">
+      <mat-icon>light_mode</mat-icon> Light theme
+    </button>
+    <button mat-menu-item (click)="setMainTheme('arwiki-dark')">
+      <mat-icon>dark_mode</mat-icon> Dark theme
+    </button>
+  </mat-menu>
+
+  <button 
     mat-icon-button 
     (click)="login()"
     matTooltip="{{ 'MAIN_TOOLBAR.TOOLTIP_LOGIN' | translate }}"
@@ -42,9 +66,29 @@
   </button>
   <button 
     mat-icon-button 
+    [matMenuTriggerFor]="moderatorsMenu"
+    *ngIf="isModerator">
+    <mat-icon>admin_panel_settings</mat-icon>
+  </button>
+  <mat-menu #moderatorsMenu="matMenu">
+    <div>
+      <button mat-menu-item routerLink="/{{ routerLang }}/moderators/pending">
+        <mat-icon>pending_actions</mat-icon> {{ 'MAIN_TOOLBAR.MENU_MODERATOR_PENDING' | translate }}</button>
+      <button mat-menu-item routerLink="/{{ routerLang }}/moderators/approved">
+        <mat-icon>task_alt</mat-icon> {{ 'MAIN_TOOLBAR.MENU_MODERATOR_APPROVED' | translate }}</button>
+      <button mat-menu-item routerLink="/{{ routerLang }}/moderators/deleted">
+        <mat-icon>delete</mat-icon> {{ 'MAIN_TOOLBAR.MENU_MODERATOR_DELETED' | translate }}</button>
+      <button mat-menu-item routerLink="/{{ routerLang }}/moderators/add-admin">
+        <mat-icon>add_moderator</mat-icon> {{ 'MAIN_TOOLBAR.MENU_MODERATOR_ADD_MODERATOR' | translate }}</button>
+      <button mat-menu-item routerLink="/{{ routerLang }}/moderators/view-admin-list"><mat-icon>view_list</mat-icon> {{ 'MAIN_TOOLBAR.MENU_MODERATOR_VIEW_ADM_LIST' | translate }}</button>
+    </div>
+  </mat-menu>
+  <button 
+    mat-icon-button 
     [matMenuTriggerFor]="accountMenu"
     *ngIf="isLoggedIn">
-    <mat-icon>account_circle</mat-icon>
+    <img *ngIf="profileImage" class="avatar" [src]="profileImage">
+    <mat-icon *ngIf="!profileImage">account_circle</mat-icon>
   </button>
   <mat-menu #accountMenu="matMenu">
     <div>
@@ -75,49 +119,9 @@
       </button>
     </div>
   </mat-menu>
-  <button 
-    mat-icon-button 
-    [matMenuTriggerFor]="moderatorsMenu"
-    *ngIf="isModerator">
-    <mat-icon>admin_panel_settings</mat-icon>
-  </button>
-  <mat-menu #moderatorsMenu="matMenu">
-    <div>
-      <button mat-menu-item routerLink="/{{ routerLang }}/moderators/pending">
-        <mat-icon>pending_actions</mat-icon> {{ 'MAIN_TOOLBAR.MENU_MODERATOR_PENDING' | translate }}</button>
-      <button mat-menu-item routerLink="/{{ routerLang }}/moderators/approved">
-        <mat-icon>task_alt</mat-icon> {{ 'MAIN_TOOLBAR.MENU_MODERATOR_APPROVED' | translate }}</button>
-      <button mat-menu-item routerLink="/{{ routerLang }}/moderators/deleted">
-        <mat-icon>delete</mat-icon> {{ 'MAIN_TOOLBAR.MENU_MODERATOR_DELETED' | translate }}</button>
-      <button mat-menu-item routerLink="/{{ routerLang }}/moderators/add-admin">
-        <mat-icon>add_moderator</mat-icon> {{ 'MAIN_TOOLBAR.MENU_MODERATOR_ADD_MODERATOR' | translate }}</button>
-      <button mat-menu-item routerLink="/{{ routerLang }}/moderators/view-admin-list"><mat-icon>view_list</mat-icon> {{ 'MAIN_TOOLBAR.MENU_MODERATOR_VIEW_ADM_LIST' | translate }}</button>
-    </div>
-  </mat-menu>
+  
 
-  <button 
-      [matMenuTriggerFor]="settingsMenu"
-      mat-icon-button 
-      class="theme-icon"
-      matTooltip="{{ 'MAIN_TOOLBAR.TOOLTIP_SETTINGS' | translate }}">
-    <mat-icon>settings</mat-icon>
-  </button>
-  <mat-menu #settingsMenu="matMenu">
-    <button mat-menu-item [matMenuTriggerFor]="themeMenuOptions">
-      <mat-icon>format_color_fill</mat-icon> {{ 'MAIN_TOOLBAR.MENU_SETTINGS_THEME' | translate }}
-    </button>
-    <button mat-menu-item (click)="openLangModal()">
-      <mat-icon>language</mat-icon> {{ 'MAIN_TOOLBAR.MENU_SETTINGS_LANGUAGE' | translate }}
-    </button>
-  </mat-menu>
-  <mat-menu #themeMenuOptions="matMenu">
-	  <button mat-menu-item (click)="setMainTheme('arwiki-light')">
-      <mat-icon>light_mode</mat-icon> Light theme
-    </button>
-	  <button mat-menu-item (click)="setMainTheme('arwiki-dark')">
-      <mat-icon>dark_mode</mat-icon> Dark theme
-    </button>
-	</mat-menu>
+  
   
 </mat-toolbar>
 <mat-progress-bar mode="indeterminate" *ngIf="loading | async"></mat-progress-bar>

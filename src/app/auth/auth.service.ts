@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ArweaveService } from '../core/arweave.service';
-import { Observable, EMPTY, of, throwError, Subject} from 'rxjs';
+import { Observable, EMPTY, of, throwError, Subject, from } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
-
+import Verto from "@verto/js";
+import { UserInterface } from "@verto/js/dist/faces";
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,8 @@ export class AuthService {
   public updateUserIsModerator(_isModerator: boolean) {
     this._userIsModeratorSource.next(_isModerator);
   }
+  private _verto: Verto;
+
 
   getAdminList() {
     return this._adminList;
@@ -40,9 +43,17 @@ export class AuthService {
   constructor(private _arweave: ArweaveService) {
     this.account = new Subject<string>();
     this.account$ = this.account.asObservable();
-
+    this._verto = new Verto();
     this.loadAccount();
     
+  }
+
+  public get verto(): Verto {
+    return this._verto;
+  }
+
+  public getProfile(address: string): Observable<UserInterface | undefined> {
+    return from(this._verto.user.getUser(address));
   }
 
   loadAccount() {

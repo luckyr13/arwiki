@@ -41,6 +41,8 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   frmSearch: FormGroup = new FormGroup({
     'searchQry': new FormControl('')
   });
+  profileImage: string = '';
+  profileSubscription = Subscription.EMPTY;
 
   constructor(
     private _auth: AuthService,
@@ -62,14 +64,16 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
     this.defaultTheme = this._userSettings.getDefaultTheme();
     this.isLoggedIn = !!this._auth.getMainAddressSnapshot();
 
-  	this._userSettings.mainToolbarVisibilityStream.subscribe((visible) => {
-  		this.maintoolbarVisible = visible;
-  	});
+
+    this._userSettings.mainToolbarVisibilityStream.subscribe((visible) => {
+      this.maintoolbarVisible = visible;
+    });
 
     // Get main address from service
     this._auth.account$.subscribe((_address: string) => {
       if (_address) {
         this.isLoggedIn = true;
+        this.updateProfileData();
       }
     });
 
@@ -87,10 +91,23 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
       }
     });
 
+    // Load profile image
+    if (this.isLoggedIn) {
+      this.updateProfileData();
+    }
+
+  }
+
+  updateProfileData() {
+    const mainAddress = this._auth.getMainAddressSnapshot();
+    this.profileSubscription = this._auth.getProfile(mainAddress).subscribe((profile) => {
+      this.profileImage = profile && profile.image ? `${this._arweave.baseURL}${profile.image}` : '';
+
+    });
   }
 
   ngOnDestroy() {
-    
+    this.profileSubscription.unsubscribe();
   }
 
   /*
