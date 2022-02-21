@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1643258283663,
+  "timestamp": 1645405296106,
   "index": "./index.html",
   "assetGroups": [
     {
@@ -11,11 +11,14 @@
         "ignoreVary": true
       },
       "urls": [
+        "./121.a17185b9bedc2140.js",
+        "./409.3f0b50ab5ee5e3f6.js",
+        "./783.bd257ebe999244eb.js",
         "./favicon.ico",
-        "./main.037a4ab5d6db836a.js",
+        "./main.610e502c7afa04d2.js",
         "./manifest.webmanifest",
-        "./polyfills.ecb712f4b31ac6cc.js",
-        "./runtime.a2b0c2b134c6dfcb.js",
+        "./polyfills.5cc09a19a02e2c94.js",
+        "./runtime.0633908f8f9e149f.js",
         "./styles.a4bee1ad9712e152.css"
       ],
       "patterns": []
@@ -84,6 +87,9 @@
   ],
   "dataGroups": [],
   "hashTable": {
+    "./121.a17185b9bedc2140.js": "1a66bc02f331fc2270d2baeb492a909c1ca5fecc",
+    "./409.3f0b50ab5ee5e3f6.js": "eeabc2077f74461ad596f9a688935f375ff491dd",
+    "./783.bd257ebe999244eb.js": "a05c3bf0e864c66a284c061481e3e165917e4610",
     "./assets/css/arwiki-dark.css": "3bb013a80019735b706d68eb83d4cf175580014c",
     "./assets/css/arwiki-light.css": "586e8b7cd215ad9af2f19dfcce10933ca6e92107",
     "./assets/i18n/ar.json": "a713121586ae82ed1a53d84e413caec75683d67a",
@@ -135,10 +141,10 @@
     "./bottom-fade-black.6fc512d279d91c1b.png": "dea2852bf2df382b44da79b33218d8dc1706131e",
     "./bottom-fade.416a6c015880c038.png": "ac501c3cd9bd88711f0c01317c38ce89d0dabd54",
     "./favicon.ico": "966760fada50baea2d11db115c8086073fa49f80",
-    "./main.037a4ab5d6db836a.js": "554b6102bd444486b4f0bc3f011dfe70c97d5861",
+    "./main.610e502c7afa04d2.js": "70f8f5912992f1671617865445be1be83f74ad2a",
     "./manifest.webmanifest": "80102d95fc80ca1a95b0ff8d94b8506218ce9d62",
-    "./polyfills.ecb712f4b31ac6cc.js": "51faddecd5751657739e7fda53e9709e56f2f315",
-    "./runtime.a2b0c2b134c6dfcb.js": "d3fa21efeef816c07a498522d9d556a103878137",
+    "./polyfills.5cc09a19a02e2c94.js": "a8e19eaa642eee9651999a9f3b4fb873d1737acb",
+    "./runtime.0633908f8f9e149f.js": "aaf0b8efcedd539d0e15764dc8f7c45bec0b76f8",
     "./styles.a4bee1ad9712e152.css": "2cf900760608954d7965368cf52ed0e6b1be0a43"
   },
   "navigationUrls": [
