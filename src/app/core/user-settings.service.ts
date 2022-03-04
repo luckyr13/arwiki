@@ -164,7 +164,7 @@ export class UserSettingsService {
         this.setDefaultTheme(theme);
       break;
       default:
-      	throw Error('Theme not found!');
+      	console.error('Theme not found!');
       break;
     }
 
