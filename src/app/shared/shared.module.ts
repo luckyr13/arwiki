@@ -45,6 +45,7 @@ import { DialogVotePageComponent } from './dialog-vote-page/dialog-vote-page.com
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { DialogRejectReasonComponent } from './dialog-reject-reason/dialog-reject-reason.component';
 import { DialogCompareComponent } from './dialog-compare/dialog-compare.component';
+import { EmojisComponent } from './emojis/emojis.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { DialogCompareComponent } from './dialog-compare/dialog-compare.componen
     DialogVotePageComponent,
     DialogRejectReasonComponent,
     DialogCompareComponent,
+    EmojisComponent,
   ],
   imports: [
     CommonModule,

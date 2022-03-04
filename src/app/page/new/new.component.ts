@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Location } from '@angular/common';
 import { AuthService } from '../../auth/auth.service';
 import { UserSettingsService } from '../../core/user-settings.service';
@@ -11,7 +11,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Subscription, of } from 'rxjs'; 
+import { Subscription, of, Observable } from 'rxjs'; 
 import { switchMap } from 'rxjs/operators';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
 import { ActivatedRoute } from '@angular/router';
@@ -26,6 +26,9 @@ import { Arwiki } from '../../core/arwiki';
 import { ArwikiPage } from '../../core/interfaces/arwiki-page';
 declare const document: any;
 declare const window: any;
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { ComponentPortal } from '@angular/cdk/portal';
+import { EmojisComponent } from '../../shared/emojis/emojis.component';
 
 @Component({
   templateUrl: './new.component.html',
@@ -45,8 +48,7 @@ export class NewComponent implements OnInit, OnDestroy {
 	txmessage: string = '';
   previewImgUrl: string = '';
   previewImgUrlTX: string = '';
-  
-  simplemde: any;
+  simplemde: SimpleMDE|null = null;
   visible = true;
   selectable = true;
   removable = true;
@@ -62,6 +64,11 @@ export class NewComponent implements OnInit, OnDestroy {
   verifySlugSubscription: Subscription = Subscription.EMPTY;
   private arwiki!: Arwiki;
   private _redirectTimeout: any = null;
+
+  emojisPortal: ComponentPortal<EmojisComponent>|null = null;
+  overlayRef: OverlayRef|null = null;
+  loadEditorSubscription: Subscription = Subscription.EMPTY;
+  @ViewChild('frmTextareaEditor') frmTextareaEditor!: ElementRef;
 
   public get title() {
 		return this.frmNew.get('title');
@@ -92,7 +99,8 @@ export class NewComponent implements OnInit, OnDestroy {
   	private _router: Router,
   	private _snackBar: MatSnackBar,
     private _arwikiTokenContract: ArwikiTokenContract,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private _overlay: Overlay
   ) { }
 
   ngOnInit(): void {
@@ -100,12 +108,42 @@ export class NewComponent implements OnInit, OnDestroy {
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
     this.arwiki = new Arwiki(this._arweave.arweave);
   	this.getDefaultTheme();
+
     // Load markdown editor
-    window.setTimeout(() => {
-      this.simplemde = new SimpleMDE({
-        element: document.getElementById("create-page-textarea-simplemde-content")
-      });
-    }, 500);
+    const obs = new Observable((subscriber) => {
+      window.setTimeout(() => {
+        try {
+          this.simplemde = new SimpleMDE({
+            element: (<any> this.message).nativeElement,
+            toolbar: [
+              "bold", "italic", "heading", "|",
+              "quote", "unordered-list", "ordered-list", "strikethrough", "code", "|",
+              "link", "image", 
+              {
+                name: "emojis",
+                action: (editor) => {
+                  this.openEmojiMenu(editor);
+                },
+                className: "fa fa-smile-o",
+                title: "Add emoji",
+              },
+              "|",
+              "preview", "side-by-side", "fullscreen",  "|", 
+              "guide"
+            ],
+          });
+          subscriber.next(true);
+          subscriber.complete();
+        } catch (error) {
+          console.log('Error loading editor: ', error);
+          subscriber.error(error);
+        }
+      }, 500)
+    })
+
+    this.loadEditorSubscription = obs.subscribe((res) => {
+      // Done
+    });
     
 
     this.categoryListSubscription = this._arwikiTokenContract
@@ -151,17 +189,16 @@ export class NewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.categoryListSubscription) {
-      this.categoryListSubscription.unsubscribe();
-    }
-    if (this.languageListSubscription) {
-      this.languageListSubscription.unsubscribe();
-    }
-    if (this.verifySlugSubscription) {
-      this.verifySlugSubscription.unsubscribe();
-    }
+    this.categoryListSubscription.unsubscribe();
+    this.languageListSubscription.unsubscribe();
+    this.verifySlugSubscription.unsubscribe();
     if (this._redirectTimeout) {
       window.clearTimeout(this._redirectTimeout);
+    }
+    this.loadEditorSubscription.unsubscribe();
+    if (this.simplemde) {
+      this.simplemde.toTextArea();
+      this.simplemde = null;
     }
   }
 
@@ -221,7 +258,7 @@ export class NewComponent implements OnInit, OnDestroy {
   	const slug = this.slug!.value;
   	const category = this.category!.value;
     const langCode = this.language!.value;
-    const content = this.simplemde.value();
+    const content = this.simplemde!.value();
     const img = this.previewImgUrlTX;
     const pageValue = this.pageValue!.value;
 
@@ -398,6 +435,49 @@ export class NewComponent implements OnInit, OnDestroy {
     }
 
     return value;
+  }
+
+  openEmojiMenu(editor: SimpleMDE) {
+    const emojiMenu = document.getElementsByClassName('fa fa-smile-o')[0];
+    if (!emojiMenu) {
+      throw Error('EmojiMenu not available');
+    }
+    const positionStrategy = this._overlay.position().flexibleConnectedTo(emojiMenu).withPositions([
+       {
+         originX: 'end',
+         originY: 'top',
+         overlayX: 'center',
+         overlayY: 'top',
+         offsetY: 32
+       }
+     ]);
+
+    this.overlayRef = this._overlay.create({
+      hasBackdrop: true,
+      disposeOnNavigation: true,
+      scrollStrategy: this._overlay.scrollStrategies.close(),
+      positionStrategy
+    });
+
+    this.emojisPortal = new ComponentPortal(EmojisComponent);
+    this.overlayRef!.attach(this.emojisPortal);
+
+    this.overlayRef.overlayElement.addEventListener('click', (event) => {
+      const target = <HTMLElement>event.target;
+      const emoji = target && target.classList.contains('emoji') ? target.innerHTML.trim() : '';
+      const currentEditorValue = editor.codemirror.getValue();
+      editor.codemirror.setValue(`${currentEditorValue}${emoji}`);
+      this.closeEmojiMenu();
+    });
+
+    this.overlayRef!.backdropClick().subscribe(() => {
+      this.closeEmojiMenu();
+    });
+    
+  }
+
+  closeEmojiMenu() {
+    this.overlayRef!.dispose();
   }
 
 

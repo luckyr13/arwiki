@@ -1,0 +1,17 @@
+<mat-card class="post-card">
+
+	<div class="fadeIn">
+		<mat-card-header>
+			<mat-card-title>
+				Emojis
+			</mat-card-title>
+		</mat-card-header>
+		<mat-card-content class="emoji-container">
+			<div class="emoji" *ngFor="let e of emojis">
+				{{ e }}
+			</div>
+			
+		</mat-card-content>
+	</div>
+	
+</mat-card>
