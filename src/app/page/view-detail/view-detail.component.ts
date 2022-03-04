@@ -31,6 +31,7 @@ import { DialogConfirmAmountComponent } from '../../shared/dialog-confirm-amount
 import { arwikiVersion } from '../../core/arwiki';
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
+import Prism from 'prismjs';
 
 @Component({
   templateUrl: './view-detail.component.html',
@@ -83,6 +84,8 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
  
 
   ngOnInit(): void {
+    Prism.manual = true;
+
   	this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
 
     //const tmpPageData: ArwikiPage = this.route.snapshot.data[0];
@@ -187,6 +190,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
               page.id, 
               {decode: true, string: true}
             );
+
           } catch (err) {
             console.error('TX ID:', page.id);
             this.message(`${err}`, 'error');
@@ -196,6 +200,8 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
           this.pageData.content = this.markdownToHTML(content);
           this.loadingPage = false;
 
+
+          Prism.highlightAll();
 
           // Generate TOC 
           window.setTimeout(() => {
@@ -307,7 +313,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
       elements[i].id = `toc_${finalId}`;
       const menuElement = {
         id: elements[i].id,
-        top: elements[i].getBoundingClientRect().top,
+        top: elements[i].offsetTop - elements[i].scrollTop,
         text: elements[i].innerText,
         type: elements[i].tagName
       };

@@ -188,6 +188,10 @@ p {
   background-color: #f44336;
   color: #FFF;
 }
+.mat-snack-bar-container.warning{
+  background-color: #eed202;
+  color: #FFF;
+}
 
 .mat-snack-bar-container.success{
   background-color: #69f0ae;
@@ -279,9 +283,8 @@ p {
 
 .arwiki-page-preview-container code,
 #arwiki-page-content-detail code {
-  font-family: Roboto Mono, monospace;
+  font-family: 'Inconsolata', monospace;
   color: #FFF;
-  display: block;
   white-space: pre-wrap;
   word-wrap: break-word;
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { AuthService } from '../../auth/auth.service';
 import { UserSettingsService } from '../../core/user-settings.service';
@@ -34,7 +34,7 @@ import { EmojisComponent } from '../../shared/emojis/emojis.component';
   templateUrl: './new.component.html',
   styleUrls: ['./new.component.scss']
 })
-export class NewComponent implements OnInit, OnDestroy {
+export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
 	public authorAddress: string = this._auth.getMainAddressSnapshot();
 	defaultTheme: string = '';
 	loadingFrm: boolean = false;
@@ -108,43 +108,6 @@ export class NewComponent implements OnInit, OnDestroy {
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
     this.arwiki = new Arwiki(this._arweave.arweave);
   	this.getDefaultTheme();
-
-    // Load markdown editor
-    const obs = new Observable((subscriber) => {
-      window.setTimeout(() => {
-        try {
-          this.simplemde = new SimpleMDE({
-            element: (<any> this.message).nativeElement,
-            toolbar: [
-              "bold", "italic", "heading", "|",
-              "quote", "unordered-list", "ordered-list", "strikethrough", "code", "|",
-              "link", "image", 
-              {
-                name: "emojis",
-                action: (editor) => {
-                  this.openEmojiMenu(editor);
-                },
-                className: "fa fa-smile-o",
-                title: "Add emoji",
-              },
-              "|",
-              "preview", "side-by-side", "fullscreen",  "|", 
-              "guide"
-            ],
-          });
-          subscriber.next(true);
-          subscriber.complete();
-        } catch (error) {
-          console.log('Error loading editor: ', error);
-          subscriber.error(error);
-        }
-      }, 500)
-    })
-
-    this.loadEditorSubscription = obs.subscribe((res) => {
-      // Done
-    });
-    
 
     this.categoryListSubscription = this._arwikiTokenContract
       .getCategories()
@@ -478,6 +441,45 @@ export class NewComponent implements OnInit, OnDestroy {
 
   closeEmojiMenu() {
     this.overlayRef!.dispose();
+  }
+
+  ngAfterViewInit() {
+    // Load markdown editor
+    const obs = new Observable((subscriber) => {
+      window.setTimeout(() => {
+        try {
+          console.log('native', this.frmTextareaEditor, this.frmTextareaEditor.nativeElement)
+          this.simplemde = new SimpleMDE({
+            element: this.frmTextareaEditor.nativeElement,
+            toolbar: [
+              "bold", "italic", "heading", "|",
+              "quote", "unordered-list", "ordered-list", "strikethrough", "code", "|",
+              "link", "image", 
+              {
+                name: "emojis",
+                action: (editor) => {
+                  this.openEmojiMenu(editor);
+                },
+                className: "fa fa-smile-o",
+                title: "Add emoji",
+              },
+              "|",
+              "preview", "side-by-side", "fullscreen",  "|", 
+              "guide"
+            ],
+          });
+          subscriber.next(true);
+          subscriber.complete();
+        } catch (error) {
+          console.log('Error loading editor: ', error);
+          subscriber.error(error);
+        }
+      }, 500)
+    })
+
+    this.loadEditorSubscription = obs.subscribe((res) => {
+      // Done
+    });
   }
 
 

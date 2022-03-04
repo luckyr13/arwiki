@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as marked from 'marked';
 import DOMPurify from 'dompurify';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, from } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { 
 	readContract
 } from 'smartweave';
@@ -12,6 +13,7 @@ import { Location } from '@angular/common';
 import { ArwikiQuery } from '../../core/arwiki-query';
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
+import Prism from 'prismjs';
 
 @Component({
   templateUrl: './preview.component.html',
@@ -24,6 +26,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
   loadingPage: boolean = false;
   arwikiQuery: ArwikiQuery|null = null;
   baseURL: string = this._arweave.baseURL;
+  pageDataSubscription: Subscription = Subscription.EMPTY;
 
   constructor(
     private route: ActivatedRoute,
@@ -33,6 +36,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    Prism.manual = true;
   	const contractAddress = this.route.snapshot.paramMap.get('id')!;
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
     this.loadPageTXData(contractAddress);
@@ -49,9 +53,8 @@ export class PreviewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-  	if (this.pageSubscription) {
-      this.pageSubscription.unsubscribe();
-    }
+    this.pageSubscription.unsubscribe();
+    this.pageDataSubscription.unsubscribe();
   }
 
   loadPageTXData(contractAddress: string) {
@@ -72,7 +75,26 @@ export class PreviewComponent implements OnInit, OnDestroy {
             block: pTX.block
           };
           // Load content
-          this.loadPageData(contractAddress);
+          this.pageDataSubscription = this.loadPageData(contractAddress).pipe(
+            catchError((error) => {
+              console.error(error);
+              this.message('TX not minted? Fetching data from gw ...', 'warning');
+              const url = `${this._arweave.baseURL}${this.page.id}`;
+              return from(fetch(url));
+            })
+          ).subscribe({
+            next: async (data: string|Response) => {
+              const res = typeof data === 'string' ? `${data}` : await data.text();
+              this.htmlContent = this.markdownToHTML(res);
+              this.loadingPage = false;
+              
+              Prism.highlightAll();
+
+            }, error: (error) => {
+              this.message(error, 'error');
+              this.loadingPage = false;
+            }
+          });
 
         }
       },
@@ -82,15 +104,8 @@ export class PreviewComponent implements OnInit, OnDestroy {
     });
   }
 
-  loadPageData(contractAddress: string) {
-    this._arweave.getDataAsString(contractAddress!)
-      .then((data) => {
-        this.htmlContent = this.markdownToHTML(data);
-        this.loadingPage = false;
-      }).catch((error) => {
-        this.message(error, 'error');
-        this.loadingPage = false;
-      });
+  loadPageData(address: string) {
+    return from(this._arweave.getDataAsString(address!));
   }
 
   markdownToHTML(_markdown: string) {
@@ -105,7 +120,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
   */
   message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
     this._snackBar.open(msg, 'X', {
-      duration: 5000,
+      duration: 3000,
       horizontalPosition: 'center',
       verticalPosition: verticalPosition,
       panelClass: panelClass
