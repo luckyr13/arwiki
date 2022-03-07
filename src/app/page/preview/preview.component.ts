@@ -14,6 +14,7 @@ import { ArwikiQuery } from '../../core/arwiki-query';
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
 import Prism from 'prismjs';
+import 'prismjs/components/prism-graphql';
 
 @Component({
   templateUrl: './preview.component.html',
@@ -37,6 +38,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     Prism.manual = true;
+
   	const contractAddress = this.route.snapshot.paramMap.get('id')!;
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
     this.loadPageTXData(contractAddress);
@@ -84,11 +86,15 @@ export class PreviewComponent implements OnInit, OnDestroy {
             })
           ).subscribe({
             next: async (data: string|Response) => {
-              const res = typeof data === 'string' ? `${data}` : await data.text();
+              const res = typeof data === 'string' ? `${data}` : data.ok ? await data.text() : '';
               this.htmlContent = this.markdownToHTML(res);
               this.loadingPage = false;
               
-              Prism.highlightAll();
+              window.setTimeout(() => {
+                
+                Prism.highlightAll();
+              }, 500);
+              
 
             }, error: (error) => {
               this.message(error, 'error');

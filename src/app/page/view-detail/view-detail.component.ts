@@ -32,6 +32,7 @@ import { arwikiVersion } from '../../core/arwiki';
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
 import Prism from 'prismjs';
+import 'prismjs/components/prism-graphql';
 
 @Component({
   templateUrl: './view-detail.component.html',
@@ -185,23 +186,34 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
           this.block = page.block;
 
           let content = '';
+        
+          let error = false;
           try {
              content = await this._arweave.arweave.transactions.getData(
               page.id, 
               {decode: true, string: true}
             );
-
           } catch (err) {
-            console.error('TX ID:', page.id);
-            this.message(`${err}`, 'error');
-            throw Error(`${err}`);
+            console.error('ErrLoading:', err);
+            error = true;
+          }
+
+          if (error) {
+            try {
+              console.warn('Fetching data from gw ...', page.id);
+              const data = await fetch(`${this._arweave.baseURL}${page.id}`);
+              if (data.ok) {
+                  content = await data.text();
+              } else {
+                throw Error('Error fetching data!');
+              }
+            } catch (err) {
+              console.error('ERR', err);
+            }
           }
           
           this.pageData.content = this.markdownToHTML(content);
           this.loadingPage = false;
-
-
-          Prism.highlightAll();
 
           // Generate TOC 
           window.setTimeout(() => {
@@ -214,6 +226,8 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
                 this._userSettings.scrollTo(this.fragment, -80);
               }
             });
+            Prism.highlightAll();
+
           }, 500);
 
           // Load tags 

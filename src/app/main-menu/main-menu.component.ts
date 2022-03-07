@@ -66,7 +66,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       this.message(`${error}`, 'error');
       return;
     }
-    const maxPages = 20;
+    const maxPages = 30;
     this.menuSubscription = this.getMainMenu(
       this.routerLang,
       maxHeight,

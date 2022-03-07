@@ -80,10 +80,31 @@ export class ViewDetailComponent implements OnInit {
         this.loadingPages = false;
 
         for (let p of this.pages) {
-          this.pagesData[p.id] = await this._arweave.arweave.transactions.getData(
-            p.id, 
-            {decode: true, string: true}
-          );  
+          let error = false;
+          try {
+             let data = await this._arweave.arweave.transactions.getData(
+              p.id, 
+              {decode: true, string: true}
+            );
+            this.pagesData[p.id] = data;
+          } catch (err) {
+            console.error('ErrLoading:', err);
+            error = true;
+          }
+
+          if (error) {
+            try {
+              console.warn('Fetching data from gw ...', p.id);
+              const data = await fetch(`${this._arweave.baseURL}${p.id}`);
+              if (data.ok) {
+                  this.pagesData[p.id] = await data.text();
+              } else {
+                throw Error('Error fetching data!');
+              }
+            } catch (err) {
+              console.error('ERR', err);
+            }
+          }
         }
 
         // Verify addresses 

@@ -298,13 +298,15 @@ p {
 }   
 .arwiki-page-preview-container pre code,
 #arwiki-page-content-detail pre code {
+  padding: 10px;
+  border-radius: 12px;
 
 }
 .arwiki-page-preview-container p code,
 #arwiki-page-content-detail p code {
   background-color: #444;
-  padding: 10px;
-  border-radius: 12px;
+
+  padding: 4px;
 }   
 
 .arwiki-page-preview-container blockquote,

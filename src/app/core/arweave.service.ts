@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, from } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { selectWeightedPstHolder } from 'smartweave';
 import Arweave from 'arweave';
@@ -425,6 +425,19 @@ export class ArweaveService {
   getDataAsString(txId: string): Promise<any> {
     return this.arweave.transactions.getData(txId, {decode: true, string: true});
   }
+
+  getDataAsStringObs(txId: string): Observable<any> {
+    return from(this.getDataAsString(txId)).pipe(
+      catchError((error) => {
+        console.error(error);
+        console.warn(`TX not minted? Fetching ${txId} data from gw ...`, 'warning');
+        const url = `${this.baseURL}${txId}`;
+        return from(fetch(url));
+      })
+    );
+  }
+
+ 
 
   /**
    * Formats a block number into human readable hours, days, months, years.

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { UserSettingsService } from '../core/user-settings.service';
 import { Subscription, of, Observable } from 'rxjs';
-import { switchMap, map } from 'rxjs/operators';
+import { switchMap, map, catchError } from 'rxjs/operators';
 import { ArweaveService } from '../core/arweave.service';
 import { ArwikiTokenContract } from '../core/arwiki-contracts/arwiki-token';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -79,7 +79,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     }
 
     // Get categories (portals)
-    let maxPagesByCategory = 20;
+    let maxPagesByCategory = 30;
     this.categoriesSubscription = this.getPagesByCategory(
         maxPagesByCategory, this.routeLang, maxHeight
       )
@@ -124,7 +124,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
 
     // Get latest articles 
-    const numArticles = 6;
+    const numArticles = 8;
 
     this.pagesSubscription = this.getLatestArticles(
         numArticles, this.routeLang, maxHeight
@@ -144,11 +144,32 @@ export class MainPageComponent implements OnInit, OnDestroy {
         this.latestArticlesData = {};
 
         for (let p of this.latestArticles ) {
-          let data = await this._arweave.arweave.transactions.getData(
-            p.id, 
-            {decode: true, string: true}
-          );
-          this.latestArticlesData[p.id] = data;
+          let error = false;
+          try {
+             let data = await this._arweave.arweave.transactions.getData(
+              p.id, 
+              {decode: true, string: true}
+            );
+            this.latestArticlesData[p.id] = data;
+          } catch (err) {
+            console.error('ErrLoading:', err);
+            error = true;
+          }
+
+          if (error) {
+            try {
+              console.warn('Fetching data from gw ...', p.id);
+              const data = await fetch(`${this._arweave.baseURL}${p.id}`);
+              if (data.ok) {
+                  this.latestArticlesData[p.id] = await data.text();
+              } else {
+                throw Error('Error fetching data!');
+              }
+            } catch (err) {
+              console.error('ERR', err);
+            }
+          }
+         
         }
       },
       error: (error) => {
