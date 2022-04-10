@@ -1,143 +1,143 @@
 {
 	"HOME": {
-		"SECONDARY_TITLE": "歡迎來到永久網！"
+		"SECONDARY_TITLE": "欢迎来到永久网！"
 	},
 	"MAIN_MENU": {
-		"HOME": "家",
-		"ABOUT": "關於",
-		"the_arweave_project": "Arweave項目",
-		"the_arweave_protocol": "Arweave協議",
-		"profit_sharing": "利潤分享",
-		"mining": "礦業",
-		"building_on_arweave": "在Arweave上構建",
-		"resources": "資源"
+		"HOME": "主页",
+		"ABOUT": "关于",
+		"the_arweave_project": "Arweave 项目",
+		"the_arweave_protocol": "Arweave 协议",
+		"profit_sharing": "利润分享",
+		"mining": "挖矿",
+		"building_on_arweave": "基于 Arweave 开发",
+		"resources": "资源"
 	},
 	"MAIN_TOOLBAR": {
-		"TOOLTIP_LOGIN": "登錄",
-		"MENU_SETTINGS_LANGUAGE": "選擇語言",
-		"MENU_SETTINGS_THEME": "選擇主題",
+		"TOOLTIP_LOGIN": "登陆",
+		"MENU_SETTINGS_LANGUAGE": "选择语言",
+		"MENU_SETTINGS_THEME": "选择主题",
 		"TOOLTIP_SEARCH": "搜索",
-		"TOOLTIP_SETTINGS": "設定值",
-		"MENU_USER_DASHBOARD": "儀錶盤",
-		"MENU_USER_CREATE": "建立頁面",
-		"MENU_USER_LOGOUT": "登出",
-		"MENU_USER_MY_PAGES": "我的頁面",
+		"TOOLTIP_SETTINGS": "设置",
+		"MENU_USER_DASHBOARD": "大盘",
+		"MENU_USER_CREATE": "创建页面",
+		"MENU_USER_LOGOUT": "退出登陆",
+		"MENU_USER_MY_PAGES": "我的页面",
 		"MENU_USER_MODERATORS": "版主",
 		"MENU_USER_MY_UPDATES": "我的更新",
-		"MENU_MODERATOR_PENDING": "待處理頁面",
-		"MENU_MODERATOR_APPROVED": "批准的頁面",
-		"MENU_MODERATOR_DELETED": "刪除的頁面",
+		"MENU_MODERATOR_PENDING": "待处理页面",
+		"MENU_MODERATOR_APPROVED": "批准的页面",
+		"MENU_MODERATOR_DELETED": "刪除的页面",
 		"MENU_MODERATOR_ADD_MODERATOR": "添加版主",
-		"MENU_MODERATOR_VIEW_ADM_LIST": "查看管理員列表"
+		"MENU_MODERATOR_VIEW_ADM_LIST": "查看管理员列表"
 	},
 	"MAIN_PAGE": {
-		"TITLE_L1": "歡迎來到永久網！",
-		"SUBTITLE_L1": "arwiki是任何人都可以編輯的分散式Wiki。",
-		"TITLE_L2": "入門",
+		"TITLE_L1": "欢迎来到永久网！",
+		"SUBTITLE_L1": "arwiki 是任何人都可以编辑的分布式 Wiki。",
+		"TITLE_L2": "快速开始",
 		"TITLE_L3": "最新的文章",
-		"LABEL_NO_RESULTS": "沒結果。"
+		"LABEL_NO_RESULTS": "没有结果"
 	},
 	"PAGE": {
 		"LABEL_ID": "Id",
-		"LABEL_TITLE": "標題",
-		"LABEL_SLUG": "蛞蝓",
-		"LABEL_CATEGORY": "類別",
-		"LABEL_LANGUAGE": "語",
+		"LABEL_TITLE": "标题",
+		"LABEL_SLUG": "slug",
+		"LABEL_CATEGORY": "类别",
+		"LABEL_LANGUAGE": "语言",
 		"LABEL_OWNER": "所有者",
 		"LABEL_TX_STATUS": "TX status",
-		"LABEL_BLOCK_HEIGHT": "塊高度",
-		"LABEL_BLOCK_TIMESTAMP": "區塊時間戳",
+		"LABEL_BLOCK_HEIGHT": "区块高度",
+		"LABEL_BLOCK_TIMESTAMP": "区块时间戳",
 		"LABEL_ARVERIFY_SCORE": "ArVerify Score",
-		"LABEL_OWNER_STATUS": "所有者狀態",
-		"STATUS_TX_PENDING": "待辦的",
-		"STATUS_ADDRESS_VERIFIED": "已驗證",
-		"STATUS_ADDRESS_NOTVERIFIED": "未驗證"
+		"LABEL_OWNER_STATUS": "所有者状态",
+		"STATUS_TX_PENDING": "待处理",
+		"STATUS_ADDRESS_VERIFIED": "已验证",
+		"STATUS_ADDRESS_NOTVERIFIED": "未验证"
 	},
 	"NOT_FOUND": {
 
 	},
 	"CREATE_PAGE": {
-		"TITLE": "創建頁面",
-		"FRM_TITLE": "標題",
-		"FRM_BY": "經過",
+		"TITLE": "创建页面",
+		"FRM_TITLE": "标题",
+		"FRM_BY": "编写自",
 		"FRM_SLUG": "Page slug",
-		"FRM_CATEGORY": "類別",
-		"FRM_LANGUAGE": "語",
-		"FRM_LOADING": "正在加載...",
-		"FRM_UPLOAD_FILE": "上傳文件",
+		"FRM_CATEGORY": "类別",
+		"FRM_LANGUAGE": "语言",
+		"FRM_LOADING": "正在加载...",
+		"FRM_UPLOAD_FILE": "上传文件",
 		"FRM_CONTENT": "內容",
 		"FRM_BTN_SAVE": "保存",
-		"FRM_BTN_GOBACK": "回去"
+		"FRM_BTN_GOBACK": "返回"
 	},
 	"SEARCH_ENGINE": {
-		"INPUT_SEARCH_LABEL": "搜索arwiki",
+		"INPUT_SEARCH_LABEL": "搜索 arwiki",
 		"INPUT_SEARCH_PLACEHOLDER": "",
-		"LBL_DEFAULT_LANG": "默認語言",
-		"LBL_SELECT_LANG":"選擇語言",
-		"BTN_TXT_GO": "去！"
+		"LBL_DEFAULT_LANG": "默认语言",
+		"LBL_SELECT_LANG":"选择语言",
+		"BTN_TXT_GO": "搜索！"
 	},
 	"FOOTER": {
-		"LBL_POWERED": "供電",
-		"LBL_PARTNERS": "我們的合作夥伴和朋友"
+		"LBL_POWERED": "支持",
+		"LBL_PARTNERS": "我们的合作伙伴和朋友"
 	},
 	"DIALOGS": {
-		"TITLE_SELECT_LANG": "選擇語言",
-		"TXT_CLOSE": "關閉"
+		"TITLE_SELECT_LANG": "选择语言",
+		"TXT_CLOSE": "关闭"
 	},
 	"MODERATORS": {
 		"PENDING_PAGE": {
-			"TITLE_PENDING": "待處理清單"
+			"TITLE_PENDING": "待处理清单"
 		},
-		"LABEL_NO_RESULTS": "沒結果。",
-		"LABEL_TOOLBAR_TITLE": "主持人面板"
+		"LABEL_NO_RESULTS": "没有结果",
+		"LABEL_TOOLBAR_TITLE": "版主面板"
 	},
 	"CATEGORY": {
-		"BREADCRUMB_LABEL": "類別："
+		"BREADCRUMB_LABEL": "类别："
 	},
 	"GENERAL": {
 		"BUTTONS": {
-			"GO_BACK": "回去",
-			"OPEN_VIEWBLOCK": "在視圖塊中打開",
-			"COPY_ADDRESS": "複製地址",
+			"GO_BACK": "返回",
+			"OPEN_VIEWBLOCK": "在 ViewBlock 中打开",
+			"COPY_ADDRESS": "复制地址",
 			"TIP_AUTHOR": "提示作者",
 			"VIEW_ARTICLE": "查看文章",
-			"EDIT_PAGE": "編輯頁面",
+			"EDIT_PAGE": "编辑页面",
 			"MORE_ARTICLES": "更多文章",
 			"VIEW_ALL": "查看全部"
 		},
 		"LABELS": {
-			"NO_RESULTS": "沒結果"
+			"NO_RESULTS": "没有结果"
 		},
 		"CARDS": {
 			"ARTICLE": {
-				"CATEGORY": "類別：",
-				"CREATED_BY": "由...製作：",
-				"CREATION_DATE": "創建日期：",
-				"LAST_UPDATE": "最後更新：",
-				"SPONSOR": "贊助："
+				"CATEGORY": "类别：",
+				"CREATED_BY": "由...制作：",
+				"CREATION_DATE": "创建日期：",
+				"LAST_UPDATE": "最后更新：",
+				"SPONSOR": "赞助："
 			}
 		}
 	},
 	"LOADING": {
-		"QUOTES_TITLE" : "你知道嗎？",
+		"QUOTES_TITLE" : "你知道吗？",
 		"QUOTES": {
-			"0": "Arweave 是一種協議，允許您以單一的預付費用永久、可持續地存儲數據。",
-			"1": "在核心 Arweave 協議之上，是永久網絡：一個由頁面和應用程序組成的全球永久網絡，永遠存在。",
-			"2": "Arweave 是一個完全由社區擁有和運營的開源網絡。"
+			"0": "Arweave 是一种协议，允许您支付一次存储费用，便可永久、可持续地存儲和使用数据。",
+			"1": "在核心 Arweave 协议之上，是永久网络：一个由页面和应用程序组成的全球永久网络，永久存在。",
+			"2": "Arweave 是一個完全由社区拥有和运营的开源网络。"
 		},
-		"LOADING_LABEL": "加載中"
+		"LOADING_LABEL": "加载中"
 	},
 	"EDIT_PAGE": {
-		"TITLE": "編輯頁面",
-		"FRM_TITLE": "標題",
-		"FRM_BY": "經過",
+		"TITLE": "编辑页面",
+		"FRM_TITLE": "标题",
+		"FRM_BY": "经过",
 		"FRM_SLUG": "Page slug",
-		"FRM_CATEGORY": "類別",
-		"FRM_LANGUAGE": "語",
-		"FRM_LOADING": "正在加載...",
-		"FRM_UPLOAD_FILE": "上傳文件",
+		"FRM_CATEGORY": "类別",
+		"FRM_LANGUAGE": "语言",
+		"FRM_LOADING": "正在加载...",
+		"FRM_UPLOAD_FILE": "上传文件",
 		"FRM_CONTENT": "內容",
-		"FRM_BTN_SAVE": "發送更新",
-		"FRM_BTN_GOBACK": "回去"
+		"FRM_BTN_SAVE": "保存更新",
+		"FRM_BTN_GOBACK": "返回"
 	}
 }
