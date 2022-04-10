@@ -10,12 +10,23 @@ ArWiki is an Arweave dapp, a web3 website that lives on the permaweb.
 ## Our platform
 You can visit the ArWiki using the next links: 
 
-ArWiki (ALPHA): https://arwiki.wiki
+- ArWiki (ALPHA): https://arwiki.wiki
+- Arwiki (GitHub pages demo): http://luckyr13.github.io/arwiki
+- Arwiki (Permaweb link - 2022-01-02): https://arweave.net/fufx4yqNrk40Nj8QMRwufFu-n93K2IlWulI53aid1SQ
 
-Arwiki (GitHub pages demo): http://luckyr13.github.io/arwiki
+## Feedback, comments and help
 
-Arwiki (Permaweb link - 2022-01-02): https://arweave.net/fufx4yqNrk40Nj8QMRwufFu-n93K2IlWulI53aid1SQ
+Please visit our Discord channel for further support, comments or feedback: https://discord.gg/mn8j66r4x3
 
+## ArWiki Social Media
+- Twitter: https://twitter.com/TheArWiki
+
+## Installation
+ArWiki is made in Angular framework so you will need Node on your machine. For installing on you own environment just:
+
+- Clone the project
+- Run `npm install`
+- That's it!
 
 ## Development server
 
@@ -26,3 +37,13 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
+## Special Thanks
+
+- [Sam Williams](https://twitter.com/samecwilliams)
+- [JF](https://github.com/jfbeats)
+- [Germany](https://github.com/jeremybeal11)
+- [DMac](https://github.com/DanMacDonald)
+
+## Official Translators
+- Chinese ArWiki: [Vophan](https://github.com/skyf0cker)
+- Japanese ArWiki: [Ethan Lee](https://twitter.com/eungholee27)
