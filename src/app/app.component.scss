@@ -15,10 +15,6 @@ mat-sidenav-content {
 	flex-direction: column;
 }
 
-@media (min-width: 600px) {
-	mat-sidenav-content {
-	}
-}
 
 router-outlet ~ div.spacer {
 	flex: 1 0 0;
