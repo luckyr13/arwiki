@@ -4,7 +4,7 @@ import { Observable, EMPTY, of, throwError, Subject, from } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import Verto from "@verto/js";
-import { UserInterface } from "@verto/js/dist/faces";
+import { UserInterface } from "@verto/js/dist/common/faces";
 
 @Injectable({
   providedIn: 'root'
