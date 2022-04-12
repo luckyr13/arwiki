@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { ArwikiCategoryIndex } from '../core/interfaces/arwiki-category-index';
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
+import { ArwikiPage } from '../core/interfaces/arwiki-page';
 
 @Component({
   selector: 'app-main-menu',
@@ -22,10 +23,9 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   routerLang: string = '';
   menuSubscription: Subscription = Subscription.EMPTY;
   loading: boolean = false;
-  menu: any = {};
+  menu: Record<string, ArwikiPage[]> = {};
   categories: ArwikiCategoryIndex = {};
   category_slugs: string[] = [];
-  pages: any;
   defaultTheme: string = '';
   arwikiQuery!: ArwikiQuery;
 
@@ -55,21 +55,12 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
   }
 
-  async getMenu() {
+  getMenu() {
     this.loading = true;
-    let networkInfo;
-    let maxHeight = 0;
-    try {
-      networkInfo = await this._arweave.arweave.network.getInfo();
-      maxHeight = networkInfo.height;
-    } catch (error) {
-      this.message(`${error}`, 'error');
-      return;
-    }
     const maxPages = 30;
+    this.menu = {};
     this.menuSubscription = this.getMainMenu(
       this.routerLang,
-      maxHeight,
       maxPages
     ).subscribe({
       next: (data) => {
@@ -79,19 +70,28 @@ export class MainMenuComponent implements OnInit, OnDestroy {
             return data.categories[f1].order - data.categories[f2].order;
           });
        
-        this.pages = data.pages;
+        const pages = data.pages;
         this.categories = data.categories;
-        this.menu = {};
+        const menuTmp: Record<string, ArwikiPage[]> = {};
 
         for (let cats of this.category_slugs) {
-          this.menu[cats] = [];
-          if (this.pages && this.pages[cats]) {
-            const pages_slugs = Object.keys(this.pages[cats]);
+          menuTmp[cats] = [];
+          if (pages && pages[cats]) {
+            const pages_slugs = Object.keys(pages[cats]);
             for (let page_s of pages_slugs) {
-              this.menu[cats].push(this.pages[cats][page_s]);
+              menuTmp[cats].push(pages[cats][page_s]);
             }
           }
         }
+
+        // Sort results
+        for (const c in menuTmp) {
+          menuTmp[c].sort((a, b) => {
+            return a.title.localeCompare(b.title);
+          });
+        }
+
+        this.menu = menuTmp;
         
       },
       error: (error) => {
@@ -176,7 +176,6 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   */
   getMainMenu(
     _langCode: string,
-    _maxHeight: number,
     _limit: number = 100
   ) {
     let globalCat: ArwikiCategoryIndex = {};
@@ -187,11 +186,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       .pipe(
         switchMap((_categories: ArwikiCategoryIndex) => {
           globalCat = _categories;
-          return this._arwikiTokenContract.getAdminList();
-        }),
-        switchMap((_adminList) => {
-          adminList = _adminList;
-          return this._arwikiTokenContract.getApprovedPages(_langCode, _limit);
+          return this._arwikiTokenContract.getApprovedPages(_langCode, _limit, true);
         }),
         switchMap((_approvedPages) => {
           // Sort asc by block height

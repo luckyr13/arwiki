@@ -80,12 +80,14 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
     // Get categories (portals)
     let maxPagesByCategory = 30;
+    this.pagesByCategory = {};
+
     this.categoriesSubscription = this.getPagesByCategory(
-        maxPagesByCategory, this.routeLang, maxHeight
+        maxPagesByCategory, this.routeLang
       )
       .subscribe({
         next: (txs: ArdbTransaction[]|ArdbBlock[]) => {
-          this.pagesByCategory = {};
+          let pagesByCategoryTmp: Record<string, ArwikiPage[]> = {};
           for (let p of txs) {
             const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
             const title = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title');
@@ -98,10 +100,10 @@ export class MainPageComponent implements OnInit, OnDestroy {
             const language = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang');
             
             
-            if (!Array.isArray(this.pagesByCategory[category])) {
-              this.pagesByCategory[category] = [];
+            if (!Array.isArray(pagesByCategoryTmp[category])) {
+              pagesByCategoryTmp[category] = [];
             }
-            this.pagesByCategory[category].push({
+            pagesByCategoryTmp[category].push({
               title: title,
               slug: slug,
               category: category,
@@ -111,8 +113,17 @@ export class MainPageComponent implements OnInit, OnDestroy {
               block: block,
               language: language
             });
-
           }
+
+          // Sort results
+          for (const c in pagesByCategoryTmp) {
+            pagesByCategoryTmp[c].sort((a, b) => {
+              return a.title.localeCompare(b.title);
+            });
+          }
+
+          // Save result
+          this.pagesByCategory = pagesByCategoryTmp;
 
           this.loading = false;
         },
@@ -127,7 +138,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     const numArticles = 8;
 
     this.pagesSubscription = this.getLatestArticles(
-        numArticles, this.routeLang, maxHeight
+        numArticles, this.routeLang
       ).subscribe({
       next: async (pages: ArwikiPage[]) => {
         // Sort desc
@@ -242,7 +253,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
   /*
   *  @dev return an observable with the latest articles
   */
-  getLatestArticles(numArticles: number, langCode: string, height: number): Observable<ArwikiPage[]> {
+  getLatestArticles(numArticles: number, langCode: string): Observable<ArwikiPage[]> {
     let admins: string[] = [];
     let verifiedPages: string[] = [];
     let allApprovedPages: any = {};
@@ -382,14 +393,9 @@ export class MainPageComponent implements OnInit, OnDestroy {
   /*
   *  @dev return an observable with the latest N articles
   */
-  getPagesByCategory(numArticles: number, langCode: string, height: number) {
-    let admins: string[] = [];
+  getPagesByCategory(numArticles: number, langCode: string) {
     let verifiedPages: string[] = [];
-    return this._arwikiTokenContract.getAdminList().pipe(
-      switchMap((adminList: string[]) => {
-        admins = adminList;
-        return this._arwikiTokenContract.getCategories();
-      }),
+    return this._arwikiTokenContract.getCategories().pipe(
       switchMap((categories: ArwikiCategoryIndex) => {
         this.categories = categories;
         this.categoriesSlugs = Object.keys(this.categories)
@@ -397,7 +403,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
           return this.categories[f1].order - this.categories[f2].order;
         });
 
-        return this._arwikiTokenContract.getApprovedPages(langCode, numArticles);
+        return this._arwikiTokenContract.getApprovedPages(langCode, numArticles, true);
       }),
       switchMap((_approvedPages: ArwikiPageIndex) => {
         verifiedPages = Array.prototype.sort.call(Object.keys(_approvedPages), (a, b) => {
