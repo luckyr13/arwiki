@@ -14,7 +14,10 @@ export class ArweaveService {
   arweave: any = null;
   public baseURL: string = 'https://arweave.net/';
   blockToSeconds: number = 0.5 / 60;
-  arweaveWebWallet: ArweaveWebWallet;
+  arweaveWebWallet = new ArweaveWebWallet({
+    name: 'ArWiki',
+    logo: 'https://arweave.net/wJGdli6nMQKCyCdtCewn84ba9-WsJ80-GS-KtKdkCLg'
+  })
 
   constructor() {
     this.arweave = Arweave.init({
@@ -22,11 +25,7 @@ export class ArweaveService {
       port: 443,
       protocol: "https",
     });
-
-    this.arweaveWebWallet = new ArweaveWebWallet({
-      name: 'ArWiki',
-      logo: 'https://arweave.net/wJGdli6nMQKCyCdtCewn84ba9-WsJ80-GS-KtKdkCLg'
-    })
+    
     this.arweaveWebWallet.setUrl('arweave.app');
   }
 
