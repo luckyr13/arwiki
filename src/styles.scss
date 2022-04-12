@@ -303,9 +303,10 @@ p {
 
 }
 .arwiki-page-preview-container p code,
-#arwiki-page-content-detail p code {
+#arwiki-page-content-detail p code,
+.arwiki-page-preview-container li code,
+#arwiki-page-content-detail li code {
   background-color: #444;
-
   padding: 4px;
 }   
 
