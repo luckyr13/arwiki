@@ -26,6 +26,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
   routeSlug: string = '';
   historyList: ArwikiPage[] = [];
   historySubscription: Subscription = Subscription.EMPTY;
+  diffSubscription: Subscription = Subscription.EMPTY;
   arwikiQuery!: ArwikiQuery;
   error: boolean = false;
   historyChanges: Record<number, Change[]> = {};
@@ -74,7 +75,8 @@ export class HistoryComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-
+    this.historySubscription.unsubscribe();
+    this.diffSubscription.unsubscribe();
   }
 
   /*
@@ -155,23 +157,29 @@ export class HistoryComponent implements OnInit, OnDestroy {
     return d;
   }
 
-  async run_diff(tx1: string, tx2: string, currenthistoryId: number) {
-    let newData = '';
+  run_diff(tx1: string, tx2: string, currenthistoryId: number) {
     this.historyChLoad[currenthistoryId] = true;
-    let oldData = '';
-    try {
-      if (tx1.trim() != '') {
-        newData = await this._arweave.getDataAsString(tx1);
+    let newData = '';
+    this.diffSubscription = this._arweave.getDataAsStringObs(tx1).pipe(
+        switchMap((newD) => {
+          newData = newD;
+          if (tx2) {
+            return this._arweave.getDataAsStringObs(tx2);
+          }
+          return of('');
+        }),
+      ).subscribe({
+      next: (oldData) => {
+        const diff: Change[] = diffLines(oldData, newData);
+        this.historyChanges[currenthistoryId] = diff;
+        this.historyChLoad[currenthistoryId] = false;
+      },
+      error: (error) => {
+        this.message(`${error}`, 'error');
+        this.historyChLoad[currenthistoryId] = false;
       }
-      if (tx2.trim() != '') {
-        oldData = await this._arweave.getDataAsString(tx2);
-      }
-    } catch (error) {
-      this.message(`${error}`, 'error');
-    }
-    this.historyChLoad[currenthistoryId] = false;
-    const diff: Change[] = diffLines(oldData, newData);
-    this.historyChanges[currenthistoryId] = diff;
+    })
+    
   }
 
 }

@@ -185,32 +185,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
           this.pageData.slug = page.slug ? page.slug : '';
           this.block = page.block;
 
-          let content = '';
-        
-          let error = false;
-          try {
-             content = await this._arweave.arweave.transactions.getData(
-              page.id, 
-              {decode: true, string: true}
-            );
-          } catch (err) {
-            console.error('ErrLoading:', err);
-            error = true;
-          }
-
-          if (error) {
-            try {
-              console.warn('Fetching data from gw ...', page.id);
-              const data = await fetch(`${this._arweave.baseURL}${page.id}`);
-              if (data.ok) {
-                  content = await data.text();
-              } else {
-                throw Error('Error fetching data!');
-              }
-            } catch (err) {
-              console.error('ERR', err);
-            }
-          }
+          let content = await this._arweave.getTxContent(page.id);
           
           this.pageData.content = this.markdownToHTML(content);
           this.loadingPage = false;
@@ -284,7 +259,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   markdownToHTML(_markdown: string) {
   	var html = marked(_markdown);
 		var clean = DOMPurify.sanitize(html);
-		return html;
+		return clean;
   }
 
   removeHTMLfromStr(_html: string) {

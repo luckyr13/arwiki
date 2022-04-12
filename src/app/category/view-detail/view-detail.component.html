@@ -30,7 +30,6 @@
 		<div class="col-12 col-md-6 card-page fadeIn" *ngFor="let p of pages">
 			<app-article-card 
 					[article]="p" 
-					[articleData]="pagesData[p.id]" 
 					[routeLang]="routeLang" 
 					[baseURL]="baseURL"
 					[defaultTheme]="defaultTheme"></app-article-card>

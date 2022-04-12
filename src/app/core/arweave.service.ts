@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError, from } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable, throwError, from, of } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
 import { selectWeightedPstHolder } from 'smartweave';
 import Arweave from 'arweave';
 import { arwikiVersion } from './arwiki';
@@ -422,17 +422,25 @@ export class ArweaveService {
     return await this.arweave.transactions.getStatus(_tx);
   }
 
-  getDataAsString(txId: string): Promise<any> {
-    return this.arweave.transactions.getData(txId, {decode: true, string: true});
+  getDataAsString(txId: string): Observable<any> {
+    const url = `${this.baseURL}${txId}`;
+    return from(fetch(url)).pipe(
+        switchMap((response) => {
+          if (response.ok) {
+            return from(response.text());
+          }
+
+          throw new Error('Error fetching data from gw ...');
+        })
+      );
   }
 
   getDataAsStringObs(txId: string): Observable<any> {
-    return from(this.getDataAsString(txId)).pipe(
+    return this.getDataAsString(txId).pipe(
       catchError((error) => {
         console.error(error);
-        console.warn(`TX not minted? Fetching ${txId} data from gw ...`, 'warning');
-        const url = `${this.baseURL}${txId}`;
-        return from(fetch(url));
+        console.warn(`Method 2: Fetching ${txId} data ...`, 'warning');
+        return from(this.arweave.transactions.getData(txId, {decode: true, string: true}));
       })
     );
   }
@@ -467,5 +475,37 @@ export class ArweaveService {
     }
     res = res ? `~${res}` : '';
     return res;
+  }
+
+  async getTxContent(txId: string) {
+    let content = '';
+    let error = false;
+
+    // Method 1
+    try {
+      console.warn('Fetching data from gw ...', txId);
+      const data = await fetch(`${this.baseURL}${txId}`);
+      if (data.ok) {
+          content = await data.text();
+      } else {
+        throw Error('Error fetching data!');
+      }
+    } catch (err) {
+      error = true;
+      console.error('ERR', err);
+    }
+    // Method 2         
+    if (error) {
+      try {
+        content = await this.arweave.transactions.getData(
+          txId, 
+          {decode: true, string: true}
+        );
+      } catch (err) {
+        console.error('ErrLoading:', err);
+      }
+    }
+
+    return content;
   }
 }

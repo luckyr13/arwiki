@@ -98,7 +98,6 @@
 		<div class="col-12 col-md-6" *ngFor="let article of latestArticles">
 			<app-article-card 
 							[article]="article" 
-							[articleData]="latestArticlesData[article.id]" 
 							[routeLang]="routeLang" 
 							[defaultTheme]="defaultTheme"
 							[baseURL]="baseURL"></app-article-card>

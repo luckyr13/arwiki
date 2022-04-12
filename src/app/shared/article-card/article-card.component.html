@@ -1,6 +1,6 @@
 <mat-progress-bar
 				  mode="indeterminate"
-				  *ngIf="!articleData"
+				  *ngIf="loadingData"
 				  class="fadeIn"></mat-progress-bar>
 <mat-card class="card-latest-article fadeIn">
 	<h2 class="article-title ellipsis" routerLink="/{{routeLang}}/{{article.slug}}">

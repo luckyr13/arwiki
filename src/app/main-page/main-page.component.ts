@@ -32,7 +32,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
   appLogoDark: string = './assets/img/arweave-light.png';
   loadingLatestArticles: boolean = false;
   latestArticles: ArwikiPage[] = [];
-  latestArticlesData: Record<string, string> = {};
   arwikiQuery!: ArwikiQuery;
   pagesSubscription: Subscription = Subscription.EMPTY;
   routeLang: string = '';
@@ -152,36 +151,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
         });
         
         this.loadingLatestArticles = false;
-        this.latestArticlesData = {};
-
-        for (let p of this.latestArticles ) {
-          let error = false;
-          try {
-             let data = await this._arweave.arweave.transactions.getData(
-              p.id, 
-              {decode: true, string: true}
-            );
-            this.latestArticlesData[p.id] = data;
-          } catch (err) {
-            console.error('ErrLoading:', err);
-            error = true;
-          }
-
-          if (error) {
-            try {
-              console.warn('Fetching data from gw ...', p.id);
-              const data = await fetch(`${this._arweave.baseURL}${p.id}`);
-              if (data.ok) {
-                  this.latestArticlesData[p.id] = await data.text();
-              } else {
-                throw Error('Error fetching data!');
-              }
-            } catch (err) {
-              console.error('ERR', err);
-            }
-          }
-         
-        }
+        
       },
       error: (error) => {
         this.message(error, 'error');
@@ -218,9 +188,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
               language: language
             };
 
-            this.mainPage.content = await this._arweave.arweave.transactions.getData(
-              id, {decode: true, string: true}
-            );
+            this.mainPage.content = await this._arweave.getTxContent(id);
 
             break;
           }

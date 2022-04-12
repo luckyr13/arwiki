@@ -77,14 +77,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
             block: pTX.block
           };
           // Load content
-          this.pageDataSubscription = this.loadPageData(contractAddress).pipe(
-            catchError((error) => {
-              console.error(error);
-              this.message('TX not minted? Fetching data from gw ...', 'warning');
-              const url = `${this._arweave.baseURL}${this.page.id}`;
-              return from(fetch(url));
-            })
-          ).subscribe({
+          this.pageDataSubscription = this.loadPageData(contractAddress).subscribe({
             next: async (data: string|Response) => {
               const res = typeof data === 'string' ? `${data}` : data.ok ? await data.text() : '';
               this.htmlContent = this.markdownToHTML(res);
@@ -111,13 +104,13 @@ export class PreviewComponent implements OnInit, OnDestroy {
   }
 
   loadPageData(address: string) {
-    return from(this._arweave.getDataAsString(address!));
+    return this._arweave.getDataAsStringObs(address!);
   }
 
   markdownToHTML(_markdown: string) {
   	var html = marked(_markdown);
 		var clean = DOMPurify.sanitize(html);
-		return html;
+		return clean;
   }
 
 
