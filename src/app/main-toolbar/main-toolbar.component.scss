@@ -64,4 +64,7 @@ mat-toolbar, mat-progress-bar {
 	width: 66%;
 	height: 66%;
 	border-radius: 50%;
+	object-fit: cover;
+	flex-shrink: 0;
+	vertical-align: middle;
 }
