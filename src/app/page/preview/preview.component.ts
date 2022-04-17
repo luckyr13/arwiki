@@ -15,6 +15,11 @@ import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
 import Prism from 'prismjs';
 import 'prismjs/components/prism-graphql';
+import 'prismjs/components/prism-erlang';
+import 'prismjs/components/prism-rust';
+import 'prismjs/components/prism-go';
+import 'prismjs/components/prism-jsx';
+import 'prismjs/components/prism-json';
 
 @Component({
   templateUrl: './preview.component.html',
