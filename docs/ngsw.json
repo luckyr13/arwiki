@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1649788254071,
+  "timestamp": 1650164259742,
   "index": "./index.html",
   "assetGroups": [
     {
@@ -11,14 +11,14 @@
         "ignoreVary": true
       },
       "urls": [
-        "./121.c1d863e078e95b89.js",
-        "./409.c8f9fbb8f346b5d4.js",
-        "./783.ac42f390788ca3f2.js",
+        "./121.9fccf8e2e2e112e1.js",
+        "./409.2984ae5d8fdddbaf.js",
+        "./783.3e3e622f45e36a80.js",
         "./favicon.ico",
-        "./main.e769c34c72c78bf0.js",
+        "./main.43d840d4058c5681.js",
         "./manifest.webmanifest",
         "./polyfills.5823b88bd480d6b9.js",
-        "./runtime.6315bf2928857f68.js",
+        "./runtime.fa14d93b79feaf99.js",
         "./styles.e1256ae9549c6ca1.css"
       ],
       "patterns": []
@@ -88,9 +88,9 @@
   ],
   "dataGroups": [],
   "hashTable": {
-    "./121.c1d863e078e95b89.js": "b65f177689e969ba5d5121b2b3c1cd82592f60ec",
-    "./409.c8f9fbb8f346b5d4.js": "25af679179ce926c726ec5e683745e7615e99dc7",
-    "./783.ac42f390788ca3f2.js": "710a1e59623463c23211c6740d5bcdbd57d92eb3",
+    "./121.9fccf8e2e2e112e1.js": "bd37b9e4e962aec4124b191110c8dd52410ae8d5",
+    "./409.2984ae5d8fdddbaf.js": "5cef347694f8be206787f2aef4f2108cc7d021d9",
+    "./783.3e3e622f45e36a80.js": "2228dfb907acffa40fc4ffdf6e9f46e7e4f50c13",
     "./assets/css/arwiki-dark.css": "ab43da7975acceb09318cdd8e9b389f34b52a955",
     "./assets/css/arwiki-light.css": "2bec4333b89006cc63c8eece54d7274054e8352d",
     "./assets/i18n/ar.json": "a713121586ae82ed1a53d84e413caec75683d67a",
@@ -143,10 +143,10 @@
     "./bottom-fade-black.6fc512d279d91c1b.png": "dea2852bf2df382b44da79b33218d8dc1706131e",
     "./bottom-fade.416a6c015880c038.png": "ac501c3cd9bd88711f0c01317c38ce89d0dabd54",
     "./favicon.ico": "966760fada50baea2d11db115c8086073fa49f80",
-    "./main.e769c34c72c78bf0.js": "7fb99627a33627d0719be747d372a9d87e9ae125",
+    "./main.43d840d4058c5681.js": "67b7be2ac2812def57acf316b31f1bdba7420b6c",
     "./manifest.webmanifest": "572f9853efbbe4f3562bdbc0bbe94ba81d6ee228",
     "./polyfills.5823b88bd480d6b9.js": "85500e4ed367118bb60c2795900ee7ef8dcb9c1d",
-    "./runtime.6315bf2928857f68.js": "b705105babe0365369b8f5086f8e9c9e5e89fe9f",
+    "./runtime.fa14d93b79feaf99.js": "8156699ae92c85bf5a5d143f015fbbb90ce3fe6d",
     "./styles.e1256ae9549c6ca1.css": "a74f09d39db54c50362d18ac022d9e8dbb90fdf9"
   },
   "navigationUrls": [
