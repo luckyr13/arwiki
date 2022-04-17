@@ -6,13 +6,16 @@
 	<h2 class="article-title ellipsis" routerLink="/{{routeLang}}/{{article.slug}}">
 		{{ article.title }}
 	</h2>
-	<div class="mini-text ellipsis article-subtitle">
+	<div class="mini-text ellipsis article-category">
 		<strong>{{ 'GENERAL.CARDS.ARTICLE.CATEGORY' | translate }} </strong>
 		<a
 		   mat-button
 		   routerLink="/{{routeLang}}/category/{{article.category}}">
 			{{ article.category }}
 		</a>
+		<span class="article-date">
+			{{ timestampToDate(article.block.timestamp) | date:'short' }}
+		</span>
 	</div>
 	<div class="article-data-wrapper">
 		<div 
@@ -33,17 +36,7 @@
 			{{ 'GENERAL.CARDS.ARTICLE.SPONSOR' | translate }}
 		</app-arweave-address>
 	</p>
-	<p class="mini-text ellipsis">
-		<app-arweave-address 
-			[address]="article.id"
-			[isAddress]="false">
-			TX:
-		</app-arweave-address>
-	</p>
-	<p class="mini-text ellipsis" *ngIf="article.block">
-		<strong>{{ 'GENERAL.CARDS.ARTICLE.CREATION_DATE' | translate }}</strong>
-		{{ timestampToDate(article.block.timestamp) | date:'short' }}
-	</p>
+	
 	<p class="text-right">
 		<a
 		  mat-button

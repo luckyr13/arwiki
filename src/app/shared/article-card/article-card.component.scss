@@ -47,8 +47,7 @@ a.mat-button{
 	padding-bottom: 0px;
 }
 
-.article-subtitle {
-	margin-bottom: 20px;
+.article-category {
 	padding: 10px;
 	padding-top: 0px;
 	padding-bottom: 0px;
@@ -56,6 +55,7 @@ a.mat-button{
 
 .article-data-wrapper {
 	position: relative;
+	margin-top: 10px;
 }
 
 .article-data {
@@ -77,4 +77,9 @@ a.mat-button{
 
 .card-image img {
 	width: 100%;
+}
+
+.article-date {
+	float: right;
+	padding: 10px 0px 0px 0px;
 }
