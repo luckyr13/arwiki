@@ -184,7 +184,8 @@ export class AuthService {
       data: {
         title: 'Session detected',
         content: 'Resume Arweave Web Wallet session?',
-        type: 'confirm'
+        type: 'confirm',
+        confirmLabel: 'Alright! Resume session'
       },
       disableClose: true
     });

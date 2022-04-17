@@ -11,7 +11,9 @@
   	mat-button 
   	class="confirm-btn"
   	*ngIf="data.type !=='info'" 
-  	[mat-dialog-close]="true" >Alright! Let's do it!</button>
+  	[mat-dialog-close]="true" >
+  {{ data.confirmLabel ? data.confirmLabel : 'Alright! Let\'s do it' }}
+	</button>
   	<div class="menu-spacer"></div>
   <button mat-button mat-dialog-close cdkFocusInitial>Cancel</button>
 </mat-dialog-actions>
