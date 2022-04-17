@@ -10,10 +10,10 @@ ArWiki is an Arweave dapp, a web3 website that lives on the permaweb.
 ## Our platform
 You can visit the ArWiki using the next links: 
 
-- ArWiki (ALPHA): https://arwiki.wiki
+- ArWiki: https://arwiki.wiki
 - Arwiki (GitHub pages demo): http://luckyr13.github.io/arwiki
 - Arwiki (Permaweb link): https://permaweb.arwiki.wiki
-- Arwiki (Permaweb link - 2022-04-16): https://arweave.net/KTbjM-KjPsFadrmuoL--FytlZKDFpqNJd5ROvU3QfPk
+- Arwiki (Permaweb link - 2022-04-17): https://arweave.net/1m45j3_yWNm7r9YQfpDEwHp2Ve-Papn4Nw0iqaAri4s
 
 ## Feedback, comments and help
 
