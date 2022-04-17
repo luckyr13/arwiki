@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>
 	<mat-icon *ngIf="!data.type || data.type ==='warning'" class="yellow title-icon">warning</mat-icon>
-	<mat-icon *ngIf="data.type ==='info'" class="blue title-icon">info</mat-icon>
+	<mat-icon *ngIf="data.type ==='info' || data.type === 'confirm'" class="blue title-icon">info</mat-icon>
 	<span>{{ data.title }}</span>
 </h2>
 <mat-dialog-content>
@@ -9,7 +9,9 @@
 <mat-dialog-actions align="end">
   <button 
   	mat-button 
+  	class="confirm-btn"
   	*ngIf="data.type !=='info'" 
   	[mat-dialog-close]="true" >Alright! Let's do it!</button>
+  	<div class="menu-spacer"></div>
   <button mat-button mat-dialog-close cdkFocusInitial>Cancel</button>
 </mat-dialog-actions>

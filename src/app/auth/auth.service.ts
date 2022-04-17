@@ -6,6 +6,12 @@ import { FormControl } from '@angular/forms';
 import Verto from "@verto/js";
 import { UserInterface } from "@verto/js/dist/common/faces";
 
+import { MatDialog } from '@angular/material/dialog';
+import { 
+  DialogConfirmComponent 
+} from '../shared/dialog-confirm/dialog-confirm.component';
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -40,7 +46,9 @@ export class AuthService {
     this._adminList = admins;
   }
 
-  constructor(private _arweave: ArweaveService) {
+  constructor(
+    private _arweave: ArweaveService,
+    private _dialog: MatDialog) {
     this.account = new Subject<string>();
     this.account$ = this.account.asObservable();
     this._verto = new Verto();
@@ -64,17 +72,18 @@ export class AuthService {
     const method = window.sessionStorage.getItem('METHOD')
       || window.localStorage.getItem('METHOD');
 
+    this._mainAddress = '';
+    this._method = '';
+    this._arKey = null;
+
     if (mainAddress) {
-      this._mainAddress = mainAddress
-      this._method = method!;
-      if (arkey) { this._arKey = JSON.parse(arkey) }
-      this.account.next(mainAddress);
-      if (this._method === 'webwallet') {
-        this._arweave.arweaveWebWallet.connect().then((res: any) => {
-          this._mainAddress = res;
-        }).catch((error: any) => {
-          console.log('Error loading address');
-        });
+      if (method === 'webwallet') {
+        this.resumeArweaveWalletSessionDialog(method!);
+      } else {
+        this._mainAddress = mainAddress
+        this._method = method!;
+        if (arkey) { this._arKey = JSON.parse(arkey) }
+        this.account.next(mainAddress);
       }
     }
   }
@@ -168,6 +177,28 @@ export class AuthService {
         (window && window.arweaveWallet)) {
       window.arweaveWallet.disconnect();
     }
+  }
+
+  resumeArweaveWalletSessionDialog(method: string) {
+    const dialogRef = this._dialog.open(DialogConfirmComponent, {
+      data: {
+        title: 'Session detected',
+        content: 'Resume Arweave Web Wallet session?',
+        type: 'confirm'
+      },
+      disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this._arweave.arweaveWebWallet.connect().then((res: any) => {
+          this._mainAddress = res;
+          this._method = method!;
+          this.account.next(res);
+        }).catch((error: any) => {
+          console.log('Error loading address');
+        });
+      }
+    });
   }
 
 
