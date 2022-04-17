@@ -13,7 +13,7 @@
 		   routerLink="/{{routeLang}}/category/{{article.category}}">
 			{{ article.category }}
 		</a>
-		<span class="article-date">
+		<span class="article-date" *ngIf="article && article.block && article.block.timestamp">
 			{{ timestampToDate(article.block.timestamp) | date:'short' }}
 		</span>
 	</div>

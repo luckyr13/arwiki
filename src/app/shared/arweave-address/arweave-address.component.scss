@@ -5,6 +5,7 @@ mat-icon {
 a {
 	color: inherit;
 	cursor: pointer;
+	line-height: 32px;
 }
 
 .address-container {
@@ -15,4 +16,23 @@ a {
 
 .address-tx {
 	margin-right: 10px;
+	line-height: 32px;
+	margin-left: 6px;
+}
+.address-label {
+	line-height: 32px;
+}
+.address-nickname {
+	line-height: 32px;
+	margin-left: 6px;
+	font-weight: bold;
+}
+.avatar {
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	object-fit: cover;
+	flex-shrink: 0;
+	vertical-align: middle;
+	margin-left: 6px;
 }

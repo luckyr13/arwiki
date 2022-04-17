@@ -1,7 +1,11 @@
 <div class="address-container">
+	<strong class="address-label"><ng-content></ng-content></strong>
+  <img *ngIf="profileImage && isAddress" class="avatar" [src]="profileImage">
+	<span class="address-nickname">
+		{{ nickname }} 
+	</span>
 	<span class="address-tx ellipsis">
-		<strong><ng-content></ng-content></strong>
-		{{ address }} 
+		{{ ellipsis(address) }} 
 	</span>
 	<a 
 		matTooltip="Verified user!"
