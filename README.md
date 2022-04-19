@@ -41,6 +41,7 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 ## Special Thanks
 
 - [Sam Williams](https://twitter.com/samecwilliams)
+- [India Raybould](https://twitter.com/indiaraybould)
 - [JF](https://github.com/jfbeats)
 - [Germany](https://github.com/jeremybeal11)
 - [DMac](https://github.com/DanMacDonald)
