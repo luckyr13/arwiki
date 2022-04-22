@@ -45,6 +45,7 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 - [JF](https://github.com/jfbeats)
 - [Germany](https://github.com/jeremybeal11)
 - [DMac](https://github.com/DanMacDonald)
+- [Abhav](https://twitter.com/abhav_k)
 
 ## Official Translators
 - Chinese ArWiki: [Vophan](https://github.com/skyf0cker)
