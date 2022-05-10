@@ -21,6 +21,7 @@ Please visit our Discord channel for further support, comments or feedback: http
 
 ## ArWiki Social Media
 - Twitter: https://twitter.com/TheArWiki
+- Discord channel: https://discord.gg/mn8j66r4x3
 
 ## Installation
 ArWiki is made in Angular framework so you will need Node on your machine. For installing on you own environment just:
