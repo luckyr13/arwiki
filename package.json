@@ -76,6 +76,7 @@
     "path": false,
     "v8": false,
     "undici": false,
-    "@three-em/node": false
+    "@three-em/node": false,
+    "@three-em/js": false
   }
 }

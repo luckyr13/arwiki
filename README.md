@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://arweave.net/bmEOxcJ8s871m6CZxnXGhuhYtroRZrwb9GgBuABGVTE" width="200">
+  <img src="https://arweave.net/CzuQ-SQHA_9SNgnkmLTacVLqq2fyo1x9rLFVifO3R4E" style="max-width: 100%">
 </p>
 
 # ArWiki: The decentralized Arweave wiki
@@ -13,6 +13,7 @@ You can visit the ArWiki using the next links:
 - ArWiki: https://arwiki.wiki
 - Arwiki (GitHub pages demo): http://luckyr13.github.io/arwiki
 - Arwiki (Permaweb link): https://permaweb.arwiki.wiki
+- ArWiki (Permaweb link - 2022-04-21): https://arweave.net/9nKbNcxrfid6PeSbt6ho6QL844kVs8bnRxqSkjd4y5g
 - Arwiki (Permaweb link - 2022-04-17): https://arweave.net/1m45j3_yWNm7r9YQfpDEwHp2Ve-Papn4Nw0iqaAri4s
 
 ## Feedback, comments and help
