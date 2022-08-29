@@ -166,17 +166,7 @@ export class EditComponent implements OnInit, OnDestroy {
         }
       })
 
-
-    this.pageDataSubscription = from(
-      this.loadPageData(this.routeSlug, this.routeLang)
-    ).subscribe({
-      next: () => {
-      },
-      error: (error) => {
-        this.message(error, 'error');
-      }
-    });
-
+    this.loadPageData(this.routeSlug, this.routeLang);
 
   }
 
@@ -364,7 +354,7 @@ export class EditComponent implements OnInit, OnDestroy {
     return value;
   }
 
-  async loadPageData(slug: string, langCode: string) {
+  loadPageData(slug: string, langCode: string) {
      // Init page data 
     this.pageData.title = '';
     this.pageData.img = '';
@@ -376,19 +366,8 @@ export class EditComponent implements OnInit, OnDestroy {
     const numPages = 20;
     this.loadingPageData = true;
 
-    let networkInfo;
-    let maxHeight = 0;
-    try {
-      networkInfo = await this._arweave.arweave.network.getInfo();
-      maxHeight = networkInfo.height;
-    } catch (error) {
-      this.message(`${error}`, 'error');
-      return;
-    }
-   
-
     this.pageSubscription = this.getPageBySlug(
-      slug, langCode, maxHeight, numPages
+      slug, langCode
     ).subscribe({
       next: async (data: ArdbTransaction[]|ArdbBlock[]) => {
         const finalRes: any = [];
@@ -426,10 +405,7 @@ export class EditComponent implements OnInit, OnDestroy {
           this.pageData.category = page.category ? page.category : '';
           this.block = page.block;
 
-          const content = await this._arweave.arweave.transactions.getData(
-            page.id, 
-            {decode: true, string: true}
-          );
+          let content = await this._arweave.getTxContent(page.id);
           this.pageData.content = content;
           this.pageId.setValue(this.pageData.id);
           this.title.setValue(this.pageData.title);
@@ -472,27 +448,14 @@ export class EditComponent implements OnInit, OnDestroy {
   */
   getPageBySlug(
     _slug: string,
-    _langCode: string,
-    _maxHeight: number,
-    _limit: number = 20
+    _langCode: string
   ) {
-    let categoriesCS: any = {};
-    let adminList: string[] = [];
     const verifiedPagesList: string[] = [];
-    return this._arwikiTokenContract.getCategories()
-      .pipe(
-        switchMap((categoriesContractState) => {
-          categoriesCS = Object.keys(categoriesContractState);
-          return this._arwikiTokenContract.getAdminList();
-        }),
-        switchMap((_adminList: string[]) => {
-          adminList = _adminList;
-          return this._arwikiTokenContract.getApprovedPages(
-            _langCode,
-            -1,
-            true
-          );
-        }),
+    return this._arwikiTokenContract.getApprovedPages(
+        _langCode,
+        -1,
+        true
+      ).pipe(
         switchMap((verifiedPages) => {
           const p = verifiedPages[_slug];
           this.pageExtraMetadata = verifiedPages[_slug];
