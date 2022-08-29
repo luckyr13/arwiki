@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
 import { Subscription, from } from 'rxjs';
@@ -12,8 +12,8 @@ import { arwikiVersion } from '../../core/arwiki';
   styleUrls: ['./add-admin.component.scss']
 })
 export class AddAdminComponent implements OnInit, OnDestroy {
-	createAdminFrm: FormGroup = new FormGroup({
-		newAdminAddress: new FormControl('')
+	createAdminFrm: UntypedFormGroup = new UntypedFormGroup({
+		newAdminAddress: new UntypedFormControl('')
 	});
   formLoading = false;
   saveAdminSubscription: Subscription = Subscription.EMPTY;

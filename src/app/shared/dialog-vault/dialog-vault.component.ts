@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, ViewChild, AfterViewInit, OnDestroy  } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
 import { ArweaveService } from '../../core/arweave.service';
@@ -18,11 +18,11 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./dialog-vault.component.scss']
 })
 export class DialogVaultComponent implements OnInit, AfterViewInit, OnDestroy  {
-  frmTransfer: FormGroup = new FormGroup({
-		lockLength: new FormControl(
+  frmTransfer: UntypedFormGroup = new UntypedFormGroup({
+		lockLength: new UntypedFormControl(
       this.data.lockMinLength, [Validators.required]
     ),
-		amount: new FormControl(
+		amount: new UntypedFormControl(
       '0', [Validators.required, Validators.min(1)]
     )
 	});

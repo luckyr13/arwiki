@@ -12,7 +12,7 @@ import { Location } from '@angular/common';
 import { ArwikiQuery } from '../../core/arwiki-query';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confirm.component';
 import { AuthService } from '../../auth/auth.service';
@@ -40,8 +40,8 @@ export class TagManagerComponent implements OnInit, OnDestroy {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   tags: any[] = [];
   currentTags: string[] = [];
-  frmTags: FormGroup = new FormGroup({
-    newTags: new FormControl('')
+  frmTags: UntypedFormGroup = new UntypedFormGroup({
+    newTags: new UntypedFormControl('')
   });
   loadingSavingTags: boolean = false;
   savingTagsTX: string[] = [];

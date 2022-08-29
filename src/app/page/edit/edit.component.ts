@@ -7,7 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import {
   ModalFileManagerComponent 
 } from '../../shared/modal-file-manager/modal-file-manager.component';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -40,13 +40,13 @@ export class EditComponent implements OnInit, OnDestroy {
 	defaultTheme: string = '';
 	loadingFrm: boolean = false;
   loadingPageData: boolean = false;
-	frmNew: FormGroup = new FormGroup({
-		title: new FormControl('', [Validators.required, Validators.maxLength(150)]),
-		slug: new FormControl('', [Validators.required, Validators.maxLength(150)]),
-    category: new FormControl('', [Validators.required]),
-    language: new FormControl('', [Validators.required]),
-    pageValue: new FormControl(1),
-    pageId: new FormControl('', [Validators.required, Validators.maxLength(50)])
+	frmNew: UntypedFormGroup = new UntypedFormGroup({
+		title: new UntypedFormControl('', [Validators.required, Validators.maxLength(150)]),
+		slug: new UntypedFormControl('', [Validators.required, Validators.maxLength(150)]),
+    category: new UntypedFormControl('', [Validators.required]),
+    language: new UntypedFormControl('', [Validators.required]),
+    pageValue: new UntypedFormControl(1),
+    pageId: new UntypedFormControl('', [Validators.required, Validators.maxLength(50)])
 	});
 	txmessage: string = '';
   previewImgUrl: string = '';

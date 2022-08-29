@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
 import { ArweaveService } from '../../core/arweave.service';
@@ -16,9 +16,9 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./dialog-transfer-tokens.component.scss']
 })
 export class DialogTransferTokensComponent implements OnInit, OnDestroy {
-	frmTransfer: FormGroup = new FormGroup({
-		recipient: new FormControl('', [Validators.required]),
-		amount: new FormControl('0', [Validators.required, Validators.min(1)])
+	frmTransfer: UntypedFormGroup = new UntypedFormGroup({
+		recipient: new UntypedFormControl('', [Validators.required]),
+		amount: new UntypedFormControl('0', [Validators.required, Validators.min(1)])
 	});
 	loadingSendTokens: boolean = false;
 	transferTX: string = '';

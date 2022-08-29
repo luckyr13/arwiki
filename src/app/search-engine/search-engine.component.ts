@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { 
   DialogSelectLanguageComponent 
@@ -14,8 +14,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./search-engine.component.scss']
 })
 export class SearchEngineComponent implements OnInit {
-	searchForm: FormGroup = new FormGroup({
-		'query': new FormControl('', [Validators.required])
+	searchForm: UntypedFormGroup = new UntypedFormGroup({
+		'query': new UntypedFormControl('', [Validators.required])
 	});
   defaultLang: any;
 

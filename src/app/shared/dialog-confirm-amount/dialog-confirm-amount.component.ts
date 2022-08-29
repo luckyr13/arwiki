@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-dialog-confirm-amount',
@@ -8,7 +8,7 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./dialog-confirm-amount.component.scss']
 })
 export class DialogConfirmAmountComponent implements OnInit {
-	pageValue: FormControl = new FormControl(this.data.pageValue);
+	pageValue: UntypedFormControl = new UntypedFormControl(this.data.pageValue);
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
 

@@ -7,7 +7,7 @@ import { AuthService } from '../auth/auth.service';
 import { ArweaveService } from '../core/arweave.service';
 import { Subscription, EMPTY, Observable } from 'rxjs';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {MatBottomSheet} from '@angular/material/bottom-sheet';
 import { BottomSheetLoginComponent } from '../shared/bottom-sheet-login/bottom-sheet-login.component';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -38,8 +38,8 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   defaultTheme: string = '';
   appName: string = 'Arweave';
   maintoolbarVisible: boolean = false;
-  frmSearch: FormGroup = new FormGroup({
-    'searchQry': new FormControl('')
+  frmSearch: UntypedFormGroup = new UntypedFormGroup({
+    'searchQry': new UntypedFormControl('')
   });
   profileImage: string = 'assets/img/blank-profile.png';
   profileSubscription = Subscription.EMPTY;
