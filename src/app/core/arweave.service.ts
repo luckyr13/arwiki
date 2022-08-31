@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError, from, map, of } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-import { selectWeightedPstHolder } from 'smartweave';
 import Arweave from 'arweave';
 import { NetworkInfoInterface } from 'arweave/web/network';
 import { TransactionStatusResponse } from 'arweave/web/transactions';
@@ -346,7 +345,7 @@ export class ArweaveService {
 
 
   async sendFee(_contractState: any, _fee: string, jwk: any): Promise<any> {
-    const holder = selectWeightedPstHolder(_contractState.balances);
+    const holder = this.selectWeightedPstHolder(_contractState.balances);
     // send a fee. You should inform the user about this fee and amount.
     const tx = await this.arweave.createTransaction({ 
       target: holder, quantity: this.arweave.ar.arToWinston(_fee) 
@@ -622,5 +621,35 @@ export class ArweaveService {
     }
 
     return false;
+  }
+
+   /**
+   * Given an map of address->balance, select one random address
+   * weighted by the amount of tokens they hold.
+   * Code From smartweave library
+   *
+   * @param balances  A balances object, where the key is address and the value is the number of tokens they hold
+   */
+  selectWeightedPstHolder(balances: Record<string, number>) {
+      // Count the total tokens
+      let totalTokens = 0;
+      for (const address of Object.keys(balances)) {
+          totalTokens += balances[address];
+      }
+      // Create a copy of balances where the amount each holder owns is represented
+      // by a value 0-1.
+      const weighted: Record<string, number> = {};
+      for (const address of Object.keys(balances)) {
+          weighted[address] = balances[address] / totalTokens;
+      }
+      let sum = 0;
+      const r = Math.random();
+      for (const address of Object.keys(weighted)) {
+          sum += weighted[address];
+          if (r <= sum && weighted[address] > 0) {
+              return address;
+          }
+      }
+      throw new Error('Unable to select token holder');
   }
 }
