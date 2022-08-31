@@ -82,7 +82,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.loadingBalancePST = true;
     this.balancePSTSubscription = this._arwikiTokenContract
-      .getBalance(this.mainAddress, this._auth.getPrivateKey())
+      .getBalance(this.mainAddress, true)
       .subscribe({
         next: (res: any) => {
           const unlockedBalance = +res.unlockedBalance;

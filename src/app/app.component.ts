@@ -1,15 +1,29 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef  } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef  } from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import { UserSettingsService } from './core/user-settings.service';
 import { MatSidenavContainer } from '@angular/material/sidenav';
-import {map} from 'rxjs/operators';
+import { map, Subscription } from 'rxjs';
+import { AddressKey } from './core/interfaces/address-key';
+import { 
+  PasswordDialogComponent 
+} from './shared/password-dialog/password-dialog.component';
+import { ArweaveService } from './core/arweave.service';
+import { SubtleCryptoService } from './core/subtle-crypto.service';
+import { JWKInterface } from 'arweave/web/lib/wallet';
+import * as b64 from 'base64-js';
+import { AuthService } from './auth/auth.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { 
+  DialogConfirmComponent 
+} from './shared/dialog-confirm/dialog-confirm.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, AfterViewInit  {
+export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
 	opened: boolean = false;
   menuPosition: any = 'start';
   quoteNumber: number = 0;
@@ -20,11 +34,18 @@ export class AppComponent implements OnInit, AfterViewInit  {
   appLogoLight: string = './assets/img/arweave-dark.png';
   appLogoDark: string = './assets/img/arweave-light.png';
   mainLogo: string = '';
+  loginSubscription: Subscription = Subscription.EMPTY;
+  loadAccountSubscription: Subscription = Subscription.EMPTY;
 
   constructor(
     private _translate: TranslateService,
     private _userSettings: UserSettingsService,
-    private _changeDetector: ChangeDetectorRef 
+    private _changeDetector: ChangeDetectorRef,
+    private _auth: AuthService,
+    private _arweave: ArweaveService,
+    private _snackBar: MatSnackBar,
+    private _dialog: MatDialog,
+    private _crypto: SubtleCryptoService
   ) {
     // this language will be used as a fallback when a translation isn't found in the current language
     // _translate.setDefaultLang('en');
@@ -51,6 +72,29 @@ export class AppComponent implements OnInit, AfterViewInit  {
   }
 
   ngOnInit() {
+    this.loadAccountSubscription = this._auth.loadAccount().subscribe({
+      next: (success) => {
+        if (success) {
+          this.message(`Welcome back!`, 'success');
+        }
+      },
+      error: (error) => {
+        if (error == 'Error: LaunchArweaveWebWalletModal') {
+          // Resume session dialog
+          this.resumeSessionDialog('Resume Arweave Web Wallet session?', 'Alright! Resume session', 'Cancel');
+          
+          
+
+        } else if (error == 'Error: LaunchPasswordModal') {
+          // Launch password modal
+          this.passwordDialog();
+          
+
+        } else {
+          this.message(error, 'error');
+        }
+      }
+    });
     this.consoleWelcomeMessage();
     this.mainToolbarIsVisible = false;
     this.mainToolbarLoading = true;
@@ -98,6 +142,101 @@ export class AppComponent implements OnInit, AfterViewInit  {
     }
 
     return '';
+  }
+
+  ngOnDestroy() {
+    this.loadAccountSubscription.unsubscribe();
+    this.loadAccountSubscription.unsubscribe();
+  }
+
+  resumeSessionDialog(content: string, confirmLabel: string, closeLabel: string) {
+    const dialogRef = this._dialog.open(DialogConfirmComponent, {
+      data: {
+        title: 'Session detected',
+        content: content,
+        confirmLabel: confirmLabel,
+        closeLabel: closeLabel
+      },
+      disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const stayLoggedIn = this._auth.getStayLoggedIn();
+        // Throw Arweave Web Wallet dialog
+        this.loginSubscription = this._auth.login(
+          'arweavewebwallet',
+          null,
+          stayLoggedIn
+        ).subscribe({
+          next: (address: string|AddressKey) => {
+            this.message('Welcome!', 'success');
+          },
+          error: (error) => {
+            this.message(`Error: ${error}`, 'error');
+          }
+        });
+      } else {
+        this._auth.logout();
+      }
+    });
+  }
+
+  passwordDialog() {
+    const dialogRef = this._dialog.open(PasswordDialogComponent, {
+      data: {
+        title: 'Resume session',
+        confirmLabel: 'Login',
+        closeLabel: 'Cancel'
+      },
+      disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(password => {
+      if (password) {
+        const stayLoggedIn = this._auth.getStayLoggedIn();
+        const storage = stayLoggedIn ? window.localStorage : window.sessionStorage;
+        const arkey = storage.getItem('ARKEY')!;
+        //const finalArKey = JSON.parse(this.b64_to_utf8(arkey));
+        const ciphertext = b64.toByteArray(arkey);
+        this._crypto.decrypt(password, ciphertext).subscribe({
+          next: (p) => {
+            let key: JWKInterface|undefined = undefined;
+            try {
+              key = JSON.parse(this._crypto.decodeTxtMessage(p.p));
+              this._arweave.arweave.wallets.jwkToAddress(key).then((address) => {
+                this._auth.setAccount(address, key, stayLoggedIn, 'upload_file', arkey);
+              }).catch((reason) => {
+                this._auth.logout();
+                this.message('Error loading key', 'error');
+              });
+            } catch (error) {
+              this.passwordDialog();
+              console.error('ErrPwdDialog', error)
+            }
+            
+
+          },
+          error: (error) => {
+            this.message(error, 'error');
+          }
+        });
+        
+        
+      } else {
+        this._auth.logout();
+      }
+    });
+  }
+
+  /*
+  *  Custom snackbar message
+  */
+  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
+    this._snackBar.open(msg, 'X', {
+      duration: 5000,
+      horizontalPosition: 'center',
+      verticalPosition: verticalPosition,
+      panelClass: panelClass
+    });
   }
 
 

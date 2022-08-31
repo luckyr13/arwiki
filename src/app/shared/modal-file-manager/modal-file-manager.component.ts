@@ -25,11 +25,11 @@ export class ModalFileManagerComponent implements OnInit, OnDestroy {
   baseImgUrl: string = this._arweave.baseURL;
 
   constructor(
-  		private _selfDialog: MatDialogRef<ModalFileManagerComponent>,
+      private _selfDialog: MatDialogRef<ModalFileManagerComponent>,
       private _arweave: ArweaveService,
       private _snackBar: MatSnackBar,
       private _auth: AuthService
-  	) { }
+    ) { }
 
   async ngOnInit() {
     await this.getMyFilesFromArweave();
@@ -76,7 +76,7 @@ export class ModalFileManagerComponent implements OnInit, OnDestroy {
   }
 
   close() {
-  	this._selfDialog.close();
+    this._selfDialog.close();
   }
 
   uploadFile(inputEvent: any) {
@@ -87,8 +87,11 @@ export class ModalFileManagerComponent implements OnInit, OnDestroy {
     this.uploadFile$ = this._arweave.fileToArrayBuffer(file)
       .subscribe({
         next: async (data) => {
+          const method = this._auth.loginMethod;
+          const tags: {name: string, value: string}[] = [];
+          const disableDispatch = true;
           this.transactionUpload = await this._arweave.uploadFileToArweave(
-            data, file.type, this._auth.getPrivateKey()
+            data, file.type, this._auth.getPrivateKey(), tags, method, disableDispatch
            );
 
           this.transactionId = this.transactionUpload.id;
