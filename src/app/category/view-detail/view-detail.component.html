@@ -16,6 +16,20 @@
 		</div>
 	</div>
 
+	<div class="row fadeIn" *ngIf="!loadingPages && !errorLoadingCategory">
+		<div class="col-12">
+			<mat-paginator
+				(page)="paginatorEvent($event)"
+		    [length]="paginatorLength"
+		    [pageSize]="paginatorPageSize"
+		    [showFirstLastButtons]="true"
+		    [pageSizeOptions]="paginatorPageSizeOptions"
+		    [pageIndex]="paginatorPageIndex"
+		    aria-label="Select page">
+			</mat-paginator>
+		</div>
+	</div>
+
 	<div class="row">
 		<div class="col-12">
 			<mat-spinner class="spinner-center" *ngIf="loadingPages"></mat-spinner>
@@ -27,12 +41,26 @@
 		</div>
 	</div>
 	<div class="row" *ngIf="!loadingPages">
-		<div class="col-12 col-md-6 card-page fadeIn" *ngFor="let p of pages">
+		<div class="col-12 col-md-6 card-page fadeIn" *ngFor="let p of paginatedResults()">
 			<app-article-card 
 					[article]="p" 
 					[routeLang]="routeLang" 
 					[baseURL]="baseURL"
 					[defaultTheme]="defaultTheme"></app-article-card>
-</div>
+		</div>
+	</div>
+
+	<div class="row fadeIn footer-paginator" *ngIf="!loadingPages && !errorLoadingCategory">
+		<div class="col-12">
+			<mat-paginator
+				(page)="paginatorEvent($event)"
+		    [length]="paginatorLength"
+		    [pageSize]="paginatorPageSize"
+		    [showFirstLastButtons]="true"
+		    [pageSizeOptions]="paginatorPageSizeOptions"
+		    [pageIndex]="paginatorPageIndex"
+		    aria-label="Select page">
+			</mat-paginator>
+		</div>
 	</div>
 </div>	

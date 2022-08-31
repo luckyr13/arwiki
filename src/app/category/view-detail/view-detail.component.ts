@@ -13,6 +13,7 @@ import { ArwikiPageIndex } from '../../core/interfaces/arwiki-page-index';
 import { UserSettingsService } from '../../core/user-settings.service';
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
+import {PageEvent} from '@angular/material/paginator';
 
 @Component({
   templateUrl: './view-detail.component.html',
@@ -23,12 +24,16 @@ export class ViewDetailComponent implements OnInit {
   pagesSubscription: Subscription = Subscription.EMPTY;
   loadingPages: boolean = false;
   category: string = '';
-  pages: any[] = [];
+  pages: ArwikiPage[] = [];
   routeLang: string = '';
   baseURL: string = this._arweave.baseURL;
   arverifyProcessedAddressesMap: any = {};
   defaultTheme: string = '';
   errorLoadingCategory: boolean = false;
+  paginatorLength = 0;
+  paginatorPageSize = 4;
+  paginatorPageIndex = 0;
+  paginatorPageSizeOptions = [4, 12, 24];
 
   constructor(
   	private _arweave: ArweaveService,
@@ -61,6 +66,7 @@ export class ViewDetailComponent implements OnInit {
     this.loadingPages = true;
     let networkInfo;
     let maxHeight = 0;
+    this.paginatorPageIndex = 0;
     try {
       networkInfo = await this._arweave.arweave.network.getInfo();
       maxHeight = networkInfo.height;
@@ -76,7 +82,7 @@ export class ViewDetailComponent implements OnInit {
       next: async (finalRes: ArwikiPage[]) => {
         this.pages = finalRes;
         this.loadingPages = false;
-        
+        this.paginatorLength = this.pages ? this.pages.length : 0;
       },
       error: (error: string) => {
         this.message(error, 'error');
@@ -226,5 +232,19 @@ export class ViewDetailComponent implements OnInit {
   validateObj(_obj: object) {
     return !!Object.keys(_obj).length;
   }
+
+  paginatorEvent(e: PageEvent) {
+    this.paginatorPageSize = e.pageSize;
+    this.paginatorPageIndex = e.pageIndex;
+  }
+
+  paginatedResults(): ArwikiPage[] {
+    const start = this.paginatorPageIndex * this.paginatorPageSize ;
+    const end = this.paginatorPageIndex * this.paginatorPageSize + this.paginatorPageSize;
+    const res = this.pages.slice(start, end);
+    return res;
+  }
+
+
  
 }
