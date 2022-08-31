@@ -8,28 +8,32 @@
 		{{ ellipsis(address) }} 
 	</span>
 	<a 
+		class="action-btn"
 		matTooltip="Verified user!"
 		*ngIf="verified">
-		<mat-icon class="green">verified_user</mat-icon>
+		<mat-icon class="green" [inline]="true">verified_user</mat-icon>
 	</a>
 	<a 
+		class="action-btn"
 		matTooltip="{{ 'GENERAL.BUTTONS.OPEN_VIEWBLOCK' | translate }}"
 		target="_blank"
 		*ngIf="isAddress"
 		href="https://viewblock.io/arweave/address/{{address}}">
-		<mat-icon>open_in_new</mat-icon>
+		<mat-icon [inline]="true">open_in_new</mat-icon>
 	</a>
 	<a 
+		class="action-btn"
 		matTooltip="{{ 'GENERAL.BUTTONS.OPEN_VIEWBLOCK' | translate }}"
 		target="_blank"
 		*ngIf="!isAddress"
 		href="https://viewblock.io/arweave/tx/{{address}}">
-		<mat-icon>open_in_new</mat-icon>
+		<mat-icon [inline]="true">open_in_new</mat-icon>
 	</a>
 	<a 
+		class="action-btn"
 		matTooltip="{{ 'GENERAL.BUTTONS.COPY_ADDRESS' | translate }}"
 		target="_blank"
 		(click)="copyClipboard(address, 'Address copied!')">
-		<mat-icon>content_copy</mat-icon>
+		<mat-icon [inline]="true">content_copy</mat-icon>
 	</a>
 </div>
