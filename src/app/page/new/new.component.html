@@ -101,13 +101,23 @@
 					  	>
 
 					</mat-card>
-					<div class="text-right">
+					<div class="text-right img-action-panel">
 						<button 
 							class="btn-upload-file"
 				    	mat-flat-button
 				    	[disabled]="loadingFrm"
 				    	type="button"
-				    	(click)="openFileManager()"
+				    	(click)="fileManager('image')"
+				    	color="primary">
+				    	<mat-icon>perm_media</mat-icon>
+				    	File manager
+				    </button>
+				    <button 
+							class="btn-upload-file"
+				    	mat-flat-button
+				    	[disabled]="loadingFrm"
+				    	type="button"
+				    	(click)="uploadFile('image')"
 				    	color="primary">
 				    	<mat-icon>upload</mat-icon>
 				    	{{ 'CREATE_PAGE.FRM_UPLOAD_FILE' | translate }}

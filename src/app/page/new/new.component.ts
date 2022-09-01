@@ -5,8 +5,11 @@ import { UserSettingsService } from '../../core/user-settings.service';
 import { ArweaveService } from '../../core/arweave.service';
 import { MatDialog } from '@angular/material/dialog';
 import {
-  ModalFileManagerComponent 
-} from '../../shared/modal-file-manager/modal-file-manager.component';
+  FileManagerDialogComponent 
+} from '../../shared/file-manager-dialog/file-manager-dialog.component';
+import {
+  UploadFileDialogComponent 
+} from '../../shared/upload-file-dialog/upload-file-dialog.component';
 import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -194,26 +197,6 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
   	}
 
   	return ngStyle;
-  }
-
-  /*
-  *  @dev 
-  */
-  openFileManager() {
-    const defLang = this._userSettings.getDefaultLang();
-    let direction: Direction = defLang.writing_system === 'LTR' ? 
-      'ltr' : 'rtl';
-
-    const refFileManager = this._dialog.open(ModalFileManagerComponent, {
-      width: '720px',
-      data: {},
-      direction: direction
-    });
-    refFileManager.afterClosed().subscribe(result => {
-      if (result) {
-        this.setPreviewImage(result);
-      }
-    });
   }
 
   async onSubmit() {
@@ -479,6 +462,61 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.loadEditorSubscription = obs.subscribe((res) => {
       // Done
+    });
+  }
+
+  fileManager(type: string) {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
+    const dialogRef = this._dialog.open(
+      FileManagerDialogComponent,
+      {
+        restoreFocus: false,
+        autoFocus: false,
+        disableClose: true,
+        data: {
+          type: type,
+          address: this.authorAddress
+        },
+        direction: direction,
+        width: '800px'
+      });
+
+    // Manually restore focus to the menu trigger
+    dialogRef.afterClosed().subscribe((res: {id: string, type:'text'|'image'|'audio'|'video'|''}) => { 
+      if (res) {
+        this.setPreviewImage(res.id);
+      }
+    });
+  }
+
+  uploadFile(type: string) {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
+    const dialogRef = this._dialog.open(
+      UploadFileDialogComponent,
+      {
+        restoreFocus: false,
+        autoFocus: true,
+        disableClose: true,
+        data: {
+          type: type,
+          address: this.authorAddress
+        },
+        direction: direction,
+        width: '800px'
+      }
+    );
+
+    // Manually restore focus to the menu trigger
+    dialogRef.afterClosed().subscribe((res: { id: string, type: 'text'|'image'|'audio'|'video'|'' }|null|undefined) => {
+      if (res) {
+        this.setPreviewImage(res.id);
+      }
     });
   }
 

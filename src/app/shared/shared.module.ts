@@ -22,7 +22,6 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import { BottomSheetLoginComponent } from './bottom-sheet-login/bottom-sheet-login.component';
-import { ModalFileManagerComponent } from './modal-file-manager/modal-file-manager.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatChipsModule} from '@angular/material/chips';
 import { DialogConfirmComponent } from './dialog-confirm/dialog-confirm.component';
@@ -47,12 +46,13 @@ import { DialogRejectReasonComponent } from './dialog-reject-reason/dialog-rejec
 import { DialogCompareComponent } from './dialog-compare/dialog-compare.component';
 import { EmojisComponent } from './emojis/emojis.component';
 import { PasswordDialogComponent } from './password-dialog/password-dialog.component';
+import { FileManagerDialogComponent } from './file-manager-dialog/file-manager-dialog.component';
+import { UploadFileDialogComponent } from './upload-file-dialog/upload-file-dialog.component';
 
 @NgModule({
   declarations: [
     DialogSelectLanguageComponent, 
     BottomSheetLoginComponent, 
-    ModalFileManagerComponent, 
     DialogConfirmComponent,
     ArticleCardComponent,
     ArweaveAddressComponent,
@@ -66,7 +66,9 @@ import { PasswordDialogComponent } from './password-dialog/password-dialog.compo
     DialogRejectReasonComponent,
     DialogCompareComponent,
     EmojisComponent,
-    PasswordDialogComponent
+    PasswordDialogComponent,
+    FileManagerDialogComponent,
+    UploadFileDialogComponent
   ],
   imports: [
     CommonModule,

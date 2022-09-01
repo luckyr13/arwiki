@@ -1,0 +1,123 @@
+<h2 mat-dialog-title class="title-text">
+	File Manager 
+	<small *ngIf="data.type === 'image'">(Filter: Image)</small>
+	<small *ngIf="data.type === 'video'">(Filter: Video)</small>
+	<small *ngIf="data.type === 'audio'">(Filter: Audio)</small>
+</h2>
+<div class="title-buttons">
+	<button
+		mat-icon-button
+		aria-label="Close window"
+		(click)="close(null)">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<div class="clear-both"></div>
+<mat-dialog-content
+	class="content border-right-special">
+	<div class="user-address text-right">
+		<app-arweave-address [address]="data.address">User: </app-arweave-address>
+	</div>
+	<!-- Images -->
+	<div class="images-grid" *ngIf="data.type === 'image'">
+		<mat-spinner class="loader" color="accent" mode="indeterminate" *ngIf="loadingFiles"></mat-spinner>
+		<div
+			class="mat-card-container fadeIn"
+			(click)="close({ id: file.id, type: data.type })"
+			*ngFor="let file of files">
+			<mat-card>
+				<div class="card-img-container">
+					<img [src]="getFileUrl(file.id)" alt="Img">
+				</div>
+			  <app-arweave-address [address]="file.id" [isAddress]="false">Tx: </app-arweave-address>
+			  <p class="ellipsis nowrap"><strong>Created:</strong> {{ dateFormat(file.blockTimestamp) }}</p>
+			</mat-card>
+		</div>
+		<div class="more-results-container clear-both">
+			<mat-spinner class="loader" *ngIf="loadingMore" color="accent" diameter="32"></mat-spinner>
+			<div class="no-results" *ngIf="!files.length && !loadingMore && !loadingFiles ">
+				You have no files yet!
+			</div>
+			<mat-card 
+				#moreResultsCard 
+				[style.visibility]="!loadingMore && !loadingFiles && moreResultsAvailable ? 'visible' : 'hidden'"
+				class="more-results-card mat-elevation-z0"
+				matRipple
+				(click)="moreResults()" >
+			  <mat-card-content class="more-results text-center">
+					Show more
+			  </mat-card-content>
+			</mat-card>
+		</div>
+	</div>
+	<!-- Video --> 
+	<div class="video-grid" *ngIf="data.type === 'video'">
+		<mat-spinner class="loader" color="accent" mode="indeterminate" *ngIf="loadingFiles"></mat-spinner>
+		<div
+			class="mat-card-container fadeIn"
+			(click)="close({ id: file.id, type: data.type })"
+			*ngFor="let file of files">
+			<mat-card>
+				<div class="card-video-container">
+					<video controls>
+					  <source [src]="getFileUrl(file.id)">
+						Your browser does not support the video tag.
+					</video>
+				</div>
+			  <app-arweave-address [address]="file.id" [isAddress]="false">Tx: </app-arweave-address>
+			  <p class="ellipsis nowrap"><strong>Created:</strong> {{ dateFormat(file.blockTimestamp) }}</p>
+			</mat-card>
+		</div>
+		<div class="more-results-container clear-both">
+			<mat-spinner class="loader" *ngIf="loadingMore" color="accent" diameter="32"></mat-spinner>
+			<div class="no-results" *ngIf="!files.length && !loadingMore && !loadingFiles ">
+				You have no files yet!
+			</div>
+			<mat-card 
+				#moreResultsCard 
+				[style.visibility]="!loadingMore && !loadingFiles && moreResultsAvailable ? 'visible' : 'hidden'"
+				class="more-results-card mat-elevation-z0"
+				matRipple
+				(click)="moreResults()" >
+			  <mat-card-content class="more-results text-center">
+					Show more
+			  </mat-card-content>
+			</mat-card>
+		</div>
+	</div>
+	<!-- Audio -->
+	<div class="audio-grid" *ngIf="data.type === 'audio'">
+		<mat-spinner class="loader" color="accent" mode="indeterminate" *ngIf="loadingFiles"></mat-spinner>
+		<div
+			class="mat-card-container fadeIn"
+			(click)="close({ id: file.id, type: data.type })"
+			*ngFor="let file of files">
+			<mat-card>
+				<div class="card-audio-container">
+					<audio controls>
+					  <source [src]="getFileUrl(file.id)">
+						Your browser does not support the audio tag.
+					</audio>
+				</div>
+			  <app-arweave-address [address]="file.id" [isAddress]="false">Tx: </app-arweave-address>
+			  <p class="ellipsis nowrap"><strong>Created:</strong> {{ dateFormat(file.blockTimestamp) }}</p>
+			</mat-card>
+		</div>
+		<div class="more-results-container clear-both">
+			<mat-spinner class="loader" *ngIf="loadingMore" color="accent" diameter="32"></mat-spinner>
+			<div class="no-results" *ngIf="!files.length && !loadingMore && !loadingFiles ">
+				You have no files yet!
+			</div>
+			<mat-card 
+				#moreResultsCard 
+				[style.visibility]="!loadingMore && !loadingFiles && moreResultsAvailable ? 'visible' : 'hidden'"
+				class="more-results-card mat-elevation-z0"
+				matRipple
+				(click)="moreResults()" >
+			  <mat-card-content class="more-results text-center">
+					Show more
+			  </mat-card-content>
+			</mat-card>
+		</div>
+	</div>
+</mat-dialog-content>

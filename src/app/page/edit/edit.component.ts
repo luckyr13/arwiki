@@ -5,8 +5,11 @@ import { UserSettingsService } from '../../core/user-settings.service';
 import { ArweaveService } from '../../core/arweave.service';
 import { MatDialog } from '@angular/material/dialog';
 import {
-  ModalFileManagerComponent 
-} from '../../shared/modal-file-manager/modal-file-manager.component';
+  FileManagerDialogComponent 
+} from '../../shared/file-manager-dialog/file-manager-dialog.component';
+import {
+  UploadFileDialogComponent 
+} from '../../shared/upload-file-dialog/upload-file-dialog.component';
 import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -30,6 +33,9 @@ import * as marked from 'marked';
 import DOMPurify from 'dompurify';
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { ComponentPortal } from '@angular/cdk/portal';
+import { EmojisComponent } from '../../shared/emojis/emojis.component';
 
 @Component({
   templateUrl: './edit.component.html',
@@ -82,6 +88,8 @@ export class EditComponent implements OnInit, OnDestroy {
   pageExtraMetadata: any = {};
   block: any;
   pageNotFound: boolean = false;
+  overlayRef: OverlayRef|null = null;
+  emojisPortal: ComponentPortal<EmojisComponent>|null = null;
 
   public get title() {
 		return this.frmNew.get('title')!;
@@ -115,7 +123,8 @@ export class EditComponent implements OnInit, OnDestroy {
   	private _router: Router,
   	private _snackBar: MatSnackBar,
     private _arwikiTokenContract: ArwikiTokenContract,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private _overlay: Overlay
   ) { }
 
   ngOnInit(): void {
@@ -220,26 +229,6 @@ export class EditComponent implements OnInit, OnDestroy {
   	}
 
   	return ngStyle;
-  }
-
-  /*
-  *  @dev 
-  */
-  openFileManager() {
-    const defLang = this._userSettings.getDefaultLang();
-    let direction: Direction = defLang.writing_system === 'LTR' ? 
-      'ltr' : 'rtl';
-
-    const refFileManager = this._dialog.open(ModalFileManagerComponent, {
-      width: '720px',
-      data: {},
-      direction: direction
-    });
-    refFileManager.afterClosed().subscribe(result => {
-      if (result) {
-        this.setPreviewImage(result);
-      }
-    });
   }
 
   async onSubmit() {
@@ -415,7 +404,31 @@ export class EditComponent implements OnInit, OnDestroy {
           window.setTimeout(() => {
             this.simplemde = new SimpleMDE({
               element: document.getElementById("create-page-textarea-simplemde-content"),
-              initialValue: this.pageData.content
+              initialValue: this.pageData.content,
+              toolbar: [
+                "bold", "italic", "heading", "|",
+                "quote", "unordered-list", "ordered-list", "strikethrough", "code", "|",
+                "link", "image", 
+                {
+                  name: "emojis",
+                  action: (editor) => {
+                    this.openEmojiMenu(editor);
+                  },
+                  className: "fa fa-smile-o",
+                  title: "Add emoji",
+                },
+                {
+                  name: "diff-checker",
+                  action: (editor) => {
+                    this.openEmojiMenu(editor);
+                  },
+                  className: "fa fa-superpowers",
+                  title: "Compare with original article",
+                },
+                "|",
+                "preview", "side-by-side", "fullscreen",  "|", 
+                "guide"
+              ],
             });
           }, 500);
 
@@ -469,6 +482,105 @@ export class EditComponent implements OnInit, OnDestroy {
           return this.arwikiQuery.getTXsData(verifiedPagesList);
         })
       );
+  }
+
+  openEmojiMenu(editor: SimpleMDE) {
+    const emojiMenu = document.getElementsByClassName('fa fa-smile-o')[0];
+    if (!emojiMenu) {
+      throw Error('EmojiMenu not available');
+    }
+    const positionStrategy = this._overlay.position().flexibleConnectedTo(emojiMenu).withPositions([
+       {
+         originX: 'end',
+         originY: 'top',
+         overlayX: 'center',
+         overlayY: 'top',
+         offsetY: 32
+       }
+     ]);
+
+    this.overlayRef = this._overlay.create({
+      hasBackdrop: true,
+      disposeOnNavigation: true,
+      scrollStrategy: this._overlay.scrollStrategies.close(),
+      positionStrategy
+    });
+
+    this.emojisPortal = new ComponentPortal(EmojisComponent);
+    this.overlayRef!.attach(this.emojisPortal);
+
+    this.overlayRef.overlayElement.addEventListener('click', (event) => {
+      const target = <HTMLElement>event.target;
+      const emoji = target && target.classList.contains('emoji') ? target.innerHTML.trim() : '';
+      const currentEditorValue = editor.codemirror.getValue();
+      editor.codemirror.setValue(`${currentEditorValue}${emoji}`);
+      this.closeEmojiMenu();
+    });
+
+    this.overlayRef!.backdropClick().subscribe(() => {
+      this.closeEmojiMenu();
+    });
+    
+  }
+
+
+  closeEmojiMenu() {
+    this.overlayRef!.dispose();
+  }
+
+  fileManager(type: string) {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
+    const dialogRef = this._dialog.open(
+      FileManagerDialogComponent,
+      {
+        restoreFocus: false,
+        autoFocus: false,
+        disableClose: true,
+        data: {
+          type: type,
+          address: this.authorAddress
+        },
+        direction: direction,
+        width: '800px'
+      });
+
+    // Manually restore focus to the menu trigger
+    dialogRef.afterClosed().subscribe((res: {id: string, type:'text'|'image'|'audio'|'video'|''}) => { 
+      if (res) {
+        this.setPreviewImage(res.id);
+      }
+    });
+  }
+
+  uploadFile(type: string) {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
+    const dialogRef = this._dialog.open(
+      UploadFileDialogComponent,
+      {
+        restoreFocus: false,
+        autoFocus: true,
+        disableClose: true,
+        data: {
+          type: type,
+          address: this.authorAddress
+        },
+        direction: direction,
+        width: '800px'
+      }
+    );
+
+    // Manually restore focus to the menu trigger
+    dialogRef.afterClosed().subscribe((res: { id: string, type: 'text'|'image'|'audio'|'video'|'' }|null|undefined) => {
+      if (res) {
+        this.setPreviewImage(res.id);
+      }
+    });
   }
 
 }

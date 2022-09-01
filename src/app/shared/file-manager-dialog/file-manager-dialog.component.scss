@@ -1,0 +1,187 @@
+.content {
+	padding: 20px;
+	min-height: 428px;
+	max-width: 880px;
+	min-width: 200px;
+	overflow-y: auto;
+}
+
+.title-text {
+	float: left;
+	width: 70%;
+	font-weight: bold;
+}
+
+.title-buttons {
+	float: left;
+	width: 30%;
+	text-align: right;
+	margin-top: -6px;
+}
+
+.mat-dialog-container {
+	padding: 0px;
+}
+
+.mat-dialog-content {
+	border-top: 1px solid;
+	display: flex;
+  flex-direction: column;
+}
+
+.title-text small {
+	font-size: 12px;
+}
+.user-address {
+	height: 24px;
+}
+.user-address small {
+	font-weight: normal;
+}
+.user-address app-arweave-address {
+	font-size: 12px;
+	justify-content: right;
+}
+.images-grid {
+	width: 100%;
+	flex: 1;
+}
+
+.images-grid .mat-card-container {
+	float: left;
+	width: 50%;
+	padding: 10px;
+	font-size: 12px;
+}
+
+.images-grid .mat-card {
+	cursor: pointer;
+}
+
+
+.loader {
+	margin: 0 auto;
+	margin-top: 60px;
+}
+
+.more-results {
+  font-weight: bold;
+  font-style: italic;
+}
+.more-results-card {
+  cursor: pointer;
+  border-radius: 0px;
+  width: 100%;
+  margin-top: 20px;
+  height: 50px;
+}
+
+.more-results-container {
+  padding-top: 20px;
+}
+
+.no-results {
+  padding: 20px;
+  text-align: center;
+  font-style: italic;
+}
+
+.card-img-container {
+	width: 100%;
+	height: 100px;
+	margin-bottom: 6px;
+}
+
+.card-img-container img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+@media (min-width: 420px) {
+	.content {
+		max-width: 880px;
+		min-width: 400px;
+	}
+}
+
+
+@media (min-width: 820px) {
+	.content {
+		max-width: 880px;
+		min-width: 800px;
+	}
+	.images-grid .mat-card-container {
+		width: 25%;
+	}
+	.card-img-container {
+		height: 140px;
+	}
+	.video-grid .mat-card-container {
+		width: 25%;
+	}
+	.audio-grid .mat-card-container {
+		width: 25%;
+	}
+}
+
+
+
+.video-grid {
+	width: 100%;
+	flex: 1;
+}
+
+.video-grid .mat-card-container {
+	float: left;
+	width: 50%;
+	padding: 10px;
+	font-size: 12px;
+}
+
+.video-grid .mat-card {
+	cursor: pointer;
+}
+
+
+.card-video-container {
+	width: 100%;
+	height: 100px;
+	margin-bottom: 6px;
+}
+
+.card-video-container video {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+
+.audio-grid {
+	width: 100%;
+	flex: 1;
+}
+
+.audio-grid .mat-card-container {
+	float: left;
+	width: 50%;
+	padding: 10px;
+	font-size: 12px;
+}
+
+.audio-grid .mat-card {
+	cursor: pointer;
+}
+
+
+.card-audio-container {
+	width: 100%;
+	height: 100px;
+	margin-bottom: 6px;
+}
+
+.card-audio-container audio {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}

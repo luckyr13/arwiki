@@ -1,0 +1,115 @@
+<h2 mat-dialog-title class="title-text">
+	Upload files 
+	<small *ngIf="data.type === 'image'">(Filter: Image)</small>
+	<small *ngIf="data.type === 'video'">(Filter: Video)</small>
+	<small *ngIf="data.type === 'audio'">(Filter: Audio)</small>
+</h2>
+
+<div class="title-buttons">
+	<button
+		mat-icon-button
+		aria-label="Close window"
+		(click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<div class="clear-both"></div>
+<mat-dialog-content
+	*ngIf="!uploadingFile && !filePreview"
+	class="content border-right-special"
+	(drop)="dropFile($event, data.type);"
+	(dragover)="dragOverFile($event);"
+	(dragenter)="dragEnterFile($event)"
+	(dragleave)="dragLeaveFile($event)">
+  <div
+  	class="file-upload-zone"
+  	[ngClass]="{ 'file-upload-zone-active': dragFileActive }">
+		<div style="visibility: hidden">
+			<input
+				type="file"
+				#fileInput
+				(change)="readFileFromInput($event, data.type)"
+				[accept]="getSupportedFilesAsStr(data.type)" >
+		</div>
+  	<button 
+  		(click)="openFileExplorer()"
+   		cdkFocusInitial
+  		class="btn-upload"
+  		mat-fab color="primary"
+  		aria-label="Upload file">
+      <mat-icon>upload</mat-icon>
+    </button>
+		<p class="text-secondary-fup">
+   	 <strong>Drag and drop your files to upload.</strong>
+    </p>
+    <div class="text-secondary-fup supported-text">
+   		Supported files: <span *ngIf="data.type && !hasOwnProperty(supportedFiles, data.type)">All</span>
+   		<div *ngIf="data.type && hasOwnProperty(supportedFiles, data.type)">
+   			<span *ngFor="let sp of supportedFiles[data.type]">
+   				{{ sp }}
+   			</span>
+   		</div>
+    </div>
+    <p class="text-secondary-fup">
+	   	<button 
+	   		(click)="openFileExplorer()"
+	   		class="btn-upload-txt"
+	  		mat-flat-button color="accent">
+	      SELECT FILES
+	    </button>
+    </p>
+    <p 
+    	class="text-secondary-fup fup-error" 
+    	*ngIf="errorMessage01">
+   		<mat-icon color="warn" aria-hidden="false" aria-label="Error">warning</mat-icon>
+			<span>{{ errorMessage01 }}</span>
+    </p>
+  </div>
+  <p class="footer-text">
+		You are about to upload a file to the Arweave blockchain. Make sure you don't infringe other people's copyrights, privacy rights or any kind of legal right.
+	</p>
+	<p class="footer-text">
+		ArWiki disclaims all responsibility. 
+	</p>
+</mat-dialog-content>
+<mat-dialog-content
+	class="content border-right-special text-center"
+	*ngIf="filePreview">
+	<h3>File preview</h3>
+	<ng-container *ngIf="data.type === 'image'">
+		<img [src]="file.buffer">
+	</ng-container>
+	<ng-container *ngIf="data.type === 'video'">
+		<video [src]="file.buffer" controls>
+			Your browser doesn't support video
+		</video>
+	</ng-container>
+	<ng-container *ngIf="data.type === 'audio'">
+		<audio [src]="file.buffer" controls>
+			Your browser doesn't support audio
+		</audio>
+	</ng-container>
+	<div class="text-center">
+		<p>
+			Size: {{ file.size }} bytes
+		</p>
+		<p class="text-center" *ngIf="file.size <= dataSizeLimitDispatch">
+			<mat-checkbox class="dispatch-chk" [formControl]="useDispatch">
+				Upload file for FREE (Dispatch method)
+			</mat-checkbox>
+		</p>
+		<button mat-button (click)="upload(data.type)">Upload now</button>
+		<button class="cancel-btn" mat-button color="warn" (click)="cancel()">Cancel</button>
+	</div>
+</mat-dialog-content>
+<mat-dialog-content
+	class="content border-right-special text-center"
+	*ngIf="uploadingFile">
+	<mat-progress-bar
+		color="accent"
+		mode="determinate"
+		[value]="toPercentage(progressObj.uploaded, progressObj.total)"></mat-progress-bar>
+	<mat-spinner color="accent" [diameter]="40"></mat-spinner>
+	<p class="text-center">{{ progressObj.completed}}</p>
+	<p class="text-center" *ngIf="progressObj.uploaded">{{ progressObj.uploaded}}/{{ progressObj.total}}</p>
+</mat-dialog-content>

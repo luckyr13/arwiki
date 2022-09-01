@@ -1,0 +1,155 @@
+.content {
+	padding: 20px;
+	min-height: 428px;
+	max-width: 880px;
+	min-width: 200px;
+}
+
+.content .mat-spinner {
+	margin: 0 auto;
+}
+
+.title-text {
+	float: left;
+	width: 70%;
+	font-weight: bold;
+}
+
+.title-text small {
+	font-size: 12px;
+}
+
+.title-buttons {
+	float: left;
+	width: 30%;
+	text-align: right;
+	margin-top: -6px;
+}
+
+.footer-text {
+	font-size: 10px;
+	text-align: center;
+	margin-bottom: 6px;
+}
+
+.mat-dialog-container {
+	padding: 0px;
+}
+
+.mat-dialog-content {
+	border-top: 1px solid;
+}
+
+.file-upload-zone {
+	height: 240px;
+	text-align: center;
+	padding: 10px;
+	border: 2px dashed;
+	border-color: transparent;
+	margin-bottom: 32px;
+}
+.file-upload-zone-active {
+	border-color: #09f;
+}
+
+.btn-upload {
+	margin-top: 0px;
+	margin-bottom: 12px;
+}
+
+.btn-upload.mat-fab .mat-icon {
+	font-size: 52px !important;
+	width: 52px !important;
+	height: 52px !important;
+	line-height: 52px;
+}
+
+.btn-upload.mat-fab {
+	width: 98px;
+	height: 98px;
+}
+
+.text-secondary-fup {
+	margin-top: 6px;
+	font-size: 12px;
+}
+
+.fup-error span {
+	margin-left: 6px;
+}
+
+
+
+@media (min-width: 600px) {
+	.file-upload-zone {
+		min-height: 300px;
+		padding: 40px;
+		margin-bottom: 12px;
+	}
+	.content {
+		min-height: 438px;
+		min-width: 400px;
+	}
+
+}
+
+
+@media (min-width: 800px) {
+	.file-upload-zone {
+		min-height: 330px;
+		padding: 40px;
+		margin-bottom: 12px;
+	}
+
+	.btn-upload.mat-fab .mat-icon {
+		font-size: 72px !important;
+		width: 72px !important;
+		height: 72px !important;
+		line-height: 72px;
+	}
+
+	.btn-upload.mat-fab {
+		width: 118px;
+		height: 118px;
+	}
+}
+
+.supported-text {
+	font-size: 10px;
+}
+.supported-text span {
+	margin-left: 6px;
+}
+
+.btn-upload-txt {
+	margin-top: 12px;
+}
+
+.image-preview {
+	min-width: 340px;
+	max-width: 400px;
+	height: 320px;
+	text-align: center;
+}
+
+
+.image-preview img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.cancel-btn {
+	margin-left: 32px;
+}
+
+.content img,
+.content audio,
+.content video {
+	max-width: 80%;
+	margin: 0 auto;
+}
+.dispatch-chk {
+	font-size: 12px;
+	margin-top: 12px;
+	margin-bottom: 20px;
+}
