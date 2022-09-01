@@ -25,7 +25,6 @@ import {
 })
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
 	opened: boolean = false;
-  menuPosition: any = 'start';
   quoteNumber: number = 0;
   @ViewChild(MatSidenavContainer) sidenavContainer!: MatSidenavContainer;
   mainToolbarLoading: boolean =  true;
@@ -51,13 +50,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
     // _translate.setDefaultLang('en');
     // the lang to use, if the lang isn't available, it will use the current loader to get them
     //_translate.use('en');
-
-    const updateWritingDirectionAndLoading = (langObj: any) => {
-      this.menuPosition = langObj.writing_system == 'RTL' ? 'end' : 'start'
-    }
-    updateWritingDirectionAndLoading(this._userSettings.getDefaultLang())
-    this._userSettings.settingsLangStream.subscribe(updateWritingDirectionAndLoading)
-
     this.quoteNumber = this.getRandomInt(3);
   }
 
