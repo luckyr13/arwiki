@@ -7,7 +7,7 @@ import { ArwikiKYVE } from '../arwiki-kyve';
 import { ArwikiPageIndex } from '../interfaces/arwiki-page-index';
 import { ArwikiLangIndex } from '../interfaces/arwiki-lang-index';
 import { ArwikiCategoryIndex } from '../interfaces/arwiki-category-index';
-import { RedstoneSmartweaveService } from '../redstone-smartweave.service';
+import { WarpContractsService } from '../warp-contracts.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +25,7 @@ export class ArwikiTokenContract
 
 	constructor(
     private _arweave: ArweaveService,
-    private _smartweave: RedstoneSmartweaveService
+    private _warp: WarpContractsService
   ) {
     this._arwikiKYVE = new ArwikiKYVE(_arweave.arweave);
 	}
@@ -67,9 +67,15 @@ export class ArwikiTokenContract
         subscriber.next(this._state);
         subscriber.complete();
       } else {
-        this._smartweave.readState(this._contractAddress).subscribe({
+        this._warp.readState(this._contractAddress).subscribe({
           next: (res) => {
-            this._state = res.state;
+            const cachedValue = res.cachedValue;
+            const sortKey = res.sortKey;
+            const state = cachedValue &&
+              Object.prototype.hasOwnProperty.call(cachedValue, 'state') ?
+              cachedValue.state : {};
+            this._state = state;
+
             this._adminList = Object.keys(this._state.roles).filter((address) => {
               return this._state.roles[address].toUpperCase() === 'MODERATOR';
             });
@@ -195,7 +201,7 @@ export class ArwikiTokenContract
     _pageValue: number,
     _privateKey: any,
     _arwikiVersion: string
-  ): Observable<string|null> {
+  ) {
 
     const jwk = _privateKey;
     const tags = [
@@ -218,7 +224,7 @@ export class ArwikiTokenContract
     	pageValue: `${_pageValue}`
     };
 
-    return this._smartweave.writeInteraction(
+    return this._warp.writeInteraction(
       this._contractAddress, jwk, input, tags
     );
   }
@@ -355,7 +361,7 @@ export class ArwikiTokenContract
     _langCode: string,
     _privateKey: any,
     _arwikiVersion: string
-  ): Observable<string | null> {
+  ) {
     const jwk = _privateKey;
     const tags = [
     	{name: 'Service', value: 'ArWiki'},
@@ -370,7 +376,7 @@ export class ArwikiTokenContract
     	slug: _slug
     };
 
-    return this._smartweave.writeInteraction(
+    return this._warp.writeInteraction(
       this._contractAddress, jwk, input, tags
     );
   }
@@ -389,7 +395,7 @@ export class ArwikiTokenContract
     _pageValue: number,
     _privateKey: any,
     _arwikiVersion: string
-  ): Observable<string | null> {
+  ) {
     const jwk = _privateKey;
     const tags = [
     	{name: 'Service', value: 'ArWiki'},
@@ -410,7 +416,7 @@ export class ArwikiTokenContract
       pageValue: _pageValue
     };
 
-    return this._smartweave.writeInteraction(
+    return this._warp.writeInteraction(
       this._contractAddress, jwk, input, tags
     );
   }
@@ -426,7 +432,7 @@ export class ArwikiTokenContract
     _pageValue: number,
     _privateKey: any,
     _arwikiVersion: string
-  ): Observable<string | null> {
+  ) {
     const jwk = _privateKey;
     const tags = [
       {name: 'Service', value: 'ArWiki'},
@@ -444,7 +450,7 @@ export class ArwikiTokenContract
       pageValue: `${_pageValue}`
     };
 
-    return this._smartweave.writeInteraction(
+    return this._warp.writeInteraction(
       this._contractAddress, jwk, input, tags
     );
   }
@@ -457,7 +463,7 @@ export class ArwikiTokenContract
     _target: string,
     _privateKey: any,
     _arwikiVersion: string
-  ): Observable<string | null> {
+  ) {
     const jwk = _privateKey;
     const tags = [
       {name: 'Service', value: 'ArWiki'},
@@ -472,7 +478,7 @@ export class ArwikiTokenContract
       value: 'Moderator',
       note: 'New Moderator'
     };
-    return this._smartweave.writeInteraction(
+    return this._warp.writeInteraction(
       this._contractAddress, jwk, input, tags
     );
   }
@@ -509,7 +515,7 @@ export class ArwikiTokenContract
     _privateKey: any,
     _amount: number,
     _arwikiVersion: string
-  ): Observable<string | null> {
+  ) {
     const jwk = _privateKey;
     const tags = [
       {name: 'Service', value: 'ArWiki'},
@@ -522,7 +528,7 @@ export class ArwikiTokenContract
       qty: _amount,
     };
     
-    return this._smartweave.writeInteraction(
+    return this._warp.writeInteraction(
       this._contractAddress, jwk, input, tags
     );
   }
@@ -538,7 +544,7 @@ export class ArwikiTokenContract
     _vote: boolean,
     _privateKey: any,
     _arwikiVersion: string
-  ): Observable<string | null> {
+  ) {
     const jwk = _privateKey;
     const tags = [
       {name: 'Service', value: 'ArWiki'},
@@ -554,7 +560,7 @@ export class ArwikiTokenContract
     _qty = this._arweave.arToWinston(_qty);
     const transfer = {target: _target, winstonQty: _qty};
     
-    return this._smartweave.writeInteraction(
+    return this._warp.writeInteraction(
       this._contractAddress, jwk, input, tags, transfer
     );
   }
@@ -583,7 +589,7 @@ export class ArwikiTokenContract
     _amount: number,
     _privateKey: any,
     _arwikiVersion: string
-  ): Observable<string | null> {
+  ) {
     const jwk = _privateKey;
     const tags = [
       {name: 'Service', value: 'ArWiki'},
@@ -596,7 +602,7 @@ export class ArwikiTokenContract
       qty: _amount,
     };
     
-    return this._smartweave.writeInteraction(
+    return this._warp.writeInteraction(
       this._contractAddress, jwk, input, tags
     );
   }
@@ -607,7 +613,7 @@ export class ArwikiTokenContract
   unlockVault(
     _privateKey: any,
     _arwikiVersion: string
-  ): Observable<string | null> {
+  ) {
     const jwk = _privateKey;
     const tags = [
       {name: 'Service', value: 'ArWiki'},
@@ -618,7 +624,7 @@ export class ArwikiTokenContract
       function: 'unlock'
     };
     
-    return this._smartweave.writeInteraction(
+    return this._warp.writeInteraction(
       this._contractAddress, jwk, input, tags
     );
   }
