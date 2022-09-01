@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { VertoService } from './verto.service';
+import { ProfileService } from './profile.service';
 
-describe('VertoService', () => {
-  let service: VertoService;
+describe('ProfileService', () => {
+  let service: ProfileService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(VertoService);
+    service = TestBed.inject(ProfileService);
   });
 
   it('should be created', () => {

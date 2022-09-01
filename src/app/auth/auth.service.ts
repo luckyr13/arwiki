@@ -3,13 +3,12 @@ import { ArweaveService } from '../core/arweave.service';
 import { Observable, EMPTY, of, throwError, Subject, from } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
-import Verto from "@verto/js";
-import { UserInterface } from "@verto/js/dist/common/faces";
 import { JWKInterface } from 'arweave/web/lib/wallet';
 import { AddressKey } from './../core/interfaces/address-key';
 import * as b64 from 'base64-js';
 import { SubtleCryptoService } from './../core/subtle-crypto.service';
-
+import { ProfileService } from './../core/profile.service';
+import { UserProfile } from './../core/interfaces/user-profile';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +33,6 @@ export class AuthService {
   public updateUserIsModerator(_isModerator: boolean) {
     this._userIsModeratorSource.next(_isModerator);
   }
-  private _verto: Verto;
 
   get loginMethod(): string {
     return this._method;
@@ -49,23 +47,18 @@ export class AuthService {
 
   constructor(
     private _arweave: ArweaveService,
-    private _crypto: SubtleCryptoService) {
+    private _crypto: SubtleCryptoService,
+    private _profile: ProfileService) {
     this.account = new Subject<string>();
     this.account$ = this.account.asObservable();
-    this._verto = new Verto();
     // this.loadAccount();
-
     this._crypto.setSession(false, this.getStayLoggedIn());
 
     
   }
 
-  public get verto(): Verto {
-    return this._verto;
-  }
-
-  public getProfile(address: string): Observable<UserInterface | undefined> {
-    return from(this._verto.user.getUser(address));
+  public getProfile(address: string): Observable<UserProfile|null|undefined> {
+    return from(this._profile.getProfileByAddress(address));
   }
 
   loadAccount(): Observable<boolean> {

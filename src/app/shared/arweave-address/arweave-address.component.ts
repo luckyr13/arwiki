@@ -54,8 +54,8 @@ export class ArweaveAddressComponent implements OnInit, OnDestroy {
 
   updateProfileData() {
     this._profileSubscription = this._auth.getProfile(this.address).subscribe((profile) => {
-      this.profileImage = profile && profile.image ?
-        `${this._arweave.baseURL}${profile.image}` :
+      this.profileImage = profile && profile.avatarURL ?
+        profile.avatarURL :
         'assets/img/blank-profile.png';
       this.nickname = profile && profile.username ? profile.username : '';
 

@@ -101,8 +101,8 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   updateProfileData() {
     const mainAddress = this._auth.getMainAddressSnapshot();
     this.profileSubscription = this._auth.getProfile(mainAddress).subscribe((profile) => {
-      this.profileImage = profile && profile.image ?
-        `${this._arweave.baseURL}${profile.image}` :
+      this.profileImage = profile && profile.avatarURL ?
+        profile.avatarURL :
         'assets/img/blank-profile.png';
 
     });
