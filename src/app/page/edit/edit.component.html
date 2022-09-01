@@ -108,7 +108,7 @@
 					  	>
 
 					</mat-card>
-					<div class="text-right">
+					<div class="text-right img-action-panel">
 						<button 
 							class="btn-upload-file"
 				    	mat-flat-button
@@ -116,8 +116,18 @@
 				    	type="button"
 				    	(click)="fileManager('image')"
 				    	color="primary">
+				    	<mat-icon>perm_media</mat-icon>
+				    	File manager
+				    </button>
+				    <button 
+							class="btn-upload-file"
+				    	mat-flat-button
+				    	[disabled]="loadingFrm"
+				    	type="button"
+				    	(click)="uploadFile('image')"
+				    	color="primary">
 				    	<mat-icon>upload</mat-icon>
-				    	{{ 'EDIT_PAGE.FRM_UPLOAD_FILE' | translate }}
+				    	{{ 'CREATE_PAGE.FRM_UPLOAD_FILE' | translate }}
 				    </button>
 					</div>
 				</div>
@@ -127,6 +137,9 @@
 					<h3>{{ 'EDIT_PAGE.FRM_CONTENT' | translate }}</h3>
 					<textarea id="create-page-textarea-simplemde-content"></textarea>
 				</div>
+				<section class="col-12 small-hint">
+		      <mat-checkbox formControlName="useDispatch">*Create update for FREE (Dispatch method)</mat-checkbox>
+		    </section >
 				<div class="col-12 text-center">
 					<button 
 						class="btn-save-2"
@@ -134,7 +147,7 @@
 			    	type="submit"
 			    	[disabled]="!frmNew.valid ||  loadingFrm"
 			    	color="primary">
-			    	<mat-icon>upgrade</mat-icon>
+			    	<mat-icon>send</mat-icon>
 			    	{{ 'EDIT_PAGE.FRM_BTN_SAVE' | translate }}
 			    </button>
 				</div>
