@@ -25,7 +25,7 @@ import * as SimpleMDE from 'simplemde';
 import { ArwikiCategory } from '../../core/interfaces/arwiki-category';
 import { ArwikiCategoryIndex } from '../../core/interfaces/arwiki-category-index';
 import { Direction } from '@angular/cdk/bidi';
-import { Arwiki } from '../../core/arwiki';
+import { Arwiki, arwikiVersion } from '../../core/arwiki';
 import { ArwikiPage } from '../../core/interfaces/arwiki-page';
 declare const document: any;
 declare const window: any;
@@ -46,7 +46,8 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
 		slug: new UntypedFormControl('', [Validators.required, Validators.maxLength(150)]),
     category: new UntypedFormControl('', [Validators.required]),
     language: new UntypedFormControl('', [Validators.required]),
-    pageValue: new UntypedFormControl(1)
+    pageValue: new UntypedFormControl(1),
+    useDispatch: new UntypedFormControl(false)
 	});
 	txmessage: string = '';
   previewImgUrl: string = '';
@@ -67,6 +68,7 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
   verifySlugSubscription: Subscription = Subscription.EMPTY;
   private arwiki!: Arwiki;
   private _redirectTimeout: any = null;
+  savingPageSubscription = Subscription.EMPTY;
 
   emojisPortal: ComponentPortal<EmojisComponent>|null = null;
   overlayRef: OverlayRef|null = null;
@@ -87,6 +89,9 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   public get pageValue() {
     return this.frmNew.get('pageValue');
+  }
+  public get useDispatch() {
+    return this.frmNew.get('useDispatch');
   }
 
 	goBack() {
@@ -157,6 +162,7 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy() {
     this.categoryListSubscription.unsubscribe();
     this.languageListSubscription.unsubscribe();
+    this.savingPageSubscription.unsubscribe();
     this.verifySlugSubscription.unsubscribe();
     if (this._redirectTimeout) {
       window.clearTimeout(this._redirectTimeout);
@@ -219,36 +225,33 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
     const fee = '';
 
   	// Save data 
-    try {
-      const newPage: ArwikiPage = {
-          id: '',
-          title: title,
-          slug: slug,
-          category: category,
-          language: langCode,
-          value: pageValue,
-          img: img,
-          owner: this._auth.getMainAddressSnapshot(),
-          content: content
-      };
-      const txid = await this.arwiki.createNewArwikiPageTX(
-        newPage,
-        this._auth.getPrivateKey()
-      );
-        
-      this.message(txid, 'success');
-      this.newPageTX = txid;
-      this._redirectTimeout = window.setTimeout(() => {
-        const lastRoute = `/${this.routeLang}/dashboard`;
-        this._router.navigate([lastRoute]);
-      }, 20000);
-
-    } catch (error) {
-      this.message(`${error}`, 'error');
-      this.disableForm(false);
-    }
-
-
+    const newPage: ArwikiPage = {
+        id: '',
+        title: title,
+        slug: slug,
+        category: category,
+        language: langCode,
+        value: pageValue,
+        img: img,
+        owner: this._auth.getMainAddressSnapshot(),
+        content: content
+    };
+    const disableDispatch = !this.useDispatch!.value;
+    this.savingPageSubscription = this.savePage(newPage, disableDispatch).subscribe({
+      next: (tx) => {
+        const txid = tx.id;
+        this.message(txid, 'success');
+        this.newPageTX = txid;
+        this._redirectTimeout = window.setTimeout(() => {
+          const lastRoute = `/${this.routeLang}/dashboard`;
+          this._router.navigate([lastRoute]);
+        }, 20000);
+      },
+      error: (error) => {
+        this.message(`${error}`, 'error');
+        this.disableForm(false);
+      }
+    });
   	
   }
 
@@ -260,6 +263,7 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
 	  	this.category!.disable();
       this.language!.disable();
       this.loadingFrm = true;
+      this.useDispatch!.disable();
   	} else {
   		this.title!.enable();
 	  	this.slug!.enable();
@@ -267,6 +271,7 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
       this.language!.enable();
       this.pageValue!.enable();
       this.loadingFrm = false;
+      this.useDispatch!.enable();
   	}
   }
 
@@ -518,6 +523,32 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
         this.setPreviewImage(res.id);
       }
     });
+  }
+
+  savePage(
+    _newPage: ArwikiPage,
+    _disableDispatch: boolean = true
+  ) {
+    const jwk = this._auth.getPrivateKey();
+    const data = _newPage.content;
+    const loginMethod = this._auth.loginMethod;
+    const tags: {name: string, value: string}[] = [
+      { name: 'Service', value: 'ArWiki' },
+      { name: 'Arwiki-Type', value: 'Page' },
+      { name: 'Arwiki-Page-Slug', value: _newPage.slug },
+      { name: 'Arwiki-Page-Category', value: _newPage.category },
+      { name: 'Arwiki-Page-Title', value: _newPage.title },
+      { name: 'Arwiki-Page-Img', value: _newPage.img! },
+      { name: 'Arwiki-Page-Lang', value: _newPage.language },
+      { name: 'Arwiki-Page-Value', value: _newPage.value!.toString() },
+      { name: 'Arwiki-Version', value: arwikiVersion[0] },
+    ];
+    const contentType = 'text/plain';
+
+    return this._arweave.uploadFileToArweave(
+      data, 'text/plain', jwk, tags,
+      loginMethod, _disableDispatch
+    );
   }
 
 

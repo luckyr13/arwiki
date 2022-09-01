@@ -379,135 +379,6 @@ export class ArweaveService {
     return tx;
   }
 
-  /*
-  * @dev
-  */
-  getMyArFiles(_address: string, _height: number): Observable<any> {
-    const owners = [_address];
-    const tags = [
-      {
-        name: 'Content-Type',
-        values: ['image/jpeg', 'image/png', 'image/jpg'],
-      },
-    ];
-
-    const obs = this.arweaveQuery(
-      owners,
-      tags,
-      _height
-    );
-
-    return obs;
-  }
-
-  /*
-  * @dev
-  */
-  arweaveQuery(
-    _owners: string[],
-    _tags: any[],
-    _height: number,
-    _max_request: number = 100
-  ): Observable<any> {
-    const obs = new Observable<any>((subscriber) => {
-    let query = '';
-    if (_owners.length > 0 ) {
-      query = `query Transactions($tags: [TagFilter!]!, $blockFilter: BlockFilter!, $first: Int!, $after: String, $owners: [String!]!) {
-        transactions(
-          tags: $tags, block: $blockFilter, first: $first,
-          sort: HEIGHT_ASC, after: $after, owners: $owners
-        ) {
-          pageInfo {
-            hasNextPage
-          }
-          edges {
-            node {
-              id
-              owner { address }
-              recipient
-              tags {
-                name
-                value
-              }
-              block {
-                height
-                id
-              }
-              fee { winston }
-              quantity { winston }
-              parent { id }
-            }
-            cursor
-          }
-        }
-      }`;
-    } else {
-      query = `query Transactions($tags: [TagFilter!]!, $blockFilter: BlockFilter!, $first: Int!, $after: String) {
-        transactions(
-          tags: $tags, block: $blockFilter, first: $first,
-          sort: HEIGHT_ASC, after: $after
-        ) {
-          pageInfo {
-            hasNextPage
-          }
-          edges {
-            node {
-              id
-              owner { address }
-              recipient
-              tags {
-                name
-                value
-              }
-              block {
-                height
-                id
-              }
-              fee { winston }
-              quantity { winston }
-              parent { id }
-            }
-            cursor
-          }
-        }
-      }`;
-    }
-      
-    
-    const variables = {
-      tags: _tags,
-      blockFilter: {
-        max: _height,
-      },
-      first: _max_request,
-      owners: _owners
-
-    }
-
-    this.arweave.api.post('graphql', {
-      query,
-      variables,
-    }).then((_res: any) => {
-        if (_res.status !== 200) {
-         subscriber.error(`Unable to retrieve transactions. Arweave gateway responded with status ${_res.status}.`);
-        }
-
-        const data = _res.data;
-        const txs = data.data.transactions;
-
-        subscriber.next({response: _res, data: data, txs: txs});
-        subscriber.complete();
-      }).catch((error: any) => {
-        subscriber.error(error);
-      });
-    })
-
-    return obs.pipe(
-      catchError(this.errorHandler)
-    );
-  }
-
-
   async getTxStatus(_tx: string) {
     return await this.arweave.transactions.getStatus(_tx);
   }
@@ -651,5 +522,43 @@ export class ArweaveService {
           }
       }
       throw new Error('Unable to select token holder');
+  }
+
+  private async _generateSignedTx(
+    fileBin: any,
+    contentType: string,
+    key:  JWKInterface | "use_wallet",
+    tags: {name: string, value: string}[] = []
+  ): Promise<Transaction> {
+    // Create transaction
+    let transaction = await this.arweave.createTransaction({
+        data: fileBin,
+    }, key);
+
+    transaction.addTag('Content-Type', contentType);
+    for (const t of tags) {
+      transaction.addTag(t.name, t.value);
+    }
+
+    await this.arweave.transactions.sign(transaction, key);
+
+    return transaction;
+  }
+
+  public generateSignedTx(
+    fileBin: any,
+    contentType: string,
+    key:  JWKInterface | "use_wallet",
+    tags: {name: string, value: string}[] = []
+  ): Observable<Transaction> {
+    return from(this._generateSignedTx(fileBin, contentType, key, tags));
+  }
+
+  getImageUrl(txId: string) {
+    let imgUrl = '';
+    if (txId && this.validateAddress(txId)) {
+      imgUrl = `${this.baseURL}${txId}`;
+    }
+    return imgUrl;
   }
 }

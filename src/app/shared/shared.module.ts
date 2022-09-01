@@ -125,7 +125,8 @@ import { UploadFileDialogComponent } from './upload-file-dialog/upload-file-dial
     BalanceCardComponent,
     MatTableModule,
     MatBadgeModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatCheckboxModule
   ],
   // entryComponents: [DialogSelectLanguageComponent]
 })
