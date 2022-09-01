@@ -36,6 +36,7 @@ import ArdbTransaction from 'ardb/lib/models/transaction';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { EmojisComponent } from '../../shared/emojis/emojis.component';
+import { DialogCompareComponent } from '../../shared/dialog-compare/dialog-compare.component';
 
 @Component({
   templateUrl: './edit.component.html',
@@ -398,6 +399,7 @@ export class EditComponent implements OnInit, OnDestroy {
           this.pageData.owner = page.owner ? page.owner : '';
           this.pageData.category = page.category ? page.category : '';
           this.block = page.block;
+          this.pageData.slug = page.slug ? page.slug : '';
 
           let content = await this._arweave.getTxContent(page.id);
           this.pageData.content = content;
@@ -425,7 +427,7 @@ export class EditComponent implements OnInit, OnDestroy {
                 {
                   name: "diff-checker",
                   action: (editor) => {
-                    this.openEmojiMenu(editor);
+                    this.compare(this.simplemde.value(), this.pageData.slug);
                   },
                   className: "fa fa-superpowers",
                   title: "Compare with original article",
@@ -613,6 +615,30 @@ export class EditComponent implements OnInit, OnDestroy {
       data, contentType, jwk, tags,
       loginMethod, _disableDispatch
     );
+  }
+
+  compare(newPageContent: string, slug: string) {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
+    const dialogRef = this._dialog.open(DialogCompareComponent, {
+      data: {
+        newPageContent,
+        slug,
+        lang: this.routeLang
+      },
+      direction: direction
+    });
+
+    dialogRef.afterClosed().subscribe({
+      next: () => {
+        
+      },
+      error: (error) => {
+        this.message(`${error}`, 'error');
+      }
+    });
   }
 
 }

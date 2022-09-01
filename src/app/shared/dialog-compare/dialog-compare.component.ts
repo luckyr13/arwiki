@@ -30,7 +30,10 @@ export class DialogCompareComponent implements OnInit, OnDestroy {
   	this.listOfChangesSubscription = this.loadOldData(this.data.slug).pipe(
   			switchMap((pageId) => {
   				this.txOld = pageId;
-  				return this.run_diff(this.txOld, this.data.newPage);
+          if (this.data.newPageContent) {
+            return this.run_diff_dataVStx(this.txOld, this.data.newPageContent);
+          }
+          return this.run_diff(this.txOld, this.data.newPage);
   			})
   		).subscribe({
   			next: (changes) => {
@@ -65,6 +68,15 @@ export class DialogCompareComponent implements OnInit, OnDestroy {
   			}),
   		);
     
+  }
+
+  run_diff_dataVStx(tx: string, data2: string) {
+    return from(this._arweave.getDataAsString(tx)).pipe(
+      switchMap((data) => {
+        const listOfChanges = diffLines(data2, data);
+        return of(listOfChanges);
+      }),
+    );
   }
 
   /*
