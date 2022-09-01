@@ -73,7 +73,7 @@ export class DialogCompareComponent implements OnInit, OnDestroy {
   run_diff_dataVStx(tx: string, data2: string) {
     return from(this._arweave.getDataAsString(tx)).pipe(
       switchMap((data) => {
-        const listOfChanges = diffLines(data2, data);
+        const listOfChanges = diffLines(data, data2);
         return of(listOfChanges);
       }),
     );
