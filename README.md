@@ -12,10 +12,13 @@ You can visit the ArWiki using the next links:
 
 - ArWiki: https://arwiki.wiki
 - Arwiki (GitHub pages demo): http://luckyr13.github.io/arwiki
-- Arwiki (Permaweb link): https://permaweb.arwiki.wiki
-- Arwiki (Permaweb link - 2022-09-01): https://arweave.net/ECx9JQO9wSB7KPmE0AGL2WS8naxH8PpCzLDcGBiw_Hc
-- ArWiki (Permaweb link - 2022-04-21): https://arweave.net/9nKbNcxrfid6PeSbt6ho6QL844kVs8bnRxqSkjd4y5g
-- Arwiki (Permaweb link - 2022-04-17): https://arweave.net/1m45j3_yWNm7r9YQfpDEwHp2Ve-Papn4Nw0iqaAri4s
+- Arwiki v1.3 (2022-09-01): https://arweave.net/M3g0kr9iYfjICpAeT0EmHLcEmMdJ0aCpTf3egrqpgbg
+- Arwiki v1.2 (2022-09-01): https://arweave.net/ECx9JQO9wSB7KPmE0AGL2WS8naxH8PpCzLDcGBiw_Hc
+- ArWiki v1.0 (2022-04-21): https://arweave.net/9nKbNcxrfid6PeSbt6ho6QL844kVs8bnRxqSkjd4y5g
+
+## ArWiki PST Contract
+Contract Arweave Address: ewepANKEVffP0cm_XKjwTYhSBqaiQrJbVrCcBiWqw-s
+Community: https://community.xyz/#ewepANKEVffP0cm_XKjwTYhSBqaiQrJbVrCcBiWqw-s
 
 ## Feedback, comments and help
 
