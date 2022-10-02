@@ -17,7 +17,9 @@ You can visit the ArWiki using the next links:
 - ArWiki v1.0 (2022-04-21): https://arweave.net/9nKbNcxrfid6PeSbt6ho6QL844kVs8bnRxqSkjd4y5g
 
 ## ArWiki PST Contract
+
 Contract Arweave Address: ewepANKEVffP0cm_XKjwTYhSBqaiQrJbVrCcBiWqw-s
+
 Community: https://community.xyz/#ewepANKEVffP0cm_XKjwTYhSBqaiQrJbVrCcBiWqw-s
 
 ## Feedback, comments and help
