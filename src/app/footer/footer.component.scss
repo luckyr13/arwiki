@@ -4,7 +4,7 @@ $sm-icon-size: 32px;
 
 
 .footer {
-	height: 154px;
+	height: $footer-height-small;
 	margin-top: 0px;
 }
 
@@ -14,7 +14,7 @@ $sm-icon-size: 32px;
 	text-align: center;
 	float: left;
 	width: 100%;
-	height: (($footer-height-small / 6) * 3) - 28px;
+	height: (($footer-height-small / 6) * 3);
 	padding: 14px;
 }
 
@@ -30,8 +30,8 @@ $sm-icon-size: 32px;
 }
 
 .row-col-social-media span {
-	display: inline-block;
   vertical-align: middle;
+	display: inline-block;
   line-height: normal;
 }
 
@@ -44,7 +44,7 @@ $sm-icon-size: 32px;
 .app-info {
 	font-size: 12px;
 	text-align: center;
-	height: (($footer-height-small / 6) * 1) - 12;
+	height: (($footer-height-small / 6) * 1);
 	float: left;
 	width: 100%;
 	clear: both;
@@ -61,6 +61,7 @@ $sm-icon-size: 32px;
 	.row-col-social-media {
 		text-align: right;
 		width: 80%;
+		padding-top: 20px;
 		height: ($footer-height-big / 6) * 5;
 	}
 
@@ -76,10 +77,9 @@ $sm-icon-size: 32px;
 }
 
 .row-col-social-media a {
-	display: inline-block;
   vertical-align: middle;
+	display: inline-block;
   line-height: normal;
-
 	margin-left: 20px;
 	width: $sm-icon-size;
 	height: $sm-icon-size;
