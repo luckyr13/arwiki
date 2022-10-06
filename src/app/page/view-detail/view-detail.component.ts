@@ -72,6 +72,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   loadingTags: boolean = false;
   tags: any[] = [];
   tagsSubscription: Subscription = Subscription.EMPTY;
+  contentSubscription = Subscription.EMPTY;
 
   constructor(
     private route: ActivatedRoute,
@@ -190,25 +191,34 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
           this.pageData.slug = page.slug ? page.slug : '';
           this.block = page.block;
 
-          let content = await this._arweave.getTxContent(page.id);
+          this.contentSubscription = this._arweave.getDataAsStringObs(page.id).subscribe({
+            next: (content) => {
+              this.pageData.content = this.markdownToHTML(content);
+              
+              this.loadingPage = false;
+              // Generate TOC 
+              window.setTimeout(() => {
+                this.generateTOC();
+                // Listen for fragments
+                this.route.fragment.subscribe(fragment => {
+                  this.fragment = '';
+                  if (fragment) {
+                    this.fragment = fragment;
+                    this._userSettings.scrollTo(this.fragment, -80);
+                  }
+                });
+                Prism.highlightAll();
+
+              }, 500);
+            },
+            error: (error) => {
+              console.error('loadingContent', error);
+              this.loadingPage = false;
+            }
+          });
           
-          this.pageData.content = this.markdownToHTML(content);
-          this.loadingPage = false;
+          
 
-          // Generate TOC 
-          window.setTimeout(() => {
-            this.generateTOC();
-            // Listen for fragments
-            this.route.fragment.subscribe(fragment => {
-              this.fragment = '';
-              if (fragment) {
-                this.fragment = fragment;
-                this._userSettings.scrollTo(this.fragment, -80);
-              }
-            });
-            Prism.highlightAll();
-
-          }, 500);
 
           // Load tags 
           this.loadingTags = true;
@@ -253,12 +263,9 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-  	if (this.pageSubscription) {
-  		this.pageSubscription.unsubscribe();
-  	}
-    if (this.tagsSubscription) {
-      this.tagsSubscription.unsubscribe();
-    }
+  	this.pageSubscription.unsubscribe();
+    this.tagsSubscription.unsubscribe();
+    this.contentSubscription.unsubscribe();
   }
 
   markdownToHTML(_markdown: string) {

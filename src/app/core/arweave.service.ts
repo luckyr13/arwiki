@@ -10,6 +10,7 @@ import { arwikiVersion } from './arwiki';
 import { ArweaveWebWallet } from 'arweave-wallet-connector';
 import { AddressKey } from './interfaces/address-key';
 declare const window: any;
+import { HttpClient } from '@angular/common/http';
 
 export const arweaveAddressLength = 43;
 
@@ -31,7 +32,7 @@ export class ArweaveService {
   // Limit: 120kb
   public dataSizeLimitDispatch = 120000;
 
-  constructor() {
+  constructor(private _http: HttpClient) {
     this.arweave = Arweave.init({
       host: this.host,
       port: this.port,
@@ -383,25 +384,21 @@ export class ArweaveService {
     return await this.arweave.transactions.getStatus(_tx);
   }
 
-  getDataAsString(txId: string): Observable<any> {
+  getDataAsString(txId: string): Observable<string> {
     const url = `${this.baseURL}${txId}`;
-    return from(fetch(url)).pipe(
-        switchMap((response) => {
-          if (response.ok) {
-            return from(response.text());
-          }
-
-          throw new Error('Error fetching data from gw ...');
-        })
-      );
+    return this._http.get(url, {observe: 'body', responseType: 'text'});
   }
 
-  getDataAsStringObs(txId: string): Observable<any> {
+  getDataAsStringObs(txId: string): Observable<string> {
     return this.getDataAsString(txId).pipe(
       catchError((error) => {
         console.error(error);
         console.warn(`Method 2: Fetching ${txId} data ...`, 'warning');
-        return from(this.arweave.transactions.getData(txId, {decode: true, string: true}));
+        return from(this.arweave.transactions.getData(txId, {decode: true, string: true})).pipe(
+            map((res) => {
+              return `${res}`;
+            })
+          );
       })
     );
   }
