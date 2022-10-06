@@ -38,7 +38,7 @@
     "diff": "^5.0.0",
     "dompurify": "^2.3.4",
     "marked": "^3.0.8",
-    "ngx-skeleton-loader": "^5.0.0",
+    "ngx-skeleton-loader": "^6.0.0",
     "prismjs": "^1.28.0",
     "rxjs": "^7.5.7",
     "simplemde": "^1.11.2",
