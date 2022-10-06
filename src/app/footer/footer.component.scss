@@ -1,19 +1,95 @@
+$footer-height-small: 184px;
+$footer-height-big: 124px;
+$sm-icon-size: 32px;
+
+
 .footer {
-	height: 124px;
-	padding: 14px;
+	height: 154px;
 	margin-top: 0px;
 }
 
-.footer p {
+.row-col-logo {
 	margin-bottom: 0px;
 	font-weight: bold;
+	text-align: center;
+	float: left;
+	width: 100%;
+	height: (($footer-height-small / 6) * 3) - 28px;
+	padding: 14px;
 }
+
+.row-col-social-media {
+	margin-bottom: 0px;
+	font-weight: bold;
+	text-align: center;
+	float: left;
+	width: 100%;
+  line-height: (($footer-height-small / 6) * 2);
+	height: (($footer-height-small / 6) * 2);
+	padding: 0px 14px 14px 14px;
+}
+
+.row-col-social-media span {
+	display: inline-block;
+  vertical-align: middle;
+  line-height: normal;
+}
+
 
 .arweave-gray-logo {
 	width: 136px;
 	margin-top: 2px;
 }
 
-.small-f {
+.app-info {
 	font-size: 12px;
+	text-align: center;
+	height: (($footer-height-small / 6) * 1) - 12;
+	float: left;
+	width: 100%;
+	clear: both;
+}
+
+@media (min-width: 800px) {	
+	.row-col-logo {
+		text-align: left;
+		width: 20%;
+		height: ($footer-height-big / 6) * 5;
+		padding-left: 20px;
+	}
+
+	.row-col-social-media {
+		text-align: right;
+		width: 80%;
+		height: ($footer-height-big / 6) * 5;
+	}
+
+	.footer {
+		height: $footer-height-big;
+	}
+
+	.app-info {
+		text-align: right;
+		height: ($footer-height-big / 6);
+		padding-right: 8px;
+	}
+}
+
+.row-col-social-media a {
+	display: inline-block;
+  vertical-align: middle;
+  line-height: normal;
+
+	margin-left: 20px;
+	width: $sm-icon-size;
+	height: $sm-icon-size;
+}
+
+.row-col-social-media img {
+	width: $sm-icon-size;
+	height: $sm-icon-size;
+}
+
+.row-col-social-media a:hover {
+	margin-top: -6px;
 }

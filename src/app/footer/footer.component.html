@@ -1,9 +1,24 @@
-<div class="footer text-center fadeIn">
-	<p>{{ 'FOOTER.LBL_POWERED' | translate }}</p>
-	<a href="https://arweave.org" target="_blank">
-		<img class="arweave-gray-logo" src="./assets/img/arweave-gray-logo.png">
-	</a>
-	<div class="text-right small-f">
+<div class="footer fadeIn">
+	<div class="row-col-logo">
+		{{ 'FOOTER.LBL_POWERED' | translate }}
+		<br>
+		<a href="https://arweave.org" target="_blank">
+			<img class="arweave-gray-logo" src="./assets/img/arweave-gray-logo.png">
+		</a>
+	</div>
+	<div class="row-col-social-media">
+		<span>Follow us:</span>
+		<a href="https://discord.gg/mn8j66r4x3" target="_blank">
+			<img class="arweave-gray-logo" src="./assets/img/social-media/discord2.png">
+		</a>
+		<a href="https://github.com/luckyr13/arwiki" target="_blank">
+			<img class="arweave-gray-logo" src="./assets/img/social-media/github2.png">
+		</a>
+		<a href="https://twitter.com/TheArWiki" target="_blank">
+			<img class="arweave-gray-logo" src="./assets/img/social-media/twitterWhite.png">
+		</a>
+	</div>
+	<div class="text-right app-info">
 		ArWiki v{{ arwikiV }} | Protocol v{{ arwikiProtocolV }}
 	</div>
 </div>
