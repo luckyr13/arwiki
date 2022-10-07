@@ -12,13 +12,11 @@ You can visit the ArWiki using the next links:
 
 - ArWiki: https://arwiki.wiki
 - Arwiki (GitHub pages demo): http://luckyr13.github.io/arwiki
-- Arwiki v1.3 (2022-09-01): https://arweave.net/M3g0kr9iYfjICpAeT0EmHLcEmMdJ0aCpTf3egrqpgbg
-- Arwiki v1.2 (2022-09-01): https://arweave.net/ECx9JQO9wSB7KPmE0AGL2WS8naxH8PpCzLDcGBiw_Hc
-- ArWiki v1.0 (2022-04-21): https://arweave.net/9nKbNcxrfid6PeSbt6ho6QL844kVs8bnRxqSkjd4y5g
+- ArWiki: https://arwiki.arweave.dev
 
 ## ArWiki PST Contract
 
-Contract Arweave Address: ewepANKEVffP0cm_XKjwTYhSBqaiQrJbVrCcBiWqw-s
+Arweave Contract Address: ewepANKEVffP0cm_XKjwTYhSBqaiQrJbVrCcBiWqw-s
 
 Community: https://community.xyz/#ewepANKEVffP0cm_XKjwTYhSBqaiQrJbVrCcBiWqw-s
 
@@ -31,7 +29,7 @@ Please visit our Discord channel for further support, comments or feedback: http
 - Discord channel: https://discord.gg/mn8j66r4x3
 
 ## Installation
-ArWiki is made in Angular framework so you will need Node on your machine. For installing on you own environment just:
+ArWiki is made using Angular framework so you will need Node on your machine. For installing on you own environment just:
 
 - Clone the project
 - Run `npm install`
