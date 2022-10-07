@@ -1,6 +1,7 @@
 # ArWiki versions
 
 ## 1.5
+- DEMO (2022-10-07): https://arweave.net/sbsyC_yg_H2jY4U4Ab4Lb0T1Y8wmi3yX0yTeYc5U6pk
 - Translation links added to page detail
 - Profile updated
 - Donor ranking added (pending to finish)
