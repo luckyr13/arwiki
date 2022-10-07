@@ -453,7 +453,10 @@ export class MainPageComponent implements OnInit, OnDestroy {
   }
 
   getMainLogo() {
-    if (this.defaultTheme === 'arwiki-light' && this.appLogoLight) {
+    if ((this.defaultTheme === 'arwiki-light' || 
+      this.defaultTheme === 'arwiki-orange' || 
+      this.defaultTheme === 'arwiki-yellow' || 
+      this.defaultTheme === 'arwiki-peach') && this.appLogoLight) {
       return this.appLogoLight;
     } else if (this.defaultTheme === 'arwiki-dark' && this.appLogoDark) {
       return this.appLogoDark;
