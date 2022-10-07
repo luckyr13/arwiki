@@ -1,5 +1,11 @@
 # ArWiki versions
 
+## 1.5
+- Translation links added to page detail
+- Profile updated
+- Donor ranking added (pending to finish)
+- Yellow, Orange and Peach themes added for better readability
+
 ## 1.4
 - Stamps Protocol basic support added (services and interfaces)
 - Social media links added
