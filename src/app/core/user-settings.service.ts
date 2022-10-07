@@ -163,6 +163,18 @@ export class UserSettingsService {
         _ts.href = `./assets/css/${theme}.css`;
         this.setDefaultTheme(theme);
       break;
+      case 'arwiki-peach':
+        _ts.href = `./assets/css/${theme}.css`;
+        this.setDefaultTheme(theme);
+      break;
+      case 'arwiki-orange':
+        _ts.href = `./assets/css/${theme}.css`;
+        this.setDefaultTheme(theme);
+      break;
+      case 'arwiki-yellow':
+        _ts.href = `./assets/css/${theme}.css`;
+        this.setDefaultTheme(theme);
+      break;
       default:
       	console.error('Theme not found!');
       break;
