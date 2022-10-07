@@ -18,6 +18,7 @@
 		  	class="btn-toolbar" 
 		  	color="primary"
 		  	target="_blank"
+		  	*ngIf="currentAddress == address"
 		  	href="https://account.metaweave.xyz/">
 		    <mat-icon>edit</mat-icon>
 		    {{ 'GENERAL.BUTTONS.BTN_EDIT_PROFILE' | translate }}

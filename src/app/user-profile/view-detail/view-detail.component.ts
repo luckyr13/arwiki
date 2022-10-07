@@ -14,6 +14,7 @@ import { Location } from '@angular/common';
 })
 export class ViewDetailComponent implements OnInit {
   address = '';
+  currentAddress = '';
   profile: UserProfile|null = null;
   profileSubscription = Subscription.EMPTY;
   defaultAvatar = 'assets/img/blank-profile.png';
@@ -42,6 +43,11 @@ export class ViewDetailComponent implements OnInit {
         this.address = address;
         this.loadProfile(this.address);
       }
+    });
+
+    this.currentAddress = this._auth.getMainAddressSnapshot();
+    this._auth.account$.subscribe((account) => {
+      this.currentAddress = account;
     });
     
   }
