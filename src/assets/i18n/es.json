@@ -63,7 +63,9 @@
 		"LABEL_PAGE_TX": "TX:",
 		"LABEL_PAGE_NOT_FOUND": "¡Página no encontrada! 😢",
 		"LABEL_CREATE_NEW_PAGE": "Crear una nueva página ArWiki",
-		"LABEL_CONTENT_OVERVIEW": "Descripción general del contenido"
+		"LABEL_CONTENT_OVERVIEW": "Descripción general del contenido",
+		"LABEL_TAGS": "Etiquetas",
+		"LABEL_TRANSLATIONS": "Traducciones"
 	},
 	"CREATE_PAGE": {
 		"TITLE": "Crear página",
@@ -122,7 +124,8 @@
 			"BTN_SPONSOR_PAGE": "Patrocinar página",
 			"BTN_VIEW_HISTORY": "Ver historial",
 			"BTN_STOP_STAKING": "Dejar de apostar",
-			"BTN_EDIT_PROFILE": "Editar perfil"
+			"BTN_EDIT_PROFILE": "Editar perfil",
+			"BTN_DONORS_LIST": "Clasificación de donantes"
 		},
 		"LABELS": {
 			"NO_RESULTS": "No hay resultados"

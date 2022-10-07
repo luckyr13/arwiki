@@ -111,18 +111,36 @@
 			[innerHTML]="pageData.content"></div>
 		<div class="row tags-main-container" *ngIf="pageData.content" >
 			<h2 class="page-title col-12">
-				Tags
+				{{ 'PAGE.LABEL_TAGS' | translate }}
 			</h2>
-			<div class="col-12 tags-container">
+			<div class="col-12">
 				<div *ngIf="loadingTags">
 					{{ 'LOADING.LOADING_LABEL' | translate }}
 				</div>
-				<div class="col-12 tags-container" *ngIf="tags.length">
+				<div class="col-12" *ngIf="tags.length">
 					<mat-chip-list>
 					  <mat-chip *ngFor="let tag of tags" [routerLink]="['/', routeLang, 'search', tag]" style="cursor: pointer">{{tag}}</mat-chip>
 					</mat-chip-list>
 				</div>
-				<div class="col-12 tags-container" *ngIf="!tags.length">
+				<div class="col-12" *ngIf="!tags.length">
+					{{ 'GENERAL.LABELS.NO_RESULTS' | translate }}
+				</div>
+			</div>
+			<h2 class="col-12">
+				{{ 'PAGE.LABEL_TRANSLATIONS' | translate }}
+			</h2>
+			<div class="col-12 tags-container">
+				<div *ngIf="loadingTranslations">
+					{{ 'LOADING.LOADING_LABEL' | translate }}
+				</div>
+				<div class="col-12 tags-container" *ngIf="translations.length">
+					<mat-chip-list>
+					  <mat-chip
+					  	*ngFor="let translationLang of translations"
+					  	[routerLink]="['/', translationLang, routeSlug]" style="cursor: pointer">{{translationLang}}</mat-chip>
+					</mat-chip-list>
+				</div>
+				<div class="col-12 tags-container" *ngIf="!translations.length">
 					{{ 'GENERAL.LABELS.NO_RESULTS' | translate }}
 				</div>
 			</div>
@@ -198,6 +216,15 @@
 				[routerLink]="['/', routeLang, routeSlug, 'history']">
 		    <mat-icon>history</mat-icon>
 		    {{ 'GENERAL.BUTTONS.BTN_VIEW_HISTORY' | translate }}
+		  </button>
+		  <button 
+	    	type="button"
+		  	mat-button 
+		  	class="btn-toolbar" 
+		  	color="primary"
+				[routerLink]="['/', routeLang, routeSlug, 'donor-ranking']">
+		    <mat-icon>diversity_3</mat-icon>
+		    {{ 'GENERAL.BUTTONS.BTN_DONORS_LIST' | translate }}
 		  </button>
 		</div>
 		

@@ -70,9 +70,12 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   loadingUpdateSponsorPage: boolean = false;
   loadingStopStake: boolean = false;
   loadingTags: boolean = false;
-  tags: any[] = [];
+  tags: string[] = [];
   tagsSubscription: Subscription = Subscription.EMPTY;
   contentSubscription = Subscription.EMPTY;
+  loadingTranslations: boolean = false;
+  translations: string[] = [];
+  translationsSubscription = Subscription.EMPTY;
 
   constructor(
     private route: ActivatedRoute,
@@ -218,10 +221,9 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
           });
           
           
-
-
           // Load tags 
           this.loadingTags = true;
+          this.tags = [];
           this.tagsSubscription = this.searchTagsBySlug(
             this.pageData.slug, langCode, maxHeight
           ).subscribe({
@@ -240,6 +242,25 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
             error: (error) => {
               this.message(`${error}`, 'error');
               this.loadingTags = false;
+            }
+          });
+
+          // Load translations 
+          this.loadingTranslations = true;
+          this.translations = [];
+          this.translationsSubscription = this._arwikiTokenContract.getPageTranslations(
+            this.pageData.slug
+          ).subscribe({
+            next: (res) => {
+              for (let lang of res) {
+                this.translations.push(lang);
+              }
+              this.loadingTranslations = false;
+
+            },
+            error: (error) => {
+              this.message(`${error}`, 'error');
+              this.loadingTranslations = false;
             }
           });
 

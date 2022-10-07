@@ -63,7 +63,9 @@
 		"LABEL_PAGE_TX": "Page tx:",
 		"LABEL_PAGE_NOT_FOUND": "Page not found! 😢",
 		"LABEL_CREATE_NEW_PAGE": "Create new ArWiki page",
-		"LABEL_CONTENT_OVERVIEW": "Content overview"
+		"LABEL_CONTENT_OVERVIEW": "Content overview",
+		"LABEL_TAGS": "Tags",
+		"LABEL_TRANSLATIONS": "Translations"
 	},
 	"NOT_FOUND": {
 
@@ -122,7 +124,8 @@
 			"BTN_SPONSOR_PAGE": "Sponsor page",
 			"BTN_VIEW_HISTORY": "View history",
 			"BTN_STOP_STAKING": "Stop staking",
-			"BTN_EDIT_PROFILE": "Edit profile"
+			"BTN_EDIT_PROFILE": "Edit profile",
+			"BTN_DONORS_LIST": "Donor ranking"
 		},
 		"LABELS": {
 			"NO_RESULTS": "No results"

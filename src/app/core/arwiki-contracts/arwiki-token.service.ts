@@ -656,4 +656,19 @@ export class ArwikiTokenContract
     );
   }
 
+  /*
+  *  @dev Get only the admin list from full state contract
+  */
+  getPageTranslations(slug: string): Observable<string[]> {
+    return this.getState().pipe(
+      map((_state: any) => {
+        const langs = Object.keys(_state.pages).filter((lang) => {
+          return (slug in _state.pages[lang]);
+        });
+
+        return langs;
+      })
+    );
+  }
+
 }
