@@ -1,9 +1,41 @@
 <div class="container profile-container">
-	<h1>Profile</h1>
-	<div class="row fadeIn" *ngIf="address">
-		<div class="col">
-			1
+	<div class="row fadeIn">
+		<h1 class="page-title col-12 col-md-9">
+			{{ 'PROFILE.TITLE' | translate }}
+		</h1>
+		<div class="text-right page-title-buttons col-12 col-md-3">
+	    <button 
+	    	type="button"
+		  	mat-button 
+		  	class="btn-toolbar" 
+		  	color="primary"
+		  	(click)="goBack()">
+		    <mat-icon>navigate_before</mat-icon>
+		    {{ 'GENERAL.BUTTONS.GO_BACK' | translate }}
+		  </button>
 		</div>
 	</div>
-
+	<div class="row fadeIn" *ngIf="address">
+		<div class="col" *ngIf="loadingProfile">
+			<mat-spinner class="spinner-center" ></mat-spinner>
+		</div>
+		<div class="col" *ngIf="profile && !loadingProfile">
+			<img *ngIf="profile.avatarURL" class="avatar" [src]="profile.avatarURL">
+			<img *ngIf="!profile.avatarURL" class="avatar" [src]="defaultAvatar">
+			<h2 *ngIf="profile.username"><span>{{profile.username}}</span></h2>
+			<h3 *ngIf="profile.handleName">Handle: <span>{{profile.handleName}}</span></h3>
+			<h3 *ngIf="profile.name">Name: <span>{{profile.name}}</span></h3>
+			<h4>Address: <span>{{ address }}</span></h4>
+			<p *ngIf="profile.bio">{{profile.bio}}</p>
+		</div>
+		<div class="col" *ngIf="!profile && !loadingProfile">
+			<img class="avatar" [src]="defaultAvatar">
+			<h2 *ngIf="address"><span>{{ address }}</span></h2>
+		</div>
+	</div>
+	<div class="row fadeIn" *ngIf="!address">
+		<div class="col">
+			Profile not found.
+		</div>
+	</div>
 </div>	

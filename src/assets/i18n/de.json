@@ -157,5 +157,8 @@
 		"FRM_CONTENT": "Inhalt",
 		"FRM_BTN_SAVE": "Update senden",
 		"FRM_BTN_GOBACK": "Geh zurück"
+	},
+	"PROFILE": {
+		"TITLE": "PROFILE"
 	}
 }

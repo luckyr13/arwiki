@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { SharedModule } from '../shared/shared.module';
 import { UserProfileRoutingModule } from './user-profile-routing.module';
 import { ViewDetailComponent } from './view-detail/view-detail.component';
 
@@ -11,7 +11,8 @@ import { ViewDetailComponent } from './view-detail/view-detail.component';
   ],
   imports: [
     CommonModule,
-    UserProfileRoutingModule
+    UserProfileRoutingModule,
+    SharedModule
   ]
 })
 export class UserProfileModule { }

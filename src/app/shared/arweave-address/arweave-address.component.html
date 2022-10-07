@@ -1,10 +1,13 @@
 <div class="address-container">
 	<strong class="address-label"><ng-content></ng-content></strong>
-  <img *ngIf="profileImage && isAddress" class="avatar" [src]="profileImage">
-	<span class="address-nickname">
+  <img [routerLink]="['/', lang, 'user', address]" *ngIf="profileImage && isAddress" class="avatar" [src]="profileImage">
+	<span [routerLink]="['/', lang, 'user', address]" class="address-nickname" *ngIf="nickname">
 		{{ nickname }} 
 	</span>
-	<span class="address-tx ellipsis">
+	<span *ngIf="isAddress" [routerLink]="['/', lang, 'user', address]" class="address-tx-add ellipsis">
+		{{ ellipsis(address) }} 
+	</span>
+	<span *ngIf="!isAddress" class="address-tx ellipsis">
 		{{ ellipsis(address) }} 
 	</span>
 	<a 

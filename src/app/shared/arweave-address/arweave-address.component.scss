@@ -18,6 +18,14 @@ a {
 	margin-right: 10px;
 	line-height: 32px;
 	margin-left: 6px;
+	cursor: normal;
+}
+.address-tx-add {
+	margin-right: 10px;
+	line-height: 32px;
+	margin-left: 6px;
+	cursor: pointer;
+
 }
 .address-label {
 	line-height: 32px;
@@ -26,6 +34,7 @@ a {
 	line-height: 32px;
 	margin-left: 6px;
 	font-weight: bold;
+	cursor: pointer;
 }
 .avatar {
 	width: 32px;
@@ -35,6 +44,7 @@ a {
 	flex-shrink: 0;
 	vertical-align: middle;
 	margin-left: 6px;
+	cursor: pointer;
 }
 .action-btn {
 	margin-left: 6px;

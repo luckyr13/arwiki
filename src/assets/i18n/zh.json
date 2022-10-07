@@ -157,5 +157,8 @@
 		"FRM_CONTENT": "內容",
 		"FRM_BTN_SAVE": "保存更新",
 		"FRM_BTN_GOBACK": "返回"
+	},
+	"PROFILE": {
+		"TITLE": "PROFILE"
 	}
 }

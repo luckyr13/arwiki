@@ -157,5 +157,8 @@
 		"FRM_CONTENT": "Ábhar",
 		"FRM_BTN_SAVE": "Seol nuashonrú",
 		"FRM_BTN_GOBACK": "Dul ar ais"
+	},
+	"PROFILE": {
+		"TITLE": "PROFILE"
 	}
 }

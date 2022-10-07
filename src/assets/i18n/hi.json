@@ -157,5 +157,8 @@
 		"FRM_CONTENT": "सामग्री",
 		"FRM_BTN_SAVE": "अपडेट भेजें",
 		"FRM_BTN_GOBACK": "वापस जाओ"
+	},
+	"PROFILE": {
+		"TITLE": "PROFILE"
 	}
 }

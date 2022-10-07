@@ -157,5 +157,8 @@
 		"FRM_CONTENT": "محتوى",
 		"FRM_BTN_SAVE": "إرسال التحديث",
 		"FRM_BTN_GOBACK": "عد"
+	},
+	"PROFILE": {
+		"TITLE": "PROFILE"
 	}
 }

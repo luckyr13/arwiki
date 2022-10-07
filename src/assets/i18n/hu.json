@@ -157,5 +157,8 @@
 		"FRM_CONTENT": "Tartalom",
 		"FRM_BTN_SAVE": "Frissítés küldése",
 		"FRM_BTN_GOBACK": "Menjen vissza"
+	},
+	"PROFILE": {
+		"TITLE": "PROFILE"
 	}
 }

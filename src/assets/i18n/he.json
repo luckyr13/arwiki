@@ -157,5 +157,8 @@
 		"FRM_CONTENT": "תוֹכֶן",
 		"FRM_BTN_SAVE": "שלח עדכון",
 		"FRM_BTN_GOBACK": "תחזור"
+	},
+	"PROFILE": {
+		"TITLE": "PROFILE"
 	}
 }

@@ -157,5 +157,8 @@
 		"FRM_CONTENT": "Kandungan",
 		"FRM_BTN_SAVE": "Kirim pembaruan",
 		"FRM_BTN_GOBACK": "Kembali"
+	},
+	"PROFILE": {
+		"TITLE": "PROFILE"
 	}
 }

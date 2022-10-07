@@ -127,10 +127,10 @@
 				</div>
 			</div>
 			<p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageData.owner">
-				<app-arweave-address [address]="pageData.owner">{{ 'PAGE.LABEL_LAST_UPDATE_BY' | translate }} </app-arweave-address>
+				<app-arweave-address [lang]="routeLang" [address]="pageData.owner">{{ 'PAGE.LABEL_LAST_UPDATE_BY' | translate }} </app-arweave-address>
 		  </p>
 		  <p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageExtraMetadata.sponsor">
-				<app-arweave-address [address]="pageExtraMetadata.sponsor">{{ 'PAGE.LABEL_SPONSOR' | translate }} </app-arweave-address>
+				<app-arweave-address [lang]="routeLang" [address]="pageExtraMetadata.sponsor">{{ 'PAGE.LABEL_SPONSOR' | translate }} </app-arweave-address>
 		  </p>
 		  <p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageData.id">
 		  	<app-arweave-address [isAddress]="false" [address]="pageData.id">{{ 'PAGE.LABEL_PAGE_TX' | translate }} </app-arweave-address>

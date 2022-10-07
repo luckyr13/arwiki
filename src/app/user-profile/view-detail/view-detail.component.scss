@@ -2,9 +2,36 @@
 	min-height: 600px;
 	margin-top: 100px;
 }
-
+h1 span, h2 span, h3 span, h4 span {
+	font-weight: normal;
+}
+h1, h2, h3, h4 {
+	margin-bottom: 6px;
+	margin-top: 6px;
+}
 h1 {
+	margin-bottom: 20px;
 }
 .profile-container p {
 	
+}
+
+.avatar {
+	width: 200px;
+	height: 200px;
+	border-radius: 50%;
+	object-fit: cover;
+	flex-shrink: 0;
+	vertical-align: middle;
+	float: left;
+	margin-left: 24px;
+	margin-right: 24px;
+}
+
+.page-title, .page-title-buttons {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+.btn-toolbar {
+	color: inherit;
 }

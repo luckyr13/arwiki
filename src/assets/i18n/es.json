@@ -91,7 +91,7 @@
 	"FOOTER": {
 		"LBL_POWERED": "Energizado por",
 		"LBL_PARTNERS": "Nuestros socios y amigos",
-		"LBL_SOCIAL_MEDIA": "Follow us"
+		"LBL_SOCIAL_MEDIA": "Síguenos en"
 	},
 	"DIALOGS": {
 		"TITLE_SELECT_LANG": "Seleccionar idioma",
@@ -157,5 +157,8 @@
 		"FRM_CONTENT": "Contenido",
 		"FRM_BTN_SAVE": "Enviar actualización",
 		"FRM_BTN_GOBACK": "Regresar"
+	},
+	"PROFILE": {
+		"TITLE": "Perfil"
 	}
 }

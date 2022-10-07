@@ -157,5 +157,8 @@
 		"FRM_CONTENT": "내용",
 		"FRM_BTN_SAVE": "업데이트 제출하기",
 		"FRM_BTN_GOBACK": "돌아가기"
+	},
+	"PROFILE": {
+		"TITLE": "PROFILE"
 	}
 }
