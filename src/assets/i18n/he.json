@@ -121,7 +121,8 @@
 			"BTN_SHARE": "Share",
 			"BTN_SPONSOR_PAGE": "Sponsor page",
 			"BTN_VIEW_HISTORY": "View history",
-			"BTN_STOP_STAKING": "Stop staking"
+			"BTN_STOP_STAKING": "Stop staking",
+			"BTN_EDIT_PROFILE": "Edit profile"
 		},
 		"LABELS": {
 			"NO_RESULTS": "אין תוצאות"

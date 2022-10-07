@@ -121,7 +121,8 @@
 			"BTN_SHARE": "Compartir",
 			"BTN_SPONSOR_PAGE": "Patrocinar página",
 			"BTN_VIEW_HISTORY": "Ver historial",
-			"BTN_STOP_STAKING": "Dejar de apostar"
+			"BTN_STOP_STAKING": "Dejar de apostar",
+			"BTN_EDIT_PROFILE": "Editar perfil"
 		},
 		"LABELS": {
 			"NO_RESULTS": "No hay resultados"
