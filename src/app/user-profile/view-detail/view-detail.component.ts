@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { UserProfile } from '../../core/interfaces/user-profile';
 import { AuthService } from '../../auth/auth.service';
@@ -6,25 +6,29 @@ import { ArweaveService } from '../../core/arweave.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Location } from '@angular/common';
+import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.service';
 
 @Component({
   selector: 'app-view-detail',
   templateUrl: './view-detail.component.html',
   styleUrls: ['./view-detail.component.scss']
 })
-export class ViewDetailComponent implements OnInit {
+export class ViewDetailComponent implements OnInit, OnDestroy {
   address = '';
   currentAddress = '';
   profile: UserProfile|null = null;
   profileSubscription = Subscription.EMPTY;
   defaultAvatar = 'assets/img/blank-profile.png';
   loadingProfile = false;
+  isAdmin = false;
+  isAdminSubscription = Subscription.EMPTY;
   
   constructor(
     private _auth: AuthService,
     private _route: ActivatedRoute,
     private _snackBar: MatSnackBar,
-    private _location: Location) {
+    private _location: Location,
+    private _arwikiToken: ArwikiTokenContract) {
     
   }
 
@@ -34,6 +38,7 @@ export class ViewDetailComponent implements OnInit {
     if (address) {
       this.address = address;
       this.loadProfile(this.address);
+      this.isAdminCheck(this.address);
     }
 
     this._route.paramMap.subscribe((params) => {
@@ -42,6 +47,7 @@ export class ViewDetailComponent implements OnInit {
       if (address) {
         this.address = address;
         this.loadProfile(this.address);
+        this.isAdminCheck(this.address);
       }
     });
 
@@ -49,6 +55,8 @@ export class ViewDetailComponent implements OnInit {
     this._auth.account$.subscribe((account) => {
       this.currentAddress = account;
     });
+
+
     
   }
 
@@ -67,7 +75,6 @@ export class ViewDetailComponent implements OnInit {
         this.message(error, 'error');
       }
     })
-
   }
 
   /*
@@ -85,6 +92,42 @@ export class ViewDetailComponent implements OnInit {
 
   goBack() {
     this._location.back();
+  }
+
+  ngOnDestroy() {
+    this.profileSubscription.unsubscribe();
+    this.isAdminSubscription.unsubscribe();
+  }
+
+  isAdminCheck(address: string) {
+    this.isAdminSubscription = this._arwikiToken.isAdmin(address).subscribe({
+      next: (isAdmin) => {
+        this.isAdmin = false;
+        if (isAdmin) {
+          this.isAdmin = true;
+        }
+      },
+      error: (error) => {
+        this.message(error, 'error');
+      }
+    })
+  }
+
+  socialLink(handle: string, service: string) {
+    let ans = '';
+    if (service === 'twitter') {
+      ans = `https://twitter.com/${handle}`
+    } else if (service === 'youtube') {
+      ans = `https://youtube.com/${handle}`
+    } else if (service === 'github') {
+      ans = `https://github.com/${handle}`
+    } else if (service === 'instagram') {
+      ans = `https://instagram.com/${handle}`
+    } else if (service === 'facebook') {
+      ans = `https://facebook.com/${handle}`
+    }
+
+    return ans;
   }
 
 }

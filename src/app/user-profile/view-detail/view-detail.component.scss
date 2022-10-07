@@ -1,3 +1,5 @@
+$sm-icon-size: 32px;
+
 .profile-container {
 	min-height: 600px;
 	margin-top: 100px;
@@ -34,4 +36,27 @@ h1 {
 }
 .btn-toolbar {
 	color: inherit;
+}
+
+.row-col-social-media {
+	text-align: left;
+}
+
+
+.row-col-social-media a {
+  vertical-align: middle;
+	display: inline-block;
+  line-height: normal;
+	margin-left: 10px;
+	margin-right: 10px;
+	width: $sm-icon-size;
+	height: $sm-icon-size;
+}
+
+.row-col-social-media img {
+	width: $sm-icon-size;
+	height: $sm-icon-size;
+}
+
+.row-col-social-media a:hover {
 }
