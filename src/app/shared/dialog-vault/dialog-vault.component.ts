@@ -3,7 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
-import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
+import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.service';
 import { ArweaveService } from '../../core/arweave.service';
 import { AuthService } from '../../auth/auth.service';
 import { arwikiVersion } from '../../core/arwiki';

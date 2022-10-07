@@ -9,7 +9,7 @@ import { ArweaveService } from '../../core/arweave.service';
 import { switchMap } from 'rxjs/operators';
 import { 
   ArwikiTokenContract 
-} from '../../core/arwiki-contracts/arwiki-token';
+} from '../../core/arwiki-contracts/arwiki-token.service';
 import { Router } from '@angular/router';
 import { MatDialogRef } from '@angular/material/dialog';
 import ArdbBlock from 'ardb/lib/models/block';

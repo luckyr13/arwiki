@@ -14,7 +14,7 @@ import { ArwikiPageIndex } from '../../core/interfaces/arwiki-page-index';
 import { Direction } from '@angular/cdk/bidi';
 import { UserSettingsService } from '../../core/user-settings.service';
 import { Arwiki } from '../../core/arwiki';
-import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
+import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.service';
 import { arwikiVersion } from '../../core/arwiki';
 import { DialogConfirmAmountComponent } from '../../shared/dialog-confirm-amount/dialog-confirm-amount.component';
 import { DialogSearchPageUpdateComponent } from '../dialog-search-page-update/dialog-search-page-update.component';

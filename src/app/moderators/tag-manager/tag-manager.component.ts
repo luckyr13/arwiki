@@ -17,7 +17,7 @@ import {MatDialog} from '@angular/material/dialog';
 import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confirm.component';
 import { AuthService } from '../../auth/auth.service';
 import { Arwiki } from '../../core/arwiki';
-import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
+import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.service';
 import { switchMap } from 'rxjs/operators';
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';

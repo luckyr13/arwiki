@@ -4,7 +4,7 @@ import { switchMap, map } from 'rxjs/operators';
 import { ArweaveService } from '../core/arweave.service';
 import { Observable, Subscription, of } from 'rxjs';
 import { ArwikiQuery } from '../core/arwiki-query';
-import { ArwikiTokenContract } from '../core/arwiki-contracts/arwiki-token';
+import { ArwikiTokenContract } from '../core/arwiki-contracts/arwiki-token.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ArwikiCategoryIndex } from '../core/interfaces/arwiki-category-index';

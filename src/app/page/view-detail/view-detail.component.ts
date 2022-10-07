@@ -13,7 +13,7 @@ import { ArweaveService } from '../../core/arweave.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
-import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
+import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.service';
 import { UserSettingsService } from '../../core/user-settings.service';
 import { AuthService } from '../../auth/auth.service';
 import { switchMap } from 'rxjs/operators';

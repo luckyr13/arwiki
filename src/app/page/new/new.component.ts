@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription, of, Observable } from 'rxjs'; 
 import { switchMap } from 'rxjs/operators';
-import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
+import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.service';
 import { ActivatedRoute } from '@angular/router';
 import { ArwikiQuery } from '../../core/arwiki-query';
 import { ArwikiLangIndex } from '../../core/interfaces/arwiki-lang-index';

@@ -12,7 +12,7 @@ import { Location } from '@angular/common';
 import { ArwikiPage } from '../../core/interfaces/arwiki-page';
 import { 
   ArwikiTokenContract 
-} from '../../core/arwiki-contracts/arwiki-token';
+} from '../../core/arwiki-contracts/arwiki-token.service';
 declare const window: any;
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';

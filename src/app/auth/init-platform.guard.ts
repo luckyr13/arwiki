@@ -10,7 +10,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ArwikiLangIndex } from '../core/interfaces/arwiki-lang-index';
 import { ArweaveService } from '../core/arweave.service';
-import { ArwikiTokenContract } from '../core/arwiki-contracts/arwiki-token';
+import { ArwikiTokenContract } from '../core/arwiki-contracts/arwiki-token.service';
 import { AuthService } from '../auth/auth.service';
 
 @Injectable({

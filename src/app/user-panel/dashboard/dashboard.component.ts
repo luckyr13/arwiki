@@ -8,7 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UserSettingsService } from '../../core/user-settings.service';
 import { ArwikiQuery } from '../../core/arwiki-query';
 import { Location } from '@angular/common';
-import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
+import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.service';
 declare const window: any;
 import {MatDialog} from '@angular/material/dialog';
 import { Direction } from '@angular/cdk/bidi';

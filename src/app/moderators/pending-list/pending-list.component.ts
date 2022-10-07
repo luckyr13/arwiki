@@ -18,7 +18,7 @@ import { ArwikiCategoryIndex } from '../../core/interfaces/arwiki-category-index
 import { ArwikiPageIndex } from '../../core/interfaces/arwiki-page-index';
 import { 
   ArwikiTokenContract 
-} from '../../core/arwiki-contracts/arwiki-token';
+} from '../../core/arwiki-contracts/arwiki-token.service';
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
 

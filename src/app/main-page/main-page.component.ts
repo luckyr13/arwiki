@@ -3,7 +3,7 @@ import { UserSettingsService } from '../core/user-settings.service';
 import { Subscription, of, Observable } from 'rxjs';
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { ArweaveService } from '../core/arweave.service';
-import { ArwikiTokenContract } from '../core/arwiki-contracts/arwiki-token';
+import { ArwikiTokenContract } from '../core/arwiki-contracts/arwiki-token.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ArwikiQuery } from '../core/arwiki-query';
 import { AuthService } from '../auth/auth.service';

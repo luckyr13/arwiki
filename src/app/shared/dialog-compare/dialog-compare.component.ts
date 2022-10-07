@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { ArweaveService } from '../../core/arweave.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { Diff, diffLines, Change } from 'diff';
-import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token';
+import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.service';
 import { of, from, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
