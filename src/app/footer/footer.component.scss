@@ -14,7 +14,7 @@ $sm-icon-size: 32px;
 	text-align: center;
 	float: left;
 	width: 100%;
-	height: (($footer-height-small / 6) * 3);
+	height: calc(($footer-height-small / 6) * 3);
 	padding: 14px;
 }
 
@@ -24,8 +24,8 @@ $sm-icon-size: 32px;
 	text-align: center;
 	float: left;
 	width: 100%;
-  line-height: (($footer-height-small / 6) * 2);
-	height: (($footer-height-small / 6) * 2);
+  line-height: calc(($footer-height-small / 6) * 2);
+	height: calc(($footer-height-small / 6) * 2);
 	padding: 0px 14px 14px 14px;
 }
 
@@ -44,7 +44,7 @@ $sm-icon-size: 32px;
 .app-info {
 	font-size: 12px;
 	text-align: center;
-	height: (($footer-height-small / 6) * 1);
+	height: calc(($footer-height-small / 6) * 1);
 	float: left;
 	width: 100%;
 	clear: both;
@@ -54,7 +54,7 @@ $sm-icon-size: 32px;
 	.row-col-logo {
 		text-align: left;
 		width: 20%;
-		height: ($footer-height-big / 6) * 5;
+		height: calc(($footer-height-big / 6) * 5);
 		padding-left: 20px;
 	}
 
@@ -62,7 +62,7 @@ $sm-icon-size: 32px;
 		text-align: right;
 		width: 80%;
 		padding-top: 20px;
-		height: ($footer-height-big / 6) * 5;
+		height: calc(($footer-height-big / 6) * 5);
 	}
 
 	.footer {
@@ -71,7 +71,7 @@ $sm-icon-size: 32px;
 
 	.app-info {
 		text-align: right;
-		height: ($footer-height-big / 6);
+		height: calc($footer-height-big / 6);
 		padding-right: 8px;
 	}
 }
@@ -80,7 +80,8 @@ $sm-icon-size: 32px;
   vertical-align: middle;
 	display: inline-block;
   line-height: normal;
-	margin-left: 20px;
+	margin-left: 10px;
+	margin-right: 10px;
 	width: $sm-icon-size;
 	height: $sm-icon-size;
 }
@@ -92,4 +93,9 @@ $sm-icon-size: 32px;
 
 .row-col-social-media a:hover {
 	margin-top: -6px;
+}
+
+.follow-us-label {
+	margin-left: 10px;
+	margin-right: 10px;
 }
