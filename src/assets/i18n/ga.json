@@ -29,7 +29,9 @@
 		"MENU_MODERATOR_DELETED": "Leathanaigh scriosta",
 		"MENU_MODERATOR_ADD_MODERATOR": "Cuir Moderator leis",
 		"MENU_MODERATOR_VIEW_ADM_LIST": "Féach ar an liosta riaracháin",
-		"MENU_USER_LOGOUT_COMPOSED": "Log out {{ value }}"
+		"MENU_USER_LOGOUT_COMPOSED": "Log out {{ value }}",
+		"MENU_USER_PROFILE": "Profile",
+		"MENU_USER_METHOD": "Method"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "Fáilte go dtí an permaweb!",
@@ -52,7 +54,16 @@
 		"LABEL_OWNER_STATUS": "Stádas úinéara",
 		"STATUS_TX_PENDING": "Ar feitheamh",
 		"STATUS_ADDRESS_VERIFIED": "Fíoraithe",
-		"STATUS_ADDRESS_NOTVERIFIED": "Gan a bheith fíoraithe"
+		"STATUS_ADDRESS_NOTVERIFIED": "Gan a bheith fíoraithe",
+		"LABEL_CATEGORY_INFO": "Category:",
+		"LABEL_LAST_UPDATE": "Last Update:",
+		"LABEL_LAST_UPDATE_BY": "Last update by:",
+		"LABEL_SPONSOR": "Sponsor:",
+		"LABEL_PAGE_VALUE": "Page value:",
+		"LABEL_PAGE_TX": "Page tx:",
+		"LABEL_PAGE_NOT_FOUND": "Page not found! 😢",
+		"LABEL_CREATE_NEW_PAGE": "Create new ArWiki page",
+		"LABEL_CONTENT_OVERVIEW": "Content overview"
 	},
 	"NOT_FOUND": {
 
@@ -105,7 +116,12 @@
 			"VIEW_ARTICLE": "Féach an t-alt",
 			"EDIT_PAGE": "Cuir an leathanach in eagar",
 			"MORE_ARTICLES": "Tuilleadh alt",
-			"VIEW_ALL": "Féach ar gach"
+			"VIEW_ALL": "Féach ar gach",
+			"BTN_DONATE": "Donate",
+			"BTN_SHARE": "Share",
+			"BTN_SPONSOR_PAGE": "Sponsor page",
+			"BTN_VIEW_HISTORY": "View history",
+			"BTN_STOP_STAKING": "Stop staking"
 		},
 		"LABELS": {
 			"NO_RESULTS": "Gan torthaí"

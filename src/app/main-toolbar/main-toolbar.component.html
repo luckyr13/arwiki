@@ -99,20 +99,19 @@
               [address]="account"
               class="small-username-2"></app-arweave-address>
             <div class="small-username-2 login-method-span">
-              <strong>Method:</strong> {{ method }}
+              <strong>{{ 'MAIN_TOOLBAR.MENU_USER_METHOD' | translate }}</strong> {{ method }}
             </div>
           </div>
         </mat-list-item>
       </mat-list>
       <mat-divider></mat-divider>
-      <button mat-menu-item [routerLink]="[account]">
-        <mat-icon>person</mat-icon>
-        <span>Profile</span>
-      </button>
       <button 
         mat-menu-item
         routerLink="{{ routerLang }}/dashboard">
          <mat-icon>dashboard</mat-icon> {{ 'MAIN_TOOLBAR.MENU_USER_DASHBOARD' | translate }}
+      </button>
+      <button mat-menu-item [routerLink]="[routerLang, 'user', account]">
+        <mat-icon>person</mat-icon> {{ 'MAIN_TOOLBAR.MENU_USER_PROFILE' | translate }}
       </button>
       <button 
         mat-menu-item

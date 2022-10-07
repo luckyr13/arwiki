@@ -29,7 +29,9 @@
 		"MENU_MODERATOR_DELETED": "刪除的页面",
 		"MENU_MODERATOR_ADD_MODERATOR": "添加版主",
 		"MENU_MODERATOR_VIEW_ADM_LIST": "查看管理员列表",
-		"MENU_USER_LOGOUT_COMPOSED": "Log out {{ value }}"
+		"MENU_USER_LOGOUT_COMPOSED": "Log out {{ value }}",
+		"MENU_USER_PROFILE": "Profile",
+		"MENU_USER_METHOD": "Method"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "欢迎来到永久网！",
@@ -52,7 +54,16 @@
 		"LABEL_OWNER_STATUS": "所有者状态",
 		"STATUS_TX_PENDING": "待处理",
 		"STATUS_ADDRESS_VERIFIED": "已验证",
-		"STATUS_ADDRESS_NOTVERIFIED": "未验证"
+		"STATUS_ADDRESS_NOTVERIFIED": "未验证",
+		"LABEL_CATEGORY_INFO": "Category:",
+		"LABEL_LAST_UPDATE": "Last Update:",
+		"LABEL_LAST_UPDATE_BY": "Last update by:",
+		"LABEL_SPONSOR": "Sponsor:",
+		"LABEL_PAGE_VALUE": "Page value:",
+		"LABEL_PAGE_TX": "Page tx:",
+		"LABEL_PAGE_NOT_FOUND": "Page not found! 😢",
+		"LABEL_CREATE_NEW_PAGE": "Create new ArWiki page",
+		"LABEL_CONTENT_OVERVIEW": "Content overview"
 	},
 	"NOT_FOUND": {
 
@@ -105,7 +116,12 @@
 			"VIEW_ARTICLE": "查看文章",
 			"EDIT_PAGE": "编辑页面",
 			"MORE_ARTICLES": "更多文章",
-			"VIEW_ALL": "查看全部"
+			"VIEW_ALL": "查看全部",
+			"BTN_DONATE": "Donate",
+			"BTN_SHARE": "Share",
+			"BTN_SPONSOR_PAGE": "Sponsor page",
+			"BTN_VIEW_HISTORY": "View history",
+			"BTN_STOP_STAKING": "Stop staking"
 		},
 		"LABELS": {
 			"NO_RESULTS": "没有结果"
