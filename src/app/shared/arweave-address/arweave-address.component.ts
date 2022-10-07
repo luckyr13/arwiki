@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, OnChanges } from '@angular/core';
 import { ArverifyMapService } from '../../core/arverify-map.service'
 import { Clipboard } from '@angular/cdk/clipboard';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -11,7 +11,7 @@ import { ArweaveService } from '../../core/arweave.service'
   templateUrl: './arweave-address.component.html',
   styleUrls: ['./arweave-address.component.scss']
 })
-export class ArweaveAddressComponent implements OnInit, OnDestroy {
+export class ArweaveAddressComponent implements OnInit, OnDestroy, OnChanges {
   public verified: boolean = false
   @Input() address: string = '';
   @Input() isAddress: boolean = true;
@@ -27,6 +27,9 @@ export class ArweaveAddressComponent implements OnInit, OnDestroy {
     private _arweave: ArweaveService) {}
 
   async ngOnInit() {
+  }
+
+  async ngOnChanges() {
     if (this.isAddress && this.address) {
       let verificationResult = await this._arverifyMap.getVerification(this.address)
       this.verified = verificationResult && verificationResult.verified

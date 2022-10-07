@@ -28,7 +28,8 @@
 		"MENU_MODERATOR_APPROVED": "דפים מאושרים",
 		"MENU_MODERATOR_DELETED": "דפים שנמחקו",
 		"MENU_MODERATOR_ADD_MODERATOR": "הוסף מנחה",
-		"MENU_MODERATOR_VIEW_ADM_LIST": "הצג רשימת מנהלים"
+		"MENU_MODERATOR_VIEW_ADM_LIST": "הצג רשימת מנהלים",
+		"MENU_USER_LOGOUT_COMPOSED": "Log out {{ value }}"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "ברוך הבא ל- permaweb!",
@@ -78,7 +79,8 @@
 	},
 	"FOOTER": {
 		"LBL_POWERED": "נתמך על ידי",
-		"LBL_PARTNERS": "השותפים והחברים שלנו"
+		"LBL_PARTNERS": "השותפים והחברים שלנו",
+		"LBL_SOCIAL_MEDIA": "Follow us"
 	},
 	"DIALOGS": {
 		"TITLE_SELECT_LANG": "בחר שפה",

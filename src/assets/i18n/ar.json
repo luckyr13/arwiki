@@ -28,7 +28,8 @@
 		"MENU_MODERATOR_APPROVED": "الصفحات المعتمدة",
 		"MENU_MODERATOR_DELETED": "الصفحات المحذوفة",
 		"MENU_MODERATOR_ADD_MODERATOR": "إضافة مشرف",
-		"MENU_MODERATOR_VIEW_ADM_LIST": "عرض قائمة الإدارة"
+		"MENU_MODERATOR_VIEW_ADM_LIST": "عرض قائمة الإدارة",
+		"MENU_USER_LOGOUT_COMPOSED": "Log out {{ value }}"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "مرحبًا بكم في موقع Permaweb!",
@@ -78,7 +79,8 @@
 	},
 	"FOOTER": {
 		"LBL_POWERED": "مشغل بواسطة",
-		"LBL_PARTNERS": "شركاؤنا وأصدقائنا"
+		"LBL_PARTNERS": "شركاؤنا وأصدقائنا",
+		"LBL_SOCIAL_MEDIA": "Follow us"
 	},
 	"DIALOGS": {
 		"TITLE_SELECT_LANG": "حدد اللغة",

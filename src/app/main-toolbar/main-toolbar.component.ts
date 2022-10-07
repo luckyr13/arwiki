@@ -20,6 +20,7 @@ import { Direction } from '@angular/cdk/bidi';
 import { of } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
 declare const window: any;
+import { UserProfile } from '../core/interfaces/user-profile';
 
 @Component({
   selector: 'app-main-toolbar',
@@ -27,8 +28,8 @@ declare const window: any;
   styleUrls: ['./main-toolbar.component.scss']
 })
 export class MainToolbarComponent implements OnInit, OnDestroy {
-  account: Observable<string>|null = null;
-  network: Observable<string> = this._arweave.getNetworkName();
+  account = '';
+  method = '';
   @Input() opened!: boolean;
   @Output() openedChange = new EventEmitter<boolean>();
   isLoggedIn: boolean = false;
@@ -43,6 +44,7 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   });
   profileImage: string = 'assets/img/blank-profile.png';
   profileSubscription = Subscription.EMPTY;
+  profile: UserProfile|null = null;
 
   constructor(
     private _auth: AuthService,
@@ -100,10 +102,18 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
 
   updateProfileData() {
     const mainAddress = this._auth.getMainAddressSnapshot();
+    this.account = mainAddress;
+        this.method = this._auth.loginMethod;
     this.profileSubscription = this._auth.getProfile(mainAddress).subscribe((profile) => {
-      this.profileImage = profile && profile.avatarURL ?
-        profile.avatarURL :
-        'assets/img/blank-profile.png';
+      if (profile) {
+        this.profile = profile;
+        if (profile.avatarURL) {
+          this.profileImage = profile.avatarURL;
+        }
+      } else {
+        this.profile = null;
+        this.profileImage = 'assets/img/blank-profile.png';
+      }
 
     });
   }
@@ -226,4 +236,14 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
     });
   }
 
+  ellipsis(s: string) {
+    const minLength = 12;
+    const sliceLength = 5;
+
+    if (!s || typeof(s) !== 'string') {
+      return '';
+    }
+
+    return s && s.length < minLength ? s : `${s.substring(0, sliceLength)}...${s.substring(s.length - sliceLength, s.length)}`;
+  }
 }

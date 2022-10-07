@@ -91,7 +91,24 @@
     <mat-icon *ngIf="!profileImage">account_circle</mat-icon>
   </button>
   <mat-menu #accountMenu="matMenu">
-    <div>
+    <mat-list class="user-info-container">
+        <mat-list-item>
+          <h3 matLine *ngIf="profile && profile.name" class="big-username"> {{ profile.name }} </h3>
+          <div matLine>
+            <app-arweave-address
+              [address]="account"
+              class="small-username-2"></app-arweave-address>
+            <div class="small-username-2 login-method-span">
+              <strong>Method:</strong> {{ method }}
+            </div>
+          </div>
+        </mat-list-item>
+      </mat-list>
+      <mat-divider></mat-divider>
+      <button mat-menu-item [routerLink]="[account]">
+        <mat-icon>person</mat-icon>
+        <span>Profile</span>
+      </button>
       <button 
         mat-menu-item
         routerLink="{{ routerLang }}/dashboard">
@@ -112,12 +129,12 @@
         routerLink="{{ routerLang }}/create-page">
          <mat-icon>post_add</mat-icon> {{ 'MAIN_TOOLBAR.MENU_USER_CREATE' | translate }}
       </button>
-      <button 
-        mat-menu-item
-        (click)="logout()">
-         <mat-icon>logout</mat-icon> {{ 'MAIN_TOOLBAR.MENU_USER_LOGOUT' | translate }}
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>{{ 'MAIN_TOOLBAR.MENU_USER_LOGOUT_COMPOSED' | translate:{ value: ellipsis(account) } }}</span>
       </button>
-    </div>
+
+      
   </mat-menu>
   
 

@@ -68,3 +68,30 @@ mat-toolbar, mat-progress-bar {
 	flex-shrink: 0;
 	vertical-align: middle;
 }
+
+
+.avatar.user {
+	margin-right: 4px;
+}
+
+.user-info-container {
+	width: 280px !important;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	min-height: 92px;
+}
+
+.big-username {
+	font-size: 18px !important;
+	margin-bottom: 20px;
+	font-weight: bold !important;
+}
+
+.user-link {
+	text-decoration: none;
+}
+
+.login-method-span {
+	margin-top: -6px;
+	font-size: 10px;
+}
