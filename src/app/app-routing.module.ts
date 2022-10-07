@@ -29,7 +29,7 @@ const routes: Routes = [
         path: ':lang/main', component: MainPageComponent,
       },  
       {
-        path: ':lang/category/:category',
+        path: ':lang/category',
         loadChildren: () => import('./category/category.module').then(m => m.CategoryModule),
       },
       {
@@ -42,6 +42,10 @@ const routes: Routes = [
       {
         path: ':lang/moderators',
         loadChildren: () => import('./moderators/moderators.module').then(m => m.ModeratorsModule),
+      },
+      {
+        path: ':lang/user',
+        loadChildren: () => import('./user-profile/user-profile.module').then(m => m.UserProfileModule)
       }
     ]
   }
