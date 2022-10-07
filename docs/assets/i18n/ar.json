@@ -28,7 +28,10 @@
 		"MENU_MODERATOR_APPROVED": "الصفحات المعتمدة",
 		"MENU_MODERATOR_DELETED": "الصفحات المحذوفة",
 		"MENU_MODERATOR_ADD_MODERATOR": "إضافة مشرف",
-		"MENU_MODERATOR_VIEW_ADM_LIST": "عرض قائمة الإدارة"
+		"MENU_MODERATOR_VIEW_ADM_LIST": "عرض قائمة الإدارة",
+		"MENU_USER_LOGOUT_COMPOSED": "Log out {{ value }}",
+		"MENU_USER_PROFILE": "Profile",
+		"MENU_USER_METHOD": "Method"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "مرحبًا بكم في موقع Permaweb!",
@@ -51,7 +54,18 @@
 		"LABEL_OWNER_STATUS": "حالة المالك",
 		"STATUS_TX_PENDING": "قيد الانتظار",
 		"STATUS_ADDRESS_VERIFIED": "تم التحقق",
-		"STATUS_ADDRESS_NOTVERIFIED": "لم يتم التحقق منها"
+		"STATUS_ADDRESS_NOTVERIFIED": "لم يتم التحقق منها",
+		"LABEL_CATEGORY_INFO": "Category:",
+		"LABEL_LAST_UPDATE": "Last Update:",
+		"LABEL_LAST_UPDATE_BY": "Last update by:",
+		"LABEL_SPONSOR": "Sponsor:",
+		"LABEL_PAGE_VALUE": "Page value:",
+		"LABEL_PAGE_TX": "Page tx:",
+		"LABEL_PAGE_NOT_FOUND": "Page not found! 😢",
+		"LABEL_CREATE_NEW_PAGE": "Create new ArWiki page",
+		"LABEL_CONTENT_OVERVIEW": "Content overview",
+		"LABEL_TAGS": "Tags",
+		"LABEL_TRANSLATIONS": "Translations"
 	},
 	"NOT_FOUND": {
 
@@ -78,7 +92,8 @@
 	},
 	"FOOTER": {
 		"LBL_POWERED": "مشغل بواسطة",
-		"LBL_PARTNERS": "شركاؤنا وأصدقائنا"
+		"LBL_PARTNERS": "شركاؤنا وأصدقائنا",
+		"LBL_SOCIAL_MEDIA": "Follow us"
 	},
 	"DIALOGS": {
 		"TITLE_SELECT_LANG": "حدد اللغة",
@@ -103,7 +118,14 @@
 			"VIEW_ARTICLE": "مشاهدة المقال",
 			"EDIT_PAGE": "تعديل الصفحة",
 			"MORE_ARTICLES": "المزيد من المقالات",
-			"VIEW_ALL": "مشاهدة الكل"
+			"VIEW_ALL": "مشاهدة الكل",
+			"BTN_DONATE": "Donate",
+			"BTN_SHARE": "Share",
+			"BTN_SPONSOR_PAGE": "Sponsor page",
+			"BTN_VIEW_HISTORY": "View history",
+			"BTN_STOP_STAKING": "Stop staking",
+			"BTN_EDIT_PROFILE": "Edit profile",
+			"BTN_DONORS_LIST": "Donor ranking"
 		},
 		"LABELS": {
 			"NO_RESULTS": "لا نتائج"
@@ -139,5 +161,8 @@
 		"FRM_CONTENT": "محتوى",
 		"FRM_BTN_SAVE": "إرسال التحديث",
 		"FRM_BTN_GOBACK": "عد"
+	},
+	"PROFILE": {
+		"TITLE": "Profile"
 	}
 }

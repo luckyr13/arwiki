@@ -28,7 +28,10 @@
 		"MENU_MODERATOR_APPROVED": "דפים מאושרים",
 		"MENU_MODERATOR_DELETED": "דפים שנמחקו",
 		"MENU_MODERATOR_ADD_MODERATOR": "הוסף מנחה",
-		"MENU_MODERATOR_VIEW_ADM_LIST": "הצג רשימת מנהלים"
+		"MENU_MODERATOR_VIEW_ADM_LIST": "הצג רשימת מנהלים",
+		"MENU_USER_LOGOUT_COMPOSED": "Log out {{ value }}",
+		"MENU_USER_PROFILE": "Profile",
+		"MENU_USER_METHOD": "Method"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "ברוך הבא ל- permaweb!",
@@ -51,7 +54,18 @@
 		"LABEL_OWNER_STATUS": "סטטוס בעלים",
 		"STATUS_TX_PENDING": "ממתין ל",
 		"STATUS_ADDRESS_VERIFIED": "מְאוּמָת",
-		"STATUS_ADDRESS_NOTVERIFIED": "לא אומת"
+		"STATUS_ADDRESS_NOTVERIFIED": "לא אומת",
+		"LABEL_CATEGORY_INFO": "Category:",
+		"LABEL_LAST_UPDATE": "Last Update:",
+		"LABEL_LAST_UPDATE_BY": "Last update by:",
+		"LABEL_SPONSOR": "Sponsor:",
+		"LABEL_PAGE_VALUE": "Page value:",
+		"LABEL_PAGE_TX": "Page tx:",
+		"LABEL_PAGE_NOT_FOUND": "Page not found! 😢",
+		"LABEL_CREATE_NEW_PAGE": "Create new ArWiki page",
+		"LABEL_CONTENT_OVERVIEW": "Content overview",
+		"LABEL_TAGS": "Tags",
+		"LABEL_TRANSLATIONS": "Translations"
 	},
 	"CREATE_PAGE": {
 		"TITLE": "צור עמוד",
@@ -78,7 +92,8 @@
 	},
 	"FOOTER": {
 		"LBL_POWERED": "נתמך על ידי",
-		"LBL_PARTNERS": "השותפים והחברים שלנו"
+		"LBL_PARTNERS": "השותפים והחברים שלנו",
+		"LBL_SOCIAL_MEDIA": "Follow us"
 	},
 	"DIALOGS": {
 		"TITLE_SELECT_LANG": "בחר שפה",
@@ -103,7 +118,14 @@
 			"VIEW_ARTICLE": "צפה במאמר",
 			"EDIT_PAGE": "ערוך דף",
 			"MORE_ARTICLES": "מאמרים נוספים",
-			"VIEW_ALL": "צפה בהכל"
+			"VIEW_ALL": "צפה בהכל",
+			"BTN_DONATE": "Donate",
+			"BTN_SHARE": "Share",
+			"BTN_SPONSOR_PAGE": "Sponsor page",
+			"BTN_VIEW_HISTORY": "View history",
+			"BTN_STOP_STAKING": "Stop staking",
+			"BTN_EDIT_PROFILE": "Edit profile",
+			"BTN_DONORS_LIST": "Donor ranking"
 		},
 		"LABELS": {
 			"NO_RESULTS": "אין תוצאות"
@@ -139,5 +161,8 @@
 		"FRM_CONTENT": "תוֹכֶן",
 		"FRM_BTN_SAVE": "שלח עדכון",
 		"FRM_BTN_GOBACK": "תחזור"
+	},
+	"PROFILE": {
+		"TITLE": "Profile"
 	}
 }

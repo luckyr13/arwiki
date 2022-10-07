@@ -28,7 +28,10 @@
 		"MENU_MODERATOR_APPROVED": "Genehmigte Seiten",
 		"MENU_MODERATOR_DELETED": "Gelöschte Seiten",
 		"MENU_MODERATOR_ADD_MODERATOR": "Moderator hinzufügen",
-		"MENU_MODERATOR_VIEW_ADM_LIST": "Admin-Liste anzeigen"
+		"MENU_MODERATOR_VIEW_ADM_LIST": "Admin-Liste anzeigen",
+		"MENU_USER_LOGOUT_COMPOSED": "Log out {{ value }}",
+		"MENU_USER_PROFILE": "Profile",
+		"MENU_USER_METHOD": "Method"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "Willkommen im Permaweb!",
@@ -51,7 +54,18 @@
 		"LABEL_OWNER_STATUS": "Besitzerstatus",
 		"STATUS_TX_PENDING": "steht aus",
 		"STATUS_ADDRESS_VERIFIED": "Verifiziert",
-		"STATUS_ADDRESS_NOTVERIFIED": "Nicht verifiziert"
+		"STATUS_ADDRESS_NOTVERIFIED": "Nicht verifiziert",
+		"LABEL_CATEGORY_INFO": "Kategorie:",
+		"LABEL_LAST_UPDATE": "Last Update:",
+		"LABEL_LAST_UPDATE_BY": "Last update by:",
+		"LABEL_SPONSOR": "Sponsor:",
+		"LABEL_PAGE_VALUE": "Page value:",
+		"LABEL_PAGE_TX": "Page tx:",
+		"LABEL_PAGE_NOT_FOUND": "Page not found! 😢",
+		"LABEL_CREATE_NEW_PAGE": "Create new ArWiki page",
+		"LABEL_CONTENT_OVERVIEW": "Content overview",
+		"LABEL_TAGS": "Tags",
+		"LABEL_TRANSLATIONS": "Translations"
 	},
 	"NOT_FOUND": {
 
@@ -78,7 +92,8 @@
 	},
 	"FOOTER": {
 		"LBL_POWERED": "Unterstützt von",
-		"LBL_PARTNERS": "Unsere Partner und Freunde"
+		"LBL_PARTNERS": "Unsere Partner und Freunde",
+		"LBL_SOCIAL_MEDIA": "Follow us"
 	},
 	"DIALOGS": {
 		"TITLE_SELECT_LANG": "Sprache auswählen",
@@ -103,7 +118,14 @@
 			"VIEW_ARTICLE": "Artikel ansehen",
 			"EDIT_PAGE": "Seite bearbeiten",
 			"MORE_ARTICLES": "Weitere Artikel",
-			"VIEW_ALL": "Alle ansehen"
+			"VIEW_ALL": "Alle ansehen",
+			"BTN_DONATE": "Donate",
+			"BTN_SHARE": "Share",
+			"BTN_SPONSOR_PAGE": "Sponsor page",
+			"BTN_VIEW_HISTORY": "View history",
+			"BTN_STOP_STAKING": "Stop staking",
+			"BTN_EDIT_PROFILE": "Edit profile",
+			"BTN_DONORS_LIST": "Donor ranking"
 		},
 		"LABELS": {
 			"NO_RESULTS": "Keine Ergebnisse"
@@ -139,5 +161,8 @@
 		"FRM_CONTENT": "Inhalt",
 		"FRM_BTN_SAVE": "Update senden",
 		"FRM_BTN_GOBACK": "Geh zurück"
+	},
+	"PROFILE": {
+		"TITLE": "Profile"
 	}
 }

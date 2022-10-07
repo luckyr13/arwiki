@@ -28,7 +28,10 @@
 		"MENU_MODERATOR_APPROVED": "Jóváhagyott oldalak",
 		"MENU_MODERATOR_DELETED": "Törölt oldalak",
 		"MENU_MODERATOR_ADD_MODERATOR": "Moderátor hozzáadása",
-		"MENU_MODERATOR_VIEW_ADM_LIST": "Adminisztrátori lista megtekintése"
+		"MENU_MODERATOR_VIEW_ADM_LIST": "Adminisztrátori lista megtekintése",
+		"MENU_USER_LOGOUT_COMPOSED": "Log out {{ value }}",
+		"MENU_USER_PROFILE": "Profile",
+		"MENU_USER_METHOD": "Method"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "Üdvözöljük a permaweben!",
@@ -51,7 +54,18 @@
 		"LABEL_OWNER_STATUS": "Tulajdonos státusz",
 		"STATUS_TX_PENDING": "Függőben levő",
 		"STATUS_ADDRESS_VERIFIED": "Ellenőrzött",
-		"STATUS_ADDRESS_NOTVERIFIED": "Nem ellenőrzött"
+		"STATUS_ADDRESS_NOTVERIFIED": "Nem ellenőrzött",
+		"LABEL_CATEGORY_INFO": "Category:",
+		"LABEL_LAST_UPDATE": "Last Update:",
+		"LABEL_LAST_UPDATE_BY": "Last update by:",
+		"LABEL_SPONSOR": "Sponsor:",
+		"LABEL_PAGE_VALUE": "Page value:",
+		"LABEL_PAGE_TX": "Page tx:",
+		"LABEL_PAGE_NOT_FOUND": "Page not found! 😢",
+		"LABEL_CREATE_NEW_PAGE": "Create new ArWiki page",
+		"LABEL_CONTENT_OVERVIEW": "Content overview",
+		"LABEL_TAGS": "Tags",
+		"LABEL_TRANSLATIONS": "Translations"
 	},
 	"NOT_FOUND": {
 
@@ -78,7 +92,8 @@
 	},
 	"FOOTER": {
 		"LBL_POWERED": "Powered by",
-		"LBL_PARTNERS": "Partnereink és barátaink"
+		"LBL_PARTNERS": "Partnereink és barátaink",
+		"LBL_SOCIAL_MEDIA": "Follow us"
 	},
 	"DIALOGS": {
 		"TITLE_SELECT_LANG": "Válasszon nyelvet",
@@ -103,7 +118,14 @@
 			"VIEW_ARTICLE": "Cikk megtekintése",
 			"EDIT_PAGE": "Oldal szerkesztése",
 			"MORE_ARTICLES": "További cikkek",
-			"VIEW_ALL": "Összes megtekintése"
+			"VIEW_ALL": "Összes megtekintése",
+			"BTN_DONATE": "Donate",
+			"BTN_SHARE": "Share",
+			"BTN_SPONSOR_PAGE": "Sponsor page",
+			"BTN_VIEW_HISTORY": "View history",
+			"BTN_STOP_STAKING": "Stop staking",
+			"BTN_EDIT_PROFILE": "Edit profile",
+			"BTN_DONORS_LIST": "Donor ranking"
 		},
 		"LABELS": {
 			"NO_RESULTS": "Nincs eredmény"
@@ -139,5 +161,8 @@
 		"FRM_CONTENT": "Tartalom",
 		"FRM_BTN_SAVE": "Frissítés küldése",
 		"FRM_BTN_GOBACK": "Menjen vissza"
+	},
+	"PROFILE": {
+		"TITLE": "Profile"
 	}
 }

@@ -28,7 +28,10 @@
 		"MENU_MODERATOR_APPROVED": "Páginas aprobadas",
 		"MENU_MODERATOR_DELETED": "Páginas eliminadas",
 		"MENU_MODERATOR_ADD_MODERATOR": "Agregar Moderador",
-		"MENU_MODERATOR_VIEW_ADM_LIST": "Ver lista de administradores"
+		"MENU_MODERATOR_VIEW_ADM_LIST": "Ver lista de administradores",
+		"MENU_USER_LOGOUT_COMPOSED": "Cerrar sesión {{ value }}",
+		"MENU_USER_PROFILE": "Perfil",
+		"MENU_USER_METHOD": "Método"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "¡Bienvenido a la permaweb!",
@@ -51,7 +54,18 @@
 		"LABEL_OWNER_STATUS": "Estatus de propietario",
 		"STATUS_TX_PENDING": "Pendiente",
 		"STATUS_ADDRESS_VERIFIED": "Verificado",
-		"STATUS_ADDRESS_NOTVERIFIED": "No verificado"
+		"STATUS_ADDRESS_NOTVERIFIED": "No verificado",
+		"LABEL_CATEGORY_INFO": "Categoría:",
+		"LABEL_LAST_UPDATE": "Última actualización:",
+		"LABEL_LAST_UPDATE_BY": "Última actualización por:",
+		"LABEL_SPONSOR": "Patrocinador:",
+		"LABEL_PAGE_VALUE": "Valor de la página:",
+		"LABEL_PAGE_TX": "TX:",
+		"LABEL_PAGE_NOT_FOUND": "¡Página no encontrada! 😢",
+		"LABEL_CREATE_NEW_PAGE": "Crear una nueva página ArWiki",
+		"LABEL_CONTENT_OVERVIEW": "Descripción general del contenido",
+		"LABEL_TAGS": "Etiquetas",
+		"LABEL_TRANSLATIONS": "Traducciones"
 	},
 	"CREATE_PAGE": {
 		"TITLE": "Crear página",
@@ -78,7 +92,8 @@
 	},
 	"FOOTER": {
 		"LBL_POWERED": "Energizado por",
-		"LBL_PARTNERS": "Nuestros socios y amigos"
+		"LBL_PARTNERS": "Nuestros socios y amigos",
+		"LBL_SOCIAL_MEDIA": "Síguenos en"
 	},
 	"DIALOGS": {
 		"TITLE_SELECT_LANG": "Seleccionar idioma",
@@ -103,7 +118,14 @@
 			"VIEW_ARTICLE": "Ver artículo",
 			"EDIT_PAGE": "Editar página",
 			"MORE_ARTICLES": "Más artículos",
-			"VIEW_ALL": "Ver todo"
+			"VIEW_ALL": "Ver todo",
+			"BTN_DONATE": "Donar",
+			"BTN_SHARE": "Compartir",
+			"BTN_SPONSOR_PAGE": "Patrocinar página",
+			"BTN_VIEW_HISTORY": "Ver historial",
+			"BTN_STOP_STAKING": "Dejar de apostar",
+			"BTN_EDIT_PROFILE": "Editar perfil",
+			"BTN_DONORS_LIST": "Clasificación de donantes"
 		},
 		"LABELS": {
 			"NO_RESULTS": "No hay resultados"
@@ -139,5 +161,8 @@
 		"FRM_CONTENT": "Contenido",
 		"FRM_BTN_SAVE": "Enviar actualización",
 		"FRM_BTN_GOBACK": "Regresar"
+	},
+	"PROFILE": {
+		"TITLE": "Perfil"
 	}
 }

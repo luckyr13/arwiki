@@ -28,7 +28,10 @@
 		"MENU_MODERATOR_APPROVED": "स्वीकृत पृष्ठ",
 		"MENU_MODERATOR_DELETED": "हटाए गए पृष्ठ",
 		"MENU_MODERATOR_ADD_MODERATOR": "मॉडरेटर जोड़ें",
-		"MENU_MODERATOR_VIEW_ADM_LIST": "व्यवस्थापक सूची देखें"
+		"MENU_MODERATOR_VIEW_ADM_LIST": "व्यवस्थापक सूची देखें",
+		"MENU_USER_LOGOUT_COMPOSED": "Log out {{ value }}",
+		"MENU_USER_PROFILE": "Profile",
+		"MENU_USER_METHOD": "Method"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "Permaweb में आपका स्वागत है!",
@@ -51,7 +54,18 @@
 		"LABEL_OWNER_STATUS": "मालिक का दर्जा",
 		"STATUS_TX_PENDING": "विचाराधीन",
 		"STATUS_ADDRESS_VERIFIED": "सत्यापित",
-		"STATUS_ADDRESS_NOTVERIFIED": "प्रमाणित नहीं है"
+		"STATUS_ADDRESS_NOTVERIFIED": "प्रमाणित नहीं है",
+		"LABEL_CATEGORY_INFO": "Category:",
+		"LABEL_LAST_UPDATE": "Last Update:",
+		"LABEL_LAST_UPDATE_BY": "Last update by:",
+		"LABEL_SPONSOR": "Sponsor:",
+		"LABEL_PAGE_VALUE": "Page value:",
+		"LABEL_PAGE_TX": "Page tx:",
+		"LABEL_PAGE_NOT_FOUND": "Page not found! 😢",
+		"LABEL_CREATE_NEW_PAGE": "Create new ArWiki page",
+		"LABEL_CONTENT_OVERVIEW": "Content overview",
+		"LABEL_TAGS": "Tags",
+		"LABEL_TRANSLATIONS": "Translations"
 	},
 	"CREATE_PAGE": {
 		"TITLE": "Create page",
@@ -78,7 +92,8 @@
 	},
 	"FOOTER": {
 		"LBL_POWERED": "द्वारा संचालित",
-		"LBL_PARTNERS": "हमारे साथी और दोस्त"
+		"LBL_PARTNERS": "हमारे साथी और दोस्त",
+		"LBL_SOCIAL_MEDIA": "Follow us"
 	},
 	"DIALOGS": {
 		"TITLE_SELECT_LANG": "भाषा का चयन करें",
@@ -103,7 +118,14 @@
 			"VIEW_ARTICLE": "लेख देखें",
 			"EDIT_PAGE": "संपादित पेज",
 			"MORE_ARTICLES": "और लेख",
-			"VIEW_ALL": "सभी देखें"
+			"VIEW_ALL": "सभी देखें",
+			"BTN_DONATE": "Donate",
+			"BTN_SHARE": "Share",
+			"BTN_SPONSOR_PAGE": "Sponsor page",
+			"BTN_VIEW_HISTORY": "View history",
+			"BTN_STOP_STAKING": "Stop staking",
+			"BTN_EDIT_PROFILE": "Edit profile",
+			"BTN_DONORS_LIST": "Donor ranking"
 		},
 		"LABELS": {
 			"NO_RESULTS": "कोई परिणाम नहीं"
@@ -139,5 +161,8 @@
 		"FRM_CONTENT": "सामग्री",
 		"FRM_BTN_SAVE": "अपडेट भेजें",
 		"FRM_BTN_GOBACK": "वापस जाओ"
+	},
+	"PROFILE": {
+		"TITLE": "Profile"
 	}
 }
