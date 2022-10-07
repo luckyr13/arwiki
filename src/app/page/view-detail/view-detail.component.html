@@ -1,11 +1,11 @@
 <div class="container preview-page-container">
 	<div class="row" *ngIf="pageData.content">
-		<h1 class="page-title col-12 col-md-8">
+		<h1 class="page-title col-12">
 			<span class="fadeIn" *ngIf="pageData.title">{{ pageData.title }}</span>
 		</h1>
 		<div 
 		  	*ngIf="pageData.title"
-		  	class="text-right page-title-buttons fadeIn col-12 col-md-4">
+		  	class="text-right page-title-buttons fadeIn col-12">
 		  <button 
 	    	type="button"
 		  	mat-button 
@@ -52,14 +52,15 @@
 		    {{ 'GENERAL.BUTTONS.GO_BACK' | translate }}
 		  </button>
 		</div>
-	  <p class="subh-col-left fadeIn col-12 col-md-6" *ngIf="pageData.category">
+	  <p class="subh-col-left fadeIn col-12 col-md-4" *ngIf="pageData.category">
 	  	<strong>{{ 'PAGE.LABEL_CATEGORY_INFO' | translate }}</strong>
 	  	<a mat-button routerLink="../category/{{pageData.category}}">
 				{{ pageData.category }}
 			</a>
 	  </p>
-	  <p class="subh-col-right fadeIn col-12 col-md-6" *ngIf="block.timestamp">
-	  	<strong>{{ 'PAGE.LABEL_LAST_UPDATE' | translate }}</strong> {{ timestampToDate(block.timestamp) | date:'short'}}	
+	  <p class="subh-col-right fadeIn col-12 col-md-8" *ngIf="block.timestamp">
+	  	<strong>{{ 'PAGE.LABEL_LAST_UPDATE' | translate }}</strong> {{ timestampToDate(block.timestamp) | date:'shortDate'}} |
+	  	<strong>{{ 'PAGE.LABEL_READING_TIME' | translate }}</strong> {{ 'PAGE.LABEL_READING_TIME_RES_COMPOSED' | translate:readingTime }}
 	  </p>
 	  <div class="separator col-12"></div>
 	</div>

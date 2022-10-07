@@ -76,6 +76,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   loadingTranslations: boolean = false;
   translations: string[] = [];
   translationsSubscription = Subscription.EMPTY;
+  readingTime: {minutes: number, seconds: number}|null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -196,8 +197,15 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
 
           this.contentSubscription = this._arweave.getDataAsStringObs(page.id).subscribe({
             next: (content) => {
+
+              // Save content
               this.pageData.content = this.markdownToHTML(content);
-              
+
+              // Calculate reading time
+              const rawContent = this.removeHTMLfromStr(this.pageData.content);
+              const tmpReadingTime = this._arwikiTokenContract.getReadingTime(rawContent);
+              this.readingTime = this.minutesToMinSec(tmpReadingTime);
+
               this.loadingPage = false;
               // Generate TOC 
               window.setTimeout(() => {
@@ -603,6 +611,13 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
           return this.arwikiQuery.getTXsData(verifiedTagsTxList);
         })
       );
+  }
+
+  minutesToMinSec(m: number): {minutes: number, seconds: number} {
+    const minutes = Math.floor(m);
+    const seconds = Math.round((m - minutes) * 60);
+
+    return { minutes, seconds };
   }
 
 }
