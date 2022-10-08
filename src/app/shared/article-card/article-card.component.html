@@ -17,6 +17,10 @@
 			{{ timestampToDate(article.block.timestamp) | date:'short' }}
 		</span>
 	</div>
+	<div class="mini-text ellipsis article-reading-time" *ngIf="readingTime">
+		<strong> {{ 'PAGE.LABEL_READING_TIME' | translate }}</strong> {{ 'PAGE.LABEL_READING_TIME_RES_COMPOSED' | translate:readingTime }}
+	</div>
+	
 	<div class="article-data-wrapper">
 		<div 
 			class="fade-out" 

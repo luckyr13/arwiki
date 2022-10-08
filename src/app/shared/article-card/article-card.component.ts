@@ -5,6 +5,7 @@ import DOMPurify from 'dompurify';
 import { Subscription } from 'rxjs';
 import { ArweaveService } from '../../core/arweave.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.service';
 
 
 @Component({
@@ -22,9 +23,12 @@ export class ArticleCardComponent implements OnInit, OnDestroy {
   articleDataSubscription = Subscription.EMPTY;
   articleData: string = '';
 
+  readingTime: {minutes: number, seconds: number}|null = null;
+
   constructor(
     private _arweave: ArweaveService,
-    private _snackBar: MatSnackBar) { }
+    private _snackBar: MatSnackBar,
+    private _arwikiTokenContract: ArwikiTokenContract) { }
 
   ngOnInit(): void {
     this.loadingData = true;
@@ -32,6 +36,10 @@ export class ArticleCardComponent implements OnInit, OnDestroy {
       next: (data) => {
         this.articleData = data;
         this.loadingData = false;
+        // Calculate reading time
+        const rawContent = this.removeHTMLfromStr(this.markdownToHTML(this.articleData));
+        const tmpReadingTime = this._arwikiTokenContract.getReadingTime(rawContent);
+        this.readingTime = this.minutesToMinSec(tmpReadingTime);
       },
       error: (error) => {
         console.error('Error loading data ', error);
@@ -81,5 +89,16 @@ export class ArticleCardComponent implements OnInit, OnDestroy {
       verticalPosition: verticalPosition,
       panelClass: panelClass
     });
+  }
+
+  removeHTMLfromStr(_html: string) {
+    return DOMPurify.sanitize(_html, {ALLOWED_TAGS: []});
+  }
+
+  minutesToMinSec(m: number): {minutes: number, seconds: number} {
+    const minutes = Math.floor(m);
+    const seconds = Math.round((m - minutes) * 60);
+
+    return { minutes, seconds };
   }
 }
