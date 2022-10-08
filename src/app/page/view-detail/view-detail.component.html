@@ -59,8 +59,9 @@
 			</a>
 	  </p>
 	  <p class="subh-col-right fadeIn col-12 col-md-8" *ngIf="block.timestamp">
-	  	<strong>{{ 'PAGE.LABEL_LAST_UPDATE' | translate }}</strong> {{ timestampToDate(block.timestamp) | date:'shortDate'}} |
-	  	<strong>{{ 'PAGE.LABEL_READING_TIME' | translate }}</strong> {{ 'PAGE.LABEL_READING_TIME_RES_COMPOSED' | translate:readingTime }}
+	  	<strong>{{ 'PAGE.LABEL_LAST_UPDATE' | translate }}</strong> {{ timestampToDate(block.timestamp) | date:'shortDate'}} <span class="d-none d-lg-inline">|</span>
+	  	<br class="d-block d-lg-none">
+	  	<strong> {{ 'PAGE.LABEL_READING_TIME' | translate }}</strong> {{ 'PAGE.LABEL_READING_TIME_RES_COMPOSED' | translate:readingTime }}
 	  </p>
 	  <div class="separator col-12"></div>
 	</div>
