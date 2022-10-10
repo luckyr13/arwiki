@@ -1,6 +1,7 @@
 # ArWiki versions
 
 ## 1.6
+- DEMO (2022-10-10): https://arweave.net/zhKZlLZ4Sa4HswJmugzRwE064TIJ92zTWg6ZZFz7PK4
 - Donor ranking removed (donations info is gonna be visible from Activity History instead)
 - Activity History added to Profile (Pending)
 - Article detail - Estimated Reading time added
