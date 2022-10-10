@@ -45,13 +45,12 @@ h1 {
 
 
 .row-col-social-media a {
-  vertical-align: middle;
-	display: inline-block;
-  line-height: normal;
-	margin-left: 10px;
-	margin-right: 10px;
-	width: $sm-icon-size;
-	height: $sm-icon-size;
+	margin-left: 4px;
+	margin-right: 4px;
+}
+
+.row-col-social-media a span {
+	margin-left: 6px;
 }
 
 .row-col-social-media img {
@@ -73,4 +72,9 @@ h1 {
 
 .bio {
 	clear: both;
+}
+
+.history {
+	min-height: 400px;
+	margin-bottom: 40px;
 }

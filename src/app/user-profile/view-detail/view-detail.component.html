@@ -29,7 +29,7 @@
 		<div class="col-12" *ngIf="loadingProfile">
 			<mat-spinner class="spinner-center" ></mat-spinner>
 		</div>
-		<div class="col-12 text-right" *ngIf="isAdmin">
+		<div class="col-12 text-right" *ngIf="isAdmin && !loadingProfile">
 			<strong>Role:</strong> ⭐Moderator
 		</div>
 		<div class="col-12" *ngIf="profile && !loadingProfile">
@@ -46,41 +46,52 @@
 				[isAddress]="true">Address: </app-arweave-address>
 			<div class="row-col-social-media" *ngIf="profile.links">
 				<a
+					mat-button
+					color="accent"
 					*ngIf="profile.links.twitter"
 					target="_blank"
 					[href]="socialLink(profile.links.twitter, 'twitter')">
 					<img class="invert-colors" src="./assets/img/social-media/twitterWhite.png">
+					<span>{{profile.links.twitter}}</span>
 				</a>
 				<a
+					mat-button
+					color="accent"
 					*ngIf="profile.links.github"
 					target="_blank"
 					[href]="socialLink(profile.links.github, 'github')">
 					<img class="invert-colors" src="./assets/img/social-media/github2.png">
+					<span>{{profile.links.github}}</span>
 				</a>
 				<a
+					mat-button
+					color="accent"
 					*ngIf="profile.links.youtube"
 					target="_blank"
 					[href]="socialLink(profile.links.youtube, 'youtube')">
 					<img class="invert-colors" src="./assets/img/social-media/ytWhite.png">
+					<span>{{profile.links.youtube}}</span>
 				</a>
 				<a
+					mat-button
+					color="accent"
 					*ngIf="profile.links.instagram"
 					target="_blank"
 					[href]="socialLink(profile.links.instagram, 'instagram')">
 					<img class="invert-colors" src="./assets/img/social-media/instagramWhite.png">
+					<span>{{profile.links.instagram}}</span>
 				</a>
 				<a
+					mat-button
+					color="accent"
 					*ngIf="profile.links.facebook"
 					target="_blank"
 					[href]="socialLink(profile.links.facebook, 'facebook')">
 					<img class="invert-colors" src="./assets/img/social-media/facebookWhite.png">
+					<span>{{profile.links.facebook}}</span>
 				</a>
 			</div>
 			<p *ngIf="profile.bio" class="text-center bio">{{profile.bio}}</p>
-			<h2>
-				Activity History
-			</h2>
-
 		</div>
 		<div class="col-12" *ngIf="!profile && !loadingProfile && address">
 			<img class="avatar" [src]="defaultAvatar">
@@ -90,6 +101,36 @@
 				[showProfileImage]="false"
 				[showHandleInAddress]="false"
 				[isAddress]="true">Address: </app-arweave-address>
+		</div>
+	</div>
+	<div class="row fadeIn" *ngIf="address && !loadingProfile">
+		<h2 class="col-12">
+			Activity History
+		</h2>
+		<div class="col-12 history">
+			<mat-tab-group color="accent">
+			  <mat-tab label="Published Pages">
+			    <ng-template matTabContent>
+			      <app-published-pages [address]="address"></app-published-pages>
+			    </ng-template>
+			  </mat-tab>
+			  <mat-tab label="Posted Updates">
+			    <ng-template matTabContent>
+			      <app-posted-updates [address]="address"></app-posted-updates>
+			    </ng-template>
+			  </mat-tab>
+			  <mat-tab label="Donations made">
+			    <ng-template matTabContent>
+			      <app-donations-made [address]="address"></app-donations-made>
+			    </ng-template>
+			  </mat-tab>
+			  <mat-tab label="Donations received">
+			    <ng-template matTabContent>
+			      <app-donations-received [address]="address"></app-donations-received>
+			    </ng-template>
+			  </mat-tab>
+			</mat-tab-group>
+
 		</div>
 	</div>
 	<div class="row fadeIn" *ngIf="!address">
