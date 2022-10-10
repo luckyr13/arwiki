@@ -1,0 +1,64 @@
+<h2 mat-dialog-title>
+	<span class="mat-icon title-icon">
+  	<img class="invert-colors" width="40px" src="assets/img/stampWhite.png">
+  </span>
+	<span>Stamp page</span>
+</h2>
+<div *ngIf="loadingVouchStatus || loadingStampPage" class="fadeIn">
+	<mat-progress-bar 
+	  color="accent"
+	  mode="indeterminate"
+	  class="fadeIn"></mat-progress-bar>
+	<div class="text-center" *ngIf="loadingVouchStatus">
+		Validating Vouch status ...
+	</div>
+	<div class="footer-logo" *ngIf="loadingVouchStatus">
+		<img src="assets/img/vouchdao.png">
+	</div>
+	<div class="text-center" *ngIf="loadingStampPage">
+		Stamping page ...
+	</div>
+</div>
+<mat-dialog-content class="container container-stamp fadeIn" *ngIf="!loadingVouchStatus && !loadingStampPage">
+	<ng-container *ngIf="data.address && isVouched">
+	  <div class="row">
+	  	<p class="col-12 text-center">
+	  		✅Address <strong>{{ data.address }}</strong><br />Vouched!
+	  	</p>
+	  	<p class="col-12 text-center">
+	  		<button 
+	  			class="stamp-btn"
+	  			(click)="stamp()"
+	  			color="primary" mat-raised-button>
+	  			<span class="mat-icon">
+				  	<img class="invert-colors" width="28px" src="assets/img/stampWhite.png">
+				  </span>
+					<span> Stamp Page</span>
+	  		</button>
+	  	</p>
+	  </div>
+	</ng-container>
+	<ng-container *ngIf="data.address && !isVouched">
+	  <div class="row">
+	  	<p class="col-12 text-center">
+	  		❌Address <strong>{{ data.address }}</strong><br />Not Vouched!
+	  	</p>
+	  	<p class="col-12 text-center">
+	  		Vouch your wallet in <a target="_blank" href="https://www.vouchdao.xyz/">https://www.vouchdao.xyz/</a> 
+	  	</p>
+	  	<p class="col-12 footer-logo">
+	  		<img src="assets/img/vouchdao.png">
+	  	</p>
+	  </div>
+	</ng-container>
+	<ng-container *ngIf="!data.address">
+		<div class="row">
+	  	<p class="col-12 text-center">
+	  		Please login first.
+	  	</p>
+	  </div>
+	</ng-container>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close cdkFocusInitial>Close</button>
+</mat-dialog-actions>

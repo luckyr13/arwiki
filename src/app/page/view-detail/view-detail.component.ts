@@ -20,9 +20,9 @@ import { switchMap } from 'rxjs/operators';
 declare const window: any;
 declare const document: any;
 import { DialogDonateComponent } from '../../shared/dialog-donate/dialog-donate.component';
-import { DialogVotePageComponent } from '../../shared/dialog-vote-page/dialog-vote-page.component';
+import { DialogStampComponent } from '../../shared/dialog-stamp/dialog-stamp.component';
 import { Direction } from '@angular/cdk/bidi';
-import {MatDialog} from '@angular/material/dialog';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confirm.component';
 import { ArwikiPage } from '../../core/interfaces/arwiki-page';
 import {MatBottomSheet} from '@angular/material/bottom-sheet';
@@ -77,6 +77,8 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   translations: string[] = [];
   translationsSubscription = Subscription.EMPTY;
   readingTime: {minutes: number, seconds: number}|null = null;
+  stamps = 0;
+  private _stampsDialogRef: MatDialogRef<any>|null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -123,6 +125,10 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     this._auth.account$.subscribe((_mainAddress) => {
       this.mainAddress = _mainAddress;
       this.isUserLoggedIn = !!_mainAddress;
+
+      if (this._stampsDialogRef) {
+        this._stampsDialogRef.close();
+      }
     })
 
   }
@@ -567,6 +573,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     });
   }
 
+/*
   upvote(upvote: boolean, sponsor: string, slug: string, lang: string) {
     const defLang = this._userSettings.getDefaultLang();
     let direction: Direction = defLang.writing_system === 'LTR' ? 
@@ -587,6 +594,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(async (result) => {
     });
   }
+*/
 
   /*
   * @dev
@@ -618,6 +626,29 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     const seconds = Math.round((m - minutes) * 60);
 
     return { minutes, seconds };
+  }
+
+  stamp(slug: string, lang: string) {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
+    this._stampsDialogRef = this._dialog.open(DialogStampComponent, {
+      data: {
+        address: this.mainAddress,
+        slug: slug,
+        lang: lang
+      },
+      direction: direction,
+      disableClose: true
+    });
+
+    this._stampsDialogRef.afterClosed().subscribe(async (result) => {
+      this._stampsDialogRef = null;
+      if (result) {
+        this.message('Coming soon!', 'warning');
+      }
+    });
   }
 
 }

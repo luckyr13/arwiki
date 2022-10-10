@@ -18,7 +18,7 @@ import { HistoryComponent } from './history/history.component';
   	ViewDetailComponent,
    MyPagesComponent,
    MyUpdatesComponent,
-   HistoryComponent
+   HistoryComponent,
   ],
   imports: [
     CommonModule,

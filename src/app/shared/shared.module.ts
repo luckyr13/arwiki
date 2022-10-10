@@ -48,6 +48,7 @@ import { EmojisComponent } from './emojis/emojis.component';
 import { PasswordDialogComponent } from './password-dialog/password-dialog.component';
 import { FileManagerDialogComponent } from './file-manager-dialog/file-manager-dialog.component';
 import { UploadFileDialogComponent } from './upload-file-dialog/upload-file-dialog.component';
+import { DialogStampComponent } from './dialog-stamp/dialog-stamp.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { UploadFileDialogComponent } from './upload-file-dialog/upload-file-dial
     EmojisComponent,
     PasswordDialogComponent,
     FileManagerDialogComponent,
-    UploadFileDialogComponent
+    UploadFileDialogComponent,
+    DialogStampComponent
   ],
   imports: [
     CommonModule,

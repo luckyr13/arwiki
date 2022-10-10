@@ -29,19 +29,13 @@
 		  	mat-button 
 		  	class="btn-toolbar vote-btn" 
 		  	color="primary"
-		  	(click)="upvote(true, pageExtraMetadata.sponsor, routeSlug, routeLang)">
-		    <mat-icon>thumb_up</mat-icon>
-		    {{ pageData.upvotes }}
+		  	(click)="stamp(routeSlug, routeLang)">
+		    <span class="mat-icon">
+		    	<img class="invert-colors" width="24px" src="assets/img/stampWhite.png">
+		    </span>
+		    {{ stamps }} STAMPS
 		  </button>
-		  <button 
-	    	type="button"
-		  	mat-button 
-		  	class="btn-toolbar vote-btn" 
-		  	color="primary"
-		  	(click)="upvote(false, pageExtraMetadata.sponsor, routeSlug, routeLang)">
-		    <mat-icon>thumb_down</mat-icon>
-		    {{ pageData.downvotes }}
-		  </button>
+		  
 	    <button 
 	    	type="button"
 		  	mat-button 

@@ -71,8 +71,11 @@
 					<img class="invert-colors" src="./assets/img/social-media/facebookWhite.png">
 				</a>
 			</div>
-			
 			<p *ngIf="profile.bio" class="text-center">{{profile.bio}}</p>
+			<h2>
+				Activity History
+			</h2>
+
 		</div>
 		<div class="col-12" *ngIf="!profile && !loadingProfile">
 			<img class="avatar" [src]="defaultAvatar">
