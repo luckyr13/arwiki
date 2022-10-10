@@ -1,12 +1,39 @@
 <div class="address-container">
 	<strong class="address-label"><ng-content></ng-content></strong>
-  <img [routerLink]="['/', lang, 'user', address]" *ngIf="profileImage && isAddress" class="avatar" [src]="profileImage">
-	<span [routerLink]="['/', lang, 'user', address]" class="address-nickname" *ngIf="nickname">
-		{{ nickname }} 
-	</span>
-	<span *ngIf="isAddress" [routerLink]="['/', lang, 'user', address]" class="address-tx-add ellipsis">
-		{{ ellipsis(address) }} 
-	</span>
+	<ng-container *ngIf="lang">
+		<img
+			[routerLink]="['/', lang, 'user', address]"
+			*ngIf="profileImage && isAddress && showProfileImage"
+			class="avatar"
+			[src]="profileImage">
+		<span
+			[routerLink]="['/', lang, 'user', address]"
+			class="address-nickname"
+			*ngIf="nickname && showHandleInAddress">
+			{{ nickname }} 
+		</span>
+		<span
+			*ngIf="isAddress"
+			[routerLink]="['/', lang, 'user', address]"
+			class="address-tx-add ellipsis">
+			{{ ellipsis(address) }}
+		</span>
+	</ng-container>
+	<ng-container *ngIf="!lang">
+		<img
+			*ngIf="profileImage && isAddress && showProfileImage"
+			class="avatar"
+			[src]="profileImage">
+		<span
+			class="address-nickname"
+			*ngIf="nickname && showHandleInAddress">
+			{{ nickname }} 
+		</span>
+		<span *ngIf="isAddress" class="address-tx-add ellipsis">
+			{{ ellipsis(address) }} 
+		</span>
+	</ng-container>
+  
 	<span *ngIf="!isAddress" class="address-tx ellipsis">
 		{{ ellipsis(address) }} 
 	</span>

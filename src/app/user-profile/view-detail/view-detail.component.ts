@@ -22,7 +22,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   loadingProfile = false;
   isAdmin = false;
   isAdminSubscription = Subscription.EMPTY;
-  
+
   constructor(
     private _auth: AuthService,
     private _route: ActivatedRoute,

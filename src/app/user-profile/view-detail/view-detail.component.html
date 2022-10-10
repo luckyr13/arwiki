@@ -36,9 +36,14 @@
 			<img *ngIf="profile.avatarURL" class="avatar" [src]="profile.avatarURL">
 			<img *ngIf="!profile.avatarURL" class="avatar" [src]="defaultAvatar">
 			<h2 *ngIf="profile.username"><span>{{profile.username}}</span></h2>
-			<h3 *ngIf="profile.handleName">Handle: <span>{{profile.handleName}}</span></h3>
-			<h3 *ngIf="profile.name">Name: <span>{{profile.name}}</span></h3>
-			<h4>Address: <span>{{ address }}</span></h4>
+			<h4 *ngIf="profile.handleName">Handle: <span>{{profile.handleName}}</span></h4>
+			<h4 *ngIf="profile.name">Name: <span>{{profile.name}}</span></h4>
+			<app-arweave-address 
+				class="mini-text"
+				[address]="address"
+				[showProfileImage]="false"
+				[showHandleInAddress]="false"
+				[isAddress]="true">Address: </app-arweave-address>
 			<div class="row-col-social-media" *ngIf="profile.links">
 				<a
 					*ngIf="profile.links.twitter"
@@ -71,15 +76,20 @@
 					<img class="invert-colors" src="./assets/img/social-media/facebookWhite.png">
 				</a>
 			</div>
-			<p *ngIf="profile.bio" class="text-center">{{profile.bio}}</p>
+			<p *ngIf="profile.bio" class="text-center bio">{{profile.bio}}</p>
 			<h2>
 				Activity History
 			</h2>
 
 		</div>
-		<div class="col-12" *ngIf="!profile && !loadingProfile">
+		<div class="col-12" *ngIf="!profile && !loadingProfile && address">
 			<img class="avatar" [src]="defaultAvatar">
-			<h2 *ngIf="address"><span>{{ address }}</span></h2>
+			<app-arweave-address 
+				class="mini-text"
+				[address]="address"
+				[showProfileImage]="false"
+				[showHandleInAddress]="false"
+				[isAddress]="true">Address: </app-arweave-address>
 		</div>
 	</div>
 	<div class="row fadeIn" *ngIf="!address">

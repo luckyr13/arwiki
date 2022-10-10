@@ -1,4 +1,4 @@
-$sm-icon-size: 32px;
+$sm-icon-size: 28px;
 
 .profile-container {
 	min-height: 600px;
@@ -25,9 +25,10 @@ h1 {
 	object-fit: cover;
 	flex-shrink: 0;
 	vertical-align: middle;
-	float: left;
 	margin-left: 24px;
 	margin-right: 24px;
+	float: none;
+	margin-bottom: 20px;
 }
 
 .page-title, .page-title-buttons {
@@ -59,4 +60,17 @@ h1 {
 }
 
 .row-col-social-media a:hover {
+}
+
+@media (min-width: 600px) {
+	.avatar {
+		float: left;
+	}
+}
+.mini-text {
+	font-size: 12px;
+}
+
+.bio {
+	clear: both;
 }

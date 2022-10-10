@@ -12,10 +12,13 @@ import { ArweaveService } from '../../core/arweave.service'
   styleUrls: ['./arweave-address.component.scss']
 })
 export class ArweaveAddressComponent implements OnInit, OnDestroy, OnChanges {
-  public verified: boolean = false
+  public verified: boolean = false;
   @Input() address: string = '';
   @Input() isAddress: boolean = true;
   @Input() lang: string = '';
+  @Input() showProfileImage: boolean = true;
+  @Input() showHandleInAddress: boolean = true;
+  
   private _profileSubscription = Subscription.EMPTY;
   public profileImage: string = 'assets/img/blank-profile.png';
   public nickname = '';
