@@ -111,7 +111,9 @@
 			class="col-12 fadeIn" 
 			[class.col-md-9]="toc.length || pageData.img" 
 			[innerHTML]="pageData.content"></div>
-		<div class="row tags-main-container" *ngIf="pageData.content" >
+	</div>
+	<div class="container" *ngIf="pageData.content">
+		<div class="row tags-main-container">
 			<h2 class="page-title col-12">
 				{{ 'PAGE.LABEL_TAGS' | translate }}
 			</h2>
@@ -128,6 +130,8 @@
 					{{ 'GENERAL.LABELS.NO_RESULTS' | translate }}
 				</div>
 			</div>
+		</div>
+		<div class="row">
 			<h2 class="col-12">
 				{{ 'PAGE.LABEL_TRANSLATIONS' | translate }}
 			</h2>
@@ -159,80 +163,72 @@
 		  	<strong>{{ 'PAGE.LABEL_PAGE_VALUE' | translate }} </strong>{{ pageExtraMetadata.value }} $WIKI
 		  </p>
 		</div>
-		<div 
-			class="col-12 fadeIn text-right separator" >
-			<button 
-	    	type="button"
-		  	mat-button 
-		  	class="btn-toolbar" 
-		  	color="primary"
-		  	(click)="donate(pageData.owner, pageExtraMetadata.sponsor)">
-		    <mat-icon class="green-money animate__animated animate__heartBeat animate__slow animate__infinite">volunteer_activism</mat-icon>
-		    {{ 'GENERAL.BUTTONS.BTN_DONATE' | translate }}
-		  </button>
-		  <button 
-	    	type="button"
-		  	mat-button 
-		  	class="btn-toolbar" 
-		  	color="primary"
-		  	(click)="share()">
-		    <mat-icon>share</mat-icon>
-		    {{ 'GENERAL.BUTTONS.BTN_SHARE' | translate }}
-		  </button>
-			<button 
-	    	type="button"
-		  	mat-button 
-		  	class="btn-toolbar" 
-		  	color="primary"
-		  	(click)="editPage(routeSlug, routeLang)">
-		    <mat-icon>edit</mat-icon>
-		    {{ 'GENERAL.BUTTONS.EDIT_PAGE' | translate }}
-		  </button>
-		  <button
-				mat-button
-		  	class="btn-toolbar" 
-    		*ngIf="pageExtraMetadata.sponsor === mainAddress"
-				(click)="confirmStopStake(routeSlug)"
-				[disabled]="loadingStopStake"
-				matTooltip="Stop staking">
-				<mat-spinner *ngIf="loadingStopStake" class="spinner-btn" diameter="20"></mat-spinner>
-				<mat-icon *ngIf="!loadingStopStake" >delete</mat-icon> {{ 'GENERAL.BUTTONS.BTN_STOP_STAKING' | translate }}
-			</button>
-			<button
-				mat-button
-		  	class="btn-toolbar" 
-				color="primary"
-    		*ngIf="pageExtraMetadata.sponsor !== mainAddress"
-				matTooltip="Sponsor page"
-				[disabled]="loadingUpdateSponsorPage"
-				(click)="confirmSponsorArWikiPage(routeSlug, pageData.category, pageExtraMetadata.value)">
-				<mat-spinner *ngIf="loadingUpdateSponsorPage" class="spinner-btn" diameter="20"></mat-spinner>
-				<mat-icon *ngIf="!loadingUpdateSponsorPage" >casino</mat-icon>
-				{{ 'GENERAL.BUTTONS.BTN_SPONSOR_PAGE' | translate }}
-			</button>
-		  <button 
-	    	type="button"
-		  	mat-button 
-		  	class="btn-toolbar" 
-		  	color="primary"
-				[routerLink]="['/', routeLang, routeSlug, 'history']">
-		    <mat-icon>history</mat-icon>
-		    {{ 'GENERAL.BUTTONS.BTN_VIEW_HISTORY' | translate }}
-		  </button>
-		  <button 
-	    	type="button"
-		  	mat-button 
-		  	class="btn-toolbar" 
-		  	color="primary"
-				[routerLink]="['/', routeLang, routeSlug, 'donor-ranking']">
-		    <mat-icon>diversity_3</mat-icon>
-		    {{ 'GENERAL.BUTTONS.BTN_DONORS_LIST' | translate }}
-		  </button>
-		</div>
-		
 	</div>
-	
-
+	<div class="container" *ngIf="pageData.content">
+		<div class="row">
+			<div 
+				class="col-12 fadeIn text-right separator" >
+				<button 
+		    	type="button"
+			  	mat-button 
+			  	class="btn-toolbar" 
+			  	color="primary"
+			  	(click)="donate(pageData.owner, pageExtraMetadata.sponsor)">
+			    <mat-icon class="green-money animate__animated animate__heartBeat animate__slow animate__infinite">volunteer_activism</mat-icon>
+			    {{ 'GENERAL.BUTTONS.BTN_DONATE' | translate }}
+			  </button>
+			  <button 
+		    	type="button"
+			  	mat-button 
+			  	class="btn-toolbar" 
+			  	color="primary"
+			  	(click)="share()">
+			    <mat-icon>share</mat-icon>
+			    {{ 'GENERAL.BUTTONS.BTN_SHARE' | translate }}
+			  </button>
+				<button 
+		    	type="button"
+			  	mat-button 
+			  	class="btn-toolbar" 
+			  	color="primary"
+			  	(click)="editPage(routeSlug, routeLang)">
+			    <mat-icon>edit</mat-icon>
+			    {{ 'GENERAL.BUTTONS.EDIT_PAGE' | translate }}
+			  </button>
+			  <button
+					mat-button
+			  	class="btn-toolbar" 
+	    		*ngIf="pageExtraMetadata.sponsor === mainAddress"
+					(click)="confirmStopStake(routeSlug)"
+					[disabled]="loadingStopStake"
+					matTooltip="Stop staking">
+					<mat-spinner *ngIf="loadingStopStake" class="spinner-btn" diameter="20"></mat-spinner>
+					<mat-icon *ngIf="!loadingStopStake" >delete</mat-icon> {{ 'GENERAL.BUTTONS.BTN_STOP_STAKING' | translate }}
+				</button>
+				<button
+					mat-button
+			  	class="btn-toolbar" 
+					color="primary"
+	    		*ngIf="pageExtraMetadata.sponsor !== mainAddress"
+					matTooltip="Sponsor page"
+					[disabled]="loadingUpdateSponsorPage"
+					(click)="confirmSponsorArWikiPage(routeSlug, pageData.category, pageExtraMetadata.value)">
+					<mat-spinner *ngIf="loadingUpdateSponsorPage" class="spinner-btn" diameter="20"></mat-spinner>
+					<mat-icon *ngIf="!loadingUpdateSponsorPage" >casino</mat-icon>
+					{{ 'GENERAL.BUTTONS.BTN_SPONSOR_PAGE' | translate }}
+				</button>
+			  <button 
+		    	type="button"
+			  	mat-button 
+			  	class="btn-toolbar" 
+			  	color="primary"
+					[routerLink]="['/', routeLang, routeSlug, 'history']">
+			    <mat-icon>history</mat-icon>
+			    {{ 'GENERAL.BUTTONS.BTN_VIEW_HISTORY' | translate }}
+			  </button>
+			</div>
+		</div>
+	</div>
 </div>
 
 
