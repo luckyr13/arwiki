@@ -65,7 +65,9 @@
 		"LABEL_CREATE_NEW_PAGE": "Create new ArWiki page",
 		"LABEL_CONTENT_OVERVIEW": "Content overview",
 		"LABEL_TAGS": "Tags",
-		"LABEL_TRANSLATIONS": "Translations"
+		"LABEL_TRANSLATIONS": "Translations",
+		"LABEL_READING_TIME": "Reading Time:",
+		"LABEL_READING_TIME_RES_COMPOSED": "{{ minutes }}' {{ seconds }}\""
 	},
 	"CREATE_PAGE": {
 		"TITLE": "Create page",
