@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>
 	<mat-icon class="red title-icon">volunteer_activism</mat-icon>
-	<span>Donations</span>
+	<span>Thank this user</span>
 </h2>
 <mat-progress-bar 
   color="warn"
@@ -12,7 +12,7 @@
   	<p class="col-12 mini-text ellipsis">
       <app-arweave-address [address]="data.mainAddress">From: </app-arweave-address>
       <br>
-      <strong>Balance: </strong>{{ balance }}
+      <strong>Balance: </strong><span class="bn">{{ balance - amount }}</span> AR
   	</p>
   	<div *ngIf="data.author" class="col-12 text-right mini-text ellipsis">
   		<mat-icon class="red">favorite</mat-icon>
@@ -34,7 +34,7 @@
         [max]="maxAmount"
         aria-label="AR"></mat-slider>
   	</div>
-    <div  class="col-12 text-right mini-text">
+    <div  class="col-12 text-right ">
       {{ amount }} AR
     </div>
   </div>
@@ -47,9 +47,11 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
 	<button 
-  	mat-button 
+  	mat-flat-button 
+    color="accent"
   	*ngIf="data.mainAddress && !loadingDonationInProgress" 
     [disabled]="!amount"
   	(click)="sendDonation(amount, data.sponsor)">Alright! Let's do it!</button>
+  <div class="menu-spacer"></div>
   <button mat-button mat-dialog-close cdkFocusInitial>Close</button>
 </mat-dialog-actions>

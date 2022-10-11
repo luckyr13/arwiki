@@ -39,7 +39,12 @@
 			<mat-spinner class="spinner-center" ></mat-spinner>
 		</div>
 		<div class="col-12 text-right" *ngIf="isAdmin && !loadingProfile">
-			<strong>Role:</strong> ⭐Moderator
+			<strong>Role: </strong>
+			<a
+				mat-flat-button
+				color="primary"
+				[routerLink]="['/', routeLang, 'moderators', 'activity-history', address]">⭐Moderator
+			</a>
 		</div>
 		<div class="col-12" *ngIf="profile && !loadingProfile">
 			<img *ngIf="profile.avatarURL" class="avatar" [src]="profile.avatarURL">

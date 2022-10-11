@@ -196,6 +196,15 @@ a {
   color: rgba(0,0,0,.87);
 }
 
+.mat-card.warning {
+  background-color: #eed202;
+  color: rgba(0,0,0,.87);
+}
+.mat-card.error {
+  background-color: #f44336;
+  color: #FFF;
+}
+
 .mat-snack-bar-container.success{
   background-color: #69f0ae;
   color: rgba(0,0,0,.87);
