@@ -111,22 +111,30 @@
 			<mat-tab-group color="accent">
 			  <mat-tab label="Published Pages">
 			    <ng-template matTabContent>
-			      <app-published-pages [address]="address"></app-published-pages>
+			      <app-published-pages
+			      	[address]="address"
+			      	[lang]="routeLang"></app-published-pages>
 			    </ng-template>
 			  </mat-tab>
 			  <mat-tab label="Posted Updates">
 			    <ng-template matTabContent>
-			      <app-posted-updates [address]="address"></app-posted-updates>
+			      <app-posted-updates
+			      	[address]="address"
+			      	[lang]="routeLang"></app-posted-updates>
 			    </ng-template>
 			  </mat-tab>
 			  <mat-tab label="Donations made">
 			    <ng-template matTabContent>
-			      <app-donations-made [address]="address"></app-donations-made>
+			      <app-donations-made
+			      	[address]="address"
+			      	[lang]="routeLang"></app-donations-made>
 			    </ng-template>
 			  </mat-tab>
 			  <mat-tab label="Donations received">
 			    <ng-template matTabContent>
-			      <app-donations-received [address]="address"></app-donations-received>
+			      <app-donations-received
+			      	[address]="address"
+			      	[lang]="routeLang"></app-donations-received>
 			    </ng-template>
 			  </mat-tab>
 			</mat-tab-group>

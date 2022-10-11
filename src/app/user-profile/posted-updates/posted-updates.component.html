@@ -33,11 +33,11 @@
     		mat-button
     		href="https://viewblock.io/arweave/block/{{element.block.height}}">Block: {{ element.block.height }}
     	</a><br>
-    	<app-arweave-address [address]="element.id" [isAddress]="false">Tx: </app-arweave-address>
+    	<app-arweave-address [address]="element.id" [isAddress]="false"></app-arweave-address>
     </td>
   </ng-container>
   <ng-container matColumnDef="start">
-    <th mat-header-cell *matHeaderCellDef> Approved at</th>
+    <th mat-header-cell *matHeaderCellDef> Approved by</th>
     <td mat-cell *matCellDef="let element">
     	<a
     		target="_blank"
@@ -48,7 +48,8 @@
     	<app-arweave-address
     		[address]="updateApprovedBy[element.id]"
     		[showHandleInAddress]="false"
-    		[lang]="element.language">By: </app-arweave-address>
+        [lang]="routeLang"
+    		[lang]="element.language"></app-arweave-address>
 
     </td>
   </ng-container>

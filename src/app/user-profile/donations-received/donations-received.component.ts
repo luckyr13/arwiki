@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ViewChild, OnChanges } from '@angular/core';
 import { ArwikiQuery } from '../../core/arwiki-query';
 import { ArweaveService } from '../../core/arweave.service';
 
@@ -6,7 +6,6 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import { Observable, Subscription, EMPTY, of, from } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AuthService } from '../../auth/auth.service';
-import { Router, ActivatedRoute } from '@angular/router';
 import { UserSettingsService } from '../../core/user-settings.service';
 import { arwikiVersion } from '../../core/arwiki';
 import { Location } from '@angular/common';
@@ -23,14 +22,14 @@ import {MatTable} from '@angular/material/table';
   templateUrl: './donations-received.component.html',
   styleUrls: ['./donations-received.component.scss']
 })
-export class DonationsReceivedComponent implements OnInit, OnDestroy {
+export class DonationsReceivedComponent implements OnInit, OnDestroy, OnChanges {
   @Input('address') address: string = '';
+  @Input('lang') routeLang: string = '';
   private _arwikiQuery: ArwikiQuery|null = null;
   loading: boolean = false;
   donations: {from: string, amount: string, id: string}[] = [];
   donationsReceivedSubscription: Subscription = Subscription.EMPTY;
   donationsReceivedNextSubscription = Subscription.EMPTY;
-  routeLang: string = '';
   baseURL: string = this._arweave.baseURL;
   lockButtons: boolean = false;
   displayedColumns: string[] = [
@@ -42,37 +41,21 @@ export class DonationsReceivedComponent implements OnInit, OnDestroy {
   total = 0;
 
   constructor(
-    private _router: Router,
     private _snackBar: MatSnackBar,
     private _arweave: ArweaveService,
     private _auth: AuthService,
     private _userSettings: UserSettingsService,
-    private _route: ActivatedRoute,
     private _arwikiTokenContract: ArwikiTokenContract
   ) {
   }
 
-
-   ngOnInit() {
-    // Get language from route
-    this.routeLang = this._route.snapshot.paramMap.get('lang')!;
-    this._route.paramMap.subscribe(params => {
-      const lang = params.get('lang');
-      if (lang) {
-        this.routeLang = lang;
-      
-        this._arwikiQuery = new ArwikiQuery(this._arweave.arweave);
-        
-        // Get donations made by the user 
-        this.getMyDonationsReceived();
-      }
-    });
-
+  ngOnInit() {
     this._arwikiQuery = new ArwikiQuery(this._arweave.arweave);
-    
+  }
+
+  ngOnChanges() {
     // Get updates 
     this.getMyDonationsReceived();
-    
   }
 
   getMyDonationsReceived() {

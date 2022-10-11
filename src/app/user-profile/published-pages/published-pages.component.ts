@@ -6,7 +6,6 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import { Observable, Subscription, EMPTY, of, from } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AuthService } from '../../auth/auth.service';
-import { Router, ActivatedRoute } from '@angular/router';
 import { UserSettingsService } from '../../core/user-settings.service';
 import { arwikiVersion } from '../../core/arwiki';
 import { Location } from '@angular/common';
@@ -27,12 +26,12 @@ import {MatTable} from '@angular/material/table';
 })
 export class PublishedPagesComponent implements OnInit, OnDestroy {
   @Input('address') address: string = '';
+  @Input('lang') routeLang: string = '';
   private _arwikiQuery: ArwikiQuery|null = null;
   loading: boolean = false;
   pages: ArwikiPage[] = [];
   myPagesSubscription: Subscription = Subscription.EMPTY;
   myPagesNextSubscription = Subscription.EMPTY;
-  routeLang: string = '';
   baseURL: string = this._arweave.baseURL;
   lockButtons: boolean = false;
   displayedColumns: string[] = [
@@ -43,28 +42,16 @@ export class PublishedPagesComponent implements OnInit, OnDestroy {
   eof = false;
 
   constructor(
-    private _router: Router,
     private _snackBar: MatSnackBar,
     private _arweave: ArweaveService,
     private _auth: AuthService,
     private _userSettings: UserSettingsService,
-    private _route: ActivatedRoute,
     private _arwikiTokenContract: ArwikiTokenContract
   ) {
   }
 
 
    ngOnInit() {
-    // Get language from route
-
-    this.routeLang = this._route.snapshot.paramMap.get('lang')!;
-    this._route.paramMap.subscribe(params => {
-      const lang = params.get('lang');
-      if (lang) {
-        this.routeLang = lang;
-      
-      }
-    });
 
     this._arwikiQuery = new ArwikiQuery(this._arweave.arweave);
     

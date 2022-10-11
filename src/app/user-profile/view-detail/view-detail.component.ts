@@ -22,6 +22,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   loadingProfile = false;
   isAdmin = false;
   isAdminSubscription = Subscription.EMPTY;
+  routeLang = '';
 
   constructor(
     private _auth: AuthService,
@@ -34,20 +35,29 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const address = this._route.snapshot.paramMap.get('address')!;
+    const routeLang = this._route.snapshot.paramMap.get('lang')!;
     this.address = '';
     if (address) {
       this.address = address;
       this.loadProfile(this.address);
       this.isAdminCheck(this.address);
     }
+    if (routeLang) {
+      this.routeLang = routeLang;
+    }
 
     this._route.paramMap.subscribe((params) => {
       const address = params.get('address');
+      const routeLang = params.get('lang');
       this.address = '';
+      this.routeLang = '';
       if (address) {
         this.address = address;
         this.loadProfile(this.address);
         this.isAdminCheck(this.address);
+      }
+      if (routeLang) {
+        this.routeLang = routeLang;
       }
     });
 

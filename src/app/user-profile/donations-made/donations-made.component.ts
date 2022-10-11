@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ViewChild, OnChanges } from '@angular/core';
 import { ArwikiQuery } from '../../core/arwiki-query';
 import { ArweaveService } from '../../core/arweave.service';
 
@@ -6,7 +6,6 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import { Observable, Subscription, EMPTY, of, from } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AuthService } from '../../auth/auth.service';
-import { Router, ActivatedRoute } from '@angular/router';
 import { UserSettingsService } from '../../core/user-settings.service';
 import { arwikiVersion } from '../../core/arwiki';
 import { Location } from '@angular/common';
@@ -23,14 +22,14 @@ import {MatTable} from '@angular/material/table';
   templateUrl: './donations-made.component.html',
   styleUrls: ['./donations-made.component.scss']
 })
-export class DonationsMadeComponent implements OnInit, OnDestroy {
+export class DonationsMadeComponent implements OnInit, OnDestroy, OnChanges {
   @Input('address') address: string = '';
+  @Input('lang') routeLang: string = '';
   private _arwikiQuery: ArwikiQuery|null = null;
   loading: boolean = false;
   donations: {to: string, amount: string, id: string}[] = [];
   donationsMadeSubscription: Subscription = Subscription.EMPTY;
   donationsMadeNextSubscription = Subscription.EMPTY;
-  routeLang: string = '';
   baseURL: string = this._arweave.baseURL;
   lockButtons: boolean = false;
   displayedColumns: string[] = [
@@ -39,36 +38,24 @@ export class DonationsMadeComponent implements OnInit, OnDestroy {
   loadingMore = false;
   @ViewChild(MatTable) table: MatTable<any>|null = null;
   eof = false;
+  total = 0;
 
   constructor(
-    private _router: Router,
     private _snackBar: MatSnackBar,
     private _arweave: ArweaveService,
     private _auth: AuthService,
     private _userSettings: UserSettingsService,
-    private _route: ActivatedRoute,
     private _arwikiTokenContract: ArwikiTokenContract
   ) {
   }
 
 
    ngOnInit() {
-    // Get language from route
-    this.routeLang = this._route.snapshot.paramMap.get('lang')!;
-    this._route.paramMap.subscribe(params => {
-      const lang = params.get('lang');
-      if (lang) {
-        this.routeLang = lang;
-      
-        this._arwikiQuery = new ArwikiQuery(this._arweave.arweave);
-        
-        // Get donations made by the user 
-        this.getMyDonations();
-      }
-    });
-
     this._arwikiQuery = new ArwikiQuery(this._arweave.arweave);
     
+  }
+
+  ngOnChanges() {
     // Get updates 
     this.getMyDonations();
     
@@ -79,6 +66,7 @@ export class DonationsMadeComponent implements OnInit, OnDestroy {
     const maxResults = 100;
     this.donations = [];
     this.loading = true;
+    this.total = 0;
 
     this.donationsMadeSubscription = from(this.getCurrentHeight()).pipe(
       switchMap((height) => {
@@ -94,6 +82,7 @@ export class DonationsMadeComponent implements OnInit, OnDestroy {
     .subscribe({
       next: (donations: ArdbTransaction[]|ArdbBlock[]) => {
         const tmpDonations: {id:string,to:string,amount:string}[] = [];
+        let tmpAmount = 0;
         for (let p of donations) {
           const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
           const from = pTX.owner.address;
@@ -104,10 +93,12 @@ export class DonationsMadeComponent implements OnInit, OnDestroy {
             id,
             to,
             amount
-          })
+          });
+          tmpAmount += +amount;
         }
 
         this.donations = tmpDonations;
+        this.total = tmpAmount;
 
         this.loading = false;
 
@@ -180,6 +171,7 @@ export class DonationsMadeComponent implements OnInit, OnDestroy {
           const amount = pTX.quantity.ar;
           const to = pTX.recipient;
           const id = pTX.id;
+          this.total += +amount;
           this.donations.push({
             to,
             amount,
