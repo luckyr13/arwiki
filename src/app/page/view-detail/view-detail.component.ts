@@ -6,9 +6,6 @@ import { ArwikiQuery } from '../../core/arwiki-query';
 import * as marked from 'marked';
 import DOMPurify from 'dompurify';
 import { Observable, Subscription, of} from 'rxjs';
-import { 
-	readContract
-} from 'smartweave';
 import { ArweaveService } from '../../core/arweave.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';

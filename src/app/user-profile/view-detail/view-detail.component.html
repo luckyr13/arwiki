@@ -4,6 +4,15 @@
 			{{ 'PROFILE.TITLE' | translate }}
 		</h1>
 		<div class="text-right page-title-buttons col-12 col-md-3">
+			<button 
+	    	type="button"
+		  	mat-button 
+		  	class="btn-toolbar" 
+		  	color="primary"
+		  	(click)="donate()">
+		    <mat-icon class="green-money animate__animated animate__heartBeat animate__slow animate__infinite">volunteer_activism</mat-icon>
+		    {{ 'GENERAL.BUTTONS.BTN_DONATE' | translate }}
+		  </button>
 	    <button 
 	    	type="button"
 		  	mat-button 

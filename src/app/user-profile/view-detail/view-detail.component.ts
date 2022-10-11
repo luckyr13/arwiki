@@ -7,6 +7,10 @@ import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Location } from '@angular/common';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.service';
+import { UserSettingsService } from '../../core/user-settings.service';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import { Direction } from '@angular/cdk/bidi';
+import { DialogDonateComponent } from '../../shared/dialog-donate/dialog-donate.component';
 
 @Component({
   selector: 'app-view-detail',
@@ -29,7 +33,9 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     private _route: ActivatedRoute,
     private _snackBar: MatSnackBar,
     private _location: Location,
-    private _arwikiToken: ArwikiTokenContract) {
+    private _arwikiToken: ArwikiTokenContract,
+    public _dialog: MatDialog,
+    private _userSettings: UserSettingsService,) {
     
   }
 
@@ -138,6 +144,25 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     }
 
     return ans;
+  }
+
+
+  donate() {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+    const mainAddress = this._auth.getMainAddressSnapshot();
+    const dialogRef = this._dialog.open(DialogDonateComponent, {
+      data: {
+        sponsor: this.address,
+        mainAddress: mainAddress
+      },
+      direction: direction,
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(async (result) => {
+    });
   }
 
 }

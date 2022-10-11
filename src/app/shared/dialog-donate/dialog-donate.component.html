@@ -10,17 +10,16 @@
 <mat-dialog-content class="container container-donate">
   <div *ngIf="data.mainAddress && !loadingDonationInProgress" class="row">
   	<p class="col-12 mini-text ellipsis">
-  		<strong>From: </strong>{{ data.mainAddress }}
+      <app-arweave-address [address]="data.mainAddress">From: </app-arweave-address>
       <br>
       <strong>Balance: </strong>{{ balance }}
   	</p>
   	<div *ngIf="data.author" class="col-12 text-right mini-text ellipsis">
   		<mat-icon class="red">favorite</mat-icon>
-  		<strong>To author: </strong>{{ data.author }}
+  		<app-arweave-address [address]="data.author"><mat-icon class="red">favorite</mat-icon> To: </app-arweave-address>
   	</div>
   	<div *ngIf="data.sponsor" class="col-12 text-right mini-text ellipsis">
-  		<mat-icon class="red">favorite</mat-icon>
-  		<strong>To sponsor: </strong>{{ data.sponsor }}
+      <app-arweave-address class="sponsor-address" [address]="data.sponsor"><mat-icon class="red">favorite</mat-icon> To: </app-arweave-address>
   	</div>
     <p class="col-12 mini-text">
       <strong>Choose amount: </strong>
