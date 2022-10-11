@@ -26,7 +26,7 @@
 			<strong>Language:</strong> {{ page.language }}
 		</div>
 		<div class="col-12">
-			<strong>Owner:</strong> {{ page.owner }}
+			<app-arweave-address [address]="page.owner" [lang]="routeLang">Owner: </app-arweave-address>
 		</div>
 		<h4 class="col-12">Content:</h4> 
 		<div class="col-12 col-md-3">

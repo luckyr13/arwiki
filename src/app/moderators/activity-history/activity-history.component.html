@@ -114,19 +114,14 @@
 		</h2>
 		<div class="col-12 history">
 			<mat-tab-group color="accent">
-			  <mat-tab label="Pages Approved">
-			    <ng-template matTabContent>
-			      
-			    </ng-template>
-			  </mat-tab>
 			  <mat-tab label="Updates Approved">
 			    <ng-template matTabContent>
-			      
+			      <app-history-updates-approved [lang]="routeLang" [address]="address"></app-history-updates-approved>
 			    </ng-template>
 			  </mat-tab>
 			  <mat-tab label="Pages Rejected">
 			    <ng-template matTabContent>
-			      
+			      <app-history-pages-rejected [lang]="routeLang" [address]="address"></app-history-pages-rejected>
 			    </ng-template>
 			  </mat-tab>
 			</mat-tab-group>

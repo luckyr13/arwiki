@@ -33,6 +33,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
   arwikiQuery: ArwikiQuery|null = null;
   baseURL: string = this._arweave.baseURL;
   pageDataSubscription: Subscription = Subscription.EMPTY;
+  routeLang = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -45,12 +46,13 @@ export class PreviewComponent implements OnInit, OnDestroy {
     Prism.manual = true;
 
   	const contractAddress = this.route.snapshot.paramMap.get('id')!;
+    this.routeLang = this.route.snapshot.paramMap.get('lang')!;
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
     this.loadPageTXData(contractAddress);
 
     this.route.paramMap.subscribe(params => {
       const pageId = params.get('id');
-      
+      this.routeLang = params.get('lang')!;
       if (pageId) {
         this.loadPageTXData(contractAddress);
       }
