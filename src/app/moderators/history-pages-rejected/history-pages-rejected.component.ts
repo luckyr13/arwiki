@@ -35,7 +35,7 @@ export class HistoryPagesRejectedComponent implements OnInit, OnDestroy {
   baseURL: string = this._arweave.baseURL;
   lockButtons: boolean = false;
   displayedColumns: string[] = [
-    'slug',  'id', 'reason', 'start', 
+    'slug',  'id', 'reason', 'actions', 
   ];
   loadingMore = false;
   @ViewChild(MatTable) table: MatTable<any>|null = null;

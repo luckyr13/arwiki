@@ -31,15 +31,13 @@ export class HistoryUpdatesApprovedComponent implements OnInit, OnDestroy {
   loading: boolean = false;
   pages: ArwikiPage[] = [];
   myPagesSubscription: Subscription = Subscription.EMPTY;
-  myPagesNextSubscription = Subscription.EMPTY;
   baseURL: string = this._arweave.baseURL;
   lockButtons: boolean = false;
   displayedColumns: string[] = [
-    'img', 'title', 'slug', 'category', 'id', 'start'
+    'slug', 'id', 'by', 'at', 'actions'
   ];
-  loadingMore = false;
   @ViewChild(MatTable) table: MatTable<any>|null = null;
-  eof = false;
+  updateApprovedBy: Record<string, string>= {};
 
   constructor(
     private _snackBar: MatSnackBar,
@@ -66,62 +64,35 @@ export class HistoryUpdatesApprovedComponent implements OnInit, OnDestroy {
     this.pages = [];
     this.loading = true;
 
-    this.myPagesSubscription = from(this.getCurrentHeight()).pipe(
-      switchMap((height) => {
-        const anyArWikiVersion = true;
-        return this._arwikiQuery!.getMyArWikiPages(
-          this.address,
-          this.routeLang,
-          maxPages,
-          height,
-          anyArWikiVersion
-        );
-      }),
-      switchMap((pages: ArdbTransaction[]|ArdbBlock[]) => {
-        myPagesTX = pages;
-        return this._arwikiTokenContract.getApprovedPages(this.routeLang, -1);
-      })
-    )
+    this.myPagesSubscription = this._arwikiTokenContract.getApprovedPages(this.routeLang, -1)
     .subscribe({
       next: (allApprovedPages: ArwikiPageIndex) => {
         const finalPages: ArwikiPage[] = [];
-        for (let p of myPagesTX) {
-          const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
-          const title = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title');
-          const slug = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
-          const category = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category');
-          const lang = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang');
-          const img = this.sanitizeImg(this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img'));
-          const owner = pTX.owner.address;
-          const id = pTX.id;
-          const pageValue = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Value');
-          const extraData: any = allApprovedPages[slug] && allApprovedPages[slug].content == id 
-            ? allApprovedPages[slug] : {};
-          const start = extraData.start ? extraData.start : 0;
-          const pageRewardAt = extraData.pageRewardAt ? extraData.pageRewardAt : 0;
-          const sponsor = extraData.sponsor ? extraData.sponsor : '';
+        for (const slug of Object.keys(allApprovedPages)) {
+          const updates = allApprovedPages[slug].updates!;
 
-          if (!start) {
-            continue;
+          for (const update of updates) {
+            const approvedBy = update.approvedBy;
+            const at = +update.at;
+            const id = update.tx;
+            this.updateApprovedBy[id] = approvedBy;
+            finalPages.push({
+              id: id,
+              title: '',
+              slug: slug,
+              category: '',
+              sponsor: '',
+              language: '',
+              owner: '',
+              start: at
+            });
           }
           
-          finalPages.push({
-            title,
-            slug,
-            category,
-            img,
-            owner,
-            language: lang,
-            id,
-            value: pageValue,
-            block: pTX.block,
-            start,
-            pageRewardAt,
-            sponsor
-          });
         }
-
-        this.pages = finalPages;
+        
+        this.pages = finalPages.sort((a, b) => {
+          return (b.start! - a.start!);
+        });
         this.loading = false;
 
       },
@@ -138,7 +109,6 @@ export class HistoryUpdatesApprovedComponent implements OnInit, OnDestroy {
   */
   ngOnDestroy() {
     this.myPagesSubscription.unsubscribe();
-    this.myPagesNextSubscription.unsubscribe();
   }
 
   sanitizeImg(_img: string) {
@@ -175,75 +145,6 @@ export class HistoryUpdatesApprovedComponent implements OnInit, OnDestroy {
       throw Error(`${error}`);
     }
     return maxHeight;
-  }
-  
-  loadMoreResults() {
-    let myPagesTX: ArdbTransaction[]|ArdbBlock[] = [];
-    this.loadingMore = true;
-    this.myPagesNextSubscription = this._arwikiQuery!.next().pipe(
-      switchMap((pages) => {
-        myPagesTX = pages as ArdbTransaction[];
-        const myPagesList = [];
-
-        for (let p of (pages as ArdbTransaction[])) {
-          myPagesList.push(p.id);
-        }
-
-        if (myPagesList.length === 0) {
-          this.eof = true;
-          return of({});
-        }
-        
-        return this._arwikiTokenContract.getApprovedPages(this.routeLang, -1);
-      })
-    ).subscribe({
-      next: (allApprovedPages: ArwikiPageIndex) => {
-        const finalPages: ArwikiPage[] = [];
-        for (let p of myPagesTX) {
-          const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
-          const title = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title');
-          const slug = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
-          const category = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category');
-          const lang = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang');
-          const img = this.sanitizeImg(this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img'));
-          const owner = pTX.owner.address;
-          const id = pTX.id;
-          const pageValue = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Value');
-          const extraData: any = allApprovedPages[slug] && allApprovedPages[slug].content == id 
-            ? allApprovedPages[slug] : {};
-          const start = extraData.start ? extraData.start : 0;
-          const pageRewardAt = extraData.pageRewardAt ? extraData.pageRewardAt : 0;
-          const sponsor = extraData.sponsor ? extraData.sponsor : '';
-
-          if (!start) {
-            continue;
-          }
-          
-          this.pages.push({
-            title,
-            slug,
-            category,
-            img,
-            owner,
-            language: lang,
-            id,
-            value: pageValue,
-            block: pTX.block,
-            start,
-            pageRewardAt,
-            sponsor
-          });
-        }
-
-        this.loadingMore = false;
-        this.table!.renderRows();
-
-      },
-      error: (error) => {
-        this.message(error, 'error');
-        this.loadingMore = false;
-      }
-    })
   }
 
 }
