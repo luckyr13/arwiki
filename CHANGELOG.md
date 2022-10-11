@@ -1,5 +1,10 @@
 # ArWiki versions
 
+## 1.7
+- Activity History added to Profile: Published pages, posted updates, donations made, donations received
+- Donations button added to Profile
+- New section added: Moderator's activity history
+
 ## 1.6
 - DEMO (2022-10-10): https://arweave.net/zhKZlLZ4Sa4HswJmugzRwE064TIJ92zTWg6ZZFz7PK4
 - Donor ranking removed (donations info is gonna be visible from Activity History instead)
