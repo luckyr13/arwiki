@@ -1,5 +1,5 @@
 <mat-progress-bar mode="indeterminate" class="loader" color="primary" *ngIf="loading"></mat-progress-bar>
-
+<h2>Published Pages</h2>
 <table mat-table [dataSource]="pages" class="mat-elevation-z8" *ngIf="!loading && pages && pages.length">
   <ng-container matColumnDef="img">
     <th mat-header-cell *matHeaderCellDef> Img </th>

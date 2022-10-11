@@ -1,5 +1,5 @@
 <mat-progress-bar mode="indeterminate" class="loader" color="primary" *ngIf="loading"></mat-progress-bar>
-
+<h2>Donations Made</h2>
 <table mat-table [dataSource]="donations" class="mat-elevation-z8" *ngIf="!loading && donations && donations.length">
   
   <ng-container matColumnDef="to">
@@ -17,7 +17,7 @@
   <ng-container matColumnDef="id">
     <th mat-header-cell *matHeaderCellDef> Tx </th>
     <td mat-cell *matCellDef="let element">
-      <app-arweave-address [address]="element.id" [isAddress]="false">To: </app-arweave-address>
+      <app-arweave-address [address]="element.id" [isAddress]="false"></app-arweave-address>
     </td>
   </ng-container>
   

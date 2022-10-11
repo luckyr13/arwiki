@@ -888,4 +888,45 @@ export class ArwikiQuery {
     return obs;
   }
 
+  /*
+  * @dev
+  */
+  getMyArWikiDonationsReceived(
+    to: string|string[],
+    limit: number = 100,
+    maxHeight: number = 0,
+    anyArWikiVersion: boolean = false): Observable<ArdbTransaction[]|ArdbBlock[]> {
+    const tags = [
+      {
+        name: 'Service',
+        values: ['ArWiki'],
+      },
+      {
+        name: 'Arwiki-Type',
+        values: ['Donation'],
+      }
+    ];
+
+    if (!anyArWikiVersion) {
+      tags.push({
+        name: 'Arwiki-Version',
+        values: arwikiVersion,
+      });
+    }
+
+    const obs = new Observable<ArdbTransaction[]|ArdbBlock[]>((subscriber) => {
+      this._ardb!.search('transactions')
+        .to(to)
+        .limit(limit)
+        .max(maxHeight)
+        .tags(tags).find().then((res: ArdbTransaction[]|ArdbBlock[]) => {
+          subscriber.next(res);
+          subscriber.complete();
+        }).catch((error) => {
+          subscriber.error(error);
+        });
+
+    });
+    return obs;
+  }
 }
