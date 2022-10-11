@@ -34,7 +34,6 @@ export class PublishedPagesComponent implements OnInit, OnDestroy {
   myPagesNextSubscription = Subscription.EMPTY;
   routeLang: string = '';
   baseURL: string = this._arweave.baseURL;
-  currentBlockHeight: number = 0;
   lockButtons: boolean = false;
   displayedColumns: string[] = [
     'img', 'title', 'slug', 'category', 'id', 'start'
@@ -93,12 +92,6 @@ export class PublishedPagesComponent implements OnInit, OnDestroy {
       }),
       switchMap((pages: ArdbTransaction[]|ArdbBlock[]) => {
         myPagesTX = pages;
-        const myPagesList = [];
-
-        for (let p of pages) {
-          myPagesList.push(p.id);
-        }
-        
         return this._arwikiTokenContract.getApprovedPages(this.routeLang, -1);
       })
     )
@@ -157,9 +150,8 @@ export class PublishedPagesComponent implements OnInit, OnDestroy {
   *  @dev Destroy subscriptions
   */
   ngOnDestroy() {
-    if (this.myPagesSubscription) {
-      this.myPagesSubscription.unsubscribe();
-    }
+    this.myPagesSubscription.unsubscribe();
+    this.myPagesNextSubscription.unsubscribe();
   }
 
   sanitizeImg(_img: string) {
