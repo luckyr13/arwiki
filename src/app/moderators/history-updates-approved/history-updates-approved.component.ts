@@ -34,7 +34,7 @@ export class HistoryUpdatesApprovedComponent implements OnInit, OnDestroy {
   baseURL: string = this._arweave.baseURL;
   lockButtons: boolean = false;
   displayedColumns: string[] = [
-    'slug', 'id', 'by', 'at', 'actions'
+    'slug', 'id', 'at', 'actions'
   ];
   @ViewChild(MatTable) table: MatTable<any>|null = null;
   updateApprovedBy: Record<string, string>= {};
