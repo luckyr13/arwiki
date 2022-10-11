@@ -2,7 +2,7 @@
 <div class="container page-container fadeIn">
 	<div class="row">
 		<div class="col-12 col-md-6 fadeIn" *ngFor="let admin of adminList">
-			{{ admin }}
+			<app-arweave-address [address]="admin"></app-arweave-address>
 		</div>
 	</div>
 	<h1>

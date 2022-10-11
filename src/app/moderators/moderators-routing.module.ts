@@ -9,6 +9,7 @@ import { ApprovedListComponent } from './approved-list/approved-list.component';
 import { DeletedListComponent } from './deleted-list/deleted-list.component';
 import { TagManagerComponent } from './tag-manager/tag-manager.component';
 import { PageUpdatesComponent } from './page-updates/page-updates.component';
+import { ActivityHistoryComponent } from './activity-history/activity-history.component';
 
 const routes: Routes = [
 	{
@@ -38,10 +39,12 @@ const routes: Routes = [
 			},
 			{
 				path: '', redirectTo: 'pending', pathMatch: 'full'
-			},
-			
+			}
 		]
-
+	},
+	{
+		path: 'activity-history/:address',
+		component: ActivityHistoryComponent
 	}
 	
 ];

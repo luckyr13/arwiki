@@ -1,0 +1,84 @@
+$sm-icon-size: 28px;
+
+.profile-container {
+	min-height: 600px;
+	margin-top: 100px;
+}
+h1 span, h2 span, h3 span, h4 span {
+	font-weight: normal;
+}
+h1, h2, h3, h4 {
+	margin-bottom: 6px;
+	margin-top: 6px;
+}
+h1 {
+	margin-bottom: 20px;
+}
+.profile-container p {
+	
+}
+
+.avatar {
+	width: 200px;
+	height: 200px;
+	border-radius: 50%;
+	object-fit: cover;
+	flex-shrink: 0;
+	vertical-align: middle;
+	margin-left: 24px;
+	margin-right: 24px;
+	float: none;
+	margin-bottom: 20px;
+}
+
+.page-title, .page-title-buttons {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+.btn-toolbar {
+	color: inherit;
+}
+
+.row-col-social-media {
+	text-align: left;
+}
+
+
+.row-col-social-media a {
+	margin-left: 4px;
+	margin-right: 4px;
+}
+
+.row-col-social-media a span {
+	margin-left: 6px;
+}
+
+.row-col-social-media img {
+	width: $sm-icon-size;
+	height: $sm-icon-size;
+}
+
+.row-col-social-media a:hover {
+}
+
+@media (min-width: 600px) {
+	.avatar {
+		float: left;
+	}
+}
+.mini-text {
+	font-size: 12px;
+}
+
+.bio {
+	clear: both;
+}
+
+.history {
+	min-height: 400px;
+	margin-bottom: 40px;
+}
+
+.mat-card.error {
+	margin-bottom: 20px;
+}
