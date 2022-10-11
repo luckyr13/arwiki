@@ -1,6 +1,7 @@
 # ArWiki versions
 
 ## 1.7
+- DEMO (2022-10-11): https://arweave.net/Om_HJitbmZ29zpWY6vRZMfAuN4nriaUUHJqY9-29rxk
 - Activity History added to Profile: Published pages, posted updates, donations made, donations received
 - Donations button added to Profile
 - New section added: Moderator's activity history
