@@ -44,9 +44,10 @@ export class HomeComponent implements OnInit {
         .subscribe({
           next: (state) => {
             const settings = new Map(state.settings);
-            this.appName = `${settings.get('appName')}`;
-            this.appLogoLight = `${this._arweave.baseURL}${settings.get('appLogo')}`;
-            this.appLogoDark = `${this._arweave.baseURL}${settings.get('appLogoDark')}`;
+
+            this.appName = `${state.name}`;
+            this.appLogoLight = `${this._arweave.baseURL}${settings.get('communityLogo')}`;
+            this.appLogoDark = `${this._arweave.baseURL}${settings.get('communityLogo')}`;
             this.loading = false;
           },
           error: (error) => {

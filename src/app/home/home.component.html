@@ -29,13 +29,9 @@
 <div *ngIf="!loading && !redirect" class="mt-home fadeIn">
   <div class="text-center main-logo">
     <img 
-      *ngIf="defaultTheme === 'arwiki-dark' && appLogoLight" 
-      width="80px" 
+      *ngIf="appLogoLight" 
+      width="120px" 
       [src]="appLogoLight">
-    <img
-      *ngIf=" defaultTheme === 'arwiki-light' && appLogoDark" 
-      width="80px"
-      [src]="appLogoDark">
   </div>
   <h1 class="main-title text-center">
     {{ appName }}
