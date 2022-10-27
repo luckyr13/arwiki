@@ -37,7 +37,6 @@ export class HistoryUpdatesApprovedComponent implements OnInit, OnDestroy {
     'slug', 'id', 'at', 'actions'
   ];
   @ViewChild(MatTable) table: MatTable<any>|null = null;
-  updateApprovedBy: Record<string, string>= {};
 
   constructor(
     private _snackBar: MatSnackBar,
@@ -54,11 +53,11 @@ export class HistoryUpdatesApprovedComponent implements OnInit, OnDestroy {
     this._arwikiQuery = new ArwikiQuery(this._arweave.arweave);
     
     // Get pages 
-    this.getMyArWikiPages();
+    this.getMyArWikiPages(this.address);
     
   }
 
-  getMyArWikiPages() {
+  getMyArWikiPages(from: string) {
     let myPagesTX: ArdbTransaction[]|ArdbBlock[] = [];
     const maxPages = 100;
     this.pages = [];
@@ -75,17 +74,19 @@ export class HistoryUpdatesApprovedComponent implements OnInit, OnDestroy {
             const approvedBy = update.approvedBy;
             const at = +update.at;
             const id = update.tx;
-            this.updateApprovedBy[id] = approvedBy;
-            finalPages.push({
-              id: id,
-              title: '',
-              slug: slug,
-              category: '',
-              sponsor: '',
-              language: '',
-              owner: '',
-              start: at
-            });
+            if (approvedBy === from) {
+              finalPages.push({
+                id: id,
+                title: '',
+                slug: slug,
+                category: '',
+                sponsor: '',
+                language: '',
+                owner: '',
+                start: at
+              });
+
+            }
           }
           
         }
