@@ -3,9 +3,6 @@ import * as marked from 'marked';
 import DOMPurify from 'dompurify';
 import { Observable, Subscription, from } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { 
-	readContract
-} from 'smartweave';
 import { ArweaveService } from '../../core/arweave.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
