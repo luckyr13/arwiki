@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ArwikiQuery } from '../core/arwiki-query';
-import { ArweaveService } from '../core/arweave.service';
+import { ArwikiQuery } from '../../core/arwiki-query';
+import { ArweaveService } from '../../core/arweave.service';
 import { Subscription, of } from 'rxjs';
-import { ArwikiTokenContract } from '../core/arwiki-contracts/arwiki-token.service';
+import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { getVerification } from "arverify";
 import { ActivatedRoute } from '@angular/router';
@@ -11,10 +11,10 @@ import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
 
 @Component({
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  templateUrl: './results.component.html',
+  styleUrls: ['./results.component.scss']
 })
-export class SearchComponent implements OnInit, OnDestroy {
+export class ResultsComponent implements OnInit, OnDestroy {
   arwikiQuery!: ArwikiQuery;
   pagesSubscription: Subscription = Subscription.EMPTY;
   loadingPages: boolean = false;
@@ -26,11 +26,11 @@ export class SearchComponent implements OnInit, OnDestroy {
   arverifyProcessedAddressesMap: any = {};
 
   constructor(
-  	private _arweave: ArweaveService,
-  	private _arwikiTokenContract: ArwikiTokenContract,
-  	private _snackBar: MatSnackBar,
-  	private _route: ActivatedRoute
- 	) { }
+    private _arweave: ArweaveService,
+    private _arwikiTokenContract: ArwikiTokenContract,
+    private _snackBar: MatSnackBar,
+    private _route: ActivatedRoute
+   ) { }
 
   async ngOnInit() {
     // Init ardb instance
@@ -106,12 +106,12 @@ export class SearchComponent implements OnInit, OnDestroy {
 
 
   slugToLabel(_s: string) {
-  	return _s.replace(/_/gi, " ");
+    return _s.replace(/_/gi, " ");
   }
 
 
   /*
-  *	Custom snackbar message
+  *  Custom snackbar message
   */
   message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
     this._snackBar.open(msg, 'X', {
@@ -124,9 +124,9 @@ export class SearchComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy() {
-  	if (this.pagesSubscription) {
-  		this.pagesSubscription.unsubscribe();
-  	}
+    if (this.pagesSubscription) {
+      this.pagesSubscription.unsubscribe();
+    }
 
   }
 

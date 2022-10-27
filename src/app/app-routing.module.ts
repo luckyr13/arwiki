@@ -2,13 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { MainPageComponent } from './main-page/main-page.component';
-import { SearchComponent } from './search/search.component';
 import { AuthGuard } from './auth/auth.guard';
 import { InitPlatformGuard } from './auth/init-platform.guard';
-import { SearchEngineComponent } from './search-engine/search-engine.component';
 import { ErrorComponent } from './error/error.component';
 import { PreloadAllModules } from '@angular/router';
-
 
 const routes: Routes = [
   {
@@ -32,9 +29,7 @@ const routes: Routes = [
         path: ':lang/category',
         loadChildren: () => import('./category/category.module').then(m => m.CategoryModule),
       },
-      {
-        path: ':lang/search/:query', component: SearchComponent,
-      },
+      { path: ':lang/search', loadChildren: () => import('./search/search.module').then(m => m.SearchModule) },
       {
         path: ':lang/dashboard',
         loadChildren: () => import('./user-panel/user-panel.module').then(m => m.UserPanelModule),
@@ -48,7 +43,7 @@ const routes: Routes = [
         loadChildren: () => import('./user-profile/user-profile.module').then(m => m.UserProfileModule)
       }
     ]
-  }
+  },
 ];
 
 @NgModule({

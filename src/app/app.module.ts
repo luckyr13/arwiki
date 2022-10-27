@@ -15,7 +15,6 @@ import { MainMenuComponent } from './main-menu/main-menu.component';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-import { SearchComponent } from './search/search.component';
 import { PageModule } from './page/page.module';
 import { ErrorComponent } from './error/error.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -36,7 +35,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     MainToolbarComponent,
     MainPageComponent,
     MainMenuComponent,
-    SearchComponent,
     ErrorComponent,
   ],
   imports: [
