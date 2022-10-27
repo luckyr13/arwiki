@@ -1,14 +1,17 @@
 .mt-main {
-	margin-top: 64px;
+		margin-top: 26px;
 }
 
 .mt-main-pgbsep {
 	height: 4px;
 }
 
-@media (max-width: 600px) {
+@media (min-width: 600px) {
 	.mt-main {
-		margin-top: 56px;
+		margin-top: 32px !important;
+	}
+	.main-title {
+		margin-top: 45px !important;
 	}
 }
 
@@ -33,7 +36,7 @@
 }
 
 .main-title {
-	margin-top: 32px;
+	margin-top: 26px;
 	margin-bottom: 10px;
 	font-size: 32px;
 }
@@ -129,4 +132,7 @@ a.mat-button{
 }
 .card-partner img.dark {
 	filter:  grayscale(1) invert(1);
+}
+.loadingMsg {
+	margin-top: 40px;
 }
