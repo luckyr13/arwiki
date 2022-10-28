@@ -345,7 +345,10 @@ export class ArwikiTokenContract
 					return true;
 				});
 				const pages = pagesIds.reduce((acum: any, slug) => {
-					acum[slug] = _state.pages[_langCode][slug];
+					acum[slug] = {
+            slug: slug,
+            ..._state.pages[_langCode][slug]
+          };
 					return acum;
 				}, {});
 				return pages;
@@ -695,6 +698,34 @@ export class ArwikiTokenContract
     const minutes = numwords / avgwpm;
 
     return minutes;
+  }
+
+  /*
+  *  @dev Get the list of all pages from full state contract
+  * @param _numPages: -1 returns all values
+  */
+  getAllPagesFromLocalState(
+    _langCode: string,
+    _numPages: number = -1
+  ): any {
+    const _state = this._state;
+    let pageCounter = 0;
+    const pagesIds = Object.keys(_state.pages[_langCode]).filter((slug) => {
+      if (pageCounter >= _numPages && _numPages !== -1) {
+        return false;
+      }
+      pageCounter++;
+      return true;
+    });
+    const pages = pagesIds.reduce((acum: any, slug) => {
+      acum[slug] = {
+        slug: slug,
+        ..._state.pages[_langCode][slug]
+      };
+      return acum;
+    }, {});
+    return pages;
+  
   }
 
 }

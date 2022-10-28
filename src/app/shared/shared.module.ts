@@ -49,6 +49,7 @@ import { PasswordDialogComponent } from './password-dialog/password-dialog.compo
 import { FileManagerDialogComponent } from './file-manager-dialog/file-manager-dialog.component';
 import { UploadFileDialogComponent } from './upload-file-dialog/upload-file-dialog.component';
 import { DialogStampComponent } from './dialog-stamp/dialog-stamp.component';
+import {MatSortModule} from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -96,6 +97,7 @@ import { DialogStampComponent } from './dialog-stamp/dialog-stamp.component';
     MatInputModule,
     MatPaginatorModule,
     MatTableModule,
+    MatSortModule
   ],
   exports: [
   	MatFormFieldModule,
@@ -128,7 +130,8 @@ import { DialogStampComponent } from './dialog-stamp/dialog-stamp.component';
     MatTableModule,
     MatBadgeModule,
     MatPaginatorModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSortModule
   ],
   // entryComponents: [DialogSelectLanguageComponent]
 })
