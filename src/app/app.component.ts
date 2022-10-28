@@ -76,9 +76,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
 
           let dialogMsgG = '';
           let dialogTitleG = '';
-          let dialogCloseG = '';
-          let dialogConfirmG = '';
-
           this.getTranslationsSubscription = this._translate.get(
             'RESUME_SESSION_DIALOG.MSG'
           ).pipe(
@@ -88,14 +85,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
             }),
             switchMap((dialogTitle: string)=> {
               dialogTitleG = dialogTitle;
-              return this._translate.get('DIALOGS.TXT_CLOSE');
-            }),
-            switchMap((dialogClose: string)=> {
-              dialogCloseG = dialogClose;
-              return this._translate.get('DIALOGS.TXT_CONFIRM');
-            }),
-            switchMap((dialogConfirm: string)=> {
-              dialogConfirmG = dialogConfirm;
               return of('');
             })
           ).subscribe({
@@ -103,8 +92,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
               // Resume session dialog
               this.resumeSessionDialog(
                 dialogMsgG,
-                dialogConfirmG,
-                dialogCloseG,
                 dialogTitleG);
             },
             error: (error) => {
@@ -180,15 +167,13 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
   }
 
   resumeSessionDialog(
-    content: string, confirmLabel: string, closeLabel: string,
+    content: string,
     title: string
   ) {
     const dialogRef = this._dialog.open(DialogConfirmComponent, {
       data: {
         title: title,
-        content: content,
-        confirmLabel: confirmLabel,
-        closeLabel: closeLabel
+        content: content
       },
       disableClose: true
     });

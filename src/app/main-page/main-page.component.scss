@@ -1,5 +1,5 @@
 .mt-main {
-		margin-top: 26px;
+	margin-top: 56px;
 }
 
 .mt-main-pgbsep {
@@ -8,15 +8,18 @@
 
 @media (min-width: 600px) {
 	.mt-main {
-		margin-top: 32px !important;
+		margin-top: 65px !important;
 	}
 	.main-title {
 		margin-top: 45px !important;
 	}
+	.main-page-container {
+		margin-top: 0px !important;
+	}
 }
 
 .main-page-container {
-	margin-top: 40px;
+	margin-top: 20px;
 }
 
 .main-page-container-articles {
