@@ -27,12 +27,14 @@
   <mat-menu #searchMenu="matMenu" >
     <form [formGroup]="frmSearch" (ngSubmit)="onSearch()">
       <mat-form-field (click)="$event.stopPropagation();" class="search-container">
-        <mat-label>Search</mat-label>
+        <mat-label>{{ 'MAIN_TOOLBAR.MENU_SEARCH' | translate }}</mat-label>
         <input formControlName="searchQry" matInput autocomplete="off" placeholder="">
       </mat-form-field>
     </form>
     <div class="browse-link-c">
-      <a [routerLink]="['/', routerLang, 'search']">Browse the ArWiki</a>
+      <a [routerLink]="['/', routerLang, 'search']">
+        {{ 'MAIN_TOOLBAR.MENU_SEARCH_BROWSE' | translate }}
+      </a>
     </div>
   </mat-menu>
 

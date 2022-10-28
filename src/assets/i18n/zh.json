@@ -31,7 +31,9 @@
 		"MENU_MODERATOR_VIEW_ADM_LIST": "查看管理员列表",
 		"MENU_USER_LOGOUT_COMPOSED": "Log out {{ value }}",
 		"MENU_USER_PROFILE": "Profile",
-		"MENU_USER_METHOD": "Method"
+		"MENU_USER_METHOD": "Method",
+		"MENU_SEARCH": "Search",
+		"MENU_SEARCH_BROWSE": "Browse the ArWiki"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "欢迎来到永久网！",

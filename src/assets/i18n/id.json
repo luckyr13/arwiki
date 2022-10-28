@@ -1,60 +1,62 @@
 {
 	"HOME": {
-		"SECONDARY_TITLE": "Selamat datang di permaweb!"
+		"SECONDARY_TITLE": "Welcome to the permaweb!"
 	},
 	"MAIN_MENU": {
-		"HOME": "Rumah",
-		"ABOUT": "Tentang",
-		"the_arweave_project": "Proyek Arweave",
-		"the_arweave_protocol": "Protokol Arweave",
-		"profit_sharing": "Bagi hasil",
-		"mining": "Pertambangan",
-		"building_on_arweave": "Membangun di Arweave",
-		"resources": "Sumber daya"
+		"HOME": "Home",
+		"ABOUT": "About",
+		"the_arweave_project": "The Arweave Project",
+		"the_arweave_protocol": "The Arweave Protocol",
+		"profit_sharing": "Profit Sharing",
+		"mining": "Mining",
+		"building_on_arweave": "Building on Arweave",
+		"resources": "Resources"
 	},
 	"MAIN_TOOLBAR": {
-		"TOOLTIP_LOGIN": "Gabung",
-		"MENU_SETTINGS_LANGUAGE": "Pilih bahasa",
-		"MENU_SETTINGS_THEME": "Pilih tema",
-		"TOOLTIP_SEARCH": "Cari",
-		"TOOLTIP_SETTINGS": "Pengaturan",
-		"MENU_USER_DASHBOARD": "Dasbor",
-		"MENU_USER_CREATE": "Membuat halaman",
-		"MENU_USER_LOGOUT": "Keluar",
-		"MENU_USER_MY_PAGES": "halaman saya",
-		"MENU_USER_MODERATORS": "Moderator",
-		"MENU_USER_MY_UPDATES": "Pembaruan saya",
-		"MENU_MODERATOR_PENDING": "halaman tertunda",
-		"MENU_MODERATOR_APPROVED": "Halaman yang disetujui",
-		"MENU_MODERATOR_DELETED": "Halaman yang dihapus",
-		"MENU_MODERATOR_ADD_MODERATOR": "Tambahkan Moderator",
-		"MENU_MODERATOR_VIEW_ADM_LIST": "Lihat daftar admin",
+		"TOOLTIP_LOGIN": "Login",
+		"MENU_SETTINGS_LANGUAGE": "Select language",
+		"MENU_SETTINGS_THEME": "Select theme",
+		"TOOLTIP_SEARCH": "Search",
+		"TOOLTIP_SETTINGS": "Settings",
+		"MENU_USER_DASHBOARD": "Dashboard",
+		"MENU_USER_CREATE": "Create page",
+		"MENU_USER_LOGOUT": "Logout",
+		"MENU_USER_MY_PAGES": "My pages",
+		"MENU_USER_MODERATORS": "Moderators",
+		"MENU_USER_MY_UPDATES": "My updates",
+		"MENU_MODERATOR_PENDING": "Pending pages",
+		"MENU_MODERATOR_APPROVED": "Approved pages",
+		"MENU_MODERATOR_DELETED": "Deleted pages",
+		"MENU_MODERATOR_ADD_MODERATOR": "Add Moderator",
+		"MENU_MODERATOR_VIEW_ADM_LIST": "View admin list",
 		"MENU_USER_LOGOUT_COMPOSED": "Log out {{ value }}",
 		"MENU_USER_PROFILE": "Profile",
-		"MENU_USER_METHOD": "Method"
+		"MENU_USER_METHOD": "Method",
+		"MENU_SEARCH": "Search",
+		"MENU_SEARCH_BROWSE": "Browse the ArWiki"
 	},
 	"MAIN_PAGE": {
-		"TITLE_L1": "Selamat datang di permaweb!",
-		"SUBTITLE_L1": "arwiki adalah wiki terdesentralisasi untuk arweave yang dapat diedit siapa saja.",
-		"TITLE_L2": "Mulai",
-		"TITLE_L3": "Artikel Terbaru",
-		"LABEL_NO_RESULTS": "Tidak ada hasil."
+		"TITLE_L1": "Welcome to the permaweb!",
+		"SUBTITLE_L1": "arwiki is the decentralized wiki for arweave that anyone can edit.",
+		"TITLE_L2": "Getting started",
+		"TITLE_L3": "Latest articles",
+		"LABEL_NO_RESULTS": "No results."
 	},
 	"PAGE": {
 		"LABEL_ID": "Id",
-		"LABEL_TITLE": "Judul",
+		"LABEL_TITLE": "Title",
 		"LABEL_SLUG": "Slug",
-		"LABEL_CATEGORY": "Kategori",
-		"LABEL_LANGUAGE": "Bahasa",
-		"LABEL_OWNER": "Pemilik",
+		"LABEL_CATEGORY": "Category",
+		"LABEL_LANGUAGE": "Language",
+		"LABEL_OWNER": "Owner",
 		"LABEL_TX_STATUS": "TX status",
-		"LABEL_BLOCK_HEIGHT": "Tinggi blok",
-		"LABEL_BLOCK_TIMESTAMP": "Blok waktu stempel",
+		"LABEL_BLOCK_HEIGHT": "Block height",
+		"LABEL_BLOCK_TIMESTAMP": "Block timestamp",
 		"LABEL_ARVERIFY_SCORE": "ArVerify Score",
-		"LABEL_OWNER_STATUS": "Status pemilik",
-		"STATUS_TX_PENDING": "Tertunda",
-		"STATUS_ADDRESS_VERIFIED": "Diverifikasi",
-		"STATUS_ADDRESS_NOTVERIFIED": "Tidak diverifikasi",
+		"LABEL_OWNER_STATUS": "Owner status",
+		"STATUS_TX_PENDING": "Pending",
+		"STATUS_ADDRESS_VERIFIED": "Verified",
+		"STATUS_ADDRESS_NOTVERIFIED": "Not verified",
 		"LABEL_CATEGORY_INFO": "Category:",
 		"LABEL_LAST_UPDATE": "Last Update:",
 		"LABEL_LAST_UPDATE_BY": "Last update by:",
@@ -73,55 +75,55 @@
 
 	},
 	"CREATE_PAGE": {
-		"TITLE": "Membuat halaman",
-		"FRM_TITLE": "Judul",
-		"FRM_BY": "Oleh",
-		"FRM_SLUG": "siput halaman",
-		"FRM_CATEGORY": "Kategori",
-		"FRM_LANGUAGE": "Bahasa",
-		"FRM_LOADING": "Memuat ...",
-		"FRM_UPLOAD_FILE": "Unggah data",
-		"FRM_CONTENT": "Kandungan",
-		"FRM_BTN_SAVE": "Menyimpan",
-		"FRM_BTN_GOBACK": "Kembali"
+		"TITLE": "Create page",
+		"FRM_TITLE": "Title",
+		"FRM_BY": "By",
+		"FRM_SLUG": "Page slug",
+		"FRM_CATEGORY": "Category",
+		"FRM_LANGUAGE": "Language",
+		"FRM_LOADING": "Loading ...",
+		"FRM_UPLOAD_FILE": "Upload file",
+		"FRM_CONTENT": "Content",
+		"FRM_BTN_SAVE": "Save",
+		"FRM_BTN_GOBACK": "Go back"
 	},
 	"SEARCH_ENGINE": {
-		"INPUT_SEARCH_LABEL": "Cari di arwiki",
+		"INPUT_SEARCH_LABEL": "Search the arwiki",
 		"INPUT_SEARCH_PLACEHOLDER": "",
-		"LBL_DEFAULT_LANG": "Bahasa default",
-		"LBL_SELECT_LANG":" Pilih bahasa",
-		"BTN_TXT_GO": "Pergilah!"
+		"LBL_DEFAULT_LANG": "Default language",
+		"LBL_SELECT_LANG":" Select language",
+		"BTN_TXT_GO": "Go!"
 	},
 	"FOOTER": {
-		"LBL_POWERED": "Dipersembahkan oleh",
-		"LBL_PARTNERS": "Mitra dan teman kami",
-		"LBL_SOCIAL_MEDIA": "Follow us"
+		"LBL_POWERED": "Powered by",
+		"LBL_PARTNERS": "Our partners and friends",
+		"LBL_SOCIAL_MEDIA": "Follow us on"
 	},
 	"DIALOGS": {
-		"TITLE_SELECT_LANG": "Pilih bahasa",
-		"TXT_CLOSE": "Menutup",
+		"TITLE_SELECT_LANG": "Select language",
+		"TXT_CLOSE": "Close",
 		"TXT_CONFIRM": "Alright! Let's do it!"
 	},
 	"MODERATORS": {
 		"PENDING_PAGE": {
-			"TITLE_PENDING": "Daftar menunggu keputusan"
+			"TITLE_PENDING": "Pending list"
 		},
-		"LABEL_NO_RESULTS": "Tidak ada hasil.",
-		"LABEL_TOOLBAR_TITLE": "Panel moderator"
+		"LABEL_NO_RESULTS": "No results.",
+		"LABEL_TOOLBAR_TITLE": "Moderator's panel"
 	},
 	"CATEGORY": {
-		"BREADCRUMB_LABEL": "Kategori:"
+		"BREADCRUMB_LABEL": "Category:"
 	},
 	"GENERAL": {
 		"BUTTONS": {
-			"GO_BACK": "Kembali",
-			"OPEN_VIEWBLOCK": "Buka di Viewblock",
-			"COPY_ADDRESS": "Salin alamat",
-			"TIP_AUTHOR": "Tip penulis",
-			"VIEW_ARTICLE": "Lihat artikel",
-			"EDIT_PAGE": "Edit halaman",
-			"MORE_ARTICLES": "Artikel lainnya",
-			"VIEW_ALL": "Lihat semua",
+			"GO_BACK": "Go back",
+			"OPEN_VIEWBLOCK": "Open in Viewblock",
+			"COPY_ADDRESS": "Copy address",
+			"TIP_AUTHOR": "Tip the author",
+			"VIEW_ARTICLE": "Read full article",
+			"EDIT_PAGE": "Edit page",
+			"MORE_ARTICLES": "More articles",
+			"VIEW_ALL": "View all",
 			"BTN_DONATE": "Donate",
 			"BTN_SHARE": "Share",
 			"BTN_SPONSOR_PAGE": "Sponsor page",
@@ -131,39 +133,39 @@
 			"BTN_DONORS_LIST": "Donor ranking"
 		},
 		"LABELS": {
-			"NO_RESULTS": "Tidak ada hasil"
+			"NO_RESULTS": "No results"
 		},
 		"CARDS": {
 			"ARTICLE": {
-				"CATEGORY": "Kategori:",
-				"CREATED_BY": "Dibuat oleh:",
-				"CREATION_DATE": "Tanggal pembuatan:",
-				"LAST_UPDATE": "Pembaharuan Terakhir:",
+				"CATEGORY": "Category:",
+				"CREATED_BY": "Created by:",
+				"CREATION_DATE": "Created at:",
+				"LAST_UPDATE": "Last update:",
 				"SPONSOR": "Sponsor:"
 			}
 		}
 	},
 	"LOADING": {
-		"QUOTES_TITLE" : "Tahukah kamu?",
+		"QUOTES_TITLE" : "Did you know?",
 		"QUOTES": {
-			"0": "Arweave adalah protokol yang memungkinkan Anda menyimpan data secara permanen, berkelanjutan, dengan satu biaya di muka.",
-			"1": "Di atas protokol inti Arweave hidup permaweb: Sebuah web global, halaman permanen dan aplikasi yang hidup selamanya.",
-			"2": "Arweave adalah jaringan sumber terbuka yang sepenuhnya dimiliki dan dioperasikan oleh komunitas."
+			"0": "Arweave is a protocol that allows you to store data permanently, sustainably, with a single upfront fee.",
+			"1": "On top of the core Arweave protocol lives the permaweb: A global, permanent web of pages and applications that live forever.",
+			"2": "Arweave is a completely community-owned and -operated open source network."
 		},
-		"LOADING_LABEL": "Memuat"
+		"LOADING_LABEL": "Loading"
 	},
 	"EDIT_PAGE": {
-		"TITLE": "Edit halaman",
-		"FRM_TITLE": "Judul",
-		"FRM_BY": "Oleh",
-		"FRM_SLUG": "siput halaman",
-		"FRM_CATEGORY": "Kategori",
-		"FRM_LANGUAGE": "Bahasa",
-		"FRM_LOADING": "Memuat ...",
-		"FRM_UPLOAD_FILE": "Unggah data",
-		"FRM_CONTENT": "Kandungan",
-		"FRM_BTN_SAVE": "Kirim pembaruan",
-		"FRM_BTN_GOBACK": "Kembali"
+		"TITLE": "Edit page",
+		"FRM_TITLE": "Title",
+		"FRM_BY": "By",
+		"FRM_SLUG": "Page slug",
+		"FRM_CATEGORY": "Category",
+		"FRM_LANGUAGE": "Language",
+		"FRM_LOADING": "Loading ...",
+		"FRM_UPLOAD_FILE": "Upload file",
+		"FRM_CONTENT": "Content",
+		"FRM_BTN_SAVE": "Send update",
+		"FRM_BTN_GOBACK": "Go back"
 	},
 	"PROFILE": {
 		"TITLE": "Profile"

@@ -31,7 +31,9 @@
 		"MENU_MODERATOR_VIEW_ADM_LIST": "Ver lista de administradores",
 		"MENU_USER_LOGOUT_COMPOSED": "Cerrar sesión {{ value }}",
 		"MENU_USER_PROFILE": "Perfil",
-		"MENU_USER_METHOD": "Método"
+		"MENU_USER_METHOD": "Método",
+		"MENU_SEARCH": "Buscar",
+		"MENU_SEARCH_BROWSE": "Navegar la ArWiki"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "¡Bienvenido a la permaweb!",
