@@ -35,7 +35,7 @@
 			[innerHTML]="markdownToHTML(articleData)">
 		</p>
 	</div>
-	<p class="mini-text ellipsis">
+	<p class="mini-text ellipsis" *ngIf="article.sponsor">
 		<app-arweave-address [address]="article.sponsor!" [lang]="routeLang">
 			{{ 'GENERAL.CARDS.ARTICLE.SPONSOR' | translate }}
 		</app-arweave-address>
