@@ -1,5 +1,32 @@
 <div class="container sitemap fadeIn">
 	<h1>Sitemap</h1>
+	<h2>Categories</h2>
+	<div class="row">
+		<div class="col">
+			<ul class="categories-list">
+				<li *ngFor="let c of categories">
+					<div class="cat-title">
+						<strong>{{ 'MAIN_MENU.' + c.slug | translate }} </strong>
+						<span class="active-label" *ngIf="c.active">Active</span>
+		      	<span class="inactive-label" *ngIf="!c.active">Inactive</span>
+					</div>
+					<div class="secondary-txt">
+						<strong>Order: </strong>{{ c.order }}
+						<strong>Slug: </strong>
+						<a mat-button
+		      		[routerLink]="['/', routeLang, 'category', c.slug]">
+		      		{{ c.slug }}
+		      	</a>
+		      	<strong>Pages: </strong>{{ numPagesByCategory[c.slug] }}
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>	
+	<div class="total-pages">
+		<strong>Total Pages: </strong><span>{{ totalPages() }}</span>
+	</div>
+	<h2>Pages</h2>
 	<div class="row">
 		<div class="col">
 			<mat-form-field appearance="standard">
@@ -7,7 +34,7 @@
 			  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Arweave" #input autocomplete="off">
 			</mat-form-field>
 
-			<div class="mat-elevation-z8">
+			<div class="mat-elevation-z8 table-container">
 			  <table mat-table [dataSource]="dataSource" matSort>
 
 			    <!-- ID Column -->
@@ -15,7 +42,44 @@
 			      <th mat-header-cell *matHeaderCellDef mat-sort-header> Slug </th>
 			      <td mat-cell *matCellDef="let row">
 			      	<a mat-button
+			      		class="btn-ellipsis"
 			      		[routerLink]="['/', routeLang, row.slug]">{{row.slug}}</a>
+			      </td>
+			    </ng-container>
+
+			    
+
+			    <!-- ID Category -->
+			    <ng-container matColumnDef="category">
+			      <th mat-header-cell *matHeaderCellDef mat-sort-header> Category </th>
+			      <td mat-cell *matCellDef="let row">
+			      	<a mat-button
+			      		[routerLink]="['/', routeLang, 'category', row.category]">
+			      		{{ 'MAIN_MENU.' + row.category | translate }}
+			      	</a>
+			      </td>
+			    </ng-container>
+
+			    <!-- Owner Column -->
+			    <ng-container matColumnDef="sponsor">
+			      <th mat-header-cell *matHeaderCellDef mat-sort-header> Sponsor </th>
+			      <td mat-cell *matCellDef="let row" class="text-center">
+			      	<app-arweave-address
+			      		[address]="row.sponsor"
+			      		[lang]="routeLang"
+			      		[showHandleInAddress]="false"></app-arweave-address>
+			      </td>
+			    </ng-container>
+
+			    <!-- Accepted at -->
+			    <ng-container matColumnDef="start">
+			      <th mat-header-cell *matHeaderCellDef mat-sort-header> Accepted at block</th>
+			      <td mat-cell *matCellDef="let row" class="text-center">
+			      	<a mat-button
+			      		target="_blank"
+			      		href="https://viewblock.io/arweave/block/{{row.start}}">
+			      		{{ row.start }}
+			      	</a>
 			      </td>
 			    </ng-container>
 
@@ -28,18 +92,6 @@
 
 			      </td>
 			    </ng-container>
-
-			    <!-- ID Category -->
-			    <ng-container matColumnDef="category">
-			      <th mat-header-cell *matHeaderCellDef mat-sort-header> Category </th>
-			      <td mat-cell *matCellDef="let row">
-			      	<a mat-button
-			      		[routerLink]="['/', routeLang, 'category', row.category]">
-			      		{{row.category}}
-			      	</a>
-			      </td>
-			    </ng-container>
-
 
 			    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 			    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -56,4 +108,11 @@
 			</div>
 		</div>
 	</div>
+
+	<h2>Other Languages</h2>
+	<div class="row">
+		<div class="col">
+			--
+		</div>
+	</div>	
 </div>

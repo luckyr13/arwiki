@@ -9,6 +9,7 @@ import {MatSort} from '@angular/material/sort';
 import { MatTable} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
+import { ArwikiCategory } from '../../core/interfaces/arwiki-category';
 
 @Component({
   selector: 'app-sitemap',
@@ -16,15 +17,16 @@ import {MatTableDataSource} from '@angular/material/table';
   styleUrls: ['./sitemap.component.scss']
 })
 export class SitemapComponent implements OnInit, AfterViewInit, OnDestroy {
-  pages: ArwikiPage[] = [];
+  categories: ArwikiCategory[] = [];
   routeLang = '';
   pagesSubscription = Subscription.EMPTY;
   loading = false;
-  displayedColumns: string[] = ['slug', 'category', 'active'];
+  displayedColumns: string[] = ['slug', 'category', 'sponsor', 'start', 'active'];
   dataSource!: MatTableDataSource<ArwikiPage>;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatTable) table!: MatTable<ArwikiPage>;
+  numPagesByCategory: Record<string, number> = {};
 
   constructor(
     private _arwikiToken: ArwikiTokenContract,
@@ -40,6 +42,12 @@ export class SitemapComponent implements OnInit, AfterViewInit, OnDestroy {
     this._route.paramMap.subscribe(async params => {
       this.routeLang = params.get('lang')!;
     });
+    
+    this.initTableAllPages();
+    this.initCategories();
+  }
+
+  initTableAllPages() {
     const pages = this._arwikiToken.getAllPagesFromLocalState(this.routeLang);
     const pagesAsArray: ArwikiPage[] = Object.values(pages);
     pagesAsArray.sort((a: ArwikiPage, b: ArwikiPage) => {
@@ -47,6 +55,22 @@ export class SitemapComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     this.dataSource = new MatTableDataSource<ArwikiPage>(pagesAsArray);
 
+    pagesAsArray.forEach((page: ArwikiPage) => {
+      if (Object.prototype.hasOwnProperty.call(this.numPagesByCategory, page.category)) {
+        this.numPagesByCategory[page.category]++;
+      } else {
+        this.numPagesByCategory[page.category] = 1;
+      }
+    });
+  }
+
+  initCategories() {
+    const categories = this._arwikiToken.getCategoriesFromLocal();
+    const categoriesAsArray: ArwikiCategory[] = Object.values(categories);
+    categoriesAsArray.sort((a: ArwikiCategory, b: ArwikiCategory) => {
+      return a.order - b.order;
+    });
+    this.categories = categoriesAsArray;
   }
 
   ngAfterViewInit() {
@@ -77,5 +101,16 @@ export class SitemapComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  totalPages() {
+    return Object.values(this.numPagesByCategory).reduce((prev, current) => {
+      return prev + current;
+    })
+  }
+  
+  timestampToDate(_time: number) {
+    let d = new Date(_time * 1000);
+    return d;
   }
 }

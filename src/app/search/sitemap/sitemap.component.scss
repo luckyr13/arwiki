@@ -1,8 +1,13 @@
 .container.sitemap {
 	padding-top: 90px;
 }
+
+.table-container {
+  overflow: auto;
+}
 table {
   margin-bottom: 40px;
+  
   width: 100%;
 }
 
@@ -12,6 +17,11 @@ table {
 
 th.mat-sort-header-sorted {
   color: black;
+}
+
+h2 {
+  margin-top: 26px;
+  margin-bottom: 26px;
 }
 
 .mat-form-field {
@@ -38,5 +48,26 @@ td, th {
   border-radius: 6px;
 }
 .col {
-  margin-bottom: 40px;
+}
+.btn-ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 260px;
+  margin: 0 auto;
+}
+.categories-list {
+  padding-left: 22px;
+  list-style: none;
+  margin-top: 0px;
+}
+.secondary-txt {
+  font-size: 12px;
+}
+.cat-title {
+  font-size: 22px;
+}
+.total-pages {
+  font-size: 14px;
+  padding-left: 22px;
 }

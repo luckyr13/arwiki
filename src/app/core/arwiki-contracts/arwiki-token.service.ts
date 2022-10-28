@@ -106,6 +106,13 @@ export class ArwikiTokenContract
     }
 	}
 
+  /*
+  *  @dev Return state
+  */
+  getStateFromLocal(): Observable<any> {
+    return this._state;
+  }
+
 	/*
 	*	@dev Get only the admin list from full state contract
 	*/
@@ -726,6 +733,14 @@ export class ArwikiTokenContract
     }, {});
     return pages;
   
+  }
+
+  /*
+  *  @dev Get Categories
+  */
+  getCategoriesFromLocal(): Observable<ArwikiCategoryIndex> {
+    const state = this._state;
+    return state.categories;
   }
 
 }
