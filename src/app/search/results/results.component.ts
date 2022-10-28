@@ -193,19 +193,21 @@ export class ResultsComponent implements OnInit, OnDestroy {
           const verifiedSlugs = Object.keys(verifiedPages);
           for (let p of _verifiedTags) {
             const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
-            const vrfdPageId = this.arwikiQuery.searchKeyNameInTags(
-              pTX.tags, 'Arwiki-Page-Id'
-            );
             const vrfdSlug = this.arwikiQuery.searchKeyNameInTags(
               pTX.tags, 'Arwiki-Page-Slug'
             );
-            if (verifiedPagesList.indexOf(vrfdPageId) >= 0) {
-              continue;
-            }
+
             if (verifiedSlugs.indexOf(vrfdSlug) < 0) {
               continue;
             }
-            verifiedPagesList.push(vrfdPageId);
+            if (verifiedPagesList.indexOf(verifiedPages[vrfdSlug].id) >= 0) {
+              continue;
+            }
+            let id = verifiedPages[vrfdSlug].content;
+            if (verifiedPages[vrfdSlug].updates.length) {
+              id = verifiedPages[vrfdSlug].updates[verifiedPages[vrfdSlug].updates.length - 1].tx;
+            }
+            verifiedPagesList.push(id);
           }
           return this.arwikiQuery.getTXsData(verifiedPagesList);
         }),
