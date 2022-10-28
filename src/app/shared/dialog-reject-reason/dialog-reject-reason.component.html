@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>
 	<mat-icon class="red title-icon">delete</mat-icon>
-	<span>Reject page</span>
+	<span>{{ 'DIALOGS.TXT_CLOSE' | translate }}Reject page</span>
 </h2>
 <mat-dialog-content>
   <p>You are about to reject a page with tx id {{ data.id }}. Do you want to proceed? Please add a reason to continue.</p>
@@ -13,6 +13,6 @@
   <button 
   	mat-button 
   	[disabled]="!reason.value"
-  	[mat-dialog-close]="reason.value" >Alright! Let's do it!</button>
-  <button mat-button mat-dialog-close cdkFocusInitial>Cancel</button>
+  	[mat-dialog-close]="reason.value" >{{ 'DIALOGS.TXT_CONFIRM' | translate }}</button>
+  <button mat-button mat-dialog-close cdkFocusInitial>{{ 'DIALOGS.TXT_CLOSE' | translate }}</button>
 </mat-dialog-actions>

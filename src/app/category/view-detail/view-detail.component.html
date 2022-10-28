@@ -34,7 +34,7 @@
 		<div class="col-12">
 			<mat-spinner class="spinner-center" *ngIf="loadingPages"></mat-spinner>
 			<div *ngIf="!loadingPages">
-				<div class="text-left fadeIn" *ngIf="!pages.length">
+				<div class="text-left fadeIn no-results" *ngIf="!pages.length">
 					{{ 'GENERAL.LABELS.NO_RESULTS' | translate }}
 				</div>
 			</div>

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef, Cha
 import {TranslateService} from '@ngx-translate/core';
 import { UserSettingsService } from './core/user-settings.service';
 import { MatSidenavContainer } from '@angular/material/sidenav';
-import { map, Subscription } from 'rxjs';
+import { map, Subscription, switchMap, of } from 'rxjs';
 import { AddressKey } from './core/interfaces/address-key';
 import { 
   PasswordDialogComponent 
@@ -35,6 +35,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
   mainLogo: string = '';
   loginSubscription: Subscription = Subscription.EMPTY;
   loadAccountSubscription: Subscription = Subscription.EMPTY;
+  getTranslationsSubscription = Subscription.EMPTY;
 
   constructor(
     private _translate: TranslateService,
@@ -72,11 +73,46 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
       },
       error: (error) => {
         if (error == 'Error: LaunchArweaveWebWalletModal') {
-          // Resume session dialog
-          this.resumeSessionDialog('Resume Arweave Web Wallet session?', 'Alright! Resume session', 'Cancel');
-          
-          
 
+          let dialogMsgG = '';
+          let dialogTitleG = '';
+          let dialogCloseG = '';
+          let dialogConfirmG = '';
+
+          this.getTranslationsSubscription = this._translate.get(
+            'RESUME_SESSION_DIALOG.MSG'
+          ).pipe(
+            switchMap((dialogMsg: string) => {
+              dialogMsgG = dialogMsg;
+              return this._translate.get('RESUME_SESSION_DIALOG.TITLE');
+            }),
+            switchMap((dialogTitle: string)=> {
+              dialogTitleG = dialogTitle;
+              return this._translate.get('DIALOGS.TXT_CLOSE');
+            }),
+            switchMap((dialogClose: string)=> {
+              dialogCloseG = dialogClose;
+              return this._translate.get('DIALOGS.TXT_CONFIRM');
+            }),
+            switchMap((dialogConfirm: string)=> {
+              dialogConfirmG = dialogConfirm;
+              return of('');
+            })
+          ).subscribe({
+            next: () => {
+              // Resume session dialog
+              this.resumeSessionDialog(
+                dialogMsgG,
+                dialogConfirmG,
+                dialogCloseG,
+                dialogTitleG);
+            },
+            error: (error) => {
+              console.error('error loading translations')
+            }
+          })
+
+          
         } else if (error == 'Error: LaunchPasswordModal') {
           // Launch password modal
           this.passwordDialog();
@@ -139,12 +175,17 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
   ngOnDestroy() {
     this.loadAccountSubscription.unsubscribe();
     this.loadAccountSubscription.unsubscribe();
+    this.loginSubscription.unsubscribe();
+    this.getTranslationsSubscription.unsubscribe();
   }
 
-  resumeSessionDialog(content: string, confirmLabel: string, closeLabel: string) {
+  resumeSessionDialog(
+    content: string, confirmLabel: string, closeLabel: string,
+    title: string
+  ) {
     const dialogRef = this._dialog.open(DialogConfirmComponent, {
       data: {
-        title: 'Session detected',
+        title: title,
         content: content,
         confirmLabel: confirmLabel,
         closeLabel: closeLabel
