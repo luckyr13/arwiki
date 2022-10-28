@@ -65,7 +65,7 @@
 		"LABEL_CREATE_NEW_PAGE": "Crear una nueva página ArWiki",
 		"LABEL_CONTENT_OVERVIEW": "Descripción general del contenido",
 		"LABEL_TAGS": "Etiquetas",
-		"LABEL_TRANSLATIONS": "Traducciones",
+		"LABEL_TRANSLATIONS": "Otros Idiomas",
 		"LABEL_READING_TIME": "Tiempo de Lectura:",
 		"LABEL_READING_TIME_RES_COMPOSED": "{{ minutes }}' {{ seconds }}\""
 	},
@@ -99,7 +99,8 @@
 	},
 	"DIALOGS": {
 		"TITLE_SELECT_LANG": "Seleccionar idioma",
-		"TXT_CLOSE": "Cerrar"
+		"TXT_CLOSE": "Cerrar",
+		"TXT_CONFIRM": "¡Está bien! ¡Hagámoslo!"
 	},
 	"MODERATORS": {
 		"PENDING_PAGE": {
@@ -166,5 +167,58 @@
 	},
 	"PROFILE": {
 		"TITLE": "Perfil"
+	},
+	"SHARE_DIALOG": {
+		"TITLE": "Compartir en redes sociales",
+		"OPTION_1": {
+			"NAME": "Facebook",
+			"MSG": "Compartir en una publicación de Facebook"
+		},
+		"OPTION_2": {
+			"NAME": "Twitter",
+			"MSG": "Compartir en un tweet"
+		},
+		"OPTION_3": {
+			"NAME": "Whatsapp",
+			"MSG": "Compartir en un mensaje"
+		},
+		"OPTION_4": {
+			"NAME": "Copiar enlace",
+			"MSG": "Copiar enlace al portapapeles"
+		}
+	},
+	"LOGIN_DIALOG": {
+		"STAYLOGGEDIN": "Mantenerse conectado",
+		"OPTION_1": {
+			"NAME": "ArConnect",
+			"MSG": ""
+		},
+		"OPTION_2": {
+			"NAME": "Arweave.app",
+			"MSG": ""
+		},
+		"OPTION_3": {
+			"NAME": "Cargar archivo de llave",
+			"MSG": "*Tu llave permanece encriptada en el navegador"
+		}
+	},
+	"COMPARE_DIALOG": {
+		"TITLE": "Diferencias",
+		"OLD_TX": "TX de la Nueva Página:",
+		"NEW_TX": "TX de la Página Anterior:",
+		"SLUG": "Slug:",
+		"LANG": "Idioma:",
+		"DIFF": "Diferencias:"
+	},
+	"DONATE_DIALOG": {
+		"TITLE": "Agradecer al usuario",
+		"FROM": "De:",
+		"BALANCE": "Saldo:",
+		"TO": "Para:",
+		"CHOOSE_AMOUNT": "Elegir cantidad:",
+		"LOGINFIRST": "🙏 Por favor inicia sesión primero 👾",
+		"TXINPROGRESS": "🚀 Transacción en progreso ¡Espera!",
+		"DONATIONSEND": "🥳 ¡Donación enviada! ¡Muchas gracias por tu apoyo! 🙏🙌",
+		"CLOSEMSG": "Puedes cerrar esta ventana ahora."
 	}
 }

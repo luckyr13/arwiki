@@ -65,7 +65,7 @@
 		"LABEL_CREATE_NEW_PAGE": "Create new ArWiki page",
 		"LABEL_CONTENT_OVERVIEW": "Content overview",
 		"LABEL_TAGS": "Tags",
-		"LABEL_TRANSLATIONS": "Translations",
+		"LABEL_TRANSLATIONS": "Other languages",
 		"LABEL_READING_TIME": "Reading Time:",
 		"LABEL_READING_TIME_RES_COMPOSED": "{{ minutes }}' {{ seconds }}\""
 	},
@@ -99,7 +99,8 @@
 	},
 	"DIALOGS": {
 		"TITLE_SELECT_LANG": "Select language",
-		"TXT_CLOSE": "Close"
+		"TXT_CLOSE": "Close",
+		"TXT_CONFIRM": "Alright! Let's do it!"
 	},
 	"MODERATORS": {
 		"PENDING_PAGE": {
@@ -166,5 +167,58 @@
 	},
 	"PROFILE": {
 		"TITLE": "Profile"
+	},
+	"SHARE_DIALOG": {
+		"TITLE": "Share in social media",
+		"OPTION_1": {
+			"NAME": "Facebook",
+			"MSG": "Share in a Facebook post"
+		},
+		"OPTION_2": {
+			"NAME": "Twitter",
+			"MSG": "Share in a tweet"
+		},
+		"OPTION_3": {
+			"NAME": "Whatsapp",
+			"MSG": "Share in a message"
+		},
+		"OPTION_4": {
+			"NAME": "Copy link",
+			"MSG": "Copy link to the clipboard"
+		}
+	},
+	"LOGIN_DIALOG": {
+		"STAYLOGGEDIN": "Stay Logged In",
+		"OPTION_1": {
+			"NAME": "ArConnect",
+			"MSG": ""
+		},
+		"OPTION_2": {
+			"NAME": "Arweave.app",
+			"MSG": ""
+		},
+		"OPTION_3": {
+			"NAME": "Load your key file",
+			"MSG": "*Your key is kept encrypted in your browser"
+		}
+	},
+	"COMPARE_DIALOG": {
+		"TITLE": "Differences",
+		"OLD_TX": "New Page TX:",
+		"NEW_TX": "Old Page TX:",
+		"SLUG": "Slug:",
+		"LANG": "Language:",
+		"DIFF": "Differences:"
+	},
+	"DONATE_DIALOG": {
+		"TITLE": "Thank this user",
+		"FROM": "From:",
+		"BALANCE": "Balance:",
+		"TO": "To:",
+		"CHOOSE_AMOUNT": "Choose amount:",
+		"LOGINFIRST": "🙏 Please login first 👾",
+		"TXINPROGRESS": "🚀 Transaction in progress, hold on!",
+		"DONATIONSEND": "🥳 Donation sent! Thank you very much for your support! 🙏🙌",
+		"CLOSEMSG": "You can close this window now."
 	}
 }
