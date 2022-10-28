@@ -1,23 +1,23 @@
-<h3>Share in social media</h3>
+<h3>{{ 'SHARE_DIALOG.TITLE' | translate }}</h3>
 <mat-nav-list>
   <mat-list-item (click)="shareInSocialMedia('facebook')">
     <img matListAvatar src="./assets/img/facebookR.png">
-    <span mat-line>Facebook</span>
-    <span mat-line>Share in a Facebook post</span>
+    <span mat-line>{{ 'SHARE_DIALOG.OPTION_1.NAME' | translate }}</span>
+    <span mat-line>{{ 'SHARE_DIALOG.OPTION_1.MSG' | translate }}</span>
   </mat-list-item>
 	<mat-list-item (click)="shareInSocialMedia('twitter')">
 		<img matListAvatar src="./assets/img/twitterR.png">
-    <span mat-line>Twitter</span>
-    <span mat-line>Share in a tweet</span>
+    <span mat-line>{{ 'SHARE_DIALOG.OPTION_2.NAME' | translate }}</span>
+    <span mat-line>{{ 'SHARE_DIALOG.OPTION_2.MSG' | translate }}</span>
   </mat-list-item>
   <mat-list-item (click)="shareInSocialMedia('whatsapp')">
 		<img matListAvatar class="not-rounded" src="./assets/img/whatsappR.png">
-    <span mat-line>Whatsapp</span>
-    <span mat-line>Share in a message</span>
+    <span mat-line>{{ 'SHARE_DIALOG.OPTION_3.NAME' | translate }}</span>
+    <span mat-line>{{ 'SHARE_DIALOG.OPTION_3.MSG' | translate }}</span>
   </mat-list-item>
   <mat-list-item (click)="shareInSocialMedia('copyLink')">
   	<mat-icon matListIcon>link</mat-icon>
-    <span mat-line>Copy link</span>
-    <span mat-line>Copy link to the clipboard</span>
+    <span mat-line>{{ 'SHARE_DIALOG.OPTION_4.NAME' | translate }}</span>
+    <span mat-line>{{ 'SHARE_DIALOG.OPTION_4.MSG' | translate }}</span>
   </mat-list-item>
 </mat-nav-list>

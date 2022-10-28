@@ -4,11 +4,13 @@ import { SharedModule } from '../shared/shared.module';
 
 import { SearchRoutingModule } from './search-routing.module';
 import { ResultsComponent } from './results/results.component';
+import { SitemapComponent } from './sitemap/sitemap.component';
 
 
 @NgModule({
   declarations: [
-    ResultsComponent
+    ResultsComponent,
+    SitemapComponent
   ],
   imports: [
     CommonModule,

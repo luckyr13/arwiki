@@ -16,13 +16,13 @@
 	  	thumbLabel
 	  	tickInterval="1"
 	  	step="1"></mat-slider>
-	  <div class="mat-hint small-hint text-right">{{pageValue!.value}} $WIKI tokens</div>
+	  <div class="mat-hint small-hint text-right">{{pageValue!.value}} $WIKI</div>
 	</div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button 
   	mat-button 
   	*ngIf="data.type !=='info'" 
-  	[mat-dialog-close]="pageValue.value" >Alright! Let's do it!</button>
-  <button mat-button [mat-dialog-close]="-1" cdkFocusInitial>Cancel</button>
+  	[mat-dialog-close]="pageValue.value" >{{ 'DIALOGS.TXT_CONFIRM' | translate }}</button>
+  <button mat-button [mat-dialog-close]="-1" cdkFocusInitial>{{ 'DIALOGS.TXT_CLOSE' | translate }}</button>
 </mat-dialog-actions>

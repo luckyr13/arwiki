@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>
 	<mat-icon class="red title-icon">volunteer_activism</mat-icon>
-	<span>Thank this user</span>
+	<span>{{ 'DONATE_DIALOG.TITLE' | translate }}</span>
 </h2>
 <mat-progress-bar 
   color="warn"
@@ -10,19 +10,19 @@
 <mat-dialog-content class="container container-donate">
   <div *ngIf="data.mainAddress && !loadingDonationInProgress" class="row">
   	<p class="col-12 mini-text ellipsis">
-      <app-arweave-address [address]="data.mainAddress">From: </app-arweave-address>
+      <app-arweave-address [address]="data.mainAddress">{{ 'DONATE_DIALOG.FROM' | translate }} </app-arweave-address>
       <br>
-      <strong>Balance: </strong><span class="bn">{{ balance - amount }}</span> AR
+      <strong>{{ 'DONATE_DIALOG.BALANCE' | translate }} </strong><span class="bn">{{ balance - amount }}</span> AR
   	</p>
   	<div *ngIf="data.author" class="col-12 text-right mini-text ellipsis">
   		<mat-icon class="red">favorite</mat-icon>
-  		<app-arweave-address [address]="data.author"><mat-icon class="red">favorite</mat-icon> To: </app-arweave-address>
+  		<app-arweave-address [address]="data.author"><mat-icon class="red">favorite</mat-icon> {{ 'DONATE_DIALOG.TO' | translate }} </app-arweave-address>
   	</div>
   	<div *ngIf="data.sponsor" class="col-12 text-right mini-text ellipsis">
-      <app-arweave-address class="sponsor-address" [address]="data.sponsor"><mat-icon class="red">favorite</mat-icon> To: </app-arweave-address>
+      <app-arweave-address class="sponsor-address" [address]="data.sponsor"><mat-icon class="red">favorite</mat-icon> {{ 'DONATE_DIALOG.TO' | translate }} </app-arweave-address>
   	</div>
     <p class="col-12 mini-text">
-      <strong>Choose amount: </strong>
+      <strong>{{ 'DONATE_DIALOG.CHOOSE_AMOUNT' | translate }} </strong>
     </p>
   	<div  class="col-12 text-center mini-text">
   		<mat-slider
@@ -38,11 +38,11 @@
       {{ amount }} AR
     </div>
   </div>
-  <div *ngIf="!data.mainAddress">🙏 Please login first 👾</div>
+  <div *ngIf="!data.mainAddress">{{ 'DONATE_DIALOG.LOGINFIRST' | translate }}</div>
   <div *ngIf="loadingDonationInProgress">
-    <h1 *ngIf="!txDonation">🚀 Transaction in progress, hold on!</h1>
-    <h2 *ngIf="txDonation">🥳 Donation sent! Thank you very much for your support! 🙏🙌</h2>
-    <h2 *ngIf="txDonation">You can close this window now.</h2>
+    <h1 *ngIf="!txDonation">{{ 'DONATE_DIALOG.TXINPROGRESS' | translate }}</h1>
+    <h2 *ngIf="txDonation">{{ 'DONATE_DIALOG.DONATIONSEND' | translate }}</h2>
+    <h2 *ngIf="txDonation">{{ 'DONATE_DIALOG.CLOSEMSG' | translate }}</h2>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
@@ -51,7 +51,7 @@
     color="accent"
   	*ngIf="data.mainAddress && !loadingDonationInProgress" 
     [disabled]="!amount"
-  	(click)="sendDonation(amount, data.sponsor)">Alright! Let's do it!</button>
+  	(click)="sendDonation(amount, data.sponsor)">{{ 'DIALOGS.TXT_CONFIRM' | translate }}</button>
   <div class="menu-spacer"></div>
-  <button mat-button mat-dialog-close cdkFocusInitial>Close</button>
+  <button mat-button mat-dialog-close cdkFocusInitial>{{ 'DIALOGS.TXT_CLOSE' | translate }}</button>
 </mat-dialog-actions>

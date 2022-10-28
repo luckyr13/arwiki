@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>
 	<mat-icon class="blue title-icon">difference</mat-icon>
-	<span>Differences</span>
+	<span>{{ 'COMPARE_DIALOG.TITLE' | translate }}</span>
 </h2>
 <mat-progress-bar 
   color="primary"
@@ -8,10 +8,10 @@
   *ngIf="loading"
   class="fadeIn"></mat-progress-bar>
 <mat-dialog-content class="container container-donate">
- <strong>Tx New Page ID:</strong> {{ data.newPage }}<br>
- <strong>Tx Old Page ID:</strong> {{ txOld }}<br>
- <strong>Slug:</strong> {{ data.slug }}<strong> Lang:</strong> {{ data.lang }}<br>
- <h4>List of differences:</h4>
+ <strong>{{ 'COMPARE_DIALOG.NEW_TX' | translate }}</strong> {{ data.newPage }}<br>
+ <strong>{{ 'COMPARE_DIALOG.OLD_TX' | translate }}</strong> {{ txOld }}<br>
+ <strong>{{ 'COMPARE_DIALOG.SLUG' | translate }}</strong> {{ data.slug }}<strong> {{ 'COMPARE_DIALOG.LANG' | translate }}</strong> {{ data.lang }}<br>
+ <h4>{{ 'COMPARE_DIALOG.DIFF' | translate }}</h4>
 	<div class="changes-container" *ngIf="listOfChanges.length">
 		<div *ngFor="let change of listOfChanges">
 			<div *ngIf="change.added" class="green">
@@ -24,5 +24,5 @@
 	</div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close cdkFocusInitial>Close</button>
+  <button mat-button mat-dialog-close cdkFocusInitial>{{ 'DIALOGS.TXT_CLOSE' | translate }}</button>
 </mat-dialog-actions>

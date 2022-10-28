@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './home/home.component';
 import { SharedModule } from './shared/shared.module';
-import { SearchEngineComponent } from './search-engine/search-engine.component';
 import { FooterComponent } from './footer/footer.component';
 import { MainToolbarComponent } from './main-toolbar/main-toolbar.component';
 import { MainPageComponent } from './main-page/main-page.component';
@@ -30,7 +29,6 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [
     AppComponent,
     HomeComponent,
-    SearchEngineComponent,
     FooterComponent,
     MainToolbarComponent,
     MainPageComponent,

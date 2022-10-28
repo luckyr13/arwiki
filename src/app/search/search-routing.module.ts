@@ -1,12 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ResultsComponent } from './results/results.component';
+import { SitemapComponent } from './sitemap/sitemap.component';
 
 const routes: Routes = [
-  // { path: '', component: SearchComponent },
   {
-    path: ':query', component: ResultsComponent,
-  },
+    path: '',
+    children: [
+      {
+        path: 'sitemap', component: SitemapComponent,
+      },
+      {
+        path: ':query', component: ResultsComponent,
+      },
+      {
+        path: '', redirectTo: 'sitemap', pathMatch: 'full'
+      }
+    ]
+  }
 ];
 
 @NgModule({

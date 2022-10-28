@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
+import { UserSettingsService } from '../../core/user-settings.service';
 
 @Component({
   templateUrl: './results.component.html',
@@ -23,13 +24,15 @@ export class ResultsComponent implements OnInit, OnDestroy {
   routeLang: string = '';
   pagesData: any = {};
   baseURL: string = this._arweave.baseURL;
+  defaultTheme = '';
   arverifyProcessedAddressesMap: any = {};
 
   constructor(
     private _arweave: ArweaveService,
     private _arwikiTokenContract: ArwikiTokenContract,
     private _snackBar: MatSnackBar,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private _userSettings: UserSettingsService,
    ) { }
 
   async ngOnInit() {
@@ -43,6 +46,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
       await this.searchNow();
     });
 
+    this.getDefaultTheme();
     
   }
 
@@ -229,6 +233,15 @@ export class ResultsComponent implements OnInit, OnDestroy {
           return of(finalRes);
         })
       );
+  }
+
+  getDefaultTheme() {
+    this.defaultTheme = this._userSettings.getDefaultTheme();
+    this._userSettings.defaultThemeStream.subscribe(
+      (theme) => {
+        this.defaultTheme = theme;
+      }
+    );
   }
 
 }

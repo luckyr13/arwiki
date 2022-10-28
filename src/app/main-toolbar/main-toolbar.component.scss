@@ -43,7 +43,7 @@ mat-toolbar, mat-progress-bar {
 }
 
 .search-container {
-	padding: 10px;
+	padding: 10px 10px 0px 10px;
 	width: 240px;
 }
 
@@ -105,4 +105,9 @@ mat-toolbar, mat-progress-bar {
 }
 .theme-box.yellow {
 	background-color: #F8FD89;
+}
+.browse-link-c {
+	padding: 0px 12px 0px 12px;
+	font-size: 12px;
+	text-align: right;
 }
