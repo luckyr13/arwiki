@@ -1,5 +1,20 @@
 <div class="container sitemap fadeIn">
-	<h1>Sitemap</h1>
+	<div class="row">
+		<h1 class="page-title col-12 col-md-9">
+			Sitemap
+		</h1>
+		<div class="text-right page-title-buttons col-12 col-md-3">
+	    <button 
+	    	type="button"
+		  	mat-button 
+		  	class="btn-back" 
+		  	color="primary"
+		  	(click)="goBack()">
+		    <mat-icon>navigate_before</mat-icon>
+		    {{ 'GENERAL.BUTTONS.GO_BACK' | translate }}
+		  </button>
+		</div>
+	</div>
 	<h2>Categories</h2>
 	<div class="row">
 		<div class="col">

@@ -1,5 +1,20 @@
 <div class="container search-page-container fadeIn">
-	<h1 class="text-left">Search Results</h1>
+	<div class="row">
+		<h1 class="page-title col-12 col-md-9">
+			Search Results
+		</h1>
+		<div class="text-right page-title-buttons col-12 col-md-3">
+	    <button 
+	    	type="button"
+		  	mat-button 
+		  	class="btn-back" 
+		  	color="primary"
+		  	(click)="goBack()">
+		    <mat-icon>navigate_before</mat-icon>
+		    {{ 'GENERAL.BUTTONS.GO_BACK' | translate }}
+		  </button>
+		</div>
+	</div>
 	<form class="row" [formGroup]="frmSearch" (ngSubmit)="onSearch()">
 	  <mat-form-field class="col-12 col-md-10 text-center" appearance="fill">
 	    <mat-label>Search</mat-label>

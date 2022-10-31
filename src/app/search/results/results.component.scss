@@ -12,7 +12,6 @@
 .card-title {
 	font-size: 2.5rem;
 	font-family: "Roboto Mono", monospace;
-	margin-bottom: 20px;
 	cursor: pointer;
 }
 
@@ -36,5 +35,12 @@
 }
 .btn-sitemap {
 	font-size: 12px;
+	margin-bottom: 20px;
+}
+.btn-back {
+	color: inherit;
+}
+.page-title-buttons {
+	margin-top: 20px;
 	margin-bottom: 20px;
 }

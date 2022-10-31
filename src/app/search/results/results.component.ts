@@ -11,6 +11,7 @@ import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
 import { UserSettingsService } from '../../core/user-settings.service';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { Location } from '@angular/common';
 
 @Component({
   templateUrl: './results.component.html',
@@ -45,7 +46,8 @@ export class ResultsComponent implements OnInit, OnDestroy {
     private _snackBar: MatSnackBar,
     private _route: ActivatedRoute,
     private _userSettings: UserSettingsService,
-    private _router: Router
+    private _router: Router,
+    private _location: Location
    ) { }
 
   async ngOnInit() {
@@ -260,13 +262,16 @@ export class ResultsComponent implements OnInit, OnDestroy {
     );
   }
 
-
   onSearch() {
     const qry = this.searchQry!.value;
     if (!qry) {
       return;
     }
     this._router.navigate([`${this.routeLang}/search/${qry}`]);
+  }
+
+  goBack() {
+    this._location.back();
   }
 
 

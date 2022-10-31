@@ -11,6 +11,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import { ArwikiCategory } from '../../core/interfaces/arwiki-category';
 import { ArwikiLang } from '../../core/interfaces/arwiki-lang';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-sitemap',
@@ -38,7 +39,8 @@ export class SitemapComponent implements OnInit, AfterViewInit, OnDestroy {
     private _arwikiToken: ArwikiTokenContract,
     private _route: ActivatedRoute,
     private _snackBar: MatSnackBar,
-    private _liveAnnouncer: LiveAnnouncer) { }
+    private _liveAnnouncer: LiveAnnouncer,
+    private _location: Location) { }
 
   ngOnInit(): void {
 
@@ -148,5 +150,9 @@ export class SitemapComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.dataSourceLangs.paginator) {
       this.dataSourceLangs.paginator.firstPage();
     }
+  }
+  
+  goBack() {
+    this._location.back();
   }
 }
