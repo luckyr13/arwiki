@@ -156,6 +156,14 @@
 			    </ng-template>
 			  </mat-tab>
 			  <mat-tab
+			  	label="{{ 'PROFILE.TAB_PAGES_SPONSORED' | translate }}">
+			    <ng-template matTabContent>
+			      <app-sponsored-pages
+			      	[address]="address"
+			      	[lang]="routeLang"></app-sponsored-pages>
+			    </ng-template>
+			  </mat-tab>
+			  <mat-tab
 			  	label="{{ 'PROFILE.TAB_DONATIONS_MADE' | translate }}">
 			    <ng-template matTabContent>
 			      <app-donations-made
@@ -169,14 +177,6 @@
 			      <app-donations-received
 			      	[address]="address"
 			      	[lang]="routeLang"></app-donations-received>
-			    </ng-template>
-			  </mat-tab>
-			  <mat-tab
-			  	label="{{ 'PROFILE.TAB_PAGES_SPONSORED' | translate }}">
-			    <ng-template matTabContent>
-			      <app-sponsored-pages
-			      	[address]="address"
-			      	[lang]="routeLang"></app-sponsored-pages>
 			    </ng-template>
 			  </mat-tab>
 			</mat-tab-group>

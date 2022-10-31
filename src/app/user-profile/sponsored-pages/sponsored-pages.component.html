@@ -1,6 +1,6 @@
 <mat-progress-bar mode="indeterminate" class="loader" color="primary" *ngIf="loading"></mat-progress-bar>
-<h2 class="title">Pages Sponsored</h2>
-<h4 class="subtitle">Language: <span>{{ routeLang }}</span></h4>
+<h2 class="title">{{ 'PROFILE.TAB_PAGES_SPONSORED' | translate }}</h2>
+<h4 class="subtitle">{{ 'PROFILE.LANGUAGE' | translate }} <span>{{ routeLang }}</span></h4>
 	<div class="container">
 	<div class="row" *ngIf="pages && pages.length">
 		<div class="col">
@@ -8,7 +8,7 @@
 			  <table mat-table [dataSource]="pages">
 			    <!-- ID Column -->
 			    <ng-container matColumnDef="slug">
-			      <th mat-header-cell *matHeaderCellDef> Slug </th>
+			      <th mat-header-cell *matHeaderCellDef> {{ 'PROFILE.COLUMN_SLUG' | translate }} </th>
 			      <td mat-cell *matCellDef="let row">
 			      	<a mat-button
 			      		class="btn-ellipsis"
@@ -18,7 +18,7 @@
 
 			    <!-- ID Category -->
 			    <ng-container matColumnDef="category">
-			      <th mat-header-cell *matHeaderCellDef> Category </th>
+			      <th mat-header-cell *matHeaderCellDef> {{ 'PROFILE.COLUMN_CATEGORY' | translate }} </th>
 			      <td mat-cell *matCellDef="let row">
 			      	<a mat-button
 			      		[routerLink]="['/', routeLang, 'category', row.category]">
@@ -29,7 +29,7 @@
 
 			    <!-- Page Value -->
 			    <ng-container matColumnDef="value">
-			      <th mat-header-cell *matHeaderCellDef> Value </th>
+			      <th mat-header-cell *matHeaderCellDef> {{ 'PROFILE.COLUMN_VALUE' | translate }} </th>
 			      <td mat-cell *matCellDef="let row">
 			      	{{ row.value }} $WIKI
 			      </td>
@@ -43,7 +43,7 @@
 	</div>
 	<div class="row" *ngIf="!pages || !pages.length">
 		<div class="col">
-			No results found.
+			{{ 'PROFILE.NO_RESULTS' | translate }}
 		</div>
 	</div>
 </div>
