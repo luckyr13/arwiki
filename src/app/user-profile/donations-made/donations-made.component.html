@@ -1,22 +1,22 @@
 <mat-progress-bar mode="indeterminate" class="loader" color="primary" *ngIf="loading"></mat-progress-bar>
-<h2>Donations Made</h2>
-<h3>Total: {{total}} AR</h3>
+<h2>{{ 'PROFILE.TAB_DONATIONS_MADE' | translate }}</h2>
+<h3>{{ 'PROFILE.LABEL_TOTAL' | translate }} {{total}} AR</h3>
 <table mat-table [dataSource]="donations" class="mat-elevation-z8" *ngIf="!loading && donations && donations.length">
   
   <ng-container matColumnDef="to">
-    <th mat-header-cell *matHeaderCellDef> Recipient </th>
+    <th mat-header-cell *matHeaderCellDef> {{ 'PROFILE.COLUMN_RECIPIENT' | translate }} </th>
     <td mat-cell *matCellDef="let element">
     	<app-arweave-address [address]="element.to" [lang]="routeLang"></app-arweave-address>
     </td>
   </ng-container>
   <ng-container matColumnDef="amount">
-    <th mat-header-cell *matHeaderCellDef> Amount </th>
+    <th mat-header-cell *matHeaderCellDef> {{ 'PROFILE.COLUMN_AMOUNT' | translate }} </th>
     <td mat-cell *matCellDef="let element">
       {{ element.amount }} AR
     </td>
   </ng-container>
   <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef> Tx </th>
+    <th mat-header-cell *matHeaderCellDef> {{ 'PROFILE.COLUMN_TX' | translate }} </th>
     <td mat-cell *matCellDef="let element">
       <app-arweave-address [address]="element.id" [isAddress]="false"></app-arweave-address>
     </td>
@@ -28,9 +28,9 @@
 <div class="text-right" *ngIf="!loading && donations && donations.length">
   <button [disabled]="loadingMore" *ngIf="!eof" mat-button (click)="loadMoreResults()">
     <mat-spinner diameter="22" mode="indeterminate" class="spinner-icon" color="primary" *ngIf="loadingMore"></mat-spinner>
-    Load more results
+    {{ 'PROFILE.LOAD_MORE' | translate }}
   </button>
 </div>
 <p *ngIf="!loading && (!donations || !donations.length)">
-	No results found.
+	{{ 'PROFILE.NO_RESULTS' | translate }}
 </p>

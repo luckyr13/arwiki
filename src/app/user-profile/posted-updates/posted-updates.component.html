@@ -1,57 +1,45 @@
 <mat-progress-bar mode="indeterminate" class="loader" color="primary" *ngIf="loading"></mat-progress-bar>
-<h2 class="title">Updates Posted</h2>
-<h4 class="subtitle">Language: <span>{{ routeLang }}</span></h4>
+<h2 class="title">{{ 'PROFILE.TAB_UPDATES_POSTED' | translate }}</h2>
+<h4 class="subtitle">{{ 'PROFILE.LANGUAGE' | translate }} <span>{{ routeLang }}</span></h4>
 <table mat-table [dataSource]="pages" class="mat-elevation-z8" *ngIf="!loading && pages && pages.length">
   <ng-container matColumnDef="img">
-    <th mat-header-cell *matHeaderCellDef> Img </th>
+    <th mat-header-cell *matHeaderCellDef> {{ 'PROFILE.COLUMN_IMG' | translate }} </th>
     <td style="padding: 6px;" mat-cell *matCellDef="let element"> 
     	<img width="100px" [src]="element.img" *ngIf="element.img">
     </td>
   </ng-container>
   <ng-container matColumnDef="slug">
-    <th mat-header-cell *matHeaderCellDef> Slug </th>
+    <th mat-header-cell *matHeaderCellDef> {{ 'PROFILE.COLUMN_SLUG' | translate }} </th>
     <td mat-cell  *matCellDef="let element">
     	<a mat-button class="ellipsis word-break" [routerLink]="['/', element.language, element.slug]">{{element.slug}}</a>
     </td>
   </ng-container>
   <ng-container matColumnDef="title">
-    <th mat-header-cell *matHeaderCellDef> Title </th>
+    <th mat-header-cell *matHeaderCellDef> {{ 'PROFILE.COLUMN_TITLE' | translate }} </th>
     <td mat-cell *matCellDef="let element">
     	{{element.title}}
     </td>
   </ng-container>
   <ng-container matColumnDef="category">
-    <th mat-header-cell *matHeaderCellDef> Category </th>
+    <th mat-header-cell *matHeaderCellDef> {{ 'PROFILE.COLUMN_CATEGORY' | translate }} </th>
     <td mat-cell *matCellDef="let element">
     	<a mat-button href="./#/{{element.language}}/category/{{element.category}}">{{element.category}}</a>
     </td>
   </ng-container>
   <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef> Tx </th>
+    <th mat-header-cell *matHeaderCellDef> {{ 'PROFILE.COLUMN_TX' | translate }} </th>
     <td mat-cell *matCellDef="let element">
-    	<a
-    		target="_blank"
-    		mat-button
-    		href="https://viewblock.io/arweave/block/{{element.block.height}}">Block: {{ element.block.height }}
-    	</a><br>
     	<app-arweave-address [address]="element.id" [isAddress]="false"></app-arweave-address>
     </td>
   </ng-container>
   <ng-container matColumnDef="start">
-    <th mat-header-cell *matHeaderCellDef> Approved by</th>
+    <th mat-header-cell *matHeaderCellDef> {{ 'PROFILE.COLUMN_APPROVED_BY' | translate }}</th>
     <td mat-cell *matCellDef="let element">
-    	<a
-    		target="_blank"
-    		mat-button
-    		href="https://viewblock.io/arweave/block/{{element.start}}">Block: {{element.start}}
-    	</a>
-    	<br>
     	<app-arweave-address
     		[address]="updateApprovedBy[element.id]"
     		[showHandleInAddress]="false"
         [lang]="routeLang"
     		[lang]="element.language"></app-arweave-address>
-
     </td>
   </ng-container>
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -60,9 +48,9 @@
 <div class="text-right" *ngIf="!loading && pages && pages.length">
   <button [disabled]="loadingMore" *ngIf="!eof" mat-button (click)="loadMoreResults()">
     <mat-spinner diameter="22" mode="indeterminate" class="spinner-icon" color="primary" *ngIf="loadingMore"></mat-spinner>
-    Load more results
+    {{ 'PROFILE.LOAD_MORE' | translate }}
   </button>
 </div>
 <p *ngIf="!loading && (!pages || !pages.length)">
-	No results found.
+	{{ 'PROFILE.NO_RESULTS' | translate }}
 </p>

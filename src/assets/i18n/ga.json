@@ -33,7 +33,7 @@
 		"MENU_USER_PROFILE": "Profile",
 		"MENU_USER_METHOD": "Method",
 		"MENU_SEARCH": "Search",
-		"MENU_SEARCH_BROWSE": "Browse the sitemap"
+		"MENU_SEARCH_BROWSE": "Sitemap"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "Welcome to the permaweb!",
@@ -168,7 +168,33 @@
 		"FRM_BTN_GOBACK": "Go back"
 	},
 	"PROFILE": {
-		"TITLE": "Profile"
+		"TITLE": "Profile",
+		"HANDLE": "Handle:",
+		"NAME": "Name:",
+		"ADDRESS": "Address:",
+		"ROLE": "Role:",
+		"LANGUAGE": "Language:",
+		"SECONDARY_TITLE": "Activity History",
+		"TAB_PAGES_PUBLISHED": "Pages Published",
+		"TAB_UPDATES_POSTED": "Updates Posted",
+		"TAB_DONATIONS_MADE": "Donations Made",
+		"TAB_DONATIONS_RECEIVED": "Donations Received",
+		"TAB_PAGES_SPONSORED": "Pages Sponsored",
+		"NOT_FOUND": "Profile not found.",
+		"LABEL_TOTAL": "Total:",
+		"COLUMN_RECIPIENT": "Recipient",
+		"COLUMN_AMOUNT": "Amount",
+		"COLUMN_TX": "Tx",
+		"COLUMN_IMG": "Image",
+		"COLUMN_TITLE": "Title",
+		"COLUMN_SLUG": "Slug",
+		"COLUMN_CATEGORY": "Category",
+		"COLUMN_APPROVED_AT": "Approved at",
+		"COLUMN_FROM": "From",
+		"COLUMN_VALUE": "Value",
+		"LOAD_MORE": "Load more results ...",
+		"NO_RESULTS": "No results.",
+		"COLUMN_APPROVED_BY": "Approved by"
 	},
 	"SHARE_DIALOG": {
 		"TITLE": "Share in social media",

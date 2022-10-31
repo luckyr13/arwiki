@@ -33,7 +33,7 @@
 		"MENU_USER_PROFILE": "Perfil",
 		"MENU_USER_METHOD": "Método",
 		"MENU_SEARCH": "Buscar",
-		"MENU_SEARCH_BROWSE": "Navegar mapa del sitio"
+		"MENU_SEARCH_BROWSE": "Mapa del sitio"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "¡Bienvenido a la permaweb!",
@@ -168,7 +168,33 @@
 		"FRM_BTN_GOBACK": "Regresar"
 	},
 	"PROFILE": {
-		"TITLE": "Perfil"
+		"TITLE": "Perfil",
+		"HANDLE": "Handle:",
+		"NAME": "Nombre:",
+		"ADDRESS": "Dirección:",
+		"ROLE": "Rol:",
+		"LANGUAGE": "Idioma:",
+		"SECONDARY_TITLE": "Historial de Actividad",
+		"TAB_PAGES_PUBLISHED": "Páginas Publicadas",
+		"TAB_UPDATES_POSTED": "Actualizaciones Publicadas",
+		"TAB_DONATIONS_MADE": "Donaciones Realizadas",
+		"TAB_DONATIONS_RECEIVED": "Donaciones Recibidas",
+		"TAB_PAGES_SPONSORED": "Páginas Patrocinadas",
+		"NOT_FOUND": "Perfil no encontrado.",
+		"LABEL_TOTAL": "Total:",
+		"COLUMN_RECIPIENT": "Beneficiario",
+		"COLUMN_AMOUNT": "Cantidad",
+		"COLUMN_TX": "Tx",
+		"COLUMN_IMG": "Imágen",
+		"COLUMN_TITLE": "Título",
+		"COLUMN_SLUG": "Slug",
+		"COLUMN_CATEGORY": "Categoría",
+		"COLUMN_APPROVED_AT": "Aprobado en",
+		"COLUMN_FROM": "De",
+		"COLUMN_VALUE": "Valor",
+		"LOAD_MORE": "Cargar más resultados ...",
+		"NO_RESULTS": "No hay resultados.",
+		"COLUMN_APPROVED_BY": "Aprobado por"
 	},
 	"SHARE_DIALOG": {
 		"TITLE": "Compartir en redes sociales",

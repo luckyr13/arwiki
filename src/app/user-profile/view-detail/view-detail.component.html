@@ -7,6 +7,7 @@
 			<button 
 	    	type="button"
 		  	mat-button 
+		  	*ngIf="address"
 		  	class="btn-toolbar" 
 		  	color="primary"
 		  	(click)="donate()">
@@ -27,7 +28,7 @@
 		  	class="btn-toolbar" 
 		  	color="primary"
 		  	target="_blank"
-		  	*ngIf="currentAddress == address"
+		  	*ngIf="address && currentAddress == address"
 		  	href="https://account.metaweave.xyz/">
 		    <mat-icon>edit</mat-icon>
 		    {{ 'GENERAL.BUTTONS.BTN_EDIT_PROFILE' | translate }}
@@ -39,7 +40,7 @@
 			<mat-spinner class="spinner-center" ></mat-spinner>
 		</div>
 		<div class="col-12 text-right" *ngIf="isAdmin && !loadingProfile">
-			<strong>Role: </strong>
+			<strong>{{ 'PROFILE.ROLE' | translate }} </strong>
 			<a
 				mat-flat-button
 				color="primary"
@@ -50,14 +51,14 @@
 			<img *ngIf="profile.avatarURL" class="avatar" [src]="profile.avatarURL">
 			<img *ngIf="!profile.avatarURL" class="avatar" [src]="defaultAvatar">
 			<h2 *ngIf="profile.username"><span>{{profile.username}}</span></h2>
-			<h4 *ngIf="profile.handleName">Handle: <span>{{profile.handleName}}</span></h4>
-			<h4 *ngIf="profile.name">Name: <span>{{profile.name}}</span></h4>
+			<h4 *ngIf="profile.handleName">{{ 'PROFILE.HANDLE' | translate }} <span>{{profile.handleName}}</span></h4>
+			<h4 *ngIf="profile.name">{{ 'PROFILE.NAME' | translate }} <span>{{profile.name}}</span></h4>
 			<app-arweave-address 
 				class="mini-text"
 				[address]="address"
 				[showProfileImage]="false"
 				[showHandleInAddress]="false"
-				[isAddress]="true">Address: </app-arweave-address>
+				[isAddress]="true">{{ 'PROFILE.ADDRESS' | translate }} </app-arweave-address>
 			<div class="row-col-social-media" *ngIf="profile.links">
 				<a
 					mat-button
@@ -114,16 +115,16 @@
 				[address]="address"
 				[showProfileImage]="false"
 				[showHandleInAddress]="false"
-				[isAddress]="true">Address: </app-arweave-address>
+				[isAddress]="true">{{ 'PROFILE.ADDRESS' | translate }} </app-arweave-address>
 		</div>
 	</div>
 	<div class="row fadeIn" *ngIf="address && !loadingProfile">
 		<h2 class="col-12 col-md-6">
-			Activity History
+			{{ 'PROFILE.SECONDARY_TITLE' | translate }}
 		</h2>
 		<div class="col-12 col-md-6 text-right">
 			<mat-form-field appearance="fill">
-		    <mat-label>Language</mat-label>
+		    <mat-label>{{ 'PROFILE.LANGUAGE' | translate }}</mat-label>
 		    <mat-select
 		    	[(ngModel)]="selLanguage"
 		    	(ngModelChange)="updateLang(selLanguage)"
@@ -138,35 +139,40 @@
 		</div>
 		<div class="col-12 history">
 			<mat-tab-group color="accent">
-			  <mat-tab label="Pages Published">
+			  <mat-tab
+			  	label="{{ 'PROFILE.TAB_PAGES_PUBLISHED' | translate }}">
 			    <ng-template matTabContent>
 			      <app-published-pages
 			      	[address]="address"
 			      	[lang]="routeLang"></app-published-pages>
 			    </ng-template>
 			  </mat-tab>
-			  <mat-tab label="Updates Posted">
+			  <mat-tab
+			  	label="{{ 'PROFILE.TAB_UPDATES_POSTED' | translate }}">
 			    <ng-template matTabContent>
 			      <app-posted-updates
 			      	[address]="address"
 			      	[lang]="routeLang"></app-posted-updates>
 			    </ng-template>
 			  </mat-tab>
-			  <mat-tab label="Donations made">
+			  <mat-tab
+			  	label="{{ 'PROFILE.TAB_DONATIONS_MADE' | translate }}">
 			    <ng-template matTabContent>
 			      <app-donations-made
 			      	[address]="address"
 			      	[lang]="routeLang"></app-donations-made>
 			    </ng-template>
 			  </mat-tab>
-			  <mat-tab label="Donations received">
+			  <mat-tab
+			  	label="{{ 'PROFILE.TAB_DONATIONS_RECEIVED' | translate }}">
 			    <ng-template matTabContent>
 			      <app-donations-received
 			      	[address]="address"
 			      	[lang]="routeLang"></app-donations-received>
 			    </ng-template>
 			  </mat-tab>
-			  <mat-tab label="Pages Sponsored">
+			  <mat-tab
+			  	label="{{ 'PROFILE.TAB_PAGES_SPONSORED' | translate }}">
 			    <ng-template matTabContent>
 			      <app-sponsored-pages
 			      	[address]="address"
@@ -179,7 +185,7 @@
 	</div>
 	<div class="row fadeIn" *ngIf="!address">
 		<div class="col">
-			Profile not found.
+			{{ 'PROFILE.NOT_FOUND' | translate }}
 		</div>
 	</div>
 </div>	
