@@ -22,7 +22,7 @@ export class SitemapComponent implements OnInit, AfterViewInit, OnDestroy {
   routeLang = '';
   pagesSubscription = Subscription.EMPTY;
   loading = false;
-  displayedColumns: string[] = ['slug', 'category', 'sponsor', 'start', 'active'];
+  displayedColumns: string[] = ['slug', 'category', 'sponsor', 'start', 'value', 'active'];
   dataSource!: MatTableDataSource<ArwikiPage>;
   @ViewChild('sortPages') sort!: MatSort;
   @ViewChild('sortLangs') sortLangs!: MatSort;
