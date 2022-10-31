@@ -1,6 +1,6 @@
 <div class="address-container">
 	<strong class="address-label"><ng-content></ng-content></strong>
-	<ng-container *ngIf="lang">
+	<ng-container *ngIf="lang && address">
 		<img
 			[routerLink]="['/', lang, 'user', address]"
 			*ngIf="profileImage && isAddress && showProfileImage"
@@ -19,7 +19,7 @@
 			{{ ellipsis(address) }}
 		</span>
 	</ng-container>
-	<ng-container *ngIf="!lang">
+	<ng-container *ngIf="!lang && address">
 		<img
 			*ngIf="profileImage && isAddress && showProfileImage"
 			class="avatar"
@@ -47,7 +47,7 @@
 		class="action-btn"
 		matTooltip="{{ 'GENERAL.BUTTONS.OPEN_VIEWBLOCK' | translate }}"
 		target="_blank"
-		*ngIf="isAddress"
+		*ngIf="isAddress && address"
 		href="https://viewblock.io/arweave/address/{{address}}">
 		<mat-icon [inline]="true">open_in_new</mat-icon>
 	</a>
@@ -55,7 +55,7 @@
 		class="action-btn"
 		matTooltip="{{ 'GENERAL.BUTTONS.OPEN_VIEWBLOCK' | translate }}"
 		target="_blank"
-		*ngIf="!isAddress"
+		*ngIf="!isAddress && address"
 		href="https://viewblock.io/arweave/tx/{{address}}">
 		<mat-icon [inline]="true">open_in_new</mat-icon>
 	</a>
@@ -63,6 +63,7 @@
 		class="action-btn"
 		matTooltip="{{ 'GENERAL.BUTTONS.COPY_ADDRESS' | translate }}"
 		target="_blank"
+		*ngIf="address"
 		(click)="copyClipboard(address, 'Address copied!')">
 		<mat-icon [inline]="true">content_copy</mat-icon>
 	</a>
