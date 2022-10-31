@@ -7,6 +7,7 @@ import { PublishedPagesComponent } from './published-pages/published-pages.compo
 import { PostedUpdatesComponent } from './posted-updates/posted-updates.component';
 import { DonationsMadeComponent } from './donations-made/donations-made.component';
 import { DonationsReceivedComponent } from './donations-received/donations-received.component';
+import { SponsoredPagesComponent } from './sponsored-pages/sponsored-pages.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { DonationsReceivedComponent } from './donations-received/donations-recei
     PublishedPagesComponent,
     PostedUpdatesComponent,
     DonationsMadeComponent,
-    DonationsReceivedComponent
+    DonationsReceivedComponent,
+    SponsoredPagesComponent
   ],
   imports: [
     CommonModule,
