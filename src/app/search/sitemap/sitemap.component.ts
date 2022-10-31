@@ -10,6 +10,7 @@ import { MatTable} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import { ArwikiCategory } from '../../core/interfaces/arwiki-category';
+import { ArwikiLang } from '../../core/interfaces/arwiki-lang';
 
 @Component({
   selector: 'app-sitemap',
@@ -23,10 +24,15 @@ export class SitemapComponent implements OnInit, AfterViewInit, OnDestroy {
   loading = false;
   displayedColumns: string[] = ['slug', 'category', 'sponsor', 'start', 'active'];
   dataSource!: MatTableDataSource<ArwikiPage>;
-  @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('sortPages') sort!: MatSort;
+  @ViewChild('sortLangs') sortLangs!: MatSort;
+  @ViewChild('pagesPaginator') paginator!: MatPaginator;
+  @ViewChild('langsPaginator') langsPaginator!: MatPaginator;
   @ViewChild(MatTable) table!: MatTable<ArwikiPage>;
   numPagesByCategory: Record<string, number> = {};
+  dataSourceLangs!: MatTableDataSource<ArwikiLang>;
+  displayedColumnsLangs: string[] = ['code', 'iso_name', 'native_name', 'writing_system', 'total', 'active'];
+  numLangsByCode: Record<string, number> = {};
 
   constructor(
     private _arwikiToken: ArwikiTokenContract,
@@ -45,6 +51,7 @@ export class SitemapComponent implements OnInit, AfterViewInit, OnDestroy {
     
     this.initTableAllPages();
     this.initCategories();
+    this.initLanguages();
   }
 
   initTableAllPages() {
@@ -73,9 +80,29 @@ export class SitemapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.categories = categoriesAsArray;
   }
 
+  initLanguages() {
+    const langs = this._arwikiToken.getLanguagesFromLocal();
+    const langsAsArray: ArwikiLang[] = Object.values(langs);
+
+    langsAsArray.sort((a: ArwikiLang, b: ArwikiLang) => {
+      return a.code.localeCompare(b.code);
+    });
+    this.dataSourceLangs = new MatTableDataSource<ArwikiLang>(langsAsArray);
+
+    langsAsArray.forEach((lang: ArwikiLang) => {
+      const pages = this._arwikiToken.getAllPagesFromLocalState(lang.code);
+      const numPages = Object.keys(pages).length;
+      this.numLangsByCode[lang.code] = numPages ? numPages : 0;
+    });
+  }
+
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+
+    this.dataSourceLangs.paginator = this.langsPaginator;
+    this.dataSourceLangs.sort = this.sortLangs
+
   }
 
   ngOnDestroy() {
@@ -112,5 +139,14 @@ export class SitemapComponent implements OnInit, AfterViewInit, OnDestroy {
   timestampToDate(_time: number) {
     let d = new Date(_time * 1000);
     return d;
+  }
+
+  applyFilterLang(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceLangs.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSourceLangs.paginator) {
+      this.dataSourceLangs.paginator.firstPage();
+    }
   }
 }

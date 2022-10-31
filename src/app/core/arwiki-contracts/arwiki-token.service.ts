@@ -743,4 +743,12 @@ export class ArwikiTokenContract
     return state.categories;
   }
 
+  /*
+  *  @dev Get Lang
+  */
+  getLanguagesFromLocal(): Observable<ArwikiLangIndex> {
+    const state = this._state;
+    return state.languages;
+  }
+
 }
