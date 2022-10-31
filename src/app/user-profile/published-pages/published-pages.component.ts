@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ViewChild, OnChanges } from '@angular/core';
 import { ArwikiQuery } from '../../core/arwiki-query';
 import { ArweaveService } from '../../core/arweave.service';
 
@@ -24,7 +24,7 @@ import {MatTable} from '@angular/material/table';
   templateUrl: './published-pages.component.html',
   styleUrls: ['./published-pages.component.scss']
 })
-export class PublishedPagesComponent implements OnInit, OnDestroy {
+export class PublishedPagesComponent implements OnInit, OnDestroy, OnChanges {
   @Input('address') address: string = '';
   @Input('lang') routeLang: string = '';
   private _arwikiQuery: ArwikiQuery|null = null;
@@ -52,12 +52,15 @@ export class PublishedPagesComponent implements OnInit, OnDestroy {
 
 
    ngOnInit() {
-
     this._arwikiQuery = new ArwikiQuery(this._arweave.arweave);
     
     // Get pages 
     this.getMyArWikiPages();
     
+  }
+
+  ngOnChanges() {
+    this.getMyArWikiPages();
   }
 
   getMyArWikiPages() {

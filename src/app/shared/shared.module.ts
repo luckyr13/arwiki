@@ -106,6 +106,7 @@ import {MatSortModule} from '@angular/material/sort';
   	MatButtonModule,
   	MatTooltipModule,
   	MatIconModule,
+    FormsModule,
   	MatSidenavModule,
   	ReactiveFormsModule,
     MatDialogModule,

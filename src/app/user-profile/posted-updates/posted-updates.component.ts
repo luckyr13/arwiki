@@ -59,7 +59,6 @@ export class PostedUpdatesComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges() {
     // Get updates 
     this.getMyArWikiUpdates();
-    
   }
 
   getMyArWikiUpdates() {

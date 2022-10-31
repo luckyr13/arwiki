@@ -738,7 +738,7 @@ export class ArwikiTokenContract
   /*
   *  @dev Get Categories
   */
-  getCategoriesFromLocal(): Observable<ArwikiCategoryIndex> {
+  getCategoriesFromLocal(): ArwikiCategoryIndex {
     const state = this._state;
     return state.categories;
   }
@@ -746,7 +746,7 @@ export class ArwikiTokenContract
   /*
   *  @dev Get Lang
   */
-  getLanguagesFromLocal(): Observable<ArwikiLangIndex> {
+  getLanguagesFromLocal(): ArwikiLangIndex {
     const state = this._state;
     return state.languages;
   }

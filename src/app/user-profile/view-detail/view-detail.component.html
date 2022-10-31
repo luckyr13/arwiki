@@ -118,9 +118,24 @@
 		</div>
 	</div>
 	<div class="row fadeIn" *ngIf="address && !loadingProfile">
-		<h2 class="col-12">
+		<h2 class="col-12 col-md-6">
 			Activity History
 		</h2>
+		<div class="col-12 col-md-6 text-right">
+			<mat-form-field appearance="fill">
+		    <mat-label>Language</mat-label>
+		    <mat-select
+		    	[(ngModel)]="selLanguage"
+		    	(ngModelChange)="updateLang(selLanguage)"
+		    	name="selLanguage">
+		      <mat-option 
+		      	*ngFor="let lang of languages"
+		      	[value]="lang.code">
+		        {{lang.native_name}}
+		      </mat-option>
+		    </mat-select>
+		  </mat-form-field>
+		</div>
 		<div class="col-12 history">
 			<mat-tab-group color="accent">
 			  <mat-tab label="Published Pages">

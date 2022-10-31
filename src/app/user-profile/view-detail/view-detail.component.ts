@@ -11,6 +11,8 @@ import { UserSettingsService } from '../../core/user-settings.service';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { Direction } from '@angular/cdk/bidi';
 import { DialogDonateComponent } from '../../shared/dialog-donate/dialog-donate.component';
+import { ArwikiLang } from '../../core/interfaces/arwiki-lang';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-detail',
@@ -27,6 +29,8 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   isAdmin = false;
   isAdminSubscription = Subscription.EMPTY;
   routeLang = '';
+  selLanguage = '';
+  languages: ArwikiLang[]  = [];
 
   constructor(
     private _auth: AuthService,
@@ -35,7 +39,8 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     private _location: Location,
     private _arwikiToken: ArwikiTokenContract,
     public _dialog: MatDialog,
-    private _userSettings: UserSettingsService,) {
+    private _userSettings: UserSettingsService,
+    private _router: Router) {
     
   }
 
@@ -50,6 +55,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     }
     if (routeLang) {
       this.routeLang = routeLang;
+      this.selLanguage = this.routeLang;
     }
 
     this._route.paramMap.subscribe((params) => {
@@ -64,6 +70,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
       }
       if (routeLang) {
         this.routeLang = routeLang;
+        this.selLanguage = this.routeLang;
       }
     });
 
@@ -72,7 +79,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
       this.currentAddress = account;
     });
 
-
+    this.languages = Object.values(this._arwikiToken.getLanguagesFromLocal());
     
   }
 
@@ -164,5 +171,11 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(async (result) => {
     });
   }
+
+  updateLang(lang: string) {
+    this._router.navigate(['/', lang, 'user', this.address]);
+  }
+
+
 
 }
