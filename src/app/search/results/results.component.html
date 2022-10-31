@@ -1,10 +1,22 @@
 <div class="container search-page-container fadeIn">
-	<h2 class="text-left">Search Results</h2>
-	<div class="row">
-		<div class="col-12">
-			SEARCH FIELD
-		</div>
-	</div>
+	<h1 class="text-left">Search Results</h1>
+	<form class="row" [formGroup]="frmSearch" (ngSubmit)="onSearch()">
+	  <mat-form-field class="col-12 col-md-10 text-center" appearance="fill">
+	    <mat-label>Search</mat-label>
+	    <input matInput formControlName="searchQry" matInput autocomplete="off" placeholder="">
+	  </mat-form-field>
+	  <div class="col-12 col-md-2 text-right">
+	  	<button class="btn-search" color="primary" mat-flat-button>
+	  		<mat-icon aria-hidden="false" aria-label="Search" fontIcon="search"></mat-icon>
+		  	Search
+		  </button>
+	  </div>
+	  <div class="col-12 text-right">
+	  	<a
+	  		class="btn-sitemap"
+	  		mat-button [routerLink]="['/', routeLang, 'search', 'sitemap']">Browse the sitemap</a>
+	  </div>
+	</form>
 	<div class="row">
 		<div class="col-12">
 			<mat-spinner class="spinner-center" *ngIf="loadingPages"></mat-spinner>

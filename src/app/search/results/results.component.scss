@@ -4,7 +4,6 @@
 }
 
 .search-page-container h1 {
-	font-size: 52px;
 	margin-bottom: 40px;
 }
 .search-page-container p {
@@ -30,4 +29,12 @@
 	white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.btn-search {
+	width: 100%;
+	line-height: 58px;
+}
+.btn-sitemap {
+	font-size: 12px;
+	margin-bottom: 20px;
 }

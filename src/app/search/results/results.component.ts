@@ -5,11 +5,12 @@ import { Subscription, of } from 'rxjs';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { getVerification } from "arverify";
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
 import { UserSettingsService } from '../../core/user-settings.service';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   templateUrl: './results.component.html',
@@ -26,6 +27,17 @@ export class ResultsComponent implements OnInit, OnDestroy {
   baseURL: string = this._arweave.baseURL;
   defaultTheme = '';
   arverifyProcessedAddressesMap: any = {};
+  frmSearch: UntypedFormGroup = new UntypedFormGroup({
+    'searchQry': new UntypedFormControl('', [Validators.required])
+  });
+
+  get searchQry() {
+    return this.frmSearch.get('searchQry');
+  }
+
+  set setSearchQry(qry: string) {
+    this.frmSearch.get('searchQry')!.setValue(qry);
+  }
 
   constructor(
     private _arweave: ArweaveService,
@@ -33,6 +45,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
     private _snackBar: MatSnackBar,
     private _route: ActivatedRoute,
     private _userSettings: UserSettingsService,
+    private _router: Router
    ) { }
 
   async ngOnInit() {
@@ -42,6 +55,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
     this._route.paramMap.subscribe(async params => {
       this.query = params.get('query')!;
       this.routeLang = params.get('lang')!;
+      this.setSearchQry = this.query;
 
       await this.searchNow();
     });
@@ -245,5 +259,15 @@ export class ResultsComponent implements OnInit, OnDestroy {
       }
     );
   }
+
+
+  onSearch() {
+    const qry = this.searchQry!.value;
+    if (!qry) {
+      return;
+    }
+    this._router.navigate([`${this.routeLang}/search/${qry}`]);
+  }
+
 
 }
