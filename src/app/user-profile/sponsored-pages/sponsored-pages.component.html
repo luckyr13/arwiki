@@ -2,7 +2,7 @@
 <h2 class="title">Pages Sponsored</h2>
 <h4 class="subtitle">Language: <span>{{ routeLang }}</span></h4>
 	<div class="container">
-	<div class="row">
+	<div class="row" *ngIf="pages && pages.length">
 		<div class="col">
 			<div class="mat-elevation-z8 table-container">
 			  <table mat-table [dataSource]="pages">
@@ -39,6 +39,11 @@
 			    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 			  </table>
 			</div>
+		</div>
+	</div>
+	<div class="row" *ngIf="!pages || !pages.length">
+		<div class="col">
+			No results found.
 		</div>
 	</div>
 </div>
