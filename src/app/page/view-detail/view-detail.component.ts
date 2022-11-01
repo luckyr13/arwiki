@@ -302,6 +302,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   	this.pageSubscription.unsubscribe();
     this.tagsSubscription.unsubscribe();
     this.contentSubscription.unsubscribe();
+    this.getTranslationsSubscription.unsubscribe();
   }
 
   markdownToHTML(_markdown: string) {

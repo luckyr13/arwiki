@@ -7,7 +7,7 @@
   <mat-icon 
   	aria-hidden="false"
   	aria-label="Dashboard">dashboard</mat-icon>
-	<span>&nbsp;Dashboard</span>
+	<span>&nbsp;{{ 'DASHBOARD.BREADCRUMB_LABEL' | translate }}</span>
 	<div class="menu-spacer"></div>
 	<div class="text-right page-title-buttons">	
     <button 
@@ -24,7 +24,7 @@
 <div class="container scoreboards-container fadeIn">
 	<div class="row">
 		<div class="col-12 col-md-6">
-			<h1>My account</h1>
+			<h1>{{ 'DASHBOARD.MY_ACCOUNT_TITLE' | translate }}</h1>
 		</div>
 		<div class="col-12 col-md-6 dashboard-toolbar">
 			<button 
@@ -34,7 +34,7 @@
 				(click)="transferTokensDialog()"
 				[disabled]="loadingBalancePST"
 				color="primary">
-				<mat-icon>send</mat-icon> Transfer tokens
+				<mat-icon>send</mat-icon> {{ 'DASHBOARD.BTN_TRANSFER' | translate }}
 			</button>
 			<button 
 				class="btn-toolbar"
@@ -43,14 +43,14 @@
 				[disabled]="loadingBalancePST"
 				(click)="vaultDialog()"
 				color="primary">
-				<mat-icon class="yellow">vpn_key</mat-icon> Vault
+				<mat-icon class="yellow">vpn_key</mat-icon> {{ 'DASHBOARD.BTN_VAULT' | translate }}
 			</button>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-12 col-md-6 scoreboard">
 			<app-balance-card
-				label="Total AR balance"
+				label="{{ 'DASHBOARD.LABEL_TOTAL_AR_BALANCE' | translate }}"
 				icon="account_balance"
 				[balance]="balance"
 				[loading]="loadingBalance"
@@ -59,7 +59,7 @@
 		</div>
 		<div class="col-12 col-md-6 scoreboard">
 			<app-balance-card
-				label="$WIKI unlocked"
+				label="{{ 'DASHBOARD.LABEL_WIKI_UNLOCKED' | translate }}"
 				icon="lock_open"
 				[balance]="balancePST"
 				[loading]="loadingBalancePST"
@@ -69,7 +69,7 @@
 
 		<div class="col-12 col-md-6 scoreboard">
 			<app-balance-card
-				label="$WIKI in vault"
+				label="{{ 'DASHBOARD.LABEL_WIKI_IN_VAULT' | translate }}"
 				icon="lock"
 				[balance]="balancePSTVault"
 				[loading]="loadingBalancePST"
@@ -79,7 +79,7 @@
 
 		<div class="col-12 col-md-6 scoreboard">
 			<app-balance-card
-				label="$WIKI staked"
+				label="{{ 'DASHBOARD.LABEL_WIKI_STAKED' | translate }}"
 				icon="casino"
 				[balance]="balancePSTStaked"
 				[loading]="loadingBalancePST"
@@ -93,31 +93,24 @@
 		<div class="col-12 mini-text mb20">
 			<mat-card>
 				<app-arweave-address class="addressurl" [address]="mainAddress" >
-					Wallet:
 				</app-arweave-address>
 				<app-arweave-address 
 					class="addressurl" 
 					address="{{ lastTransactionID | async }}" 
 					[isAddress]="false">
-					My last TX processed:
+					{{ 'DASHBOARD.LABEL_LAST_TX_PROCESSED' | translate }}
 				</app-arweave-address>
-				<div
-					class="addressurl text-center" >
-					<strong>Current height:</strong> {{ currentHeight }}
-				</div>
-				
-
 			</mat-card>
 		</div>
 	</div>
-	<h1>DAO Settings</h1>
+	<h1>{{ 'DASHBOARD.TITLE_SECONDARY' | translate }}</h1>
 	<div class="row">
 		<div class="col-12 mini-text mb20">
 			<mat-card>
 				<div class="addressurl">
 					<div class="card-row-container  text-center">
 						<span class="ellipsis text-center ">
-							<strong>Total Supply: </strong>
+							<strong>{{ 'DASHBOARD.LABEL_TOTAL_SUPPLY' | translate }} </strong>
 							{{ totalSupply }} $WIKI
 						</span>
 					</div>
@@ -138,7 +131,7 @@
 					class="addressurl" 
 					[isAddress]="false"
 					address="{{ getPSTContractAddress() }}">
-					PST contract address:
+					{{ 'DASHBOARD.LABEL_PST_ADDRESS' | translate }}
 				</app-arweave-address>
 				
 			</mat-card>
@@ -151,13 +144,13 @@
 
 			  <!-- Position Column -->
 			  <ng-container matColumnDef="label">
-			    <th mat-header-cell *matHeaderCellDef> Label </th>
+			    <th mat-header-cell *matHeaderCellDef> {{ 'DASHBOARD.COLUMN_LABEL' | translate }} </th>
 			    <td mat-cell *matCellDef="let element"> {{element.label}} </td>
 			  </ng-container>
 
 			  <!-- Position Column -->
 			  <ng-container matColumnDef="value">
-			    <th mat-header-cell *matHeaderCellDef> Value </th>
+			    <th mat-header-cell *matHeaderCellDef> {{ 'DASHBOARD.COLUMN_VALUE' | translate }} </th>
 			    <td mat-cell *matCellDef="let element">
 			    	{{
 			    		element.specialValue + ' (' + element.value + ')'

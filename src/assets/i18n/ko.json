@@ -291,5 +291,21 @@
 			"SITEMAP": "Sitemap",
 			"NO_RESULTS": "No results."
 		}
+	},
+	"DASHBOARD": {
+		"BREADCRUMB_LABEL": "Dashboard",
+		"MY_ACCOUNT_TITLE": "My account",
+		"BTN_TRANSFER": "Token transfer",
+		"BTN_VAULT": "Vault",
+		"LABEL_TOTAL_AR_BALANCE": "Total AR Balance",
+		"LABEL_WIKI_UNLOCKED": "$WIKI unlocked",
+		"LABEL_WIKI_IN_VAULT": "$WIKI in vault",
+		"LABEL_WIKI_STAKED": "$WIKI staked",
+		"LABEL_LAST_TX_PROCESSED": "Last tx processed",
+		"TITLE_SECONDARY": "PST Settings",
+		"LABEL_TOTAL_SUPPLY": "Total supply",
+		"LABEL_PST_ADDRESS": "PST Contract Address",
+		"COLUMN_LABEL": "Label",
+		"COLUMN_VALUE": "Value"
 	}
 }

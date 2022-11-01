@@ -291,5 +291,21 @@
 			"SITEMAP": "Mapa del sitio",
 			"NO_RESULTS": "Sin resultados."
 		}
+	},
+	"DASHBOARD": {
+		"BREADCRUMB_LABEL": "Tablero Principal",
+		"MY_ACCOUNT_TITLE": "Mi cuenta",
+		"BTN_TRANSFER": "Transferir tokens",
+		"BTN_VAULT": "Bóveda",
+		"LABEL_TOTAL_AR_BALANCE": "Balance AR Total",
+		"LABEL_WIKI_UNLOCKED": "$WIKI desbloqueado",
+		"LABEL_WIKI_IN_VAULT": "$WIKI en bóveda",
+		"LABEL_WIKI_STAKED": "$WIKI apostado",
+		"LABEL_LAST_TX_PROCESSED": "Última transacción procesada",
+		"TITLE_SECONDARY": "Configuración de PST",
+		"LABEL_TOTAL_SUPPLY": "Suministro Total",
+		"LABEL_PST_ADDRESS": "Dirección del Contrato PST",
+		"COLUMN_LABEL": "Etiqueta",
+		"COLUMN_VALUE": "Valor"
 	}
 }
