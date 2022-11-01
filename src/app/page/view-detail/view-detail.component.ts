@@ -35,6 +35,7 @@ import 'prismjs/components/prism-rust';
 import 'prismjs/components/prism-go';
 import 'prismjs/components/prism-jsx';
 import 'prismjs/components/prism-json';
+import { DialogVotePageComponent } from '../../shared/dialog-vote-page/dialog-vote-page.component';
 
 @Component({
   templateUrl: './view-detail.component.html',
@@ -570,7 +571,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-/*
+
   upvote(upvote: boolean, sponsor: string, slug: string, lang: string) {
     const defLang = this._userSettings.getDefaultLang();
     let direction: Direction = defLang.writing_system === 'LTR' ? 
@@ -591,7 +592,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(async (result) => {
     });
   }
-*/
+
 
   /*
   * @dev
