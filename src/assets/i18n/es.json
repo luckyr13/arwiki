@@ -252,5 +252,40 @@
 	"RESUME_SESSION_DIALOG": {
 		"MSG": "¿Resumir sesión con tu Arweave Web Wallet?",
 		"TITLE": "Sesión detectada"
+	},
+	"SEARCH": {
+		"SITEMAP": {
+			"TITLE": "Mapa del sitio",
+			"TITLE_CATEGORIES": "Categorías",
+			"LABEL_ORDER": "Orden:",
+			"LABEL_SLUG": "Slug:",
+			"LABEL_PAGES": "Páginas:",
+			"LABEL_TOTAL_PAGES": "Páginas totales:",
+			"TITLE_PAGES": "Páginas",
+			"LABEL_FILTER": "Filtro",
+			"COLUMN_SLUG": "Slug",
+			"COLUMN_CATEGORY": "Categoría",
+			"COLUMN_SPONSOR": "Patrocinador",
+			"COLUMN_ACCEPTED_AT": "Aceptado en",
+			"COLUMN_VALUE": "Valor",
+			"COLUMN_STATUS": "Estatus",
+			"LABEL_ITEMS_PER_PAGE": "Elementos por página:",
+			"TITLE_OTHER_LANGS": "Otros Idiomas",
+			"COLUMN_CODE": "Código",
+			"COLUMN_ISO_NAME": "Nombre ISO",
+			"COLUMN_NATIVE_NAME": "Nombre nativo",
+			"COLUMN_WRITING_SYS": "Sistema de Escritura",
+			"COLUMN_PAGES": "Páginas",
+			"LABEL_NO_MATCH": "No hay datos que coincidan con el filtro ",
+			"LABEL_ACTIVE": "Activo",
+			"LABEL_INACTIVE": "Inactivo"
+		},
+		"RESULTS": {
+			"TITLE": "Resultados de Búsqueda",
+			"SEARCH_LABEL": "Buscar",
+			"SEARCH_BTN": "Buscar",
+			"SITEMAP": "Mapa del sitio",
+			"NO_RESULTS": "Sin resultados."
+		}
 	}
 }

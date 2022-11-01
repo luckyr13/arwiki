@@ -252,5 +252,40 @@
 	"RESUME_SESSION_DIALOG": {
 		"MSG": "Resume Arweave Web Wallet session?",
 		"TITLE": "Session detected"
+	},
+	"SEARCH": {
+		"SITEMAP": {
+			"TITLE": "Sitemap",
+			"TITLE_CATEGORIES": "Categories",
+			"LABEL_ORDER": "Order:",
+			"LABEL_SLUG": "Slug:",
+			"LABEL_PAGES": "Pages:",
+			"LABEL_TOTAL_PAGES": "Total Pages:",
+			"TITLE_PAGES": "Pages",
+			"LABEL_FILTER": "Filter",
+			"COLUMN_SLUG": "Slug",
+			"COLUMN_CATEGORY": "Category",
+			"COLUMN_SPONSOR": "Sponsor",
+			"COLUMN_ACCEPTED_AT": "Accepted at",
+			"COLUMN_VALUE": "Value",
+			"COLUMN_STATUS": "Status",
+			"LABEL_ITEMS_PER_PAGE": "Items per page:",
+			"TITLE_OTHER_LANGS": "Other Languages",
+			"COLUMN_CODE": "Code",
+			"COLUMN_ISO_NAME": "ISO name",
+			"COLUMN_NATIVE_NAME": "Native Name",
+			"COLUMN_WRITING_SYS": "Writing System",
+			"COLUMN_PAGES": "Pages",
+			"LABEL_NO_MATCH": "No data matching the filter ",
+			"LABEL_ACTIVE": "Active",
+			"LABEL_INACTIVE": "Inactive"
+		},
+		"RESULTS": {
+			"TITLE": "Search Results",
+			"SEARCH_LABEL": "Search",
+			"SEARCH_BTN": "Search",
+			"SITEMAP": "Sitemap",
+			"NO_RESULTS": "No results."
+		}
 	}
 }

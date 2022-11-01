@@ -1,7 +1,7 @@
 <div class="container search-page-container fadeIn">
 	<div class="row">
 		<h1 class="page-title col-12 col-md-9">
-			Search Results
+			{{ 'SEARCH.RESULTS.TITLE' | translate }}
 		</h1>
 		<div class="text-right page-title-buttons col-12 col-md-3">
 	    <button 
@@ -17,26 +17,28 @@
 	</div>
 	<form class="row" [formGroup]="frmSearch" (ngSubmit)="onSearch()">
 	  <mat-form-field class="col-12 col-md-10 text-center" appearance="fill">
-	    <mat-label>Search</mat-label>
+	    <mat-label>{{ 'SEARCH.RESULTS.SEARCH_LABEL' | translate }}</mat-label>
 	    <input matInput formControlName="searchQry" matInput autocomplete="off" placeholder="">
 	  </mat-form-field>
 	  <div class="col-12 col-md-2 text-right">
 	  	<button class="btn-search" color="primary" mat-flat-button>
 	  		<mat-icon aria-hidden="false" aria-label="Search" fontIcon="search"></mat-icon>
-		  	Search
+		  	{{ 'SEARCH.RESULTS.SEARCH_BTN' | translate }}
 		  </button>
 	  </div>
 	  <div class="col-12 text-right">
 	  	<a
 	  		class="btn-sitemap"
-	  		mat-button [routerLink]="['/', routeLang, 'search', 'sitemap']">Sitemap</a>
+	  		mat-button [routerLink]="['/', routeLang, 'search', 'sitemap']">{{ 'SEARCH.RESULTS.SITEMAP' | translate }}</a>
 	  </div>
 	</form>
 	<div class="row">
 		<div class="col-12">
 			<mat-spinner class="spinner-center" *ngIf="loadingPages"></mat-spinner>
 			<div *ngIf="!loadingPages">
-				<div class="text-left" *ngIf="!pages.length">No results.</div>
+				<div class="text-left" *ngIf="!pages.length">
+					{{ 'SEARCH.RESULTS.NO_RESULTS' | translate }}
+				</div>
 			</div>
 		</div>
 	</div>
