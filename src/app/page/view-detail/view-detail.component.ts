@@ -36,6 +36,7 @@ import 'prismjs/components/prism-go';
 import 'prismjs/components/prism-jsx';
 import 'prismjs/components/prism-json';
 import { DialogVotePageComponent } from '../../shared/dialog-vote-page/dialog-vote-page.component';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   templateUrl: './view-detail.component.html',
@@ -77,6 +78,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   readingTime: {minutes: number, seconds: number}|null = null;
   stamps = 0;
   private _stampsDialogRef: MatDialogRef<any>|null = null;
+  getTranslationsSubscription = Subscription.EMPTY;
 
   constructor(
     private route: ActivatedRoute,
@@ -89,7 +91,8 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     private _ref: ChangeDetectorRef,
     private _auth: AuthService,
     public _dialog: MatDialog,
-    private _bottomSheetShare: MatBottomSheet
+    private _bottomSheetShare: MatBottomSheet,
+    private _translate: TranslateService
   ) { }
 
  
@@ -427,14 +430,37 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     const defLang = this._userSettings.getDefaultLang();
     let direction: Direction = defLang.writing_system === 'LTR' ? 
       'ltr' : 'rtl';
-    const dialogRef = this._dialog.open(DialogConfirmComponent, {
-      data: {
-        title: 'Please login first',
-        content: 'You need to login first.',
-        type: 'info'
-      },
-      direction: direction
-    });
+      // Load translations
+    let dialogMsgG = '';
+    let dialogTitleG = '';
+    this.getTranslationsSubscription = this._translate.get(
+        'DIALOGS.CONTENT_LOGIN_FIRST'
+      ).pipe(
+        switchMap((dialogMsg: string) => {
+          dialogMsgG = dialogMsg;
+          return this._translate.get('DIALOGS.TITLE_LOGIN_FIRST');
+        }),
+        switchMap((dialogTitle: string)=> {
+          dialogTitleG = dialogTitle;
+          return of('');
+        })
+      ).subscribe({
+        next: () => {
+          // Resume session dialog
+          const dialogRef = this._dialog.open(DialogConfirmComponent, {
+            data: {
+              title: dialogTitleG,
+              content: dialogMsgG,
+              type: 'info'
+            },
+            direction: direction
+          });
+        },
+        error: (error) => {
+          console.error('error loading translations')
+        }
+      })
+    
   }
 
   share() {

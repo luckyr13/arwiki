@@ -102,7 +102,11 @@
 	"DIALOGS": {
 		"TITLE_SELECT_LANG": "Select language",
 		"TXT_CLOSE": "Close",
-		"TXT_CONFIRM": "Alright! Let's do it!"
+		"TXT_CONFIRM": "Alright! Let's do it!",
+		"TITLE_LOGIN_FIRST": "Please login first",
+		"CONTENT_LOGIN_FIRST": "You need to login first. 👾",
+		"TITLE_UPVOTE": "Upvote page",
+		"TITLE_DOWNVOTE": "Downvote page"
 	},
 	"MODERATORS": {
 		"PENDING_PAGE": {

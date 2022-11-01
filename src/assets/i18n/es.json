@@ -102,7 +102,11 @@
 	"DIALOGS": {
 		"TITLE_SELECT_LANG": "Seleccionar idioma",
 		"TXT_CLOSE": "Cerrar",
-		"TXT_CONFIRM": "¡Está bien! ¡Hagámoslo!"
+		"TXT_CONFIRM": "¡Está bien! ¡Hagámoslo!",
+		"TITLE_LOGIN_FIRST": "Por favor inicia sesión primero",
+		"CONTENT_LOGIN_FIRST": "Primero debes iniciar sesión. 👾",
+		"TITLE_UPVOTE": "Voto a favor de la página",
+		"TITLE_DOWNVOTE": "Voto negativo de página"
 	},
 	"MODERATORS": {
 		"PENDING_PAGE": {
