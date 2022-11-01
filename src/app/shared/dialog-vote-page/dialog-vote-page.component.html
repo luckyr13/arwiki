@@ -15,9 +15,13 @@
   class="fadeIn"></mat-progress-bar>
 <mat-dialog-content class="container container-donate">
   <div *ngIf="data.mainAddress && !loadingDonationInProgress" class="row">
-  	<p class="col-12 mini-text ellipsis">
-  		*You need to donate some AR to the page sponsor to vote.<br>
-  		<strong>From: </strong>{{ data.mainAddress }}
+  	<p class="col-12 mini-text ellipsis text-center">
+  		*You need to donate some AR to the page sponsor to vote.
+    <p class="col-12 mini-text ellipsis">
+      <app-arweave-address
+        [address]="data.mainAddress">
+        From:
+      </app-arweave-address>
       <br>
       <strong>Balance: </strong>{{ balance }}
       <br>
@@ -27,9 +31,12 @@
   		<mat-icon class="red">favorite</mat-icon>
   		<strong>To author: </strong>{{ data.author }}
   	</div>
-  	<div *ngIf="data.sponsor" class="col-12 text-right mini-text ellipsis">
-  		<mat-icon class="red">favorite</mat-icon>
-  		<strong>To sponsor: </strong>{{ data.sponsor }}
+  	<div *ngIf="data.sponsor" class="col-12 text-right mini-text ellipsis ">
+      <app-arweave-address
+        class="sponsor-address"
+        [address]="data.sponsor">
+        <mat-icon class="red">favorite</mat-icon> To sponsor:
+      </app-arweave-address>
   	</div>
     <p class="col-12 mini-text">
       <strong>Choose amount: </strong>
@@ -63,6 +70,10 @@
   	mat-button 
   	*ngIf="data.mainAddress && !loadingDonationInProgress" 
     [disabled]="!amount"
-  	(click)="voteAndDonate(amount, data.sponsor, data.slug, data.langCode, data.upvote)">Alright! Let's do it!</button>
-  <button mat-button mat-dialog-close cdkFocusInitial>Close</button>
+  	(click)="voteAndDonate(amount, data.sponsor, data.slug, data.langCode, data.upvote)">
+    {{ 'DIALOGS.TXT_CONFIRM' | translate }}
+  </button>
+  <button mat-button mat-dialog-close cdkFocusInitial>
+    {{ 'DIALOGS.TXT_CLOSE' | translate }}
+  </button>
 </mat-dialog-actions>
