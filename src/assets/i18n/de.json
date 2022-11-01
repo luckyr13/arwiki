@@ -306,5 +306,16 @@
 		"LABEL_PST_ADDRESS": "PST Contract Address",
 		"COLUMN_LABEL": "Label",
 		"COLUMN_VALUE": "Value"
+	},
+	"TOKEN_TRANSFER_DIALOG": {
+		"TITLE": "$WIKI Token Transfer",
+		"RECIPIENT": "Recipient",
+		"AMOUNT": "Amount",
+		"MAX": "Use maximum available",
+		"SENDING_TOKENS": "🚀 Sending tokens, please hold on ...",
+		"TOKENS_SENT": "🥳 Tokens sent! You can follow your tx status here:",
+		"SEND": "Send",
+		"CLOSE_MSG": "You can close this window now.",
+		"TOTAL_AVAILABLE": "Total $WIKI available:"
 	}
 }

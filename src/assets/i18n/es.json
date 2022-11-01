@@ -307,5 +307,16 @@
 		"LABEL_PST_ADDRESS": "Dirección del Contrato PST",
 		"COLUMN_LABEL": "Etiqueta",
 		"COLUMN_VALUE": "Valor"
+	},
+	"TOKEN_TRANSFER_DIALOG": {
+		"TITLE": "Transferencia de token $WIKI",
+		"RECIPIENT": "Destinatario",
+		"AMOUNT": "Cantidad",
+		"MAX": "Usar máximo disponible",
+		"SENDING_TOKENS": "🚀 Enviando tokens, espere ...",
+		"TOKENS_SENT": "🥳 Tokens enviados! Puede seguir el estado de su tx aquí:",
+		"SEND": "Enviar",
+		"CLOSE_MSG": "Puede cerrar esta ventana ahora.",
+		"TOTAL_AVAILABLE": "$WIKI total disponible:"
 	}
 }
