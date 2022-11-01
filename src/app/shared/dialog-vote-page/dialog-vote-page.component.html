@@ -20,26 +20,26 @@
     <p class="col-12 mini-text ellipsis">
       <app-arweave-address
         [address]="data.mainAddress">
-        From:
+        {{ 'DONATE_DIALOG.FROM' | translate }} 
       </app-arweave-address>
       <br>
-      <strong>Balance: </strong>{{ balance }}
+      <strong>{{ 'DONATE_DIALOG.BALANCE' | translate }}  </strong>{{ balance }}
       <br>
       <strong>Page: </strong>{{ data.langCode }}/{{ data.slug }}
   	</p>
   	<div *ngIf="data.author" class="col-12 text-right mini-text ellipsis">
   		<mat-icon class="red">favorite</mat-icon>
-  		<strong>To author: </strong>{{ data.author }}
+  		<strong>{{ 'DONATE_DIALOG.TO' | translate }}  </strong>{{ data.author }}
   	</div>
   	<div *ngIf="data.sponsor" class="col-12 text-right mini-text ellipsis ">
       <app-arweave-address
         class="sponsor-address"
         [address]="data.sponsor">
-        <mat-icon class="red">favorite</mat-icon> To sponsor:
+        <mat-icon class="red">favorite</mat-icon> {{ 'DONATE_DIALOG.TO' | translate }}
       </app-arweave-address>
   	</div>
     <p class="col-12 mini-text">
-      <strong>Choose amount: </strong>
+      <strong>{{ 'DONATE_DIALOG.CHOOSE_AMOUNT' | translate }} </strong>
     </p>
   	<div  class="col-12 text-center mini-text">
   		<mat-slider
@@ -55,11 +55,11 @@
       {{ amount }} AR
     </div>
   </div>
-  <div *ngIf="!data.mainAddress">🙏 Please login first 👾</div>
+  <div *ngIf="!data.mainAddress">{{ 'DONATE_DIALOG.LOGINFIRST' | translate }}</div>
   <div *ngIf="loadingDonationInProgress && !errorMsg">
-    <h1 *ngIf="!txDonation">🚀 Transaction in progress, hold on!</h1>
+    <h1 *ngIf="!txDonation">{{ 'DONATE_DIALOG.TXINPROGRESS' | translate }}</h1>
     <h2 *ngIf="txDonation">🥳 Vote sent! Thank you very much for your support! 🙏🙌</h2>
-    <h2 *ngIf="txDonation">You can close this window now.</h2>
+    <h2 *ngIf="txDonation">{{ 'DONATE_DIALOG.CLOSEMSG' | translate }}</h2>
   </div>
   <div *ngIf="errorMsg">
     Error: {{ errorMsg }}
