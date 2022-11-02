@@ -18,6 +18,7 @@ export class ArweaveAddressComponent implements OnInit, OnDestroy, OnChanges {
   @Input() lang: string = '';
   @Input() showProfileImage: boolean = true;
   @Input() showHandleInAddress: boolean = true;
+  @Input() showArCodeLink: boolean = false;
   
   private _profileSubscription = Subscription.EMPTY;
   public profileImage: string = 'assets/img/blank-profile.png';

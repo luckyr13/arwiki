@@ -122,6 +122,7 @@
 		"BUTTONS": {
 			"GO_BACK": "Go back",
 			"OPEN_VIEWBLOCK": "Open in Viewblock",
+			"OPEN_ARCODE": "Open in ArCode Studio",
 			"COPY_ADDRESS": "Copy address",
 			"TIP_AUTHOR": "Tip the author",
 			"VIEW_ARTICLE": "Read full article",

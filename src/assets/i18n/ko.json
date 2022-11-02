@@ -122,6 +122,7 @@
 		"BUTTONS": {
 			"GO_BACK": "돌아가기",
 			"OPEN_VIEWBLOCK": "Viewblock 열기",
+			"OPEN_ARCODE": "Open in ArCode Studio",
 			"COPY_ADDRESS": "주소 복사",
 			"TIP_AUTHOR": "작성자에게 팁 제공",
 			"VIEW_ARTICLE": "전체 아티클 읽기",
