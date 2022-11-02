@@ -32,10 +32,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   balancePSTStaked: string = '';
   balanceSubscription: Subscription = Subscription.EMPTY;
   balancePSTSubscription: Subscription = Subscription.EMPTY;
-  pstSettingsSubscription: Subscription = Subscription.EMPTY;
   allBalancesSubscription: Subscription = Subscription.EMPTY;
   networkInfoSubscription: Subscription = Subscription.EMPTY;
-  pstSettings: any = [];
   loadingBalance: boolean = false;
   loadingBalancePST: boolean = false;
   loadingSettings: boolean = false;
@@ -44,9 +42,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   lastTransactionID: Observable<string> = this._arweave.getLastTransactionID(
     this.mainAddress
   );
-  daoSettings: any = [];
-  displayedColumnsDaoSettings: string[] = ['label', 'value'];
-
   loadingTotalSupply: boolean = false;
   totalSupplySubscription: Subscription = Subscription.EMPTY;
   totalSupply: number = 0;
@@ -59,6 +54,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   tokenName = '';
   tokenTicker = '';
   tokenNameTickerSubscription = Subscription.EMPTY;
+  pstSettings: any = [];
+  pstSettingsSubscription: Subscription = Subscription.EMPTY;
   
   constructor(
   	private _snackBar: MatSnackBar,
@@ -108,76 +105,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.loadingSettings = true;
-    this.pstSettingsSubscription = this._arwikiTokenContract
-      .getSettings()
-      .subscribe({
-        next: (res: any) => {
-          this.pstSettings = res;
-          this.daoSettings = [];
-          const settings = [
-            {
-              key: 'quorum',
-              label: 'Quorum',
-              formatFunction: this.decimalToPercentage
-            },
-            {
-              key: 'support',
-              label: 'Support',
-              formatFunction: this.decimalToPercentage
-            },
-            {
-              key: 'lockMinLength',
-              label: 'Lock minimum length',
-              formatFunction: (val: any) => this.formatBlocks(val)
-            },
-            {
-              key: 'lockMaxLength',
-              label: 'Lock maximum length',
-              formatFunction: (val: any) => this.formatBlocks(val)
-            },
-            {
-              key: 'voteLength',
-              label: 'Vote length',
-              formatFunction: (val: any) => this.formatBlocks(val)
-            },
-            {
-              key: 'pageApprovalLength',
-              label: 'Page approval length',
-              formatFunction: (val: any) => this.formatBlocks(val)
-            }
-          ];
-
-          for (const i in settings) {
-            const key = settings[i].key;
-            const formatFunction = settings[i].formatFunction;
-            const value = this.pstSettings.get(key);
-
-            if (key === 'lockMinLength') {
-              this.lockMinLength = value;
-            }
-            if (key === 'lockMaxLength') {
-              this.lockMaxLength = value;
-            }
-            
-
-            this.daoSettings.push({
-              position: i + 1,
-              label: key,
-              value: value,
-              specialValue: formatFunction(value)
-            });
-          }
-       
-
-          this.loadingSettings = false;
-        },
-        error: (error) => {
-          this.message(error, 'error');
-          this.loadingSettings = false;
-        }
-      });
-
+    
     this.loadingTotalSupply = true;
     this.totalSupplySubscription = this._arwikiTokenContract
       .getTotalSupply()
@@ -224,24 +152,73 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.tokenTicker = res.ticker;
     });
 
+    this.pstSettingsSubscription = this._arwikiTokenContract
+      .getSettings()
+      .subscribe({
+        next: (res: any) => {
+          this.pstSettings = res;
+          const settings = [
+            {
+              key: 'quorum',
+              label: 'Quorum',
+              formatFunction: this.decimalToPercentage
+            },
+            {
+              key: 'support',
+              label: 'Support',
+              formatFunction: this.decimalToPercentage
+            },
+            {
+              key: 'lockMinLength',
+              label: 'Lock minimum length',
+              formatFunction: (val: any) => this.formatBlocks(val)
+            },
+            {
+              key: 'lockMaxLength',
+              label: 'Lock maximum length',
+              formatFunction: (val: any) => this.formatBlocks(val)
+            },
+            {
+              key: 'voteLength',
+              label: 'Vote length',
+              formatFunction: (val: any) => this.formatBlocks(val)
+            },
+            {
+              key: 'pageApprovalLength',
+              label: 'Page approval length',
+              formatFunction: (val: any) => this.formatBlocks(val)
+            }
+          ];
+
+          for (const i in settings) {
+            const key = settings[i].key;
+            const formatFunction = settings[i].formatFunction;
+            const value = this.pstSettings.get(key);
+
+            if (key === 'lockMinLength') {
+              this.lockMinLength = value;
+            }
+            if (key === 'lockMaxLength') {
+              this.lockMaxLength = value;
+            }
+          }
+       
+
+          this.loadingSettings = false;
+        },
+        error: (error) => {
+          this.message(error, 'error');
+          this.loadingSettings = false;
+        }
+      });
+
   }
 
   ngOnDestroy() {
-    if (this.balanceSubscription) {
-      this.balanceSubscription.unsubscribe();
-    }
-    if (this.balancePSTSubscription) {
-      this.balancePSTSubscription.unsubscribe();
-    }
-    if (this.pstSettingsSubscription) {
-      this.pstSettingsSubscription.unsubscribe();
-    }
-    if (this.allBalancesSubscription) {
-      this.allBalancesSubscription.unsubscribe();
-    }
-    if (this.networkInfoSubscription) {
-      this.networkInfoSubscription.unsubscribe();
-    }
+    this.balanceSubscription.unsubscribe();
+    this.balancePSTSubscription.unsubscribe();
+    this.allBalancesSubscription.unsubscribe();
+    this.networkInfoSubscription.unsubscribe();
   }
 
   /*
@@ -264,16 +241,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   getPSTContractAddress() {
     return this._arwikiTokenContract.contractAddress;
   }
-
-  formatBlocks(len: number): string {
-    return this._arweave.formatBlocks(len);
-  }
-
-  decimalToPercentage(n: number): string {
-    return `${(n*100)}%`;
-  }
-
-  
 
   transferTokensDialog() {
     const defLang = this._userSettings.getDefaultLang();
@@ -299,9 +266,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const defLang = this._userSettings.getDefaultLang();
     let direction: Direction = defLang.writing_system === 'LTR' ? 
       'ltr' : 'rtl';
-
     
-
     const dialogRef = this._dialog.open(DialogVaultComponent, {
       data: {
         balance: this.balancePST,
@@ -358,6 +323,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
   getMyTotalBalance() {
     const ans = +this.balancePST + +this.balancePSTVault + +this.balancePSTStaked;
     return ans;
+  }
+  decimalToPercentage(n: number): string {
+    return `${(n*100)}%`;
+  }
+
+  formatBlocks(len: number): string {
+    return this._arweave.formatBlocks(len);
   }
 
 }

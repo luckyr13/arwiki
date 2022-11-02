@@ -60,7 +60,7 @@
 		<div class="col-12 col-md-6 scoreboard">
 			<app-balance-card
 				label="$WIKI balance"
-				icon="casino"
+				icon="account_balance"
 				[balance]="'' + getMyTotalBalance()"
 				[loading]="loadingBalancePST"
 				unit="$WIKI"
@@ -74,8 +74,16 @@
 			  <mat-card-content>
 			  	<ul class="token-info">
 			  		<li><strong>Token Ticker:</strong> {{ tokenTicker }}</li>
-			  		<li><strong>{{ 'DASHBOARD.LABEL_TOTAL_SUPPLY' | translate }}</strong>
-			  		<span class="bn"> {{ totalSupply }}</span> {{ tokenTicker }}</li>
+			  		<li>
+			  			<strong>{{ 'DASHBOARD.LABEL_TOTAL_SUPPLY' | translate }}</strong>
+			  			<span class="bn"> {{ totalSupply }}</span> {{ tokenTicker }}
+			  		</li>
+			  		<li>
+			  			<app-arweave-address
+			  				[isAddress]="false"
+			  				[showArCodeLink]="true"
+			  				[address]="getPSTContractAddress()">Contract: </app-arweave-address>
+			  		</li>
 			  	</ul>
 
 			  </mat-card-content>
@@ -106,56 +114,26 @@
 	</div>
 </div>
 <div class="container dashboard-container fadeIn">
-	<h1>{{ 'DASHBOARD.TITLE_SECONDARY' | translate }}</h1>
+	<h2>{{ 'DASHBOARD.TITLE_SECONDARY' | translate }}</h2>
 	<div class="row">
-		<div class="col-12 mini-text mb20">
-			<mat-card>
-				<div class="addressurl">
-					<div class="card-row-container  text-center">
-						<span class="ellipsis text-center ">
-							<strong>Visit Community: </strong>
-							<a 
-								href="https://community.xyz/#{{ getPSTContractAddress() }}"
-								target="_blank">https://community.xyz/#{{ getPSTContractAddress() }}</a>
-						</span>
-					</div>
-				</div>
-
-				<app-arweave-address 
-					class="addressurl" 
-					[isAddress]="false"
-					address="{{ getPSTContractAddress() }}">
-					{{ 'DASHBOARD.LABEL_PST_ADDRESS' | translate }}
-				</app-arweave-address>
-				
-			</mat-card>
+		<div class="col-12">
+			<mat-tab-group>
+			  <mat-tab label="Community Members">
+			  	<ng-template matTabContent>
+			  		Content 1 
+			  	</ng-template>
+			  </mat-tab>
+			  <mat-tab label="Votes">
+			  	<ng-template matTabContent>
+			  		Content 2
+			  	</ng-template>
+			  </mat-tab>
+			  <mat-tab label="PST Info">
+			  	<ng-template matTabContent>
+			  		<app-pst-info></app-pst-info>
+			  	</ng-template>
+			  </mat-tab>
+			</mat-tab-group>
 		</div>
-
-		<div class="col-12 mini-text mb20">
-			<table mat-table [dataSource]="daoSettings" class="mat-elevation-z8 settings-table">
-			  <!--- Note that these columns can be defined in any order.
-			        The actual rendered columns are set as a property on the row definition" -->
-
-			  <!-- Position Column -->
-			  <ng-container matColumnDef="label">
-			    <th mat-header-cell *matHeaderCellDef> {{ 'DASHBOARD.COLUMN_LABEL' | translate }} </th>
-			    <td mat-cell *matCellDef="let element"> {{element.label}} </td>
-			  </ng-container>
-
-			  <!-- Position Column -->
-			  <ng-container matColumnDef="value">
-			    <th mat-header-cell *matHeaderCellDef> {{ 'DASHBOARD.COLUMN_VALUE' | translate }} </th>
-			    <td mat-cell *matCellDef="let element">
-			    	{{
-			    		element.specialValue + ' (' + element.value + ')'
-			    	}} 
-			    </td>
-			  </ng-container>
-
-			  <tr mat-header-row *matHeaderRowDef="displayedColumnsDaoSettings"></tr>
-			  <tr mat-row *matRowDef="let row; columns: displayedColumnsDaoSettings;"></tr>
-			</table>
-		</div>
-		
 	</div>
 </div>
