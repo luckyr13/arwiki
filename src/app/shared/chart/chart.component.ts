@@ -56,7 +56,7 @@ export class ChartComponent implements OnInit {
       option.series.push({
         name: this.seriesName,
         type: this.chartType,
-        radius: '60%',
+        radius: '62%',
         data: items,
         emphasis: {
           itemStyle: {

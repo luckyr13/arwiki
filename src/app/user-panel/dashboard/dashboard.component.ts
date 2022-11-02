@@ -293,13 +293,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
     let balances: { value: number, name: string }[] = [];
 
     if (unlockedBalance) {
-      balances.push({ name: 'My Available Tokens', value: unlockedBalance});
+      balances.push({ name: 'Available $WIKI', value: unlockedBalance});
     }
     if (vaultBalance) {
-      balances.push({ name: 'My Tokens in Vault', value: vaultBalance});
+      balances.push({ name: '$WIKI in Vault', value: vaultBalance});
     }
     if (stakingBalance) {
-      balances.push({ name: 'My Tokens Staked', value: stakingBalance});
+      balances.push({ name: '$WIKI Staked', value: stakingBalance});
     }
     //if (totalSupply) {
       //balances.push({ name: 'Total $WIKI Supply', value: totalSupply });
@@ -331,5 +331,4 @@ export class DashboardComponent implements OnInit, OnDestroy {
   formatBlocks(len: number): string {
     return this._arweave.formatBlocks(len);
   }
-
 }
