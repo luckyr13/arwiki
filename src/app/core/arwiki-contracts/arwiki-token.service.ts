@@ -157,6 +157,24 @@ export class ArwikiTokenContract
   /*
   *  @dev Execute read function on PST contract
   */
+  getBalanceAndTotalSupply(address: string, reload: boolean = false): Observable<any> {
+    return this.getState(reload).pipe(
+      map((_state: any) => {
+        const balances = _state.balances;
+        const vault = _state.vault;
+        const stakes = _state.stakes;
+        const balance = this.getBalanceDetail(address, balances, vault, stakes);
+        const totalSupply = this._calculate_total_supply(
+          vault, balances, stakes
+        );
+        return { balance: balance.result, totalSupply: totalSupply };
+      })
+    );
+  }
+
+  /*
+  *  @dev Execute read function on PST contract
+  */
   getTotalSupply(reload: boolean = false): Observable<any> {
     return this.getState(reload).pipe(
       map((_state: any) => {
@@ -740,7 +758,7 @@ export class ArwikiTokenContract
   */
   getCategoriesFromLocal(): ArwikiCategoryIndex {
     const state = this._state;
-    return state.categories;
+    return {...state.categories};
   }
 
   /*
@@ -748,7 +766,30 @@ export class ArwikiTokenContract
   */
   getLanguagesFromLocal(): ArwikiLangIndex {
     const state = this._state;
-    return state.languages;
+    return {...state.languages};
+  }
+
+  /*
+  *  @dev Get balances
+  */
+  getBalancesFromLocal(): { balances: any, vault: any, stakes: any } {
+    const state = {...this._state};
+    return { balances: { ...state.balances }, vault: { ...state.vault }, stakes: { ...state.stakes } };
+  }
+
+  /*
+  *  @dev Get all balances variables
+  */
+  getTokenNameAndTicker(): Observable<any> {
+    return this.getState().pipe(
+      map((_state: any) => {
+        const res = {
+          'name': _state.name,
+          'ticker': _state.ticker
+        };
+        return res;
+      })
+    );
   }
 
 }

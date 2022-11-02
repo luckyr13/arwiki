@@ -50,6 +50,7 @@ import { FileManagerDialogComponent } from './file-manager-dialog/file-manager-d
 import { UploadFileDialogComponent } from './upload-file-dialog/upload-file-dialog.component';
 import { DialogStampComponent } from './dialog-stamp/dialog-stamp.component';
 import {MatSortModule} from '@angular/material/sort';
+import { ChartComponent } from './chart/chart.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import {MatSortModule} from '@angular/material/sort';
     PasswordDialogComponent,
     FileManagerDialogComponent,
     UploadFileDialogComponent,
-    DialogStampComponent
+    DialogStampComponent,
+    ChartComponent
   ],
   imports: [
     CommonModule,
@@ -132,7 +134,8 @@ import {MatSortModule} from '@angular/material/sort';
     MatBadgeModule,
     MatPaginatorModule,
     MatCheckboxModule,
-    MatSortModule
+    MatSortModule,
+    ChartComponent
   ],
   // entryComponents: [DialogSelectLanguageComponent]
 })

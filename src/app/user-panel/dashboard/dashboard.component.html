@@ -59,63 +59,57 @@
 		</div>
 		<div class="col-12 col-md-6 scoreboard">
 			<app-balance-card
-				label="{{ 'DASHBOARD.LABEL_WIKI_UNLOCKED' | translate }}"
-				icon="lock_open"
-				[balance]="balancePST"
-				[loading]="loadingBalancePST"
-				unit="$WIKI"
-				></app-balance-card>
-		</div>
-
-		<div class="col-12 col-md-6 scoreboard">
-			<app-balance-card
-				label="{{ 'DASHBOARD.LABEL_WIKI_IN_VAULT' | translate }}"
-				icon="lock"
-				[balance]="balancePSTVault"
-				[loading]="loadingBalancePST"
-				unit="$WIKI"
-				></app-balance-card>
-		</div>
-
-		<div class="col-12 col-md-6 scoreboard">
-			<app-balance-card
-				label="{{ 'DASHBOARD.LABEL_WIKI_STAKED' | translate }}"
+				label="$WIKI balance"
 				icon="casino"
-				[balance]="balancePSTStaked"
+				[balance]="'' + getMyTotalBalance()"
 				[loading]="loadingBalancePST"
 				unit="$WIKI"
 				></app-balance-card>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12 col-md-6">
+			<mat-card>
+			  <mat-card-title>Token Info</mat-card-title>
+			  <mat-card-content>
+			  	<ul class="token-info">
+			  		<li><strong>Token Ticker:</strong> {{ tokenTicker }}</li>
+			  		<li><strong>{{ 'DASHBOARD.LABEL_TOTAL_SUPPLY' | translate }}</strong>
+			  		<span class="bn"> {{ totalSupply }}</span> {{ tokenTicker }}</li>
+			  	</ul>
+
+			  </mat-card-content>
+			</mat-card>
+			<br>
+			<mat-card>
+			  <mat-card-title>Balance Info</mat-card-title>
+			  <mat-card-content>
+	  			<app-arweave-address [address]="mainAddress">Wallet: </app-arweave-address>
+			  	<ul class="token-info">
+			  		<li><strong>My total balance:</strong>
+			  			<span class="bn"> {{ getMyTotalBalance() }}</span> {{ tokenTicker }}</li>
+			  		<li><strong>{{ 'DASHBOARD.LABEL_WIKI_UNLOCKED' | translate }}</strong> {{ balancePST }} {{ tokenTicker }}</li>
+			  		<li><strong>{{ 'DASHBOARD.LABEL_WIKI_IN_VAULT' | translate }}</strong> {{ balancePSTVault }} {{ tokenTicker }}</li>
+			  		<li><strong>{{ 'DASHBOARD.LABEL_WIKI_STAKED' | translate }}</strong> {{ balancePSTStaked }} {{ tokenTicker }}</li>
+			  	</ul>
+			  </mat-card-content>
+			</mat-card>
+		</div>
+		<div class="col-12 col-md-6">
+			<mat-card *ngIf="!loadingBalancePST">
+				<app-chart
+					[items]="chartMyBalanceItems"
+					titleText="My balance"
+					chartType="pie"></app-chart>
+			</mat-card>
 		</div>
 	</div>
 </div>
 <div class="container dashboard-container fadeIn">
-	<div class="row">
-		<div class="col-12 mini-text mb20">
-			<mat-card>
-				<app-arweave-address class="addressurl" [address]="mainAddress" >
-				</app-arweave-address>
-				<app-arweave-address 
-					class="addressurl" 
-					address="{{ lastTransactionID | async }}" 
-					[isAddress]="false">
-					{{ 'DASHBOARD.LABEL_LAST_TX_PROCESSED' | translate }}
-				</app-arweave-address>
-			</mat-card>
-		</div>
-	</div>
 	<h1>{{ 'DASHBOARD.TITLE_SECONDARY' | translate }}</h1>
 	<div class="row">
 		<div class="col-12 mini-text mb20">
 			<mat-card>
-				<div class="addressurl">
-					<div class="card-row-container  text-center">
-						<span class="ellipsis text-center ">
-							<strong>{{ 'DASHBOARD.LABEL_TOTAL_SUPPLY' | translate }} </strong>
-							{{ totalSupply }} $WIKI
-						</span>
-					</div>
-				</div>
-				
 				<div class="addressurl">
 					<div class="card-row-container  text-center">
 						<span class="ellipsis text-center ">

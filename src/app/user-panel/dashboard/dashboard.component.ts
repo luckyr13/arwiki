@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, HostListener } from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { ArweaveService } from '../../core/arweave.service';
 import { Observable, Subscription, EMPTY, of, from } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
 import { AuthService } from '../../auth/auth.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { UserSettingsService } from '../../core/user-settings.service';
 import { ArwikiQuery } from '../../core/arwiki-query';
 import { Location } from '@angular/common';
@@ -54,7 +54,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   lockMaxLength: number = 0;
   vault: any = null;
   currentHeight: number = 0;
-
+  routeLang = '';
+  chartMyBalanceItems: {name: string, value: number}[] = [];
+  tokenName = '';
+  tokenTicker = '';
+  tokenNameTickerSubscription = Subscription.EMPTY;
+  
   constructor(
   	private _snackBar: MatSnackBar,
   	private _arweave: ArweaveService,
@@ -62,7 +67,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private _userSettings: UserSettingsService,
     private _location: Location,
     private _arwikiTokenContract: ArwikiTokenContract,
-    public _dialog: MatDialog,
+    public _dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -82,16 +87,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.loadingBalancePST = true;
     this.balancePSTSubscription = this._arwikiTokenContract
-      .getBalance(this.mainAddress, true)
+      .getBalanceAndTotalSupply(this.mainAddress, true)
       .subscribe({
         next: (res: any) => {
-          const unlockedBalance = +res.unlockedBalance;
-          const vaultBalance = +res.vaultBalance;
-          const stakingBalance = +res.stakingBalance;
+          const balance = res.balance;
+          const totalSupply = res.totalSupply;
+          const unlockedBalance = +balance.unlockedBalance;
+          const vaultBalance = +balance.vaultBalance;
+          const stakingBalance = +balance.stakingBalance;
           this.balancePST = `${unlockedBalance}`;
           this.balancePSTVault = `${vaultBalance}`;
           this.balancePSTStaked = `${stakingBalance}`;
           this.loadingBalancePST = false;
+
+          this.loadDataChartMyBalance(unlockedBalance, vaultBalance, stakingBalance, totalSupply);
         },
         error: (error) => {
           this.message(error, 'error');
@@ -210,9 +219,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
       });
 
+    this.tokenNameTickerSubscription = this._arwikiTokenContract.getTokenNameAndTicker().subscribe((res) => {
+      this.tokenName = res.name;
+      this.tokenTicker = res.ticker;
+    });
+
   }
-
-
 
   ngOnDestroy() {
     if (this.balanceSubscription) {
@@ -306,6 +318,46 @@ export class DashboardComponent implements OnInit, OnDestroy {
       
 
     });
+  }
+
+  loadDataChartMyBalance(
+    unlockedBalance: number,
+    vaultBalance: number,
+    stakingBalance: number,
+    totalSupply: number) {
+    let balances: { value: number, name: string }[] = [];
+
+    if (unlockedBalance) {
+      balances.push({ name: 'My Available Tokens', value: unlockedBalance});
+    }
+    if (vaultBalance) {
+      balances.push({ name: 'My Tokens in Vault', value: vaultBalance});
+    }
+    if (stakingBalance) {
+      balances.push({ name: 'My Tokens Staked', value: stakingBalance});
+    }
+    //if (totalSupply) {
+      //balances.push({ name: 'Total $WIKI Supply', value: totalSupply });
+    //}
+    this.chartMyBalanceItems = balances;
+  }
+
+
+
+  ellipsis(s: string) {
+    const minLength = 12;
+    const sliceLength = 5;
+
+    if (!s || typeof(s) !== 'string') {
+      return '';
+    }
+
+    return s && s.length < minLength ? s : `${s.substring(0, sliceLength)}...${s.substring(s.length - sliceLength, s.length)}`;
+  }
+
+  getMyTotalBalance() {
+    const ans = +this.balancePST + +this.balancePSTVault + +this.balancePSTStaked;
+    return ans;
   }
 
 }

@@ -38,6 +38,7 @@
     "buffer": "^6.0.3",
     "diff": "^5.0.0",
     "dompurify": "^2.3.4",
+    "echarts": "^5.4.0",
     "marked": "^3.0.8",
     "ngx-skeleton-loader": "^6.0.0",
     "prismjs": "^1.28.0",
