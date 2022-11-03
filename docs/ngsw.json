@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1667440390417,
+  "timestamp": 1667455613235,
   "index": "./index.html",
   "assetGroups": [
     {
@@ -15,12 +15,12 @@
         "./168.8b16d93dbd71ea57.js",
         "./350.ab161cb962a64f89.js",
         "./792.ba030d574f0a4ef2.js",
-        "./841.10688dbe41d99f34.js",
+        "./841.800735ae4da20f60.js",
         "./favicon.ico",
         "./main.9041e67a48e13dc3.js",
         "./manifest.webmanifest",
         "./polyfills.66a5ea93b3cf32d0.js",
-        "./runtime.393da546534d93f8.js",
+        "./runtime.5468eafd06bec879.js",
         "./styles.1495086b7dfb7aba.css"
       ],
       "patterns": []
@@ -110,7 +110,7 @@
     "./168.8b16d93dbd71ea57.js": "4d7e4b83325c956010af5e0632dcb4a074d97dd9",
     "./350.ab161cb962a64f89.js": "05d819f3cc4a1642f6cd27a9269dea79b770f22b",
     "./792.ba030d574f0a4ef2.js": "92926ad1e34e45545c5726e3ad4178496a44ab4c",
-    "./841.10688dbe41d99f34.js": "d16448176d233cc347d64affc47e8a88c190a260",
+    "./841.800735ae4da20f60.js": "78b427e90eb18260367419fb71a590f3c55327f0",
     "./assets/css/arwiki-dark.css": "956dd697dccd20964f3f7516fefe06a3cbec14a3",
     "./assets/css/arwiki-light.css": "88ffa7347886b667e8c76abdb257bff3f63859b2",
     "./assets/css/arwiki-orange.css": "c602b31117ff3161f079a95d066fccae478d574f",
@@ -182,7 +182,7 @@
     "./main.9041e67a48e13dc3.js": "237d1e05c7ccf1f19aae8322936934d928cdb2c8",
     "./manifest.webmanifest": "572f9853efbbe4f3562bdbc0bbe94ba81d6ee228",
     "./polyfills.66a5ea93b3cf32d0.js": "260d4b2d0f89b2d4cf6c18278e9ea81098cf35bd",
-    "./runtime.393da546534d93f8.js": "7a6c2aed9c44dc880446493b40dfc28361d97b9f",
+    "./runtime.5468eafd06bec879.js": "9a5147fca71c6ce3c5d24763f9217a25ec92a1e8",
     "./styles.1495086b7dfb7aba.css": "a4477748f1c06a3a583affec25d44c2a8de0d25b"
   },
   "navigationUrls": [
