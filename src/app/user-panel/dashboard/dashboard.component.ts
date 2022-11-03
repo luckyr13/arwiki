@@ -301,9 +301,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     if (stakingBalance) {
       balances.push({ name: '$WIKI Staked', value: stakingBalance});
     }
-    //if (totalSupply) {
-      //balances.push({ name: 'Total $WIKI Supply', value: totalSupply });
-    //}
+    if (totalSupply) {
+      balances.push({ name: 'Total $WIKI Supply', value: totalSupply });
+    }
     this.chartMyBalanceItems = balances;
   }
 

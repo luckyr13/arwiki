@@ -38,68 +38,21 @@ export class CommunityMembersComponent implements OnInit, AfterViewInit, OnDestr
     const vault = balances.vault;
     const stakes = balances.stakes;
     const balance = balances.balances;
-
     const totalBalances: Record<string, UserBalance> = {};
-    // Vault
-    for (const address in vault) {
-      if (!Object.prototype.hasOwnProperty.call(totalBalances, address)) {
-        totalBalances[address] = {
-          address: address,
-          totalBalance: 0,
-          available: 0,
-          vault: 0,
-          staked: 0
-        };
+    let targets = [...Object.keys(balance), ...Object.keys(vault), ...Object.keys(stakes)];
+    
+    targets = targets.filter((v, i) => { return targets.indexOf(v) >= 0 });
+    targets.forEach((t) => {
+      const detail = this._arwikiTokenContract.getBalanceDetail(t, balance, vault, stakes);
+      const total = detail.result.unlockedBalance + detail.result.vaultBalance + detail.result.stakingBalance;
+      totalBalances[detail.result.target] = {
+        address: detail.result.target,
+        available: detail.result.unlockedBalance,
+        vault: detail.result.vaultBalance,
+        staked: detail.result.stakingBalance,
+        totalBalance: total
       }
-      totalBalances[address].vault = 0;
-      for (const v of vault[address]) {
-        totalBalances[address].vault += v.balance;
-      }
-    }
-
-    // Staked
-    for (const address in stakes) {
-      if (!Object.prototype.hasOwnProperty.call(totalBalances, address)) {
-        totalBalances[address] = {
-          address: address,
-          totalBalance: 0,
-          available: 0,
-          vault: 0,
-          staked: 0
-        };
-      }
-      totalBalances[address].staked = 0;
-      const sarr = Object.values(stakes[address]);
-
-      sarr.forEach((s) => {
-        const val = Object.values(s as Array<Record<string, number>>)[0];
-        if (val) {
-          totalBalances[address].staked += +val;
-        }
-      });
-    }
-
-    // Balances
-    for (const address in balance) {
-      if (!Object.prototype.hasOwnProperty.call(totalBalances, address)) {
-        totalBalances[address] = {
-          address: address,
-          totalBalance: 0,
-          available: 0,
-          vault: 0,
-          staked: 0
-        };
-      }
-      totalBalances[address].available += balance[address];
-    }
-
-    // Total
-    for (const address in totalBalances) {
-      totalBalances[address].totalBalance = totalBalances[address].available
-                                          + totalBalances[address].vault
-                                          + totalBalances[address].staked;
-    }
-
+    });
 
     return totalBalances;    
   }
