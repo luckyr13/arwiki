@@ -1,7 +1,7 @@
 # ArWiki versions
 
 ## 1.8
-- Backup (2022-11-02): https://arweave.net/fY4kJFX_lhZOFT5aQqHHJ34UUHxrO0_3RRgKEy9q-ww
+- Backup (2022-11-02): https://arweave.net/OC8IxOQvIoHFLGyV9nFM-g-OcvN7fZa1uoNMMt_lUyg
 - Sitemap added.
 - Search module updated.
 - Dashboard updated: Charts and details about our Profit Sharing Community added.
