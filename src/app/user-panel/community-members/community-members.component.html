@@ -1,0 +1,63 @@
+<div class="container">
+	<div class="row">
+		<div class="col-12">
+			<mat-form-field appearance="standard">
+			  <mat-label>Filter</mat-label>
+			  <input matInput (keyup)="applyFilter($event)" #input>
+			</mat-form-field>
+			<div class="mat-elevation-z8 table-container">
+			  <table mat-table [dataSource]="dataSource" matSort class="community-table">
+
+			    <!-- Wallet Column -->
+			    <ng-container matColumnDef="address">
+			      <th mat-header-cell *matHeaderCellDef mat-sort-header> Wallet </th>
+			      <td mat-cell *matCellDef="let row">
+			      	<app-arweave-address
+			      		[address]="row.address">
+			      	</app-arweave-address>
+			      </td>
+			    </ng-container>
+
+			    <!-- Available Column -->
+			    <ng-container matColumnDef="available">
+			      <th mat-header-cell *matHeaderCellDef mat-sort-header> Balance Available </th>
+			      <td mat-cell *matCellDef="let row"> {{row.available}} </td>
+			    </ng-container>
+
+			    <!-- Vault Column -->
+			    <ng-container matColumnDef="vault">
+			      <th mat-header-cell *matHeaderCellDef mat-sort-header> Vault </th>
+			      <td mat-cell *matCellDef="let row"> {{row.vault}} </td>
+			    </ng-container>
+
+			    <!-- Staked Column -->
+			    <ng-container matColumnDef="staked">
+			      <th mat-header-cell *matHeaderCellDef mat-sort-header> Staked </th>
+			      <td mat-cell *matCellDef="let row"> {{row.staked}} </td>
+			    </ng-container>
+
+			    <!-- Total Column -->
+			    <ng-container matColumnDef="totalBalance">
+			      <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Balance </th>
+			      <td mat-cell *matCellDef="let row"> {{row.totalBalance}} </td>
+			    </ng-container>
+
+			   
+			    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+			    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+			    <!-- Row shown when there is no matching data. -->
+			    <tr class="mat-row" *matNoDataRow>
+			      <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+			    </tr>
+			  </table>
+
+			  <mat-paginator 
+			  	[pageSize]="10"
+			  	[pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+			</div>
+
+		</div>
+	</div>
+
+</div>

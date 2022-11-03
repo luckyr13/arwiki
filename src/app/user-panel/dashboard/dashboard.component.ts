@@ -293,7 +293,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     let balances: { value: number, name: string }[] = [];
 
     if (unlockedBalance) {
-      balances.push({ name: 'Available $WIKI', value: unlockedBalance});
+      balances.push({ name: '$WIKI Available', value: unlockedBalance});
     }
     if (vaultBalance) {
       balances.push({ name: '$WIKI in Vault', value: vaultBalance});
