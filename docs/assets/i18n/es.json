@@ -31,7 +31,9 @@
 		"MENU_MODERATOR_VIEW_ADM_LIST": "Ver lista de administradores",
 		"MENU_USER_LOGOUT_COMPOSED": "Cerrar sesión {{ value }}",
 		"MENU_USER_PROFILE": "Perfil",
-		"MENU_USER_METHOD": "Método"
+		"MENU_USER_METHOD": "Método",
+		"MENU_SEARCH": "Buscar",
+		"MENU_SEARCH_BROWSE": "Mapa del sitio"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "¡Bienvenido a la permaweb!",
@@ -65,7 +67,7 @@
 		"LABEL_CREATE_NEW_PAGE": "Crear una nueva página ArWiki",
 		"LABEL_CONTENT_OVERVIEW": "Descripción general del contenido",
 		"LABEL_TAGS": "Etiquetas",
-		"LABEL_TRANSLATIONS": "Traducciones",
+		"LABEL_TRANSLATIONS": "Otros Idiomas",
 		"LABEL_READING_TIME": "Tiempo de Lectura:",
 		"LABEL_READING_TIME_RES_COMPOSED": "{{ minutes }}' {{ seconds }}\""
 	},
@@ -99,7 +101,12 @@
 	},
 	"DIALOGS": {
 		"TITLE_SELECT_LANG": "Seleccionar idioma",
-		"TXT_CLOSE": "Cerrar"
+		"TXT_CLOSE": "Cerrar",
+		"TXT_CONFIRM": "¡Está bien! ¡Hagámoslo!",
+		"TITLE_LOGIN_FIRST": "Por favor inicia sesión primero",
+		"CONTENT_LOGIN_FIRST": "Primero debes iniciar sesión. 👾",
+		"TITLE_UPVOTE": "Voto a favor de la página",
+		"TITLE_DOWNVOTE": "Voto negativo de página"
 	},
 	"MODERATORS": {
 		"PENDING_PAGE": {
@@ -115,6 +122,7 @@
 		"BUTTONS": {
 			"GO_BACK": "Regresar",
 			"OPEN_VIEWBLOCK": "Abrir en Viewblock",
+			"OPEN_ARCODE": "Abrir en ArCode Studio",
 			"COPY_ADDRESS": "Copiar dirección",
 			"TIP_AUTHOR": "Dar propina al autor",
 			"VIEW_ARTICLE": "Ver artículo",
@@ -165,6 +173,151 @@
 		"FRM_BTN_GOBACK": "Regresar"
 	},
 	"PROFILE": {
-		"TITLE": "Perfil"
+		"TITLE": "Perfil",
+		"HANDLE": "Handle:",
+		"NAME": "Nombre:",
+		"ADDRESS": "Dirección:",
+		"ROLE": "Rol:",
+		"LANGUAGE": "Idioma:",
+		"SECONDARY_TITLE": "Historial de Actividad",
+		"TAB_PAGES_PUBLISHED": "Páginas Publicadas",
+		"TAB_UPDATES_POSTED": "Actualizaciones Publicadas",
+		"TAB_DONATIONS_MADE": "Donaciones Realizadas",
+		"TAB_DONATIONS_RECEIVED": "Donaciones Recibidas",
+		"TAB_PAGES_SPONSORED": "Páginas Patrocinadas",
+		"NOT_FOUND": "Perfil no encontrado.",
+		"LABEL_TOTAL": "Total:",
+		"COLUMN_RECIPIENT": "Beneficiario",
+		"COLUMN_AMOUNT": "Cantidad",
+		"COLUMN_TX": "Tx",
+		"COLUMN_IMG": "Imágen",
+		"COLUMN_TITLE": "Título",
+		"COLUMN_SLUG": "Slug",
+		"COLUMN_CATEGORY": "Categoría",
+		"COLUMN_APPROVED_AT": "Aprobado en",
+		"COLUMN_FROM": "De",
+		"COLUMN_VALUE": "Valor",
+		"LOAD_MORE": "Cargar más resultados ...",
+		"NO_RESULTS": "No hay resultados.",
+		"COLUMN_APPROVED_BY": "Aprobado por"
+	},
+	"SHARE_DIALOG": {
+		"TITLE": "Compartir en redes sociales",
+		"OPTION_1": {
+			"NAME": "Facebook",
+			"MSG": "Compartir en una publicación de Facebook"
+		},
+		"OPTION_2": {
+			"NAME": "Twitter",
+			"MSG": "Compartir en un tweet"
+		},
+		"OPTION_3": {
+			"NAME": "Whatsapp",
+			"MSG": "Compartir en un mensaje"
+		},
+		"OPTION_4": {
+			"NAME": "Copiar enlace",
+			"MSG": "Copiar enlace al portapapeles"
+		}
+	},
+	"LOGIN_DIALOG": {
+		"STAYLOGGEDIN": "Mantenerse conectado",
+		"OPTION_1": {
+			"NAME": "ArConnect",
+			"MSG": ""
+		},
+		"OPTION_2": {
+			"NAME": "Arweave.app",
+			"MSG": ""
+		},
+		"OPTION_3": {
+			"NAME": "Cargar archivo de llave",
+			"MSG": "*Tu llave permanece encriptada en el navegador"
+		}
+	},
+	"COMPARE_DIALOG": {
+		"TITLE": "Diferencias",
+		"OLD_TX": "TX de la Nueva Página:",
+		"NEW_TX": "TX de la Página Anterior:",
+		"SLUG": "Slug:",
+		"LANG": "Idioma:",
+		"DIFF": "Diferencias:"
+	},
+	"DONATE_DIALOG": {
+		"TITLE": "Agradecer al usuario",
+		"FROM": "De:",
+		"BALANCE": "Saldo:",
+		"TO": "Para:",
+		"CHOOSE_AMOUNT": "Elegir cantidad:",
+		"LOGINFIRST": "🙏 Por favor inicia sesión primero 👾",
+		"TXINPROGRESS": "🚀 Transacción en progreso ¡Espera!",
+		"DONATIONSEND": "🥳 ¡Donación enviada! ¡Muchas gracias por tu apoyo! 🙏🙌",
+		"CLOSEMSG": "Puedes cerrar esta ventana ahora."
+	},
+	"RESUME_SESSION_DIALOG": {
+		"MSG": "¿Resumir sesión con tu Arweave Web Wallet?",
+		"TITLE": "Sesión detectada"
+	},
+	"SEARCH": {
+		"SITEMAP": {
+			"TITLE": "Mapa del sitio",
+			"TITLE_CATEGORIES": "Categorías",
+			"LABEL_ORDER": "Orden:",
+			"LABEL_SLUG": "Slug:",
+			"LABEL_PAGES": "Páginas:",
+			"LABEL_TOTAL_PAGES": "Páginas totales:",
+			"TITLE_PAGES": "Páginas",
+			"LABEL_FILTER": "Filtro",
+			"COLUMN_SLUG": "Slug",
+			"COLUMN_CATEGORY": "Categoría",
+			"COLUMN_SPONSOR": "Patrocinador",
+			"COLUMN_ACCEPTED_AT": "Aceptado en",
+			"COLUMN_VALUE": "Valor",
+			"COLUMN_STATUS": "Estatus",
+			"LABEL_ITEMS_PER_PAGE": "Elementos por página:",
+			"TITLE_OTHER_LANGS": "Otros Idiomas",
+			"COLUMN_CODE": "Código",
+			"COLUMN_ISO_NAME": "Nombre ISO",
+			"COLUMN_NATIVE_NAME": "Nombre nativo",
+			"COLUMN_WRITING_SYS": "Sistema de Escritura",
+			"COLUMN_PAGES": "Páginas",
+			"LABEL_NO_MATCH": "No hay datos que coincidan con el filtro ",
+			"LABEL_ACTIVE": "Activo",
+			"LABEL_INACTIVE": "Inactivo"
+		},
+		"RESULTS": {
+			"TITLE": "Resultados de Búsqueda",
+			"SEARCH_LABEL": "Buscar",
+			"SEARCH_BTN": "Buscar",
+			"SITEMAP": "Mapa del sitio",
+			"NO_RESULTS": "Sin resultados."
+		}
+	},
+	"DASHBOARD": {
+		"BREADCRUMB_LABEL": "Tablero Principal",
+		"MY_ACCOUNT_TITLE": "Mi cuenta",
+		"BTN_TRANSFER": "Transferir tokens",
+		"BTN_VAULT": "Bóveda",
+		"LABEL_TOTAL_AR_BALANCE": "Saldo AR Total",
+		"LABEL_WIKI_UNLOCKED": "$WIKI desbloqueado",
+		"LABEL_WIKI_IN_VAULT": "$WIKI en bóveda",
+		"LABEL_WIKI_STAKED": "$WIKI apostado",
+		"LABEL_LAST_TX_PROCESSED": "Última transacción procesada",
+		"TITLE_SECONDARY": "Configuración de PST",
+		"LABEL_TOTAL_SUPPLY": "Suministro Total",
+		"LABEL_PST_ADDRESS": "Dirección del Contrato PST",
+		"COLUMN_LABEL": "Etiqueta",
+		"COLUMN_VALUE": "Valor"
+	},
+	"TOKEN_TRANSFER_DIALOG": {
+		"TITLE": "Transferencia de token $WIKI",
+		"RECIPIENT": "Destinatario",
+		"AMOUNT": "Cantidad",
+		"MAX": "Usar máximo disponible",
+		"SENDING_TOKENS": "🚀 Enviando tokens, espere ...",
+		"TOKENS_SENT": "🥳 Tokens enviados! Puede seguir el estado de su tx aquí:",
+		"SEND": "Enviar",
+		"CLOSE_MSG": "Puede cerrar esta ventana ahora.",
+		"TOTAL_AVAILABLE": "$WIKI total disponible:"
 	}
 }

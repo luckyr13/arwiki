@@ -1,60 +1,62 @@
 {
 	"HOME": {
-		"SECONDARY_TITLE": "مرحبًا بكم في موقع Permaweb!"
+		"SECONDARY_TITLE": "Welcome to the permaweb!"
 	},
 	"MAIN_MENU": {
-		"HOME": "الصفحة الرئيسية",
-		"ABOUT": "حول",
-		"the_arweave_project": "مشروع Arweave",
-		"the_arweave_protocol": "بروتوكول Arweave",
-		"profit_sharing": "مشاركة الأرباح",
-		"mining": "التعدين",
-		"building_on_arweave": "بناء على Arweave",
-		"resources": "موارد"
+		"HOME": "Home",
+		"ABOUT": "About",
+		"the_arweave_project": "The Arweave Project",
+		"the_arweave_protocol": "The Arweave Protocol",
+		"profit_sharing": "Profit Sharing",
+		"mining": "Mining",
+		"building_on_arweave": "Building on Arweave",
+		"resources": "Resources"
 	},
 	"MAIN_TOOLBAR": {
-		"TOOLTIP_LOGIN": "تسجيل الدخول",
-		"MENU_SETTINGS_LANGUAGE": "اختار اللغة",
-		"MENU_SETTINGS_THEME": "اختر نمطا",
-		"TOOLTIP_SEARCH": "بحث",
-		"TOOLTIP_SETTINGS": "إعدادات",
-		"MENU_USER_DASHBOARD": "لوحة القيادة",
-		"MENU_USER_CREATE": "إنشاء الصفحة",
-		"MENU_USER_LOGOUT": "تسجيل خروج",
-		"MENU_USER_MY_PAGES": "صفحاتي",
-		"MENU_USER_MODERATORS": "الوسطاء",
-		"MENU_USER_MY_UPDATES": "تحديثاتي",
-		"MENU_MODERATOR_PENDING": "الصفحات المعلقة",
-		"MENU_MODERATOR_APPROVED": "الصفحات المعتمدة",
-		"MENU_MODERATOR_DELETED": "الصفحات المحذوفة",
-		"MENU_MODERATOR_ADD_MODERATOR": "إضافة مشرف",
-		"MENU_MODERATOR_VIEW_ADM_LIST": "عرض قائمة الإدارة",
+		"TOOLTIP_LOGIN": "Login",
+		"MENU_SETTINGS_LANGUAGE": "Select language",
+		"MENU_SETTINGS_THEME": "Select theme",
+		"TOOLTIP_SEARCH": "Search",
+		"TOOLTIP_SETTINGS": "Settings",
+		"MENU_USER_DASHBOARD": "Dashboard",
+		"MENU_USER_CREATE": "Create page",
+		"MENU_USER_LOGOUT": "Logout",
+		"MENU_USER_MY_PAGES": "My pages",
+		"MENU_USER_MODERATORS": "Moderators",
+		"MENU_USER_MY_UPDATES": "My updates",
+		"MENU_MODERATOR_PENDING": "Pending pages",
+		"MENU_MODERATOR_APPROVED": "Approved pages",
+		"MENU_MODERATOR_DELETED": "Deleted pages",
+		"MENU_MODERATOR_ADD_MODERATOR": "Add Moderator",
+		"MENU_MODERATOR_VIEW_ADM_LIST": "View admin list",
 		"MENU_USER_LOGOUT_COMPOSED": "Log out {{ value }}",
 		"MENU_USER_PROFILE": "Profile",
-		"MENU_USER_METHOD": "Method"
+		"MENU_USER_METHOD": "Method",
+		"MENU_SEARCH": "Search",
+		"MENU_SEARCH_BROWSE": "Sitemap"
 	},
 	"MAIN_PAGE": {
-		"TITLE_L1": "مرحبًا بكم في موقع Permaweb!",
-		"SUBTITLE_L1": "arwiki هو موقع wiki اللامركزي لـ arweave يمكن لأي شخص تحريره.",
-		"TITLE_L2": "ابدء",
-		"TITLE_L3": "أحدث المقالات",
-		"LABEL_NO_RESULTS": "لا نتائج."
+		"TITLE_L1": "Welcome to the permaweb!",
+		"SUBTITLE_L1": "arwiki is the decentralized wiki for arweave that anyone can edit.",
+		"TITLE_L2": "Getting started",
+		"TITLE_L3": "Latest articles",
+		"LABEL_NO_RESULTS": "No results."
 	},
 	"PAGE": {
 		"LABEL_ID": "Id",
-		"LABEL_TITLE": "لقب",
+		"LABEL_TITLE": "Title",
 		"LABEL_SLUG": "Slug",
-		"LABEL_CATEGORY": "فئة",
-		"LABEL_LANGUAGE": "لغة",
-		"LABEL_OWNER": "مالك",
+		"LABEL_CATEGORY": "Category",
+		"LABEL_LANGUAGE": "Language",
+		"LABEL_OWNER": "Owner",
 		"LABEL_TX_STATUS": "TX status",
-		"LABEL_BLOCK_HEIGHT": "ارتفاع الكتلة",
-		"LABEL_BLOCK_TIMESTAMP": "حظر الطابع الزمني",
+		"LABEL_BLOCK_HEIGHT": "Block height",
+		"LABEL_BLOCK_TIMESTAMP": "Block timestamp",
 		"LABEL_ARVERIFY_SCORE": "ArVerify Score",
-		"LABEL_OWNER_STATUS": "حالة المالك",
-		"STATUS_TX_PENDING": "قيد الانتظار",
-		"STATUS_ADDRESS_VERIFIED": "تم التحقق",
-		"STATUS_ADDRESS_NOTVERIFIED": "لم يتم التحقق منها",
+		"LABEL_OWNER_STATUS": "Owner status",
+		"STATUS_TX_PENDING": "Pending",
+		"STATUS_ADDRESS_VERIFIED": "Verified",
+		"STATUS_ADDRESS_NOTVERIFIED": "Not verified",
 		"LABEL_CATEGORY_INFO": "Category:",
 		"LABEL_LAST_UPDATE": "Last Update:",
 		"LABEL_LAST_UPDATE_BY": "Last update by:",
@@ -65,7 +67,7 @@
 		"LABEL_CREATE_NEW_PAGE": "Create new ArWiki page",
 		"LABEL_CONTENT_OVERVIEW": "Content overview",
 		"LABEL_TAGS": "Tags",
-		"LABEL_TRANSLATIONS": "Translations",
+		"LABEL_TRANSLATIONS": "Other languages",
 		"LABEL_READING_TIME": "Reading Time:",
 		"LABEL_READING_TIME_RES_COMPOSED": "{{ minutes }}' {{ seconds }}\""
 	},
@@ -73,54 +75,60 @@
 
 	},
 	"CREATE_PAGE": {
-		"TITLE": "إنشاء الصفحة",
-		"FRM_TITLE": "لقب",
-		"FRM_BY": "بواسطة",
+		"TITLE": "Create page",
+		"FRM_TITLE": "Title",
+		"FRM_BY": "By",
 		"FRM_SLUG": "Page slug",
-		"FRM_CATEGORY": "فئة",
-		"FRM_LANGUAGE": "لغة",
-		"FRM_LOADING": "جار التحميل ...",
-		"FRM_UPLOAD_FILE": "رفع ملف",
-		"FRM_CONTENT": "المحتوى",
-		"FRM_BTN_SAVE": "يحفظ",
-		"FRM_BTN_GOBACK": "عد"
+		"FRM_CATEGORY": "Category",
+		"FRM_LANGUAGE": "Language",
+		"FRM_LOADING": "Loading ...",
+		"FRM_UPLOAD_FILE": "Upload file",
+		"FRM_CONTENT": "Content",
+		"FRM_BTN_SAVE": "Save",
+		"FRM_BTN_GOBACK": "Go back"
 	},
 	"SEARCH_ENGINE": {
-		"INPUT_SEARCH_LABEL": "ابحث في arwiki",
+		"INPUT_SEARCH_LABEL": "Search the arwiki",
 		"INPUT_SEARCH_PLACEHOLDER": "",
-		"LBL_DEFAULT_LANG": "اللغة الافتراضية",
-		"LBL_SELECT_LANG":"حدد اللغة",
-		"BTN_TXT_GO": "انطلق!"
+		"LBL_DEFAULT_LANG": "Default language",
+		"LBL_SELECT_LANG":" Select language",
+		"BTN_TXT_GO": "Go!"
 	},
 	"FOOTER": {
-		"LBL_POWERED": "مشغل بواسطة",
-		"LBL_PARTNERS": "شركاؤنا وأصدقائنا",
-		"LBL_SOCIAL_MEDIA": "Follow us"
+		"LBL_POWERED": "Powered by",
+		"LBL_PARTNERS": "Our partners and friends",
+		"LBL_SOCIAL_MEDIA": "Follow us on"
 	},
 	"DIALOGS": {
-		"TITLE_SELECT_LANG": "حدد اللغة",
-		"TXT_CLOSE": "أغلق"
+		"TITLE_SELECT_LANG": "Select language",
+		"TXT_CLOSE": "Close",
+		"TXT_CONFIRM": "Alright! Let's do it!",
+		"TITLE_LOGIN_FIRST": "Please login first",
+		"CONTENT_LOGIN_FIRST": "You need to login first. 👾",
+		"TITLE_UPVOTE": "Page Upvote",
+		"TITLE_DOWNVOTE": "Page Downvote"
 	},
 	"MODERATORS": {
 		"PENDING_PAGE": {
-			"TITLE_PENDING": "قائمة معلقة"
+			"TITLE_PENDING": "Pending list"
 		},
-		"LABEL_NO_RESULTS": "لا نتائج.",
-		"LABEL_TOOLBAR_TITLE": "لوحة المشرف"
+		"LABEL_NO_RESULTS": "No results.",
+		"LABEL_TOOLBAR_TITLE": "Moderator's panel"
 	},
 	"CATEGORY": {
-		"BREADCRUMB_LABEL": "فئة:"
+		"BREADCRUMB_LABEL": "Category:"
 	},
 	"GENERAL": {
 		"BUTTONS": {
-			"GO_BACK": "عد",
-			"OPEN_VIEWBLOCK": "فتح في Viewblock",
-			"COPY_ADDRESS": "نسخ العنوان",
-			"TIP_AUTHOR": "نصيحة المؤلف",
-			"VIEW_ARTICLE": "مشاهدة المقال",
-			"EDIT_PAGE": "تعديل الصفحة",
-			"MORE_ARTICLES": "المزيد من المقالات",
-			"VIEW_ALL": "مشاهدة الكل",
+			"GO_BACK": "Go back",
+			"OPEN_VIEWBLOCK": "Open in Viewblock",
+			"OPEN_ARCODE": "Open in ArCode Studio",
+			"COPY_ADDRESS": "Copy address",
+			"TIP_AUTHOR": "Tip the author",
+			"VIEW_ARTICLE": "Read full article",
+			"EDIT_PAGE": "Edit page",
+			"MORE_ARTICLES": "More articles",
+			"VIEW_ALL": "View all",
 			"BTN_DONATE": "Donate",
 			"BTN_SHARE": "Share",
 			"BTN_SPONSOR_PAGE": "Sponsor page",
@@ -130,41 +138,185 @@
 			"BTN_DONORS_LIST": "Donor ranking"
 		},
 		"LABELS": {
-			"NO_RESULTS": "لا نتائج"
+			"NO_RESULTS": "No results"
 		},
 		"CARDS": {
 			"ARTICLE": {
-				"CATEGORY": "فئة:",
-				"CREATED_BY": "انشأ من قبل:",
-				"CREATION_DATE": "تاريخ الإنشاء:",
-				"LAST_UPDATE": "اخر تحديث:",
-				"SPONSOR": "كفيل:"
+				"CATEGORY": "Category:",
+				"CREATED_BY": "Created by:",
+				"CREATION_DATE": "Created at:",
+				"LAST_UPDATE": "Last update:",
+				"SPONSOR": "Sponsor:"
 			}
 		}
 	},
 	"LOADING": {
-		"QUOTES_TITLE" : "هل كنت تعلم؟",
+		"QUOTES_TITLE" : "Did you know?",
 		"QUOTES": {
-			"0": "Arweave هو بروتوكول يسمح لك بتخزين البيانات بشكل دائم ومستدام مقابل رسوم مقدمة واحدة.",
-			"1": "على رأس بروتوكول Arweave الأساسي ، يعيش Permaweb: شبكة عالمية ودائمة من الصفحات والتطبيقات التي تعيش إلى الأبد.",
-			"2": "Arweave هي شبكة مفتوحة المصدر مملوكة ومدارة بالكامل من قبل المجتمع."
+			"0": "Arweave is a protocol that allows you to store data permanently, sustainably, with a single upfront fee.",
+			"1": "On top of the core Arweave protocol lives the permaweb: A global, permanent web of pages and applications that live forever.",
+			"2": "Arweave is a completely community-owned and -operated open source network."
 		},
-		"LOADING_LABEL": "جار التحميل"
+		"LOADING_LABEL": "Loading"
 	},
 	"EDIT_PAGE": {
-		"TITLE": "تعديل الصفحة",
-		"FRM_TITLE": "لقب",
-		"FRM_BY": "بواسطة",
+		"TITLE": "Edit page",
+		"FRM_TITLE": "Title",
+		"FRM_BY": "By",
 		"FRM_SLUG": "Page slug",
-		"FRM_CATEGORY": "فئة",
-		"FRM_LANGUAGE": "لغة",
-		"FRM_LOADING": "جار التحميل ...",
-		"FRM_UPLOAD_FILE": "رفع ملف",
-		"FRM_CONTENT": "محتوى",
-		"FRM_BTN_SAVE": "إرسال التحديث",
-		"FRM_BTN_GOBACK": "عد"
+		"FRM_CATEGORY": "Category",
+		"FRM_LANGUAGE": "Language",
+		"FRM_LOADING": "Loading ...",
+		"FRM_UPLOAD_FILE": "Upload file",
+		"FRM_CONTENT": "Content",
+		"FRM_BTN_SAVE": "Send update",
+		"FRM_BTN_GOBACK": "Go back"
 	},
 	"PROFILE": {
-		"TITLE": "Profile"
+		"TITLE": "Profile",
+		"HANDLE": "Handle:",
+		"NAME": "Name:",
+		"ADDRESS": "Address:",
+		"ROLE": "Role:",
+		"LANGUAGE": "Language:",
+		"SECONDARY_TITLE": "Activity History",
+		"TAB_PAGES_PUBLISHED": "Pages Published",
+		"TAB_UPDATES_POSTED": "Updates Posted",
+		"TAB_DONATIONS_MADE": "Donations Made",
+		"TAB_DONATIONS_RECEIVED": "Donations Received",
+		"TAB_PAGES_SPONSORED": "Pages Sponsored",
+		"LABEL_TOTAL": "Total:",
+		"COLUMN_RECIPIENT": "Recipient",
+		"COLUMN_AMOUNT": "Amount",
+		"COLUMN_TX": "Tx",
+		"COLUMN_IMG": "Image",
+		"COLUMN_TITLE": "Title",
+		"COLUMN_SLUG": "Slug",
+		"COLUMN_CATEGORY": "Category",
+		"COLUMN_APPROVED_AT": "Approved at",
+		"COLUMN_FROM": "From",
+		"COLUMN_VALUE": "Value",
+		"LOAD_MORE": "Load more results ...",
+		"NO_RESULTS": "No results.",
+		"COLUMN_APPROVED_BY": "Approved by"
+	},
+	"SHARE_DIALOG": {
+		"TITLE": "Share in social media",
+		"OPTION_1": {
+			"NAME": "Facebook",
+			"MSG": "Share in a Facebook post"
+		},
+		"OPTION_2": {
+			"NAME": "Twitter",
+			"MSG": "Share in a tweet"
+		},
+		"OPTION_3": {
+			"NAME": "Whatsapp",
+			"MSG": "Share in a message"
+		},
+		"OPTION_4": {
+			"NAME": "Copy link",
+			"MSG": "Copy link to the clipboard"
+		}
+	},
+	"LOGIN_DIALOG": {
+		"STAYLOGGEDIN": "Stay Logged In",
+		"OPTION_1": {
+			"NAME": "ArConnect",
+			"MSG": ""
+		},
+		"OPTION_2": {
+			"NAME": "Arweave.app",
+			"MSG": ""
+		},
+		"OPTION_3": {
+			"NAME": "Load your key file",
+			"MSG": "*Your key is kept encrypted in your browser"
+		}
+	},
+	"COMPARE_DIALOG": {
+		"TITLE": "Differences",
+		"OLD_TX": "New Page TX:",
+		"NEW_TX": "Old Page TX:",
+		"SLUG": "Slug:",
+		"LANG": "Language:",
+		"DIFF": "Differences:"
+	},
+	"DONATE_DIALOG": {
+		"TITLE": "Thank this user",
+		"FROM": "From:",
+		"BALANCE": "Balance:",
+		"TO": "To:",
+		"CHOOSE_AMOUNT": "Choose amount:",
+		"LOGINFIRST": "🙏 Please login first 👾",
+		"TXINPROGRESS": "🚀 Transaction in progress, hold on!",
+		"DONATIONSEND": "🥳 Donation sent! Thank you very much for your support! 🙏🙌",
+		"CLOSEMSG": "You can close this window now."
+	},
+	"RESUME_SESSION_DIALOG": {
+		"MSG": "Resume Arweave Web Wallet session?",
+		"TITLE": "Session detected"
+	},
+	"SEARCH": {
+		"SITEMAP": {
+			"TITLE": "Sitemap",
+			"TITLE_CATEGORIES": "Categories",
+			"LABEL_ORDER": "Order:",
+			"LABEL_SLUG": "Slug:",
+			"LABEL_PAGES": "Pages:",
+			"LABEL_TOTAL_PAGES": "Total Pages:",
+			"TITLE_PAGES": "Pages",
+			"LABEL_FILTER": "Filter",
+			"COLUMN_SLUG": "Slug",
+			"COLUMN_CATEGORY": "Category",
+			"COLUMN_SPONSOR": "Sponsor",
+			"COLUMN_ACCEPTED_AT": "Accepted at",
+			"COLUMN_VALUE": "Value",
+			"COLUMN_STATUS": "Status",
+			"LABEL_ITEMS_PER_PAGE": "Items per page:",
+			"TITLE_OTHER_LANGS": "Other Languages",
+			"COLUMN_CODE": "Code",
+			"COLUMN_ISO_NAME": "ISO name",
+			"COLUMN_NATIVE_NAME": "Native Name",
+			"COLUMN_WRITING_SYS": "Writing System",
+			"COLUMN_PAGES": "Pages",
+			"LABEL_NO_MATCH": "No data matching the filter ",
+			"LABEL_ACTIVE": "Active",
+			"LABEL_INACTIVE": "Inactive"
+		},
+		"RESULTS": {
+			"TITLE": "Search Results",
+			"SEARCH_LABEL": "Search",
+			"SEARCH_BTN": "Search",
+			"SITEMAP": "Sitemap",
+			"NO_RESULTS": "No results."
+		}
+	},
+	"DASHBOARD": {
+		"BREADCRUMB_LABEL": "Dashboard",
+		"MY_ACCOUNT_TITLE": "My account",
+		"BTN_TRANSFER": "Token transfer",
+		"BTN_VAULT": "Vault",
+		"LABEL_TOTAL_AR_BALANCE": "Total AR Balance",
+		"LABEL_WIKI_UNLOCKED": "$WIKI unlocked",
+		"LABEL_WIKI_IN_VAULT": "$WIKI in vault",
+		"LABEL_WIKI_STAKED": "$WIKI staked",
+		"LABEL_LAST_TX_PROCESSED": "Last tx processed",
+		"TITLE_SECONDARY": "PST Settings",
+		"LABEL_TOTAL_SUPPLY": "Total supply",
+		"LABEL_PST_ADDRESS": "PST Contract Address",
+		"COLUMN_LABEL": "Label",
+		"COLUMN_VALUE": "Value"
+	},
+	"TOKEN_TRANSFER_DIALOG": {
+		"TITLE": "$WIKI Token Transfer",
+		"RECIPIENT": "Recipient",
+		"AMOUNT": "Amount",
+		"MAX": "Use maximum available",
+		"SENDING_TOKENS": "🚀 Sending tokens, please hold on ...",
+		"TOKENS_SENT": "🥳 Tokens sent! You can follow your tx status here:",
+		"SEND": "Send",
+		"CLOSE_MSG": "You can close this window now.",
+		"TOTAL_AVAILABLE": "Total $WIKI available:"
 	}
 }
