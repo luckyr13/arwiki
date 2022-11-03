@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, Input } from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
@@ -24,13 +24,18 @@ export class CommunityMembersComponent implements OnInit, AfterViewInit, OnDestr
   dataSource!: MatTableDataSource<UserBalance>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  @Input('lang') routeLang = '';
   dataSubscription = Subscription.EMPTY;
 
   constructor(
     private _arwikiTokenContract: ArwikiTokenContract,
     private _snackBar: MatSnackBar) {
     const totalBalances: Record<string, UserBalance> = this.getTotalBalances();
-    this.dataSource = new MatTableDataSource(Object.values(totalBalances));
+    const data = Object.values(totalBalances);
+    data.sort((a, b) => {
+      return b.totalBalance - a.totalBalance;
+    });
+    this.dataSource = new MatTableDataSource(data);
   }
 
   getTotalBalances(): Record<string, UserBalance> {
@@ -40,7 +45,7 @@ export class CommunityMembersComponent implements OnInit, AfterViewInit, OnDestr
     const balance = balances.balances;
     const totalBalances: Record<string, UserBalance> = {};
     let targets = [...Object.keys(balance), ...Object.keys(vault), ...Object.keys(stakes)];
-    
+
     targets = targets.filter((v, i) => { return targets.indexOf(v) >= 0 });
     targets.forEach((t) => {
       const detail = this._arwikiTokenContract.getBalanceDetail(t, balance, vault, stakes);

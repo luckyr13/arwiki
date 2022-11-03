@@ -4,7 +4,7 @@ import { ArweaveService } from '../../core/arweave.service';
 import { Observable, Subscription, EMPTY, of, from } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
 import { AuthService } from '../../auth/auth.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { UserSettingsService } from '../../core/user-settings.service';
 import { ArwikiQuery } from '../../core/arwiki-query';
 import { Location } from '@angular/common';
@@ -64,7 +64,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private _userSettings: UserSettingsService,
     private _location: Location,
     private _arwikiTokenContract: ArwikiTokenContract,
-    public _dialog: MatDialog
+    public _dialog: MatDialog,
+    private _route: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -211,6 +212,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.loadingSettings = false;
         }
       });
+
+    this._route.paramMap.subscribe(async params => {
+      const lang = params.get('lang');
+      this.routeLang = lang!;
+    });
 
   }
 
