@@ -47,7 +47,7 @@
     "tslib": "^2.4.1",
     "util": "^0.12.4",
     "vouchdao": "^0.2.2",
-    "warp-contracts": "^1.2.14",
+    "warp-contracts": "^1.2.15",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
