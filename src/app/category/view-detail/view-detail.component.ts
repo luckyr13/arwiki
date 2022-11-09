@@ -4,7 +4,6 @@ import { ArweaveService } from '../../core/arweave.service';
 import { Subscription, of, Observable } from 'rxjs';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { getVerification } from "arverify";
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { switchMap } from 'rxjs/operators';
@@ -27,7 +26,6 @@ export class ViewDetailComponent implements OnInit {
   pages: ArwikiPage[] = [];
   routeLang: string = '';
   baseURL: string = this._arweave.baseURL;
-  arverifyProcessedAddressesMap: any = {};
   defaultTheme: string = '';
   errorLoadingCategory: boolean = false;
   paginatorLength = 0;
@@ -115,17 +113,6 @@ export class ViewDetailComponent implements OnInit {
   		this.pagesSubscription.unsubscribe();
   	}
 
-  }
-
-
-  async getArverifyVerification(_address: string) {
-    const verification = await getVerification(_address);
-
-    return ({
-      verified: verification.verified,
-      icon: verification.icon,
-      percentage: verification.percentage
-    });
   }
 
   sanitizeMarkdown(_s: string) {

@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, OnDestroy} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { StampsService } from '../../core/stamps.service';
-import { VouchdaoService } from '../../core/vouchdao.service';
+import { VouchDaoService } from '../../core/vouch-dao.service';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
@@ -21,7 +21,7 @@ export class DialogStampComponent implements OnInit, OnDestroy {
       address: string, slug: string, lang: string
     },
     private _stamps: StampsService,
-    private _vouchdao: VouchdaoService,
+    private _vouchdao: VouchDaoService,
     public _dialogRef: MatDialogRef<DialogStampComponent>) { }
 
   ngOnInit(): void {

@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ArverifyMapService } from './arverify-map.service';
+import { VouchDaoService } from './vouch-dao.service';
 
-describe('ArverifyMapService', () => {
-  let service: ArverifyMapService;
+describe('VouchDaoService', () => {
+  let service: VouchDaoService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ArverifyMapService);
+    service = TestBed.inject(VouchDaoService);
   });
 
   it('should be created', () => {

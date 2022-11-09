@@ -105,7 +105,7 @@
     <mat-icon *ngIf="!profileImage">account_circle</mat-icon>
   </button>
   <mat-menu #accountMenu="matMenu">
-    <mat-list class="user-info-container">
+    <mat-list class="user-info-container" *ngIf="account">
         <mat-list-item>
           <h3 matLine *ngIf="profile && profile.name" class="big-username"> {{ profile.name }} </h3>
           <div matLine>

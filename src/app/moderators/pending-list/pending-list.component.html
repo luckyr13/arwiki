@@ -50,24 +50,6 @@
 					<strong>{{ 'PAGE.LABEL_BLOCK_TIMESTAMP' | translate }}:</strong>
 					{{ timestampToDate(pages[p].block.timestamp) | date:'short' }} 
 				</div>
-				<div 
-					*ngIf="arverifyProcessedAddressesMap[pages[p].owner] && arverifyProcessedAddressesMap[pages[p].owner].percentage"
-					class="mini-text" >
-					<strong>{{ 'PAGE.LABEL_ARVERIFY_SCORE' | translate }}: </strong>
-					{{ arverifyProcessedAddressesMap[pages[p].owner].percentage }} %
-				</div>
-				<div
-					*ngIf="arverifyProcessedAddressesMap[pages[p].owner] && arverifyProcessedAddressesMap[pages[p].owner].verified"
-					class="green mini-text">
-					<strong>{{ 'PAGE.LABEL_OWNER_STATUS' | translate }}: </strong>
-					<mat-icon>verified_user</mat-icon> {{ 'PAGE.STATUS_ADDRESS_VERIFIED' | translate }}
-				</div>
-				<div 
-					*ngIf="!arverifyProcessedAddressesMap[pages[p].owner] || !arverifyProcessedAddressesMap[pages[p].owner].verified"
-					class="red mini-text">
-					<strong>{{ 'PAGE.LABEL_OWNER_STATUS' | translate }}: </strong>
-					{{ 'PAGE.STATUS_ADDRESS_NOTVERIFIED' | translate }}
-				</div>
 				
 				<div class="text-right page-card-footer">
 					<a

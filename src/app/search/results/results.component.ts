@@ -4,7 +4,6 @@ import { ArweaveService } from '../../core/arweave.service';
 import { Subscription, of } from 'rxjs';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { getVerification } from "arverify";
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import ArdbBlock from 'ardb/lib/models/block';
@@ -27,7 +26,6 @@ export class ResultsComponent implements OnInit, OnDestroy {
   pagesData: any = {};
   baseURL: string = this._arweave.baseURL;
   defaultTheme = '';
-  arverifyProcessedAddressesMap: any = {};
   frmSearch: UntypedFormGroup = new UntypedFormGroup({
     'searchQry': new UntypedFormControl('', [Validators.required])
   });
@@ -99,22 +97,6 @@ export class ResultsComponent implements OnInit, OnDestroy {
           );  
         }
 
-        // Verify addresses 
-        // Validate owner address with ArVerify
-        this.arverifyProcessedAddressesMap = {};
-        for (let p of pages) {
-          // Avoid duplicates
-          if (
-            Object.prototype.hasOwnProperty.call(
-              this.arverifyProcessedAddressesMap, 
-              p.owner
-            )
-          ) {
-            continue;
-          }
-          const arverifyQuery = await this.getArverifyVerification(p.owner);
-          this.arverifyProcessedAddressesMap[p.owner] = arverifyQuery;
-        }
         
       },
       error: (error: string) => {
@@ -148,17 +130,6 @@ export class ResultsComponent implements OnInit, OnDestroy {
       this.pagesSubscription.unsubscribe();
     }
 
-  }
-
-
-  async getArverifyVerification(_address: string) {
-    const verification = await getVerification(_address);
-
-    return ({
-      verified: verification.verified,
-      icon: verification.icon,
-      percentage: verification.percentage
-    });
   }
 
   sanitizeMarkdown(_s: string) {

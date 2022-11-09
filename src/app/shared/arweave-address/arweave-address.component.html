@@ -38,10 +38,12 @@
 		{{ ellipsis(address) }} 
 	</span>
 	<a 
-		class="action-btn"
-		matTooltip="Verified user!"
-		*ngIf="verified">
-		<mat-icon class="green" [inline]="true">verified_user</mat-icon>
+		class="action-btn icon-btn-sp"
+		matTooltip="Vouched user!"
+		target="_blank" 
+		href="https://vouchdao.xyz/"
+		*ngIf="vouched && showVouchedBtn">
+		<mat-icon [inline]="true">verified_user</mat-icon>
 	</a>
 	<a 
 		class="action-btn"

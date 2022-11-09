@@ -4,7 +4,6 @@ import { Observable, Subscription, EMPTY, of } from 'rxjs';
 import { AuthService } from '../../auth/auth.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { switchMap } from 'rxjs/operators';
-import { getVerification } from "arverify";
 import {MatDialog} from '@angular/material/dialog';
 import { DialogConfirmAmountComponent } from '../../shared/dialog-confirm-amount/dialog-confirm-amount.component';
 import { DialogCompareComponent } from '../../shared/dialog-compare/dialog-compare.component';
@@ -31,7 +30,6 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
 	loadingPendingPages: boolean = false;
   pages: ArwikiPageIndex = {};
   pendingPagesSubscription: Subscription = Subscription.EMPTY;
-  arverifyProcessedAddressesMap: any = {};
   loadingInsertPageIntoIndex: boolean = false;
   insertPageTxMessage: string = '';
   insertPageTxErrorMessage: string = '';
@@ -127,21 +125,6 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
         next: async (pages: ArwikiPageIndex) => {
           this.pages = pages;
           this.loadingPendingPages = false;
-          // Validate owner address with ArVerify
-          this.arverifyProcessedAddressesMap = {};
-          for (let pId of Object.keys(pages)) {
-            // Avoid duplicates
-            if (
-              Object.prototype.hasOwnProperty.call(
-                this.arverifyProcessedAddressesMap, 
-                pages[pId].owner
-              )
-            ) {
-              continue;
-            }
-            const arverifyQuery = await this.getArverifyVerification(pages[pId].owner);
-            this.arverifyProcessedAddressesMap[pages[pId].owner] = arverifyQuery;
-          }
 
         },
         error: (error) => {
@@ -171,16 +154,6 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
     if (this.pendingPagesSubscription) {
       this.pendingPagesSubscription.unsubscribe();
     }
-  }
-
-  async getArverifyVerification(_address: string) {
-    const verification = await getVerification(_address);
-
-    return ({
-      verified: verification.verified,
-      icon: verification.icon,
-      percentage: verification.percentage
-    });
   }
 
   underscoreToSpace(_s: string) {

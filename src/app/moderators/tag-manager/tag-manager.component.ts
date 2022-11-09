@@ -2,9 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as marked from 'marked';
 import DOMPurify from 'dompurify';
 import { Observable, Subscription } from 'rxjs';
-import { 
-	readContract
-} from 'smartweave';
 import { ArweaveService } from '../../core/arweave.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';

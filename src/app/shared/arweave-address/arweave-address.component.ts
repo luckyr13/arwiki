@@ -1,10 +1,10 @@
 import { Component, Input, OnInit, OnDestroy, OnChanges } from '@angular/core';
-import { ArverifyMapService } from '../../core/arverify-map.service'
 import { Clipboard } from '@angular/cdk/clipboard';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../auth/auth.service';
-import { ArweaveService } from '../../core/arweave.service'
+import { ArweaveService } from '../../core/arweave.service';
+import { VouchDaoService } from '../../core/vouch-dao.service';
 
 @Component({
   selector: 'app-arweave-address',
@@ -12,35 +12,44 @@ import { ArweaveService } from '../../core/arweave.service'
   styleUrls: ['./arweave-address.component.scss']
 })
 export class ArweaveAddressComponent implements OnInit, OnDestroy, OnChanges {
-  public verified: boolean = false;
+  public vouched: boolean = false;
   @Input() address: string = '';
   @Input() isAddress: boolean = true;
   @Input() lang: string = '';
   @Input() showProfileImage: boolean = true;
   @Input() showHandleInAddress: boolean = true;
   @Input() showArCodeLink: boolean = false;
+  @Input() showVouchedBtn: boolean = true;
+  vouchedSubscription = Subscription.EMPTY;
   
   private _profileSubscription = Subscription.EMPTY;
   public profileImage: string = 'assets/img/blank-profile.png';
   public nickname = '';
 
   constructor(
-    private _arverifyMap: ArverifyMapService,
     private _clipboard: Clipboard,
     private _snackBar: MatSnackBar,
     private _auth: AuthService,
-    private _arweave: ArweaveService) {}
+    private _arweave: ArweaveService,
+    private _vouch: VouchDaoService) {}
 
-  async ngOnInit() {
-  }
-
-  async ngOnChanges() {
+  ngOnInit() {
     if (this.isAddress && this.address) {
-      let verificationResult = await this._arverifyMap.getVerification(this.address)
-      this.verified = verificationResult && verificationResult.verified
+      this.vouchedSubscription = this._vouch.isVouched(this.address).subscribe({
+        next: (res) => {
+          this.vouched = res;
+        },
+        error: (error) => {
+          console.error('VouchDao: ', error);
+        }
+      });
 
       this.updateProfileData();
     }
+  }
+
+  ngOnChanges() {
+    
   }
 
   copyClipboard(content: string, msg: string = 'Content copied!') {
