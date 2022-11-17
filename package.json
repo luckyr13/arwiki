@@ -58,6 +58,7 @@
     "@types/marked": "^3.0.3",
     "@types/node": "^18.11.9",
     "@types/simplemde": "^1.11.8",
+    "@verto/flex": "^0.1.15",
     "codelyzer": "^6.0.2",
     "jasmine-core": "^4.5.0",
     "jasmine-spec-reporter": "^7.0.0",
