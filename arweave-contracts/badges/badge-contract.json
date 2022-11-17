@@ -1,0 +1,10 @@
+{
+  "ticker": "",
+	"emergencyHaltWallet": "",
+  "halted": false,
+  "pairs": [],
+  "usedTransfers": [],
+  "invocations": [],
+  "foreignCalls": [],
+  "balances": {}
+}

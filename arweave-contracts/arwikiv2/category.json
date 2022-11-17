@@ -1,0 +1,42 @@
+{
+	"arweave_protocol": {
+		"parent_id": null,
+		"order": 1,
+		"active": true
+	},
+	"builders": {
+		"parent_id": null,
+		"order": 2,
+		"active": true
+	},
+	"users": {
+		"parent_id": null,
+		"order": 3,
+		"active": true
+	},
+	"mining": {
+		"parent_id": null,
+		"order": 4,
+		"active": true
+	},
+	"mining_mechanism": {
+		"parent_id": "arweave_protocol",
+		"order": 1,
+		"active": true
+	},
+	"tutorials": {
+		"parent_id": "builders",
+		"order": 1,
+		"active": true
+	},
+	"packages_and_apis": {
+		"parent_id": "builders",
+		"order": 2,
+		"active": true
+	},
+	"8pin_tutorial": {
+		"parent_id": "tutorials",
+		"order": 1,
+		"active": true
+	}
+}
