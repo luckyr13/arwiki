@@ -8,6 +8,7 @@ import { PostedUpdatesComponent } from './posted-updates/posted-updates.componen
 import { DonationsMadeComponent } from './donations-made/donations-made.component';
 import { DonationsReceivedComponent } from './donations-received/donations-received.component';
 import { SponsoredPagesComponent } from './sponsored-pages/sponsored-pages.component';
+import { BadgesComponent } from './badges/badges.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { SponsoredPagesComponent } from './sponsored-pages/sponsored-pages.compo
     PostedUpdatesComponent,
     DonationsMadeComponent,
     DonationsReceivedComponent,
-    SponsoredPagesComponent
+    SponsoredPagesComponent,
+    BadgesComponent
   ],
   imports: [
     CommonModule,

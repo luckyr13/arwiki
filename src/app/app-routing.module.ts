@@ -34,6 +34,7 @@ const routes: Routes = [
         path: ':lang/dashboard',
         loadChildren: () => import('./user-panel/user-panel.module').then(m => m.UserPanelModule),
       },
+      { path: ':lang/badges', loadChildren: () => import('./badges/badges.module').then(m => m.BadgesModule) },
       {
         path: ':lang/moderators',
         loadChildren: () => import('./moderators/moderators.module').then(m => m.ModeratorsModule),

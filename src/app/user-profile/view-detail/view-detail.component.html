@@ -139,6 +139,14 @@
 		</div>
 		<div class="col-12 history">
 			<mat-tab-group color="accent">
+				<mat-tab
+			  	label="Badges">
+			    <ng-template matTabContent>
+			      <app-badges
+			      	[address]="address"
+			      	[lang]="routeLang"></app-badges>
+			    </ng-template>
+			  </mat-tab>
 			  <mat-tab
 			  	label="{{ 'PROFILE.TAB_PAGES_PUBLISHED' | translate }}">
 			    <ng-template matTabContent>
