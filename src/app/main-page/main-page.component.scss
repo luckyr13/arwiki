@@ -84,15 +84,13 @@ a.mat-button{
 	font-size: 32px;
 }
 
-.mat-subheader, .subheader {
-	font-family: "Roboto Mono", monospace;
-  letter-spacing: 0.025em;
-  line-height: 1.666;
-  font-size: 1.12em;
-  font-weight: normal;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  margin-top: 0px !important;
+.mdc-list-item {
+	font-size: 14px;
+	line-height: 16px;
+}
+.subheader {
+	font-size: 16px;
+	line-height: 42px !important;
 }
 
 #arwiki-home-page-accordion a.mat-button {

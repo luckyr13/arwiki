@@ -1,12 +1,12 @@
-<mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+<mat-progress-bar color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
 <mat-nav-list *ngIf="loading">
-  <div mat-subheader>MENU</div>
+  <div matSubheader>MENU</div>
   <a mat-list-item 
     (click)="toggleSideMenu()"
-    routerLink="{{ routerLang }}/"
+    routerLink="{{ routerLang }}/main"
     routerLinkActive="active"
     [routerLinkActiveOptions]="{exact:true}">
-    <div mat-line>{{ 'MAIN_MENU.HOME' | translate }}</div>
+    <div matListItemLine>{{ 'MAIN_MENU.HOME' | translate }}</div>
   </a>
   <div 
     style="margin-top: 10px"
@@ -20,13 +20,13 @@
 </mat-nav-list>
 
 <mat-nav-list *ngIf="!loading">
-  <div mat-subheader>MENU</div>
+  <div matSubheader>MENU</div>
   <a mat-list-item 
     (click)="toggleSideMenu()"
-    routerLink="{{ routerLang }}/"
+    routerLink="{{ routerLang }}/main"
     routerLinkActive="active"
     [routerLinkActiveOptions]="{exact:true}">
-    <div mat-line>{{ 'MAIN_MENU.HOME' | translate }}</div>
+    <div matListItemLine>{{ 'MAIN_MENU.HOME' | translate }}</div>
   </a>
   <mat-accordion 
     id="arwiki-main-menu-accordion"
@@ -45,13 +45,13 @@
         *ngFor="let page of menu[cs]"
         routerLink="{{ routerLang }}/{{ page.slug }}" 
         routerLinkActive="active">
-        <div mat-line>{{ page.title }}</div>
+        <div matListItemLine>{{ page.title }}</div>
       </a>
       <a mat-list-item 
         (click)="toggleSideMenu()" 
         routerLink="{{ routerLang }}/category/{{ cs }}" 
         routerLinkActive="active">
-        <div mat-line>{{ 'GENERAL.BUTTONS.VIEW_ALL' | translate }}</div>
+        <div matListItemLine>{{ 'GENERAL.BUTTONS.VIEW_ALL' | translate }}</div>
       </a>
     </mat-expansion-panel>
   </mat-accordion>

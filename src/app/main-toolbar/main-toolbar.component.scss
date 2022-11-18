@@ -111,3 +111,13 @@ mat-toolbar, mat-progress-bar {
 	font-size: 12px;
 	text-align: right;
 }
+
+.mat-toolbar-row, .mat-toolbar-single-row {
+	height: 56px;
+}
+
+@media (min-width: 600px) {
+	.mat-toolbar-row, .mat-toolbar-single-row {
+		height: 64px;
+	}
+}

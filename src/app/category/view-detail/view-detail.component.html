@@ -32,7 +32,7 @@
 
 	<div class="row">
 		<div class="col-12">
-			<mat-spinner class="spinner-center" *ngIf="loadingPages"></mat-spinner>
+			<mat-spinner color="accent" class="spinner-center" *ngIf="loadingPages"></mat-spinner>
 			<div *ngIf="!loadingPages">
 				<div class="text-left fadeIn no-results" *ngIf="!pages.length">
 					{{ 'GENERAL.LABELS.NO_RESULTS' | translate }}

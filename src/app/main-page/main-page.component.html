@@ -1,6 +1,6 @@
 <div class="mt-main">
 </div>
-<mat-progress-bar class="sticky-progress-bar" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+<mat-progress-bar color="accent" class="sticky-progress-bar" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
 <div class="mt-main-pgbsep" *ngIf="!loading">
 </div>
 <div class="container main-page-container fadeIn">
@@ -59,28 +59,31 @@
 										 [theme]="getSkeletonLoaderThemeNgStyle()"></ngx-skeleton-loader>
 				</div>
 			</div>
-
-			<mat-accordion 
-		    id="arwiki-home-page-accordion"
-		    displayMode="flat">
-		    <mat-expansion-panel 
-		      *ngFor="let cs of categoriesSlugs" >
-		      <mat-expansion-panel-header>
-		        <mat-panel-title class="subheader">
-		          {{ 'MAIN_MENU.' + cs | translate }}
-		        </mat-panel-title>
-		      </mat-expansion-panel-header>
-		      <a mat-button
-		        *ngFor="let page of pagesByCategory[cs]"
-		        routerLink="/{{ routeLang }}/{{ page.slug }}" >
-		        <div mat-line class="ellipsis">{{ page.title }}</div>
-		      </a>
-		      <a mat-button
-		        routerLink="/{{ routeLang }}/category/{{ cs }}" >
-		        <div mat-line><strong>{{ 'GENERAL.BUTTONS.VIEW_ALL' | translate }}</strong></div>
-		      </a>
-		    </mat-expansion-panel>
-		  </mat-accordion>
+			<mat-nav-list>
+				<mat-accordion 
+			    id="arwiki-home-page-accordion"
+			    displayMode="flat">
+			    <mat-expansion-panel 
+			      *ngFor="let cs of categoriesSlugs" >
+			      <mat-expansion-panel-header>
+			        <mat-panel-title class="subheader">
+			          {{ 'MAIN_MENU.' + cs | translate }}
+			        </mat-panel-title>
+			      </mat-expansion-panel-header>
+			      <a 
+			      	mat-list-item
+			        *ngFor="let page of pagesByCategory[cs]"
+			        routerLink="/{{ routeLang }}/{{ page.slug }}" >
+			        <div class="ellipsis">{{ page.title }}</div>
+			      </a>
+			      <a
+			      	mat-list-item
+			        routerLink="/{{ routeLang }}/category/{{ cs }}" >
+			        <div><strong>{{ 'GENERAL.BUTTONS.VIEW_ALL' | translate }}</strong></div>
+			      </a>
+			    </mat-expansion-panel>
+			  </mat-accordion>
+			</mat-nav-list>
 
 		</div>
 	</div>
