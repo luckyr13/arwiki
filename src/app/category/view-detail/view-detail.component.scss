@@ -38,10 +38,6 @@
 	margin-bottom: 20px;
 }
 
-.btn-toolbar {
-	color: inherit;
-}
-
 .footer-paginator {
 	margin-bottom: 40px;
 }
@@ -49,4 +45,8 @@
 .no-results {
 	padding: 20px;
 	height: 400px;
+}
+
+.mat-mdc-paginator {
+	font-size: 14px;
 }

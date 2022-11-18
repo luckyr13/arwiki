@@ -64,6 +64,7 @@
 .toc-image {
 	max-width: 100%;
 	margin: 0 auto;
+	padding: 10px;
 }
 
 #arwiki-page-content-detail {
@@ -75,7 +76,6 @@
 	margin-left: 10px;
 	padding-right: 5px;
 	padding-left: 5px;
-	color: inherit;
 }
 
 .subh-col-left {
@@ -140,4 +140,9 @@
 
 .tags-container {
 	margin-bottom: 30px;
+}
+
+.mat-mdc-chip {
+	font-size: 14px;
+	cursor: pointer;
 }

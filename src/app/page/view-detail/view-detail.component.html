@@ -10,7 +10,7 @@
 	    	type="button"
 		  	mat-button 
 		  	class="btn-toolbar" 
-		  	color="primary"
+		  	color="accent"
 		  	(click)="donate(pageData.owner, pageExtraMetadata.sponsor)">
 		    <mat-icon class="green-money animate__animated animate__heartBeat animate__slow animate__infinite">volunteer_activism</mat-icon>
 		    {{ 'GENERAL.BUTTONS.BTN_DONATE' | translate }}
@@ -19,7 +19,7 @@
 	    	type="button"
 		  	mat-button 
 		  	class="btn-toolbar" 
-		  	color="primary"
+		  	color="accent"
 		  	(click)="share()">
 		    <mat-icon>share</mat-icon>
 		    {{ 'GENERAL.BUTTONS.BTN_SHARE' | translate }}
@@ -28,7 +28,7 @@
 	    	type="button"
 		  	mat-button 
 		  	class="btn-toolbar vote-btn" 
-		  	color="primary"
+		  	color="accent"
   		  	(click)="upvote(true, pageExtraMetadata.sponsor, routeSlug, routeLang)">
 		    <mat-icon>thumb_up</mat-icon>
 		    {{ pageData.upvotes }}
@@ -37,7 +37,7 @@
 	    	type="button"
 		  	mat-button 
 		  	class="btn-toolbar vote-btn" 
-		  	color="primary"
+		  	color="accent"
 		  	(click)="upvote(false, pageExtraMetadata.sponsor, routeSlug, routeLang)">
 		    <mat-icon>thumb_down</mat-icon>
 		    {{ pageData.downvotes }}
@@ -46,7 +46,7 @@
 	    	type="button"
 		  	mat-button 
 		  	class="btn-toolbar vote-btn" 
-		  	color="primary"
+		  	color="accent"
 		  	(click)="stamp(routeSlug, routeLang)">
 		    <span class="mat-icon">
 		    	<img class="invert-colors" width="24px" src="assets/img/stampWhite.png">
@@ -57,7 +57,7 @@
 	    	type="button"
 		  	mat-button 
 		  	class="btn-toolbar" 
-		  	color="primary"
+		  	color="accent"
 		  	(click)="goBack()">
 		    <mat-icon>navigate_before</mat-icon>
 		    {{ 'GENERAL.BUTTONS.GO_BACK' | translate }}
@@ -134,7 +134,7 @@
 				</div>
 				<div class="col-12" *ngIf="tags.length">
 					<mat-chip-listbox>
-					  <mat-chip-option *ngFor="let tag of tags" [routerLink]="['/', routeLang, 'search', tag]" style="cursor: pointer">{{tag}}</mat-chip-option>
+					  <mat-chip-option *ngFor="let tag of tags" [routerLink]="['/', routeLang, 'search', tag]">{{tag}}</mat-chip-option>
 					</mat-chip-listbox>
 				</div>
 				<div class="col-12" *ngIf="!tags.length">
@@ -154,7 +154,9 @@
 					<mat-chip-listbox>
 					  <mat-chip-option
 					  	*ngFor="let translationLang of translations"
-					  	[routerLink]="['/', translationLang, routeSlug]" style="cursor: pointer">{{translationLang}}</mat-chip-option>
+					  	[selected]="translationLang === routeLang"
+					  	[color]="translationLang === routeLang ? 'accent' : 'primary'"
+					  	[routerLink]="['/', translationLang, routeSlug]">{{translationLang}}</mat-chip-option>
 					</mat-chip-listbox>
 				</div>
 				<div class="col-12 tags-container" *ngIf="!translations.length">
@@ -183,7 +185,7 @@
 		    	type="button"
 			  	mat-button 
 			  	class="btn-toolbar" 
-			  	color="primary"
+			  	color="accent"
 			  	(click)="donate(pageData.owner, pageExtraMetadata.sponsor)">
 			    <mat-icon class="green-money animate__animated animate__heartBeat animate__slow animate__infinite">volunteer_activism</mat-icon>
 			    {{ 'GENERAL.BUTTONS.BTN_DONATE' | translate }}
@@ -192,7 +194,7 @@
 		    	type="button"
 			  	mat-button 
 			  	class="btn-toolbar" 
-			  	color="primary"
+			  	color="accent"
 			  	(click)="share()">
 			    <mat-icon>share</mat-icon>
 			    {{ 'GENERAL.BUTTONS.BTN_SHARE' | translate }}
@@ -201,7 +203,7 @@
 		    	type="button"
 			  	mat-button 
 			  	class="btn-toolbar" 
-			  	color="primary"
+			  	color="accent"
 			  	(click)="editPage(routeSlug, routeLang)">
 			    <mat-icon>edit</mat-icon>
 			    {{ 'GENERAL.BUTTONS.EDIT_PAGE' | translate }}
@@ -209,6 +211,7 @@
 			  <button
 					mat-button
 			  	class="btn-toolbar" 
+			  	color="accent"
 	    		*ngIf="pageExtraMetadata.sponsor === mainAddress"
 					(click)="confirmStopStake(routeSlug)"
 					[disabled]="loadingStopStake"
@@ -219,7 +222,7 @@
 				<button
 					mat-button
 			  	class="btn-toolbar" 
-					color="primary"
+					color="accent"
 	    		*ngIf="pageExtraMetadata.sponsor !== mainAddress"
 					matTooltip="Sponsor page"
 					[disabled]="loadingUpdateSponsorPage"
@@ -232,7 +235,7 @@
 		    	type="button"
 			  	mat-button 
 			  	class="btn-toolbar" 
-			  	color="primary"
+			  	color="accent"
 					[routerLink]="['/', routeLang, routeSlug, 'history']">
 			    <mat-icon>history</mat-icon>
 			    {{ 'GENERAL.BUTTONS.BTN_VIEW_HISTORY' | translate }}

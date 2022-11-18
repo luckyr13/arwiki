@@ -176,7 +176,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
         title: title,
         content: content
       },
-      disableClose: true
+      disableClose: true,
+      width: '400px',
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {

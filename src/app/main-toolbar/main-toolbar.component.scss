@@ -61,12 +61,12 @@ mat-toolbar, mat-progress-bar {
 }
 
 .avatar {
-	width: 66%;
-	height: 66%;
+	width: 100%;
+	height: 100%;
 	border-radius: 50%;
 	object-fit: cover;
 	flex-shrink: 0;
-	vertical-align: middle;
+	display: inline-block;
 }
 
 

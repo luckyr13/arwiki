@@ -9,6 +9,8 @@
 
 // Default app font
 $theme-font-family: "Roboto Mono", monospace;
+$secondary-theme-font-family: Work Sans, sans-serif;
+
 
 $theme-typography: mat.define-typography-config(
   $font-family: $theme-font-family,
@@ -93,8 +95,13 @@ body {
   line-height: 1.666;
 }
 
+* {
+  font-family: $theme-font-family;
+}
+
 a {
   overflow-wrap: break-word;
+  font-family: $theme-font-family;
 }
 
 .text-center {
@@ -352,6 +359,7 @@ a {
   color: #FFF;
   white-space: pre-wrap;
   word-wrap: break-word;
+  font-size: 12px;
 }
 
 
@@ -490,4 +498,41 @@ a {
 .small-username-2 {
   font-size: 12px;
   margin-bottom: 6px;
+}
+
+
+h1 {
+  font-family: "Roboto Mono", monospace;
+  font-size: 2.5rem;
+  font-weight: bold !important;
+  line-height: 1.2; }
+
+h2 {
+  font-family: "Roboto Mono", monospace;
+  font-size: 1.5rem;
+  font-weight: bold !important;
+  font-weight: 400;
+}
+
+h3 {
+  font-family: "Roboto Mono", monospace;
+  font-size: 1.3rem;
+  font-weight: bold !important;
+}
+
+h4 {
+  font-family: "Roboto Mono", monospace;
+  font-weight: bold !important;
+  font-size: 1rem;
+}
+
+.mat-button, .mat-button-wrapper {
+  font-family: "Roboto Mono", monospace;
+}
+
+p {
+  font-family: "Work Sans", sans-serif;
+}
+.mdc-tooltip {
+  font-size: 12px;
 }
