@@ -7,7 +7,7 @@ import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.se
 import { ArweaveService } from '../../core/arweave.service';
 import { AuthService } from '../../auth/auth.service';
 import { arwikiVersion } from '../../core/arwiki';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { UtilsService } from '../../core/utils.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import { Subscription } from 'rxjs';
@@ -60,7 +60,7 @@ export class DialogVaultComponent implements OnInit, AfterViewInit, OnDestroy  {
   	private _arweave: ArweaveService,
   	private _arwikiTokenContract: ArwikiTokenContract,
   	private _auth: AuthService,
-  	private _snackBar: MatSnackBar,
+  	private _utils: UtilsService,
     public _dialogRef: MatDialogRef<DialogVaultComponent>
   ) { }
 
@@ -96,22 +96,10 @@ export class DialogVaultComponent implements OnInit, AfterViewInit, OnDestroy  {
         }, 
         error: (error) => {
           this.errorMsg = `${error}`;
-          this.message(`${error}`);
+          this._utils.message(`${error}`);
         }
       })
     
-  }
-
-	/*
-  *  Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 5000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
   }
 
   formatBlocks(len: number): string {
@@ -130,7 +118,7 @@ export class DialogVaultComponent implements OnInit, AfterViewInit, OnDestroy  {
         },
         error: (error) => {
           this.errorMsg = `${error}`;
-          this.message(`${error}`, 'error');
+          this._utils.message(`${error}`, 'error');
         }
       });
   }

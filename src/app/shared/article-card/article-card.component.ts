@@ -4,7 +4,6 @@ import * as marked from 'marked';
 import DOMPurify from 'dompurify';
 import { Subscription } from 'rxjs';
 import { ArweaveService } from '../../core/arweave.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.service';
 
 
@@ -27,7 +26,6 @@ export class ArticleCardComponent implements OnInit, OnDestroy {
 
   constructor(
     private _arweave: ArweaveService,
-    private _snackBar: MatSnackBar,
     private _arwikiTokenContract: ArwikiTokenContract) { }
 
   ngOnInit(): void {
@@ -77,18 +75,6 @@ export class ArticleCardComponent implements OnInit, OnDestroy {
     var html = marked(_markdown);
     var clean = DOMPurify.sanitize(html);
     return clean;
-  }
-
-  /*
-  *  Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 8000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
   }
 
   removeHTMLfromStr(_html: string) {

@@ -3,7 +3,7 @@ import { ArwikiQuery } from '../../core/arwiki-query';
 import { ArweaveService } from '../../core/arweave.service';
 import { Subscription, of } from 'rxjs';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { UtilsService } from '../../core/utils.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import ArdbBlock from 'ardb/lib/models/block';
@@ -41,7 +41,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
   constructor(
     private _arweave: ArweaveService,
     private _arwikiTokenContract: ArwikiTokenContract,
-    private _snackBar: MatSnackBar,
+    private _utils: UtilsService,
     private _route: ActivatedRoute,
     private _userSettings: UserSettingsService,
     private _router: Router,
@@ -75,7 +75,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
       networkInfo = await this._arweave.arweave.network.getInfo();
       maxHeight = networkInfo.height;
     } catch (error) {
-      this.message(`${error}`, 'error');
+      this._utils.message(`${error}`, 'error');
       return;
     }
 
@@ -100,7 +100,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
         
       },
       error: (error: string) => {
-        this.message(error, 'error');
+        this._utils.message(error, 'error');
         this.loadingPages = false;
       }
     });
@@ -110,20 +110,6 @@ export class ResultsComponent implements OnInit, OnDestroy {
   slugToLabel(_s: string) {
     return _s.replace(/_/gi, " ");
   }
-
-
-  /*
-  *  Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 8000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
-  }
-
 
   ngOnDestroy() {
     if (this.pagesSubscription) {

@@ -4,7 +4,7 @@ import { UserProfile } from '../../core/interfaces/user-profile';
 import { AuthService } from '../../auth/auth.service';
 import { ArweaveService } from '../../core/arweave.service';
 import { ActivatedRoute } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { UtilsService } from '../../core/utils.service';
 import { Location } from '@angular/common';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.service';
 import { UserSettingsService } from '../../core/user-settings.service';
@@ -32,7 +32,7 @@ export class ActivityHistoryComponent implements OnInit, OnDestroy {
   constructor(
     private _auth: AuthService,
     private _route: ActivatedRoute,
-    private _snackBar: MatSnackBar,
+    private _utils: UtilsService,
     private _location: Location,
     private _arwikiToken: ArwikiTokenContract,
     public _dialog: MatDialog,
@@ -89,23 +89,10 @@ export class ActivityHistoryComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         this.loadingProfile = false;
-        this.message(error, 'error');
+        this._utils.message(error, 'error');
       }
     })
   }
-
-  /*
-  *  Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 8000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
-  }
-
 
   goBack() {
     this._location.back();
@@ -125,7 +112,7 @@ export class ActivityHistoryComponent implements OnInit, OnDestroy {
         }
       },
       error: (error) => {
-        this.message(error, 'error');
+        this._utils.message(error, 'error');
       }
     })
   }

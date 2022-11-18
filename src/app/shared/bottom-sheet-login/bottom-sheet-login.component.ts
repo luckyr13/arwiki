@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { Subscription, EMPTY } from 'rxjs';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { UtilsService } from '../../core/utils.service';
 import {MatBottomSheetRef} from '@angular/material/bottom-sheet';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -28,7 +28,7 @@ export class BottomSheetLoginComponent implements OnInit, OnDestroy {
 
   constructor(
     private _auth: AuthService,
-    private _snackBar: MatSnackBar,
+    private _utils: UtilsService,
     private _bottomSheetRef: MatBottomSheetRef<BottomSheetLoginComponent>,
     private _router: Router,
     private _dialog: MatDialog,
@@ -86,28 +86,15 @@ export class BottomSheetLoginComponent implements OnInit, OnDestroy {
         } else {
           this._bottomSheetRef.dismiss();
           this.loading = false;
-          this.message('Welcome!', 'success');
+          this._utils.message('Welcome!', 'success');
         }
       },
       error: (error) => {
-        this.message(`Error: ${error}`, 'error');
+        this._utils.message(`Error: ${error}`, 'error');
         this.loading = false;
         this._bottomSheetRef.dismiss();
 
       }
-    });
-  }
-
-
-  /*
-  *  Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 8000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
     });
   }
 
@@ -142,17 +129,17 @@ export class BottomSheetLoginComponent implements OnInit, OnDestroy {
               encodedKey);
             this.loading = false;
             this._bottomSheetRef.dismiss(tmpAddress.address);
-            this.message('Welcome!', 'success');
+            this._utils.message('Welcome!', 'success');
           },
           error: (error) => {
-            this.message(error, 'error');
+            this._utils.message(error, 'error');
             this.loading = false;
           }
         });
         
       } else {
         this._auth.logout();
-        this.message('Bye, bye!', 'error');
+        this._utils.message('Bye, bye!', 'error');
         this.loading = false;
       }
     });

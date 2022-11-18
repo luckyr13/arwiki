@@ -3,7 +3,7 @@ import { ArwikiQuery } from '../../core/arwiki-query';
 import { ArweaveService } from '../../core/arweave.service';
 import { Subscription, of, Observable } from 'rxjs';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { UtilsService } from '../../core/utils.service';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { switchMap } from 'rxjs/operators';
@@ -36,7 +36,7 @@ export class ViewDetailComponent implements OnInit {
   constructor(
   	private _arweave: ArweaveService,
   	private _arwikiTokenContract: ArwikiTokenContract,
-  	private _snackBar: MatSnackBar,
+  	private _utils: UtilsService,
   	private _route: ActivatedRoute,
     private _location: Location,
     private _userSettings: UserSettingsService
@@ -69,7 +69,7 @@ export class ViewDetailComponent implements OnInit {
       networkInfo = await this._arweave.arweave.network.getInfo();
       maxHeight = networkInfo.height;
     } catch (error) {
-      this.message(`${error}`, 'error');
+      this._utils.message(`${error}`, 'error');
       return;
     }
     this.pagesSubscription = this.getPagesByCategory(
@@ -83,7 +83,7 @@ export class ViewDetailComponent implements OnInit {
         this.paginatorLength = this.pages ? this.pages.length : 0;
       },
       error: (error: string) => {
-        this.message(error, 'error');
+        this._utils.message(error, 'error');
         this.loadingPages = false;
         this.errorLoadingCategory = true;
       }
@@ -93,20 +93,6 @@ export class ViewDetailComponent implements OnInit {
   slugToLabel(_s: string) {
   	return _s.replace(/_/gi, " ");
   }
-
-
-  /*
-  *	Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 8000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
-  }
-
 
   ngOnDestroy() {
   	if (this.pagesSubscription) {

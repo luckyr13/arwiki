@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.service';
 import { Subscription, Observable } from 'rxjs'; 
 import { ArweaveService } from '../../core/arweave.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { UtilsService } from '../../core/utils.service';
 import { UserSettingsService } from '../../core/user-settings.service';
 import { ArwikiLangIndex } from '../../core/interfaces/arwiki-lang-index';
 
@@ -21,7 +21,7 @@ export class DialogSelectLanguageComponent implements OnInit, OnDestroy {
   constructor(
   	private _arwikiToken: ArwikiTokenContract,
   	private _arweave: ArweaveService,
-  	private _snackBar: MatSnackBar,
+  	private _utils: UtilsService,
     private _userSettings: UserSettingsService
   ) { }
 
@@ -46,7 +46,7 @@ export class DialogSelectLanguageComponent implements OnInit, OnDestroy {
 	  		error: (error) => {
 	  			this.error = error;
 	  			this.loading = false;
-	  			this.message(error, 'error');
+	  			this._utils.message(error, 'error');
 	  		}
 	  	});
   }
@@ -55,18 +55,6 @@ export class DialogSelectLanguageComponent implements OnInit, OnDestroy {
   	if (this.langsSubscription) {
   		this.langsSubscription.unsubscribe();
   	}
-  }
-
-  /*
-  *	Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 5000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
   }
 
   getSkeletonLoaderAnimationType() {

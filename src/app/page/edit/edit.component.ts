@@ -13,7 +13,7 @@ import {
 import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { UtilsService } from '../../core/utils.service';
 import { Subscription, of, from } from 'rxjs'; 
 import { switchMap } from 'rxjs/operators';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.service';
@@ -127,7 +127,7 @@ export class EditComponent implements OnInit, OnDestroy {
     private _auth: AuthService,
     public _dialog: MatDialog,
   	private _router: Router,
-  	private _snackBar: MatSnackBar,
+  	private _utils: UtilsService,
     private _arwikiTokenContract: ArwikiTokenContract,
     private _route: ActivatedRoute,
     private _overlay: Overlay
@@ -156,7 +156,7 @@ export class EditComponent implements OnInit, OnDestroy {
           }
         },
         error: (error) => {
-          this.message(error, 'error');
+          this._utils.message(error, 'error');
         }
       })
 
@@ -177,7 +177,7 @@ export class EditComponent implements OnInit, OnDestroy {
     
         },
         error: (error) => {
-          this.message(error, 'error');
+          this._utils.message(error, 'error');
         }
       })
 
@@ -248,7 +248,7 @@ export class EditComponent implements OnInit, OnDestroy {
     const pageValue = this.pageValue!.value;
 
     if (!content) {
-      this.message('Please add some content to your page :)', 'error');
+      this._utils.message('Please add some content to your page :)', 'error');
       return;
     }
     
@@ -274,7 +274,7 @@ export class EditComponent implements OnInit, OnDestroy {
     this.savingPageSubscription = this.updatePage(newPage, disableDispatch).subscribe({
       next: (tx) => {
         const txid = tx.id;
-        this.message(txid, 'success');
+        this._utils.message(txid, 'success');
         this.newPageTX = txid;
         this._redirectTimeout = window.setTimeout(() => {
           const lastRoute = `/${this.routeLang}/dashboard`;
@@ -282,7 +282,7 @@ export class EditComponent implements OnInit, OnDestroy {
         }, 20000);
       },
       error: (error) => {
-        this.message(`${error}`, 'error');
+        this._utils.message(`${error}`, 'error');
         this.disableForm(false);
       }
     });
@@ -304,18 +304,6 @@ export class EditComponent implements OnInit, OnDestroy {
       this.pageValue!.enable();
       this.loadingFrm = false;
   	}
-  }
-
-  /*
-  *  Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 5000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
   }
 
   setPreviewImage(imgUrl: string) {
@@ -341,12 +329,12 @@ export class EditComponent implements OnInit, OnDestroy {
     return this._arweave.arToWinston(_v);
   }
 
-  formatLabel(value: number) {
+  formatLabel(value: number): string {
     if (value >= 1000) {
       return Math.round(value / 1000) + 'k';
     }
 
-    return value;
+    return `${value}`;
   }
 
   loadPageData(slug: string, langCode: string) {
@@ -447,14 +435,14 @@ export class EditComponent implements OnInit, OnDestroy {
         } else {
           this.pageData.content = '';
           this.pageNotFound = true;
-          this.message('Page not found', 'error')
+          this._utils.message('Page not found', 'error')
           this.loadingPageData = false;
         }
 
 
       },
       error: (error) => {
-        this.message(error, 'error')
+        this._utils.message(error, 'error')
         this.loadingPageData = false;
         this.pageData.content = '';
         this.pageNotFound = true;
@@ -636,7 +624,7 @@ export class EditComponent implements OnInit, OnDestroy {
         
       },
       error: (error) => {
-        this.message(`${error}`, 'error');
+        this._utils.message(`${error}`, 'error');
       }
     });
   }

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { ArweaveService } from '../../core/arweave.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { UtilsService } from '../../core/utils.service';
 import { Diff, diffLines, Change } from 'diff';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.service';
 import { of, from, Subscription } from 'rxjs';
@@ -21,7 +21,7 @@ export class DialogCompareComponent implements OnInit, OnDestroy {
   constructor(
   	@Inject(MAT_DIALOG_DATA) public data: any,
   	private _arweave: ArweaveService,
-    private _snackBar: MatSnackBar,
+    private _utils: UtilsService,
     private _arwikiToken: ArwikiTokenContract
   ) { }
 
@@ -41,7 +41,7 @@ export class DialogCompareComponent implements OnInit, OnDestroy {
   				this.loading = false;
   			},
   			error: (error) => {
-  				this.message(`${error}`, 'error');
+  				this._utils.message(`${error}`, 'error');
   				this.loading = false;
   			},
   		})
@@ -78,17 +78,4 @@ export class DialogCompareComponent implements OnInit, OnDestroy {
       }),
     );
   }
-
-  /*
-  *	Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 8000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
-  }
-
 }

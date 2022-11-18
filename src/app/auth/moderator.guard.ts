@@ -5,7 +5,7 @@ import { catchError, tap, switchMap } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
 import { ArwikiTokenContract } from '../core/arwiki-contracts/arwiki-token.service';
 import { ArweaveService } from '../core/arweave.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { UtilsService } from '../core/utils.service';
 import { UserSettingsService } from '../core/user-settings.service';
 declare const window: any;
 
@@ -17,7 +17,7 @@ export class ModeratorGuard implements CanActivate, CanActivateChild {
     private _auth: AuthService,
     private _arweave: ArweaveService,
     private _arwikiTokenContract: ArwikiTokenContract,
-    private _snackBar: MatSnackBar,
+    private _utils: UtilsService,
     private _userSettings: UserSettingsService
   ) {}
 
@@ -49,29 +49,15 @@ export class ModeratorGuard implements CanActivate, CanActivateChild {
           if (isAdmin) {
             return of(true);
           }
-          this.message(`You are not a moderator!`, 'error');
+          this._utils.message(`You are not a moderator!`, 'error');
           return of(false);
         }),
         catchError((error) => {
-          this.message(error, 'error');
+          this._utils.message(error, 'error');
           return of(false);
         }) 
       )
     );
   }
-  
-  /*
-  *  Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 4000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
-  }
-
-
   
 }

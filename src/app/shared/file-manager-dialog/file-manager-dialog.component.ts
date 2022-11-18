@@ -4,7 +4,7 @@ import { TransactionMetadata } from '../../core/interfaces/transaction-metadata'
 import { Subscription } from 'rxjs';
 import { FileExplorerService } from '../../core/file-explorer.service';
 import { ArweaveService } from '../../core/arweave.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { UtilsService } from '../../core/utils.service';
 
 @Component({
   selector: 'app-file-manager-dialog',
@@ -26,7 +26,7 @@ export class FileManagerDialogComponent implements OnInit, OnDestroy {
       type: 'text'|'image'|'audio'|'video'|'',
       address: string,
     },
-    private _snackBar: MatSnackBar,
+    private _utils: UtilsService,
     private _fileExplorer: FileExplorerService,
     private _arweave: ArweaveService) { }
 
@@ -62,7 +62,7 @@ export class FileManagerDialogComponent implements OnInit, OnDestroy {
         this.loadingFiles = false;
       },
       error: (error) => {
-        this.message(error, 'error');
+        this._utils.message(error, 'error');
         this.loadingFiles = false;
       }
     })
@@ -84,7 +84,7 @@ export class FileManagerDialogComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         this.loadingMore = false;
-        this.message(error, 'error');
+        this._utils.message(error, 'error');
       }
     })
   }
@@ -110,18 +110,6 @@ export class FileManagerDialogComponent implements OnInit, OnDestroy {
   dateFormat(date: string|number|undefined) {
     const d = date ? date : '';
     return this._dateFormat(d);
-  }
-
-  /*
-  *  Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 5000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
   }
 
   private _dateFormat(d: number|string){

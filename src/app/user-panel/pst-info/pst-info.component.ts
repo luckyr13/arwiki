@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.service';
 import { Subscription } from 'rxjs';
 import { ArweaveService } from '../../core/arweave.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { UtilsService } from '../../core/utils.service';
 
 @Component({
   selector: 'app-pst-info',
@@ -21,7 +21,7 @@ export class PstInfoComponent implements OnInit, OnDestroy {
   constructor(
     private _arwikiTokenContract: ArwikiTokenContract,
     private _arweave: ArweaveService,
-    private _snackBar: MatSnackBar,
+    private _utils: UtilsService,
     ) { }
 
   ngOnInit(): void {
@@ -85,12 +85,11 @@ export class PstInfoComponent implements OnInit, OnDestroy {
               specialValue: formatFunction(value)
             });
           }
-       
 
           this.loadingSettings = false;
         },
         error: (error) => {
-          this.message(error, 'error');
+          this._utils.message(error, 'error');
           this.loadingSettings = false;
         }
       });
@@ -113,15 +112,4 @@ export class PstInfoComponent implements OnInit, OnDestroy {
     return this._arweave.formatBlocks(len);
   }
 
-  /*
-  *  Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 4000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
-  }
 }

@@ -4,7 +4,7 @@ import { Observable, Subscription, EMPTY, of } from 'rxjs';
 import { ArwikiPage } from '../../core/interfaces/arwiki-page';
 import { ArwikiPageIndex } from '../../core/interfaces/arwiki-page-index';
 import { ArwikiQuery } from '../../core/arwiki-query';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { UtilsService } from '../../core/utils.service';
 import { ArweaveService } from '../../core/arweave.service';
 import { switchMap } from 'rxjs/operators';
 import { 
@@ -31,7 +31,7 @@ export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
   constructor(
   	@Inject(MAT_DIALOG_DATA) public data: any,
   	private _arweave: ArweaveService,
-    private _snackBar: MatSnackBar,
+    private _utils: UtilsService,
     private _arwikiTokenContract: ArwikiTokenContract,
     private _router: Router,
     public _dialogRef: MatDialogRef<DialogSearchPageUpdateComponent>
@@ -43,19 +43,6 @@ export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
     await this.getUpdates();
   }
-
-  /*
-  *	Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 8000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
-  }
-
 
   ngOnDestroy() {
   	if (this.pendingPagesSubscription) {
@@ -74,7 +61,7 @@ export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
       networkInfo = await this._arweave.arweave.network.getInfo();
       maxHeight = networkInfo.height;
     } catch (error) {
-      this.message(`${error}`, 'error');
+      this._utils.message(`${error}`, 'error');
       return;
     }
 
@@ -138,7 +125,7 @@ export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
 
         },
         error: (error) => {
-          this.message(error, 'error');
+          this._utils.message(error, 'error');
           this.loadingPendingPages = false;
         }
       });

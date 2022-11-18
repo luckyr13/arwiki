@@ -47,7 +47,7 @@
 	<h2>{{ 'SEARCH.SITEMAP.TITLE_PAGES' | translate }}</h2>
 	<div class="row">
 		<div class="col">
-			<mat-form-field appearance="standard">
+			<mat-form-field appearance="fill">
 			  <mat-label>{{ 'SEARCH.SITEMAP.LABEL_FILTER' | translate }}</mat-label>
 			  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Arweave" #input autocomplete="off">
 			</mat-form-field>
@@ -138,7 +138,7 @@
 	<h2>{{ 'SEARCH.SITEMAP.TITLE_OTHER_LANGS' | translate }}</h2>
 	<div class="row row-lang">
 		<div class="col">
-			<mat-form-field appearance="standard">
+			<mat-form-field appearance="fill">
 			  <mat-label>{{ 'SEARCH.SITEMAP.LABEL_FILTER' | translate }}</mat-label>
 			  <input matInput (keyup)="applyFilterLang($event)" placeholder="Ex. English" #input autocomplete="off">
 			</mat-form-field>

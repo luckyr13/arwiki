@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ArweaveService } from '../../core/arweave.service';
 import { Observable, Subscription, EMPTY, of, from } from 'rxjs';
 import { AuthService } from '../../auth/auth.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { UtilsService } from '../../core/utils.service';
 import { switchMap } from 'rxjs/operators';
 import {MatDialog} from '@angular/material/dialog';
 import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confirm.component';
@@ -40,7 +40,7 @@ export class DeletedListComponent implements OnInit, OnDestroy {
   constructor(
   	private _arweave: ArweaveService,
     private _auth: AuthService,
-    private _snackBar: MatSnackBar,
+    private _utils: UtilsService,
     public _dialog: MatDialog,
     private _route: ActivatedRoute,
     private _userSettings: UserSettingsService,
@@ -66,7 +66,7 @@ export class DeletedListComponent implements OnInit, OnDestroy {
       networkInfo = await this._arweave.arweave.network.getInfo();
       maxHeight = networkInfo.height;
     } catch (error) {
-      this.message(`${error}`, 'error');
+      this._utils.message(`${error}`, 'error');
       return;
     }
 
@@ -78,7 +78,7 @@ export class DeletedListComponent implements OnInit, OnDestroy {
         
       },
       error: (error) => {
-        this.message(error, 'error');
+        this._utils.message(error, 'error');
         this.loadingPages = false;
       }
     });
@@ -89,22 +89,10 @@ export class DeletedListComponent implements OnInit, OnDestroy {
         this.currentBlockHeight = height;
       },
       error: (error) => {
-        this.message(error, 'error');
+        this._utils.message(error, 'error');
       }
     });
 
-  }
-
-  /*
-  *	Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 8000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
   }
 
   /*
@@ -258,12 +246,12 @@ export class DeletedListComponent implements OnInit, OnDestroy {
       next: (tx) => {
         if (tx) {
           this.updatePageTxMessage = `${tx}`;
-          this.message('Success!', 'success');
+          this._utils.message('Success!', 'success');
         }
       },
       error: (error) => {
         this.updatePageTxErrorMessage = `${error}`;
-        this.message(`${error}`, 'error');
+        this._utils.message(`${error}`, 'error');
       }
     });
   }

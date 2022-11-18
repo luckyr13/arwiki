@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { UtilsService } from '../../core/utils.service';
 import { ArweaveService } from '../../core/arweave.service';
 import { Observable, Subscription, EMPTY, of, from } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -38,7 +38,7 @@ export class MyUpdatesComponent implements OnInit , OnDestroy {
 
   constructor(
     private _router: Router,
-    private _snackBar: MatSnackBar,
+    private _utils: UtilsService,
     private _arweave: ArweaveService,
     private _auth: AuthService,
     private _userSettings: UserSettingsService,
@@ -71,7 +71,7 @@ export class MyUpdatesComponent implements OnInit , OnDestroy {
         this.currentBlockHeight = height;
       },
       error: (error) => {
-        this.message(error, 'error');
+        this._utils.message(error, 'error');
       }
     });
   }
@@ -134,7 +134,7 @@ export class MyUpdatesComponent implements OnInit , OnDestroy {
 
       },
       error: (error) => {
-        this.message(error, 'error');
+        this._utils.message(error, 'error');
         this.loading = false;
       }
     });
@@ -161,18 +161,6 @@ export class MyUpdatesComponent implements OnInit , OnDestroy {
       _img :
       _img ? `${this.baseURL}${_img}` : '';
     return res;
-  }
-
-  /*
-  *  Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 4000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
   }
 
   timestampToDate(_time: number) {

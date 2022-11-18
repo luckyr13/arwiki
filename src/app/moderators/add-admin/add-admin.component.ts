@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { UtilsService } from '../../core/utils.service';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.service';
 import { Subscription, from } from 'rxjs';
 import { ArweaveService } from '../../core/arweave.service';
@@ -20,7 +20,7 @@ export class AddAdminComponent implements OnInit, OnDestroy {
   newadminTX: any;
 
   constructor(
-    private _snackBar: MatSnackBar,
+    private _utils: UtilsService,
     private _arwikiTokenContract: ArwikiTokenContract,
     private _auth: AuthService,
     private _arweave: ArweaveService
@@ -52,7 +52,7 @@ export class AddAdminComponent implements OnInit, OnDestroy {
     )).subscribe({
       next: (res) => {
         this.newadminTX = res;
-        this.message('New admin proposal created!', 'success');
+        this._utils.message('New admin proposal created!', 'success');
             
         // Enable form 
         this.formLoading = false;
@@ -60,7 +60,7 @@ export class AddAdminComponent implements OnInit, OnDestroy {
         this.newAdminAddress.setValue('');
       },
       error: (error) => {
-        this.message(error, 'error');
+        this._utils.message(error, 'error');
 
         // Enable form 
         this.formLoading = false;
@@ -70,17 +70,5 @@ export class AddAdminComponent implements OnInit, OnDestroy {
 
   }
 
-
-  /*
-  *  Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 5000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
-  }
 
 }

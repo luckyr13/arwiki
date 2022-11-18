@@ -6,7 +6,7 @@ import { UserSettingsService } from '../core/user-settings.service';
 import { AuthService } from '../auth/auth.service';
 import { ArweaveService } from '../core/arweave.service';
 import { Subscription, EMPTY, Observable } from 'rxjs';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { UtilsService } from '../core/utils.service';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import {MatBottomSheet} from '@angular/material/bottom-sheet';
 import { BottomSheetLoginComponent } from '../shared/bottom-sheet-login/bottom-sheet-login.component';
@@ -49,7 +49,7 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   constructor(
     private _auth: AuthService,
     private _arweave: ArweaveService,
-    private _snackBar: MatSnackBar,
+    private _utils: UtilsService,
     private _userSettings: UserSettingsService,
     private _bottomSheet: MatBottomSheet,
     private _route: ActivatedRoute,
@@ -89,7 +89,7 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
         this.isModerator = _isModerator;
       },
       error: (error) => {
-        this.message(error, 'error');
+        this._utils.message(error, 'error');
       }
     });
 
@@ -137,7 +137,7 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
     try {
       this._userSettings.setTheme(theme);
     } catch (err) {
-      this.message(`Error: ${err}`, 'error');
+      this._utils.message(`Error: ${err}`, 'error');
     }
   }
 
@@ -149,7 +149,7 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
       this._userSettings.setDefaultLang(lang);
       this._router.navigate([`/${lang.code}`]);
     } catch (err) {
-      this.message(`Error: ${err}`, 'error');
+      this._utils.message(`Error: ${err}`, 'error');
     }
   }
 
@@ -161,19 +161,6 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
     this._auth.logout();
     this.isLoggedIn = false;
     window.location.reload();
-  }
-
-
-  /*
-  *  Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 5000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
   }
 
   /*

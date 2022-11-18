@@ -7,7 +7,7 @@ import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.se
 import { ArweaveService } from '../../core/arweave.service';
 import { AuthService } from '../../auth/auth.service';
 import { arwikiVersion } from '../../core/arwiki';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { UtilsService } from '../../core/utils.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -29,7 +29,7 @@ export class DialogTransferTokensComponent implements OnInit, OnDestroy {
   	private _arweave: ArweaveService,
   	private _arwikiTokenContract: ArwikiTokenContract,
   	private _auth: AuthService,
-  	private _snackBar: MatSnackBar,
+  	private _utils: UtilsService,
     public _dialogRef: MatDialogRef<DialogTransferTokensComponent>
   ) { }
 
@@ -67,22 +67,10 @@ export class DialogTransferTokensComponent implements OnInit, OnDestroy {
         this.transferTX = `${res}`
       },
       error: (error) => {
-        this.message(`${error}`, 'error');
+        this._utils.message(`${error}`, 'error');
         this._dialogRef.close();
       }
     });
   	
-  }
-
-	/*
-  *  Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 5000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
   }
 }

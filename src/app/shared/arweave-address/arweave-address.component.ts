@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnDestroy, OnChanges } from '@angular/core';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { UtilsService } from '../../core/utils.service';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../auth/auth.service';
 import { ArweaveService } from '../../core/arweave.service';
@@ -28,7 +28,7 @@ export class ArweaveAddressComponent implements OnInit, OnDestroy, OnChanges {
 
   constructor(
     private _clipboard: Clipboard,
-    private _snackBar: MatSnackBar,
+    private _utils: UtilsService,
     private _auth: AuthService,
     private _arweave: ArweaveService,
     private _vouch: VouchDaoService) {}
@@ -54,19 +54,7 @@ export class ArweaveAddressComponent implements OnInit, OnDestroy, OnChanges {
 
   copyClipboard(content: string, msg: string = 'Content copied!') {
     this._clipboard.copy(content);
-    this.message(msg, 'success');
-  }
-
-  /*
-  *  Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 3000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
+    this._utils.message(msg, 'success');
   }
 
   updateProfileData() {

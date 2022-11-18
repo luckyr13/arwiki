@@ -13,7 +13,7 @@ import {
 import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { UtilsService } from '../../core/utils.service';
 import { Subscription, of, Observable } from 'rxjs'; 
 import { switchMap } from 'rxjs/operators';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.service';
@@ -105,7 +105,7 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
     private _auth: AuthService,
     public _dialog: MatDialog,
   	private _router: Router,
-  	private _snackBar: MatSnackBar,
+  	private _utils: UtilsService,
     private _arwikiTokenContract: ArwikiTokenContract,
     private _route: ActivatedRoute,
     private _overlay: Overlay
@@ -129,7 +129,7 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         },
         error: (error) => {
-          this.message(error, 'error');
+          this._utils.message(error, 'error');
         }
       })
 
@@ -152,7 +152,7 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
     
         },
         error: (error) => {
-          this.message(error, 'error');
+          this._utils.message(error, 'error');
         }
       })
 
@@ -215,7 +215,7 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
     const pageValue = this.pageValue!.value;
 
     if (!content) {
-      this.message('Please add some content to your page :)', 'error');
+      this._utils.message('Please add some content to your page :)', 'error');
       return;
     }
     
@@ -240,7 +240,7 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
     this.savingPageSubscription = this.savePage(newPage, disableDispatch).subscribe({
       next: (tx) => {
         const txid = tx.id;
-        this.message(txid, 'success');
+        this._utils.message(txid, 'success');
         this.newPageTX = txid;
         this._redirectTimeout = window.setTimeout(() => {
           const lastRoute = `/${this.routeLang}/dashboard`;
@@ -248,7 +248,7 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
         }, 20000);
       },
       error: (error) => {
-        this.message(`${error}`, 'error');
+        this._utils.message(`${error}`, 'error');
         this.disableForm(false);
       }
     });
@@ -275,18 +275,6 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
   	}
   }
 
-  /*
-  *  Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 5000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
-  }
-
   setPreviewImage(imgUrl: string) {
     if (imgUrl.length > 0) {
       this.previewImgUrlTX = imgUrl;
@@ -309,7 +297,7 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
       networkInfo = await this._arweave.arweave.network.getInfo();
       maxHeight = networkInfo.height;
     } catch (error) {
-      this.message(`${error}`, 'error');
+      this._utils.message(`${error}`, 'error');
       this.slug!.setValue('');
       this.slug!.enable();
     }
@@ -320,17 +308,16 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
         next: (taken) => {
           // Slug already taken
           if (taken) {
-            this.message(`Slug already taken! Please try another one`, 'error');
+            this._utils.message(`Slug already taken! Please try another one`, 'error');
             this.slug!.setValue('');
           } else {
-            this.message('Slug available!', 'success');
+            this._utils.message('Slug available!', 'success');
           }
 
           this.slug!.enable();
         },
         error: (error) => {
-
-          this.message(error, 'error');
+          this._utils.message(error, 'error');
           this.slug!.setValue('');
           this.slug!.enable();
         }
@@ -380,12 +367,12 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
       );
   }
 
-  formatLabel(value: number) {
+  formatLabel(value: number): string {
     if (value >= 1000) {
       return Math.round(value / 1000) + 'k';
     }
 
-    return value;
+    return `${value}`;
   }
 
   openEmojiMenu(editor: SimpleMDE) {

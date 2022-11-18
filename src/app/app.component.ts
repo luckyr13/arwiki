@@ -12,11 +12,12 @@ import { SubtleCryptoService } from './core/subtle-crypto.service';
 import { JWKInterface } from 'arweave/web/lib/wallet';
 import * as b64 from 'base64-js';
 import { AuthService } from './auth/auth.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { 
   DialogConfirmComponent 
 } from './shared/dialog-confirm/dialog-confirm.component';
+import { UtilsService } from './core/utils.service';
+declare const window: any;
 
 @Component({
   selector: 'app-root',
@@ -43,9 +44,9 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
     private _changeDetector: ChangeDetectorRef,
     private _auth: AuthService,
     private _arweave: ArweaveService,
-    private _snackBar: MatSnackBar,
     private _dialog: MatDialog,
-    private _crypto: SubtleCryptoService
+    private _crypto: SubtleCryptoService,
+    private _utils: UtilsService
   ) {
     // this language will be used as a fallback when a translation isn't found in the current language
     // _translate.setDefaultLang('en');
@@ -68,7 +69,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
     this.loadAccountSubscription = this._auth.loadAccount().subscribe({
       next: (success) => {
         if (success) {
-          this.message(`Welcome back!`, 'success');
+          this._utils.message(`Welcome back!`, 'success');
         }
       },
       error: (error) => {
@@ -106,7 +107,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
           
 
         } else {
-          this.message(error, 'error');
+          this._utils.message(error, 'error');
         }
       }
     });
@@ -187,10 +188,10 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
           stayLoggedIn
         ).subscribe({
           next: (address: string|AddressKey) => {
-            this.message('Welcome!', 'success');
+            this._utils.message('Welcome!', 'success');
           },
           error: (error) => {
-            this.message(`Error: ${error}`, 'error');
+            this._utils.message(`Error: ${error}`, 'error');
           }
         });
       } else {
@@ -224,7 +225,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
                 this._auth.setAccount(address, key, stayLoggedIn, 'upload_file', arkey);
               }).catch((reason) => {
                 this._auth.logout();
-                this.message('Error loading key', 'error');
+                this._utils.message('Error loading key', 'error');
               });
             } catch (error) {
               this.passwordDialog();
@@ -234,7 +235,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
 
           },
           error: (error) => {
-            this.message(error, 'error');
+            this._utils.message(error, 'error');
           }
         });
         
@@ -245,17 +246,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
     });
   }
 
-  /*
-  *  Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 5000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
-  }
+  
 
 
     

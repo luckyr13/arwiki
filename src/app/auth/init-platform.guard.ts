@@ -6,7 +6,7 @@ import {
 import { Observable, of, interval } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
 import { UserSettingsService } from '../core/user-settings.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { UtilsService } from '../core/utils.service';
 import { Router } from '@angular/router';
 import { ArwikiLangIndex } from '../core/interfaces/arwiki-lang-index';
 import { ArweaveService } from '../core/arweave.service';
@@ -19,7 +19,7 @@ import { AuthService } from '../auth/auth.service';
 export class InitPlatformGuard implements CanActivate, CanActivateChild {
 	constructor(
 		private _userSettings: UserSettingsService,
-    private _snackBar: MatSnackBar,
+    private _utils: UtilsService,
     private _router: Router,
     private _arweave: ArweaveService,
     private _arwikiTokenContract: ArwikiTokenContract,
@@ -73,7 +73,7 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
           catchError(err => {
             // Loader
             this._userSettings.updateMainToolbarLoading(false);
-            this.message(err, 'error');
+            this._utils.message(err, 'error');
             this._router.navigate(['error']);
             return of(false);
           })          
@@ -118,7 +118,7 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
                 return of(true);
               }
               // Else
-              this.message('Language not supported', 'error');
+              this._utils.message('Language not supported', 'error');
 
               this._router.navigate(['/']);
 
@@ -145,19 +145,6 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
     return lang;
   }
 
-
-  /*
-   *  Custom snackbar message
-   */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 4000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
-  }
-
   isUserModerator() {
     const address = this._auth.getMainAddressSnapshot();
     this._userSettings.updateMainToolbarLoading(true);
@@ -178,7 +165,7 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
           return of(false);
         }),
         catchError((error) => {
-          this.message(error, 'error');
+          this._utils.message(error, 'error');
           return of(false);
         }) 
       )

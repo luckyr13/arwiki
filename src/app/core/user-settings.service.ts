@@ -149,30 +149,30 @@ export class UserSettingsService {
   *  Set default theme (Updates the href property)
   */
   setTheme(theme: string) {
-    const _ts: any = document.getElementById('LINK_MAIN_THEME');
+    const _ts: any = document.getElementsByTagName('body')[0];
 
     if (!_ts) {
       throw Error('Error updating theme');
     }
     switch (theme) {
       case 'arwiki-light':
-        _ts.href = `./assets/css/${theme}.css`;
+        _ts.className = theme;
         this.setDefaultTheme(theme);
       break;
       case 'arwiki-dark':
-        _ts.href = `./assets/css/${theme}.css`;
+        _ts.className = theme;
         this.setDefaultTheme(theme);
       break;
       case 'arwiki-peach':
-        _ts.href = `./assets/css/${theme}.css`;
+        _ts.className = theme;
         this.setDefaultTheme(theme);
       break;
       case 'arwiki-orange':
-        _ts.href = `./assets/css/${theme}.css`;
+        _ts.className = theme;
         this.setDefaultTheme(theme);
       break;
       case 'arwiki-yellow':
-        _ts.href = `./assets/css/${theme}.css`;
+        _ts.className = theme;
         this.setDefaultTheme(theme);
       break;
       default:

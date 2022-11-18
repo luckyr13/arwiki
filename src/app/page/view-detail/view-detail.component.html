@@ -133,9 +133,9 @@
 					{{ 'LOADING.LOADING_LABEL' | translate }}
 				</div>
 				<div class="col-12" *ngIf="tags.length">
-					<mat-chip-list>
-					  <mat-chip *ngFor="let tag of tags" [routerLink]="['/', routeLang, 'search', tag]" style="cursor: pointer">{{tag}}</mat-chip>
-					</mat-chip-list>
+					<mat-chip-listbox>
+					  <mat-chip-option *ngFor="let tag of tags" [routerLink]="['/', routeLang, 'search', tag]" style="cursor: pointer">{{tag}}</mat-chip-option>
+					</mat-chip-listbox>
 				</div>
 				<div class="col-12" *ngIf="!tags.length">
 					{{ 'GENERAL.LABELS.NO_RESULTS' | translate }}
@@ -151,11 +151,11 @@
 					{{ 'LOADING.LOADING_LABEL' | translate }}
 				</div>
 				<div class="col-12 tags-container" *ngIf="translations.length">
-					<mat-chip-list>
-					  <mat-chip
+					<mat-chip-listbox>
+					  <mat-chip-option
 					  	*ngFor="let translationLang of translations"
-					  	[routerLink]="['/', translationLang, routeSlug]" style="cursor: pointer">{{translationLang}}</mat-chip>
-					</mat-chip-list>
+					  	[routerLink]="['/', translationLang, routeSlug]" style="cursor: pointer">{{translationLang}}</mat-chip-option>
+					</mat-chip-listbox>
 				</div>
 				<div class="col-12 tags-container" *ngIf="!translations.length">
 					{{ 'GENERAL.LABELS.NO_RESULTS' | translate }}

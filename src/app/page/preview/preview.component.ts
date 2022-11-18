@@ -4,7 +4,7 @@ import DOMPurify from 'dompurify';
 import { Observable, Subscription, from } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ArweaveService } from '../../core/arweave.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { UtilsService } from '../../core/utils.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 import { ArwikiQuery } from '../../core/arwiki-query';
@@ -17,6 +17,8 @@ import 'prismjs/components/prism-rust';
 import 'prismjs/components/prism-go';
 import 'prismjs/components/prism-jsx';
 import 'prismjs/components/prism-json';
+declare const window: any;
+
 
 @Component({
   templateUrl: './preview.component.html',
@@ -35,7 +37,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
   	private _arweave: ArweaveService,
-  	private _snackBar: MatSnackBar,
+  	private _utils: UtilsService,
     private _location: Location
   ) { }
 
@@ -94,7 +96,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
               
 
             }, error: (error) => {
-              this.message(error, 'error');
+              this._utils.message(error, 'error');
               this.loadingPage = false;
             }
           });
@@ -102,7 +104,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
         }
       },
       error: (error) => {
-        this.message(error, 'error');
+        this._utils.message(error, 'error');
       }
     });
   }
@@ -115,19 +117,6 @@ export class PreviewComponent implements OnInit, OnDestroy {
   	var html = marked(_markdown);
 		var clean = DOMPurify.sanitize(html);
 		return clean;
-  }
-
-
-	/*
-  *  Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 3000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
   }
 
   goBack() {

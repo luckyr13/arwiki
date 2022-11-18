@@ -1,8 +1,7 @@
 import { Component, OnInit, OnDestroy, Input, ViewChild } from '@angular/core';
 import { ArwikiQuery } from '../../core/arwiki-query';
 import { ArweaveService } from '../../core/arweave.service';
-
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { UtilsService } from '../../core/utils.service';
 import { Observable, Subscription, EMPTY, of, from } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AuthService } from '../../auth/auth.service';
@@ -39,7 +38,7 @@ export class HistoryUpdatesApprovedComponent implements OnInit, OnDestroy {
   @ViewChild(MatTable) table: MatTable<any>|null = null;
 
   constructor(
-    private _snackBar: MatSnackBar,
+    private _utils: UtilsService,
     private _arweave: ArweaveService,
     private _auth: AuthService,
     private _userSettings: UserSettingsService,
@@ -98,7 +97,7 @@ export class HistoryUpdatesApprovedComponent implements OnInit, OnDestroy {
 
       },
       error: (error) => {
-        this.message(error, 'error');
+        this._utils.message(error, 'error');
         this.loading = false;
       }
     });
@@ -117,18 +116,6 @@ export class HistoryUpdatesApprovedComponent implements OnInit, OnDestroy {
       _img :
       _img ? `${this.baseURL}${_img}` : '';
     return res;
-  }
-
-  /*
-  *  Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 4000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
   }
 
   timestampToDate(_time: number) {

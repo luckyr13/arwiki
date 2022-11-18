@@ -4,7 +4,7 @@ import { Subscription, of, Observable } from 'rxjs';
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { ArweaveService } from '../core/arweave.service';
 import { ArwikiTokenContract } from '../core/arwiki-contracts/arwiki-token.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { UtilsService } from '../core/utils.service';
 import { ArwikiQuery } from '../core/arwiki-query';
 import { AuthService } from '../auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -52,7 +52,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     private _userSettings: UserSettingsService,
     private _arweave: ArweaveService,
     private _arwikiTokenContract: ArwikiTokenContract,
-    private _snackBar: MatSnackBar,
+    private _utils: UtilsService,
     private _auth: AuthService,
     private _route: ActivatedRoute,
     private _router: Router
@@ -73,7 +73,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
       networkInfo = await this._arweave.arweave.network.getInfo();
       maxHeight = networkInfo.height;
     } catch (error) {
-      this.message(`${error}`, 'error');
+      this._utils.message(`${error}`, 'error');
       return;
     }
 
@@ -127,7 +127,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
           this.loading = false;
         },
         error: (error: string) => {
-          this.message(`Error: ${error}`, 'error')
+          this._utils.message(`Error: ${error}`, 'error')
           this.loading = false;
         },
       })
@@ -154,7 +154,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
         
       },
       error: (error) => {
-        this.message(error, 'error');
+        this._utils.message(error, 'error');
         this.loadingLatestArticles = false;
       }
     });
@@ -196,7 +196,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
           this.loadingMainPageTX = false;
         },
         error: (error: string) => {
-          this.message(`Error: ${error}`, 'error')
+          this._utils.message(`Error: ${error}`, 'error')
           this.loadingMainPageTX = false;
         },
       })
@@ -343,19 +343,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
     }
 
     return ngStyle;    
-  }
-
-
-  /*
-  *  Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 4000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
   }
 
   /*

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { UserSettingsService } from '../../core/user-settings.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { UtilsService } from '../../core/utils.service';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.service';
 import { Observable, Subscription, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -37,7 +37,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
   	private _location: Location,
     private _userSettings: UserSettingsService,
-    private _snackBar: MatSnackBar,
+    private _utils: UtilsService,
     private _arwikiToken: ArwikiTokenContract,
     private _arweave: ArweaveService,
   ) { }
@@ -58,7 +58,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
               this.loading = false;
             },
             error: (msg) => {
-              this.message(msg, 'error');
+              this._utils.message(msg, 'error');
               this.loading = false;
             }
           });
@@ -77,18 +77,6 @@ export class HistoryComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.historySubscription.unsubscribe();
     this.diffSubscription.unsubscribe();
-  }
-
-  /*
-  *  Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 5000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
   }
 
   loadHistory(slug: string, lang: string): Observable<ArwikiPage[]> {
@@ -175,7 +163,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
         this.historyChLoad[currenthistoryId] = false;
       },
       error: (error) => {
-        this.message(`${error}`, 'error');
+        this._utils.message(`${error}`, 'error');
         this.historyChLoad[currenthistoryId] = false;
       }
     })

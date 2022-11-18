@@ -3,7 +3,7 @@ import * as marked from 'marked';
 import DOMPurify from 'dompurify';
 import { Observable, Subscription } from 'rxjs';
 import { ArweaveService } from '../../core/arweave.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { UtilsService } from '../../core/utils.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 import { ArwikiQuery } from '../../core/arwiki-query';
@@ -31,8 +31,6 @@ export class TagManagerComponent implements OnInit, OnDestroy {
   arwikiQuery!: ArwikiQuery;
   baseURL: string = this._arweave.baseURL;
   visible = true;
-  selectable = true;
-  removable = true;
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   tags: any[] = [];
@@ -48,7 +46,7 @@ export class TagManagerComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
   	private _arweave: ArweaveService,
-  	private _snackBar: MatSnackBar,
+  	private _utils: UtilsService,
     private _location: Location,
     private _dialog: MatDialog,
     private _auth: AuthService,
@@ -106,7 +104,7 @@ export class TagManagerComponent implements OnInit, OnDestroy {
         this.loadingPage = false;
       },
       error: (error) => {
-        this.message(error, 'error');
+        this._utils.message(error, 'error');
         this.loadingPage = false;
       }
     });
@@ -120,7 +118,7 @@ export class TagManagerComponent implements OnInit, OnDestroy {
       networkInfo = await this._arweave.arweave.network.getInfo();
       maxHeight = networkInfo.height;
     } catch (error) {
-      this.message(`${error}`, 'error');
+      this._utils.message(`${error}`, 'error');
       return;
     }
 
@@ -142,22 +140,8 @@ export class TagManagerComponent implements OnInit, OnDestroy {
         
       },
       error: (error) => {
-        this.message(error, 'error');
+        this._utils.message(error, 'error');
       }
-    });
-  }
-
-
-
-	/*
-  *  Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 5000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
     });
   }
 
@@ -246,9 +230,9 @@ export class TagManagerComponent implements OnInit, OnDestroy {
             
             this.savingTagsTX.push(tx);
           }
-          this.message('Success!', 'success');
+          this._utils.message('Success!', 'success');
         } catch (error) {
-          this.message(`${error}`, 'error');
+          this._utils.message(`${error}`, 'error');
         }
         this.loadingSavingTags = false;
 

@@ -3,12 +3,10 @@ import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.se
 import { Subscription } from 'rxjs';
 import { ArwikiPage } from '../../core/interfaces/arwiki-page';
 import { ActivatedRoute } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import {LiveAnnouncer} from '@angular/cdk/a11y';
 import {MatSort} from '@angular/material/sort';
-import { MatTable} from '@angular/material/table';
+import {MatTable, MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
 import { ArwikiCategory } from '../../core/interfaces/arwiki-category';
 import { ArwikiLang } from '../../core/interfaces/arwiki-lang';
 import { Location } from '@angular/common';
@@ -38,7 +36,6 @@ export class SitemapComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private _arwikiToken: ArwikiTokenContract,
     private _route: ActivatedRoute,
-    private _snackBar: MatSnackBar,
     private _liveAnnouncer: LiveAnnouncer,
     private _location: Location) { }
 
@@ -109,18 +106,6 @@ export class SitemapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
 
-  }
-
-  /*
-  *  Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 8000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
   }
 
   applyFilter(event: Event) {

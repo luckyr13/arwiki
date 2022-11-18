@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { ArweaveService } from '../../core/arweave.service';
 import { AuthService } from '../../auth/auth.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { UtilsService } from '../../core/utils.service';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.service';
 import { arwikiVersion } from '../../core/arwiki';
 
@@ -27,7 +27,7 @@ export class DialogVotePageComponent implements OnInit, OnDestroy {
   	@Inject(MAT_DIALOG_DATA) public data: any,
   	private _arweave: ArweaveService,
   	private _auth: AuthService,
-  	private _snackBar: MatSnackBar,
+  	private _utils: UtilsService,
   	private _arwikiTokenContract: ArwikiTokenContract) { }
 
   ngOnInit(): void {
@@ -78,7 +78,7 @@ export class DialogVotePageComponent implements OnInit, OnDestroy {
     if (sponsor == this._auth.getMainAddressSnapshot()) {
       const error = 'Invalid action. You are the sponsor!';
       this.errorMsg = `${error}`;
-      this.message(`${error}`, 'error');
+      this._utils.message(`${error}`, 'error');
       return;
     }
   	
@@ -97,22 +97,10 @@ export class DialogVotePageComponent implements OnInit, OnDestroy {
         }, 
         error: (error) => {
           this.errorMsg = `${error}`;
-          this.message(`${error}`, 'error');
+          this._utils.message(`${error}`, 'error');
         }
       })
   	
-  }
-
-	/*
-  *  Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 5000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
   }
 
 }

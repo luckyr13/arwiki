@@ -5,7 +5,7 @@ import {
 	RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { UtilsService } from '../core/utils.service';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 export class AuthGuard implements CanActivate, CanActivateChild {
 	constructor(
 		private _auth: AuthService,
-    private _snackBar: MatSnackBar,
+    private _utils: UtilsService,
     private _router: Router
 	) {
 
@@ -36,24 +36,9 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 
   isLoggedIn() {
     if (!this._auth.getMainAddressSnapshot()) {
-      this.message('Please login first!', 'error');
+      this._utils.message('Please login first!', 'error');
       this._router.navigate(['/']);
     }
     return !!this._auth.getMainAddressSnapshot();
-  }
-
-  /*
-  *  Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 8000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
-  }
-
-
-  
+  } 
 }

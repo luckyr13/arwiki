@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, HostListener } from '@angular/core';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { UtilsService } from '../../core/utils.service';
 import { ArweaveService } from '../../core/arweave.service';
 import { Observable, Subscription, EMPTY, of, from } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
@@ -58,7 +58,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   pstSettingsSubscription: Subscription = Subscription.EMPTY;
   
   constructor(
-  	private _snackBar: MatSnackBar,
+  	private _utils: UtilsService,
   	private _arweave: ArweaveService,
     private _auth: AuthService,
     private _userSettings: UserSettingsService,
@@ -78,7 +78,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.loadingBalance = false;
         },
         error: (error) => {
-          this.message(error, 'error');
+          this._utils.message(error, 'error');
           this.loadingBalance = false;
         }
       });
@@ -101,7 +101,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.loadDataChartMyBalance(unlockedBalance, vaultBalance, stakingBalance, totalSupply);
         },
         error: (error) => {
-          this.message(error, 'error');
+          this._utils.message(error, 'error');
           this.loadingBalancePST = false;
         }
       });
@@ -116,7 +116,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.loadingTotalSupply = false;
         },
         error: (error) => {
-          this.message(error, 'error');
+          this._utils.message(error, 'error');
           this.loadingTotalSupply = false;
         }
       });
@@ -131,7 +131,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.loadingAllBalances = false;
         },
         error: (error) => {
-          this.message(error, 'error');
+          this._utils.message(error, 'error');
           this.loadingAllBalances = false;
         }
       });
@@ -143,7 +143,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.currentHeight = networkInfo.height;
         },
         error: (error) => {
-          this.message(error, 'error');
+          this._utils.message(error, 'error');
 
         }
       });
@@ -208,7 +208,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.loadingSettings = false;
         },
         error: (error) => {
-          this.message(error, 'error');
+          this._utils.message(error, 'error');
           this.loadingSettings = false;
         }
       });
@@ -226,19 +226,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.allBalancesSubscription.unsubscribe();
     this.networkInfoSubscription.unsubscribe();
   }
-
-  /*
-  *	Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 4000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
-  }
-
 
   goBack() {
     this._location.back();

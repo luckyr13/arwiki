@@ -22,11 +22,11 @@
 		</div>
 		<div class="col-12">
 			<strong>Current tags:</strong>
-			<mat-chip-list aria-label="Current tags">
-			  <mat-chip color="primary" selected *ngFor="let ct of currentTags">
+			<mat-chip-listbox aria-label="Current tags">
+			  <mat-chip-option color="primary" selected *ngFor="let ct of currentTags">
 			  	{{ ct }}
-			 	</mat-chip>
-			</mat-chip-list>
+			 	</mat-chip-option>
+			</mat-chip-listbox>
 		</div>
 
 		<div class="col-12 text-center" *ngIf="!loadingSavingTags && !savingTagsTX.length">
@@ -34,15 +34,13 @@
 			<form [formGroup]="frmTags" (ngSubmit)="onSubmit()">
 				<mat-form-field id="tags-input-container" class="w70">
 				  <mat-label>Tags</mat-label>
-				  <mat-chip-list #chipList class="tags-input" aria-label="Add tags">
-				   	<mat-chip 
+				  <mat-chip-grid #chipList class="tags-input" aria-label="Add tags">
+				   	<mat-chip-row 
 					   	*ngFor="let tag of tags" 
-					   	[selectable]="selectable"
-	            [removable]="removable"
 	            (removed)="remove(tag)">
 	      				{{tag.name}}
-	    				<mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-	  				</mat-chip>
+	    				<mat-icon matChipRemove>cancel</mat-icon>
+	  				</mat-chip-row>
 				    <input 
 				    	placeholder="Add tag..."
 				    	formControlName="newTags"
@@ -50,7 +48,7 @@
 							[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
 							[matChipInputAddOnBlur]="addOnBlur"
 							(matChipInputTokenEnd)="add($event)">
-				  </mat-chip-list>
+				  </mat-chip-grid>
 	    		<mat-hint align="start">Separate tags by comma</mat-hint>
 				</mat-form-field>
 				<div class="text-center">

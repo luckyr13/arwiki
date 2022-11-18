@@ -7,7 +7,7 @@ import * as marked from 'marked';
 import DOMPurify from 'dompurify';
 import { Observable, Subscription, of} from 'rxjs';
 import { ArweaveService } from '../../core/arweave.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { UtilsService } from '../../core/utils.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.service';
@@ -84,7 +84,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private _router: Router,
   	private _arweave: ArweaveService,
-  	private _snackBar: MatSnackBar,
+  	private _utils: UtilsService,
     private _location: Location,
     private _arwikiTokenContract: ArwikiTokenContract,
     private _userSettings: UserSettingsService,
@@ -153,7 +153,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
       networkInfo = await this._arweave.arweave.network.getInfo();
       maxHeight = networkInfo.height;
     } catch (error) {
-      this.message(`${error}`, 'error');
+      this._utils.message(`${error}`, 'error');
       return;
     }
    
@@ -255,7 +255,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
 
             },
             error: (error) => {
-              this.message(`${error}`, 'error');
+              this._utils.message(`${error}`, 'error');
               this.loadingTags = false;
             }
           });
@@ -274,7 +274,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
 
             },
             error: (error) => {
-              this.message(`${error}`, 'error');
+              this._utils.message(`${error}`, 'error');
               this.loadingTranslations = false;
             }
           });
@@ -282,14 +282,14 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   			} else {
           this.pageData.content = '';
           this.pageNotFound = true;
-  				this.message('Page not found', 'error')
+  				this._utils.message('Page not found', 'error')
           this.loadingPage = false;
   			}
 
 
   		},
   		error: (error) => {
-  			this.message(error, 'error')
+  			this._utils.message(error, 'error')
         this.loadingPage = false;
         this.pageData.content = '';
         this.pageNotFound = true;
@@ -313,19 +313,6 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
 
   removeHTMLfromStr(_html: string) {
     return DOMPurify.sanitize(_html, {ALLOWED_TAGS: []});
-  }
-
-
-	/*
-  *  Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 5000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
   }
 
   goBack() {
@@ -542,13 +529,13 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
       ).subscribe({
         next: (tx) => {
           if (tx) {
-            this.message(`Success ${tx}`, 'success');
+            this._utils.message(`Success ${tx}`, 'success');
           }
           this.loadingUpdateSponsorPage = false;
 
         },
         error: (error) => {
-          this.message(`${error}`, 'error');
+          this._utils.message(`${error}`, 'error');
           this.loadingUpdateSponsorPage = false;
         }
       });
@@ -587,10 +574,10 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
             arwikiVersion[0]
           ); 
 
-          this.message('Success!', 'success');
+          this._utils.message('Success!', 'success');
           this.loadingStopStake = false;
         } catch (error) {
-          this.message(`${error}`, 'error');
+          this._utils.message(`${error}`, 'error');
           this.loadingStopStake = false;
         }
 
@@ -671,7 +658,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     this._stampsDialogRef.afterClosed().subscribe(async (result) => {
       this._stampsDialogRef = null;
       if (result) {
-        this.message('Coming soon!', 'warning');
+        this._utils.message('Coming soon!', 'warning');
       }
     });
   }

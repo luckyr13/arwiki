@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import {MAT_BOTTOM_SHEET_DATA} from '@angular/material/bottom-sheet';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { UtilsService } from '../../core/utils.service';
 declare const window: any;
 
 @Component({
@@ -17,7 +17,7 @@ export class BottomSheetShareComponent implements OnInit {
   constructor(
   	@Inject(MAT_BOTTOM_SHEET_DATA) public data: {title: string, img: string, content: string},
     private _clipboard: Clipboard,
-    private _snackBar: MatSnackBar) { }
+    private _utils: UtilsService) { }
 
   ngOnInit(): void {
   	this.fullURL = `${window.location.href}`;
@@ -25,19 +25,7 @@ export class BottomSheetShareComponent implements OnInit {
 
   private _copyLinkToClipboard() {
     this._clipboard.copy(this.fullURL);
-    this.message('Link copied!', 'success', 'top');
-  }
-
-  /*
-  *  Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 3000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
+    this._utils.message('Link copied!', 'success', 'top');
   }
 
   shareInSocialMedia(_socialMediaOption: string) {
@@ -63,7 +51,7 @@ export class BottomSheetShareComponent implements OnInit {
   			this._copyLinkToClipboard();
   		break;
   		default:
-  			this.message('Option not found!', 'error');
+  			this._utils.message('Option not found!', 'error');
   		break;
   	}
   }

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ArweaveService } from '../../core/arweave.service';
 import { Observable, Subscription, EMPTY, of, from } from 'rxjs';
 import { AuthService } from '../../auth/auth.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { UtilsService } from '../../core/utils.service';
 import { switchMap } from 'rxjs/operators';
 import {MatDialog} from '@angular/material/dialog';
 import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confirm.component';
@@ -50,7 +50,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
   constructor(
   	private _arweave: ArweaveService,
     private _auth: AuthService,
-    private _snackBar: MatSnackBar,
+    private _utils: UtilsService,
     public _dialog: MatDialog,
     private _route: ActivatedRoute,
     private _userSettings: UserSettingsService,
@@ -76,7 +76,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
       networkInfo = await this._arweave.arweave.network.getInfo();
       maxHeight = networkInfo.height;
     } catch (error) {
-      this.message(`${error}`, 'error');
+      this._utils.message(`${error}`, 'error');
       return;
     }
 
@@ -132,7 +132,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
         
       },
       error: (error) => {
-        this.message(error, 'error');
+        this._utils.message(error, 'error');
         this.loadingApprovedPages = false;
       }
     });
@@ -143,22 +143,10 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
         this.currentBlockHeight = height;
       },
       error: (error) => {
-        this.message(error, 'error');
+        this._utils.message(error, 'error');
       }
     });
 
-  }
-
-  /*
-  *	Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 8000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
   }
 
   /*
@@ -211,9 +199,9 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
           ); 
 
           this.deleteTxMessage = tx;
-          this.message('Success!', 'success');
+          this._utils.message('Success!', 'success');
         } catch (error) {
-          this.message(`${error}`, 'error');
+          this._utils.message(`${error}`, 'error');
         }
 
       }
@@ -251,9 +239,9 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
           ); 
 
           this.setMainTxMessage = tx;
-          this.message('Success!', 'success');
+          this._utils.message('Success!', 'success');
         } catch (error) {
-          this.message(`${error}`, 'error');
+          this._utils.message(`${error}`, 'error');
         }
 
       }
@@ -304,12 +292,12 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
         next: (tx) => {
           if (tx) {
             this.stopStakeTxMessage = `${tx}`;
-            this.message('Success!', 'success');
+            this._utils.message('Success!', 'success');
           }
           //this.loadingStopStake = false;
         },
         error: (error) => {
-          this.message(`${error}`, 'error');
+          this._utils.message(`${error}`, 'error');
           //this.loadingStopStake = false;
         }
       });
@@ -361,12 +349,12 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
       next: (tx) => {
         if (tx) {
           this.updateSponsorPageTxMessage = `${tx}`;
-          this.message('Success!', 'success');
+          this._utils.message('Success!', 'success');
         }
       },
       error: (error) => {
         this.updateSponsorPageTxErrorMessage = `${error}`;
-        this.message(`${error}`, 'error');
+        this._utils.message(`${error}`, 'error');
       }
     });
   }

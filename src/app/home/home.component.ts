@@ -3,7 +3,7 @@ import { UserSettingsService } from '../core/user-settings.service';
 import { ArweaveService } from '../core/arweave.service';
 import { Observable, Subscription } from 'rxjs';
 import { ArwikiTokenContract } from '../core/arwiki-contracts/arwiki-token.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { UtilsService } from '../core/utils.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
     private _userSettings: UserSettingsService,
     private _arweave: ArweaveService,
     private _arwikiTokenContract: ArwikiTokenContract,
-    private _snackBar: MatSnackBar,
+    private _utils: UtilsService,
     private _router: Router
   ) { }
 
@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit {
             this.loading = false;
           },
           error: (error) => {
-            this.message(error, 'error');
+            this._utils.message(error, 'error');
             this.loading = false;
           }
         });
@@ -66,19 +66,6 @@ export class HomeComponent implements OnInit {
       this.appSettingsSubscription.unsubscribe();
     }
   }
-
-  /*
-  *  Custom snackbar message
-  */
-  message(msg: string, panelClass: string = '', verticalPosition: any = undefined) {
-    this._snackBar.open(msg, 'X', {
-      duration: 5000,
-      horizontalPosition: 'center',
-      verticalPosition: verticalPosition,
-      panelClass: panelClass
-    });
-  }
-
 
   getSkeletonLoaderAnimationType() {
     let type = 'progress';
@@ -113,7 +100,7 @@ export class HomeComponent implements OnInit {
   }
 
   getSkeletonLoaderThemeNgStyle3() {
-    let ngStyle: any = {
+    let ngStyle: Record<string, string> = {
       'height.px': '32',
       'width.px': '240'
     };
