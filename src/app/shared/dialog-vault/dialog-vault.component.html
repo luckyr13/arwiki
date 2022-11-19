@@ -3,9 +3,9 @@
 	<span>Vault</span>
 </h2>
 	<mat-dialog-content>
-		<mat-tab-group animationDuration="0ms">
-		  <mat-tab label="Lock balance" class="tab-container">
-		  	<div *ngIf="loadingSendTokens">
+		<mat-tab-group color="accent" class=" container">
+		  <mat-tab label="Lock balance" class="tab-container row">
+		  	<div *ngIf="loadingSendTokens" class="col-12">
 					<div *ngIf="!transferTX" class="text-center">
 						<mat-progress-bar mode="indeterminate"></mat-progress-bar>
 						🔐 Locking tokens, please hold on ...
@@ -26,9 +26,9 @@
 				    Error: {{errorMsg  }}
 					</div>
 				</div>
-		  	<form [formGroup]="frmTransfer" (ngSubmit)="onSubmit()" class="frm-transfer">
+		  	<form [formGroup]="frmTransfer" (ngSubmit)="onSubmit()" class="frm-transfer col-12">
 					<ng-container *ngIf="!loadingSendTokens">
-					  <mat-form-field appearance="outline" hintLabel="Min lock length: {{ data.lockMinLength }} blocks {{ formatBlocks(data.lockMinLength) }}">
+					  <mat-form-field class="col-12" color="accent" appearance="outline" hintLabel="Min lock length: {{ data.lockMinLength }} blocks {{ formatBlocks(data.lockMinLength) }}">
 					    <mat-label>Block length</mat-label>
 					    <input 
 					    	matInput 
@@ -40,7 +40,7 @@
 					    	formControlName="lockLength">
 					    <mat-hint class="link" (click)="lockLength!.setValue(data.lockMaxLength)" align="end">Use max</mat-hint>
 					  </mat-form-field>
-					  <mat-form-field appearance="outline" hintLabel="Total $WIKI available: {{ data.balance }}">
+					  <mat-form-field class="col-12" color="accent" appearance="outline" hintLabel="Total $WIKI available: {{ data.balance }}">
 					    <mat-label>Amount</mat-label>
 					    <input 
 					    	matInput 
@@ -55,9 +55,10 @@
 					  </mat-form-field>
 					</ng-container>
 					<button 
-				  	mat-button 
+				  	mat-flat-button 
 				  	class="big-btn"
 				  	type="submit" 
+				  	color="accent"
 				  	[disabled]="!frmTransfer.valid || loadingSendTokens">
 				  	<mat-icon>lock</mat-icon> Lock balance
 				  </button>
@@ -99,7 +100,7 @@
 						<tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
 						<tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
 					</table>
-					<mat-paginator [pageSizeOptions]="[5, 10, 20]"
+					<mat-paginator color="accent" [pageSizeOptions]="[5, 10, 20]"
 				                 showFirstLastButtons 
 				                 aria-label="Select page of vault">
 				  </mat-paginator>
@@ -129,9 +130,10 @@
 						</div>
 					</div>
 		  		<button 
-				  	mat-button 
+				  	mat-flat-button 
 				  	class="big-btn"
 				  	type="button"
+				  	color="accent"
 				  	[disabled]="loadingUnlockVault"
 				  	(click)="unlockVault()">
 				  	<mat-icon class="yellow">vpn_key</mat-icon> Unlock vault

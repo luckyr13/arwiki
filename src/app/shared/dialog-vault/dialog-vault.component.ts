@@ -92,7 +92,15 @@ export class DialogVaultComponent implements OnInit, AfterViewInit, OnDestroy  {
         arwikiVersion[0]
       ).subscribe({
         next: (res) => {
-          this.transferTX = `${res}`;
+          let tx = '';
+          if (res && Object.prototype.hasOwnProperty.call(res, 'originalTxId')) {
+            tx = res.originalTxId;
+          } else if (res && Object.prototype.hasOwnProperty.call(res, 'bundlrResponse') &&
+            res.bundlrResponse && Object.prototype.hasOwnProperty.call(res.bundlrResponse, 'id')) {
+            tx = res.bundlrResponse.id;
+          }
+
+          this.transferTX = `${tx}`;
         }, 
         error: (error) => {
           this.errorMsg = `${error}`;
@@ -114,7 +122,15 @@ export class DialogVaultComponent implements OnInit, AfterViewInit, OnDestroy  {
         arwikiVersion[0]
       ).subscribe({
         next: (res) => {
-          this.unlockVaultTX = `${res}`;
+          let tx = '';
+          if (res && Object.prototype.hasOwnProperty.call(res, 'originalTxId')) {
+            tx = res.originalTxId;
+          } else if (res && Object.prototype.hasOwnProperty.call(res, 'bundlrResponse') &&
+            res.bundlrResponse && Object.prototype.hasOwnProperty.call(res.bundlrResponse, 'id')) {
+            tx = res.bundlrResponse.id;
+          }
+
+          this.unlockVaultTX = `${tx}`;
         },
         error: (error) => {
           this.errorMsg = `${error}`;

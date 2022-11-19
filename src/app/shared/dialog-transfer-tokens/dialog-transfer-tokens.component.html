@@ -48,8 +48,9 @@
 	</mat-dialog-content>
 	<mat-dialog-actions align="end" class="actions">
 	  <button 
-	  	mat-button 
+	  	mat-flat-button 
 	  	type="submit" 
+	  	color="accent"
 	  	[disabled]="!frmTransfer.valid || loadingSendTokens">
 	  	<mat-icon>send</mat-icon> {{ 'TOKEN_TRANSFER_DIALOG.SEND' | translate }}
 	  </button>
