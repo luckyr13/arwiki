@@ -27,49 +27,51 @@
 	<div class="container page-container fadeIn" *ngIf="!newPageTX && !loadingPageData && !pageNotFound">
 			<div class="row">
 				<div class="col-12 col-md-6">
-					<mat-form-field class="w100" appearance="outline">
+					<mat-form-field class="w100" appearance="outline" color="accent">
 					  <mat-label>Id</mat-label>
 					  <input
 					  	formControlName="pageId"
 					  	matInput
 					  	maxlength="50">
-		    		<mat-hint align="end">{{pageId.value.length}} / 50</mat-hint>
+		    		<mat-hint class="small-hint" align="end">{{pageId.value.length}} / 50</mat-hint>
 					</mat-form-field>
-					<mat-form-field class="w100" appearance="outline">
+					<mat-form-field class="w100" appearance="outline" color="accent">
 					  <mat-label>{{ 'EDIT_PAGE.FRM_TITLE' | translate }}</mat-label>
 					  <input
 					  	formControlName="title"
 					  	matInput
 					  	autocomplete="off"
 					  	maxlength="150">
-		    		<mat-hint align="end">{{title!.value.length}} / 150</mat-hint>
+		    		<mat-hint class="small-hint" align="end">{{title!.value.length}} / 150</mat-hint>
 					</mat-form-field>
 					<div class="author-address">
 						<strong>{{ 'EDIT_PAGE.FRM_BY' | translate }}</strong> {{ authorAddress }}
 					</div>
-					<mat-form-field class="w100" appearance="outline">
+					<mat-form-field class="w100" appearance="outline" color="accent">
 					  <mat-label>{{ 'EDIT_PAGE.FRM_SLUG' | translate }}</mat-label>
 					  <input
 					  	formControlName="slug"
 					  	matInput
 					  	maxlength="150">
-		    		<mat-hint align="end">{{slug!.value.length}} / 150</mat-hint>
+		    		<mat-hint class="small-hint" align="end">{{slug!.value.length}} / 150</mat-hint>
 					</mat-form-field>
 					<div class="w100" appearance="outline">
 					  <p>Page value in $WIKI tokens</p>
 					  <mat-slider 
+					  	color="accent"
 					  	class="w100" 
-					  	formControlName="pageValue" 
 					  	min="0" 
 					  	max="1000" 
   					[displayWith]="formatLabel"
 					  	thumbLabel
 					  	tickInterval="1"
-					  	step="1"></mat-slider>
+					  	step="1">
+					  		<input matSliderThumb formControlName="pageValue" >
+					  	</mat-slider>
 					  <div class="mat-hint small-hint text-right">{{pageValue!.value}} $WIKI tokens</div>
 					</div>
 					
-					<mat-form-field class="w50" appearance="outline" >
+					<mat-form-field class="w50" appearance="outline" color="accent">
 						<mat-label *ngIf="!categoryList || !categoryList.length">{{ 'EDIT_PAGE.FRM_LOADING' | translate }}</mat-label>
 					  <mat-label *ngIf="categoryList && categoryList.length">{{ 'EDIT_PAGE.FRM_CATEGORY' | translate }}</mat-label>
 					  <mat-select 
@@ -79,7 +81,7 @@
 					    </mat-option>
 					  </mat-select>
 					</mat-form-field>
-					<mat-form-field class="w50" style="padding-left: 20px;" appearance="outline" >
+					<mat-form-field class="w50" style="padding-left: 20px;" appearance="outline" color="accent">
 						<mat-label *ngIf="!languageList || !languageList.length">{{ 'EDIT_PAGE.FRM_LOADING' | translate }}</mat-label>
 					  <mat-label *ngIf="languageList && languageList.length">{{ 'EDIT_PAGE.FRM_LANGUAGE' | translate }}</mat-label>
 					  <mat-select 
@@ -146,7 +148,7 @@
 			    	mat-flat-button
 			    	type="submit"
 			    	[disabled]="!frmNew.valid ||  loadingFrm"
-			    	color="primary">
+			    	color="accent">
 			    	<mat-icon>send</mat-icon>
 			    	{{ 'EDIT_PAGE.FRM_BTN_SAVE' | translate }}
 			    </button>

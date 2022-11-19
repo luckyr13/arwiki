@@ -24,7 +24,7 @@
 	<div class="container page-container fadeIn" *ngIf="!newPageTX">
 			<div class="row">
 				<div class="col-12 col-md-6">
-					<mat-form-field class="w100" appearance="outline">
+					<mat-form-field class="w100" appearance="outline" color="accent">
 					  <mat-label>{{ 'CREATE_PAGE.FRM_TITLE' | translate }}</mat-label>
 					  <input
 					  	formControlName="title"
@@ -37,7 +37,7 @@
 					<div class="author-address">
 						<strong>{{ 'CREATE_PAGE.FRM_BY' | translate }}</strong> {{ authorAddress }}
 					</div>
-					<mat-form-field class="w100" appearance="outline">
+					<mat-form-field class="w100" appearance="outline" color="accent">
 					  <mat-label>{{ 'CREATE_PAGE.FRM_SLUG' | translate }}</mat-label>
 					  <input
 					  	formControlName="slug"
@@ -51,17 +51,19 @@
 					  <p>Page value in $WIKI tokens</p>
 					  <mat-slider 
 					  	class="w100" 
-					  	formControlName="pageValue" 
 					  	min="1" 
 					  	max="1000" 
   					[displayWith]="formatLabel"
 					  	thumbLabel
 					  	tickInterval="1"
-					  	step="1"></mat-slider>
+					  	step="1"
+					  	color="accent">
+				  		<input matSliderThumb formControlName="pageValue" >
+				  	</mat-slider>
 					  <div class="mat-hint small-hint text-right">{{pageValue!.value}} $WIKI tokens</div>
 					</div>
 					
-					<mat-form-field class="w50" appearance="outline" >
+					<mat-form-field class="w50" appearance="outline" color="accent">
 						<mat-label *ngIf="!categoryList || !categoryList.length">{{ 'CREATE_PAGE.FRM_LOADING' | translate }}</mat-label>
 					  <mat-label *ngIf="categoryList && categoryList.length">{{ 'CREATE_PAGE.FRM_CATEGORY' | translate }}</mat-label>
 					  <mat-select 
@@ -71,7 +73,7 @@
 					    </mat-option>
 					  </mat-select>
 					</mat-form-field>
-					<mat-form-field class="w50" style="padding-left: 20px;" appearance="outline" >
+					<mat-form-field class="w50" style="padding-left: 20px;" appearance="outline" color="accent">
 						<mat-label *ngIf="!languageList || !languageList.length">{{ 'CREATE_PAGE.FRM_LOADING' | translate }}</mat-label>
 					  <mat-label *ngIf="languageList && languageList.length">{{ 'CREATE_PAGE.FRM_LANGUAGE' | translate }}</mat-label>
 					  <mat-select 
@@ -139,7 +141,7 @@
 			    	mat-flat-button
 			    	type="submit"
 			    	[disabled]="!frmNew.valid ||  loadingFrm"
-			    	color="primary">
+			    	color="accent">
 			    	<mat-icon>save</mat-icon>
 			    	{{ 'CREATE_PAGE.FRM_BTN_SAVE' | translate }}
 			    </button>

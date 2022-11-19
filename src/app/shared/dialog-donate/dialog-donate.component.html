@@ -24,17 +24,19 @@
     <p class="col-12 mini-text">
       <strong>{{ 'DONATE_DIALOG.CHOOSE_AMOUNT' | translate }} </strong>
     </p>
-  	<div  class="col-12 text-center mini-text">
+  	<div class="text-center mini-text container-slider">
   		<mat-slider
-        [(ngModel)]="amount"
         tickInterval="1"
         step="0.00001"
         min="0"
         [disabled]="loadingBalance"
         [max]="maxAmount"
-        aria-label="AR"></mat-slider>
+        aria-label="AR"
+        color="accent">
+          <input matSliderThumb [(ngModel)]="amount">
+        </mat-slider>
   	</div>
-    <div  class="col-12 text-right ">
+    <div  class="col-12 text-right clear-both">
       {{ amount }} AR
     </div>
   </div>

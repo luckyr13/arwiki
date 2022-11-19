@@ -106,7 +106,7 @@
   </button>
   <mat-menu #accountMenu="matMenu">
     <div class="user-info-container" *ngIf="account">
-      <h3 *ngIf="profile && profile.name" class="big-username"> {{ profile.name }} </h3>
+      <h3 *ngIf="profile && profile.name" class="big-username ellipsis"> {{ profile.name }} </h3>
       <div>
         <app-arweave-address
           [address]="account"

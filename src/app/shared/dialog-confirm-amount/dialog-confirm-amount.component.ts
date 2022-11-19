@@ -8,14 +8,15 @@ import { UntypedFormControl } from '@angular/forms';
   styleUrls: ['./dialog-confirm-amount.component.scss']
 })
 export class DialogConfirmAmountComponent implements OnInit {
-	pageValue: UntypedFormControl = new UntypedFormControl(this.data.pageValue);
-
+	pageValue: UntypedFormControl = new UntypedFormControl(0);
+  maxValue = 0;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
     const pageValue = +this.data.pageValue;
     if (Number.isInteger(pageValue)) {
-      this.pageValue.setValue(pageValue);
+      // this.pageValue.setValue(pageValue);
+      this.maxValue = 1000 + pageValue;
     }
   }
 
