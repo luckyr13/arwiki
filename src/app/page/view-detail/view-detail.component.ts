@@ -529,8 +529,9 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
       ).subscribe({
         next: (tx) => {
           if (tx) {
-            this._utils.message(`Success ${tx}`, 'success');
+            this._utils.message(`Success!`, 'success');
           }
+          console.log('raw', tx);
           this.loadingUpdateSponsorPage = false;
 
         },

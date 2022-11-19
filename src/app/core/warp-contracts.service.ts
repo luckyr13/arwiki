@@ -35,7 +35,8 @@ export class WarpContractsService {
     input: any,
     tags?: Tags,
     transfer?: ArTransfer,
-    strict: boolean = true): Observable<WriteInteractionResponse | null> {
+    strict: boolean = true,
+    disableBundling = false): Observable<WriteInteractionResponse | null> {
     const contract = this._warp
       .contract(contractAddress)
       .connect(jwk)
@@ -43,7 +44,8 @@ export class WarpContractsService {
         // with this flag set to true, the write will wait for the transaction to be confirmed
         waitForConfirmation: false,
       });
-    const options = { tags: tags, strict: strict, transfer: transfer }
+    const options = { tags: tags, strict: strict, transfer: transfer, disableBundling: disableBundling };
+
     return from(contract.writeInteraction(input, options));
   }
 }

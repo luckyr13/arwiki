@@ -587,9 +587,10 @@ export class ArwikiTokenContract
     };
     _qty = this._arweave.arToWinston(_qty);
     const transfer = {target: _target, winstonQty: _qty};
-    
+    const strict = true;
+    const disableBundler = true;
     return this._warp.writeInteraction(
-      this._contractAddress, jwk, input, tags, transfer
+      this._contractAddress, jwk, input, tags, transfer, strict, disableBundler
     );
   }
 
