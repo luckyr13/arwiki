@@ -18,6 +18,7 @@
 	<div class="row fadeIn" *ngIf="!loadingPages && !errorLoadingCategory">
 		<div class="col-12">
 			<mat-paginator
+				color="accent"
 				(page)="paginatorEvent($event)"
 		    [length]="paginatorLength"
 		    [pageSize]="paginatorPageSize"
@@ -52,6 +53,7 @@
 	<div class="row fadeIn footer-paginator" *ngIf="!loadingPages && !errorLoadingCategory">
 		<div class="col-12">
 			<mat-paginator
+				color="accent"
 				(page)="paginatorEvent($event)"
 		    [length]="paginatorLength"
 		    [pageSize]="paginatorPageSize"
