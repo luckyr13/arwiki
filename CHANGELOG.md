@@ -1,5 +1,11 @@
 # ArWiki versions
 
+## 1.9
+- Backup (2022-11-19):  
+- Upgrade from Angular 14 to Angular 15
+- ArVerify replaced by VouchDAO
+- Minor fixes
+
 ## 1.8
 - Backup (2022-11-02): https://arweave.net/OC8IxOQvIoHFLGyV9nFM-g-OcvN7fZa1uoNMMt_lUyg
 - Sitemap added.
