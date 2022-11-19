@@ -64,10 +64,18 @@ export class DialogTransferTokensComponent implements OnInit, OnDestroy {
 			arwikiVersion[0]
 		).subscribe({
       next: (res) => {
-        this.transferTX = `${res}`
+        let tx = '';
+        if (res && Object.prototype.hasOwnProperty.call(res, 'originalTxId')) {
+          tx = res.originalTxId;
+        } else if (res && Object.prototype.hasOwnProperty.call(res, 'bundlrResponse') &&
+          res.bundlrResponse && Object.prototype.hasOwnProperty.call(res.bundlrResponse, 'id')) {
+          tx = res.bundlrResponse.id;
+        }
+        this.transferTX = `${tx}`
       },
       error: (error) => {
-        this._utils.message(`${error}`, 'error');
+        console.error('transferTokens', error);
+        this._utils.message(`Error sending tokens.`, 'error');
         this._dialogRef.close();
       }
     });
