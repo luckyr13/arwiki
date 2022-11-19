@@ -103,8 +103,9 @@ export class DialogVaultComponent implements OnInit, AfterViewInit, OnDestroy  {
           this.transferTX = `${tx}`;
         }, 
         error: (error) => {
-          this.errorMsg = `${error}`;
-          this._utils.message(`${error}`);
+          console.error('lockTokensInVault', error);
+          this.errorMsg = `Error locking tokens!`;
+          this._utils.message(`Error locking tokens!`, 'error');
         }
       })
     
@@ -133,8 +134,9 @@ export class DialogVaultComponent implements OnInit, AfterViewInit, OnDestroy  {
           this.unlockVaultTX = `${tx}`;
         },
         error: (error) => {
-          this.errorMsg = `${error}`;
-          this._utils.message(`${error}`, 'error');
+          console.error('unlockVault', error);
+          this.errorMsg = `Error unlocking vault!`;
+          this._utils.message(`Error unlocking vault!`, 'error');
         }
       });
   }
