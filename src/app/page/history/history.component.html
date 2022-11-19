@@ -23,30 +23,31 @@
 			<mat-card class="card-history">
 				<mat-list>
 					<ng-container *ngFor="let h of historyList; index as i; count as total">
-						<mat-list-item 
+						<div 
 							class="card-history-list-item">
-							<img matListAvatar class="card-history-list-item-img md-show" *ngIf="h.img" [src]="h.img" alt="Mini">
-    					<p matLine>
-					      <img matListAvatar class="card-history-list-item-img xs-show" *ngIf="h.img" [src]="h.img" alt="Mini">
+							<img class="card-history-list-item-img md-show" *ngIf="h.img" [src]="h.img" alt="Mini">
+    					<p >
+					      <img  class="card-history-list-item-img xs-show" *ngIf="h.img" [src]="h.img" alt="Mini">
 					    </p>
-					    <p matLine>
+					    <p >
 					      <app-arweave-address [address]="h.id" [isAddress]="false">TX ({{total - i}}): </app-arweave-address>
 					      <app-arweave-address
 					      	*ngIf="total - i != 1"
+					      	[showHandleInAddress]="false"
 					      	[address]="h.sponsor!"
 					      	[lang]="routeLang">Approved by: </app-arweave-address>
 					    </p>
-					    <p matLine>
+					    <p >
 						    <span> 
 						    	<strong>TX timestamp:</strong> {{ timestampToDate(h.block.timestamp) }}
 						    </span>
 					    </p>
-					    <p matLine>
+					    <p >
 					      <span> 
 						      <strong>Approved at block:</strong> {{ h.start }}
 						    </span>
 					    </p>
-					    <p matLine class="text-right">
+					    <p  class="text-right">
 						    <a
 								  mat-button
 								  class="card-btn"
@@ -54,7 +55,6 @@
 									<mat-icon>visibility</mat-icon>
 									Page preview
 								</a>
-
 								<button
 								  mat-button
 								  class="card-btn"
@@ -63,8 +63,8 @@
 									Show Diff
 								</button>
 					    </p>
-						</mat-list-item>
-						<mat-spinner diameter="40" class="spinner-center"  *ngIf="historyChLoad && historyChLoad[i]"></mat-spinner>
+						</div>
+						<mat-spinner color="accent" diameter="40" class="spinner-center"  *ngIf="historyChLoad && historyChLoad[i]"></mat-spinner>
 						<div class="changes-container" *ngIf="historyChanges && historyChanges[i]">
 							<div *ngFor="let change of historyChanges[i]">
 								<div *ngIf="change.added" class="green">

@@ -9,13 +9,14 @@
 }
 
 .page-title, .page-title-buttons {
-	margin-top: 50px;
-	margin-bottom: 50px;
+	margin-top: 12px;
+	margin-bottom: 12px;
 }
 
 .card-history {
 	margin: 20px;
 	margin-bottom: 40px;
+	padding: 20px;
 }
 
 .card-history-list-item {
@@ -52,7 +53,9 @@
 
 @media (min-width: 800px) {
 	.card-history-list-item-img {
-    width: 180px !important;
+	    width: 180px !important;
+	    float: left;
+	    margin-right: 6px;
 	}
 	.xs-show {
 		display: none;
@@ -60,4 +63,13 @@
 	.md-show {
 		display: block;
 	}
+}
+
+a {
+	text-decoration: none;
+}
+
+.card-btn {
+	font-size: 14px;
+	margin: 0px 6px 0px 6px;
 }
