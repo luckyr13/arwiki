@@ -4,17 +4,19 @@
     {{ 'LOGIN_DIALOG.STAYLOGGEDIN' | translate }}
   </mat-checkbox>
   <mat-list-item (click)="login('arconnect')">
-    <img matListAvatar src="./assets/img/arconnect.jpg">
-    <span mat-line>{{ 'LOGIN_DIALOG.OPTION_1.NAME' | translate }}</span>
+    <img matListItemAvatar src="./assets/img/arconnect.jpg">
+    <h3 matListItemTitle>{{ 'LOGIN_DIALOG.OPTION_1.NAME' | translate }}</h3>
   </mat-list-item>
   <mat-list-item (click)="login('arweavewebwallet')">
-    <img matListAvatar src="./assets/img/arweaveViewSmall.svg">
-    <span mat-line>{{ 'LOGIN_DIALOG.OPTION_2.NAME' | translate }}</span>
+    <img matListItemAvatar src="./assets/img/arweaveViewSmall.svg">
+    <h3 matListItemTitle>{{ 'LOGIN_DIALOG.OPTION_2.NAME' | translate }}</h3>
   </mat-list-item>
   <mat-list-item (click)="uploadFileListener(fileUploader)" >
-  	<mat-icon matListIcon>upload</mat-icon>
-    <span mat-line>{{ 'LOGIN_DIALOG.OPTION_3.NAME' | translate }}</span>
-    <span mat-line>{{ 'LOGIN_DIALOG.OPTION_3.MSG' | translate }}</span>
+  	<mat-icon matListItemIcon>upload</mat-icon>
+    <h3 matListItemTitle>{{ 'LOGIN_DIALOG.OPTION_3.NAME' | translate }}</h3>
+    <p matListItemLine>
+      <span>{{ 'LOGIN_DIALOG.OPTION_3.MSG' | translate }}</span>
+    </p>
   </mat-list-item>
 </mat-nav-list>
 <div style="visibility: hidden">

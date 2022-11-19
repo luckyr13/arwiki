@@ -246,16 +246,20 @@ a {
 }
 
 
-/* GLOBAL STYLES FOR MATERIAL COMPONENTS */
-.mat-snack-bar-container.error{
-  background-color: #f44336;
-  color: #FFF;
-}
-.mat-snack-bar-container.warning{
-  background-color: #eed202;
-  color: rgba(0,0,0,.87);
-}
 
+/* GLOBAL STYLES FOR MATERIAL COMPONENTS */
+.mat-mdc-snack-bar-container.error {
+  --mdc-snackbar-container-color: #f44336;
+  --mdc-snackbar-supporting-text-color: #FFF;
+}
+.mat-mdc-snack-bar-container.warning {
+  --mdc-snackbar-container-color: #eed202;
+  --mdc-snackbar-supporting-text-color: rgba(0,0,0,.87);
+}
+.mat-mdc-snack-bar-container.success {
+  --mdc-snackbar-container-color: #69f0ae;
+  --mdc-snackbar-supporting-text-color: rgba(0,0,0,.87);
+}
 .mat-card.warning {
   background-color: #eed202;
   color: rgba(0,0,0,.87);
@@ -263,11 +267,6 @@ a {
 .mat-card.error {
   background-color: #f44336;
   color: #FFF;
-}
-
-.mat-snack-bar-container.success{
-  background-color: #69f0ae;
-  color: rgba(0,0,0,.87);
 }
 
 .toolbar-spacer {

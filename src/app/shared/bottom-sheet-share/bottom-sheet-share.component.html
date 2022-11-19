@@ -1,23 +1,31 @@
 <h3>{{ 'SHARE_DIALOG.TITLE' | translate }}</h3>
 <mat-nav-list>
   <mat-list-item (click)="shareInSocialMedia('facebook')">
-    <img matListAvatar src="./assets/img/facebookR.png">
-    <span mat-line>{{ 'SHARE_DIALOG.OPTION_1.NAME' | translate }}</span>
-    <span mat-line>{{ 'SHARE_DIALOG.OPTION_1.MSG' | translate }}</span>
+    <img matListItemAvatar src="./assets/img/facebookR.png">
+    <h3 matListItemTitle>{{ 'SHARE_DIALOG.OPTION_1.NAME' | translate }}</h3>
+    <p matListItemLine>
+      <span>{{ 'SHARE_DIALOG.OPTION_1.MSG' | translate }}</span>
+    </p>
   </mat-list-item>
 	<mat-list-item (click)="shareInSocialMedia('twitter')">
-		<img matListAvatar src="./assets/img/twitterR.png">
-    <span mat-line>{{ 'SHARE_DIALOG.OPTION_2.NAME' | translate }}</span>
-    <span mat-line>{{ 'SHARE_DIALOG.OPTION_2.MSG' | translate }}</span>
+		<img matListItemAvatar src="./assets/img/twitterR.png">
+    <h3 matListItemTitle>{{ 'SHARE_DIALOG.OPTION_2.NAME' | translate }}</h3>
+    <p matListItemLine>
+      <span>{{ 'SHARE_DIALOG.OPTION_2.MSG' | translate }}</span>
+    </p>
   </mat-list-item>
   <mat-list-item (click)="shareInSocialMedia('whatsapp')">
-		<img matListAvatar class="not-rounded" src="./assets/img/whatsappR.png">
-    <span mat-line>{{ 'SHARE_DIALOG.OPTION_3.NAME' | translate }}</span>
-    <span mat-line>{{ 'SHARE_DIALOG.OPTION_3.MSG' | translate }}</span>
+		<img matListItemAvatar class="not-rounded" src="./assets/img/whatsappR.png">
+    <h3 matListItemTitle>{{ 'SHARE_DIALOG.OPTION_3.NAME' | translate }}</h3>
+    <p matListItemLine>
+      <span>{{ 'SHARE_DIALOG.OPTION_3.MSG' | translate }}</span>
+    </p>
   </mat-list-item>
   <mat-list-item (click)="shareInSocialMedia('copyLink')">
-  	<mat-icon matListIcon>link</mat-icon>
-    <span mat-line>{{ 'SHARE_DIALOG.OPTION_4.NAME' | translate }}</span>
-    <span mat-line>{{ 'SHARE_DIALOG.OPTION_4.MSG' | translate }}</span>
+  	<mat-icon matListItemIcon>link</mat-icon>
+    <h3 matListItemTitle>{{ 'SHARE_DIALOG.OPTION_4.NAME' | translate }}</h3>
+    <p matListItemLine>
+      <span>{{ 'SHARE_DIALOG.OPTION_4.MSG' | translate }}</span>
+    </p>
   </mat-list-item>
 </mat-nav-list>
