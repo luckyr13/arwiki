@@ -1,5 +1,5 @@
 <app-moderators-menu title="{{ 'MODERATORS.PENDING_PAGE.TITLE_PENDING' | translate }}"></app-moderators-menu>
-<mat-spinner class="spinner-center" *ngIf="loadingPendingPages"></mat-spinner>
+<mat-spinner color="accent" class="spinner-center" *ngIf="loadingPendingPages"></mat-spinner>
 <div class="container page-container fadeIn">
 	<div class="row" *ngIf="!loadingInsertPageIntoIndex && !loadingRejectPage">
 

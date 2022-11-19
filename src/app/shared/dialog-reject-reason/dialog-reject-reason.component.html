@@ -4,7 +4,7 @@
 </h2>
 <mat-dialog-content>
   <p>You are about to reject a page with tx id {{ data.id }}. Do you want to proceed? Please add a reason to continue.</p>
-  <mat-form-field class="txt-reason" appearance="outline">
+  <mat-form-field class="txt-reason" appearance="outline" color="accent">
 	  <mat-label>Reason</mat-label>
 	  <textarea class="txt-reason" matInput #reason></textarea>
 	</mat-form-field>
@@ -14,5 +14,6 @@
   	mat-button 
   	[disabled]="!reason.value"
   	[mat-dialog-close]="reason.value" >{{ 'DIALOGS.TXT_CONFIRM' | translate }}</button>
+  <div class="menu-spacer"></div>
   <button mat-button mat-dialog-close cdkFocusInitial>{{ 'DIALOGS.TXT_CLOSE' | translate }}</button>
 </mat-dialog-actions>

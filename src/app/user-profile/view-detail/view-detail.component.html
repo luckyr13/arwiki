@@ -37,7 +37,7 @@
 	</div>
 	<div class="row fadeIn" *ngIf="address">
 		<div class="col-12" *ngIf="loadingProfile">
-			<mat-spinner class="spinner-center" ></mat-spinner>
+			<mat-spinner class="spinner-center" color="accent"></mat-spinner>
 		</div>
 		<div class="col-12 text-right" *ngIf="isAdmin && !loadingProfile">
 			<strong>{{ 'PROFILE.ROLE' | translate }} </strong>

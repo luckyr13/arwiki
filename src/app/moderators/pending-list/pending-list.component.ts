@@ -225,15 +225,26 @@ export class PendingListComponent implements OnInit, OnDestroy {
         return of(null);
       })
     ).subscribe({
-      next: (tx) => {
+      next: (res) => {
+        let tx = '';
+        if (res && Object.prototype.hasOwnProperty.call(res, 'originalTxId')) {
+          tx = res.originalTxId;
+        } else if (res && Object.prototype.hasOwnProperty.call(res, 'bundlrResponse') &&
+          res.bundlrResponse && Object.prototype.hasOwnProperty.call(res.bundlrResponse, 'id')) {
+          tx = res.bundlrResponse.id;
+        }
+
         if (tx) {
           this.insertPageTxMessage = `${tx}`;
           this._utils.message('Success!', 'success');
+        } else {
+          this._utils.message(`Error!!`, 'error');
         }
       },
       error: (error) => {
-        this.insertPageTxErrorMessage = `${error}`;
-        this._utils.message(`${error}`, 'error');
+        console.error('confirmValidation', error);
+        this.insertPageTxErrorMessage = `Error!`;
+        this._utils.message(`Error!`, 'error');
       }
     });
   }
@@ -283,8 +294,9 @@ export class PendingListComponent implements OnInit, OnDestroy {
         }
       },
       error: (error) => {
-        this.rejectPageTxErrorMessage = `${error}`;
-        this._utils.message(`${error}`, 'error');
+        console.error('reject', error);
+        this.rejectPageTxErrorMessage = `Error!`;
+        this._utils.message(`Error!`, 'error');
       }
     });
   }
