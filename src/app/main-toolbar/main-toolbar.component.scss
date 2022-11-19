@@ -76,9 +76,16 @@ mat-toolbar, mat-progress-bar {
 
 .user-info-container {
 	width: 280px !important;
-	margin-top: 10px;
-	margin-bottom: 10px;
+	margin-top: 0px;
+	margin-bottom: 0px;
 	min-height: 92px;
+	padding: 12px;
+}
+
+.user-info-container h3 {
+	padding: 0px;
+	margin-bottom: 6px;
+	margin-top: 0px;
 }
 
 .big-username {
@@ -120,4 +127,8 @@ mat-toolbar, mat-progress-bar {
 	.mat-toolbar-row, .mat-toolbar-single-row {
 		height: 64px;
 	}
+}
+
+.mat-mdc-menu-item {
+	font-size: 14px;
 }

@@ -25,8 +25,8 @@
     <mat-icon>search</mat-icon>
   </button>
   <mat-menu #searchMenu="matMenu" >
-    <form [formGroup]="frmSearch" (ngSubmit)="onSearch()">
-      <mat-form-field (click)="$event.stopPropagation();" class="search-container">
+    <form [formGroup]="frmSearch" (ngSubmit)="onSearch()" class="search-form" >
+      <mat-form-field color="accent" (click)="$event.stopPropagation();" appearance="fill">
         <mat-label>{{ 'MAIN_TOOLBAR.MENU_SEARCH' | translate }}</mat-label>
         <input formControlName="searchQry" matInput autocomplete="off" placeholder="">
       </mat-form-field>
@@ -105,20 +105,19 @@
     <mat-icon *ngIf="!profileImage">account_circle</mat-icon>
   </button>
   <mat-menu #accountMenu="matMenu">
-    <mat-list class="user-info-container" *ngIf="account">
-        <mat-list-item>
-          <h3 matLine *ngIf="profile && profile.name" class="big-username"> {{ profile.name }} </h3>
-          <div matLine>
-            <app-arweave-address
-              [address]="account"
-              [lang]="routerLang"
-              class="small-username-2"></app-arweave-address>
-            <div class="small-username-2 login-method-span">
-              <strong>{{ 'MAIN_TOOLBAR.MENU_USER_METHOD' | translate }}</strong> {{ method }}
-            </div>
-          </div>
-        </mat-list-item>
-      </mat-list>
+    <div class="user-info-container" *ngIf="account">
+      <h3 *ngIf="profile && profile.name" class="big-username"> {{ profile.name }} </h3>
+      <div>
+        <app-arweave-address
+          [address]="account"
+          [lang]="routerLang"
+          [showHandleInAddress]="false"
+          class="small-username-2"></app-arweave-address>
+        <div class="small-username-2 login-method-span">
+          <strong>{{ 'MAIN_TOOLBAR.MENU_USER_METHOD' | translate }}</strong> {{ method }}
+        </div>
+      </div>
+    </div>
       <mat-divider></mat-divider>
       <button 
         mat-menu-item

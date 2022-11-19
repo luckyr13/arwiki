@@ -16,7 +16,7 @@
 		</div>
 	</div>
 	<form class="row" [formGroup]="frmSearch" (ngSubmit)="onSearch()">
-	  <mat-form-field class="col-12 col-md-10 text-center" appearance="fill">
+	  <mat-form-field class="col-12 col-md-10 text-center" appearance="fill" color="accent">
 	    <mat-label>{{ 'SEARCH.RESULTS.SEARCH_LABEL' | translate }}</mat-label>
 	    <input matInput formControlName="searchQry" matInput autocomplete="off" placeholder="">
 	  </mat-form-field>
@@ -34,7 +34,7 @@
 	</form>
 	<div class="row">
 		<div class="col-12">
-			<mat-spinner class="spinner-center" *ngIf="loadingPages"></mat-spinner>
+			<mat-spinner color="accent" class="spinner-center" *ngIf="loadingPages"></mat-spinner>
 			<div *ngIf="!loadingPages">
 				<div class="text-left" *ngIf="!pages.length">
 					{{ 'SEARCH.RESULTS.NO_RESULTS' | translate }}
@@ -45,6 +45,7 @@
 	<div class="row">
 		<div class="col-12 col-md-6 card-page fadeIn" *ngFor="let p of pages">
 			<mat-progress-bar 
+				color="accent"
 				mode="indeterminate"
 				*ngIf="!pagesData[p.id]"
 				class="fadeIn"></mat-progress-bar>

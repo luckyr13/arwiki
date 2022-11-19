@@ -535,3 +535,15 @@ p {
 .mdc-tooltip {
   font-size: 12px;
 }
+/* FIX FORM */
+.mat-mdc-text-field-wrapper:not(.mdc-text-field--outlined) .mat-mdc-form-field-infix {
+  padding-top: 24px;
+  padding-bottom: 8px;
+}
+.mdc-text-field--filled {
+  background-color: inherit !important;
+}
+.mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
