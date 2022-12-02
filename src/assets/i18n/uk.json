@@ -285,11 +285,11 @@
 			"LABEL_INACTIVE": "Неактивний"
 		},
 		"RESULTS": {
-			"TITLE": "Search Results",
-			"SEARCH_LABEL": "Search",
-			"SEARCH_BTN": "Search",
-			"SITEMAP": "Sitemap",
-			"NO_RESULTS": "No results."
+			"TITLE": "Результати пошуку",
+			"SEARCH_LABEL": "Пошук",
+			"SEARCH_BTN": "Пошук",
+			"SITEMAP": "Карта сайту",
+			"NO_RESULTS": "Немає результатів."
 		}
 	},
 	"DASHBOARD": {
