@@ -75,6 +75,12 @@
 		"native_name": "한국어",
 		"writing_system": "LTR",
 		"active": true
-	}
+	},
+    "uk": {
+      "code": "uk",
+      "iso_name": "Ukrainian",
+      "native_name": "Українська",
+      "writing_system": "LTR",
+      "active": true
+    }
 }
-
