@@ -1,5 +1,9 @@
 # ArWiki versions
 
+## 1.9.2
+- Backup (2022-12-08): https://arweave.net/YC4hfFCRdrnNn4IP4GfZEi7LNO2hUETjEPeFaeoa9qM
+- Footer logos updated! (New Arweave Friends added)
+
 ## 1.9
 - Backup (2022-11-19): https://arweave.net/fJi6s8f9dK1mk8r4gpnyB6mWl2aXCYLFnlrvRg28CI4 
 - Upgrade from Angular 14 to Angular 15
