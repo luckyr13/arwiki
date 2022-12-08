@@ -1,7 +1,7 @@
 # ArWiki versions
 
 ## 1.9.2
-- Backup (2022-12-08): https://arweave.net/YC4hfFCRdrnNn4IP4GfZEi7LNO2hUETjEPeFaeoa9qM
+- Backup (2022-12-08): https://arweave.net/utlik1qCVmDLj6Fsl35XgU3TCMUZvhW1AW-71VHjSRk
 - Footer logos updated! (New Arweave Friends added)
 
 ## 1.9
