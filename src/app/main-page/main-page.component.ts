@@ -42,7 +42,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
   loadingMainPageTX: boolean = false;
   mainLogo: string = '';
   partners: any[] = [
-    { img: './assets/img/partners/arweaveAppGray.png', alt: 'Arweave.app', href:'https://arweave.app' },
+    { img: './assets/img/partners/arweaveAppBalancedHGrayF.png', alt: 'Arweave.app', href:'https://arweave.app' },
     { img: './assets/img/partners/arconnectGray2.png', alt: 'ArConnect', href:'https://arconnect.io' },
     { img: './assets/img/partners/warpGray.png', alt: 'Warp Contracts', href:'https://warp.cc' },
     { img: './assets/img/partners/arIOGray.png', alt: 'Ar.io', href:'https://ar.io' },
