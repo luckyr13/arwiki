@@ -48,6 +48,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     { img: './assets/img/partners/arIOGray.png', alt: 'Ar.io', href:'https://ar.io' },
     { img: './assets/img/partners/permaDAOGray.png', alt: 'PermaDAO', href:'https://permadao.com' },
     { img: './assets/img/partners/spheronGray.png', alt: 'Spheron', href:'https://spheron.network' },
+    { img: './assets/img/partners/communityLogoGray.png', alt: 'Community.XYZ', href:'https://community.xyz' },
 
     { img: './assets/img/partners/pn-1kx.png', alt: '1kx', href:'' },
     { img: './assets/img/partners/pn-a16z.png', alt: 'a16z', href:'' },
