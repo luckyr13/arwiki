@@ -130,7 +130,7 @@
 	<h2 class="text-center">{{ 'FOOTER.LBL_PARTNERS' | translate }}</h2>
 	<div class="container">
 		<div class="row justify-content-center">
-			<div class="col-4 col-sm-4 col-md-2 text-center card-partner" *ngFor="let p of partners">
+			<div class="col-4 col-sm-4 col-md-2 text-center card-partner" *ngFor="let p of sortedPartners()">
 				<a *ngIf="p.href" [href]="p.href" target="_blank">
 					<img  [class.dark]="this.defaultTheme === 'arwiki-dark' && !p.noInvert" [src]="p.img" [alt]="p.alt">
 				</a>
