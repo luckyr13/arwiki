@@ -54,7 +54,9 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 - [Abhav](https://twitter.com/abhav_k)
 
 ## Official Translators
-- Chinese ArWiki: [Vophan](https://github.com/skyf0cker)
+- Chinese ArWiki: 
+[PermaDAO](https://permadao.com/)
+[Vophan](https://github.com/skyf0cker)
 
 https://arwiki.wiki/#/zh/main
 - Korean ArWiki: [Ethan Lee](https://twitter.com/eungholee27)
