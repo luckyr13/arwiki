@@ -142,11 +142,13 @@
         routerLink="{{ routerLang }}/create-page">
          <mat-icon>post_add</mat-icon> {{ 'MAIN_TOOLBAR.MENU_USER_CREATE' | translate }}
       </button>
+      <!--
       <button 
         mat-menu-item
         routerLink="{{ routerLang }}/badges">
          <mat-icon>military_tech</mat-icon> Badges
       </button>
+      -->
       <button mat-menu-item (click)="logout()">
         <mat-icon>logout</mat-icon>
         <span>{{ 'MAIN_TOOLBAR.MENU_USER_LOGOUT_COMPOSED' | translate:{ value: ellipsis(account) } }}</span>
