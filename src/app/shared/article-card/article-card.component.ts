@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { ArwikiPage } from '../../core/interfaces/arwiki-page';
-import * as marked from 'marked';
+import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import { Subscription } from 'rxjs';
 import { ArweaveService } from '../../core/arweave.service';

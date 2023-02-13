@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import DOMPurify from 'dompurify';
 import { Observable, Subscription } from 'rxjs';
 import { ArweaveService } from '../../core/arweave.service';
 import { UtilsService } from '../../core/utils.service';
