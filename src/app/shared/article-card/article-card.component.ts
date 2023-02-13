@@ -72,7 +72,7 @@ export class ArticleCardComponent implements OnInit, OnDestroy {
   *  @dev Sanitize HTML
   */
   markdownToHTML(_markdown: string) {
-    var html = marked(_markdown);
+    var html = marked.parse(_markdown);
     var clean = DOMPurify.sanitize(html);
     return clean;
   }

@@ -29,7 +29,6 @@ import { Arwiki, arwikiVersion } from '../../core/arwiki';
 import { ArwikiPage } from '../../core/interfaces/arwiki-page';
 declare const document: any;
 declare const window: any;
-import * as marked from 'marked';
 import DOMPurify from 'dompurify';
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';

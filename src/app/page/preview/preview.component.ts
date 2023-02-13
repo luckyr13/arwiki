@@ -114,7 +114,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
   }
 
   markdownToHTML(_markdown: string) {
-  	var html = marked(_markdown);
+  	var html = marked.parse(_markdown);
 		var clean = DOMPurify.sanitize(html);
 		return clean;
   }
