@@ -33,7 +33,9 @@
 		"MENU_USER_PROFILE": "Profile",
 		"MENU_USER_METHOD": "Method",
 		"MENU_SEARCH": "Search",
-		"MENU_SEARCH_BROWSE": "Sitemap"
+		"MENU_SEARCH_BROWSE": "Sitemap",
+		"MENU_USER_VOTES": "Votes",
+		"MENU_MODERATOR_LANGUAGES": "Manage languages"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "Welcome to the permaweb!",
@@ -318,5 +320,8 @@
 		"SEND": "Send",
 		"CLOSE_MSG": "You can close this window now.",
 		"TOTAL_AVAILABLE": "Total $WIKI available:"
+	},
+	"VOTES": {
+		"BREADCRUMB_LABEL": "Votes"
 	}
 }

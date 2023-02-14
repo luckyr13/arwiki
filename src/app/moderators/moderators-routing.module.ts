@@ -10,6 +10,7 @@ import { DeletedListComponent } from './deleted-list/deleted-list.component';
 import { TagManagerComponent } from './tag-manager/tag-manager.component';
 import { PageUpdatesComponent } from './page-updates/page-updates.component';
 import { ActivityHistoryComponent } from './activity-history/activity-history.component';
+import { LanguagesComponent } from './languages/languages.component';
 
 const routes: Routes = [
 	{
@@ -36,6 +37,9 @@ const routes: Routes = [
 			},
 			{
 				path: 'view-admin-list', component: ViewAdminListComponent
+			},
+			{
+				path: 'languages', component: LanguagesComponent
 			},
 			{
 				path: '', redirectTo: 'pending', pathMatch: 'full'

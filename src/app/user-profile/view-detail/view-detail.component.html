@@ -9,7 +9,7 @@
 		  	mat-button 
 		  	*ngIf="address"
 		  	class="btn-toolbar" 
-		  	color="primary"
+		  	color="accent"
 		  	(click)="donate()">
 		    <mat-icon class="green-money animate__animated animate__heartBeat animate__slow animate__infinite">volunteer_activism</mat-icon>
 		    {{ 'GENERAL.BUTTONS.BTN_DONATE' | translate }}
@@ -18,7 +18,7 @@
 	    	type="button"
 		  	mat-button 
 		  	class="btn-toolbar" 
-		  	color="primary"
+		  	color="accent"
 		  	(click)="goBack()">
 		    <mat-icon>navigate_before</mat-icon>
 		    {{ 'GENERAL.BUTTONS.GO_BACK' | translate }}
@@ -26,7 +26,7 @@
 		  <a
 		  	mat-button 
 		  	class="btn-toolbar" 
-		  	color="primary"
+		  	color="accent"
 		  	target="_blank"
 		  	*ngIf="address && currentAddress == address"
 		  	href="https://arprofile.org/">

@@ -50,7 +50,7 @@
       <mat-icon>format_color_fill</mat-icon> {{ 'MAIN_TOOLBAR.MENU_SETTINGS_THEME' | translate }}
     </button>
     <button mat-menu-item (click)="openLangModal()">
-      <mat-icon>language</mat-icon> {{ 'MAIN_TOOLBAR.MENU_SETTINGS_LANGUAGE' | translate }}
+      <mat-icon>translate</mat-icon> {{ 'MAIN_TOOLBAR.MENU_SETTINGS_LANGUAGE' | translate }}
     </button>
   </mat-menu>
   <mat-menu #themeMenuOptions="matMenu">
@@ -95,6 +95,7 @@
       <button mat-menu-item routerLink="/{{ routerLang }}/moderators/add-admin">
         <mat-icon>add_moderator</mat-icon> {{ 'MAIN_TOOLBAR.MENU_MODERATOR_ADD_MODERATOR' | translate }}</button>
       <button mat-menu-item routerLink="/{{ routerLang }}/moderators/view-admin-list"><mat-icon>view_list</mat-icon> {{ 'MAIN_TOOLBAR.MENU_MODERATOR_VIEW_ADM_LIST' | translate }}</button>
+      <button mat-menu-item routerLink="/{{ routerLang }}/moderators/languages"><mat-icon>language</mat-icon> {{ 'MAIN_TOOLBAR.MENU_MODERATOR_LANGUAGES' | translate }}</button>
     </div>
   </mat-menu>
   <button 
@@ -141,6 +142,11 @@
         mat-menu-item
         routerLink="{{ routerLang }}/create-page">
          <mat-icon>post_add</mat-icon> {{ 'MAIN_TOOLBAR.MENU_USER_CREATE' | translate }}
+      </button>
+      <button 
+        mat-menu-item
+        routerLink="{{ routerLang }}/votes">
+         <mat-icon>how_to_vote</mat-icon> {{ 'MAIN_TOOLBAR.MENU_USER_VOTES' | translate }}
       </button>
       <!--
       <button 

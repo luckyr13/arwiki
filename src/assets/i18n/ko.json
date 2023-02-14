@@ -33,7 +33,9 @@
 		"MENU_USER_PROFILE": "Profile",
 		"MENU_USER_METHOD": "Method",
 		"MENU_SEARCH": "Search",
-		"MENU_SEARCH_BROWSE": "Sitemap"
+		"MENU_SEARCH_BROWSE": "Sitemap",
+		"MENU_USER_VOTES": "Votes",
+		"MENU_MODERATOR_LANGUAGES": "Manage languages"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "영구웹에 오신 것을 환영합니다!",
@@ -113,7 +115,10 @@
 			"TITLE_PENDING": "승인 대기 목록"
 		},
 		"LABEL_NO_RESULTS": "결과 없음",
-		"LABEL_TOOLBAR_TITLE": "모더레이터 패널"
+		"LABEL_TOOLBAR_TITLE": "모더레이터 패널",
+		"LANGUAGES": {
+			"BREADCRUMB_LABEL": "Manage Languages"
+		}
 	},
 	"CATEGORY": {
 		"BREADCRUMB_LABEL": "분류:"
@@ -319,5 +324,8 @@
 		"SEND": "Send",
 		"CLOSE_MSG": "You can close this window now.",
 		"TOTAL_AVAILABLE": "Total $WIKI available:"
+	},
+	"VOTES": {
+		"BREADCRUMB_LABEL": "Votes"
 	}
 }

@@ -33,7 +33,9 @@
 		"MENU_USER_PROFILE": "Profil",
 		"MENU_USER_METHOD": "Módszer",
 		"MENU_SEARCH": "Keresés",
-		"MENU_SEARCH_BROWSE": "Oldaltérkép"
+		"MENU_SEARCH_BROWSE": "Oldaltérkép",
+		"MENU_USER_VOTES": "Votes",
+		"MENU_MODERATOR_LANGUAGES": "Manage languages"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "Üdvözlégy a permaweben!",
@@ -113,7 +115,10 @@
 			"TITLE_PENDING": "Várólista"
 		},
 		"LABEL_NO_RESULTS": "Nincs eredmény.",
-		"LABEL_TOOLBAR_TITLE": "Moderátor felülete"
+		"LABEL_TOOLBAR_TITLE": "Moderátor felülete",
+		"LANGUAGES": {
+			"BREADCRUMB_LABEL": "Manage Languages"
+		}
 	},
 	"CATEGORY": {
 		"BREADCRUMB_LABEL": "Kategória:"
@@ -319,5 +324,8 @@
 		"SEND": "Küldés",
 		"CLOSE_MSG": "Már bezárhatod az oldalt.",
 		"TOTAL_AVAILABLE": "Összes elérhető $WIKI:"
+	},
+	"VOTES": {
+		"BREADCRUMB_LABEL": "Votes"
 	}
 }

@@ -14,10 +14,11 @@ import { DialogSearchPageUpdateComponent } from './dialog-search-page-update/dia
 import { ActivityHistoryComponent } from './activity-history/activity-history.component';
 import { HistoryPagesRejectedComponent } from './history-pages-rejected/history-pages-rejected.component';
 import { HistoryUpdatesApprovedComponent } from './history-updates-approved/history-updates-approved.component';
+import { LanguagesComponent } from './languages/languages.component';
 
 
 @NgModule({
-  declarations: [PendingListComponent, MenuComponent, AddAdminComponent, ViewAdminListComponent, ApprovedListComponent, TagManagerComponent, DeletedListComponent, PageUpdatesComponent, DialogSearchPageUpdateComponent, ActivityHistoryComponent, HistoryPagesRejectedComponent, HistoryUpdatesApprovedComponent],
+  declarations: [PendingListComponent, MenuComponent, AddAdminComponent, ViewAdminListComponent, ApprovedListComponent, TagManagerComponent, DeletedListComponent, PageUpdatesComponent, DialogSearchPageUpdateComponent, ActivityHistoryComponent, HistoryPagesRejectedComponent, HistoryUpdatesApprovedComponent, LanguagesComponent],
   imports: [
     CommonModule,
     ModeratorsRoutingModule,

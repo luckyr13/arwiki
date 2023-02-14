@@ -33,7 +33,9 @@
 		"MENU_USER_PROFILE": "Профіль",
 		"MENU_USER_METHOD": "Метод",
 		"MENU_SEARCH": "Пошук",
-		"MENU_SEARCH_BROWSE": "Карта сайту"
+		"MENU_SEARCH_BROWSE": "Карта сайту",
+		"MENU_USER_VOTES": "Votes",
+		"MENU_MODERATOR_LANGUAGES": "Manage languages"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "Ласкаво просимо до permaweb!",
@@ -113,7 +115,10 @@
 			"TITLE_PENDING": "Список в очікуванні"
 		},
 		"LABEL_NO_RESULTS": "Немає результатів.",
-		"LABEL_TOOLBAR_TITLE": "Панель модератора"
+		"LABEL_TOOLBAR_TITLE": "Панель модератора",
+		"LANGUAGES": {
+			"BREADCRUMB_LABEL": "Manage Languages"
+		}
 	},
 	"CATEGORY": {
 		"BREADCRUMB_LABEL": "Категорія:"
@@ -318,5 +323,8 @@
 		"SEND": "Надіслати",
 		"CLOSE_MSG": "Ви можете закрити це вікно зараз.",
 		"TOTAL_AVAILABLE": "Загальна кількість доступних $WIKI:"
+	},
+	"VOTES": {
+		"BREADCRUMB_LABEL": "Votes"
 	}
 }

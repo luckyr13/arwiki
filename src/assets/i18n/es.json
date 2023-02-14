@@ -33,7 +33,9 @@
 		"MENU_USER_PROFILE": "Perfil",
 		"MENU_USER_METHOD": "Método",
 		"MENU_SEARCH": "Buscar",
-		"MENU_SEARCH_BROWSE": "Mapa del sitio"
+		"MENU_SEARCH_BROWSE": "Mapa del sitio",
+		"MENU_USER_VOTES": "Votes",
+		"MENU_MODERATOR_LANGUAGES": "Manage languages"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "¡Bienvenido a la permaweb!",
@@ -113,7 +115,10 @@
 			"TITLE_PENDING": "Lista de pendientes"
 		},
 		"LABEL_NO_RESULTS": "No hay resultados.",
-		"LABEL_TOOLBAR_TITLE": "Panel de moderadores"
+		"LABEL_TOOLBAR_TITLE": "Panel de moderadores",
+		"LANGUAGES": {
+			"BREADCRUMB_LABEL": "Manage Languages"
+		}
 	},
 	"CATEGORY": {
 		"BREADCRUMB_LABEL": "Categoría:"
@@ -319,5 +324,8 @@
 		"SEND": "Enviar",
 		"CLOSE_MSG": "Puede cerrar esta ventana ahora.",
 		"TOTAL_AVAILABLE": "$WIKI total disponible:"
+	},
+	"VOTES": {
+		"BREADCRUMB_LABEL": "Votes"
 	}
 }

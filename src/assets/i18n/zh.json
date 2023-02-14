@@ -33,7 +33,9 @@
 		"MENU_USER_PROFILE": "Profile",
 		"MENU_USER_METHOD": "Method",
 		"MENU_SEARCH": "Search",
-		"MENU_SEARCH_BROWSE": "Sitemap"
+		"MENU_SEARCH_BROWSE": "Sitemap",
+		"MENU_USER_VOTES": "Votes",
+		"MENU_MODERATOR_LANGUAGES": "Manage languages"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "欢迎来到永久网！",
@@ -113,7 +115,10 @@
 			"TITLE_PENDING": "待处理清单"
 		},
 		"LABEL_NO_RESULTS": "没有结果",
-		"LABEL_TOOLBAR_TITLE": "版主面板"
+		"LABEL_TOOLBAR_TITLE": "版主面板",
+		"LANGUAGES": {
+			"BREADCRUMB_LABEL": "Manage Languages"
+		}
 	},
 	"CATEGORY": {
 		"BREADCRUMB_LABEL": "类别："
@@ -319,5 +324,8 @@
 		"SEND": "Send",
 		"CLOSE_MSG": "You can close this window now.",
 		"TOTAL_AVAILABLE": "Total $WIKI available:"
+	},
+	"VOTES": {
+		"BREADCRUMB_LABEL": "Votes"
 	}
 }
