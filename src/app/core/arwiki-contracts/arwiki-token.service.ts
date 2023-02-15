@@ -660,8 +660,7 @@ export class ArwikiTokenContract
   }
 
   /*
-  *  @dev Get the list of all pages from full state contract
-  * @param _numPages: -1 returns all values
+  *  @dev 
   */
   getPageId(
     _langCode: string,
@@ -687,7 +686,7 @@ export class ArwikiTokenContract
   }
 
   /*
-  *  @dev Get only the admin list from full state contract
+  *  @dev 
   */
   getPageTranslations(slug: string): Observable<string[]> {
     return this.getState().pipe(
@@ -801,7 +800,7 @@ export class ArwikiTokenContract
     return this.getState(reload).pipe(
       map((_state: any) => {
         const votes = _state.votes;
-        return votes;
+        return [...votes];
       })
     );
   }
