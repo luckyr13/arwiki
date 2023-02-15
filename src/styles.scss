@@ -766,3 +766,18 @@ p {
     padding-top: 16px;
     padding-bottom: 16px;
 }
+
+/*
+* Progress bar fix
+*/
+.yay-bar .mdc-linear-progress__bar-inner {
+  border-color: #69f0ae !important;
+}
+
+.yay-bar, .nay-bar {
+  height: 12px !important;
+}
+.yay-bar .mdc-linear-progress__bar-inner,
+.nay-bar .mdc-linear-progress__bar-inner {
+  border-top-width: 12px !important;
+}

@@ -47,7 +47,7 @@
 			<mat-card class="vote-card">
 				<mat-card-header>
 					<mat-card-subtitle>
-						#{{ votes.length - i }} {{ vote.type | uppercase }}
+						#{{ (votes.length - 1) - i }} {{ vote.type | uppercase }}
 					</mat-card-subtitle>
 	    		<mat-card-title>Key: {{ vote.key }}</mat-card-title>
 				</mat-card-header>
@@ -63,6 +63,7 @@
 						<mat-progress-bar 
 							mode="determinate"
 							color="accent"
+							class="yay-bar"
 							[value]="votePercent(vote.yays, vote.yays + vote.nays)"></mat-progress-bar>
 					</p>
 					<p>
@@ -70,6 +71,7 @@
 						<mat-progress-bar 
 							mode="determinate"
 							color="warn"
+							class="nay-bar"
 							[value]="votePercent(vote.nays, vote.yays + vote.nays)"></mat-progress-bar>
 					</p>
 			    <p>
@@ -97,7 +99,9 @@
 			  	<div class="menu-spacer"></div>
 			  	<button
 			  		*ngIf="vote.status === 'active' && (vote.start + voteLength) <= currentBlockHeight"
-			  		mat-flat-button color="warn">
+			  		mat-flat-button
+			  		color="warn"
+			  		(click)="confirmFinalizeVote((votes.length - 1) - i)">
 			  		<mat-icon>sports_score</mat-icon> Finalize
 			  	</button>
 			  	<button

@@ -805,4 +805,27 @@ export class ArwikiTokenContract
     );
   }
 
+  /*
+  * @dev Finalize vote
+  */
+  finalizeVote(
+    _voteId: number,
+    _privateKey: any,
+    _arwikiVersion: string
+  ) {
+    const jwk = _privateKey;
+    const tags = [
+      {name: 'Service', value: 'ArWiki'},
+      {name: 'Arwiki-Type', value: 'FinalizeVote'},
+      {name: 'Arwiki-Version', value: _arwikiVersion},
+    ];
+    const input = {
+      function: 'finalize',
+      id: _voteId
+    };
+    return this._warp.writeInteraction(
+      this._contractAddress, jwk, input, tags
+    );
+  }
+
 }
