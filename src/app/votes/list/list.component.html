@@ -69,16 +69,16 @@
 						No: {{ votePercent(vote.nays, vote.yays + vote.nays) }}%
 						<mat-progress-bar 
 							mode="determinate"
-							color="warning"
+							color="warn"
 							[value]="votePercent(vote.nays, vote.yays + vote.nays)"></mat-progress-bar>
 					</p>
 			    <p>
 			    	Status: 
 			    	<span
 			    		[ngClass]="{
-			    			'success': vote.status === 'passed',
-			    			'active': vote.status === 'active',
-			    			'error': vote.status !== 'active' && vote.status !== 'passed'
+			    			'green': vote.status === 'passed',
+			    			'blue': vote.status === 'active',
+			    			'red': vote.status !== 'active' && vote.status !== 'passed'
 			    		}">
 			    		{{ vote.status }}
 			    	</span>
