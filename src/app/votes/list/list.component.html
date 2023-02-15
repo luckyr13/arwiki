@@ -96,15 +96,17 @@
 			  	<button mat-flat-button color="accent">{{ vote.voted.length }} votes</button>
 			  	<div class="menu-spacer"></div>
 			  	<button
-			  		*ngIf="vote.status === 'active'"
-			  		mat-flat-button color="accent">Finalize</button>
+			  		*ngIf="vote.status === 'active' && (vote.start + voteLength) <= currentBlockHeight"
+			  		mat-flat-button color="warn">
+			  		<mat-icon>sports_score</mat-icon> Finalize
+			  	</button>
 			  	<button
-			  		*ngIf="vote.status === 'active'"
+			  		*ngIf="vote.status === 'active' && (vote.start + voteLength) > currentBlockHeight"
 			  		mat-flat-button color="accent">
 			  		<mat-icon>thumb_up</mat-icon> Yes
 			  	</button>
 			  	<button
-			  		*ngIf="vote.status === 'active'"
+			  		*ngIf="vote.status === 'active' && (vote.start + voteLength) > currentBlockHeight"
 			  		mat-flat-button color="warn">
 			  		<mat-icon>thumb_down</mat-icon> No
 			  	</button>
