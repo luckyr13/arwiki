@@ -5,12 +5,15 @@
 			<app-arweave-address [address]="admin"></app-arweave-address>
 		</div>
 	</div>
-	<h1>
-		Votes
-	</h1>
 	<div class="row">
-		<div class="col-12 col-md-6 fadeIn" *ngFor="let admin of adminList">
-			--
+		<div class="col text-right">
+			<button 
+				mat-flat-button
+				color="accent"
+				routerLink="/{{ routerLang }}/moderators/add-admin">
+	        <mat-icon>add_moderator</mat-icon>
+	        {{ 'MAIN_TOOLBAR.MENU_MODERATOR_ADD_MODERATOR' | translate }}
+	    </button>
 		</div>
 	</div>
 </div>
