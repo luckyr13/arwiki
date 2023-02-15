@@ -40,6 +40,9 @@
 	</div>
 
 	<div class="row">
+		<h4 class="text-right col-12">
+			Current block height: {{ currentBlockHeight }}
+		</h4>
 		<div class="col-12 col-md-6" *ngFor="let vote of votes; index as i">
 			<mat-card class="vote-card">
 				<mat-card-header>
@@ -80,12 +83,32 @@
 			    		{{ vote.status }}
 			    	</span>
 			    </p>
-					<p>Started at block: {{ vote.start }}</p>
+					<p>
+						Ends at block: {{ vote.start + voteLength }}
+						<span
+							*ngIf="(vote.start + voteLength) > currentBlockHeight">
+							({{ formatBlocks(currentBlockHeight - (vote.start + voteLength)) }})
+						</span>
+					</p>
 			    <mat-divider></mat-divider>
 			  </mat-card-content>
 			  <mat-card-actions>
 			  	<button mat-flat-button color="accent">{{ vote.voted.length }} votes</button>
-			  	<button *ngIf="vote.status === 'active'" mat-flat-button color="accent">Finalize</button>
+			  	<div class="menu-spacer"></div>
+			  	<button
+			  		*ngIf="vote.status === 'active'"
+			  		mat-flat-button color="accent">Finalize</button>
+			  	<button
+			  		*ngIf="vote.status === 'active'"
+			  		mat-flat-button color="accent">
+			  		<mat-icon>thumb_up</mat-icon> Yes
+			  	</button>
+			  	<button
+			  		*ngIf="vote.status === 'active'"
+			  		mat-flat-button color="warn">
+			  		<mat-icon>thumb_down</mat-icon> No
+			  	</button>
+
 			  </mat-card-actions>
 			  <mat-card-footer>
 			    <mat-progress-bar 
