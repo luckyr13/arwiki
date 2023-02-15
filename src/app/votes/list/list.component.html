@@ -8,7 +8,7 @@
   <mat-icon 
   	aria-hidden="false"
   	aria-label="Votes">how_to_vote</mat-icon>
-	<span>&nbsp;Votes</span>
+	<span>&nbsp;{{ 'VOTES.BREADCRUMB_LABEL' | translate }}</span>
 	<div class="menu-spacer"></div>
 	<div class="text-right page-title-buttons">	
     <button 
@@ -24,7 +24,53 @@
 
 <div class="container fadeIn" *ngIf="!loading" >
 	<h1 class="page-title col-12">
-		Votes
+		{{ 'VOTES.TITLE' | translate }}
 	</h1>
+
+	<div class="row">
+		<div class="col-6" *ngFor="let vote of votes; index as i">
+			<mat-card class="vote-card">
+				<mat-card-header>
+					<mat-card-subtitle>
+						#{{i}} {{ vote.type | uppercase }}
+					</mat-card-subtitle>
+	    		<mat-card-title>Key: {{ vote.key }}</mat-card-title>
+				</mat-card-header>
+				<mat-card-content>
+					<p>Value: {{ vote.value }}</p>
+					<p>
+						<app-arweave-address
+				    	[address]="vote.recipient">Recipient: </app-arweave-address>
+					</p>
+					<p>Note: {{ vote.note }}</p>
+					<p>
+						Yes: {{ votePercent(vote.yays, vote.yays + vote.nays) }}%
+						<mat-progress-bar 
+							mode="determinate"
+							color="accent"
+							[value]="votePercent(vote.yays, vote.yays + vote.nays)"></mat-progress-bar>
+					</p>
+					<p>
+						No: {{ votePercent(vote.nays, vote.yays + vote.nays) }}%
+						<mat-progress-bar 
+							mode="determinate"
+							color="warning"
+							[value]="votePercent(vote.nays, vote.yays + vote.nays)"></mat-progress-bar>
+					</p>
+			    <p>Status: {{ vote.status }}</p>
+			    <mat-divider></mat-divider>
+			  </mat-card-content>
+			  <mat-card-actions>
+			  	<button mat-flat-button color="accent">See votes</button>
+			  </mat-card-actions>
+			  <mat-card-footer>
+			    <mat-progress-bar 
+			    	*ngIf="false"
+			    	color="accent"
+			    	mode="indeterminate"></mat-progress-bar>
+			  </mat-card-footer>
+			</mat-card>
+		</div>
+	</div>
 
 </div>

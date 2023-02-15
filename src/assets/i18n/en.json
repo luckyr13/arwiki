@@ -325,6 +325,7 @@
 		"TOTAL_AVAILABLE": "Total $WIKI available:"
 	},
 	"VOTES": {
-		"BREADCRUMB_LABEL": "Votes"
+		"BREADCRUMB_LABEL": "Votes",
+		"TITLE": "Votes"
 	}
 }

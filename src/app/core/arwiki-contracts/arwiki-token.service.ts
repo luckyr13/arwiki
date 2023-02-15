@@ -8,6 +8,7 @@ import { ArwikiPageIndex } from '../interfaces/arwiki-page-index';
 import { ArwikiLangIndex } from '../interfaces/arwiki-lang-index';
 import { ArwikiCategoryIndex } from '../interfaces/arwiki-category-index';
 import { WarpContractsService } from '../warp-contracts.service';
+import { ArwikiVote } from '../interfaces/arwiki-vote';
 
 @Injectable({
   providedIn: 'root'
@@ -562,7 +563,7 @@ export class ArwikiTokenContract
   }
 
   /*
-  * @dev Create vote proposal for new Moderator
+  * @dev Upvote/downvote page
   */
   votePage(
     _target: string,
@@ -789,6 +790,18 @@ export class ArwikiTokenContract
           'ticker': _state.ticker
         };
         return res;
+      })
+    );
+  }
+
+  /*
+  *  @dev Execute read function on PST contract
+  */
+  getVotes(reload: boolean = false): Observable<ArwikiVote[]> {
+    return this.getState(reload).pipe(
+      map((_state: any) => {
+        const votes = _state.votes;
+        return votes;
       })
     );
   }

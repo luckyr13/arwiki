@@ -115,7 +115,10 @@
 			"TITLE_PENDING": "Pending list"
 		},
 		"LABEL_NO_RESULTS": "No results.",
-		"LABEL_TOOLBAR_TITLE": "Moderator's panel"
+		"LABEL_TOOLBAR_TITLE": "Moderator's panel",
+		"LANGUAGES": {
+			"BREADCRUMB_LABEL": "Manage Languages"
+		}
 	},
 	"CATEGORY": {
 		"BREADCRUMB_LABEL": "Category:"
@@ -322,6 +325,7 @@
 		"TOTAL_AVAILABLE": "Total $WIKI available:"
 	},
 	"VOTES": {
-		"BREADCRUMB_LABEL": "Votes"
+		"BREADCRUMB_LABEL": "Votes",
+		"TITLE": "Votes"
 	}
 }
