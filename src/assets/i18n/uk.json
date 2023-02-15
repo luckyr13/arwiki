@@ -326,6 +326,7 @@
 	},
 	"VOTES": {
 		"BREADCRUMB_LABEL": "Votes",
-		"TITLE": "Votes"
+		"TITLE": "Votes",
+		"BTN_NEW_VOTE": "New vote"
 	}
 }

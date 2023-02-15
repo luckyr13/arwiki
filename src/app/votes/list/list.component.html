@@ -14,7 +14,7 @@
     <button 
     	type="button"
 	  	mat-button
-	  	color="default"
+	  	color="accent"
 	  	(click)="goBack()">
 	    <mat-icon>navigate_before</mat-icon>
 	    {{ 'GENERAL.BUTTONS.GO_BACK' | translate }}
@@ -23,16 +23,28 @@
 </mat-toolbar>
 
 <div class="container fadeIn" *ngIf="!loading" >
-	<h1 class="page-title col-12">
-		{{ 'VOTES.TITLE' | translate }}
-	</h1>
+	<div class="row">
+		<h1 class="page-title col-6">
+			{{ 'VOTES.TITLE' | translate }}
+		</h1>
+		<div class="col-6 text-right">
+			<button 
+	    	type="button"
+		  	mat-flat-button
+		  	color="accent"
+		  	class="btn-new-vote">
+		    <mat-icon>add</mat-icon>
+		    {{ 'VOTES.BTN_NEW_VOTE' | translate }}
+		  </button>
+		</div>
+	</div>
 
 	<div class="row">
-		<div class="col-6" *ngFor="let vote of votes; index as i">
+		<div class="col-12 col-md-6" *ngFor="let vote of votes; index as i">
 			<mat-card class="vote-card">
 				<mat-card-header>
 					<mat-card-subtitle>
-						#{{i}} {{ vote.type | uppercase }}
+						#{{ votes.length - i }} {{ vote.type | uppercase }}
 					</mat-card-subtitle>
 	    		<mat-card-title>Key: {{ vote.key }}</mat-card-title>
 				</mat-card-header>
@@ -57,11 +69,23 @@
 							color="warning"
 							[value]="votePercent(vote.nays, vote.yays + vote.nays)"></mat-progress-bar>
 					</p>
-			    <p>Status: {{ vote.status }}</p>
+			    <p>
+			    	Status: 
+			    	<span
+			    		[ngClass]="{
+			    			'success': vote.status === 'passed',
+			    			'active': vote.status === 'active',
+			    			'error': vote.status !== 'active' && vote.status !== 'passed'
+			    		}">
+			    		{{ vote.status }}
+			    	</span>
+			    </p>
+					<p>Started at block: {{ vote.start }}</p>
 			    <mat-divider></mat-divider>
 			  </mat-card-content>
 			  <mat-card-actions>
-			  	<button mat-flat-button color="accent">See votes</button>
+			  	<button mat-flat-button color="accent">{{ vote.voted.length }} votes</button>
+			  	<button *ngIf="vote.status === 'active'" mat-flat-button color="accent">Finalize</button>
 			  </mat-card-actions>
 			  <mat-card-footer>
 			    <mat-progress-bar 
