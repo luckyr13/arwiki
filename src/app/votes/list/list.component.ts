@@ -163,7 +163,8 @@ export class ListComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(DialogNewVoteComponent, {
       data: {},
-      direction: direction
+      direction: direction,
+      disableClose: true
     });
 
     dialogRef.afterClosed().subscribe(async (result) => {
