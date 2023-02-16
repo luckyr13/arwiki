@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>Voters</h2>
+<mat-dialog-content>
+	<mat-list>
+		<mat-list-item *ngFor="let v of data.votes">
+			<app-arweave-address
+				[address]="v"
+				></app-arweave-address>
+		</mat-list-item>
+	</mat-list>
+	<p *ngIf="!data.votes || !data.votes.length">
+		No voters.
+	</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

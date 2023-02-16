@@ -14,6 +14,8 @@ import {MatDialog} from '@angular/material/dialog';
 import { UtilsService } from '../../core/utils.service';
 import { arwikiVersion } from '../../core/arwiki';
 import { AuthService } from '../../auth/auth.service';
+import { DialogVotedComponent } from '../dialog-voted/dialog-voted.component';
+import { DialogNewVoteComponent } from '../dialog-new-vote/dialog-new-vote.component';
 
 @Component({
   selector: 'app-list',
@@ -137,4 +139,35 @@ export class ListComponent implements OnInit, OnDestroy {
     this.finalizeVoteSubscription.unsubscribe();
   }
 
+  votedDialog(votes: string[]) {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
+    const dialogRef = this._dialog.open(DialogVotedComponent, {
+      data: {
+        votes
+      },
+      direction: direction
+    });
+
+    dialogRef.afterClosed().subscribe(async (result) => {
+      
+    });
+  }
+
+  newVoteDialog() {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
+    const dialogRef = this._dialog.open(DialogNewVoteComponent, {
+      data: {},
+      direction: direction
+    });
+
+    dialogRef.afterClosed().subscribe(async (result) => {
+      
+    });
+  }
 }

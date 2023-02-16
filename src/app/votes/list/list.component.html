@@ -33,6 +33,7 @@
 		  	mat-flat-button
 		  	color="accent"
 		  	class="btn-new-vote"
+		  	(click)="newVoteDialog()"
 		  	[disabled]="loading || loadingUpdate">
 		    <mat-icon>add</mat-icon>
 		    {{ 'VOTES.BTN_NEW_VOTE' | translate }}
@@ -96,7 +97,14 @@
 			    <mat-divider></mat-divider>
 			  </mat-card-content>
 			  <mat-card-actions>
-			  	<button mat-flat-button color="accent">{{ vote.voted.length }} votes</button>
+			  	<button
+			  		mat-flat-button
+			  		(click)="votedDialog(vote.voted)"
+			  		color="accent">
+			  		{{ vote.voted.length }}
+			  		<span *ngIf="vote.voted.length === 1"> voter</span>
+			  		<span *ngIf="vote.voted.length !== 1"> voters</span>
+			  	</button>
 			  	<div class="menu-spacer"></div>
 			  	<button
 			  		*ngIf="vote.status === 'active' && (vote.start + voteLength) <= currentBlockHeight"
