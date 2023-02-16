@@ -32,14 +32,15 @@
 	    	type="button"
 		  	mat-flat-button
 		  	color="accent"
-		  	class="btn-new-vote">
+		  	class="btn-new-vote"
+		  	[disabled]="loading || loadingUpdate">
 		    <mat-icon>add</mat-icon>
 		    {{ 'VOTES.BTN_NEW_VOTE' | translate }}
 		  </button>
 		</div>
 	</div>
 
-	<div class="row">
+	<div class="row" *ngIf="!loading && !loadingUpdate && !updateTxMessage">
 		<h4 class="text-right col-12">
 			Current block height: {{ currentBlockHeight }}
 		</h4>
@@ -123,6 +124,22 @@
 			    	mode="indeterminate"></mat-progress-bar>
 			  </mat-card-footer>
 			</mat-card>
+		</div>
+	</div>
+
+	<div class="row" *ngIf="updateTxMessage">
+		<div class="col-12">
+			Success! Please reload this page now to see the changes.
+			<br>
+			TX: {{ updateTxMessage }}
+		</div>
+	</div>
+
+	<div class="row" *ngIf="errorMessage">
+		<div class="col-12">
+			Error!
+			<br>
+			Error Message: {{ errorMessage }}
 		</div>
 	</div>
 
