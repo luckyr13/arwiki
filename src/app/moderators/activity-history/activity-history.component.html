@@ -53,47 +53,47 @@
 				<a
 					mat-button
 					color="accent"
-					*ngIf="profile.links.twitter"
+					*ngIf="profile.links['twitter']"
 					target="_blank"
-					[href]="socialLink(profile.links.twitter, 'twitter')">
+					[href]="socialLink(profile.links['twitter'], 'twitter')">
 					<img class="invert-colors" src="./assets/img/social-media/twitterWhite.png">
-					<span>{{profile.links.twitter}}</span>
+					<span>{{profile.links['twitter']}}</span>
 				</a>
 				<a
 					mat-button
 					color="accent"
-					*ngIf="profile.links.github"
+					*ngIf="profile.links['github']"
 					target="_blank"
-					[href]="socialLink(profile.links.github, 'github')">
+					[href]="socialLink(profile.links['github'], 'github')">
 					<img class="invert-colors" src="./assets/img/social-media/github2.png">
-					<span>{{profile.links.github}}</span>
+					<span>{{profile.links['github']}}</span>
 				</a>
 				<a
 					mat-button
 					color="accent"
-					*ngIf="profile.links.youtube"
+					*ngIf="profile.links['youtube']"
 					target="_blank"
-					[href]="socialLink(profile.links.youtube, 'youtube')">
+					[href]="socialLink(profile.links['youtube'], 'youtube')">
 					<img class="invert-colors" src="./assets/img/social-media/ytWhite.png">
-					<span>{{profile.links.youtube}}</span>
+					<span>{{profile.links['youtube']}}</span>
 				</a>
 				<a
 					mat-button
 					color="accent"
-					*ngIf="profile.links.instagram"
+					*ngIf="profile.links['instagram']"
 					target="_blank"
-					[href]="socialLink(profile.links.instagram, 'instagram')">
+					[href]="socialLink(profile.links['instagram'], 'instagram')">
 					<img class="invert-colors" src="./assets/img/social-media/instagramWhite.png">
-					<span>{{profile.links.instagram}}</span>
+					<span>{{profile.links['instagram']}}</span>
 				</a>
 				<a
 					mat-button
 					color="accent"
-					*ngIf="profile.links.facebook"
+					*ngIf="profile.links['facebook']"
 					target="_blank"
-					[href]="socialLink(profile.links.facebook, 'facebook')">
+					[href]="socialLink(profile.links['facebook'], 'facebook')">
 					<img class="invert-colors" src="./assets/img/social-media/facebookWhite.png">
-					<span>{{profile.links.facebook}}</span>
+					<span>{{profile.links['facebook']}}</span>
 				</a>
 			</div>
 			<p *ngIf="profile.bio" class="text-center bio">{{profile.bio}}</p>

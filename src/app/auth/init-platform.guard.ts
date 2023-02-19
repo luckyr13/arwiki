@@ -139,8 +139,8 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot) {
     let lang = '';
-    if (route.params.lang) {
-      lang = route.params.lang;
+    if (route.params['lang']) {
+      lang = route.params['lang'];
     }
     return lang;
   }
