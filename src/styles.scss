@@ -308,8 +308,8 @@ $arwiki-yellow-theme: mat.define-light-theme((
 
 html, body { height: 100%; }
 body { 
-	margin: 0;
-	font-family: $theme-font-family;
+  margin: 0;
+  font-family: $theme-font-family;
   letter-spacing: 0.025em;
   line-height: 1.666;
 }
@@ -324,15 +324,15 @@ a {
 }
 
 .text-center {
-	text-align: center;
+  text-align: center;
 }
 
 .text-left {
-	text-align: left;
+  text-align: left;
 }
 
 .text-right {
-	text-align: right;
+  text-align: right;
 }
 
 .text-justify {

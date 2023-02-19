@@ -33,6 +33,7 @@ export class FormMintComponent {
 
   onSubmit() {
     alert('test')
+    alert(2)
 
   }
 
