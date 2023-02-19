@@ -14,7 +14,6 @@
   "dependencies": {
     "@angular/animations": "^15.1.5",
     "@angular/cdk": "^15.1.4",
-    "@angular/cli": "^15.1.6",
     "@angular/common": "^15.1.5",
     "@angular/compiler": "^15.1.5",
     "@angular/core": "^15.1.5",
@@ -51,6 +50,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^15.1.6",
+    "@angular/cli": "^15.1.6",
     "@angular/compiler-cli": "^15.1.5",
     "@types/diff": "^5.0.2",
     "@types/dompurify": "^2.4.0",
