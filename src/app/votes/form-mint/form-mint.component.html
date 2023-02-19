@@ -1,6 +1,50 @@
-<mat-dialog-content>
-	<p>form-mint works!</p>
-</mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button mat-dialog-close>Close</button>
-</mat-dialog-actions>
+<form [formGroup]="mintForm" (ngSubmit)="onSubmit()">
+	<mat-dialog-content>
+		<mat-form-field 
+			class="w100" 
+			appearance="outline"
+			color="accent">
+			<mat-label>Recipient</mat-label>
+			<input
+				matInput
+				placeholder="An arweave wallet address"
+				formControlName="recipient" required>
+			<mat-error ></mat-error>
+		</mat-form-field>
+		<mat-form-field
+			class="w100"
+			color="accent"
+			appearance="outline">
+	    <mat-label>Amount</mat-label>
+	    <input 
+	    	matInput 
+	    	placeholder="$WIKI amount" 
+	    	type="number"
+	    	formControlName="qty"
+	    	autocomplete="off">
+    	<span matSuffix>$WIKI</span>
+	  </mat-form-field>
+	  <mat-form-field
+	  	class="w100"
+	  	color="accent"
+	  	appearance="outline"
+	  	hintLabel="Min lock length: {{ lockMinLength }} blocks {{ formatBlocks(lockMinLength) }}">
+	    <mat-label>Lock length in blocks</mat-label>
+	    <input 
+	    	matInput 
+	    	type="number"
+	    	placeholder="Time that tokens must be locked once minted" 
+	    	autocomplete="off" 
+	    	formControlName="lockLength">
+	    <mat-hint class="link" (click)="lockLength!.setValue(lockMaxLength)" align="end">Use max</mat-hint>
+	  </mat-form-field>
+	</mat-dialog-content>
+	<mat-dialog-actions>
+	  <button
+	  	color="accent" 
+	  	mat-flat-button
+	  	[disabled]="!mintForm.valid">Submit</button>
+	  <div class="menu-spacer"></div>
+	  <button mat-button mat-dialog-close>Close</button>
+	</mat-dialog-actions>
+</form>
