@@ -51,6 +51,7 @@ import { UploadFileDialogComponent } from './upload-file-dialog/upload-file-dial
 import { DialogStampComponent } from './dialog-stamp/dialog-stamp.component';
 import {MatSortModule} from '@angular/material/sort';
 import { ChartComponent } from './chart/chart.component';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -135,6 +136,7 @@ import { ChartComponent } from './chart/chart.component';
     MatPaginatorModule,
     MatCheckboxModule,
     MatSortModule,
+    MatSlideToggleModule,
     ChartComponent
   ],
   // entryComponents: [DialogSelectLanguageComponent]

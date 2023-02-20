@@ -1,6 +1,45 @@
-<mat-dialog-content>
-	<p>Burn Vault works!</p>
-</mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button mat-dialog-close>Close</button>
-</mat-dialog-actions>
+<mat-progress-bar 
+	color="accent"
+	mode="indeterminate"
+	*ngIf="loading"
+	class="fadeIn"></mat-progress-bar>
+<form
+	[formGroup]="burnVaultForm"
+	(ngSubmit)="onSubmit()"
+	*ngIf="!loading">
+	<mat-dialog-content>
+		<mat-form-field 
+			class="w100" 
+			appearance="outline"
+			color="accent">
+			<mat-label>Target</mat-label>
+			<input
+				matInput
+				maxlength="43"
+				autocomplete="off"
+				placeholder="An arweave wallet address"
+				formControlName="target" required>
+			<mat-error ></mat-error>
+		</mat-form-field>
+	  <mat-form-field
+	  	class="w100 form-field-outline-textarea"
+	  	color="accent"
+	  	appearance="outline">
+	    <mat-label>Notes:</mat-label>
+	    <textarea 
+	    	matInput 
+				autocomplete="off"
+	    	maxlength="200"
+	    	rows="4"
+	    	formControlName="notes"></textarea>
+	  </mat-form-field>
+	</mat-dialog-content>
+	<mat-dialog-actions>
+	  <button
+	  	color="accent" 
+	  	mat-flat-button
+	  	[disabled]="!burnVaultForm.valid">Submit</button>
+	  <div class="menu-spacer"></div>
+	  <button mat-button mat-dialog-close>Close</button>
+	</mat-dialog-actions>
+</form>

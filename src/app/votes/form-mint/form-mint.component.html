@@ -1,4 +1,12 @@
-<form [formGroup]="mintForm" (ngSubmit)="onSubmit()">
+<mat-progress-bar 
+	color="accent"
+	mode="indeterminate"
+	*ngIf="loading"
+	class="fadeIn"></mat-progress-bar>
+<form
+	[formGroup]="mintForm"
+	(ngSubmit)="onSubmit()"
+	*ngIf="!loading">
 	<mat-dialog-content>
 		<mat-form-field 
 			class="w100" 
@@ -7,6 +15,8 @@
 			<mat-label>Recipient</mat-label>
 			<input
 				matInput
+				maxlength="43"
+				autocomplete="off"
 				placeholder="An arweave wallet address"
 				formControlName="recipient" required>
 			<mat-error ></mat-error>
@@ -18,17 +28,17 @@
 	    <mat-label>Amount</mat-label>
 	    <input 
 	    	matInput 
+				autocomplete="off"
 	    	placeholder="$WIKI amount" 
 	    	type="number"
-	    	formControlName="qty"
-	    	autocomplete="off">
+	    	formControlName="qty">
     	<span matSuffix>$WIKI</span>
 	  </mat-form-field>
 	  <mat-form-field
 	  	class="w100"
 	  	color="accent"
 	  	appearance="outline"
-	  	hintLabel="Min lock length: {{ lockMinLength }} blocks {{ formatBlocks(lockMinLength) }}">
+	  	hintLabel="Min: {{ lockMinLength }} blocks {{ formatBlocks(lockMinLength) }} Max: {{ lockMaxLength }} blocks {{ formatBlocks(lockMaxLength) }}">
 	    <mat-label>Lock length in blocks</mat-label>
 	    <input 
 	    	matInput 
@@ -37,6 +47,24 @@
 	    	autocomplete="off" 
 	    	formControlName="lockLength">
 	    <mat-hint class="link" (click)="lockLength!.setValue(lockMaxLength)" align="end">Use max</mat-hint>
+	  </mat-form-field>
+	  <div class="text-right toggle-field">
+	  	<mat-slide-toggle
+	  		formControlName="lockTokens"
+	  		(change)="lockTokenFields(lockTokens.value!)"
+	  		color="accent">Lock tokens</mat-slide-toggle>
+	  </div>
+	  <mat-form-field
+	  	class="w100 form-field-outline-textarea"
+	  	color="accent"
+	  	appearance="outline">
+	    <mat-label>Notes:</mat-label>
+	    <textarea 
+	    	matInput 
+				autocomplete="off"
+	    	maxlength="200"
+	    	rows="4"
+	    	formControlName="notes"></textarea>
 	  </mat-form-field>
 	</mat-dialog-content>
 	<mat-dialog-actions>

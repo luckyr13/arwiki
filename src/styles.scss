@@ -781,3 +781,10 @@ p {
 .nay-bar .mdc-linear-progress__bar-inner {
   border-top-width: 12px !important;
 }
+
+/*
+* FIX TEXTAREA LABEL
+*/
+.mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mat-mdc-floating-label {
+  top: 28px !important;
+}
