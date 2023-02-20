@@ -16,6 +16,9 @@
 		"TOOLTIP_LOGIN": "Логін",
 		"MENU_SETTINGS_LANGUAGE": "Оберіть мову",
 		"MENU_SETTINGS_THEME": "Виберіть тему",
+		"MENU_SETTINGS_APP_INFO": "App info",
+		"MENU_SETTINGS_NETWORK": "Network",
+		"MENU_SETTINGS_COOKIES": "Cookies",
 		"TOOLTIP_SEARCH": "Пошук",
 		"TOOLTIP_SETTINGS": "Налаштування",
 		"MENU_USER_DASHBOARD": "Панель приладів",
@@ -328,5 +331,15 @@
 		"BREADCRUMB_LABEL": "Votes",
 		"TITLE": "Votes",
 		"BTN_NEW_VOTE": "New vote"
+	},
+	"INFO": {
+		"PRIVACY_POLICY": {
+			"BREADCRUMB": "Privacy Policy",
+			"MAIN_TITLE": "Privacy Policy"
+		},
+		"COOKIES_POLICY": {
+			"BREADCRUMB": "Cookies Policy",
+			"MAIN_TITLE": "Cookies Policy"
+		}
 	}
 }

@@ -16,6 +16,9 @@
 		"TOOLTIP_LOGIN": "Iniciar sesión",
 		"MENU_SETTINGS_LANGUAGE": "Elegir idioma",
 		"MENU_SETTINGS_THEME": "Elegir tema",
+		"MENU_SETTINGS_APP_INFO": "App info",
+		"MENU_SETTINGS_NETWORK": "Network",
+		"MENU_SETTINGS_COOKIES": "Cookies",
 		"TOOLTIP_SEARCH": "Buscar",
 		"TOOLTIP_SETTINGS": "Ajustes",
 		"MENU_USER_DASHBOARD": "Tablero principal",
@@ -329,5 +332,15 @@
 		"BREADCRUMB_LABEL": "Votes",
 		"TITLE": "Votes",
 		"BTN_NEW_VOTE": "New vote"
+	},
+	"INFO": {
+		"PRIVACY_POLICY": {
+			"BREADCRUMB": "Privacy Policy",
+			"MAIN_TITLE": "Privacy Policy"
+		},
+		"COOKIES_POLICY": {
+			"BREADCRUMB": "Cookies Policy",
+			"MAIN_TITLE": "Cookies Policy"
+		}
 	}
 }

@@ -30,6 +30,7 @@ const routes: Routes = [
         loadChildren: () => import('./category/category.module').then(m => m.CategoryModule),
       },
       { path: ':lang/search', loadChildren: () => import('./search/search.module').then(m => m.SearchModule) },
+      { path: ':lang/info', loadChildren: () => import('./info/info.module').then(m => m.InfoModule) },
       {
         path: ':lang/dashboard',
         loadChildren: () => import('./user-panel/user-panel.module').then(m => m.UserPanelModule),

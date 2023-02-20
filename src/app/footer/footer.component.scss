@@ -1,5 +1,5 @@
-$footer-height-small: 184px;
-$footer-height-big: 124px;
+$footer-height-small: 200px;
+$footer-height-big: 140px;
 $sm-icon-size: 32px;
 
 
@@ -98,4 +98,16 @@ $sm-icon-size: 32px;
 .follow-us-label {
 	margin-left: 10px;
 	margin-right: 10px;
+}
+
+.footer-links ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.footer-links li {
+	float: left;
+	margin-left: 14px;
+	font-size: 14px;
 }

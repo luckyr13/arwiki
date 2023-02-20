@@ -16,6 +16,9 @@
 		"TOOLTIP_LOGIN": "登陆",
 		"MENU_SETTINGS_LANGUAGE": "选择语言",
 		"MENU_SETTINGS_THEME": "选择主题",
+		"MENU_SETTINGS_APP_INFO": "App info",
+		"MENU_SETTINGS_NETWORK": "Network",
+		"MENU_SETTINGS_COOKIES": "Cookies",
 		"TOOLTIP_SEARCH": "搜索",
 		"TOOLTIP_SETTINGS": "设置",
 		"MENU_USER_DASHBOARD": "大盘",
@@ -329,5 +332,15 @@
 		"BREADCRUMB_LABEL": "Votes",
 		"TITLE": "Votes",
 		"BTN_NEW_VOTE": "New vote"
+	},
+	"INFO": {
+		"PRIVACY_POLICY": {
+			"BREADCRUMB": "Privacy Policy",
+			"MAIN_TITLE": "Privacy Policy"
+		},
+		"COOKIES_POLICY": {
+			"BREADCRUMB": "Cookies Policy",
+			"MAIN_TITLE": "Cookies Policy"
+		}
 	}
 }

@@ -16,6 +16,9 @@
 		"TOOLTIP_LOGIN": "로그인",
 		"MENU_SETTINGS_LANGUAGE": "언어 선택",
 		"MENU_SETTINGS_THEME": "테마 선택",
+		"MENU_SETTINGS_APP_INFO": "App info",
+		"MENU_SETTINGS_NETWORK": "Network",
+		"MENU_SETTINGS_COOKIES": "Cookies",
 		"TOOLTIP_SEARCH": "검색",
 		"TOOLTIP_SETTINGS": "설정",
 		"MENU_USER_DASHBOARD": "대시보드",
@@ -329,5 +332,15 @@
 		"BREADCRUMB_LABEL": "Votes",
 		"TITLE": "Votes",
 		"BTN_NEW_VOTE": "New vote"
+	},
+	"INFO": {
+		"PRIVACY_POLICY": {
+			"BREADCRUMB": "Privacy Policy",
+			"MAIN_TITLE": "Privacy Policy"
+		},
+		"COOKIES_POLICY": {
+			"BREADCRUMB": "Cookies Policy",
+			"MAIN_TITLE": "Cookies Policy"
+		}
 	}
 }
