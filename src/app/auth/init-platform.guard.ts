@@ -142,6 +142,10 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
     if (route.params['lang']) {
       lang = route.params['lang'];
     }
+    // Fix for nested routes
+    else if (route.parent && route.parent.params['lang']) {
+      lang = route.parent.params['lang'];
+    }
     return lang;
   }
 

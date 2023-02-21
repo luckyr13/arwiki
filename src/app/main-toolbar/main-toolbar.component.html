@@ -69,14 +69,20 @@
     <button mat-menu-item (click)="openLangModal()">
       <mat-icon>translate</mat-icon> {{ 'MAIN_TOOLBAR.MENU_SETTINGS_LANGUAGE' | translate }}
     </button>
-    <button mat-menu-item routerLink="/{{ routerLang }}/settings/app-info">
+    <button
+      mat-menu-item
+      [routerLink]="['/', routerLang, 'settings', 'app-info']">
       <mat-icon>info</mat-icon> {{ 'MAIN_TOOLBAR.MENU_SETTINGS_APP_INFO' | translate }}
     </button>
-    <button mat-menu-item (click)="openLangModal()">
+    <button
+      mat-menu-item
+      [routerLink]="['/', routerLang, 'settings', 'network']">
       <mat-icon>settings_input_antenna</mat-icon> {{ 'MAIN_TOOLBAR.MENU_SETTINGS_NETWORK' | translate }}
     </button>
-    <button mat-menu-item (click)="openLangModal()">
-      <mat-icon>cookie</mat-icon> {{ 'MAIN_TOOLBAR.MENU_SETTINGS_COOKIES' | translate }}
+    <button
+      mat-menu-item
+      [routerLink]="['/', routerLang, 'settings', 'privacy']">
+      <mat-icon>cookie</mat-icon> {{ 'MAIN_TOOLBAR.MENU_SETTINGS_PRIVACY' | translate }}
     </button>
   </mat-menu>
   

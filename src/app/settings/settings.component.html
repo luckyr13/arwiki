@@ -1,0 +1,49 @@
+<div class="mt-main"></div>
+<div>
+  <mat-toolbar class="secondary-toolbar" color="primary">
+    <button mat-icon-button>
+      <mat-icon>settings</mat-icon>
+    </button>
+    <span>{{ 'SETTINGS.TITLE' | translate }}</span>
+  </mat-toolbar>
+  <nav 
+    mat-tab-nav-bar 
+    class="mat-elevation-z1"
+    color="accent" [tabPanel]="tabPanel">
+    <a 
+      class="action-btn-wrapper"
+      mat-tab-link 
+      [routerLink]="['/', routeLang, 'settings', 'app-info']"
+      routerLinkActive="active"
+      #rlApplication="routerLinkActive"
+      [active]="rlApplication.isActive"> 
+      <mat-icon
+        [class]="{ 'material-icons-outlined': !rlApplication.isActive }">info</mat-icon>
+      <div class="action-btn-label">{{ 'SETTINGS.APP_INFO' | translate }}</div>
+    </a>
+    <a
+      class="action-btn-wrapper"
+      mat-tab-link 
+      [routerLink]="['/', routeLang, 'settings', 'network']"
+      routerLinkActive="active"
+      #rlNetwork="routerLinkActive"
+      [active]="rlNetwork.isActive">
+      <mat-icon
+        [class]="{ 'material-icons-outlined': !rlNetwork.isActive }">settings_input_antenna</mat-icon>
+      <div class="action-btn-label">{{ 'SETTINGS.NETWORK' | translate }}</div>
+    </a>
+    <a
+      class="action-btn-wrapper"
+      mat-tab-link 
+      [routerLink]="['/', routeLang, 'settings', 'privacy']"
+      routerLinkActive="active"
+      #rlWallet="routerLinkActive"
+      [active]="rlWallet.isActive">
+      <mat-icon
+        [class]="{ 'material-icons-outlined': !rlWallet.isActive }">cookie</mat-icon>
+      <div class="action-btn-label">{{ 'SETTINGS.PRIVACY' | translate }}</div>
+    </a>
+    
+  </nav>
+  <mat-tab-nav-panel #tabPanel><router-outlet></router-outlet></mat-tab-nav-panel>
+</div>

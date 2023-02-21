@@ -18,7 +18,7 @@
 		"MENU_SETTINGS_THEME": "Elegir tema",
 		"MENU_SETTINGS_APP_INFO": "App info",
 		"MENU_SETTINGS_NETWORK": "Network",
-		"MENU_SETTINGS_COOKIES": "Cookie Settings",
+		"MENU_SETTINGS_PRIVACY": "Privacy Settings",
 		"TOOLTIP_SEARCH": "Buscar",
 		"TOOLTIP_SETTINGS": "Ajustes",
 		"MENU_USER_DASHBOARD": "Tablero principal",
@@ -342,5 +342,11 @@
 			"BREADCRUMB": "Cookie Policy",
 			"MAIN_TITLE": "Cookie Policy"
 		}
+	},
+	"SETTINGS": {
+		"TITLE": "Settings",
+		"APP_INFO": "App info",
+		"NETWORK": "Network",
+		"PRIVACY": "Privacy Settings"
 	}
 }
