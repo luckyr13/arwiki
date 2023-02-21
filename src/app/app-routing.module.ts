@@ -37,6 +37,7 @@ const routes: Routes = [
       },
       { path: ':lang/badges', loadChildren: () => import('./badges/badges.module').then(m => m.BadgesModule) },
       { path: ':lang/votes', loadChildren: () => import('./votes/votes.module').then(m => m.VotesModule) },
+      { path: ':lang/settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule) },
       {
         path: ':lang/moderators',
         loadChildren: () => import('./moderators/moderators.module').then(m => m.ModeratorsModule),
@@ -46,7 +47,8 @@ const routes: Routes = [
         loadChildren: () => import('./user-profile/user-profile.module').then(m => m.UserProfileModule)
       }
     ]
-  }
+  },
+  
 ];
 
 @NgModule({

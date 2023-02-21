@@ -69,7 +69,7 @@
     <button mat-menu-item (click)="openLangModal()">
       <mat-icon>translate</mat-icon> {{ 'MAIN_TOOLBAR.MENU_SETTINGS_LANGUAGE' | translate }}
     </button>
-    <button mat-menu-item (click)="openLangModal()">
+    <button mat-menu-item routerLink="/{{ routerLang }}/settings/app-info">
       <mat-icon>info</mat-icon> {{ 'MAIN_TOOLBAR.MENU_SETTINGS_APP_INFO' | translate }}
     </button>
     <button mat-menu-item (click)="openLangModal()">

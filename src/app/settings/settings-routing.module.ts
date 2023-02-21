@@ -1,27 +1,24 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ListComponent } from './list/list.component';
-import { AuthGuard } from '../auth/auth.guard';
+import { AppInfoComponent } from './app-info/app-info.component';
 
 const routes: Routes = [
   {
     path: '',
     children: [
       {
-        path: 'list',
-        component: ListComponent,
-        canActivate: [AuthGuard],
+        path: 'app-info',
+        component: AppInfoComponent
       },
       {
-        path: '', redirectTo: 'list', pathMatch: 'full'
+        path: '', redirectTo: 'app-info', pathMatch: 'full'
       }
     ]
   }
 ];
 
-
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class VotesRoutingModule { }
+export class SettingsRoutingModule { }
