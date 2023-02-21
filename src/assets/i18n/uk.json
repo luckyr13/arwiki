@@ -18,7 +18,7 @@
 		"MENU_SETTINGS_THEME": "Виберіть тему",
 		"MENU_SETTINGS_APP_INFO": "App info",
 		"MENU_SETTINGS_NETWORK": "Network",
-		"MENU_SETTINGS_COOKIES": "Cookies",
+		"MENU_SETTINGS_COOKIES": "Cookie Settings",
 		"TOOLTIP_SEARCH": "Пошук",
 		"TOOLTIP_SETTINGS": "Налаштування",
 		"MENU_USER_DASHBOARD": "Панель приладів",
@@ -338,8 +338,8 @@
 			"MAIN_TITLE": "Privacy Policy"
 		},
 		"COOKIES_POLICY": {
-			"BREADCRUMB": "Cookies Policy",
-			"MAIN_TITLE": "Cookies Policy"
+			"BREADCRUMB": "Cookie Policy",
+			"MAIN_TITLE": "Cookie Policy"
 		}
 	}
 }

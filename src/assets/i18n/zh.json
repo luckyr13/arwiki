@@ -18,7 +18,7 @@
 		"MENU_SETTINGS_THEME": "选择主题",
 		"MENU_SETTINGS_APP_INFO": "App info",
 		"MENU_SETTINGS_NETWORK": "Network",
-		"MENU_SETTINGS_COOKIES": "Cookies",
+		"MENU_SETTINGS_COOKIES": "Cookie Settings",
 		"TOOLTIP_SEARCH": "搜索",
 		"TOOLTIP_SETTINGS": "设置",
 		"MENU_USER_DASHBOARD": "大盘",
@@ -339,8 +339,8 @@
 			"MAIN_TITLE": "Privacy Policy"
 		},
 		"COOKIES_POLICY": {
-			"BREADCRUMB": "Cookies Policy",
-			"MAIN_TITLE": "Cookies Policy"
+			"BREADCRUMB": "Cookie Policy",
+			"MAIN_TITLE": "Cookie Policy"
 		}
 	}
 }
