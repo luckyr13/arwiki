@@ -95,7 +95,7 @@ export class FormBurnVaultComponent implements OnInit, OnDestroy {
         error: (error) => {
           this.error = 'Error creating vote!';
           this.disableForm(false);
-          if (typeof(error) === 'string') {
+          if (typeof error === 'string') {
             this._utils.message(error, 'error');
           } else if (error && Object.prototype.hasOwnProperty.call(error, 'message')) {
             this._utils.message(error.message, 'error');

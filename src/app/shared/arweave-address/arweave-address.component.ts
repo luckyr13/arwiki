@@ -76,7 +76,7 @@ export class ArweaveAddressComponent implements OnInit, OnDestroy, OnChanges {
     const minLength = 12;
     const sliceLength = 5;
 
-    if (!s || typeof(s) !== 'string') {
+    if (!s || typeof s !== 'string') {
       return '';
     }
 

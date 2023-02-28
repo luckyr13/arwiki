@@ -227,7 +227,7 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
     const minLength = 12;
     const sliceLength = 5;
 
-    if (!s || typeof(s) !== 'string') {
+    if (!s || typeof s !== 'string') {
       return '';
     }
 
