@@ -28,6 +28,13 @@ export class FormSetSettingsComponent implements OnInit, OnDestroy {
   settingsForm = new FormGroup({
     notes: new FormControl(
       '', [Validators.required, Validators.maxLength(this.maxLengthNote)]
+    ),
+    selectOption: new FormControl('', [Validators.required]),
+    numericValue: new FormControl(
+      0, [Validators.required, Validators.min(0)]
+    ),
+    stringValue: new FormControl(
+      '', [Validators.required]
     )
   });
   loadingSubmit = false;
@@ -35,6 +42,8 @@ export class FormSetSettingsComponent implements OnInit, OnDestroy {
   tx = '';
   error = '';
   submitVoteSubscription = Subscription.EMPTY;
+  showNumericValue = false;
+  showStringValue = false;
 
   constructor(
     private _arweave: ArweaveService,
@@ -46,6 +55,18 @@ export class FormSetSettingsComponent implements OnInit, OnDestroy {
 
   public get notes() {
     return this.settingsForm.get('notes')!;
+  }
+
+  public get selectOption() {
+    return this.settingsForm.get('selectOption')!;
+  }
+
+  public get numericValue() {
+    return this.settingsForm.get('numericValue')!;
+  }
+
+  public get stringValue() {
+    return this.settingsForm.get('stringValue')!;
   }
 
   ngOnInit() {
@@ -79,4 +100,57 @@ export class FormSetSettingsComponent implements OnInit, OnDestroy {
       this.loadingSubmit = false;
     }
   }
+
+  updateValidatorsOnChange(option: string) {
+    // Unset fields
+    this.unsetValidatorNumericValue();
+    this.unsetValidatorStringValue();
+
+    if (option === '') {
+      return;
+    } else if (option === 'quorum' || option === 'support' ||
+      option === 'lockMinLength' || option === 'lockMaxLength' ||
+      option === 'voteLength' || option === 'pageApprovalLength' || 
+      option === 'noteVoteMaxLength' || option === 'keyVoteMaxLength' || 
+      option === 'roleValueVoteMaxLength' || option === 'pageSlugMaxLength') {
+      this.setValidatorNumericValue();
+    } else if (option === 'role' || option === 'communityLogo' || 
+      option === 'communityDescription' || option === 'communityAppUrl') {
+      this.setValidatorStringValue();
+    }
+    
+  }
+
+  setValidatorNumericValue() {
+    this.numericValue.setValidators([
+      Validators.required, Validators.min(0)
+    ]);
+    this.numericValue.setValue(0);
+    this.numericValue.updateValueAndValidity();
+    this.showNumericValue = true;
+  }
+
+  unsetValidatorNumericValue() {
+    this.showNumericValue = false;
+    this.numericValue.setValidators([]);
+    this.numericValue.updateValueAndValidity();
+  }
+
+  setValidatorStringValue() {
+    this.stringValue.setValidators([
+      Validators.required
+    ]);
+    this.stringValue.setValue('');
+    this.stringValue.updateValueAndValidity();
+    this.showStringValue = true;
+  }
+
+  unsetValidatorStringValue() {
+    this.showStringValue = false;
+    this.stringValue.setValidators([]);
+    this.stringValue.updateValueAndValidity();
+  }
+
+  
+
 }

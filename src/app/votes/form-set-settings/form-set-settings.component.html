@@ -8,6 +8,54 @@
 	(ngSubmit)="onSubmit()">
 	<mat-dialog-content>
 		<div *ngIf="!tx && !error">
+			<mat-form-field
+		  	class="w100"
+		  	color="accent"
+		  	appearance="outline">
+		  	<mat-label>Setting</mat-label>
+				<mat-select
+					(selectionChange)="updateValidatorsOnChange(selectOption.value!)"
+					formControlName="selectOption">
+					<mat-option value="">Select an option</mat-option>
+					<mat-option value="quorum">Quorum</mat-option>
+					<mat-option value="support">Support</mat-option>
+					<mat-option value="lockMinLength">Minimum Lock Length</mat-option>
+					<mat-option value="lockMaxLength">Maximum Lock Length</mat-option>
+					<mat-option value="voteLength">Vote Length</mat-option>
+					<mat-option value="pageApprovalLength">Page Approval Length</mat-option>
+					<mat-option value="noteVoteMaxLength">Note max length</mat-option>
+					<mat-option value="keyVoteMaxLength">Key max length</mat-option>
+					<mat-option value="roleValueVoteMaxLength">Role max length</mat-option>
+					<mat-option value="pageSlugMaxLength">Slug max length</mat-option>
+					<mat-option value="role">Role</mat-option>
+					<mat-option value="communityLogo">Community Logo</mat-option>
+					<mat-option value="communityDescription">Community Description</mat-option>
+					<mat-option value="communityAppUrl">Community App Url</mat-option>
+					<mat-option value="other">Other</mat-option>
+				</mat-select>
+		  </mat-form-field>
+		  <mat-form-field
+		  	class="w100"
+		  	color="accent"
+		  	appearance="outline"
+		  	*ngIf="showNumericValue">
+		    <mat-label>Value:</mat-label>
+		    <input
+		    	matInput
+		    	min="0"
+		    	type="number"
+		    	formControlName="numericValue">
+		  </mat-form-field>
+		  <mat-form-field
+		  	class="w100"
+		  	color="accent"
+		  	appearance="outline"
+		  	*ngIf="showStringValue">
+		    <mat-label>Value:</mat-label>
+		    <input
+		    	matInput
+		    	formControlName="stringValue">
+		  </mat-form-field>
 		  <mat-form-field
 		  	class="w100 form-field-outline-textarea"
 		  	color="accent"
@@ -16,7 +64,7 @@
 		    <textarea 
 		    	matInput 
 					autocomplete="off"
-		    	maxlength="200"
+		    	[maxlength]="maxLengthNote"
 		    	rows="4"
 		    	formControlName="notes"></textarea>
 		    <mat-hint align="end">
