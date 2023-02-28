@@ -29,24 +29,6 @@
 		  	mat-button 
 		  	class="btn-toolbar vote-btn" 
 		  	color="accent"
-  		  	(click)="upvote(true, pageExtraMetadata.sponsor, routeSlug, routeLang)">
-		    <mat-icon>thumb_up</mat-icon>
-		    {{ pageData.upvotes }}
-		  </button>
-		  <button 
-	    	type="button"
-		  	mat-button 
-		  	class="btn-toolbar vote-btn" 
-		  	color="accent"
-		  	(click)="upvote(false, pageExtraMetadata.sponsor, routeSlug, routeLang)">
-		    <mat-icon>thumb_down</mat-icon>
-		    {{ pageData.downvotes }}
-		  </button>
-		  <button 
-	    	type="button"
-		  	mat-button 
-		  	class="btn-toolbar vote-btn" 
-		  	color="accent"
 		  	(click)="stamp(routeSlug, routeLang)">
 	    	<img class="invert-colors icon-stamp material-icons" src="assets/img/stampWhite.png">
 		    {{ stamps }} STAMPS
