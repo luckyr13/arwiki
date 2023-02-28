@@ -91,10 +91,10 @@ export class ResultsComponent implements OnInit, OnDestroy {
         this.loadingPages = false;
 
         for (let p of pages) {
-          this.pagesData[p.id] = await this._arweave.arweave.transactions.getData(
-            p.id, 
-            {decode: true, string: true}
-          );  
+          this.pagesData[p.id] = await this._arweave.getTxContent(
+            p.id
+          );
+        
         }
 
         
