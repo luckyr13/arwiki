@@ -33,7 +33,7 @@
 		  <span>&nbsp;Indicative</span>
 		</ng-template>
 	  <ng-template matTabContent>
-	    <app-form-indicative></app-form-indicative>
+	    <app-form-indicative (working)="tabWorking($event)"></app-form-indicative>
 	  </ng-template>
 	</mat-tab>
 </mat-tab-group>

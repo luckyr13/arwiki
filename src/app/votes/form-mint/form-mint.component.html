@@ -16,7 +16,7 @@
 				<mat-label>Recipient</mat-label>
 				<input
 					matInput
-					maxlength="43"
+					[maxlength]="maxLengthAddress"
 					autocomplete="off"
 					placeholder="An arweave wallet address"
 					formControlName="recipient" required>
@@ -67,7 +67,7 @@
 		    <textarea 
 		    	matInput 
 					autocomplete="off"
-		    	maxlength="200"
+		    	[maxlength]="maxLengthNote"
 		    	rows="4"
 		    	formControlName="notes"></textarea>
 		  </mat-form-field>

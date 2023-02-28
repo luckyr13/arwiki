@@ -24,15 +24,21 @@ import {
   styleUrls: ['./form-mint.component.scss']
 })
 export class FormMintComponent implements OnInit, OnDestroy {
+  maxLengthAddress = 43;
+  maxLengthNote = 200;
   mintForm = new FormGroup({
     recipient: new FormControl(
-      '', [Validators.required, Validators.maxLength(43), Validators.minLength(43)]
+      '', [
+        Validators.required,
+        Validators.maxLength(this.maxLengthAddress),
+        Validators.minLength(this.maxLengthAddress)
+      ]
     ),
     qty: new FormControl(1, [Validators.required, Validators.min(1)]),
     lockLength: new FormControl(0, [Validators.required]),
     lockTokens: new FormControl(true),
     notes: new FormControl(
-      '', [Validators.required, Validators.maxLength(200)]
+      '', [Validators.required, Validators.maxLength(this.maxLengthNote)]
     )
   });
   lockMinLength = 0;

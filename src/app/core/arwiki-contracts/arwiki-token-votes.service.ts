@@ -46,7 +46,6 @@ export class ArwikiTokenVotesService {
     );
   }
 
-
   addVoteBurnVault(
     _target: string,
     _note: string,
@@ -65,6 +64,29 @@ export class ArwikiTokenVotesService {
       type: type,
       note: _note,
       target: _target
+    };
+    
+    return this._warp.writeInteraction(
+      this._arwikiToken.contractAddress, jwk, input, tags
+    );
+  }
+
+  addVoteIndicative(
+    _note: string,
+    _privateKey: JWKInterface|'use_wallet',
+    _arwikiVersion: string
+  ) {
+    const type = 'indicative';
+    const jwk = _privateKey;
+    const tags = [
+      {name: 'Service', value: 'ArWiki'},
+      {name: 'Arwiki-Type', value: 'VoteProposal'},
+      {name: 'Arwiki-Version', value: _arwikiVersion},
+    ];
+    const input = {
+      function: 'propose',
+      type: type,
+      note: _note
     };
     
     return this._warp.writeInteraction(

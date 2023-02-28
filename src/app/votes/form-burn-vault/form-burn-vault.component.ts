@@ -24,12 +24,19 @@ import {
   styleUrls: ['./form-burn-vault.component.scss']
 })
 export class FormBurnVaultComponent implements OnInit, OnDestroy {
+  maxLengthNote = 200;
+  maxLengthAddress = 43;
   burnVaultForm = new FormGroup({
     target: new FormControl(
-      '', [Validators.required, Validators.maxLength(43), Validators.minLength(43)]
+      '',
+      [
+        Validators.required,
+        Validators.maxLength(this.maxLengthAddress),
+        Validators.minLength(this.maxLengthAddress)
+      ]
     ),
     notes: new FormControl(
-      '', [Validators.required, Validators.maxLength(200)]
+      '', [Validators.required, Validators.maxLength(this.maxLengthNote)]
     )
   });
   loadingSubmit = false;

@@ -1,32 +1,46 @@
 <mat-progress-bar 
 	color="accent"
 	mode="indeterminate"
-	*ngIf="loading"
+	*ngIf="loadingSubmit"
 	class="fadeIn"></mat-progress-bar>
 <form
 	[formGroup]="indicativeForm"
-	(ngSubmit)="onSubmit()"
-	*ngIf="!loading">
+	(ngSubmit)="onSubmit()">
 	<mat-dialog-content>
-	  <mat-form-field
-	  	class="w100 form-field-outline-textarea"
-	  	color="accent"
-	  	appearance="outline">
-	    <mat-label>Notes:</mat-label>
-	    <textarea 
-	    	matInput 
-				autocomplete="off"
-	    	maxlength="200"
-	    	rows="4"
-	    	formControlName="notes"></textarea>
-	  </mat-form-field>
+		<div *ngIf="!tx && !error">
+		  <mat-form-field
+		  	class="w100 form-field-outline-textarea"
+		  	color="accent"
+		  	appearance="outline">
+		    <mat-label>Notes:</mat-label>
+		    <textarea 
+		    	matInput 
+					autocomplete="off"
+		    	[maxlength]="maxLengthNote"
+		    	rows="4"
+		    	formControlName="notes"></textarea>
+		   	<mat-hint align="end">
+		   		{{notes.value!.length}}/{{maxLengthNote}}
+		   	</mat-hint>
+		  </mat-form-field>
+		</div>
+		<div *ngIf="tx">
+			Vote created. TX ID: {{ tx }}
+		</div>
+		<div *ngIf="error">
+			Error: {{ error }}
+		</div>
 	</mat-dialog-content>
 	<mat-dialog-actions>
 	  <button
 	  	color="accent" 
 	  	mat-flat-button
-	  	[disabled]="!indicativeForm.valid">Submit</button>
+	  	*ngIf="!tx && !error"
+	  	[disabled]="!indicativeForm.valid || loadingSubmit">Submit</button>
 	  <div class="menu-spacer"></div>
-	  <button mat-button mat-dialog-close>Close</button>
+	  <button 
+	  	mat-button 
+	  	[mat-dialog-close]="tx"
+	  	[disabled]="loadingSubmit">Close</button>
 	</mat-dialog-actions>
 </form>
