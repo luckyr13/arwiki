@@ -74,12 +74,12 @@
 			      	mat-list-item
 			        *ngFor="let page of pagesByCategory[cs]"
 			        routerLink="/{{ routeLang }}/{{ page.slug }}" >
-			        <div class="ellipsis">{{ page.title }}</div>
+			        <div class="ellipsis m-i">{{ page.title }}</div>
 			      </a>
 			      <a
 			      	mat-list-item
 			        routerLink="/{{ routeLang }}/category/{{ cs }}" >
-			        <div><strong>{{ 'GENERAL.BUTTONS.VIEW_ALL' | translate }}</strong></div>
+			        <div><strong class="m-i">{{ 'GENERAL.BUTTONS.VIEW_ALL' | translate }}</strong></div>
 			      </a>
 			    </mat-expansion-panel>
 			  </mat-accordion>

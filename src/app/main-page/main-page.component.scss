@@ -93,11 +93,9 @@ a.mat-button{
 	line-height: 52px !important;
 }
 
-#arwiki-home-page-accordion a.mat-button {
+#arwiki-home-page-accordion a.mat-mdc-list-item .m-i {
 	font-size: 14px;
-	margin-left: 10px;
-	margin-right: 10px;
-	display: block;
+	padding: 8px;
 	text-align: left;
 }
 
