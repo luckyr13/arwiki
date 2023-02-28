@@ -39,9 +39,10 @@
 			  <ng-container matColumnDef="value">
 			    <th mat-header-cell *matHeaderCellDef> {{ 'DASHBOARD.COLUMN_VALUE' | translate }} </th>
 			    <td mat-cell *matCellDef="let element">
-			    	{{
-			    		element.specialValue + ' (' + element.value + ')'
-			    	}} 
+			    	{{ element.value }}
+			    	<span *ngIf="element.specialValue">
+			    		({{ element.specialValue }})
+			    	</span>
 			    </td>
 			  </ng-container>
 

@@ -62,21 +62,49 @@ export class PstInfoComponent implements OnInit, OnDestroy {
               key: 'pageApprovalLength',
               label: 'Page approval length',
               formatFunction: (val: any) => this.formatBlocks(val)
-            }
+            },
+            {
+              key: 'communityLogo',
+              label: 'Community logo',
+              formatFunction: (val: any) => ''
+            },
+            {
+              key: 'communityDescription',
+              label: 'Community Description',
+              formatFunction: (val: any) => ''
+            },
+            {
+              key: 'communityAppUrl',
+              label: 'Community App Url',
+              formatFunction: (val: any) => ''
+            },
+            {
+              key: 'noteVoteMaxLength',
+              label: 'Max length for notes (Vote)',
+              formatFunction: (val: any) => ''
+            },
+            {
+              key: 'keyVoteMaxLength',
+              label: 'Max length for keys (Vote)',
+              formatFunction: (val: any) => ''
+            },
+            {
+              key: 'roleValueVoteMaxLength',
+              label: 'Max length for roles (Vote)',
+              formatFunction: (val: any) => ''
+            },
+            {
+              key: 'pageSlugMaxLength',
+              label: 'Max length for slugs',
+              formatFunction: (val: any) => ''
+            },
+            
           ];
 
           for (const i in settings) {
             const key = settings[i].key;
             const formatFunction = settings[i].formatFunction;
             const value = this.pstSettings.get(key);
-
-            if (key === 'lockMinLength') {
-              this.lockMinLength = value;
-            }
-            if (key === 'lockMaxLength') {
-              this.lockMaxLength = value;
-            }
-            
 
             this.daoSettings.push({
               position: i + 1,

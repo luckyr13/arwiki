@@ -94,10 +94,8 @@ export class ResultsComponent implements OnInit, OnDestroy {
           this.pagesData[p.id] = await this._arweave.getTxContent(
             p.id
           );
-        
         }
 
-        
       },
       error: (error: string) => {
         this._utils.message(error, 'error');
