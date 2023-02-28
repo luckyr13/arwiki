@@ -24,7 +24,7 @@
 		  <span>&nbsp;Set Settings</span>
 		</ng-template>
 	  <ng-template matTabContent>
-	    <app-form-set-settings></app-form-set-settings>
+	    <app-form-set-settings (working)="tabWorking($event)"></app-form-set-settings>
 	  </ng-template>
 	</mat-tab>
 	<mat-tab [disabled]="disableTabs">
