@@ -1,78 +1,93 @@
 <mat-progress-bar 
 	color="accent"
 	mode="indeterminate"
-	*ngIf="loading"
+	*ngIf="loading || loadingSubmit"
 	class="fadeIn"></mat-progress-bar>
 <form
 	[formGroup]="mintForm"
 	(ngSubmit)="onSubmit()"
 	*ngIf="!loading">
 	<mat-dialog-content>
-		<mat-form-field 
-			class="w100" 
-			appearance="outline"
-			color="accent">
-			<mat-label>Recipient</mat-label>
-			<input
-				matInput
-				maxlength="43"
-				autocomplete="off"
-				placeholder="An arweave wallet address"
-				formControlName="recipient" required>
-			<mat-error ></mat-error>
-		</mat-form-field>
-		<mat-form-field
-			class="w100"
-			color="accent"
-			appearance="outline">
-	    <mat-label>Amount</mat-label>
-	    <input 
-	    	matInput 
-				autocomplete="off"
-	    	placeholder="$WIKI amount" 
-	    	type="number"
-	    	formControlName="qty">
-    	<span matSuffix>$WIKI</span>
-	  </mat-form-field>
-	  <mat-form-field
-	  	class="w100"
-	  	color="accent"
-	  	appearance="outline"
-	  	hintLabel="Min: {{ lockMinLength }} blocks {{ formatBlocks(lockMinLength) }} Max: {{ lockMaxLength }} blocks {{ formatBlocks(lockMaxLength) }}">
-	    <mat-label>Lock length in blocks</mat-label>
-	    <input 
-	    	matInput 
-	    	type="number"
-	    	placeholder="Time that tokens must be locked once minted" 
-	    	autocomplete="off" 
-	    	formControlName="lockLength">
-	    <mat-hint class="link" (click)="lockLength!.setValue(lockMaxLength)" align="end">Use max</mat-hint>
-	  </mat-form-field>
-	  <div class="text-right toggle-field">
-	  	<mat-slide-toggle
-	  		formControlName="lockTokens"
-	  		(change)="lockTokenFields(lockTokens.value!)"
-	  		color="accent">Lock tokens</mat-slide-toggle>
-	  </div>
-	  <mat-form-field
-	  	class="w100 form-field-outline-textarea"
-	  	color="accent"
-	  	appearance="outline">
-	    <mat-label>Notes:</mat-label>
-	    <textarea 
-	    	matInput 
-				autocomplete="off"
-	    	maxlength="200"
-	    	rows="4"
-	    	formControlName="notes"></textarea>
-	  </mat-form-field>
+		<div *ngIf="!tx && !error">
+			<mat-form-field 
+				class="w100" 
+				appearance="outline"
+				color="accent">
+				<mat-label>Recipient</mat-label>
+				<input
+					matInput
+					maxlength="43"
+					autocomplete="off"
+					placeholder="An arweave wallet address"
+					formControlName="recipient" required>
+				<mat-error ></mat-error>
+			</mat-form-field>
+			<mat-form-field
+				class="w100"
+				color="accent"
+				appearance="outline">
+		    <mat-label>Amount</mat-label>
+		    <input 
+		    	matInput 
+					autocomplete="off"
+		    	placeholder="$WIKI amount" 
+		    	type="number"
+		    	formControlName="qty">
+	    	<span matSuffix>$WIKI</span>
+		  </mat-form-field>
+		  <mat-form-field
+		  	class="w100"
+		  	color="accent"
+		  	appearance="outline"
+		  	hintLabel="Min: {{ lockMinLength }} blocks {{ formatBlocks(lockMinLength) }} Max: {{ lockMaxLength }} blocks {{ formatBlocks(lockMaxLength) }}">
+		    <mat-label>Lock length in blocks</mat-label>
+		    <input 
+		    	matInput 
+		    	type="number"
+		    	placeholder="Time that tokens must be locked once minted" 
+		    	autocomplete="off" 
+		    	formControlName="lockLength">
+		    <mat-hint 
+		    	class="link"
+		    	(click)="lockLength!.setValue(!loadingSubmit ? lockMaxLength : lockLength.value)" align="end">
+		    	Use max
+		    </mat-hint>
+		  </mat-form-field>
+		  <div class="text-right toggle-field">
+		  	<mat-slide-toggle
+		  		formControlName="lockTokens"
+		  		(change)="lockTokenFields(lockTokens.value!)"
+		  		color="accent">Lock tokens</mat-slide-toggle>
+		  </div>
+		  <mat-form-field
+		  	class="w100 form-field-outline-textarea"
+		  	color="accent"
+		  	appearance="outline">
+		    <mat-label>Notes:</mat-label>
+		    <textarea 
+		    	matInput 
+					autocomplete="off"
+		    	maxlength="200"
+		    	rows="4"
+		    	formControlName="notes"></textarea>
+		  </mat-form-field>
+		</div>
+		<div *ngIf="tx">
+			Vote created. TX ID: {{ tx }}
+		</div>
+		<div *ngIf="error">
+			Error: {{ error }}
+		</div>
 	</mat-dialog-content>
 	<mat-dialog-actions>
 	  <button
 	  	color="accent" 
 	  	mat-flat-button
-	  	[disabled]="!mintForm.valid">Submit</button>
+	  	*ngIf="!tx && !error"
+	  	[disabled]="!mintForm.valid || loadingSubmit">Submit</button>
 	  <div class="menu-spacer"></div>
-	  <button mat-button mat-dialog-close>Close</button>
+	  <button 
+	  	mat-button mat-dialog-close
+	  	[disabled]="loadingSubmit">Close</button>
 	</mat-dialog-actions>
 </form>

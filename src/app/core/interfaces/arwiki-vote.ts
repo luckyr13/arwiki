@@ -10,4 +10,6 @@ export interface ArwikiVote {
 	value: string|number;
 	voted: string[];
 	yays: number;
+	qty?: number;
+	lockLength?: number;
 }

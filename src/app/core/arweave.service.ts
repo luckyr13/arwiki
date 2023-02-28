@@ -23,6 +23,7 @@ export class ArweaveService {
   public readonly protocol: string = 'https';
   public readonly port: number = 443;
   public readonly baseURL: string = `${this.protocol}://${this.host}:${this.port}/`;
+  // Block time: Around 2 minutes
   public readonly blockToSeconds: number = 0.5 / 60;
   arweaveWebWallet = new ArweaveWebWallet({
     name: 'ArWiki',

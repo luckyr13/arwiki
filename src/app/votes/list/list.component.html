@@ -51,10 +51,14 @@
 					<mat-card-subtitle>
 						#{{ (votes.length - 1) - i }} {{ vote.type | uppercase }}
 					</mat-card-subtitle>
-	    		<mat-card-title>Key: {{ vote.key }}</mat-card-title>
+	    		<mat-card-title *ngIf="vote.key">
+		    		Key: {{ vote.key }}
+		    	</mat-card-title>
 				</mat-card-header>
 				<mat-card-content>
-					<p>Value: {{ vote.value }}</p>
+					<p *ngIf="vote.value">Value: {{ vote.value }}</p>
+					<p *ngIf="vote.qty">Qty: {{ vote.qty }} $WIKI</p>
+					<p *ngIf="vote.lockLength">Lock Length: {{ vote.lockLength }} blocks</p>
 					<p>
 						<app-arweave-address
 				    	[address]="vote.recipient">Recipient: </app-arweave-address>
@@ -87,12 +91,15 @@
 			    		{{ vote.status }}
 			    	</span>
 			    </p>
-					<p>
+					<p *ngIf="(vote.start + voteLength) > currentBlockHeight">
 						Ends at block: {{ vote.start + voteLength }}
 						<span
 							*ngIf="(vote.start + voteLength) > currentBlockHeight">
 							({{ formatBlocks(currentBlockHeight - (vote.start + voteLength)) }})
 						</span>
+					</p>
+					<p *ngIf="(vote.start + voteLength) <= currentBlockHeight">
+						Ended at block: {{ vote.start + voteLength }}
 					</p>
 			    <mat-divider></mat-divider>
 			  </mat-card-content>

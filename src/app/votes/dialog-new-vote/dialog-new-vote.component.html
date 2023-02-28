@@ -1,15 +1,15 @@
 <h2 mat-dialog-title>New Vote</h2>
 <mat-tab-group backgroundColor="primary">
-	<mat-tab>
+	<mat-tab [disabled]="disableTabs">
 		<ng-template mat-tab-label>
 		  <mat-icon class="Mint">add_circle</mat-icon>
 		  <span>&nbsp;Mint</span>
 		</ng-template>
 	  <ng-template matTabContent>
-	    <app-form-mint></app-form-mint>
+	    <app-form-mint (working)="tabWorking($event)"></app-form-mint>
 	  </ng-template>
 	</mat-tab>
-	<mat-tab>
+	<mat-tab [disabled]="disableTabs">
 		<ng-template mat-tab-label>
 		  <mat-icon class="Burn Vault">local_fire_department</mat-icon>
 		  <span>&nbsp;Burn Vault</span>
@@ -18,7 +18,7 @@
 	    <app-form-burn-vault></app-form-burn-vault>
 	  </ng-template>
 	</mat-tab>
-	<mat-tab>
+	<mat-tab [disabled]="disableTabs">
 		<ng-template mat-tab-label>
 		  <mat-icon class="Set Settings">settings</mat-icon>
 		  <span>&nbsp;Set Settings</span>
@@ -27,7 +27,7 @@
 	    <app-form-set-settings></app-form-set-settings>
 	  </ng-template>
 	</mat-tab>
-	<mat-tab>
+	<mat-tab [disabled]="disableTabs">
 		<ng-template mat-tab-label>
 		  <mat-icon class="Indicative">label_important</mat-icon>
 		  <span>&nbsp;Indicative</span>

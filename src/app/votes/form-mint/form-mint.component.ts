@@ -1,4 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { 
+  Component, OnInit, OnDestroy,
+  Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ArweaveService } from '../../core/arweave.service';
 import { Subscription } from 'rxjs';
@@ -6,6 +8,15 @@ import {
   ArwikiTokenContract 
 } from '../../core/arwiki-contracts/arwiki-token.service';
 import { UtilsService } from '../../core/utils.service';
+import { 
+  ArwikiTokenVotesService 
+} from '../../core/arwiki-contracts/arwiki-token-votes.service';
+import { 
+  arwikiVersion 
+} from '../../core/arwiki';
+import { 
+  AuthService 
+} from '../../auth/auth.service';
 
 @Component({
   selector: 'app-form-mint',
@@ -15,7 +26,7 @@ import { UtilsService } from '../../core/utils.service';
 export class FormMintComponent implements OnInit, OnDestroy {
   mintForm = new FormGroup({
     recipient: new FormControl(
-      '', [Validators.required, Validators.maxLength(43)]
+      '', [Validators.required, Validators.maxLength(43), Validators.minLength(43)]
     ),
     qty: new FormControl(1, [Validators.required, Validators.min(1)]),
     lockLength: new FormControl(0, [Validators.required]),
@@ -28,11 +39,22 @@ export class FormMintComponent implements OnInit, OnDestroy {
   lockMaxLength = 0;
   getContractSettingsSubscription = Subscription.EMPTY;
   loading = false;
+  loadingSubmit = false;
+  @Output() working = new EventEmitter<boolean>();
+  tx = '';
+  error = '';
+  submitVoteSubscription = Subscription.EMPTY;
 
   constructor(
     private _arweave: ArweaveService,
     private _tokenContract: ArwikiTokenContract,
-    private _utils: UtilsService) {
+    private _tokenContractVotes: ArwikiTokenVotesService,
+    private _utils: UtilsService,
+    private _auth: AuthService) {
+  }
+
+  public get recipient() {
+    return this.mintForm.get('recipient')!;
   }
 
   public get qty() {
@@ -45,6 +67,10 @@ export class FormMintComponent implements OnInit, OnDestroy {
 
   public get lockTokens() {
     return this.mintForm.get('lockTokens')!;
+  }
+
+  public get notes() {
+    return this.mintForm.get('notes')!;
   }
 
   ngOnInit() {
@@ -78,12 +104,73 @@ export class FormMintComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.getContractSettingsSubscription.unsubscribe();
+    this.submitVoteSubscription.unsubscribe();
+  }
+
+  onSubmit() {
+    const recipient: string = this.recipient.value!.trim();
+    const qty: number = this.qty.value!;
+    const lockLength: number = this.lockTokens.value! ?
+      this.lockLength.value! : 0;
+    const note: string = this.notes.value!.trim();
+
+    if (!this._arweave.validateAddress(recipient)) {
+      alert('Invalid arweave address!')
+      return;
+    }
+
+    this.disableForm(true);
+
+    const jwk = this._auth.getPrivateKey();
+    this.submitVoteSubscription = this._tokenContractVotes
+      .addVoteMintTokens(
+        recipient,
+        qty,
+        lockLength,
+        note,
+        jwk,
+        arwikiVersion[0])
+      .subscribe({
+        next: (res) => {
+          let tx = '';
+          if (res && Object.prototype.hasOwnProperty.call(res, 'originalTxId')) {
+            tx = res.originalTxId;
+          } else if (res && Object.prototype.hasOwnProperty.call(res, 'bundlrResponse') &&
+            res.bundlrResponse && Object.prototype.hasOwnProperty.call(res.bundlrResponse, 'id')) {
+            tx = res.bundlrResponse.id;
+          }
+          this.tx = tx;
+          this.disableForm(false);
+        },
+        error: (error) => {
+          this.error = 'Error creating vote!';
+          this.disableForm(false);
+          console.error('newVote', error);
+        }
+      });
+   
   }
 
 
-  onSubmit() {
-    alert('test')
+  disableForm(disable: boolean) {
+    if (disable) {
+      this.recipient.disable();
+      this.qty.disable();
+      this.lockLength.disable();
+      this.lockTokens.disable();
+      this.notes.disable();
+      this.working.emit(true);
+      this.loadingSubmit = true;
 
+    } else {
+      this.recipient.enable();
+      this.qty.enable();
+      this.lockLength.enable();
+      this.lockTokens.enable();
+      this.notes.enable();
+      this.working.emit(false);
+      this.loadingSubmit = false;
+    }
   }
 
   formatBlocks(len: number): string {

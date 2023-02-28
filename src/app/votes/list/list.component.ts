@@ -85,6 +85,7 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   formatBlocks(block: number) {
+    block = Math.abs(block);
     return this._arweave.formatBlocks(block);
   }
 
