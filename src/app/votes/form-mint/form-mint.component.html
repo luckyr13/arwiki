@@ -87,7 +87,8 @@
 	  	[disabled]="!mintForm.valid || loadingSubmit">Submit</button>
 	  <div class="menu-spacer"></div>
 	  <button 
-	  	mat-button mat-dialog-close
+	  	mat-button
+	  	[mat-dialog-close]="tx"
 	  	[disabled]="loadingSubmit">Close</button>
 	</mat-dialog-actions>
 </form>

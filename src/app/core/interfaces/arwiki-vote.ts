@@ -12,4 +12,5 @@ export interface ArwikiVote {
 	yays: number;
 	qty?: number;
 	lockLength?: number;
+	target?: string;
 }

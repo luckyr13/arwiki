@@ -15,7 +15,7 @@
 		  <span>&nbsp;Burn Vault</span>
 		</ng-template>
 	  <ng-template matTabContent>
-	    <app-form-burn-vault></app-form-burn-vault>
+	    <app-form-burn-vault (working)="tabWorking($event)"></app-form-burn-vault>
 	  </ng-template>
 	</mat-tab>
 	<mat-tab [disabled]="disableTabs">

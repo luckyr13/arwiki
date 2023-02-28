@@ -59,11 +59,15 @@
 					<p *ngIf="vote.value">Value: {{ vote.value }}</p>
 					<p *ngIf="vote.qty">Qty: {{ vote.qty }} $WIKI</p>
 					<p *ngIf="vote.lockLength">Lock Length: {{ vote.lockLength }} blocks</p>
-					<p>
+					<p *ngIf="vote.recipient">
 						<app-arweave-address
 				    	[address]="vote.recipient">Recipient: </app-arweave-address>
 					</p>
-					<p>Note: {{ vote.note }}</p>
+					<p *ngIf="vote.target">
+						<app-arweave-address
+				    	[address]="vote.target">Target: </app-arweave-address>
+					</p>
+					<p class="word-break">Note: {{ vote.note }}</p>
 					<p>
 						Yes: {{ votePercent(vote.yays, vote.yays + vote.nays) }}%
 						<mat-progress-bar 

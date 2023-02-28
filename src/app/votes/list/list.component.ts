@@ -16,6 +16,7 @@ import { arwikiVersion } from '../../core/arwiki';
 import { AuthService } from '../../auth/auth.service';
 import { DialogVotedComponent } from '../dialog-voted/dialog-voted.component';
 import { DialogNewVoteComponent } from '../dialog-new-vote/dialog-new-vote.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list',
@@ -40,7 +41,8 @@ export class ListComponent implements OnInit, OnDestroy {
     private _userSettings: UserSettingsService,
     private _dialog: MatDialog,
     private _utils: UtilsService,
-    private _auth: AuthService) {
+    private _auth: AuthService,
+    private _router: Router) {
 
   }
 
@@ -169,7 +171,10 @@ export class ListComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe(async (result) => {
-      
+      if (result) {
+        this._router.navigate([defLang.code, 'dashboard']);
+        this._utils.message('Success! Redirecting to Dashboard ...', 'success');
+      }
     });
   }
 }
