@@ -98,6 +98,11 @@ export class PstInfoComponent implements OnInit, OnDestroy {
               label: 'Max length for slugs',
               formatFunction: (val: any) => ''
             },
+            {
+              key: 'keyStringValueVoteMaxLength',
+              label: 'Value max length',
+              formatFunction: (val: any) => ''
+            }
             
           ];
 
