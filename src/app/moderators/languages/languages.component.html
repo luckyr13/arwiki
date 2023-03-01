@@ -1,30 +1,43 @@
 <div class="mt-main"></div>
 <mat-progress-bar 
-	color="accent"
-	mode="indeterminate"
-	*ngIf="loading"
-	class="fadeIn"></mat-progress-bar>
+  color="accent"
+  mode="indeterminate"
+  *ngIf="loading"
+  class="fadeIn"></mat-progress-bar>
 <mat-toolbar class="fadeIn mb20" color="default">
   <mat-icon 
-  	aria-hidden="false"
-  	aria-label="Languages">language</mat-icon>
-	<span>&nbsp;{{ 'MODERATORS.LANGUAGES.BREADCRUMB_LABEL' | translate }}</span>
-	<div class="menu-spacer"></div>
-	<div class="text-right page-title-buttons">	
+    aria-hidden="false"
+    aria-label="Languages">language</mat-icon>
+  <span>&nbsp;{{ 'MODERATORS.LANGUAGES.BREADCRUMB_LABEL' | translate }}</span>
+  <div class="menu-spacer"></div>
+  <div class="text-right page-title-buttons"> 
     <button 
-    	type="button"
-	  	mat-button
-	  	color="default"
-	  	(click)="goBack()">
-	    <mat-icon>navigate_before</mat-icon>
-	    {{ 'GENERAL.BUTTONS.GO_BACK' | translate }}
-	  </button>
-	</div>
+      type="button"
+      mat-button
+      color="default"
+      (click)="goBack()">
+      <mat-icon>navigate_before</mat-icon>
+      {{ 'GENERAL.BUTTONS.GO_BACK' | translate }}
+    </button>
+  </div>
 </mat-toolbar>
 
 <div class="container fadeIn" *ngIf="!loading" >
-	<h1 class="page-title col-12">
-		Languages
-	</h1>
+  <h1 class="page-title col-12">
+    Languages
+  </h1>
+  <div class="row">
+    <div class="col-12">
+      <mat-list>
+        <mat-list-item *ngFor="let code of langCodes;">
+          Code: {{ langs[code].code }} | 
+          writing_system: {{ langs[code].writing_system }} | 
+          native_name: {{ langs[code].native_name }} | 
+          iso_name: {{ langs[code].iso_name }} | 
+          Active: {{ langs[code].active }} | 
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </div>
 
 </div>
