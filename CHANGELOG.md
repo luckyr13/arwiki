@@ -1,6 +1,7 @@
 # ArWiki versions
 
 ## 1.9.3
+- Backup (2023-02-28): https://arweave.net/YhWtlHBCbu4yZ-hDzrYrXzaz6tNmgSarc50Y3WtMfEQ
 - Upgrade codebase to Angular 15.1.5
 - Added Votes module 
 - Added App Settings module
