@@ -25,6 +25,7 @@ import {
 })
 export class FormSetSettingsComponent implements OnInit, OnDestroy {
   maxLengthNote = 200;
+  maxLengthAddress = 43;
   settingsForm = new FormGroup({
     notes: new FormControl(
       '', [Validators.required, Validators.maxLength(this.maxLengthNote)]
@@ -35,6 +36,14 @@ export class FormSetSettingsComponent implements OnInit, OnDestroy {
     ),
     stringValue: new FormControl(
       '', [Validators.required]
+    ),
+    recipient: new FormControl(
+      '',
+      [
+        Validators.required,
+        Validators.maxLength(this.maxLengthAddress),
+        Validators.minLength(this.maxLengthAddress)
+      ]
     )
   });
   loadingSubmit = false;
@@ -44,6 +53,7 @@ export class FormSetSettingsComponent implements OnInit, OnDestroy {
   submitVoteSubscription = Subscription.EMPTY;
   showNumericValue = false;
   showStringValue = false;
+  showRecipient = false;
 
   constructor(
     private _arweave: ArweaveService,
@@ -69,6 +79,10 @@ export class FormSetSettingsComponent implements OnInit, OnDestroy {
     return this.settingsForm.get('stringValue')!;
   }
 
+  public get recipient() {
+    return this.settingsForm.get('recipient')!;
+  }
+
   ngOnInit() {
     
   }
@@ -92,10 +106,14 @@ export class FormSetSettingsComponent implements OnInit, OnDestroy {
   disableForm(disable: boolean) {
     if (disable) {
       this.notes.disable();
+      this.stringValue.disable();
+      this.numericValue.disable();
       this.working.emit(true);
       this.loadingSubmit = true;
     } else {
       this.notes.enable();
+      this.stringValue.enable();
+      this.numericValue.enable();
       this.working.emit(false);
       this.loadingSubmit = false;
     }
@@ -105,6 +123,7 @@ export class FormSetSettingsComponent implements OnInit, OnDestroy {
     // Unset fields
     this.unsetValidatorNumericValue();
     this.unsetValidatorStringValue();
+    this.unsetValidatorRecipient();
 
     if (option === '') {
       return;
@@ -112,11 +131,17 @@ export class FormSetSettingsComponent implements OnInit, OnDestroy {
       option === 'lockMinLength' || option === 'lockMaxLength' ||
       option === 'voteLength' || option === 'pageApprovalLength' || 
       option === 'noteVoteMaxLength' || option === 'keyVoteMaxLength' || 
-      option === 'roleValueVoteMaxLength' || option === 'pageSlugMaxLength') {
+      option === 'roleValueVoteMaxLength' || option === 'pageSlugMaxLength' || 
+      option === 'other_numeric') {
       this.setValidatorNumericValue();
     } else if (option === 'role' || option === 'communityLogo' || 
-      option === 'communityDescription' || option === 'communityAppUrl') {
+      option === 'communityDescription' || option === 'communityAppUrl' || 
+      option === 'other_string') {
       this.setValidatorStringValue();
+    }
+
+    if (option === 'role') {
+      this.setValidatorRecipient();
     }
     
   }
@@ -149,6 +174,23 @@ export class FormSetSettingsComponent implements OnInit, OnDestroy {
     this.showStringValue = false;
     this.stringValue.setValidators([]);
     this.stringValue.updateValueAndValidity();
+  }
+
+  setValidatorRecipient() {
+    this.recipient.setValidators([
+      Validators.required,
+      Validators.maxLength(this.maxLengthAddress),
+      Validators.minLength(this.maxLengthAddress)
+    ]);
+    this.recipient.setValue('');
+    this.recipient.updateValueAndValidity();
+    this.showRecipient = true;
+  }
+
+  unsetValidatorRecipient() {
+    this.showRecipient = false;
+    this.recipient.setValidators([]);
+    this.recipient.updateValueAndValidity();
   }
 
   

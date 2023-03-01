@@ -31,7 +31,8 @@
 					<mat-option value="communityLogo">Community Logo</mat-option>
 					<mat-option value="communityDescription">Community Description</mat-option>
 					<mat-option value="communityAppUrl">Community App Url</mat-option>
-					<mat-option value="other">Other</mat-option>
+					<mat-option value="other_numeric">Other (Numeric)</mat-option>
+					<mat-option value="other_string">Other (String)</mat-option>
 				</mat-select>
 		  </mat-form-field>
 		  <mat-form-field
@@ -56,6 +57,19 @@
 		    	matInput
 		    	formControlName="stringValue">
 		  </mat-form-field>
+		  <mat-form-field 
+				class="w100" 
+				appearance="outline"
+				color="accent"
+				*ngIf="showRecipient">
+				<mat-label>Recipient</mat-label>
+				<input
+					matInput
+					[maxlength]="maxLengthAddress"
+					autocomplete="off"
+					placeholder="An arweave wallet address"
+					formControlName="recipient" required>
+			</mat-form-field>
 		  <mat-form-field
 		  	class="w100 form-field-outline-textarea"
 		  	color="accent"
