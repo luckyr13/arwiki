@@ -26,6 +26,9 @@ import {
 export class FormSetSettingsComponent implements OnInit, OnDestroy {
   maxLengthNote = 200;
   maxLengthAddress = 43;
+  keyVoteMaxLength = 50;
+  keyStringValueVoteMaxLength = 50;
+  roleValueVoteMaxLength = 50;
   settingsForm = new FormGroup({
     notes: new FormControl(
       '', [Validators.required, Validators.maxLength(this.maxLengthNote)]
@@ -44,6 +47,13 @@ export class FormSetSettingsComponent implements OnInit, OnDestroy {
         Validators.maxLength(this.maxLengthAddress),
         Validators.minLength(this.maxLengthAddress)
       ]
+    ),
+    name: new FormControl(
+      '',
+      [
+        Validators.required,
+        Validators.maxLength(this.keyVoteMaxLength)
+      ]
     )
   });
   loadingSubmit = false;
@@ -54,6 +64,7 @@ export class FormSetSettingsComponent implements OnInit, OnDestroy {
   showNumericValue = false;
   showStringValue = false;
   showRecipient = false;
+  showName = false;
 
   constructor(
     private _arweave: ArweaveService,
@@ -83,6 +94,10 @@ export class FormSetSettingsComponent implements OnInit, OnDestroy {
     return this.settingsForm.get('recipient')!;
   }
 
+  public get name() {
+    return this.settingsForm.get('name')!;
+  }
+
   ngOnInit() {
     
   }
@@ -93,9 +108,64 @@ export class FormSetSettingsComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     const note: string = this.notes.value!.trim();
+    const option: string = this.selectOption.value!.trim();
+    let value: string|number = '';
+    let recipient = '';
+    let keyName = this.selectOption.value!;
     this.disableForm(true);
 
+    if (option === 'quorum' || option === 'support' ||
+      option === 'lockMinLength' || option === 'lockMaxLength' ||
+      option === 'voteLength' || option === 'pageApprovalLength' || 
+      option === 'noteVoteMaxLength' || option === 'keyVoteMaxLength' || 
+      option === 'roleValueVoteMaxLength' || option === 'pageSlugMaxLength' || 
+      option === 'other_numeric') {
+      value = +this.numericValue.value!;
+    } else if (option === 'communityLogo' || 
+      option === 'communityDescription' || option === 'communityAppUrl' || 
+      option === 'other_string' || option === 'role') {
+      value = this.stringValue.value!.trim();
+    }
+    if (option === 'role') {
+      recipient = this.recipient.value!;
+    }
+    if (option === 'other_string' || option === 'other_numeric') {
+      keyName = this.name.value!;
+    }
+
     const jwk = this._auth.getPrivateKey();
+
+    this.submitVoteSubscription = this._tokenContractVotes
+      .addVoteSetSettings(
+        keyName,
+        note,
+        value,
+        recipient,
+        jwk,
+        arwikiVersion[0])
+      .subscribe({
+        next: (res) => {
+          let tx = '';
+          if (res && Object.prototype.hasOwnProperty.call(res, 'originalTxId')) {
+            tx = res.originalTxId;
+          } else if (res && Object.prototype.hasOwnProperty.call(res, 'bundlrResponse') &&
+            res.bundlrResponse && Object.prototype.hasOwnProperty.call(res.bundlrResponse, 'id')) {
+            tx = res.bundlrResponse.id;
+          }
+          this.tx = tx;
+          this.disableForm(false);
+        },
+        error: (error) => {
+          this.error = 'Error creating vote!';
+          this.disableForm(false);
+          if (typeof error === 'string') {
+            this._utils.message(error, 'error');
+          } else if (error && Object.prototype.hasOwnProperty.call(error, 'message')) {
+            this._utils.message(error.message, 'error');
+          }
+          console.error('newVote', error);
+        }
+      });
  
   }
 
@@ -108,12 +178,18 @@ export class FormSetSettingsComponent implements OnInit, OnDestroy {
       this.notes.disable();
       this.stringValue.disable();
       this.numericValue.disable();
+      this.recipient.disable();
+      this.selectOption.disable();
+      this.name.disable();
       this.working.emit(true);
       this.loadingSubmit = true;
     } else {
       this.notes.enable();
       this.stringValue.enable();
       this.numericValue.enable();
+      this.recipient.enable();
+      this.selectOption.enable();
+      this.name.enable();
       this.working.emit(false);
       this.loadingSubmit = false;
     }
@@ -124,6 +200,7 @@ export class FormSetSettingsComponent implements OnInit, OnDestroy {
     this.unsetValidatorNumericValue();
     this.unsetValidatorStringValue();
     this.unsetValidatorRecipient();
+    this.unsetValidatorName();
 
     if (option === '') {
       return;
@@ -134,14 +211,18 @@ export class FormSetSettingsComponent implements OnInit, OnDestroy {
       option === 'roleValueVoteMaxLength' || option === 'pageSlugMaxLength' || 
       option === 'other_numeric') {
       this.setValidatorNumericValue();
-    } else if (option === 'role' || option === 'communityLogo' || 
+    } else if (option === 'communityLogo' || 
       option === 'communityDescription' || option === 'communityAppUrl' || 
       option === 'other_string') {
-      this.setValidatorStringValue();
+      this.setValidatorStringValue(this.keyStringValueVoteMaxLength);
     }
 
     if (option === 'role') {
+      this.setValidatorStringValue(this.roleValueVoteMaxLength);
       this.setValidatorRecipient();
+    }
+    if (option === 'other_string' || option === 'other_numeric') {
+      this.setValidatorName();
     }
     
   }
@@ -161,10 +242,14 @@ export class FormSetSettingsComponent implements OnInit, OnDestroy {
     this.numericValue.updateValueAndValidity();
   }
 
-  setValidatorStringValue() {
-    this.stringValue.setValidators([
+  setValidatorStringValue(maxLength: number) {
+    const validators = [
       Validators.required
-    ]);
+    ];
+    if (maxLength) {
+      validators.push(Validators.maxLength(maxLength));
+    }
+    this.stringValue.setValidators(validators);
     this.stringValue.setValue('');
     this.stringValue.updateValueAndValidity();
     this.showStringValue = true;
@@ -191,6 +276,26 @@ export class FormSetSettingsComponent implements OnInit, OnDestroy {
     this.showRecipient = false;
     this.recipient.setValidators([]);
     this.recipient.updateValueAndValidity();
+  }
+
+  setValidatorName() {
+    this.name.setValidators([
+      Validators.required,
+      Validators.maxLength(this.keyVoteMaxLength)
+    ]);
+    this.name.setValue('');
+    this.name.updateValueAndValidity();
+    this.showName = true;
+  }
+
+  unsetValidatorName() {
+    this.showName = false;
+    this.name.setValidators([]);
+    this.name.updateValueAndValidity();
+  }
+
+  replaceKeyNameVal() {
+    this.name.setValue(this.name.value!.trim().replace(/ /g, '-'));
   }
 
   
