@@ -2,6 +2,10 @@
 
 ## 1.9.3
 - Upgrade codebase to Angular 15.1.5
+- Added Votes module 
+- Added App Settings module
++ Moderator:
+  - Added Manage Languages module
 
 ## 1.9.2
 - Backup (2022-12-08): https://arweave.net/utlik1qCVmDLj6Fsl35XgU3TCMUZvhW1AW-71VHjSRk
