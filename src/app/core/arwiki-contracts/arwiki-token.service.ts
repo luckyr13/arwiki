@@ -16,6 +16,9 @@ import { ArwikiVote } from '../interfaces/arwiki-vote';
 export class ArwikiTokenContract
 {
   private _contractAddress: string = 'ewepANKEVffP0cm_XKjwTYhSBqaiQrJbVrCcBiWqw-s';
+  // New contract demo
+  // private _contractAddress = 'Uq8UTxz8bF4FEAD66vn_0kox_djh8Ydp6WNzOrm3flk';
+
   private _state: any = {};
 	private _adminList: string[] = [];
   private _arwikiKYVE: ArwikiKYVE;

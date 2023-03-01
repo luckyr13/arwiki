@@ -1,1 +1,53 @@
-<p>network works!</p>
+<mat-progress-bar 
+	color="accent"
+	mode="indeterminate"
+	*ngIf="loading"
+	class="fadeIn"></mat-progress-bar>
+<div class="fadeIn mb20" color="default">
+	<div class="text-right page-title-buttons">	
+    <button 
+    	type="button"
+	  	mat-button
+	  	color="accent"
+	  	(click)="goBack()">
+	    <mat-icon>navigate_before</mat-icon>
+	    {{ 'GENERAL.BUTTONS.GO_BACK' | translate }}
+	  </button>
+	</div>
+</div>
+<div class="container fadeIn" *ngIf="!loading" >
+	<h1 class="page-title col-12">
+		Network Info
+	</h1>
+	<div class="row" *ngIf="!loading">
+		<div class="col-12">
+			<p>
+				Network: {{ this.network }}
+			</p>
+			<p>
+				Version: {{ this.version }}
+			</p>
+			<p>
+				Release: {{ this.release }}
+			</p>
+			<p>
+				Height: {{ this.height }}
+			</p>
+			<p>
+				Current: {{ this.current }}
+			</p>
+			<p>
+				Blocks: {{ this.blocks }}
+			</p>
+			<p>
+				Peers: {{ this.peers }}
+			</p>
+			<p>
+				Queue Length: {{ this.queue_length }}
+			</p>
+			<p>
+				Node State Latency: {{ this.node_state_latency }}
+			</p>
+		</div>
+	</div>
+</div>

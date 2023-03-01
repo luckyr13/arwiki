@@ -4,11 +4,6 @@
 	*ngIf="loading"
 	class="fadeIn"></mat-progress-bar>
 <div class="fadeIn mb20" color="default">
-  <mat-icon 
-  	aria-hidden="false"
-  	aria-label="App info">info</mat-icon>
-	<span>&nbsp;App Info</span>
-	<div class="menu-spacer"></div>
 	<div class="text-right page-title-buttons">	
     <button 
     	type="button"
@@ -20,20 +15,18 @@
 	  </button>
 	</div>
 </div>
-
 <div class="container fadeIn" *ngIf="!loading" >
-	<div class="row">
-		<h1 class="page-title col-12">
-			Info
-		</h1>
-	</div>
-
+	<h1 class="page-title col-12">
+		App Info
+	</h1>
 	<div class="row" *ngIf="!loading">
 		<div class="col-12">
-
-
+			<p>
+				ArWiki protocol version: {{ arwikiVersion }}
+			</p>
+			<p>
+				App version: {{ appVersion }}
+			</p>
 		</div>
 	</div>
-
-
 </div>

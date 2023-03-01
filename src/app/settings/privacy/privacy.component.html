@@ -1,1 +1,39 @@
-<p>privacy works!</p>
+<mat-progress-bar 
+	color="accent"
+	mode="indeterminate"
+	*ngIf="loading"
+	class="fadeIn"></mat-progress-bar>
+<div class="fadeIn mb20" color="default">
+	<div class="text-right page-title-buttons">	
+    <button 
+    	type="button"
+	  	mat-button
+	  	color="accent"
+	  	(click)="goBack()">
+	    <mat-icon>navigate_before</mat-icon>
+	    {{ 'GENERAL.BUTTONS.GO_BACK' | translate }}
+	  </button>
+	</div>
+</div>
+<div class="container fadeIn" *ngIf="!loading" >
+	<h1 class="page-title col-12">
+		Privacy Settings
+	</h1>
+	<div class="row" *ngIf="!loading">
+		<div class="col-12">
+			<h3>LocalStorage</h3>
+			<p class="word-break">
+				{{ localStorage | json }}
+			</p>
+			<h3>SessionStorage</h3>
+			<p class="word-break">
+				{{ sessionStorage | json }}
+			</p>
+			<p class="text-right">
+				<button mat-button color="warn" (click)="clearSession()">
+					<mat-icon>delete</mat-icon> Clear session
+				</button>
+			</p>
+		</div>
+	</div>
+</div>
