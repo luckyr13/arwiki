@@ -16,7 +16,7 @@ import { ArwikiVote } from '../interfaces/arwiki-vote';
 export class ArwikiTokenContract
 {
   private _contractAddress: string = 'ewepANKEVffP0cm_XKjwTYhSBqaiQrJbVrCcBiWqw-s';
-	private _state: any = {};
+  private _state: any = {};
 	private _adminList: string[] = [];
   private _arwikiKYVE: ArwikiKYVE;
 
@@ -793,39 +793,6 @@ export class ArwikiTokenContract
     );
   }
 
-  /*
-  *  @dev Execute read function on PST contract
-  */
-  getVotes(reload: boolean = false): Observable<ArwikiVote[]> {
-    return this.getState(reload).pipe(
-      map((_state: any) => {
-        const votes = _state.votes;
-        return [...votes];
-      })
-    );
-  }
-
-  /*
-  * @dev Finalize vote
-  */
-  finalizeVote(
-    _voteId: number,
-    _privateKey: any,
-    _arwikiVersion: string
-  ) {
-    const jwk = _privateKey;
-    const tags = [
-      {name: 'Service', value: 'ArWiki'},
-      {name: 'Arwiki-Type', value: 'FinalizeVote'},
-      {name: 'Arwiki-Version', value: _arwikiVersion},
-    ];
-    const input = {
-      function: 'finalize',
-      id: _voteId
-    };
-    return this._warp.writeInteraction(
-      this._contractAddress, jwk, input, tags
-    );
-  }
+  
 
 }

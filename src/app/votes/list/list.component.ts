@@ -17,6 +17,9 @@ import { AuthService } from '../../auth/auth.service';
 import { DialogVotedComponent } from '../dialog-voted/dialog-voted.component';
 import { DialogNewVoteComponent } from '../dialog-new-vote/dialog-new-vote.component';
 import { Router } from '@angular/router';
+import { 
+  ArwikiTokenVotesService 
+} from '../../core/arwiki-contracts/arwiki-token-votes.service';
 
 @Component({
   selector: 'app-list',
@@ -32,7 +35,9 @@ export class ListComponent implements OnInit, OnDestroy {
   loadingUpdate = false;
   updateTxMessage = '';
   finalizeVoteSubscription = Subscription.EMPTY;
+  submitVoteSubscription = Subscription.EMPTY;
   errorMessage = '';
+  wallet = '';
 
   constructor(
     private _location: Location,
@@ -42,7 +47,8 @@ export class ListComponent implements OnInit, OnDestroy {
     private _dialog: MatDialog,
     private _utils: UtilsService,
     private _auth: AuthService,
-    private _router: Router) {
+    private _router: Router,
+    private _tokenContractVotes: ArwikiTokenVotesService) {
 
   }
 
@@ -55,7 +61,8 @@ export class ListComponent implements OnInit, OnDestroy {
       }),
       switchMap((settings) => {
         this.voteLength = settings.get('voteLength') || 0;
-        return this._tokenContract.getVotes();
+        return this._tokenContractVotes.getVotes();
+
       })
     ).subscribe({
         next: (res: ArwikiVote[]) => {
@@ -70,6 +77,8 @@ export class ListComponent implements OnInit, OnDestroy {
           this.loading = false;
         }
       })
+
+    this.wallet = this._auth.getMainAddressSnapshot();
 
   }
 
@@ -95,6 +104,8 @@ export class ListComponent implements OnInit, OnDestroy {
     const defLang = this._userSettings.getDefaultLang();
     let direction: Direction = defLang.writing_system === 'LTR' ? 
       'ltr' : 'rtl';
+    this.errorMessage = '';
+    this.updateTxMessage = '';
 
     const dialogRef = this._dialog.open(DialogConfirmComponent, {
       data: {
@@ -108,14 +119,13 @@ export class ListComponent implements OnInit, OnDestroy {
       if (result) {
         this.loadingUpdate = true;
         // Finalize vote
-        this.finalizeVoteSubscription = this._tokenContract.finalizeVote(
+        this.finalizeVoteSubscription = this._tokenContractVotes.finalizeVote(
           voteId,
           this._auth.getPrivateKey(),
           arwikiVersion[0]
         ).subscribe({
           next: (res) => {
             let tx = '';
-            console.log(res, 'finalize')
             if (res && Object.prototype.hasOwnProperty.call(res, 'originalTxId')) {
               tx = res.originalTxId;
             } else if (res && Object.prototype.hasOwnProperty.call(res, 'bundlrResponse') &&
@@ -129,7 +139,11 @@ export class ListComponent implements OnInit, OnDestroy {
           error: (error) => {
             this.loadingUpdate = false;
             this.errorMessage = 'An error ocurred!';
-            this._utils.message(`${error}`, 'error');
+            if (typeof error === 'string') {
+              this._utils.message(error, 'error');
+            } else if (error && Object.prototype.hasOwnProperty.call(error, 'message')) {
+              this._utils.message(error.message, 'error');
+            }
             console.error('finalizeVote', error);
           }
         })
@@ -140,6 +154,7 @@ export class ListComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.getVotesSubscription.unsubscribe();
     this.finalizeVoteSubscription.unsubscribe();
+    this.submitVoteSubscription.unsubscribe();
   }
 
   votedDialog(votes: string[]) {
@@ -174,6 +189,58 @@ export class ListComponent implements OnInit, OnDestroy {
       if (result) {
         this._router.navigate([defLang.code, 'dashboard']);
         this._utils.message('Success! Redirecting to Dashboard ...', 'success');
+      }
+    });
+  }
+
+  submitVote(v: string, voteId: number) {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+    this.errorMessage = '';
+    this.updateTxMessage = '';
+
+    const dialogRef = this._dialog.open(DialogConfirmComponent, {
+      data: {
+        title: 'Are you sure?',
+        content: `Your vote is ${v}. Do you want to proceed?`
+      },
+      direction: direction
+    });
+
+    dialogRef.afterClosed().subscribe(async (result) => {
+      if (result) {
+        this.loadingUpdate = true;
+        // Submit vote
+        this.submitVoteSubscription = this._tokenContractVotes.submitUserVote(
+          voteId,
+          v,
+          this._auth.getPrivateKey(),
+          arwikiVersion[0]
+        ).subscribe({
+          next: (res) => {
+            let tx = '';
+            if (res && Object.prototype.hasOwnProperty.call(res, 'originalTxId')) {
+              tx = res.originalTxId;
+            } else if (res && Object.prototype.hasOwnProperty.call(res, 'bundlrResponse') &&
+              res.bundlrResponse && Object.prototype.hasOwnProperty.call(res.bundlrResponse, 'id')) {
+              tx = res.bundlrResponse.id;
+            }
+            this.updateTxMessage = tx;
+            this.loadingUpdate = false;
+            this._utils.message('Success!', 'success');
+          },
+          error: (error) => {
+            this.loadingUpdate = false;
+            this.errorMessage = 'An error ocurred!';
+            if (typeof error === 'string') {
+              this._utils.message(error, 'error');
+            } else if (error && Object.prototype.hasOwnProperty.call(error, 'message')) {
+              this._utils.message(error.message, 'error');
+            }
+            console.error('finalizeVote', error);
+          }
+        })
       }
     });
   }

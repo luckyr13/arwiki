@@ -2,7 +2,7 @@
 <mat-progress-bar 
 	color="accent"
 	mode="indeterminate"
-	*ngIf="loading"
+	*ngIf="loading || loadingUpdate"
 	class="fadeIn"></mat-progress-bar>
 <mat-toolbar class="fadeIn mb20" color="default">
   <mat-icon 
@@ -41,7 +41,7 @@
 		</div>
 	</div>
 
-	<div class="row" *ngIf="!loading && !loadingUpdate && !updateTxMessage">
+	<div class="row" *ngIf="!loading && !updateTxMessage && !errorMessage">
 		<h4 class="text-right col-12">
 			Current block height: {{ currentBlockHeight }}
 		</h4>
@@ -58,7 +58,7 @@
 				<mat-card-content>
 					<p *ngIf="vote.value">Value: {{ vote.value }}</p>
 					<p *ngIf="vote.qty">Qty: {{ vote.qty }} $WIKI</p>
-					<p *ngIf="vote.lockLength">Lock Length: {{ vote.lockLength }} blocks</p>
+					<p *ngIf="vote.lockLength">Lock Length: {{ vote.lockLength }} blocks ({{ formatBlocks(vote.lockLength) }})</p>
 					<p *ngIf="vote.recipient">
 						<app-arweave-address
 				    	[address]="vote.recipient">Recipient: </app-arweave-address>
@@ -110,6 +110,7 @@
 			  <mat-card-actions>
 			  	<button
 			  		mat-flat-button
+			  		[disabled]="loadingUpdate"
 			  		(click)="votedDialog(vote.voted)"
 			  		color="accent">
 			  		{{ vote.voted.length }}
@@ -121,16 +122,21 @@
 			  		*ngIf="vote.status === 'active' && (vote.start + voteLength) <= currentBlockHeight"
 			  		mat-flat-button
 			  		color="warn"
+			  		[disabled]="loadingUpdate"
 			  		(click)="confirmFinalizeVote((votes.length - 1) - i)">
 			  		<mat-icon>sports_score</mat-icon> Finalize
 			  	</button>
 			  	<button
 			  		*ngIf="vote.status === 'active' && (vote.start + voteLength) > currentBlockHeight"
+			  		[disabled]="loadingUpdate || (vote.voted && vote.voted.indexOf(wallet) >= 0)"
+			  		(click)="submitVote('yay', (votes.length - 1) - i)"
 			  		mat-flat-button color="accent">
 			  		<mat-icon>thumb_up</mat-icon> Yes
 			  	</button>
 			  	<button
 			  		*ngIf="vote.status === 'active' && (vote.start + voteLength) > currentBlockHeight"
+			  		[disabled]="loadingUpdate || (vote.voted && vote.voted.indexOf(wallet) >= 0)"
+			  		(click)="submitVote('nay', (votes.length - 1) - i)"
 			  		mat-flat-button color="warn">
 			  		<mat-icon>thumb_down</mat-icon> No
 			  	</button>
@@ -138,7 +144,7 @@
 			  </mat-card-actions>
 			  <mat-card-footer>
 			    <mat-progress-bar 
-			    	*ngIf="false"
+			    	*ngIf="loadingUpdate"
 			    	color="accent"
 			    	mode="indeterminate"></mat-progress-bar>
 			  </mat-card-footer>
