@@ -157,8 +157,8 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   /*
   *  @dev Destroy session
   */
-  logout() {
-    this._auth.logout();
+  async logout() {
+    await this._auth.logout();
     this.isLoggedIn = false;
     window.location.reload();
   }

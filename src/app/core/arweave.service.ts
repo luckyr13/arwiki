@@ -11,7 +11,7 @@ import { ArweaveWebWallet } from 'arweave-wallet-connector';
 import { AddressKey } from './interfaces/address-key';
 declare const window: any;
 import { HttpClient } from '@angular/common/http';
-
+import { PermissionType } from 'arconnect';
 export const arweaveAddressLength = 43;
 
 @Injectable({
@@ -75,22 +75,46 @@ export class ArweaveService {
           subscriber.error('Login method not available!');
         }
         // Get main account
-        window.arweaveWallet.connect([
-          'ACCESS_ADDRESS', 'ACCESS_ALL_ADDRESSES',
-          'SIGN_TRANSACTION', 'DISPATCH'
-        ]).then(async () => {
-          const address = await this.arweave.wallets.getAddress();
-          subscriber.next(address);
-          subscriber.complete();
-        }).catch((error: any) => {
-          subscriber.error(error);
-        });
+        window.arweaveWallet.getPermissions()
+          .then(async (permissions: PermissionType[]) => {
+            const customPermissions: PermissionType[] = [
+              'ACCESS_ADDRESS', 'ACCESS_ALL_ADDRESSES',
+              'SIGN_TRANSACTION', 'DISPATCH'
+            ];
+            const finalPermissions: PermissionType[] = [];
+            for (let i = 0; i < customPermissions.length; i++) {
+              if (permissions.indexOf(customPermissions[i]) < 0) {
+                finalPermissions.push(customPermissions[i]);
+              }
+            }
+            try {
+              if (finalPermissions.length) {
+                await window.arweaveWallet.connect(finalPermissions);
+              }
+              const address = await this.arweave.wallets.getAddress();
+              subscriber.next(address);
+              subscriber.complete();
+            } catch (error) {
+              subscriber.error(error);
+            }
+          })
+          .catch((error: any) => {
+            subscriber.error(error);
+          })
+        
       } // Arweave Web Wallet
       else if (method === 'arweavewebwallet') {
+        if (this.arweaveWebWallet.connected) {
+          subscriber.next(this.arweaveWebWallet.address);
+          subscriber.complete();
+        }
+        this.arweaveWebWallet.keepPopup = true;
         this.arweaveWebWallet.connect().then((res: string) => {
+          this.arweaveWebWallet.keepPopup = false;
           subscriber.next(res);
           subscriber.complete();
         }).catch((error: any) => {
+          this.arweaveWebWallet.keepPopup = false;
           subscriber.error(error);
         });
       } // Finnie wallet
@@ -98,16 +122,8 @@ export class ArweaveService {
         if (!(window && window.arweaveWallet)) {
           subscriber.error('Login method not available!');
         }
-        // Get main account
-        window.arweaveWallet.connect([
-          'ACCESS_ADDRESS', 'ACCESS_ALL_ADDRESSES', 'SIGN_TRANSACTION'
-        ]).then(async () => {
-          const address = await this.arweave.wallets.getAddress();
-          subscriber.next(address);
-          subscriber.complete();
-        }).catch((error: any) => {
-          subscriber.error(error);
-        });
+        subscriber.error('Login method not supported!');
+
       }else {
         subscriber.error('Wrong login method!');
       }
@@ -131,6 +147,7 @@ export class ArweaveService {
   /*
   *  @dev Login by keyfile
   */
+  /*
   uploadKeyFile(inputEvent: Event): Observable<AddressKey>
   {
     let method = new Observable<AddressKey>((subscriber) => {
@@ -173,8 +190,8 @@ export class ArweaveService {
     });
 
     return method;
-
   }
+  */
 
   /*
   * @dev Convert Winston to Ar

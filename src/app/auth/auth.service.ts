@@ -5,8 +5,8 @@ import { tap } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { JWKInterface } from 'arweave/web/lib/wallet';
 import { AddressKey } from './../core/interfaces/address-key';
-import * as b64 from 'base64-js';
-import { SubtleCryptoService } from './../core/subtle-crypto.service';
+// import * as b64 from 'base64-js';
+// import { SubtleCryptoService } from './../core/subtle-crypto.service';
 import { ProfileService } from './../core/profile.service';
 import { UserProfile } from './../core/interfaces/user-profile';
 
@@ -47,12 +47,12 @@ export class AuthService {
 
   constructor(
     private _arweave: ArweaveService,
-    private _crypto: SubtleCryptoService,
+    // private _crypto: SubtleCryptoService,
     private _profile: ProfileService) {
     this.account = new Subject<string>();
     this.account$ = this.account.asObservable();
     // this.loadAccount();
-    this._crypto.setSession(false, this.getStayLoggedIn());
+    // this._crypto.setSession(false, this.getStayLoggedIn());
 
     
   }
@@ -145,7 +145,10 @@ export class AuthService {
         this.setAccount(address, undefined, stayLoggedIn, method);
       });
       this._arweave.arweaveWebWallet.on('disconnect', () => {
-        //this.logout()
+        this.removeAccount();
+        this.account.next('');
+        this.updateUserIsModerator(false);
+        window.location.reload();
       });
     }
   }
@@ -173,10 +176,11 @@ export class AuthService {
   login(
     walletOption: 'arconnect'|'arweavewebwallet'|'finnie'|'upload_file',
     uploadInputEvent: Event|null = null,
-    stayLoggedIn: boolean = false): Observable<any> {
-    let method: Observable<string|AddressKey>;
+    stayLoggedIn: boolean = false): Observable<string> {
+    let method: Observable<string>;
 
     switch (walletOption) {
+      /*
       case 'upload_file':
         if (uploadInputEvent) {
           method = this._arweave.uploadKeyFile(uploadInputEvent).pipe(
@@ -190,6 +194,7 @@ export class AuthService {
           throw Error('InputError');
         }
       break;
+      */
       case 'arconnect':
         method = this._arweave.getAccount(walletOption).pipe(
             tap( (_account: any) => {
@@ -224,16 +229,28 @@ export class AuthService {
     return method;
   }
 
-  logout() {
+  async logout() {
+    if ((this._method === 'finnie' || 
+        this._method === 'arconnect') &&
+        (window && window.arweaveWallet)) {
+      try {
+        await window.arweaveWallet.disconnect();
+        console.log(this._method, 'Wallet disconnected');
+      } catch (error) {
+        console.error('wallet', error);
+      }
+    } else if (this._method === 'arweavewebwallet') {
+      try {
+        await this._arweave.arweaveWebWallet.disconnect();
+        console.log(this._method, 'ArweaveWallet disconnected');
+      } catch (error) {
+        console.error('wallet', error);
+      }
+    }
     this.removeAccount();
     this.account.next('');
     this.updateUserIsModerator(false);
-    if ((this._method === 'finnie' || 
-        this._method === 'arconnect' || 
-        this._method === 'arweavewebwallet') &&
-        (window && window.arweaveWallet)) {
-      window.arweaveWallet.disconnect();
-    }
+
   }
 
   public destroySession() {

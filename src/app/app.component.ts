@@ -179,7 +179,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
       disableClose: true,
       width: '400px',
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(async result => {
       if (result) {
         const stayLoggedIn = this._auth.getStayLoggedIn();
         // Throw Arweave Web Wallet dialog
@@ -196,7 +196,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
           }
         });
       } else {
-        this._auth.logout();
+        await this._auth.logout();
       }
     });
   }
@@ -210,7 +210,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
       },
       disableClose: true
     });
-    dialogRef.afterClosed().subscribe(password => {
+    dialogRef.afterClosed().subscribe(async (password) => {
       if (password) {
         const stayLoggedIn = this._auth.getStayLoggedIn();
         const storage = stayLoggedIn ? window.localStorage : window.sessionStorage;
@@ -224,8 +224,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
               key = JSON.parse(this._crypto.decodeTxtMessage(p.p));
               this._arweave.arweave.wallets.jwkToAddress(key).then((address) => {
                 this._auth.setAccount(address, key, stayLoggedIn, 'upload_file', arkey);
-              }).catch((reason) => {
-                this._auth.logout();
+              }).catch(async (reason) => {
+                await this._auth.logout();
                 this._utils.message('Error loading key', 'error');
               });
             } catch (error) {
@@ -242,7 +242,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
         
         
       } else {
-        this._auth.logout();
+        await this._auth.logout();
       }
     });
   }
