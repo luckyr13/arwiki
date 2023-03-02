@@ -1,5 +1,10 @@
 # ArWiki versions
 
+## 1.9.4
+- Backup (2023-03-01): 
+- Login by keyfile removed
+- Fixed login methods: arweave.app and ArConnect
+
 ## 1.9.3
 - Backup (2023-02-28): https://arweave.net/YhWtlHBCbu4yZ-hDzrYrXzaz6tNmgSarc50Y3WtMfEQ
 - Upgrade codebase to Angular 15.1.5
