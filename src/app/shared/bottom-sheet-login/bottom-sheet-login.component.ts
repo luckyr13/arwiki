@@ -8,8 +8,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { 
   PasswordDialogComponent 
 } from '../../shared/password-dialog/password-dialog.component';
-import { SubtleCryptoService } from '../../core/subtle-crypto.service';
-import * as b64 from 'base64-js';
+// import { SubtleCryptoService } from '../../core/subtle-crypto.service';
+// import * as b64 from 'base64-js';
 import { UserSettingsService } from '../../core/user-settings.service';
 import { Direction } from '@angular/cdk/bidi';
 import { JWKInterface } from 'arweave/web/lib/wallet';
@@ -32,7 +32,7 @@ export class BottomSheetLoginComponent implements OnInit, OnDestroy {
     private _bottomSheetRef: MatBottomSheetRef<BottomSheetLoginComponent>,
     private _router: Router,
     private _dialog: MatDialog,
-    private _crypto: SubtleCryptoService, 
+    // private _crypto: SubtleCryptoService, 
     private _userSettings: UserSettingsService
   ) {}
 
@@ -49,13 +49,6 @@ export class BottomSheetLoginComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.login$.unsubscribe();
     this.encryptSubscription.unsubscribe();
-  }
-
-  /*
-  *  @dev Listen for click on HTML element
-  */
-  uploadFileListener(fileUploader: any) {
-    fileUploader.click();
   }
 
   setStayLoggedIn(event: any) {
@@ -77,17 +70,18 @@ export class BottomSheetLoginComponent implements OnInit, OnDestroy {
     this.login$ = this._auth.login(walletOption, fileInputEvent, this.stayLoggedIn).subscribe({
       next: (res: any) => {
         // If pk
-        if (walletOption === 'upload_file') {
+        /* if (walletOption === 'upload_file') {
           const tmpAddress = res as AddressKey;
           const target = <HTMLInputElement>(fileInputEvent!.target!);
           target.value = '';
           this.setPasswordDialog(tmpAddress);
             
         } else {
-          this._bottomSheetRef.dismiss();
-          this.loading = false;
-          this._utils.message('Welcome!', 'success');
-        }
+        */
+        this._bottomSheetRef.dismiss();
+        this.loading = false;
+        this._utils.message('Welcome!', 'success');
+      
       },
       error: (error) => {
         this._utils.message(`Error: ${error}`, 'error');
@@ -98,6 +92,7 @@ export class BottomSheetLoginComponent implements OnInit, OnDestroy {
     });
   }
 
+  /*
   setPasswordDialog(tmpAddress: AddressKey) {
     const defLang = this._userSettings.getDefaultLang();
     let direction: Direction = defLang && defLang.writing_system === 'LTR' ? 
@@ -112,7 +107,7 @@ export class BottomSheetLoginComponent implements OnInit, OnDestroy {
       disableClose: true,
       direction: direction
     });
-    dialogRef.afterClosed().subscribe(password => {
+    dialogRef.afterClosed().subscribe(async (password) => {
       if (password) {
         // Save user data
         const data = JSON.stringify(tmpAddress.key);
@@ -138,11 +133,21 @@ export class BottomSheetLoginComponent implements OnInit, OnDestroy {
         });
         
       } else {
-        this._auth.logout();
+        await this._auth.logout();
         this._utils.message('Bye, bye!', 'error');
         this.loading = false;
       }
     });
   }
+  */
+
+  /*
+  *  @dev Listen for click on HTML element
+  */
+  /*
+  uploadFileListener(fileUploader: any) {
+    fileUploader.click();
+  }
+  */
 
 }
