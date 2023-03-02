@@ -1,7 +1,7 @@
 # ArWiki versions
 
 ## 1.9.4
-- Backup (2023-03-01): 
+- Backup (2023-03-01): https://arweave.net/3grbkF0_puAQbeWaUF6SZrXn1qrhp2EpW1vkWNWvGqc
 - Login by keyfile removed
 - Fixed login methods: arweave.app and ArConnect
 
