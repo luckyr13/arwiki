@@ -1,12 +1,12 @@
 <mat-expansion-panel 
   *ngFor="let menuOption of menu" 
   routerLinkActive
-  [expanded]="isActiveRouteInCategory(menuOption.category_slug)">
+  [expanded]="activeRouteExpanded[menuOption.category_slug]">
   <mat-expansion-panel-header>
     <mat-panel-title
       class="subheader"
       [ngStyle]="{ 'padding-left': leftPadding() }">
-      {{ 'MAIN_MENU.' + menuOption.category_slug | translate }}
+      {{ translations['MAIN_MENU.' + menuOption.category_slug] }}
     </mat-panel-title>
   </mat-expansion-panel-header>
   <a mat-list-item 

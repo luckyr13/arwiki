@@ -18,9 +18,9 @@ export class ArwikiTokenContract
   // private _contractAddress: string = 'ewepANKEVffP0cm_XKjwTYhSBqaiQrJbVrCcBiWqw-s';
   // New contract demo
   // Single level
-  private _contractAddress = 'JGrP0IV4aVOAx1lgozOjQhZkUVv8-y1xfUcCR9ra8QQ';
+  // private _contractAddress = 'JGrP0IV4aVOAx1lgozOjQhZkUVv8-y1xfUcCR9ra8QQ';
   // Multi level
-  // private _contractAddress = 'P4X4qUj8aoUX9HrbvbYNGfYPLdc3kPu3HCa5nqM_JlU';
+  private _contractAddress = 'aYnwKbqL603IKdP-Ba_kG73K7EeURTeF1jUoz4YJqxA';
 
   private _state: any = {};
 	private _adminList: string[] = [];
