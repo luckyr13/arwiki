@@ -88,7 +88,6 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
               category: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category'),
               language: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang'),
               img: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img'),
-              owner: pTX.owner.address,
               block: pTX.block,
               value: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Value'),
               
@@ -98,7 +97,7 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
         }),
         switchMap((pendingPages: ArwikiPageIndex) => {
           return (
-            this._arwikiTokenContract.getApprovedPages(this.routeLang, -1, true)
+            this._arwikiTokenContract.getApprovedPages(this.routeLang, -1)
               .pipe(
                 switchMap((_approvedPages: ArwikiPageIndex) => {
                   let tmp_res: ArwikiPageIndex = {};
@@ -153,9 +152,9 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
     _slug: string,
     _pageId: string,
     _category_slug: string,
-    _pageValue: number,
-    _author: string
+    _pageValue: number
   ) {
+    const _author = '';
     const defLang = this._userSettings.getDefaultLang();
     let direction: Direction = defLang.writing_system === 'LTR' ? 
       'ltr' : 'rtl';

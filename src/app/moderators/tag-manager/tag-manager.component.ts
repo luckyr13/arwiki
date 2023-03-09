@@ -81,7 +81,7 @@ export class TagManagerComponent implements OnInit, OnDestroy {
     this.loadingPage = true;
     this.pageSubscription = this._arwikiToken.getApprovedPages(this.routeLang).
       pipe(switchMap((approvedPages) => {
-        const address: string = approvedPages && approvedPages[slug] ? approvedPages[slug].content! : '';
+        const address: string = approvedPages && approvedPages[slug] ? approvedPages[slug].id! : '';
         return this.arwikiQuery.getTXsData([address]);
       })).subscribe({
       next: (txData: ArdbTransaction[]|ArdbBlock[]) => {
@@ -95,7 +95,6 @@ export class TagManagerComponent implements OnInit, OnDestroy {
             category: this.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category'),
             language: this.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang'),
             img: this.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img'),
-            owner: pTX.owner.address,
             block: pTX.block
           };
         }

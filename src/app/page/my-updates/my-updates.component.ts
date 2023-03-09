@@ -118,13 +118,11 @@ export class MyUpdatesComponent implements OnInit , OnDestroy {
             slug,
             category,
             img,
-            owner,
             language: lang,
             id,
             value: pageValue,
             block: pTX.block,
-            start,
-            pageRewardAt,
+            lastUpdateAt: start,
             sponsor
           });
         }

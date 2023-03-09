@@ -89,14 +89,13 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
         switchMap((categories: ArwikiCategoryIndex) => {
           return this._arwikiToken.getApprovedPages(
             this.routeLang,
-            -1,
-            true
+            -1
           );
         }),
         switchMap((_approvedPages: ArwikiPageIndex) => {
           allVerifiedPages = _approvedPages;
           verifiedPages = Object.keys(_approvedPages).map((slug) => {
-            return _approvedPages[slug].content!;
+            return _approvedPages[slug].id!;
           });
 
           return this.arwikiQuery.getTXsData(verifiedPages);
@@ -114,11 +113,9 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
               language: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang'),
               value: allVerifiedPages[slug].value,
               img: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img'),
-              owner: pTX.owner.address,
               block: pTX.block,
-              start: allVerifiedPages[slug].start,
-              sponsor: allVerifiedPages[slug].sponsor,
-              pageRewardAt: allVerifiedPages[slug].pageRewardAt              
+              lastUpdateAt: allVerifiedPages[slug].lastUpdateAt,
+              sponsor: allVerifiedPages[slug].sponsor           
             });
           }
           return of(tmp_res);

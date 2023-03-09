@@ -190,11 +190,9 @@ export class DeletedListComponent implements OnInit, OnDestroy {
               category: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category'),
               language: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang'),
               value: allPages[slug].value,
-              owner: pTX.owner.address,
               block: pTX.block,
-              start: allPages[slug].start,
-              sponsor: allPages[slug].sponsor,
-              pageRewardAt: allPages[slug].pageRewardAt              
+              lastUpdateAt: allPages[slug].lastUpdateAt,
+              sponsor: allPages[slug].sponsor,            
             });
           }
           return of(tmp_res);

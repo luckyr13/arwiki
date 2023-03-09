@@ -62,7 +62,6 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     slug: '',
     category: '',
     language: '',
-    owner: '',
     img: '',
   };
   pageExtraMetadata: any = {};
@@ -140,8 +139,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     this.pageData.title = '';
     this.pageData.img = '';
     this.pageData.id = '';
-    this.pageData.content = '';
-    this.pageData.owner = '';
+    this.pageData.rawContent = '';
     this.pageData.category = '';
     this.block = {};
     const numPages = 20;
@@ -180,11 +178,8 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
             slug: this.removeHTMLfromStr(slug),
             category: this.removeHTMLfromStr(category),
             img: this.removeHTMLfromStr(img),
-            owner: owner,
             id: id,
-            block: block,
-            upvotes: extraMetadata.upvotes,
-            downvotes: extraMetadata.downvotes
+            block: block
           });
           
         }
@@ -195,10 +190,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   				this.pageData.title = page.title ? page.title : '';
   				this.pageData.img = page.img ? page.img : '';
   				this.pageData.id = page.id ? page.id : '';
-          this.pageData.owner = page.owner ? page.owner : '';
           this.pageData.category = page.category ? page.category : '';
-          this.pageData.upvotes = page.upvotes ? page.upvotes : 0;
-          this.pageData.downvotes = page.downvotes ? page.downvotes : 0;
           this.pageData.slug = page.slug ? page.slug : '';
           this.block = page.block;
 
@@ -206,10 +198,10 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
             next: (content) => {
 
               // Save content
-              this.pageData.content = this.markdownToHTML(content);
+              this.pageData.rawContent = this.markdownToHTML(content);
 
               // Calculate reading time
-              const rawContent = this.removeHTMLfromStr(this.pageData.content);
+              const rawContent = this.removeHTMLfromStr(this.pageData.rawContent);
               const tmpReadingTime = this._arwikiTokenContract.getReadingTime(rawContent);
               this.readingTime = this.minutesToMinSec(tmpReadingTime);
 
@@ -280,7 +272,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
           });
 
   			} else {
-          this.pageData.content = '';
+          this.pageData.rawContent = '';
           this.pageNotFound = true;
   				this._utils.message('Page not found', 'error')
           this.loadingPage = false;
@@ -291,7 +283,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   		error: (error) => {
   			this._utils.message(error, 'error')
         this.loadingPage = false;
-        this.pageData.content = '';
+        this.pageData.rawContent = '';
         this.pageNotFound = true;
   		}
   	});
@@ -370,15 +362,14 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     const verifiedPagesList: string[] = [];
     return this._arwikiTokenContract.getApprovedPages(
         _langCode,
-        -1,
-        true
+        -1
       ).pipe(
         switchMap((verifiedPages) => {
           const p = verifiedPages[_slug];
           this.pageExtraMetadata = verifiedPages[_slug];
 
-          if (p && p.content) {
-            verifiedPagesList.push(p.content);
+          if (p && p.id) {
+            verifiedPagesList.push(p.id);
           } else {
             throw Error('Page does not exist!');
           }
@@ -388,7 +379,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
       );
   }
 
-  donate(_author: string, _sponsor: string) {
+  donate(_sponsor: string) {
     const defLang = this._userSettings.getDefaultLang();
     let direction: Direction = defLang.writing_system === 'LTR' ? 
       'ltr' : 'rtl';
@@ -455,7 +446,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     const defLang = this._userSettings.getDefaultLang();
     let direction: Direction = defLang.writing_system === 'LTR' ? 
       'ltr' : 'rtl';
-    const tmpContent = this.removeHTMLfromStr(this.pageData.content!);
+    const tmpContent = this.removeHTMLfromStr(this.pageData.rawContent!);
     const limit = tmpContent.indexOf('.') > 0 ? tmpContent.indexOf('.') + 1 : 100;
 
     this._bottomSheetShare.open(BottomSheetShareComponent, {
@@ -531,7 +522,6 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
           if (tx) {
             this._utils.message(`Success!`, 'success');
           }
-          console.log('raw', tx);
           this.loadingUpdateSponsorPage = false;
 
         },

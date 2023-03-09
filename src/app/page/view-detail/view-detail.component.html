@@ -1,5 +1,5 @@
 <div class="container preview-page-container">
-	<div class="row" *ngIf="pageData.content">
+	<div class="row" *ngIf="pageData.rawContent">
 		<h1 class="page-title col-12">
 			<span class="fadeIn" *ngIf="pageData.title">{{ pageData.title }}</span>
 		</h1>
@@ -11,7 +11,7 @@
 		  	mat-button 
 		  	class="btn-toolbar" 
 		  	color="accent"
-		  	(click)="donate(pageData.owner, pageExtraMetadata.sponsor)">
+		  	(click)="donate(pageExtraMetadata.sponsor)">
 		    <mat-icon class="green-money animate__animated animate__heartBeat animate__slow animate__infinite">volunteer_activism</mat-icon>
 		    {{ 'GENERAL.BUTTONS.BTN_DONATE' | translate }}
 		  </button>
@@ -57,7 +57,7 @@
 	  <div class="separator col-12"></div>
 	</div>
 	<mat-spinner class="spinner-center" color="accent" *ngIf="loadingPage"></mat-spinner>
-	<div class="row" *ngIf="!pageData.content && pageNotFound && !loadingPage">
+	<div class="row" *ngIf="!pageData.rawContent && pageNotFound && !loadingPage">
 		<h1 class="text-center col-12">{{ 'PAGE.LABEL_PAGE_NOT_FOUND' | translate }}</h1>
 		<div class="col-12 text-center" *ngIf="isUserLoggedIn">
 			<a mat-flat-button 
@@ -68,7 +68,7 @@
 	</div>
 	<div 
 		class="row" 
-		*ngIf="!loadingPage && (pageData.content || pageData.img)">
+		*ngIf="!loadingPage && (pageData.rawContent || pageData.img)">
 		<div 
 			class="col-12 col-md-3 toc-parent-container fadeIn">
 			<mat-card *ngIf="pageData.img" class="text-center">
@@ -101,9 +101,9 @@
 			id="arwiki-page-content-detail"
 			class="col-12 fadeIn" 
 			[class.col-md-9]="toc.length || pageData.img" 
-			[innerHTML]="pageData.content"></div>
+			[innerHTML]="pageData.rawContent"></div>
 	</div>
-	<div class="container" *ngIf="pageData.content">
+	<div class="container" *ngIf="pageData.rawContent">
 		<div class="row tags-main-container">
 			<h2 class="page-title col-12">
 				{{ 'PAGE.LABEL_TAGS' | translate }}
@@ -143,9 +143,11 @@
 					{{ 'GENERAL.LABELS.NO_RESULTS' | translate }}
 				</div>
 			</div>
+			<!--
 			<p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageData.owner">
 				<app-arweave-address [lang]="routeLang" [address]="pageData.owner">{{ 'PAGE.LABEL_LAST_UPDATE_BY' | translate }} </app-arweave-address>
 		  </p>
+		-->
 		  <p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageExtraMetadata.sponsor">
 				<app-arweave-address [lang]="routeLang" [address]="pageExtraMetadata.sponsor">{{ 'PAGE.LABEL_SPONSOR' | translate }} </app-arweave-address>
 		  </p>
@@ -157,7 +159,7 @@
 		  </p>
 		</div>
 	</div>
-	<div class="container" *ngIf="pageData.content">
+	<div class="container" *ngIf="pageData.rawContent">
 		<div class="row">
 			<div 
 				class="col-12 fadeIn text-right separator" >
@@ -166,7 +168,7 @@
 			  	mat-button 
 			  	class="btn-toolbar" 
 			  	color="accent"
-			  	(click)="donate(pageData.owner, pageExtraMetadata.sponsor)">
+			  	(click)="donate(pageExtraMetadata.sponsor)">
 			    <mat-icon class="green-money animate__animated animate__heartBeat animate__slow animate__infinite">volunteer_activism</mat-icon>
 			    {{ 'GENERAL.BUTTONS.BTN_DONATE' | translate }}
 			  </button>

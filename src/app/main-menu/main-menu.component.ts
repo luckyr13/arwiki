@@ -6,11 +6,12 @@ import { Observable, Subscription, of } from 'rxjs';
 import { ArwikiQuery } from '../core/arwiki-query';
 import { ArwikiTokenContract } from '../core/arwiki-contracts/arwiki-token.service';
 import { UtilsService } from '../core/utils.service';
-import { Router } from '@angular/router';
 import { ArwikiCategoryIndex } from '../core/interfaces/arwiki-category-index';
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
 import { ArwikiPage } from '../core/interfaces/arwiki-page';
+import { ArwikiPageIndex } from '../core/interfaces/arwiki-page-index';
+import { ArwikiMenuCategory } from '../core/interfaces/arwiki-menu-category';
 
 @Component({
   selector: 'app-main-menu',
@@ -23,9 +24,8 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   routerLang: string = '';
   menuSubscription: Subscription = Subscription.EMPTY;
   loading: boolean = false;
-  menu: Record<string, ArwikiPage[]> = {};
+  menu: ArwikiMenuCategory[] = [];
   categories: ArwikiCategoryIndex = {};
-  category_slugs: string[] = [];
   defaultTheme: string = '';
   arwikiQuery!: ArwikiQuery;
 
@@ -33,8 +33,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       private _userSettings: UserSettingsService,
       private _arweave: ArweaveService,
       private _arwikiTokenContract: ArwikiTokenContract,
-      private _utils: UtilsService,
-      private _router: Router
+      private _utils: UtilsService
     ) { }
 
   async ngOnInit() {
@@ -55,43 +54,73 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
   }
 
+  generateMenuChildren(
+    categories: ArwikiCategoryIndex,
+    catPages: Record<string, ArwikiPage[]>,
+    slugs: string[],
+    numCategories: number,
+    parent_id: string) {
+    const subcategories: ArwikiMenuCategory[] = [];
+
+    for (let i = 0; i < numCategories; i++) {
+      if (categories[slugs[i]].parent_id === parent_id) {
+        subcategories.push({
+            category_slug: slugs[i],
+            pages: catPages[slugs[i]],
+            subcategories: this.generateMenuChildren(
+              categories,
+              catPages,
+              slugs,
+              numCategories,
+              slugs[i])
+          });
+      }
+
+    }
+
+    return subcategories;
+  }
+
+
+  generateMenu(
+    categories: ArwikiCategoryIndex,
+    catPages: Record<string, ArwikiPage[]>) {
+    const tmpMenu: ArwikiMenuCategory[] = [];
+    const categoriesSlugs = Object.keys(categories);
+    const numCategories = categoriesSlugs.length;
+    for (let i = 0; i < numCategories; i++) {
+      // Parents
+      if (!categories[categoriesSlugs[i]].parent_id) {
+        tmpMenu.push({
+          category_slug: categoriesSlugs[i],
+          pages: catPages[categoriesSlugs[i]],
+          subcategories: this.generateMenuChildren(
+            categories,
+            catPages,
+            categoriesSlugs,
+            numCategories,
+            categoriesSlugs[i])
+          });
+      }
+    }
+
+    return tmpMenu;
+  }
+
   getMenu() {
     this.loading = true;
-    const maxPages = 30;
-    this.menu = {};
+    this.menu = [];
     this.menuSubscription = this.getMainMenu(
-      this.routerLang,
-      maxPages
+      this.routerLang
     ).subscribe({
       next: (data) => {
         this.loading = false;
-        this.category_slugs = Object.keys(data.categories)
-          .sort((f1: any, f2: any) => {
-            return data.categories[f1].order - data.categories[f2].order;
-          });
-       
-        const pages = data.pages;
         this.categories = data.categories;
-        const menuTmp: Record<string, ArwikiPage[]> = {};
 
-        for (let cats of this.category_slugs) {
-          menuTmp[cats] = [];
-          if (pages && pages[cats]) {
-            const pages_slugs = Object.keys(pages[cats]);
-            for (let page_s of pages_slugs) {
-              menuTmp[cats].push(pages[cats][page_s]);
-            }
-          }
-        }
+        const pages = data.catPages;
+        
 
-        // Sort results
-        for (const c in menuTmp) {
-          menuTmp[c].sort((a, b) => {
-            return a.title.localeCompare(b.title);
-          });
-        }
-
-        this.menu = menuTmp;
+        this.menu = this.generateMenu(this.categories, pages);
         
       },
       error: (error) => {
@@ -143,72 +172,86 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     return ngStyle;
   }
 
-  isActiveRouteInCategory(_cat: string) {
-    let isActive = false;
-
-    for (let page of this.menu[_cat]) {
-      const final = `${this.routerLang}/${page.slug}`;
-      isActive = this._router.isActive(final, true);
-      if (isActive) {
-        break;
-      }
-    }
-
-    return isActive;
-  }
-
 
   /*
   * @dev
   */
   getMainMenu(
-    _langCode: string,
-    _limit: number = 100
+    _langCode: string
   ) {
     let globalCat: ArwikiCategoryIndex = {};
-    let adminList: string[] = [];
-    let verifiedPages: string[] = [];
+    let globalPages: ArwikiPageIndex = {};
 
     return this._arwikiTokenContract.getCategories()
       .pipe(
         switchMap((_categories: ArwikiCategoryIndex) => {
           globalCat = _categories;
-          return this._arwikiTokenContract.getApprovedPages(_langCode, _limit, true);
+          return this._arwikiTokenContract.getApprovedPagesByCategory(_langCode, Object.keys(_categories));
         }),
         switchMap((_approvedPages) => {
+          globalPages = _approvedPages;
+
           // Sort asc by block height
-          verifiedPages = Array.prototype.sort.call(Object.keys(_approvedPages), (a, b) => {
-            return _approvedPages[a].start! - _approvedPages[b].start!;
-          });
+          //let verifiedPages = Array.prototype.sort.call(Object.keys(_approvedPages), (a, b) => {
+          //  return _approvedPages[a].lastUpdateAt! - _approvedPages[b].lastUpdateAt!;
+          //});
+          let verifiedPages = Object.keys(_approvedPages);
 
 
           verifiedPages = verifiedPages.map((slug) => {
-            return _approvedPages[slug].content!;
+            return _approvedPages[slug].id!;
           });
 
           return this.arwikiQuery.getTXsData(verifiedPages);
         }),
         switchMap((txs: ArdbTransaction[]|ArdbBlock[]) => {
-          const finalRes: any = {};
+          const finalRes: Record<string, ArwikiPage[]> = {};
           for (let p of txs) {
             const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave); 
             const title = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title');
-            const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
-            const category = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category');
             const id = pTX.id;
-            if (!Object.prototype.hasOwnProperty.call(finalRes, category)) {
-              finalRes[category] = {};
+            const tmpSlug = Object.keys(globalPages).find((s) => {
+              return globalPages[s].id === id;
+            });
+            const slug = tmpSlug ? tmpSlug : '';
+            const category = globalPages[slug].category;
+            const order = globalPages[slug].order;
+
+            if (!globalPages[slug].showInMenu) {
+              continue;
             }
+
+            if (!Object.prototype.hasOwnProperty.call(finalRes, category)) {
+              finalRes[category] = [];
+            }
+
             
-            finalRes[category][slug] = {
+            finalRes[category].push({
               title: title,
               slug: slug,
               category: category,
-              id: id
-            };
-            
+              id: id,
+              language: _langCode,
+              order: order
+            });
           }
-          return of({ categories: globalCat, pages: finalRes });
+
+          // Lexicographical sort
+          for (let cat in finalRes) {
+            Array.prototype.sort.call(finalRes[cat], (a, b) => {
+              return a.title.localeCompare(b.title);
+            });
+          }
+
+          // Sort by order
+          for (let cat in finalRes) {
+            Array.prototype.sort.call(finalRes[cat], (a, b) => {
+              return a.order - b.order;
+            });
+          }
+          
+
+          return of({ categories: globalCat, catPages: finalRes });
         })
       );
   }

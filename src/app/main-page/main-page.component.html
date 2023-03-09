@@ -23,9 +23,9 @@
 					{{ mainPage.title }}
 				</h1>
 				<div 
-					*ngIf="mainPage.content" 
+					*ngIf="mainPage.rawContent" 
 					class="text-justify secondary-mainPTX-content fadeIn"
-					[innerHTML]="markdownToHTML(mainPage.content)"></div>
+					[innerHTML]="markdownToHTML(mainPage.rawContent)"></div>
 
 			</div>
 			<!-- Default if not Main Page is found -->

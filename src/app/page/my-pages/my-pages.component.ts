@@ -130,7 +130,7 @@ export class MyPagesComponent implements OnInit, OnDestroy {
           const owner = pTX.owner.address;
           const id = pTX.id;
           const pageValue = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Value');
-          const extraData: any = allApprovedPages[slug] && allApprovedPages[slug].content == id 
+          const extraData: any = allApprovedPages[slug] && allApprovedPages[slug].id == id 
             ? allApprovedPages[slug] : {};
           const start = extraData.start ? extraData.start : 0;
           const pageRewardAt = extraData.pageRewardAt ? extraData.pageRewardAt : 0;
@@ -141,13 +141,11 @@ export class MyPagesComponent implements OnInit, OnDestroy {
             slug,
             category,
             img,
-            owner,
             language: lang,
             id,
             value: pageValue,
             block: pTX.block,
-            start,
-            pageRewardAt,
+            lastUpdateAt: start,
             sponsor
           });
         }

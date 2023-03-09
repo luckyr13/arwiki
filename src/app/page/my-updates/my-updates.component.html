@@ -81,6 +81,7 @@
 						<strong>{{ 'PAGE.LABEL_BLOCK_TIMESTAMP' | translate }}:</strong>
 						{{ timestampToDate(page.block.timestamp) | date:'short' }} 
 					</div>
+					<!--
 					<div *ngIf="page.pageRewardAt" class="mini-text">
 						<strong>Page reward at: </strong>
 						<span>{{ page.pageRewardAt }} block</span>
@@ -91,6 +92,7 @@
 							- Reward unlocked in {{ page.pageRewardAt - currentBlockHeight }} blocks!
 						</span>
 					</div>
+				-->
 
 				</mat-card-content>
 				<mat-card-actions class="text-right card-footer">

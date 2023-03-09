@@ -115,7 +115,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
               slug: slug,
               category: category,
               img: img,
-              owner: owner,
               id: id,
               block: block,
               language: language
@@ -150,9 +149,9 @@ export class MainPageComponent implements OnInit, OnDestroy {
       next: async (pages: ArwikiPage[]) => {
         // Sort desc
         this.latestArticles = pages.sort((a, b) => {
-          if (a.start! > b.start!) {
+          if (a.lastUpdateAt! > b.lastUpdateAt!) {
             return -1;
-          } else if (a.start! < b.start!) {
+          } else if (a.lastUpdateAt! < b.lastUpdateAt!) {
             return 1;
           }
           return 0;
@@ -190,13 +189,12 @@ export class MainPageComponent implements OnInit, OnDestroy {
               slug: slug,
               category: category,
               img: img,
-              owner: owner,
               id: id,
               block: block,
               language: language
             };
 
-            this.mainPage.content = await this._arweave.getTxContent(id);
+            this.mainPage.rawContent = await this._arweave.getTxContent(id);
 
             break;
           }
@@ -233,24 +231,17 @@ export class MainPageComponent implements OnInit, OnDestroy {
     let admins: string[] = [];
     let verifiedPages: string[] = [];
     let allApprovedPages: any = {};
-    return this._arwikiTokenContract.getAdminList().pipe(
-      switchMap((_adminList: string[]) => {
-        admins = _adminList;
-        return this._arwikiTokenContract.getCategories();
-      }),
-      switchMap((categories) => {
-        return this._arwikiTokenContract.getApprovedPages(langCode, -1, true);
-      }),
+    return this._arwikiTokenContract.getApprovedPages(langCode, -1).pipe(
       switchMap((_approvedPages: ArwikiPageIndex) => {
         allApprovedPages = _approvedPages;
         // Sort desc
         verifiedPages = Array.prototype.sort.call(Object.keys(_approvedPages), (a, b) => {
-          return _approvedPages[b].start! - _approvedPages[a].start!;
+          return _approvedPages[b].lastUpdateAt! - _approvedPages[a].lastUpdateAt!;
         });
         verifiedPages = Array.prototype.slice.call(verifiedPages, 0, numArticles);
 
         verifiedPages = verifiedPages.map((slug) => {
-          return _approvedPages[slug].content!;
+          return _approvedPages[slug].id!;
         });
 
         return this.arwikiQuery.getTXsData(verifiedPages);
@@ -274,11 +265,10 @@ export class MainPageComponent implements OnInit, OnDestroy {
             slug: slug,
             category: category,
             img: img,
-            owner: owner,
             id: id,
             block: block,
             language: language,
-            start: allApprovedPages[slug].start,
+            lastUpdateAt: allApprovedPages[slug].lastUpdateAt,
             sponsor: sponsor
           });
         }
@@ -366,15 +356,15 @@ export class MainPageComponent implements OnInit, OnDestroy {
           return this.categories[f1].order - this.categories[f2].order;
         });
 
-        return this._arwikiTokenContract.getApprovedPages(langCode, numArticles, true);
+        return this._arwikiTokenContract.getApprovedPages(langCode, numArticles);
       }),
       switchMap((_approvedPages: ArwikiPageIndex) => {
         verifiedPages = Array.prototype.sort.call(Object.keys(_approvedPages), (a, b) => {
-          return _approvedPages[a].start! - _approvedPages[b].start!;
+          return _approvedPages[a].lastUpdateAt! - _approvedPages[b].lastUpdateAt!;
         });
 
         verifiedPages = verifiedPages.map((slug) => {
-          return _approvedPages[slug].content!;
+          return _approvedPages[slug].id!;
         });
 
         return this.arwikiQuery.getTXsData(verifiedPages);
@@ -406,7 +396,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
       }),
       switchMap((categories: ArwikiCategoryIndex) => {
         this.categories = categories;
-        return this._arwikiTokenContract.getApprovedPages(langCode, -1, true);
+        return this._arwikiTokenContract.getApprovedPages(langCode, -1);
       }),
       switchMap((approvedPages: any) => {
         allApprovedPages = approvedPages;
@@ -424,8 +414,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
           const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
           // const vrfdPageId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
           const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
-          if (allApprovedPages[slug] && allApprovedPages[slug].content) {
-            mainTX.push(allApprovedPages[slug].content);
+          if (allApprovedPages[slug] && allApprovedPages[slug].id) {
+            mainTX.push(allApprovedPages[slug].id);
             break;
           }
         }

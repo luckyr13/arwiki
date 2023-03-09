@@ -35,7 +35,7 @@ export class Arwiki {
   ) {
     const jwk = _privateKey;
     const tx = await this._arweave.createTransaction({
-      data: _newPage.content
+      data: _newPage.rawContent
     }, jwk);
     tx.addTag('Content-Type', 'text/plain');
     tx.addTag('Service', 'ArWiki');
@@ -202,7 +202,7 @@ export class Arwiki {
   ) {
     const jwk = _privateKey;
     const tx = await this._arweave.createTransaction({
-      data: _newPage.content
+      data: _newPage.rawContent
     }, jwk);
     tx.addTag('Content-Type', 'text/plain');
     tx.addTag('Service', 'ArWiki');

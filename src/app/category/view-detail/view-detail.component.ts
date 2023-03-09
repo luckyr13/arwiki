@@ -145,8 +145,7 @@ export class ViewDetailComponent implements OnInit {
           }
           return this._arwikiTokenContract.getApprovedPages(
             _langCode,
-            -1,
-            true
+            -1
           );
         }),
         switchMap((_approvedPages: ArwikiPageIndex) => {
@@ -155,7 +154,7 @@ export class ViewDetailComponent implements OnInit {
             .filter((slug) => {
               return _approvedPages[slug].category === _category;
             }).map((slug) => {
-              return _approvedPages[slug].content!;
+              return _approvedPages[slug].id!;
             })
           return this.arwikiQuery.getTXsData(verifiedPages);
         }),
@@ -177,10 +176,9 @@ export class ViewDetailComponent implements OnInit {
               slug: slug,
               category: category,
               img: img,
-              owner: owner,
               id: id,
-              language: lang,
-              sponsor: sponsor
+              language: lang
+
             });
             
           }

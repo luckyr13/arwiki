@@ -1,0 +1,18 @@
+.active .mat-mdc-list-item-line, a.active .mat-mdc-list-item-line {
+  text-decoration: underline !important;
+}
+
+.mat-mdc-list-item-line {
+  color: inherit;
+}
+
+.mat-expansion-panel-header {
+  height: 40px;
+  font-size: 14px;
+}
+
+.mat-mdc-list-item {
+  padding-left: 10px;
+  font-size: 14px;
+  height: 40px;
+}

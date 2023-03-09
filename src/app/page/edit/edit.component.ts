@@ -82,7 +82,6 @@ export class EditComponent implements OnInit, OnDestroy {
     slug: '',
     category: '',
     language: '',
-    owner: '',
     img: '',
   };
   pageExtraMetadata: any = {};
@@ -264,8 +263,7 @@ export class EditComponent implements OnInit, OnDestroy {
         language: langCode,
         value: pageValue,
         img: img,
-        owner: this._auth.getMainAddressSnapshot(),
-        content: content
+        rawContent: content
     };
 
     const disableDispatch = !this.useDispatch!.value;
@@ -340,8 +338,7 @@ export class EditComponent implements OnInit, OnDestroy {
     this.pageData.title = '';
     this.pageData.img = '';
     this.pageData.id = '';
-    this.pageData.content = '';
-    this.pageData.owner = '';
+    this.pageData.rawContent = '';
     this.pageData.category = '';
     this.block = {};
     const numPages = 20;
@@ -382,13 +379,12 @@ export class EditComponent implements OnInit, OnDestroy {
           this.pageData.title = page.title ? page.title : '';
           this.pageData.img = page.img ? page.img : '';
           this.pageData.id = page.id ? page.id : '';
-          this.pageData.owner = page.owner ? page.owner : '';
           this.pageData.category = page.category ? page.category : '';
           this.block = page.block;
           this.pageData.slug = page.slug ? page.slug : '';
 
           let content = await this._arweave.getTxContent(page.id);
-          this.pageData.content = content;
+          this.pageData.rawContent = content;
           this.pageId.setValue(this.pageData.id);
           this.title.setValue(this.pageData.title);
           this.category.setValue(this.pageData.category);
@@ -397,7 +393,7 @@ export class EditComponent implements OnInit, OnDestroy {
           window.setTimeout(() => {
             this.simplemde = new SimpleMDE({
               element: document.getElementById("create-page-textarea-simplemde-content"),
-              initialValue: this.pageData.content,
+              initialValue: this.pageData.rawContent,
               toolbar: [
                 "bold", "italic", "heading", "|",
                 "quote", "unordered-list", "ordered-list", "strikethrough", "code", "|",
@@ -431,7 +427,7 @@ export class EditComponent implements OnInit, OnDestroy {
 
 
         } else {
-          this.pageData.content = '';
+          this.pageData.rawContent = '';
           this.pageNotFound = true;
           this._utils.message('Page not found', 'error')
           this.loadingPageData = false;
@@ -442,7 +438,7 @@ export class EditComponent implements OnInit, OnDestroy {
       error: (error) => {
         this._utils.message(error, 'error')
         this.loadingPageData = false;
-        this.pageData.content = '';
+        this.pageData.rawContent = '';
         this.pageNotFound = true;
       }
     });
@@ -459,15 +455,14 @@ export class EditComponent implements OnInit, OnDestroy {
     const verifiedPagesList: string[] = [];
     return this._arwikiTokenContract.getApprovedPages(
         _langCode,
-        -1,
-        true
+        -1
       ).pipe(
         switchMap((verifiedPages) => {
           const p = verifiedPages[_slug];
           this.pageExtraMetadata = verifiedPages[_slug];
 
-          if (p && p.content) {
-            verifiedPagesList.push(p.content);
+          if (p && p.id) {
+            verifiedPagesList.push(p.id);
           } else {
             throw Error('Page does not exist!');
           }
@@ -581,7 +576,7 @@ export class EditComponent implements OnInit, OnDestroy {
     _disableDispatch: boolean = true
   ) {
     const jwk = this._auth.getPrivateKey();
-    const data = _newPage.content;
+    const data = _newPage.rawContent;
     const loginMethod = this._auth.loginMethod;
     const tags: {name: string, value: string}[] = [
       { name: 'Service', value: 'ArWiki' },

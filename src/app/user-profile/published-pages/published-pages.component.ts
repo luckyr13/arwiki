@@ -95,10 +95,9 @@ export class PublishedPagesComponent implements OnInit, OnDestroy, OnChanges {
           const category = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category');
           const lang = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang');
           const img = this.sanitizeImg(this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img'));
-          const owner = pTX.owner.address;
           const id = pTX.id;
           const pageValue = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Value');
-          const extraData: any = allApprovedPages[slug] && allApprovedPages[slug].content == id 
+          const extraData: any = allApprovedPages[slug] && allApprovedPages[slug].rawContent == id 
             ? allApprovedPages[slug] : {};
           const start = extraData.start ? extraData.start : 0;
           const pageRewardAt = extraData.pageRewardAt ? extraData.pageRewardAt : 0;
@@ -113,13 +112,11 @@ export class PublishedPagesComponent implements OnInit, OnDestroy, OnChanges {
             slug,
             category,
             img,
-            owner,
             language: lang,
             id,
             value: pageValue,
             block: pTX.block,
-            start,
-            pageRewardAt,
+            lastUpdateAt: start,
             sponsor
           });
         }
@@ -200,7 +197,7 @@ export class PublishedPagesComponent implements OnInit, OnDestroy, OnChanges {
           const owner = pTX.owner.address;
           const id = pTX.id;
           const pageValue = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Value');
-          const extraData: any = allApprovedPages[slug] && allApprovedPages[slug].content == id 
+          const extraData: any = allApprovedPages[slug] && allApprovedPages[slug].rawContent == id 
             ? allApprovedPages[slug] : {};
           const start = extraData.start ? extraData.start : 0;
           const pageRewardAt = extraData.pageRewardAt ? extraData.pageRewardAt : 0;
@@ -215,13 +212,11 @@ export class PublishedPagesComponent implements OnInit, OnDestroy, OnChanges {
             slug,
             category,
             img,
-            owner,
             language: lang,
             id,
             value: pageValue,
             block: pTX.block,
-            start,
-            pageRewardAt,
+            lastUpdateAt: start,
             sponsor
           });
         }

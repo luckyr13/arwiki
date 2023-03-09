@@ -3,4 +3,5 @@ export interface ArwikiCategory {
 	label: string;
 	order: number;
 	active: boolean;
+	parent_id: string;
 }

@@ -233,8 +233,7 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
         language: langCode,
         value: pageValue,
         img: img,
-        owner: this._auth.getMainAddressSnapshot(),
-        content: content
+        rawContent: content
     };
     const disableDispatch = !this.useDispatch!.value;
     this.savingPageSubscription = this.savePage(newPage, disableDispatch).subscribe({
@@ -517,7 +516,7 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
     _disableDispatch: boolean = true
   ) {
     const jwk = this._auth.getPrivateKey();
-    const data = _newPage.content;
+    const data = _newPage.rawContent;
     const loginMethod = this._auth.loginMethod;
     const tags: {name: string, value: string}[] = [
       { name: 'Service', value: 'ArWiki' },

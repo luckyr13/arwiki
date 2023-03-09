@@ -84,7 +84,6 @@ export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
               category: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category'),
               language: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang'),
               img: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img'),
-              owner: pTX.owner.address,
               block: pTX.block,
               value: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Value'),
               
@@ -94,7 +93,7 @@ export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
         }),
         switchMap((pendingPages: ArwikiPageIndex) => {
           return (
-            this._arwikiTokenContract.getApprovedPages(this.langCode, -1, true)
+            this._arwikiTokenContract.getApprovedPages(this.langCode, -1)
               .pipe(
                 switchMap((_approvedPages: ArwikiPageIndex) => {
                   let tmp_res: ArwikiPageIndex = {};

@@ -95,7 +95,6 @@ export class PendingListComponent implements OnInit, OnDestroy {
               category: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category'),
               language: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang'),
               img: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img'),
-              owner: pTX.owner.address,
               block: pTX.block,
               value: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Value'),
               
@@ -184,9 +183,9 @@ export class PendingListComponent implements OnInit, OnDestroy {
     _slug: string,
     _pageId: string,
     _category_slug: string,
-    _pageValue: number,
-    _author: string
+    _pageValue: number
   ) {
+    const _author = '';
     const defLang = this._userSettings.getDefaultLang();
     let direction: Direction = defLang.writing_system === 'LTR' ? 
       'ltr' : 'rtl';

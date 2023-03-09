@@ -85,7 +85,6 @@ export class HistoryPagesRejectedComponent implements OnInit, OnDestroy {
           const title = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title');
           const slug = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
           const lang = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang');
-          const owner = '';
           const id = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Id');
 
           const reason = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Reason');
@@ -99,7 +98,6 @@ export class HistoryPagesRejectedComponent implements OnInit, OnDestroy {
             slug,
             category,
             img,
-            owner,
             language: lang,
             id,
             block: pTX.block
@@ -176,7 +174,6 @@ export class HistoryPagesRejectedComponent implements OnInit, OnDestroy {
           const title = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title');
           const slug = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
           const lang = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang');
-          const owner = '';
           const id = pTX.id;
           const reason = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Reason');
           const category = '';
@@ -189,7 +186,6 @@ export class HistoryPagesRejectedComponent implements OnInit, OnDestroy {
             slug,
             category,
             img,
-            owner,
             language: lang,
             id,
             block: pTX.block

@@ -92,8 +92,8 @@ export class HistoryComponent implements OnInit, OnDestroy {
               throw Error('Page does not exist!');
             }
             const page = _approvedPages[slug];
-            const mainTX: string = page.content!;
-            historyData[mainTX] = [page.start!, page.sponsor!];
+            const mainTX: string = page.id!;
+            historyData[mainTX] = [page.lastUpdateAt!, page.sponsor!];
             const updates = page.updates!.map((v: ArwikiPageUpdate) => {
               historyData[v.tx] = [v.at, v.approvedBy];
               return v.tx;
@@ -122,16 +122,15 @@ export class HistoryComponent implements OnInit, OnDestroy {
                 slug: slug,
                 category: category,
                 img: img,
-                owner: owner,
                 id: id,
                 block: block,
                 language: lang,
-                start: start,
+                lastUpdateAt: start,
                 sponsor: sponsor
               });
             }
             const finalRes = tmpRes.sort((a, b) => {
-              return b.start! - a.start!;
+              return b.lastUpdateAt! - a.lastUpdateAt!;
             });
             return of(finalRes);
           }),

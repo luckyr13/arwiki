@@ -99,7 +99,6 @@ export class PostedUpdatesComponent implements OnInit, OnDestroy, OnChanges {
           const category = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category');
           const lang = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang');
           const img = this.sanitizeImg(this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img'));
-          const owner = pTX.owner.address;
           const id = pTX.id;
           const pageValue = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Value');
           const extraData: any = allApprovedPages[slug].updates!.find((o) => { return o.tx === id });
@@ -117,12 +116,11 @@ export class PostedUpdatesComponent implements OnInit, OnDestroy, OnChanges {
             slug,
             category,
             img,
-            owner,
             language: lang,
             id,
             value: pageValue,
             block: pTX.block,
-            start: at
+            lastUpdateAt: at
           });
         }
 
@@ -194,7 +192,6 @@ export class PostedUpdatesComponent implements OnInit, OnDestroy, OnChanges {
           const category = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category');
           const lang = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang');
           const img = this.sanitizeImg(this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img'));
-          const owner = pTX.owner.address;
           const id = pTX.id;
           const pageValue = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Value');
           const extraData: any = allApprovedPages[slug].updates!.find((o) => { return o.tx === id });
@@ -212,12 +209,11 @@ export class PostedUpdatesComponent implements OnInit, OnDestroy, OnChanges {
             slug,
             category,
             img,
-            owner,
             language: lang,
             id,
             value: pageValue,
             block: pTX.block,
-            start: at
+            lastUpdateAt: at
           });
         }
 

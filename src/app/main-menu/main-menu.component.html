@@ -31,29 +31,13 @@
   <mat-accordion 
     id="arwiki-main-menu-accordion"
     displayMode="flat">
-    <mat-expansion-panel 
-      *ngFor="let cs of category_slugs" 
-      routerLinkActive
-      [expanded]="isActiveRouteInCategory(cs)">
-      <mat-expansion-panel-header>
-        <mat-panel-title class="subheader">
-          {{ 'MAIN_MENU.' + cs | translate }}
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-      <a mat-list-item 
-        (click)="toggleSideMenu()" 
-        *ngFor="let page of menu[cs]"
-        routerLink="{{ routerLang }}/{{ page.slug }}" 
-        routerLinkActive="active">
-        <div matListItemLine>{{ page.title }}</div>
-      </a>
-      <a mat-list-item 
-        (click)="toggleSideMenu()" 
-        routerLink="{{ routerLang }}/category/{{ cs }}" 
-        routerLinkActive="active">
-        <div matListItemLine>{{ 'GENERAL.BUTTONS.VIEW_ALL' | translate }}</div>
-      </a>
-    </mat-expansion-panel>
+    <app-sub-menu
+      [categories]="categories"
+      [routerLang]="routerLang"
+      [menu]="menu"
+      (openedChange)="toggleSideMenu()"
+      [opened]="opened"
+      [level]="0"></app-sub-menu>
   </mat-accordion>
 
 </mat-nav-list>

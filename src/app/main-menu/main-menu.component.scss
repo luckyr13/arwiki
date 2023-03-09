@@ -2,24 +2,6 @@
 	text-decoration: underline !important;
 }
 
-a {
-	font-family: "Roboto Mono", monospace;
-  letter-spacing: 0.025em;
-  line-height: 1.666;
-}
-
-.mat-mdc-subheader, .subheader {
-	font-family: "Roboto Mono", monospace;
-  letter-spacing: 0.025em;
-  line-height: 42px !important;
-  font-size: 14px !important;
-  font-weight: normal;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  margin-top: 0px !important;
-}
-
-
 .mat-mdc-list-base .mat-mdc-list-item.mat-mdc-list-item-with-avatar,
 .mat-mdc-list-base .mat-mdc-list-option.mat-mdc-list-item-with-avatar,
 .mat-mdc-nav-list .mat-mdc-list-item {
@@ -27,7 +9,7 @@ a {
 }
 
 .mat-mdc-nav-list .mat-mdc-list-item {
-	padding-left: 10px;
+	padding-left: 24px;
 	font-size: 14px;
 }
 

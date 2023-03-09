@@ -81,8 +81,7 @@ export class HistoryUpdatesApprovedComponent implements OnInit, OnDestroy {
                 category: '',
                 sponsor: '',
                 language: '',
-                owner: '',
-                start: at
+                lastUpdateAt: at
               });
 
             }
@@ -91,7 +90,7 @@ export class HistoryUpdatesApprovedComponent implements OnInit, OnDestroy {
         }
         
         this.pages = finalPages.sort((a, b) => {
-          return (b.start! - a.start!);
+          return (b.lastUpdateAt! - a.lastUpdateAt!);
         });
         this.loading = false;
 

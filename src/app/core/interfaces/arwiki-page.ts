@@ -6,17 +6,15 @@ export interface ArwikiPage {
 	slug: string;
 	category: string;
 	language: string;
-	owner: string;
-	content?: string;
+	order?: number;
 	img?: string;
 	block?: any;
 	value?: number;
-	start?: number;
-	pageRewardAt?: number;
 	sponsor?: string;
-	author?: string;
 	active?: boolean;
-	updates?: ArwikiPageUpdate[],
-	upvotes?: number;
-	downvotes?: number;
+	updates?: ArwikiPageUpdate[];
+	lastUpdateAt?: number;
+	rawContent?: string;
+	showInMenu?: boolean;
+	showInMainPage?: boolean;
 }

@@ -15,9 +15,12 @@ import { ArwikiVote } from '../interfaces/arwiki-vote';
 })
 export class ArwikiTokenContract
 {
-  private _contractAddress: string = 'ewepANKEVffP0cm_XKjwTYhSBqaiQrJbVrCcBiWqw-s';
+  // private _contractAddress: string = 'ewepANKEVffP0cm_XKjwTYhSBqaiQrJbVrCcBiWqw-s';
   // New contract demo
-  // private _contractAddress = 'Uq8UTxz8bF4FEAD66vn_0kox_djh8Ydp6WNzOrm3flk';
+  // Single level
+  private _contractAddress = 'JGrP0IV4aVOAx1lgozOjQhZkUVv8-y1xfUcCR9ra8QQ';
+  // Multi level
+  // private _contractAddress = 'P4X4qUj8aoUX9HrbvbYNGfYPLdc3kPu3HCa5nqM_JlU';
 
   private _state: any = {};
 	private _adminList: string[] = [];
@@ -271,13 +274,12 @@ export class ArwikiTokenContract
 	}
 
 	/*
-	*	@dev Get the list of approved pages from full state contract
+	*	@dev Get the list of approved and active pages from full state contract
 	* @param _numPages: -1 returns all values
 	*/
 	getApprovedPages(
 		_langCode: string,
-		_numPages: number = -1,
-		_overrideContentWithUpd: boolean = false
+		_numPages: number = -1
 	): Observable<ArwikiPageIndex> {
 		return this.getState().pipe(
 			map((_state: any) => {
@@ -292,9 +294,9 @@ export class ArwikiTokenContract
 				const pages: ArwikiPageIndex = pagesIds.reduce((acum: any, slug) => {
 					acum[slug] = JSON.parse(JSON.stringify(_state.pages[_langCode][slug]));
 					const numUpdates = _state.pages[_langCode][slug].updates.length;
-					if (numUpdates && _overrideContentWithUpd) {
-						acum[slug].content = _state.pages[_langCode][slug].updates[numUpdates - 1].tx;
-					}
+					acum[slug].id = _state.pages[_langCode][slug].updates[numUpdates - 1].tx;
+					acum[slug].lastUpdateAt = _state.pages[_langCode][slug].updates[numUpdates - 1].at;
+          
 					return acum;
 				}, {});
 				return pages;
@@ -516,12 +518,23 @@ export class ArwikiTokenContract
   }
 
   /*
-  *  @dev Get Categories
+  *  @dev Get active Categories
   */
-  getCategories(): Observable<ArwikiCategoryIndex> {
+  getCategories(onlyActive = true): Observable<ArwikiCategoryIndex> {
     return this.getState().pipe(
       map((_state: any) => {
-        const categories = _state.categories;
+        const categories: ArwikiCategoryIndex = Object
+          .keys(_state.categories)
+          .reduce((accum: ArwikiCategoryIndex, slug)=> {
+              if (_state.categories[slug].active && onlyActive) {
+                accum[slug] = _state.categories[slug];
+                accum[slug].slug = slug;
+              } else {
+                accum[slug] = _state.categories[slug];
+                accum[slug].slug = slug;
+              }
+              return accum;
+            }, {});
         return categories;
       })
     );
@@ -530,10 +543,22 @@ export class ArwikiTokenContract
   /*
   *  @dev Get Categories
   */
-  getLanguages(): Observable<ArwikiLangIndex> {
+  getLanguages(onlyActive = true): Observable<ArwikiLangIndex> {
     return this.getState().pipe(
       map((_state: any) => {
-        const languages = _state.languages;
+        const languages: ArwikiLangIndex = Object
+          .keys(_state.languages)
+          .reduce((accum: ArwikiLangIndex, code)=> {
+              if (_state.languages[code].active && onlyActive) {
+                accum[code] = _state.languages[code];
+                accum[code].code = code;
+              } else {
+                accum[code] = _state.languages[code];
+                accum[code].code = code;
+              }
+              return accum;
+            }, {});
+
         return languages;
       })
     );
@@ -792,6 +817,36 @@ export class ArwikiTokenContract
           'ticker': _state.ticker
         };
         return res;
+      })
+    );
+  }
+
+  /*
+  *  @dev Get the list of approved and active pages from full state contract
+  * @param _numPages: -1 returns all values
+  */
+  getApprovedPagesByCategory(
+    _langCode: string,
+    _categories: string[],
+  ): Observable<ArwikiPageIndex> {
+    return this.getState().pipe(
+      map((_state: any) => {
+        const pagesIds = Object.keys(_state.pages[_langCode]).filter((slug) => {
+          if (_categories.indexOf(_state.pages[_langCode][slug].category) < 0) {
+            return false;
+          }
+          return _state.pages[_langCode][slug].active;
+        });
+        const pages: ArwikiPageIndex = pagesIds.reduce((acum: any, slug) => {
+          acum[slug] = JSON.parse(JSON.stringify(_state.pages[_langCode][slug]));
+          const numUpdates = _state.pages[_langCode][slug].updates.length;
+          acum[slug].slug = slug;
+          acum[slug].id = _state.pages[_langCode][slug].updates[numUpdates - 1].tx;
+          acum[slug].lastUpdateAt = _state.pages[_langCode][slug].updates[numUpdates - 1].at;
+          
+          return acum;
+        }, {});
+        return pages;
       })
     );
   }

@@ -39,9 +39,11 @@
 						[address]="pages[p].id"
 						[isAddress]="false">{{ 'PAGE.LABEL_ID' | translate }}: </app-arweave-address>
 				</div>
+				<!--
 				<div class="mini-text">
 					<app-arweave-address [address]="pages[p].owner">{{ 'PAGE.LABEL_OWNER' | translate }}: </app-arweave-address>
 				</div>
+				-->
 				<div class="mini-text" *ngIf="pages[p].block && pages[p].block.height">
 					<strong>{{ 'PAGE.LABEL_BLOCK_HEIGHT' | translate }}:</strong>
 					{{ pages[p].block.height }} 
@@ -55,7 +57,7 @@
 					<a
 						mat-flat-button
 						matTooltip="Approve page update"
-						(click)="confirmValidateArWikiPage(pages[p].slug, pages[p].id, pages[p].category, pages[p].value!, pages[p].owner)"
+						(click)="confirmValidateArWikiPage(pages[p].slug, pages[p].id, pages[p].category, pages[p].value!)"
 						class="approve-btn card-btn">
 						<mat-icon>done</mat-icon>
 						Approve

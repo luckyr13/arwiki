@@ -17,6 +17,7 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { PageModule } from './page/page.module';
 import { ErrorComponent } from './error/error.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { SubMenuComponent } from './main-menu/sub-menu/sub-menu.component';
 
 
 // AoT requires an exported function for factories
@@ -33,6 +34,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MainPageComponent,
     MainMenuComponent,
     ErrorComponent,
+    SubMenuComponent,
   ],
   imports: [
     BrowserModule,
