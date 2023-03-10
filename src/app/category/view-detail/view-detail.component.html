@@ -20,7 +20,6 @@
 		class="row fadeIn"
 		*ngIf="!loadingPages && !errorLoadingCategory && childrenCategories.length">
 		<div class="col-12 subcategories">
-			Subcategories: 
 			<mat-chip-listbox aria-label="Subcategories">
 			  <mat-chip-option
 			  	*ngFor="let subcat of childrenCategories"
