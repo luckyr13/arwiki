@@ -1,7 +1,7 @@
 <div class="mt-main">
 </div>
-<mat-progress-bar color="accent" class="sticky-progress-bar" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
-<div class="mt-main-pgbsep" *ngIf="!loading">
+<mat-progress-bar color="accent" class="sticky-progress-bar" mode="indeterminate" *ngIf="loadingSubmenu"></mat-progress-bar>
+<div class="mt-main-pgbsep" *ngIf="!loadingSubmenu">
 </div>
 <div class="container main-page-container fadeIn">
 	<div class="row">
@@ -50,7 +50,7 @@
 			<h2 class="text-left">
 				{{ 'MAIN_PAGE.TITLE_L2' | translate }}
 			</h2>
-			<div class="row" *ngIf="!categoriesSlugs.length">
+			<div class="row" *ngIf="loadingSubmenu">
 				<div class="col-12 fadeIn portalBtnContainer" *ngFor="let i of [1, 2, 3, 4]">
 					<ngx-skeleton-loader
 										 count="1"
@@ -58,29 +58,15 @@
 										 [theme]="getSkeletonLoaderThemeNgStyle()"></ngx-skeleton-loader>
 				</div>
 			</div>
-			<mat-nav-list>
+			<mat-nav-list *ngIf="!loadingSubmenu">
 				<mat-accordion 
 			    id="arwiki-home-page-accordion"
 			    displayMode="flat">
-			    <mat-expansion-panel 
-			      *ngFor="let cs of categoriesSlugs" >
-			      <mat-expansion-panel-header>
-			        <mat-panel-title class="subheader">
-			          {{ 'MAIN_MENU.' + cs | translate }}
-			        </mat-panel-title>
-			      </mat-expansion-panel-header>
-			      <a 
-			      	mat-list-item
-			        *ngFor="let page of pagesByCategory[cs]"
-			        routerLink="/{{ routeLang }}/{{ page.slug }}" >
-			        <div class="ellipsis m-i">{{ page.title }}</div>
-			      </a>
-			      <a
-			      	mat-list-item
-			        routerLink="/{{ routeLang }}/category/{{ cs }}" >
-			        <div><strong class="m-i">{{ 'GENERAL.BUTTONS.VIEW_ALL' | translate }}</strong></div>
-			      </a>
-			    </mat-expansion-panel>
+			    <app-sub-menu
+			      [categories]="categories"
+			      [routerLang]="routeLang"
+			      [menu]="menu"
+			      [level]="0"></app-sub-menu>
 			  </mat-accordion>
 			</mat-nav-list>
 

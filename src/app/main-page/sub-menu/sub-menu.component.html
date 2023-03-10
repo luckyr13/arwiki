@@ -1,7 +1,6 @@
 <mat-expansion-panel 
   *ngFor="let menuOption of menu" 
-  routerLinkActive
-  [expanded]="activeRouteExpanded[menuOption.category_slug]">
+  routerLinkActive>
   <mat-expansion-panel-header>
     <mat-panel-title
       class="subheader"
@@ -9,24 +8,21 @@
       {{ translations['MAIN_MENU.' + menuOption.category_slug] }}
     </mat-panel-title>
   </mat-expansion-panel-header>
-  <a mat-list-item 
-    (click)="toggleSideMenu()" 
+  <a mat-list-item
     *ngFor="let page of menuOption.pages"
     routerLink="{{ routerLang }}/{{ page.slug }}" 
     routerLinkActive="active">
     <div
       matListItemLine
-      [ngStyle]="{ 'padding-left': leftPadding() }">{{ page.title }}</div>
+      [ngStyle]="{ 'padding-left': '10px' }">{{ page.title }}</div>
   </a>
   <app-sub-menu
     *ngIf="menuOption.subcategories && menuOption.subcategories.length"
     [categories]="categories"
     [routerLang]="routerLang"
     [menu]="menuOption.subcategories"
-    [level]="level + 1"
-    (openedChange)="toggleSideMenu()" [opened]="opened"></app-sub-menu>
-  <a mat-list-item 
-    (click)="toggleSideMenu()" 
+    [level]="level + 1"></app-sub-menu>
+  <a mat-list-item
     routerLink="{{ routerLang }}/category/{{ menuOption.category_slug }}" 
     routerLinkActive="active">
     <div

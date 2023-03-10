@@ -131,9 +131,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.menuSubscription) {
-      this.menuSubscription.unsubscribe();
-    }
+    this.menuSubscription.unsubscribe();
   }
 
   getDefaultTheme() {
@@ -254,11 +252,6 @@ export class MainMenuComponent implements OnInit, OnDestroy {
           return of({ categories: globalCat, catPages: finalRes });
         })
       );
-  }
-
-  sortAsc(a: any, b: any) {
-
-
   }
 
 }
