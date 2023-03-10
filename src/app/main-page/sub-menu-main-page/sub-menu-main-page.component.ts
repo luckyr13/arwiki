@@ -7,11 +7,11 @@ import {TranslateService} from '@ngx-translate/core';
 import { Subscription, of, startWith, delay } from 'rxjs';
 
 @Component({
-  selector: 'app-sub-menu',
-  templateUrl: './sub-menu.component.html',
-  styleUrls: ['./sub-menu.component.scss']
+  selector: 'app-sub-menu-mainpage',
+  templateUrl: './sub-menu-main-page.component.html',
+  styleUrls: ['./sub-menu-main-page.component.scss']
 })
-export class SubMenuComponent implements OnInit, OnDestroy {
+export class SubMenuMainPageComponent implements OnInit, OnDestroy {
   @Input('categories') categories: ArwikiCategoryIndex = {};
   @Input('routerLang') routerLang = '';
   
@@ -64,7 +64,12 @@ export class SubMenuComponent implements OnInit, OnDestroy {
   }
 
   leftPadding() {
-    const newPadding = 12 * this.level;
+    const newPadding = 6 * this.level;
+    return `${newPadding}px`;
+  }
+
+  leftPaddingPage() {
+    const newPadding = 12 * (this.level + 1);
     return `${newPadding}px`;
   }
 }

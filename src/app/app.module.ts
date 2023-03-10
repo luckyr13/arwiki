@@ -18,7 +18,7 @@ import { PageModule } from './page/page.module';
 import { ErrorComponent } from './error/error.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { SubMenuComponent } from './main-menu/sub-menu/sub-menu.component';
-
+import { SubMenuMainPageComponent } from './main-page/sub-menu-main-page/sub-menu-main-page.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -35,6 +35,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MainMenuComponent,
     ErrorComponent,
     SubMenuComponent,
+    SubMenuMainPageComponent
   ],
   imports: [
     BrowserModule,

@@ -14,14 +14,14 @@
     routerLinkActive="active">
     <div
       matListItemLine
-      [ngStyle]="{ 'padding-left': '10px' }">{{ page.title }}</div>
+      [ngStyle]="{ 'padding-left': leftPaddingPage() }">{{ page.title }}</div>
   </a>
-  <app-sub-menu
+  <app-sub-menu-mainpage
     *ngIf="menuOption.subcategories && menuOption.subcategories.length"
     [categories]="categories"
     [routerLang]="routerLang"
     [menu]="menuOption.subcategories"
-    [level]="level + 1"></app-sub-menu>
+    [level]="level + 1"></app-sub-menu-mainpage>
   <a mat-list-item
     routerLink="{{ routerLang }}/category/{{ menuOption.category_slug }}" 
     routerLinkActive="active">
