@@ -10,7 +10,7 @@ export const arwikiVersion = ['0.8'];
 /*
 *  ArWiki app version
 */
-export const arwikiAppVersion = '1.9.4';
+export const arwikiAppVersion = '2.0.0';
 
 /*
 *	@dev Main class

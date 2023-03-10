@@ -1,5 +1,10 @@
 # ArWiki versions
 
+## 2.0.0 (BREAKING CHANGES)
+- NEW Smartweave Contract
+- Main menu updated (subcategories supported)
+- Main page updated
+
 ## 1.9.4
 - Backup (2023-03-01): https://arweave.net/3grbkF0_puAQbeWaUF6SZrXn1qrhp2EpW1vkWNWvGqc
 - Login by keyfile removed
