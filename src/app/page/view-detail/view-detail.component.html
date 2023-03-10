@@ -29,6 +29,7 @@
 		  	mat-button 
 		  	class="btn-toolbar vote-btn" 
 		  	color="accent"
+		  	[disabled]="!pageData.nft"
 		  	(click)="stamp(routeSlug, routeLang)">
 	    	<img class="invert-colors icon-stamp material-icons" src="assets/img/stampWhite.png">
 		    {{ stamps }} STAMPS
@@ -143,11 +144,9 @@
 					{{ 'GENERAL.LABELS.NO_RESULTS' | translate }}
 				</div>
 			</div>
-			<!--
-			<p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageData.owner">
-				<app-arweave-address [lang]="routeLang" [address]="pageData.owner">{{ 'PAGE.LABEL_LAST_UPDATE_BY' | translate }} </app-arweave-address>
+			<p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageOwner">
+				<app-arweave-address [lang]="routeLang" [address]="pageOwner">{{ 'PAGE.LABEL_LAST_UPDATE_BY' | translate }} </app-arweave-address>
 		  </p>
-		-->
 		  <p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageExtraMetadata.sponsor">
 				<app-arweave-address [lang]="routeLang" [address]="pageExtraMetadata.sponsor">{{ 'PAGE.LABEL_SPONSOR' | translate }} </app-arweave-address>
 		  </p>

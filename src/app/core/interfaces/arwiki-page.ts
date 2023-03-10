@@ -17,4 +17,5 @@ export interface ArwikiPage {
 	rawContent?: string;
 	showInMenu?: boolean;
 	showInMainPage?: boolean;
+	nft?: string;
 }

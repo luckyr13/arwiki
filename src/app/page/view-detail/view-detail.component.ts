@@ -63,6 +63,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     category: '',
     language: '',
     img: '',
+    nft: '',
   };
   pageExtraMetadata: any = {};
   loadingUpdateSponsorPage: boolean = false;
@@ -78,6 +79,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   stamps = 0;
   private _stampsDialogRef: MatDialogRef<any>|null = null;
   getTranslationsSubscription = Subscription.EMPTY;
+  pageOwner = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -141,6 +143,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     this.pageData.id = '';
     this.pageData.rawContent = '';
     this.pageData.category = '';
+    this.pageData.nft = '';
     this.block = {};
     const numPages = 20;
   	this.loadingPage = true;
@@ -165,13 +168,12 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
         for (let p of data) {
           const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
           const title = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title');
-          const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
-          const category = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category');
           const img = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img');
-          const owner = pTX.owner.address;
+          this.pageOwner = pTX.owner.address;
           const id = pTX.id;
           const block = pTX.block;
-          const extraMetadata = this.pageExtraMetadata;
+          const category = this.pageExtraMetadata.category;
+          const nft = this.pageExtraMetadata.nft;
           
           finalRes.push({
             title: this.removeHTMLfromStr(title),
@@ -179,19 +181,21 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
             category: this.removeHTMLfromStr(category),
             img: this.removeHTMLfromStr(img),
             id: id,
-            block: block
+            block: block,
+            nft: nft
           });
           
         }
 
   			// If page exists
   			if (finalRes.length > 0) {
-  				const page: any = finalRes[0];
+  				const page: ArwikiPage = finalRes[0];
   				this.pageData.title = page.title ? page.title : '';
   				this.pageData.img = page.img ? page.img : '';
   				this.pageData.id = page.id ? page.id : '';
           this.pageData.category = page.category ? page.category : '';
           this.pageData.slug = page.slug ? page.slug : '';
+          this.pageData.nft = page.nft ? page.nft : '';
           this.block = page.block;
 
           this.contentSubscription = this._arweave.getDataAsStringObs(page.id).subscribe({
