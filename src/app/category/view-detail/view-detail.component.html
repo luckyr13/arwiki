@@ -1,7 +1,9 @@
 <div class="container category-page-container">
-	<div class="row fadeIn" *ngIf="!loadingPages && !errorLoadingCategory">
+	<div
+		class="row fadeIn"
+		*ngIf="!loadingPages && !errorLoadingCategory">
 		<h1 class="page-title col-12 col-md-9">
-			{{ 'CATEGORY.BREADCRUMB_LABEL' | translate }} {{ 'MAIN_MENU.' + category | translate }}
+			{{ 'CATEGORY.BREADCRUMB_LABEL' | translate }} {{ categoryName }}
 		</h1>
 		<div class="text-right page-title-buttons col-12 col-md-3">
 	    <button 
@@ -12,6 +14,20 @@
 		    <mat-icon>navigate_before</mat-icon>
 		    {{ 'GENERAL.BUTTONS.GO_BACK' | translate }}
 		  </button>
+		</div>
+	</div>
+	<div
+		class="row fadeIn"
+		*ngIf="!loadingPages && !errorLoadingCategory && childrenCategories.length">
+		<div class="col-12 subcategories">
+			Subcategories: 
+			<mat-chip-listbox aria-label="Subcategories">
+			  <mat-chip-option
+			  	*ngFor="let subcat of childrenCategories"
+			  	[routerLink]="['/', routeLang, 'category', subcat]">
+			  	{{ subcat }}
+			  </mat-chip-option>
+			</mat-chip-listbox>
 		</div>
 	</div>
 

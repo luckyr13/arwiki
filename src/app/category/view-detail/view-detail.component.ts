@@ -13,6 +13,8 @@ import { UserSettingsService } from '../../core/user-settings.service';
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
 import {PageEvent} from '@angular/material/paginator';
+import {TranslateService} from '@ngx-translate/core';
+import { ArwikiCategoryIndex } from '../../core/interfaces/arwiki-category-index';
 
 @Component({
   templateUrl: './view-detail.component.html',
@@ -32,6 +34,10 @@ export class ViewDetailComponent implements OnInit {
   paginatorPageSize = 4;
   paginatorPageIndex = 0;
   paginatorPageSizeOptions = [4, 12, 24];
+  categoryName = '';
+  subscriptionTranslation = Subscription.EMPTY;
+  categories: ArwikiCategoryIndex = {};
+  childrenCategories: string[] = [];
 
   constructor(
   	private _arweave: ArweaveService,
@@ -39,7 +45,8 @@ export class ViewDetailComponent implements OnInit {
   	private _utils: UtilsService,
   	private _route: ActivatedRoute,
     private _location: Location,
-    private _userSettings: UserSettingsService
+    private _userSettings: UserSettingsService,
+    private _translate: TranslateService
  	) { }
 
   async ngOnInit() {
@@ -47,7 +54,6 @@ export class ViewDetailComponent implements OnInit {
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
   	this.category = this._route.snapshot.paramMap.get('category')!;
     this.routeLang = this._route.snapshot.paramMap.get('lang')!;
-
     this.getDefaultTheme();
 
     this._route.paramMap.subscribe(async params => {
@@ -55,27 +61,19 @@ export class ViewDetailComponent implements OnInit {
       this.category = params.get('category')!;
       await this._loadContent();
     });
-    
-    
 
   }
 
-  private async _loadContent() {
+
+  private _loadContent() {
     this.loadingPages = true;
     let networkInfo;
     let maxHeight = 0;
     this.paginatorPageIndex = 0;
-    try {
-      networkInfo = await this._arweave.arweave.network.getInfo();
-      maxHeight = networkInfo.height;
-    } catch (error) {
-      this._utils.message(`${error}`, 'error');
-      return;
-    }
+    
     this.pagesSubscription = this.getPagesByCategory(
       this.category,
-      this.routeLang,
-      maxHeight
+      this.routeLang
     ).subscribe({
       next: async (finalRes: ArwikiPage[]) => {
         this.pages = finalRes;
@@ -125,24 +123,24 @@ export class ViewDetailComponent implements OnInit {
   */
   getPagesByCategory(
     _category: string,
-    _langCode: string,
-    _maxHeight: number,
-    _limit: number = 100
+    _langCode: string
   ): Observable<ArwikiPage[]> {
     let adminList: string[] = [];
     let verifiedPages: string[] = [];
     let allApprovedPages: ArwikiPageIndex = {};
-    return this._arwikiTokenContract.getAdminList()
+    return this._arwikiTokenContract.getCategories()
       .pipe(
-        switchMap((_adminList: string[]) => {
-          adminList = _adminList;
-          return this._arwikiTokenContract.getCategories();
-        }),
         switchMap((categoriesContractState) => {
+          this.categories = categoriesContractState;
+
           // Validate category 
           if (!(_category in categoriesContractState)) {
             throw new Error('Invalid category!');
           }
+
+          this.translateCategoryName(_category);
+          this.childrenCategories = this.getChildrenCategories(_category);
+
           return this._arwikiTokenContract.getApprovedPages(
             _langCode,
             -1
@@ -214,6 +212,35 @@ export class ViewDetailComponent implements OnInit {
     const end = this.paginatorPageIndex * this.paginatorPageSize + this.paginatorPageSize;
     const res = this.pages.slice(start, end);
     return res;
+  }
+
+
+  translateCategoryName(_category: string) {
+    const tkey = 'MAIN_MENU.' + _category;
+    this.subscriptionTranslation = this._translate.get(tkey).subscribe({
+      next: (res) => {
+        if (res !== tkey) {
+          this.categoryName = res;
+        } else {
+          this.categoryName = this.categories[_category].label;
+        }
+      },
+      error: () => {
+        console.error('Error loading translations!');
+      }
+    })
+  }
+
+  getChildrenCategories(cat_slug: string) {
+    const catSlugs = Object.keys(this.categories);
+    const children: string[] = [];
+    for (let cat of catSlugs) {
+      if (this.categories[cat].parent_id === cat_slug) {
+        children.push(cat);
+      }
+    }
+
+    return children;
   }
 
 
