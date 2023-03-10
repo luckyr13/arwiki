@@ -32,12 +32,13 @@ export class MainPageComponent implements OnInit, OnDestroy {
   appLogoDark: string = './assets/img/arweave-light.png';
   loadingLatestArticles: boolean = false;
   latestArticles: ArwikiPage[] = [];
+  allLatestArticles: string[] = [];
   arwikiQuery!: ArwikiQuery;
   pagesSubscription: Subscription = Subscription.EMPTY;
   routeLang: string = '';
   baseURL = this._arweave.baseURL;
   pagesByCategory: Record<string, ArwikiPage[]> = {};
-  mainPage: ArwikiPage = null!;
+  mainPage: ArwikiPage|null = null;
   mainPageSubscription: Subscription = Subscription.EMPTY;
   loadingMainPageTX: boolean = false;
   mainLogo: string = '';
@@ -55,6 +56,11 @@ export class MainPageComponent implements OnInit, OnDestroy {
     { img: './assets/img/partners/pn-usv.png', alt: 'USV', href:'' },
     { img: './assets/img/partners/pn-coinbase.png', alt: 'Coinbase', href:'' },
   ];
+  numLatestArticles = 8;
+  allApprovedPages: ArwikiPageIndex = {};
+  nextLatestArticlesSubscription = Subscription.EMPTY;
+  loadingNextLatestArticles = false;
+  hideBtnMoreArticles = false;
 
   constructor(
     private _userSettings: UserSettingsService,
@@ -66,135 +72,110 @@ export class MainPageComponent implements OnInit, OnDestroy {
     private _router: Router
   ) { }
 
-  async loadMainPageData() {
+  loadMainPageData() {
     this.getDefaultTheme();
     this.loading = true;
-    this.loadingLatestArticles = true;
-    this.loadingMainPageTX = true;
-
-    // Init ardb instance
-    this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
-
-    let networkInfo;
-    let maxHeight = 0;
-    try {
-      networkInfo = await this._arweave.arweave.network.getInfo();
-      maxHeight = networkInfo.height;
-    } catch (error) {
-      this._utils.message(`${error}`, 'error');
-      return;
-    }
 
     // Get categories (portals)
     let maxPagesByCategory = 30;
     this.pagesByCategory = {};
-
     this.categoriesSubscription = this.getPagesByCategory(
-        maxPagesByCategory, this.routeLang
-      )
-      .subscribe({
-        next: (txs: ArdbTransaction[]|ArdbBlock[]) => {
-          let pagesByCategoryTmp: Record<string, ArwikiPage[]> = {};
-          for (let p of txs) {
-            const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
-            const title = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title');
-            const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
-            const category = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category');
-            const img = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img');
-            const owner = pTX.owner.address;
-            const id = pTX.id;
-            const block = pTX.block;
-            const language = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang');
-            
-            
-            if (!Array.isArray(pagesByCategoryTmp[category])) {
-              pagesByCategoryTmp[category] = [];
-            }
-            pagesByCategoryTmp[category].push({
-              title: title,
-              slug: slug,
-              category: category,
-              img: img,
-              id: id,
-              block: block,
-              language: language
-            });
+      maxPagesByCategory, this.routeLang
+    )
+    .subscribe({
+      next: (txs: ArdbTransaction[]|ArdbBlock[]) => {
+        let pagesByCategoryTmp: Record<string, ArwikiPage[]> = {};
+        for (let p of txs) {
+          const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
+          const title = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title');
+          const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
+          const category = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category');
+          const img = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img');
+          const owner = pTX.owner.address;
+          const id = pTX.id;
+          const block = pTX.block;
+          const language = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang');
+          
+          
+          if (!Array.isArray(pagesByCategoryTmp[category])) {
+            pagesByCategoryTmp[category] = [];
           }
+          pagesByCategoryTmp[category].push({
+            title: title,
+            slug: slug,
+            category: category,
+            img: img,
+            id: id,
+            block: block,
+            language: language
+          });
+        }
 
-          // Sort results
-          for (const c in pagesByCategoryTmp) {
-            pagesByCategoryTmp[c].sort((a, b) => {
-              return a.title.localeCompare(b.title);
-            });
-          }
+        // Sort results
+        for (const c in pagesByCategoryTmp) {
+          pagesByCategoryTmp[c].sort((a, b) => {
+            return a.title.localeCompare(b.title);
+          });
+        }
 
-          // Save result
-          this.pagesByCategory = pagesByCategoryTmp;
+        // Save result
+        this.pagesByCategory = pagesByCategoryTmp;
 
-          this.loading = false;
-        },
-        error: (error: string) => {
-          this._utils.message(`Error: ${error}`, 'error')
-          this.loading = false;
-        },
-      })
-
-
-    // Get latest articles 
-    const numArticles = 8;
-
-    this.pagesSubscription = this.getLatestArticles(
-        numArticles, this.routeLang
-      ).subscribe({
-      next: async (pages: ArwikiPage[]) => {
-        // Sort desc
-        this.latestArticles = pages.sort((a, b) => {
-          if (a.lastUpdateAt! > b.lastUpdateAt!) {
-            return -1;
-          } else if (a.lastUpdateAt! < b.lastUpdateAt!) {
-            return 1;
-          }
-          return 0;
-        });
-        
-        this.loadingLatestArticles = false;
-        
+        this.loading = false;
       },
-      error: (error) => {
-        this._utils.message(error, 'error');
-        this.loadingLatestArticles = false;
-      }
+      error: (error: string) => {
+        this._utils.message(`Error: ${error}`, 'error')
+        this.loading = false;
+      },
     });
 
-      // Get main page tx
-    this.mainPageSubscription = this.getMainPageTX(
-        this.routeLang, maxHeight
-      )
-      .subscribe({
+    // Load latest articles
+    this.numLatestArticles = 8;
+    this.getLatestArticles(this.numLatestArticles);
+
+    // Load main article
+    this.getMainArticle();
+  }
+
+  getMainArticle() {
+    this.loadingMainPageTX = true;
+
+    // Get main page tx
+    this.mainPageSubscription = this._arwikiTokenContract.getApprovedPages(
+      this.routeLang, -1).pipe(
+      switchMap((approvedPages: ArwikiPageIndex) => {
+        let mainTX = '';
+        const pages: ArwikiPage[] = Object.values(approvedPages);
+        const mainPage: ArwikiPage|undefined = pages.find((p: ArwikiPage) => {
+          return p.showInMainPage;
+        });
+        if (mainPage) {
+          this.mainPage = mainPage;
+          mainTX = this.mainPage.id;
+        } else {
+          this.mainPage = null;
+          throw Error('mainPage not defined');
+        }
+
+        return this.arwikiQuery.getTXsData([mainTX]);
+      })
+    ).subscribe({
         next: async (txs: ArdbTransaction[]|ArdbBlock[]) => {
-          this.mainPage = null!;
           for (let p of txs) {
             const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
             const title = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title');
-            const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
-            const category = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category');
+            // const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
+            // const category = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category');
             const img = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img');
-            const owner = pTX.owner.address;
+            //const owner = pTX.owner.address;
             const id = pTX.id;
             const block = pTX.block;
-            const language = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang');
-            
-            this.mainPage = {
-              title: title,
-              slug: slug,
-              category: category,
-              img: img,
-              id: id,
-              block: block,
-              language: language
-            };
-
-            this.mainPage.rawContent = await this._arweave.getTxContent(id);
+            const language = this.routeLang;
+           
+            this.mainPage!.title = title;
+            this.mainPage!.img = img;
+            this.mainPage!.block = block;
+            this.mainPage!.rawContent = await this._arweave.getTxContent(id);
 
             break;
           }
@@ -202,22 +183,26 @@ export class MainPageComponent implements OnInit, OnDestroy {
           this.loadingMainPageTX = false;
         },
         error: (error: string) => {
-          this._utils.message(`Error: ${error}`, 'error')
           this.loadingMainPageTX = false;
+          console.error(`Error MainPage: ${error}`);
+         
         },
       })
   }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.routeLang = this._route.snapshot.paramMap.get('lang')!;
-  	await this.loadMainPageData();
+    // Init ardb instance
+    this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
+
+  	this.loadMainPageData();
 
     // ON route change
     this._userSettings.routeLangStream.subscribe(async (data) => {
       if (data != this.routeLang) {
         this.routeLang = data;
         if (this.routeLang) {
-          await this.loadMainPageData();
+          this.loadMainPageData();
         }  
       }
       
@@ -227,17 +212,25 @@ export class MainPageComponent implements OnInit, OnDestroy {
   /*
   *  @dev return an observable with the latest articles
   */
-  getLatestArticles(numArticles: number, langCode: string): Observable<ArwikiPage[]> {
-    let admins: string[] = [];
-    let verifiedPages: string[] = [];
-    let allApprovedPages: any = {};
-    return this._arwikiTokenContract.getApprovedPages(langCode, -1).pipe(
+  getLatestArticles(numArticles: number) {    
+    this.loadingLatestArticles = true;
+    this.latestArticles = [];
+    this.allLatestArticles = [];
+    this.allApprovedPages = {};
+    this.hideBtnMoreArticles = false;
+    this.pagesSubscription = this._arwikiTokenContract.getApprovedPages(this.routeLang, -1).pipe(
       switchMap((_approvedPages: ArwikiPageIndex) => {
-        allApprovedPages = _approvedPages;
+        this.allApprovedPages = _approvedPages;
+        let verifiedPages: string[] = [];
+
         // Sort desc
         verifiedPages = Array.prototype.sort.call(Object.keys(_approvedPages), (a, b) => {
           return _approvedPages[b].lastUpdateAt! - _approvedPages[a].lastUpdateAt!;
         });
+        // Get a copy
+        this.allLatestArticles = [...verifiedPages];
+
+        // Slice array
         verifiedPages = Array.prototype.slice.call(verifiedPages, 0, numArticles);
 
         verifiedPages = verifiedPages.map((slug) => {
@@ -258,7 +251,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
           const owner = pTX.owner.address;
           const id = pTX.id;
           const block = pTX.block;
-          const sponsor = allApprovedPages[slug].sponsor;
+          const sponsor = this.allApprovedPages[slug].sponsor;
           
           latestPages.push({
             title: title,
@@ -268,20 +261,31 @@ export class MainPageComponent implements OnInit, OnDestroy {
             id: id,
             block: block,
             language: language,
-            lastUpdateAt: allApprovedPages[slug].lastUpdateAt,
+            lastUpdateAt: this.allApprovedPages[slug].lastUpdateAt,
             sponsor: sponsor
           });
         }
         return of(latestPages);
       })
-      
-    );
+    ).subscribe({
+      next: async (pages: ArwikiPage[]) => {
+        // Sort desc
+        this.latestArticles = pages;
+        
+        this.loadingLatestArticles = false;
+      },
+      error: (error) => {
+        this._utils.message(error, 'error');
+        this.loadingLatestArticles = false;
+      }
+    });
   }
 
   ngOnDestroy() {
-  	if (this.categoriesSubscription) {
-  		this.categoriesSubscription.unsubscribe();
-  	}
+		this.categoriesSubscription.unsubscribe();
+    this.mainPageSubscription.unsubscribe();
+    this.pagesSubscription.unsubscribe();
+    this.nextLatestArticlesSubscription.unsubscribe();
   }
 
   getSkeletonLoaderAnimationType() {
@@ -381,51 +385,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
     return html;
   }
 
-  /*
-  *  @dev Get latest main page TX
-  */
-  getMainPageTX(langCode: string, height: number) {
-    let admins: string[] = [];
-    let numArticles = 1;
-    const verifiedPagesDict: Record<string, boolean> = {};
-    let allApprovedPages: any = {};
-    return this._arwikiTokenContract.getAdminList().pipe(
-      switchMap((adminList: string[]) => {
-        admins = adminList;
-        return this._arwikiTokenContract.getCategories();
-      }),
-      switchMap((categories: ArwikiCategoryIndex) => {
-        this.categories = categories;
-        return this._arwikiTokenContract.getApprovedPages(langCode, -1);
-      }),
-      switchMap((approvedPages: any) => {
-        allApprovedPages = approvedPages;
-        this.categoriesSlugs = Object.keys(this.categories)
-           .sort((f1: any, f2: any) => {
-          return this.categories[f1].order - this.categories[f2].order;
-        });
-        return this.arwikiQuery.getMainPageTX(
-          admins, Object.keys(this.categories), langCode, numArticles, height
-        );
-      }),
-      switchMap((verifiedMainPages: ArdbTransaction[]|ArdbBlock[]) => {
-        const mainTX = [];
-        for (let p of verifiedMainPages) {
-          const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
-          // const vrfdPageId = this.arwikiQuery.searchKeyNameInTags(p.node.tags, 'Arwiki-Page-Id');
-          const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
-          if (allApprovedPages[slug] && allApprovedPages[slug].id) {
-            mainTX.push(allApprovedPages[slug].id);
-            break;
-          }
-        }
-
-        return this.arwikiQuery.getTXsData(mainTX);
-      })
-      
-    );
-  }
-
   getDefaultTheme() {
     this.defaultTheme = this._userSettings.getDefaultTheme();
     this.mainLogo = this.getMainLogo();
@@ -453,6 +412,67 @@ export class MainPageComponent implements OnInit, OnDestroy {
   sortedPartners() {
     return this.partners.sort((a, b) => {
       return a.alt.localeCompare(b.alt);
+    });
+  }
+
+
+  nextLatestArticles(increment: number) {
+    const from = this.numLatestArticles;
+    this.numLatestArticles += increment;
+    this.loadingNextLatestArticles = true;
+
+    // Slice array
+    let verifiedPages = Array.prototype.slice.call(
+      this.allLatestArticles, from, this.numLatestArticles
+    );
+    verifiedPages = verifiedPages.map((slug) => {
+      return this.allApprovedPages[slug].id!;
+    });
+
+    if (!verifiedPages || !verifiedPages.length) {
+      this.hideBtnMoreArticles = true;
+    }
+
+    this.nextLatestArticlesSubscription = this.arwikiQuery.getTXsData(verifiedPages).pipe(
+      switchMap((pages: ArdbTransaction[]|ArdbBlock[]) => {
+        const latestPages: ArwikiPage[] = [];
+        for (let p of pages) {
+          const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
+          const title = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title');
+          const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
+          const category = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category');
+          const img = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img');
+          const language = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang');
+          const owner = pTX.owner.address;
+          const id = pTX.id;
+          const block = pTX.block;
+          const sponsor = this.allApprovedPages[slug].sponsor;
+          
+          latestPages.push({
+            title: title,
+            slug: slug,
+            category: category,
+            img: img,
+            id: id,
+            block: block,
+            language: language,
+            lastUpdateAt: this.allApprovedPages[slug].lastUpdateAt,
+            sponsor: sponsor
+          });
+        }
+        return of(latestPages);
+      })
+    ).subscribe({
+      next: async (pages: ArwikiPage[]) => {
+        // Sort desc
+        this.latestArticles.push(...pages);
+        
+        this.loadingNextLatestArticles = false;
+      },
+      error: (error) => {
+        this._utils.message(error, 'error');
+        this.loadingNextLatestArticles = false;
+      }
     });
   }
 

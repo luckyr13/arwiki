@@ -43,7 +43,6 @@
 					{{ 'MAIN_PAGE.SUBTITLE_L1' | translate }}
 				</p>
 			</div>
-
 		</div>
 		<div class="col-1 sep-column">
 		</div>
@@ -104,6 +103,17 @@
 							[routeLang]="routeLang" 
 							[defaultTheme]="defaultTheme"
 							[baseURL]="baseURL"></app-article-card>
+		</div>
+		<div
+			class="col-12 text-center"
+			*ngIf="!hideBtnMoreArticles">
+			<button
+				mat-flat-button 
+				class="btn-more-articles"
+				[disabled]="loadingNextLatestArticles"
+				(click)="nextLatestArticles(4)">
+				{{ 'GENERAL.BUTTONS.MORE_ARTICLES' | translate }}
+			</button>
 		</div>
 	</div>
 	<div *ngIf="loadingLatestArticles" class="col-12 row">

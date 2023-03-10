@@ -568,6 +568,7 @@ export class ArwikiQuery {
   /*
   * @dev The latest MainPage TX is considerated as the right one
   */
+  /*
   getMainPageTX(
     owners: string[],
     categories: string[],
@@ -615,6 +616,7 @@ export class ArwikiQuery {
     });
     return obs;
   }
+  */
 
   /*
   * @dev
