@@ -2,9 +2,19 @@
 	<div
 		class="row fadeIn"
 		*ngIf="!loadingPages && !errorLoadingCategory">
-		<h1 class="page-title col-12 col-md-9">
-			{{ 'CATEGORY.BREADCRUMB_LABEL' | translate }} {{ categoryName }}
-		</h1>
+		<h2 class="page-title col-12 col-md-9">
+			{{ 'CATEGORY.BREADCRUMB_LABEL' | translate }}
+			<ng-container *ngIf="parentCategories && parentCategories.length">
+				<span
+					*ngFor="let parentCatSlug of parentCategories">
+					<a
+						class="parent-cat-link"
+						[routerLink]="['/', routeLang, 'category', parentCatSlug]">
+					{{ parentCategoriesNames[categories[parentCatSlug].slug] }}</a> >
+				</span>
+			</ng-container>
+			<span>{{ categoryName }}</span>
+		</h2>
 		<div class="text-right page-title-buttons col-12 col-md-3">
 	    <button 
 	    	type="button"
@@ -19,8 +29,11 @@
 	<div
 		class="row fadeIn"
 		*ngIf="!loadingPages && !errorLoadingCategory && childrenCategories.length">
-		<div class="col-12 subcategories">
-			<mat-chip-listbox aria-label="Subcategories">
+		<div class="col-12 col-md-10 subcategories">
+			<div class="subcategories-label">
+				Subcategories:
+			</div>
+			<mat-chip-listbox class="subcategories-container" aria-label="Subcategories">
 			  <mat-chip-option
 			  	*ngFor="let subcat of childrenCategories"
 			  	[routerLink]="['/', routeLang, 'category', subcat]">

@@ -1,5 +1,5 @@
 .category-page-container {
-	min-height: 600px;
+	min-height: 620px;
 	margin-top: 100px;
 }
 
@@ -34,8 +34,6 @@
 
 
 .page-title, .page-title-buttons {
-	margin-top: 20px;
-	margin-bottom: 20px;
 }
 
 .footer-paginator {
@@ -53,4 +51,31 @@
 
 .subcategories {
 	margin-bottom: 20px;
+}
+
+.subcategories-label {
+	line-height: 40px;
+}
+
+
+@media (min-width: 800px) {
+	.subcategories-label {
+		float: left;
+	}
+	.page-title, .page-title-buttons {
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+	.subcategories-container {
+		padding-left: 12px;
+	}
+
+	.footer-paginator {
+		margin-bottom: 40px;
+	}
+
+}
+
+.parent-cat-link {
+	text-decoration: none;
 }

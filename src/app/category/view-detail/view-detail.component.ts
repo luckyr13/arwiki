@@ -38,6 +38,8 @@ export class ViewDetailComponent implements OnInit {
   subscriptionTranslation = Subscription.EMPTY;
   categories: ArwikiCategoryIndex = {};
   childrenCategories: string[] = [];
+  parentCategories: string[] = [];
+  parentCategoriesNames: Record<string, string> = {};
 
   constructor(
   	private _arweave: ArweaveService,
@@ -140,6 +142,7 @@ export class ViewDetailComponent implements OnInit {
 
           this.translateCategoryName(_category);
           this.childrenCategories = this.getChildrenCategories(_category);
+          this.parentCategories = this.getParentCategories(_category);
 
           return this._arwikiTokenContract.getApprovedPages(
             _langCode,
@@ -239,8 +242,44 @@ export class ViewDetailComponent implements OnInit {
         children.push(cat);
       }
     }
-
     return children;
+  }
+
+  findParentCat(cat_slug: string) {
+    return this.categories[cat_slug].parent_id;
+  }
+
+  getParentCategories(cat_slug: string) {
+    const parents: string[] = [];
+    let newParent = this.findParentCat(cat_slug);
+    while(newParent) {
+      this.parentCategoriesNames[newParent] = '';
+      parents.push(newParent);
+      newParent = this.findParentCat(newParent);
+    }
+    // Translate names
+    this.translateParentCategoryNames(parents);
+    parents.reverse();
+    return parents;
+  }
+
+  translateParentCategoryNames(parentCategories: string[]) {
+    for (const pc of parentCategories) {
+      const tkey = 'MAIN_MENU.' + pc;
+      this.subscriptionTranslation = this._translate.get(tkey).subscribe({
+        next: (res) => {
+          if (res !== tkey) {
+            this.parentCategoriesNames[pc] = res;
+          } else {
+            this.parentCategoriesNames[pc] = this.categories[pc].label;
+          }
+        },
+        error: () => {
+          console.error('Error loading translations!');
+        }
+      })
+    }
+    
   }
 
 
