@@ -151,9 +151,11 @@ export class ViewDetailComponent implements OnInit {
         }),
         switchMap((_approvedPages: ArwikiPageIndex) => {
           allApprovedPages = _approvedPages;
+          const allChildrenCategories = this.getAllChildrenCategories(_category);
           verifiedPages = Object.keys(_approvedPages)
             .filter((slug) => {
-              return _approvedPages[slug].category === _category;
+              return (_approvedPages[slug].category === _category ||
+                  allChildrenCategories.indexOf(_approvedPages[slug].category) >= 0);
             }).map((slug) => {
               return _approvedPages[slug].id!;
             })
@@ -164,12 +166,15 @@ export class ViewDetailComponent implements OnInit {
           for (let p of _pages) {
             const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
             const title = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title');
-            const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
-            const category = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category');
             const img = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img');
-            const lang = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang');
             const owner = pTX.owner.address;
             const id = pTX.id;
+            const tmpSlug = Object.keys(allApprovedPages).find((s) => {
+              return allApprovedPages[s].id === id;
+            });
+            const slug = tmpSlug ? tmpSlug : '';
+            const category = allApprovedPages[slug].category;
+            const order = allApprovedPages[slug].order;
             const sponsor = allApprovedPages[slug].sponsor;
 
             finalRes.push({
@@ -178,11 +183,24 @@ export class ViewDetailComponent implements OnInit {
               category: category,
               img: img,
               id: id,
-              language: lang
+              language: this.routeLang
 
             });
-            
           }
+          // Lexicographical sort
+          for (let cat in finalRes) {
+            Array.prototype.sort.call(finalRes[cat], (a, b) => {
+              return a.title.localeCompare(b.title);
+            });
+          }
+
+          // Sort by order
+          for (let cat in finalRes) {
+            Array.prototype.sort.call(finalRes[cat], (a, b) => {
+              return a.order - b.order;
+            });
+          }
+          
           return of(finalRes);
         }),
 
@@ -240,6 +258,21 @@ export class ViewDetailComponent implements OnInit {
     for (let cat of catSlugs) {
       if (this.categories[cat].parent_id === cat_slug) {
         children.push(cat);
+      }
+    }
+    return children;
+  }
+
+  getAllChildrenCategories(cat_slug: string) {
+    const catSlugs = Object.keys(this.categories);
+    const children: string[] = [];
+    for (let cat of catSlugs) {
+      if (this.categories[cat].parent_id === cat_slug) {
+        children.push(cat);
+        const newChildren = this.getAllChildrenCategories(this.categories[cat].slug);
+        if (newChildren && newChildren.length) {
+          children.push(...newChildren);
+        }
       }
     }
     return children;
