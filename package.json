@@ -40,7 +40,7 @@
     "simplemde": "^1.11.2",
     "tslib": "^2.3.0",
     "vouchdao": "^0.2.6",
-    "warp-contracts": "^1.2.54",
+    "warp-contracts": "^1.2.56",
     "zone.js": "~0.12.0"
   },
   "devDependencies": {
