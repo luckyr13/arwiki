@@ -10,7 +10,7 @@
   </mat-expansion-panel-header>
   <a mat-list-item
     *ngFor="let page of menuOption.pages"
-    routerLink="{{ routerLang }}/{{ page.slug }}" 
+    routerLink="/{{ routerLang }}/{{ page.slug }}" 
     routerLinkActive="active">
     <div
       matListItemLine
@@ -23,7 +23,7 @@
     [menu]="menuOption.subcategories"
     [level]="level + 1"></app-sub-menu-mainpage>
   <a mat-list-item
-    routerLink="{{ routerLang }}/category/{{ menuOption.category_slug }}" 
+    routerLink="/{{ routerLang }}/category/{{ menuOption.category_slug }}" 
     routerLinkActive="active">
     <div
       matListItemLine
