@@ -116,10 +116,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
           for (let p of txs) {
             const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
             const title = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title');
-            // const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
-            // const category = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category');
             const img = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img');
-            //const owner = pTX.owner.address;
             const id = pTX.id;
             const block = pTX.block;
             const language = this.routeLang;
@@ -198,13 +195,18 @@ export class MainPageComponent implements OnInit, OnDestroy {
         for (let p of pages) {
           const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
           const title = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title');
-          const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
-          const category = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category');
+          // const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
+          // const category = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category');
           const img = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img');
-          const language = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang');
-          const owner = pTX.owner.address;
+          //const language = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang');
           const id = pTX.id;
           const block = pTX.block;
+          const tmpSlug = Object.keys(this.allApprovedPages).find((s) => {
+            return this.allApprovedPages[s].id === id;
+          });
+          const slug = tmpSlug ? tmpSlug : '';
+          const category = this.allApprovedPages[slug].category;
+
           const sponsor = this.allApprovedPages[slug].sponsor;
           
           latestPages.push({
@@ -214,7 +216,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
             img: img,
             id: id,
             block: block,
-            language: language,
+            language: this.routeLang,
             lastUpdateAt: this.allApprovedPages[slug].lastUpdateAt,
             sponsor: sponsor
           });
@@ -364,13 +366,19 @@ export class MainPageComponent implements OnInit, OnDestroy {
         for (let p of pages) {
           const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
           const title = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title');
-          const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
-          const category = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category');
+          //const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
+          //const category = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category');
           const img = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img');
-          const language = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang');
+          //const language = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang');
           const owner = pTX.owner.address;
           const id = pTX.id;
           const block = pTX.block;
+          const tmpSlug = Object.keys(this.allApprovedPages).find((s) => {
+            return this.allApprovedPages[s].id === id;
+          });
+          const slug = tmpSlug ? tmpSlug : '';
+          const category = this.allApprovedPages[slug].category;
+
           const sponsor = this.allApprovedPages[slug].sponsor;
           
           latestPages.push({
@@ -380,7 +388,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
             img: img,
             id: id,
             block: block,
-            language: language,
+            language: this.routeLang,
             lastUpdateAt: this.allApprovedPages[slug].lastUpdateAt,
             sponsor: sponsor
           });
