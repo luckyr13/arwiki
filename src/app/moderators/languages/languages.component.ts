@@ -3,6 +3,15 @@ import { Location } from '@angular/common';
 import { ArwikiLang } from '../../core/interfaces/arwiki-lang';
 import { ArwikiTokenLangsService } from '../../core/arwiki-contracts/arwiki-langs.service';
 import { Subscription } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import {
+  DialogNewLanguageComponent 
+} from '../dialog-new-language/dialog-new-language.component';
+import {
+  DialogEditLanguageComponent 
+} from '../dialog-edit-language/dialog-edit-language.component';
+import { Direction } from '@angular/cdk/bidi';
+import { UserSettingsService } from '../../core/user-settings.service';
 
 @Component({
   selector: 'app-languages',
@@ -13,11 +22,17 @@ export class LanguagesComponent implements OnInit, OnDestroy {
   loading = false;
   langs: Record<string, ArwikiLang> = {};
   langsSubscription = Subscription.EMPTY;
-  langCodes: string[] = [];
+  displayedColumns: string[] = [
+    'code', 'writing_system', 'native_name',
+    'iso_name', 'active', 'actions'
+  ];
+  dataSource: ArwikiLang[] = [];
 
   constructor(
     private _location: Location,
-    private _tokenContractLangs: ArwikiTokenLangsService) {
+    private _tokenContractLangs: ArwikiTokenLangsService,
+    private _dialog: MatDialog,
+    private _userSettings: UserSettingsService) {
 
   }
 
@@ -26,21 +41,65 @@ export class LanguagesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.langsSubscription = this._tokenContractLangs.getLangs()
+    this.loadLangsTable(false);
+  }
+
+  loadLangsTable(reload: boolean) {
+    this.langsSubscription = this._tokenContractLangs.getLangs(reload)
       .subscribe({
         next: (langs) => {
           this.langs = langs;
-          this.langCodes = Object.keys(this.langs);
+          this.dataSource = Object.values(this.langs);
         },
         error: (error) => {
 
         }
       });
-
   }
 
   ngOnDestroy() {
     this.langsSubscription.unsubscribe();
+  }
+
+  openNewLangModal() {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+    
+    const dialogRef = this._dialog.open(DialogNewLanguageComponent, {
+      width: '650px',
+      data: {},
+      direction: direction
+    });
+
+    dialogRef.afterClosed().subscribe((success: boolean) => {
+      if (success) {
+        // Reload
+        this.loadLangsTable(true);
+      }
+    });
+  }
+
+  openEditLangModal(langCode: string) {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+    const language = this.langs[langCode];
+    
+    const dialogRef = this._dialog.open(DialogEditLanguageComponent, {
+      width: '650px',
+      data: {
+        language
+      },
+      direction: direction
+    });
+
+    dialogRef.afterClosed().subscribe((success: boolean) => {
+      if (success) {
+        // Reload
+        this.loadLangsTable(true);
+      }
+    });
   }
 
 
