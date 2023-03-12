@@ -30,7 +30,7 @@
 					<div class="secondary-txt">
 						<strong>{{ 'SEARCH.SITEMAP.LABEL_ORDER' | translate }} </strong>{{ c.order }}
 						<strong>{{ 'SEARCH.SITEMAP.LABEL_SLUG' | translate }} </strong>
-						<a mat-button
+						<a
 							class="cat-slug"
 		      		[routerLink]="['/', routeLang, 'category', c.slug]">
 		      		{{ c.slug }}
@@ -57,7 +57,7 @@
 			    <ng-container matColumnDef="slug">
 			      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'SEARCH.SITEMAP.COLUMN_SLUG' | translate }} </th>
 			      <td mat-cell *matCellDef="let row">
-			      	<a mat-button
+			      	<a
 			      		class="btn-ellipsis"
 			      		[routerLink]="['/', routeLang, row.slug]">{{row.slug}}</a>
 			      </td>
@@ -67,9 +67,9 @@
 			    <ng-container matColumnDef="category">
 			      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'SEARCH.SITEMAP.COLUMN_CATEGORY' | translate }} </th>
 			      <td mat-cell *matCellDef="let row">
-			      	<a mat-button
+			      	<a
 			      		[routerLink]="['/', routeLang, 'category', row.category]">
-			      		{{ 'MAIN_MENU.' + row.category | translate }}
+			      		{{ row.category }}
 			      	</a>
 			      </td>
 			    </ng-container>
@@ -89,10 +89,10 @@
 			    <ng-container matColumnDef="start">
 			      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'SEARCH.SITEMAP.COLUMN_ACCEPTED_AT' | translate }}</th>
 			      <td mat-cell *matCellDef="let row" class="text-center">
-			      	<a mat-button
+			      	<a
 			      		target="_blank"
-			      		href="https://viewblock.io/arweave/block/{{row.start}}">
-			      		{{ row.start }}
+			      		href="https://viewblock.io/arweave/block/{{row.lastUpdateAt}}">
+			      		{{ row.lastUpdateAt }}
 			      	</a>
 			      </td>
 			    </ng-container>
@@ -149,7 +149,7 @@
 			    <ng-container matColumnDef="code">
 			      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'SEARCH.SITEMAP.COLUMN_CODE' | translate }} </th>
 			      <td mat-cell *matCellDef="let row">
-			      	<a mat-button
+			      	<a
 			      		class="btn-ellipsis"
 			      		[routerLink]="['/', row.code]">{{row.code}}</a>
 			      </td>
@@ -159,7 +159,7 @@
 			    <ng-container matColumnDef="iso_name">
 			      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'SEARCH.SITEMAP.COLUMN_ISO_NAME' | translate }} </th>
 			      <td mat-cell *matCellDef="let row">
-			      	<a mat-button
+			      	<a
 			      		class="btn-ellipsis"
 			      		[routerLink]="['/', row.code]">{{row.iso_name}}</a>
 			      </td>
@@ -169,7 +169,7 @@
 			    <ng-container matColumnDef="native_name">
 			      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'SEARCH.SITEMAP.COLUMN_NATIVE_NAME' | translate }} </th>
 			      <td mat-cell *matCellDef="let row">
-			      	<a mat-button
+			      	<a
 			      		class="btn-ellipsis"
 			      		[routerLink]="['/', row.code]">{{row.native_name}}</a>
 			      </td>
