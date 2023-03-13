@@ -65,6 +65,35 @@ export class ArwikiTokenLangsService {
     );
   }
 
+  updateLanguage(
+    _code: string,
+    _writingSystem: string,
+    _nativeName: string,
+    _isoName: string,
+    _active: boolean,
+    _privateKey: JWKInterface|'use_wallet',
+    _arwikiVersion: string
+  ) {
+    const jwk = _privateKey;
+    const tags = [
+      {name: 'Service', value: 'ArWiki'},
+      {name: 'Arwiki-Type', value: 'UpdateLanguage'},
+      {name: 'Arwiki-Version', value: _arwikiVersion},
+    ];
+    const input = {
+      function: 'updateLanguage',
+      langCode: _code,
+      writingSystem: _writingSystem,
+      isoName: _isoName,
+      nativeName: _nativeName,
+      active: _active
+    };
+    
+    return this._warp.writeInteraction(
+      this._arwikiToken.contractAddress, jwk, input, tags
+    );
+  }
+
   /*
   *  @dev Get Lang
   */

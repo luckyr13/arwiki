@@ -97,7 +97,8 @@ export class LanguagesComponent implements OnInit, OnDestroy {
       data: {
         language
       },
-      direction: direction
+      direction: direction,
+      disableClose: true
     });
 
     dialogRef.afterClosed().subscribe((tx: string) => {

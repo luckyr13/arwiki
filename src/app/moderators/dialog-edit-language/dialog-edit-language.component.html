@@ -1,1 +1,94 @@
-<p>dialog-edit-language works!</p>
+<h2 mat-dialog-title>Edit Language</h2>
+<mat-progress-bar 
+	color="accent"
+	mode="indeterminate"
+	*ngIf="loadingSubmit"
+	class="fadeIn"></mat-progress-bar>
+<form
+	[formGroup]="editLanguageForm"
+	(ngSubmit)="onSubmit()">
+	<mat-dialog-content>
+		<div *ngIf="!tx && !error">
+			<mat-form-field 
+				class="w100" 
+				appearance="outline"
+				color="accent">
+				<mat-label>Code</mat-label>
+				<input
+					matInput
+					[maxlength]="maxLengthCode"
+					autocomplete="off"
+					placeholder="Language code"
+					formControlName="code" required>
+				<mat-error ></mat-error>
+			</mat-form-field>
+
+			<mat-form-field
+		  	class="w100"
+		  	color="accent"
+		  	appearance="outline">
+		  	<mat-label>Writing System</mat-label>
+				<mat-select
+					formControlName="writing_system">
+					<mat-option value="">Select an option</mat-option>
+					<mat-option value="LTR">LeftToRight</mat-option>
+					<mat-option value="RTL">RightToLeft</mat-option>
+				</mat-select>
+		  </mat-form-field>
+
+		  <mat-form-field 
+				class="w100" 
+				appearance="outline"
+				color="accent">
+				<mat-label>ISO Name</mat-label>
+				<input
+					matInput
+					[maxlength]="maxLengthISOName"
+					autocomplete="off"
+					placeholder="ISO name"
+					formControlName="iso_name" required>
+				<mat-error ></mat-error>
+			</mat-form-field>
+
+			<mat-form-field 
+				class="w100" 
+				appearance="outline"
+				color="accent">
+				<mat-label>Native Name</mat-label>
+				<input
+					matInput
+					[maxlength]="maxLengthNativeName"
+					autocomplete="off"
+					placeholder="Native Name"
+					formControlName="native_name" required>
+				<mat-error ></mat-error>
+			</mat-form-field>
+
+			<div class="text-right">
+				<mat-slide-toggle formControlName="active">
+					<span *ngIf="active.value">Active</span>
+					<span *ngIf="!active.value">Inactive</span>
+				</mat-slide-toggle>
+			</div>
+		  
+		</div>
+		<div *ngIf="tx">
+			Language updated. TX ID: {{ tx }}
+		</div>
+		<div *ngIf="error">
+			Error: {{ error }}
+		</div>
+	</mat-dialog-content>
+	<mat-dialog-actions>
+	  <button
+	  	color="accent" 
+	  	mat-flat-button
+	  	*ngIf="!tx && !error"
+	  	[disabled]="!editLanguageForm.valid || loadingSubmit">Submit</button>
+	  <div class="menu-spacer"></div>
+	  <button 
+	  	mat-button
+	  	[mat-dialog-close]="tx"
+	  	[disabled]="loadingSubmit">Close</button>
+	</mat-dialog-actions>
+</form>
