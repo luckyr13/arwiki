@@ -5,7 +5,6 @@ import { map, tap } from 'rxjs/operators';
 import { JWKInterface } from 'arweave/node/lib/wallet';
 import { ArwikiKYVE } from '../arwiki-kyve';
 import { ArwikiPageIndex } from '../interfaces/arwiki-page-index';
-import { ArwikiLangIndex } from '../interfaces/arwiki-lang-index';
 import { ArwikiCategoryIndex } from '../interfaces/arwiki-category-index';
 import { WarpContractsService } from '../warp-contracts.service';
 import { ArwikiVote } from '../interfaces/arwiki-vote';
@@ -19,8 +18,14 @@ export class ArwikiTokenContract
   // New contract demo
   // Single level
   // private _contractAddress = 'JGrP0IV4aVOAx1lgozOjQhZkUVv8-y1xfUcCR9ra8QQ';
+  // private _contractAddress = '85laIArWvKoJ1SZBvBzM6yUmVD-JbnS5EsV67Dya83k';
+
+  // One holder
+  // private _contractAddress = '2nZIuLR0g9EqhDm7M-5Si0QeJfhL07oYLlkrHTVvHQE';
+  private _contractAddress = 'hF0MwosnBZT1mbUTI9-xGqnS-ISzMu5mA-JvyLPHQmI';
+
   // Multi level
-  private _contractAddress = 'aYnwKbqL603IKdP-Ba_kG73K7EeURTeF1jUoz4YJqxA';
+  // private _contractAddress = 'aYnwKbqL603IKdP-Ba_kG73K7EeURTeF1jUoz4YJqxA';
 
   private _state: any = {};
 	private _adminList: string[] = [];
@@ -116,7 +121,7 @@ export class ArwikiTokenContract
   /*
   *  @dev Return state
   */
-  getStateFromLocal(): Observable<any> {
+  getStateFromLocal(): any {
     return this._state;
   }
 
@@ -541,30 +546,6 @@ export class ArwikiTokenContract
   }
 
   /*
-  *  @dev Get Categories
-  */
-  getLanguages(onlyActive = true): Observable<ArwikiLangIndex> {
-    return this.getState().pipe(
-      map((_state: any) => {
-        const languages: ArwikiLangIndex = Object
-          .keys(_state.languages)
-          .reduce((accum: ArwikiLangIndex, code)=> {
-              if (_state.languages[code].active && onlyActive) {
-                accum[code] = _state.languages[code];
-                accum[code].code = code;
-              } else {
-                accum[code] = _state.languages[code];
-                accum[code].code = code;
-              }
-              return accum;
-            }, {});
-
-        return languages;
-      })
-    );
-  }
-
-  /*
   * @dev Transfer wiki tokens
   */
   transferTokens(
@@ -772,8 +753,11 @@ export class ArwikiTokenContract
       return true;
     });
     const pages = pagesIds.reduce((acum: any, slug) => {
+      const numUpdates = _state.pages[_langCode][slug].updates.length;
       acum[slug] = {
         slug: slug,
+        id: _state.pages[_langCode][slug].updates[numUpdates - 1].tx,
+        lastUpdateAt: _state.pages[_langCode][slug].updates[numUpdates - 1].at,
         ..._state.pages[_langCode][slug]
       };
       return acum;
@@ -790,13 +774,6 @@ export class ArwikiTokenContract
     return {...state.categories};
   }
 
-  /*
-  *  @dev Get Lang
-  */
-  getLanguagesFromLocal(): ArwikiLangIndex {
-    const state = this._state;
-    return {...state.languages};
-  }
 
   /*
   *  @dev Get balances

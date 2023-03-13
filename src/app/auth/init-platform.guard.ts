@@ -12,6 +12,7 @@ import { ArwikiLangIndex } from '../core/interfaces/arwiki-lang-index';
 import { ArweaveService } from '../core/arweave.service';
 import { ArwikiTokenContract } from '../core/arwiki-contracts/arwiki-token.service';
 import { AuthService } from '../auth/auth.service';
+import { ArwikiTokenLangsService } from '../core/arwiki-contracts/arwiki-langs.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,7 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
     private _arweave: ArweaveService,
     private _arwikiTokenContract: ArwikiTokenContract,
     private _auth: AuthService,
+    private _arwikiTokenLangsContract: ArwikiTokenLangsService
 	) {
 
 	}
@@ -95,7 +97,7 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
       // If language detected
       return (
         // If no copy detected, get the state from the contract
-        this._arwikiTokenContract.getLanguages()
+        this._arwikiTokenLangsContract.getLanguages()
           .pipe(
             switchMap((state: ArwikiLangIndex) => {
               // Loader

@@ -13,6 +13,7 @@ import { Direction } from '@angular/cdk/bidi';
 import { DialogDonateComponent } from '../../shared/dialog-donate/dialog-donate.component';
 import { ArwikiLang } from '../../core/interfaces/arwiki-lang';
 import { Router } from '@angular/router';
+import { ArwikiTokenLangsService } from '../../core/arwiki-contracts/arwiki-langs.service';
 
 @Component({
   selector: 'app-view-detail',
@@ -40,7 +41,8 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     private _arwikiToken: ArwikiTokenContract,
     public _dialog: MatDialog,
     private _userSettings: UserSettingsService,
-    private _router: Router) {
+    private _router: Router,
+    private _arwikiTokenLangs: ArwikiTokenLangsService) {
     
   }
 
@@ -79,7 +81,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
       this.currentAddress = account;
     });
 
-    this.languages = Object.values(this._arwikiToken.getLanguagesFromLocal());
+    this.languages = Object.values(this._arwikiTokenLangs.getLanguagesFromLocal());
     
   }
 
