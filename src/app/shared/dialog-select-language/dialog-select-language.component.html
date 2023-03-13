@@ -14,8 +14,8 @@
 	</div>
 	<div *ngIf="!loading && !error">
 	  <div class="row">
-	  	<a mat-button 
-	  		class="col-6 col-md-4 fadeIn" 
+	  	<a 
+	  		class="col-6 col-md-4 fadeIn ellipsis btn-lang" 
 	  		*ngFor="let code of langCodes;"
 	  		[mat-dialog-close]="langs[code]">
 		  	{{ langs[code].native_name }}

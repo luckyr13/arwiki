@@ -20,7 +20,7 @@
 	</h2>
 	<div class="row">
 		<div class="col">
-			<ul class="categories-list">
+			<ul class="categories-list" *ngIf="categories && categories.length">
 				<li *ngFor="let c of categories">
 					<div class="cat-title">
 						<strong>{{ 'MAIN_MENU.' + c.slug | translate }} </strong>
