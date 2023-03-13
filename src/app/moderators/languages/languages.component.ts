@@ -45,14 +45,19 @@ export class LanguagesComponent implements OnInit, OnDestroy {
   }
 
   loadLangsTable(reload: boolean) {
-    this.langsSubscription = this._tokenContractLangs.getLangs(reload)
-      .subscribe({
+    this.loading = true;
+    const onlyActive = true;
+    this.langsSubscription = this._tokenContractLangs.getLanguages(
+        onlyActive, reload
+      ).subscribe({
         next: (langs) => {
           this.langs = langs;
           this.dataSource = Object.values(this.langs);
+          this.loading = false;
         },
         error: (error) => {
-
+          this.loading = false;
+          console.error('ErrorLang:', error);
         }
       });
   }
@@ -69,11 +74,12 @@ export class LanguagesComponent implements OnInit, OnDestroy {
     const dialogRef = this._dialog.open(DialogNewLanguageComponent, {
       width: '650px',
       data: {},
-      direction: direction
+      direction: direction,
+      disableClose: true
     });
 
-    dialogRef.afterClosed().subscribe((success: boolean) => {
-      if (success) {
+    dialogRef.afterClosed().subscribe((tx: string) => {
+      if (tx) {
         // Reload
         this.loadLangsTable(true);
       }
@@ -94,8 +100,8 @@ export class LanguagesComponent implements OnInit, OnDestroy {
       direction: direction
     });
 
-    dialogRef.afterClosed().subscribe((success: boolean) => {
-      if (success) {
+    dialogRef.afterClosed().subscribe((tx: string) => {
+      if (tx) {
         // Reload
         this.loadLangsTable(true);
       }

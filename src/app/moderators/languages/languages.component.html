@@ -49,12 +49,14 @@
 
         <ng-container matColumnDef="native_name">
           <th mat-header-cell *matHeaderCellDef> Native Name </th>
-          <td mat-cell *matCellDef="let element"> {{element.native_name}} </td>
+          <td mat-cell class="col-max-width ellipsis" *matCellDef="let element">
+            {{element.native_name}}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="iso_name">
           <th mat-header-cell *matHeaderCellDef> ISO Name </th>
-          <td mat-cell *matCellDef="let element"> {{element.iso_name}} </td>
+          <td mat-cell class="col-max-width ellipsis" *matCellDef="let element"> {{element.iso_name}} </td>
         </ng-container>
 
         <ng-container matColumnDef="active">
