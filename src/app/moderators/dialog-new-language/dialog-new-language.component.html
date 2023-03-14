@@ -1,4 +1,6 @@
-<h2 mat-dialog-title>Add Language</h2>
+<h2 mat-dialog-title>
+	{{ 'MODERATORS.LANGUAGES.BTN_ADD_LANG' | translate }}
+</h2>
 <mat-progress-bar 
 	color="accent"
 	mode="indeterminate"
@@ -13,13 +15,14 @@
 				class="w100" 
 				appearance="outline"
 				color="accent">
-				<mat-label>Code</mat-label>
+				<mat-label>
+					{{ 'MODERATORS.LANGUAGES.TBL_COL_CODE' | translate }}
+				</mat-label>
 				<input
 					matInput
 					(change)="code.setValue(code.value!.toLowerCase())"
 					[maxlength]="maxLengthCode"
 					autocomplete="off"
-					placeholder="Language code"
 					formControlName="code" required>
 				<mat-error ></mat-error>
 			</mat-form-field>
@@ -28,10 +31,12 @@
 		  	class="w100"
 		  	color="accent"
 		  	appearance="outline">
-		  	<mat-label>Writing System</mat-label>
+		  	<mat-label>
+		  		{{ 'MODERATORS.LANGUAGES.TBL_COL_WRITING_SYSTEM' | translate }}
+		  	</mat-label>
 				<mat-select
 					formControlName="writing_system">
-					<mat-option value="">Select an option</mat-option>
+					<mat-option value="">{{ 'DIALOGS.INPUT_SEL_DEFAULT' | translate }}</mat-option>
 					<mat-option value="LTR">LeftToRight</mat-option>
 					<mat-option value="RTL">RightToLeft</mat-option>
 				</mat-select>
@@ -41,12 +46,13 @@
 				class="w100" 
 				appearance="outline"
 				color="accent">
-				<mat-label>ISO Name</mat-label>
+				<mat-label>
+					{{ 'MODERATORS.LANGUAGES.TBL_COL_ISO_NAME' | translate }}
+				</mat-label>
 				<input
 					matInput
 					[maxlength]="maxLengthISOName"
 					autocomplete="off"
-					placeholder="ISO name"
 					formControlName="iso_name" required>
 				<mat-error ></mat-error>
 			</mat-form-field>
@@ -55,12 +61,13 @@
 				class="w100" 
 				appearance="outline"
 				color="accent">
-				<mat-label>Native Name</mat-label>
+				<mat-label>
+					{{ 'MODERATORS.LANGUAGES.TBL_COL_NATIVE_NAME' | translate }}
+				</mat-label>
 				<input
 					matInput
 					[maxlength]="maxLengthNativeName"
 					autocomplete="off"
-					placeholder="Native Name"
 					formControlName="native_name" required>
 				<mat-error ></mat-error>
 			</mat-form-field>
@@ -79,11 +86,15 @@
 	  	color="accent" 
 	  	mat-flat-button
 	  	*ngIf="!tx && !error"
-	  	[disabled]="!newLanguageForm.valid || loadingSubmit">Submit</button>
+	  	[disabled]="!newLanguageForm.valid || loadingSubmit">
+	  	{{ 'DIALOGS.TXT_SUBMIT' | translate }}
+	  </button>
 	  <div class="menu-spacer"></div>
 	  <button 
 	  	mat-button
 	  	[mat-dialog-close]="tx"
-	  	[disabled]="loadingSubmit">Close</button>
+	  	[disabled]="loadingSubmit">
+	  	{{ 'DIALOGS.TXT_CLOSE' | translate }}
+	  </button>
 	</mat-dialog-actions>
 </form>

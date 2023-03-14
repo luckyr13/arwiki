@@ -10,7 +10,17 @@
 		"profit_sharing": "利润分享",
 		"mining": "挖矿",
 		"building_on_arweave": "基于 Arweave 开发",
-		"resources": "资源"
+		"resources": "资源",
+		"users": "Users",
+		"wallets": "Wallets",
+		"builders": "Builders",
+		"devtools": "DevTools",
+		"8pin_tutorial": "8Pin Tutorial",
+		"creating_a_dapp": "Creating a dApp",
+		"arweave_protocol": "Arweave protocol",
+		"mining_mechanism": "Mining Mechanism",
+		"packages_and_apis": "Packages & APIs",
+		"builders_tutorials": "Tutorials"
 	},
 	"MAIN_TOOLBAR": {
 		"TOOLTIP_LOGIN": "登陆",
@@ -111,7 +121,9 @@
 		"TITLE_LOGIN_FIRST": "Please login first",
 		"CONTENT_LOGIN_FIRST": "You need to login first. 👾",
 		"TITLE_UPVOTE": "Page Upvote",
-		"TITLE_DOWNVOTE": "Page Downvote"
+		"TITLE_DOWNVOTE": "Page Downvote",
+		"TXT_SUBMIT": "Submit",
+		"INPUT_SEL_DEFAULT": "Select an Option"
 	},
 	"MODERATORS": {
 		"PENDING_PAGE": {
@@ -120,7 +132,18 @@
 		"LABEL_NO_RESULTS": "没有结果",
 		"LABEL_TOOLBAR_TITLE": "版主面板",
 		"LANGUAGES": {
-			"BREADCRUMB_LABEL": "Manage Languages"
+			"BREADCRUMB_LABEL": "Manage Languages",
+			"TITLE": "Languages",
+			"BTN_ADD_LANG": "Add Language",
+			"BTN_EDIT_LANG": "Edit Language",
+			"TBL_COL_CODE": "Code",
+			"TBL_COL_WRITING_SYSTEM": "Writing System",
+			"TBL_COL_NATIVE_NAME": "Native Name",
+			"TBL_COL_ISO_NAME": "ISO Name",
+			"TBL_COL_STATUS": "Status",
+			"TBL_COL_ACTIONS": "Actions",
+			"TBL_COL_STATUS_ACTIVE": "Active",
+			"TBL_COL_STATUS_INACTIVE": "Inactive"
 		}
 	},
 	"CATEGORY": {

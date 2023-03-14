@@ -121,7 +121,9 @@
 		"TITLE_LOGIN_FIRST": "Please login first",
 		"CONTENT_LOGIN_FIRST": "You need to login first. 👾",
 		"TITLE_UPVOTE": "Page Upvote",
-		"TITLE_DOWNVOTE": "Page Downvote"
+		"TITLE_DOWNVOTE": "Page Downvote",
+		"TXT_SUBMIT": "Submit",
+		"INPUT_SEL_DEFAULT": "Select an Option"
 	},
 	"MODERATORS": {
 		"PENDING_PAGE": {
@@ -130,7 +132,18 @@
 		"LABEL_NO_RESULTS": "No results.",
 		"LABEL_TOOLBAR_TITLE": "Moderator's panel",
 		"LANGUAGES": {
-			"BREADCRUMB_LABEL": "Manage Languages"
+			"BREADCRUMB_LABEL": "Manage Languages",
+			"TITLE": "Languages",
+			"BTN_ADD_LANG": "Add Language",
+			"BTN_EDIT_LANG": "Edit Language",
+			"TBL_COL_CODE": "Code",
+			"TBL_COL_WRITING_SYSTEM": "Writing System",
+			"TBL_COL_NATIVE_NAME": "Native Name",
+			"TBL_COL_ISO_NAME": "ISO Name",
+			"TBL_COL_STATUS": "Status",
+			"TBL_COL_ACTIONS": "Actions",
+			"TBL_COL_STATUS_ACTIVE": "Active",
+			"TBL_COL_STATUS_INACTIVE": "Inactive"
 		}
 	},
 	"CATEGORY": {
