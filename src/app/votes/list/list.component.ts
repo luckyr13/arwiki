@@ -53,30 +53,7 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.loading = true;
-    this.getVotesSubscription = this._arweave.getNetworkInfo().pipe(
-      switchMap((network) => {
-        this.currentBlockHeight = network.height;
-        return this._tokenContract.getSettings();
-      }),
-      switchMap((settings) => {
-        this.voteLength = settings.get('voteLength') || 0;
-        return this._tokenContractVotes.getVotes();
-
-      })
-    ).subscribe({
-        next: (res: ArwikiVote[]) => {
-          const votes = res || [];
-          votes.reverse();
-          this.votes = votes;
-          this.loading = false;
-
-        },
-        error: (err) => {
-          console.error('Votes Error', err);
-          this.loading = false;
-        }
-      })
+    this.getVotesData();
 
     this.wallet = this._auth.getMainAddressSnapshot();
 
@@ -187,8 +164,9 @@ export class ListComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(async (result) => {
       if (result) {
-        this._router.navigate([defLang.code, 'dashboard']);
-        this._utils.message('Success! Redirecting to Dashboard ...', 'success');
+        const reloadState = true;
+        this.getVotesData(reloadState);
+        this._utils.message('Success!', 'success');
       }
     });
   }
@@ -243,5 +221,35 @@ export class ListComponent implements OnInit, OnDestroy {
         })
       }
     });
+  }
+
+  getVotesData(reload = false) {
+    this.loading = true;
+    this.errorMessage = '';
+    this.updateTxMessage = '';
+    
+    this.getVotesSubscription = this._arweave.getNetworkInfo().pipe(
+      switchMap((network) => {
+        this.currentBlockHeight = network.height;
+        return this._tokenContract.getSettings(reload);
+      }),
+      switchMap((settings) => {
+        this.voteLength = settings.get('voteLength') || 0;
+        return this._tokenContractVotes.getVotes(reload);
+
+      })
+    ).subscribe({
+        next: (res: ArwikiVote[]) => {
+          const votes = res || [];
+          votes.reverse();
+          this.votes = votes;
+          this.loading = false;
+
+        },
+        error: (err) => {
+          console.error('Votes Error', err);
+          this.loading = false;
+        }
+      })
   }
 }

@@ -269,8 +269,8 @@ export class ArwikiTokenContract
   /*
 	*	@dev Get the settings property from full state contract
 	*/
-	getSettings(): Observable<any> {
-		return this.getState().pipe(
+	getSettings(reload = false): Observable<any> {
+		return this.getState(reload).pipe(
 			map((_state: any) => {
 				const settings = new Map(_state.settings);
 				return settings;

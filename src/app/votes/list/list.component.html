@@ -156,7 +156,15 @@
 		<div class="col-12">
 			Success! Please reload this page now to see the changes.
 			<br>
-			TX: {{ updateTxMessage }}
+			<button 
+				mat-flat-button 
+				(click)="getVotesData(true)" color="accent">
+				<mat-icon>update</mat-icon> Reload page
+			</button>
+			<br>
+			<app-arweave-address
+				[address]="updateTxMessage"
+				[isAddress]="false">TX: </app-arweave-address>
 		</div>
 	</div>
 
@@ -165,6 +173,12 @@
 			Error!
 			<br>
 			Error Message: {{ errorMessage }}
+			<br>
+			<button 
+				mat-flat-button 
+				(click)="getVotesData(true)" color="accent">
+				<mat-icon>update</mat-icon> Reload page
+			</button>
 		</div>
 	</div>
 
