@@ -48,7 +48,9 @@
 		"MENU_SEARCH": "Пошук",
 		"MENU_SEARCH_BROWSE": "Карта сайту",
 		"MENU_USER_VOTES": "Votes",
-		"MENU_MODERATOR_LANGUAGES": "Manage languages"
+		"MENU_MODERATOR_LANGUAGES": "Manage languages",
+		"MENU_MODERATOR_CATEGORIES": "Manage categories",
+		"MENU_MODERATOR_PAGES": "Manage pages"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "Ласкаво просимо до permaweb!",
