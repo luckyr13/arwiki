@@ -1,5 +1,10 @@
 # ArWiki versions
 
+## 2.0.1
+- Moderators > Languages added
+- Categories module updated
+- Page detail fixed
+
 ## 2.0.0 (BREAKING CHANGES)
 - NEW Smartweave Contract
 - Main menu updated (subcategories supported)
