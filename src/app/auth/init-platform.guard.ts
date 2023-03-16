@@ -148,6 +148,11 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
     else if (route.parent && route.parent.params['lang']) {
       lang = route.parent.params['lang'];
     }
+    // Fix for wildcard route
+    else if (route.url && route.url.length && route.url[0] &&
+        route.url[0].path) {
+      lang = route.url[0].path;
+    }
     return lang;
   }
 
