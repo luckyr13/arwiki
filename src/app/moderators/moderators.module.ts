@@ -17,10 +17,12 @@ import { HistoryUpdatesApprovedComponent } from './history-updates-approved/hist
 import { LanguagesComponent } from './languages/languages.component';
 import { DialogNewLanguageComponent } from './dialog-new-language/dialog-new-language.component';
 import { DialogEditLanguageComponent } from './dialog-edit-language/dialog-edit-language.component';
+import { CategoriesComponent } from './categories/categories.component';
+import { PagesComponent } from './pages/pages.component';
 
 
 @NgModule({
-  declarations: [PendingListComponent, MenuComponent, AddAdminComponent, ViewAdminListComponent, ApprovedListComponent, TagManagerComponent, DeletedListComponent, PageUpdatesComponent, DialogSearchPageUpdateComponent, ActivityHistoryComponent, HistoryPagesRejectedComponent, HistoryUpdatesApprovedComponent, LanguagesComponent, DialogNewLanguageComponent, DialogEditLanguageComponent],
+  declarations: [PendingListComponent, MenuComponent, AddAdminComponent, ViewAdminListComponent, ApprovedListComponent, TagManagerComponent, DeletedListComponent, PageUpdatesComponent, DialogSearchPageUpdateComponent, ActivityHistoryComponent, HistoryPagesRejectedComponent, HistoryUpdatesApprovedComponent, LanguagesComponent, DialogNewLanguageComponent, DialogEditLanguageComponent, CategoriesComponent, PagesComponent],
   imports: [
     CommonModule,
     ModeratorsRoutingModule,

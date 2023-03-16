@@ -11,6 +11,8 @@ import { TagManagerComponent } from './tag-manager/tag-manager.component';
 import { PageUpdatesComponent } from './page-updates/page-updates.component';
 import { ActivityHistoryComponent } from './activity-history/activity-history.component';
 import { LanguagesComponent } from './languages/languages.component';
+import { CategoriesComponent } from './categories/categories.component';
+import { PagesComponent } from './pages/pages.component';
 
 const routes: Routes = [
 	{
@@ -40,6 +42,12 @@ const routes: Routes = [
 			},
 			{
 				path: 'languages', component: LanguagesComponent
+			},
+			{
+				path: 'categories', component: CategoriesComponent
+			},
+			{
+				path: 'pages', component: PagesComponent
 			},
 			{
 				path: '', redirectTo: 'pending', pathMatch: 'full'
