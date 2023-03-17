@@ -176,10 +176,10 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
           const nft = this.pageExtraMetadata.nft;
           
           finalRes.push({
-            title: this.removeHTMLfromStr(title),
-            slug: this.removeHTMLfromStr(slug),
-            category: this.removeHTMLfromStr(category),
-            img: this.removeHTMLfromStr(img),
+            title: this._utils.removeHTMLfromStr(title),
+            slug: this._utils.removeHTMLfromStr(slug),
+            category: this._utils.removeHTMLfromStr(category),
+            img: this._utils.removeHTMLfromStr(img),
             id: id,
             block: block,
             nft: nft
@@ -202,12 +202,12 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
             next: (content) => {
 
               // Save content
-              this.pageData.rawContent = this.markdownToHTML(content);
+              this.pageData.rawContent = this._utils.markdownToHTML(content);
 
               // Calculate reading time
-              const rawContent = this.removeHTMLfromStr(this.pageData.rawContent);
-              const tmpReadingTime = this._arwikiTokenContract.getReadingTime(rawContent);
-              this.readingTime = this.minutesToMinSec(tmpReadingTime);
+              const rawContent = this._utils.removeHTMLfromStr(this.pageData.rawContent);
+              const tmpReadingTime = this._utils.getReadingTime(rawContent);
+              this.readingTime = this._utils.minutesToMinSec(tmpReadingTime);
 
               this.loadingPage = false;
               // Generate TOC 
@@ -301,16 +301,6 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     this.getTranslationsSubscription.unsubscribe();
   }
 
-  markdownToHTML(_markdown: string) {
-  	var html = marked.parse(_markdown);
-		var clean = DOMPurify.sanitize(html);
-		return clean;
-  }
-
-  removeHTMLfromStr(_html: string) {
-    return DOMPurify.sanitize(_html, {ALLOWED_TAGS: []});
-  }
-
   goBack() {
     this._location.back();
   }
@@ -352,8 +342,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   }
 
   timestampToDate(_time: number) {
-    let d = new Date(_time * 1000);
-    return d;
+    return this._utils.timestampToDate(_time);
   }
 
   /*
@@ -450,14 +439,14 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     const defLang = this._userSettings.getDefaultLang();
     let direction: Direction = defLang.writing_system === 'LTR' ? 
       'ltr' : 'rtl';
-    const tmpContent = this.removeHTMLfromStr(this.pageData.rawContent!);
+    const tmpContent = this._utils.removeHTMLfromStr(this.pageData.rawContent!);
     const limit = tmpContent.indexOf('.') > 0 ? tmpContent.indexOf('.') + 1 : 100;
 
     this._bottomSheetShare.open(BottomSheetShareComponent, {
       data: {
-        title: this.removeHTMLfromStr(this.pageData.title),
-        content: this.removeHTMLfromStr(`${tmpContent}`.substr(0, limit)),
-        img: this.removeHTMLfromStr(`${this.baseURL + this.pageData.img}`)
+        title: this._utils.removeHTMLfromStr(this.pageData.title),
+        content: this._utils.removeHTMLfromStr(`${tmpContent}`.substr(0, limit)),
+        img: this._utils.removeHTMLfromStr(`${this.baseURL + this.pageData.img}`)
       },
       direction: direction,
       ariaLabel: 'Share on social media'
@@ -466,11 +455,11 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   }
 
   updateSocialMediaOGTags(title: string, content: string, img: string) {
-    content = this.removeHTMLfromStr(content);
+    content = this._utils.removeHTMLfromStr(content);
     const limit = content!.indexOf('.') > 0 ? content!.indexOf('.') + 1 : 100;
-    const c2 = this.removeHTMLfromStr(`${content}`.substr(0, limit));
-    const t2 = this.removeHTMLfromStr(title);
-    const img2 = this.removeHTMLfromStr(`${this.baseURL + img}`);
+    const c2 = this._utils.removeHTMLfromStr(`${content}`.substr(0, limit));
+    const t2 = this._utils.removeHTMLfromStr(title);
+    const img2 = this._utils.removeHTMLfromStr(`${this.baseURL + img}`);
     //document.getElementById('META_OG_TITLE')!.content = t2;
     //document.getElementById('META_OG_DESCRIPTION')!.content = c2;
     //document.getElementById('META_OG_IMAGE')!.content = img2;
@@ -626,13 +615,6 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
           return this.arwikiQuery.getTXsData(verifiedTagsTxList);
         })
       );
-  }
-
-  minutesToMinSec(m: number): {minutes: number, seconds: number} {
-    const minutes = Math.floor(m);
-    const seconds = Math.round((m - minutes) * 60);
-
-    return { minutes, seconds };
   }
 
   stamp(slug: string, lang: string) {

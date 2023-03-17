@@ -341,32 +341,6 @@ export class ArwikiTokenContract
     );
   }
 
-  /*
-  *  Words per minute:
-  *  The definition of each "word" is often standardized to be five characters 
-  *  or keystrokes long in English.
-  *  The number of characters per minute tends to be around 1000. 
-  *  https://en.wikipedia.org/wiki/Words_per_minute#Reading_and_comprehension
-  */
-  getReadingTime(s: string) {
-    /*
-    // Method 1:
-    // Using The number of characters per minute tends to be around 1000. 
-    const avgcpm = 1000;
-    const sc = s.length;
-    const minutes = sc / avgcpm;
-    */
-    // Method 2:
-    // Average speed 184 wpm
-    const avgwpm = 184;
-    const wordsize = 5;
-    const sc = s.length;
-    const numwords = Math.round(sc / wordsize);
-    const minutes = numwords / avgwpm;
-
-    return minutes;
-  }
-
 
   /*
   *  @dev Get balances

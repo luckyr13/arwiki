@@ -1,10 +1,10 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { ArwikiPage } from '../../core/interfaces/arwiki-page';
-import { marked } from 'marked';
-import DOMPurify from 'dompurify';
+
 import { Subscription } from 'rxjs';
 import { ArweaveService } from '../../core/arweave.service';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.service';
+import { UtilsService } from '../../core/utils.service';
 
 
 @Component({
@@ -26,7 +26,8 @@ export class ArticleCardComponent implements OnInit, OnDestroy {
 
   constructor(
     private _arweave: ArweaveService,
-    private _arwikiTokenContract: ArwikiTokenContract) { }
+    private _arwikiTokenContract: ArwikiTokenContract,
+    private _utils: UtilsService) { }
 
   ngOnInit(): void {
     this.loadingData = true;
@@ -35,9 +36,9 @@ export class ArticleCardComponent implements OnInit, OnDestroy {
         this.articleData = data;
         this.loadingData = false;
         // Calculate reading time
-        const rawContent = this.removeHTMLfromStr(this.markdownToHTML(this.articleData));
-        const tmpReadingTime = this._arwikiTokenContract.getReadingTime(rawContent);
-        this.readingTime = this.minutesToMinSec(tmpReadingTime);
+        const rawContent = this._utils.removeHTMLfromStr(this.markdownToHTML(this.articleData));
+        const tmpReadingTime = this._utils.getReadingTime(rawContent);
+        this.readingTime = this._utils.minutesToMinSec(tmpReadingTime);
       },
       error: (error) => {
         console.error('Error loading data ', error);
@@ -50,41 +51,13 @@ export class ArticleCardComponent implements OnInit, OnDestroy {
     this.articleDataSubscription.unsubscribe();
   }
 
-  sanitizeMarkdown(_s: string, _maxLength: number = 250) {
-    _s = _s.replace(/[#*=\[\]]/gi, '')
-    let res: string = `${_s.substring(0, _maxLength)} ...`;
-    return res;
-  }
-
-  sanitizeImg(_img: string) {
-    let res: string = _img.indexOf('http') >= 0 ?
-      _img :
-      _img ? `${this.baseURL}${_img}` : '';
-    return res;
-  }
-
   timestampToDate(_time: number) {
-    let d = new Date(_time * 1000);
-    return d;
+    return this._utils.timestampToDate(_time);
   }
 
-  /*
-  *  @dev Sanitize HTML
-  */
   markdownToHTML(_markdown: string) {
-    var html = marked.parse(_markdown);
-    var clean = DOMPurify.sanitize(html);
-    return clean;
+    return this._utils.markdownToHTML(_markdown);
   }
 
-  removeHTMLfromStr(_html: string) {
-    return DOMPurify.sanitize(_html, {ALLOWED_TAGS: []});
-  }
 
-  minutesToMinSec(m: number): {minutes: number, seconds: number} {
-    const minutes = Math.floor(m);
-    const seconds = Math.round((m - minutes) * 60);
-
-    return { minutes, seconds };
-  }
 }
