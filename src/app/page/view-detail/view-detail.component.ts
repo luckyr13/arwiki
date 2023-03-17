@@ -14,8 +14,6 @@ import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.se
 import { UserSettingsService } from '../../core/user-settings.service';
 import { AuthService } from '../../auth/auth.service';
 import { switchMap } from 'rxjs/operators';
-declare const window: any;
-declare const document: any;
 import { DialogDonateComponent } from '../../shared/dialog-donate/dialog-donate.component';
 import { DialogStampComponent } from '../../shared/dialog-stamp/dialog-stamp.component';
 import { Direction } from '@angular/cdk/bidi';
@@ -37,6 +35,7 @@ import 'prismjs/components/prism-jsx';
 import 'prismjs/components/prism-json';
 import { DialogVotePageComponent } from '../../shared/dialog-vote-page/dialog-vote-page.component';
 import {TranslateService} from '@ngx-translate/core';
+import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
 
 @Component({
   templateUrl: './view-detail.component.html',
@@ -93,7 +92,8 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     private _auth: AuthService,
     public _dialog: MatDialog,
     private _bottomSheetShare: MatBottomSheet,
-    private _translate: TranslateService
+    private _translate: TranslateService,
+    private _arwikiPages: ArwikiPagesService
   ) { }
 
  
@@ -259,7 +259,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
           // Load translations 
           this.loadingTranslations = true;
           this.translations = [];
-          this.translationsSubscription = this._arwikiTokenContract.getPageTranslations(
+          this.translationsSubscription = this._arwikiPages.getPageTranslations(
             this.pageData.slug
           ).subscribe({
             next: (res) => {
@@ -323,11 +323,11 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
       return;
     }
     const headers = container.querySelectorAll('h1, h2, h3, h4');
-    this.generateTOC_helper_addId(headers);
+    this.generateTOC_helper_addId(headers as NodeListOf<HTMLElement>);
 
   }
 
-  generateTOC_helper_addId(elements: any[]) {
+  generateTOC_helper_addId(elements: NodeListOf<HTMLElement>) {
     const numElements = elements.length;
     for (let i = 0; i < numElements; i++) {
       const finalId = elements[i].innerText.trim().replace(/ /gi, '_');
@@ -364,7 +364,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     _langCode: string
   ) {
     const verifiedPagesList: string[] = [];
-    return this._arwikiTokenContract.getApprovedPages(
+    return this._arwikiPages.getApprovedPages(
         _langCode,
         -1
       ).pipe(
@@ -471,9 +471,9 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     const c2 = this.removeHTMLfromStr(`${content}`.substr(0, limit));
     const t2 = this.removeHTMLfromStr(title);
     const img2 = this.removeHTMLfromStr(`${this.baseURL + img}`);
-    document.getElementById('META_OG_TITLE').content = t2;
-    document.getElementById('META_OG_DESCRIPTION').content = c2;
-    document.getElementById('META_OG_IMAGE').content = img2;
+    //document.getElementById('META_OG_TITLE')!.content = t2;
+    //document.getElementById('META_OG_DESCRIPTION')!.content = c2;
+    //document.getElementById('META_OG_IMAGE')!.content = img2;
 
   }
 
@@ -508,7 +508,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
           const newPageValue = +_newPageValue;
           if (Number.isInteger(newPageValue) && newPageValue > 0) {
             this.loadingUpdateSponsorPage = true;
-            return this._arwikiTokenContract.updatePageSponsor(
+            return this._arwikiPages.updatePageSponsor(
               _slug,
               _category_slug,
               this.routeLang,
@@ -562,7 +562,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
         // Create "delete" tx
         this.loadingStopStake = true;
         try {
-          const tx = await this._arwikiTokenContract.stopStaking(
+          const tx = await this._arwikiPages.stopStaking(
             _slug,
             this.routeLang,
             this._auth.getPrivateKey(),

@@ -27,13 +27,12 @@ import { ArwikiCategoryIndex } from '../../core/interfaces/arwiki-category-index
 import { Direction } from '@angular/cdk/bidi';
 import { Arwiki, arwikiVersion } from '../../core/arwiki';
 import { ArwikiPage } from '../../core/interfaces/arwiki-page';
-declare const document: any;
-declare const window: any;
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { EmojisComponent } from '../../shared/emojis/emojis.component';
 import { ArwikiLangsService } from '../../core/arwiki-contracts/arwiki-langs.service';
 import { ArwikiCategoriesService } from '../../core/arwiki-contracts/arwiki-categories.service';
+import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
 
 @Component({
   templateUrl: './new.component.html',
@@ -112,7 +111,8 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
     private _route: ActivatedRoute,
     private _overlay: Overlay,
     private _arwikiTokenLangsContract: ArwikiLangsService,
-    private _arwikiCategories: ArwikiCategoriesService
+    private _arwikiCategories: ArwikiCategoriesService,
+    private _arwikiPages: ArwikiPagesService
   ) { }
 
   ngOnInit(): void {
@@ -361,7 +361,7 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
     let stakingPages: any = {};
 
     const verifiedPagesDict: Record<string,boolean> = {};
-    return this._arwikiTokenContract.getApprovedPages(_langCode, -1)
+    return this._arwikiPages.getApprovedPages(_langCode, -1)
       .pipe(
         switchMap((approvedPages) => {
           return of(!!approvedPages[_slug]);

@@ -3,6 +3,7 @@ import {
   ArwikiTokenContract 
 } from '../../core/arwiki-contracts/arwiki-token.service';
 import { ArwikiPage } from '../../core/interfaces/arwiki-page';
+import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
 
 @Component({
   selector: 'app-sponsored-pages',
@@ -16,7 +17,9 @@ export class SponsoredPagesComponent implements OnInit, OnChanges {
   pages: ArwikiPage[] = [];
   displayedColumns: string[] = ['slug', 'category', 'value'];
 
-  constructor(private _arwikiToken: ArwikiTokenContract) { }
+  constructor(
+    private _arwikiToken: ArwikiTokenContract,
+    private _arwikiPages: ArwikiPagesService) { }
 
   ngOnInit(): void {
     this.initTableAllPages();
@@ -27,7 +30,7 @@ export class SponsoredPagesComponent implements OnInit, OnChanges {
   }
 
   initTableAllPages() {
-    const pages = this._arwikiToken.getAllPagesFromLocalState(this.routeLang);
+    const pages = this._arwikiPages.getAllPagesFromLocalState(this.routeLang);
     const pagesAsArray: ArwikiPage[] = Object.values(pages);
     const pagesAsArray2 = pagesAsArray.filter((p) => p.sponsor === this.address);
     pagesAsArray2.sort((a: ArwikiPage, b: ArwikiPage) => {

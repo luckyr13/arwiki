@@ -18,6 +18,7 @@ declare const window: any;
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
 import {MatTable} from '@angular/material/table';
+import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
 
 @Component({
   selector: 'app-published-pages',
@@ -46,7 +47,8 @@ export class PublishedPagesComponent implements OnInit, OnDestroy, OnChanges {
     private _arweave: ArweaveService,
     private _auth: AuthService,
     private _userSettings: UserSettingsService,
-    private _arwikiTokenContract: ArwikiTokenContract
+    private _arwikiTokenContract: ArwikiTokenContract,
+    private _arwikiPages: ArwikiPagesService
   ) {
   }
 
@@ -82,7 +84,7 @@ export class PublishedPagesComponent implements OnInit, OnDestroy, OnChanges {
       }),
       switchMap((pages: ArdbTransaction[]|ArdbBlock[]) => {
         myPagesTX = pages;
-        return this._arwikiTokenContract.getApprovedPages(this.routeLang, -1);
+        return this._arwikiPages.getApprovedPages(this.routeLang, -1);
       })
     )
     .subscribe({
@@ -182,7 +184,7 @@ export class PublishedPagesComponent implements OnInit, OnDestroy, OnChanges {
           return of({});
         }
         
-        return this._arwikiTokenContract.getApprovedPages(this.routeLang, -1);
+        return this._arwikiPages.getApprovedPages(this.routeLang, -1);
       })
     ).subscribe({
       next: (allApprovedPages: ArwikiPageIndex) => {

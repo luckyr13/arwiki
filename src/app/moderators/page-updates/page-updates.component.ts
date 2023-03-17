@@ -20,6 +20,7 @@ import {
 } from '../../core/arwiki-contracts/arwiki-token.service';
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
+import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
 
 @Component({
   selector: 'app-page-updates',
@@ -45,7 +46,8 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
     public _dialog: MatDialog,
     private _route: ActivatedRoute,
     private _userSettings: UserSettingsService,
-    private _arwikiTokenContract: ArwikiTokenContract
+    private _arwikiTokenContract: ArwikiTokenContract,
+    private _arwikiPages: ArwikiPagesService
   ) { }
 
   async ngOnInit() {
@@ -97,7 +99,7 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
         }),
         switchMap((pendingPages: ArwikiPageIndex) => {
           return (
-            this._arwikiTokenContract.getApprovedPages(this.routeLang, -1)
+            this._arwikiPages.getApprovedPages(this.routeLang, -1)
               .pipe(
                 switchMap((_approvedPages: ArwikiPageIndex) => {
                   let tmp_res: ArwikiPageIndex = {};
@@ -174,7 +176,7 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
         const newPageValue = +_newPageValue;
         if (Number.isInteger(newPageValue) && newPageValue > 0) {
           this.loadingInsertPageIntoIndex = true;
-          return this._arwikiTokenContract.approvePageUpdate(
+          return this._arwikiPages.approvePageUpdate(
             _pageId,
             _author,
             _slug,

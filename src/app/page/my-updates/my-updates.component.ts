@@ -16,6 +16,7 @@ import {
 declare const window: any;
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
+import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
 
 @Component({
   selector: 'app-my-updates',
@@ -44,7 +45,8 @@ export class MyUpdatesComponent implements OnInit , OnDestroy {
     private _userSettings: UserSettingsService,
     private _route: ActivatedRoute,
     private _location: Location,
-    private _arwikiTokenContract: ArwikiTokenContract
+    private _arwikiTokenContract: ArwikiTokenContract,
+    private _arwikiPages: ArwikiPagesService
   ) { }
 
   ngOnInit() {
@@ -91,7 +93,7 @@ export class MyUpdatesComponent implements OnInit , OnDestroy {
     ).pipe(
       switchMap((pages: ArdbTransaction[]|ArdbBlock[]) => {
         myPagesTX = pages;
-        return this._arwikiTokenContract.getApprovedPages(this.routeLang, -1);
+        return this._arwikiPages.getApprovedPages(this.routeLang, -1);
       })
     )
     .subscribe({

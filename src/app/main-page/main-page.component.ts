@@ -17,6 +17,7 @@ import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
 import { ArwikiMenuCategory } from '../core/interfaces/arwiki-menu-category';
 import { ArwikiMenuService } from '../core/arwiki-contracts/arwiki-menu.service';
+import { ArwikiPagesService } from '../core/arwiki-contracts/arwiki-pages.service';
 
 @Component({
   selector: 'app-main-page',
@@ -74,7 +75,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
     private _auth: AuthService,
     private _route: ActivatedRoute,
     private _router: Router,
-    private _arwikiMenu: ArwikiMenuService
+    private _arwikiMenu: ArwikiMenuService,
+    private _arwikiPages: ArwikiPagesService
   ) { }
 
   loadMainPageData() {
@@ -95,7 +97,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     this.loadingMainPageTX = true;
 
     // Get main page tx
-    this.mainPageSubscription = this._arwikiTokenContract.getApprovedPages(
+    this.mainPageSubscription = this._arwikiPages.getApprovedPages(
       this.routeLang, -1).pipe(
       switchMap((approvedPages: ArwikiPageIndex) => {
         let mainTX = '';
@@ -171,7 +173,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     this.allLatestArticles = [];
     this.allApprovedPages = {};
     this.hideBtnMoreArticles = false;
-    this.pagesSubscription = this._arwikiTokenContract.getApprovedPages(this.routeLang, -1).pipe(
+    this.pagesSubscription = this._arwikiPages.getApprovedPages(this.routeLang, -1).pipe(
       switchMap((_approvedPages: ArwikiPageIndex) => {
         this.allApprovedPages = _approvedPages;
         let verifiedPages: string[] = [];

@@ -14,6 +14,7 @@ import { ArweaveService } from '../../core/arweave.service';
 import { Diff, diffLines, Change } from 'diff';
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
+import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
 
 @Component({
   selector: 'app-history',
@@ -40,6 +41,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
     private _utils: UtilsService,
     private _arwikiToken: ArwikiTokenContract,
     private _arweave: ArweaveService,
+    private _arwikiPages: ArwikiPagesService
   ) { }
 
   ngOnInit(): void {
@@ -82,7 +84,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
   loadHistory(slug: string, lang: string): Observable<ArwikiPage[]> {
     const historyData: any = {};
     return (
-      this._arwikiToken.getApprovedPages(lang)
+      this._arwikiPages.getApprovedPages(lang)
         .pipe(
           switchMap((_approvedPages: ArwikiPageIndex) => {
             if (!Object.prototype.hasOwnProperty.call(

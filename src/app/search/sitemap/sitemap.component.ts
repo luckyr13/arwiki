@@ -12,6 +12,7 @@ import { ArwikiLang } from '../../core/interfaces/arwiki-lang';
 import { Location } from '@angular/common';
 import { ArwikiLangsService } from '../../core/arwiki-contracts/arwiki-langs.service';
 import { ArwikiCategoriesService } from '../../core/arwiki-contracts/arwiki-categories.service';
+import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
 
 @Component({
   selector: 'app-sitemap',
@@ -41,7 +42,8 @@ export class SitemapComponent implements OnInit, AfterViewInit, OnDestroy {
     private _liveAnnouncer: LiveAnnouncer,
     private _location: Location,
     private _arwikiTokenLangs: ArwikiLangsService,
-    private _arwikiCategories: ArwikiCategoriesService) { }
+    private _arwikiCategories: ArwikiCategoriesService,
+    private _arwikiPages: ArwikiPagesService) { }
 
   ngOnInit(): void {
 
@@ -58,7 +60,7 @@ export class SitemapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   initTableAllPages() {
-    const pages = this._arwikiToken.getAllPagesFromLocalState(this.routeLang);
+    const pages = this._arwikiPages.getAllPagesFromLocalState(this.routeLang);
     const pagesAsArray: ArwikiPage[] = Object.values(pages);
     pagesAsArray.sort((a: ArwikiPage, b: ArwikiPage) => {
       return a.category.localeCompare(b.category) || a.slug.localeCompare(b.slug) ;
@@ -93,7 +95,7 @@ export class SitemapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSourceLangs = new MatTableDataSource<ArwikiLang>(langsAsArray);
 
     langsAsArray.forEach((lang: ArwikiLang) => {
-      const pages = this._arwikiToken.getAllPagesFromLocalState(lang.code);
+      const pages = this._arwikiPages.getAllPagesFromLocalState(lang.code);
       const numPages = Object.keys(pages).length;
       this.numLangsByCode[lang.code] = numPages ? numPages : 0;
     });

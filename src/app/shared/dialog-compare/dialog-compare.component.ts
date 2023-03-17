@@ -6,6 +6,7 @@ import { Diff, diffLines, Change } from 'diff';
 import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.service';
 import { of, from, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
 
 @Component({
   selector: 'app-dialog-compare',
@@ -22,7 +23,8 @@ export class DialogCompareComponent implements OnInit, OnDestroy {
   	@Inject(MAT_DIALOG_DATA) public data: any,
   	private _arweave: ArweaveService,
     private _utils: UtilsService,
-    private _arwikiToken: ArwikiTokenContract
+    private _arwikiToken: ArwikiTokenContract,
+    private _arwikiPages: ArwikiPagesService
   ) { }
 
   ngOnInit(): void {
@@ -52,7 +54,7 @@ export class DialogCompareComponent implements OnInit, OnDestroy {
   }
 
   loadOldData(slug: string) {
-  	return this._arwikiToken.getPageId(this.data.lang, this.data.slug);
+  	return this._arwikiPages.getPageId(this.data.lang, this.data.slug);
   }
 
   run_diff(tx1: string, tx2: string) {

@@ -11,6 +11,7 @@ import { ArwikiQuery } from '../arwiki-query';
 import { ArweaveService } from '../arweave.service';
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
+import { ArwikiPagesService } from './arwiki-pages.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,8 @@ export class ArwikiMenuService {
     private _arwikiToken: ArwikiTokenContract,
     private _warp: WarpContractsService,
     private _arwikiCategories: ArwikiCategoriesService,
-    private _arweave: ArweaveService,) { }
+    private _arweave: ArweaveService,
+    private _arwikiPages: ArwikiPagesService) { }
 
   /*
   * @dev
@@ -38,7 +40,7 @@ export class ArwikiMenuService {
       .pipe(
         switchMap((_categories: ArwikiCategoryIndex) => {
           globalCat = _categories;
-          return this._arwikiToken.getApprovedPagesByCategory(_langCode, Object.keys(_categories));
+          return this._arwikiPages.getApprovedPagesByCategory(_langCode, Object.keys(_categories));
         }),
         switchMap((_approvedPages) => {
           globalPages = _approvedPages;

@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { MatDialogRef } from '@angular/material/dialog';
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
+import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
 
 @Component({
   selector: 'app-dialog-search-page-update',
@@ -34,7 +35,8 @@ export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
     private _utils: UtilsService,
     private _arwikiTokenContract: ArwikiTokenContract,
     private _router: Router,
-    public _dialogRef: MatDialogRef<DialogSearchPageUpdateComponent>
+    public _dialogRef: MatDialogRef<DialogSearchPageUpdateComponent>,
+    private _arwikiPages: ArwikiPagesService
   ) { }
 
   async ngOnInit() {
@@ -93,7 +95,7 @@ export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
         }),
         switchMap((pendingPages: ArwikiPageIndex) => {
           return (
-            this._arwikiTokenContract.getApprovedPages(this.langCode, -1)
+            this._arwikiPages.getApprovedPages(this.langCode, -1)
               .pipe(
                 switchMap((_approvedPages: ArwikiPageIndex) => {
                   let tmp_res: ArwikiPageIndex = {};

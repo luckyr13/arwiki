@@ -21,6 +21,7 @@ import {
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
 import { ArwikiCategoriesService } from '../../core/arwiki-contracts/arwiki-categories.service';
+import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
 
 @Component({
   templateUrl: './pending-list.component.html',
@@ -49,7 +50,8 @@ export class PendingListComponent implements OnInit, OnDestroy {
     private _route: ActivatedRoute,
     private _userSettings: UserSettingsService,
     private _arwikiTokenContract: ArwikiTokenContract,
-    private _arwikiCategories: ArwikiCategoriesService
+    private _arwikiCategories: ArwikiCategoriesService,
+    private _arwikiPages: ArwikiPagesService
   ) { }
 
   async ngOnInit() {
@@ -106,7 +108,7 @@ export class PendingListComponent implements OnInit, OnDestroy {
         }),
         switchMap((pendingPages: ArwikiPageIndex) => {
           return (
-            this._arwikiTokenContract.getAllPages(this.routeLang, -1)
+            this._arwikiPages.getAllPages(this.routeLang, -1)
               .pipe(
                 switchMap((_approvedPages) => {
                   let tmp_res: ArwikiPageIndex = {};
@@ -208,7 +210,7 @@ export class PendingListComponent implements OnInit, OnDestroy {
         const newPageValue = +_newPageValue;
         if (Number.isInteger(newPageValue) && newPageValue > 0) {
           this.loadingInsertPageIntoIndex = true;
-          return this._arwikiTokenContract.approvePage(
+          return this._arwikiPages.approvePage(
             _pageId,
             _author,
             _slug,

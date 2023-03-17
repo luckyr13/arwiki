@@ -16,6 +16,7 @@ import {PageEvent} from '@angular/material/paginator';
 import {TranslateService} from '@ngx-translate/core';
 import { ArwikiCategoryIndex } from '../../core/interfaces/arwiki-category-index';
 import { ArwikiCategoriesService } from '../../core/arwiki-contracts/arwiki-categories.service';
+import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
 
 @Component({
   templateUrl: './view-detail.component.html',
@@ -40,7 +41,7 @@ export class ViewDetailComponent implements OnInit {
   categories: ArwikiCategoryIndex = {};
   childrenCategories: string[] = [];
   parentCategories: string[] = [];
-  parentCategoriesNames: Record<string, string> = {};
+  categoriesTranslations: Record<string, string> = {};
 
   constructor(
   	private _arweave: ArweaveService,
@@ -50,7 +51,8 @@ export class ViewDetailComponent implements OnInit {
     private _location: Location,
     private _userSettings: UserSettingsService,
     private _translate: TranslateService,
-    private _arwikiCategories: ArwikiCategoriesService
+    private _arwikiCategories: ArwikiCategoriesService,
+    private _arwikiPages: ArwikiPagesService
  	) { }
 
   async ngOnInit() {
@@ -97,9 +99,8 @@ export class ViewDetailComponent implements OnInit {
   }
 
   ngOnDestroy() {
-  	if (this.pagesSubscription) {
-  		this.pagesSubscription.unsubscribe();
-  	}
+		this.pagesSubscription.unsubscribe();
+    this.subscriptionTranslation.unsubscribe();
 
   }
 
@@ -146,7 +147,7 @@ export class ViewDetailComponent implements OnInit {
           this.childrenCategories = this.getChildrenCategories(_category);
           this.parentCategories = this.getParentCategories(_category);
 
-          return this._arwikiTokenContract.getApprovedPages(
+          return this._arwikiPages.getApprovedPages(
             _langCode,
             -1
           );
@@ -239,6 +240,7 @@ export class ViewDetailComponent implements OnInit {
 
 
   translateCategoryName(_category: string) {
+    this.categoryName = '';
     const tkey = 'MAIN_MENU.' + _category;
     this.subscriptionTranslation = this._translate.get(tkey).subscribe({
       next: (res) => {
@@ -288,7 +290,6 @@ export class ViewDetailComponent implements OnInit {
     const parents: string[] = [];
     let newParent = this.findParentCat(cat_slug);
     while(newParent) {
-      this.parentCategoriesNames[newParent] = '';
       parents.push(newParent);
       newParent = this.findParentCat(newParent);
     }
@@ -300,13 +301,14 @@ export class ViewDetailComponent implements OnInit {
 
   translateParentCategoryNames(parentCategories: string[]) {
     for (const pc of parentCategories) {
+      this.categoriesTranslations[pc] = '';
       const tkey = 'MAIN_MENU.' + pc;
       this.subscriptionTranslation = this._translate.get(tkey).subscribe({
         next: (res) => {
           if (res !== tkey) {
-            this.parentCategoriesNames[pc] = res;
+            this.categoriesTranslations[pc] = res;
           } else {
-            this.parentCategoriesNames[pc] = this.categories[pc].label;
+            this.categoriesTranslations[pc] = this.categories[pc].label;
           }
         },
         error: () => {

@@ -17,6 +17,7 @@ import {
 declare const window: any;
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
+import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
 
 @Component({
   selector: 'app-my-pages',
@@ -46,7 +47,8 @@ export class MyPagesComponent implements OnInit, OnDestroy {
     private _userSettings: UserSettingsService,
     private _route: ActivatedRoute,
     private _location: Location,
-    private _arwikiTokenContract: ArwikiTokenContract
+    private _arwikiTokenContract: ArwikiTokenContract,
+    private _arwikiPages: ArwikiPagesService
   ) { }
 
   ngOnInit() {
@@ -114,7 +116,7 @@ export class MyPagesComponent implements OnInit, OnDestroy {
             moderator: pTX.owner.address
           };
         }
-        return this._arwikiTokenContract.getApprovedPages(this.routeLang, -1);
+        return this._arwikiPages.getApprovedPages(this.routeLang, -1);
       })
     )
     .subscribe({

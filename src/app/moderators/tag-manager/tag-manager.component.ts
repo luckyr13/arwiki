@@ -16,6 +16,7 @@ import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.se
 import { switchMap } from 'rxjs/operators';
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
+import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
 
 @Component({
   templateUrl: './tag-manager.component.html',
@@ -48,7 +49,8 @@ export class TagManagerComponent implements OnInit, OnDestroy {
     private _location: Location,
     private _dialog: MatDialog,
     private _auth: AuthService,
-    private _arwikiToken: ArwikiTokenContract
+    private _arwikiToken: ArwikiTokenContract,
+    private _arwikiPages: ArwikiPagesService
   ) { }
 
   get newTags() {
@@ -79,7 +81,7 @@ export class TagManagerComponent implements OnInit, OnDestroy {
 
   loadPageTXData(slug: string) {
     this.loadingPage = true;
-    this.pageSubscription = this._arwikiToken.getApprovedPages(this.routeLang).
+    this.pageSubscription = this._arwikiPages.getApprovedPages(this.routeLang).
       pipe(switchMap((approvedPages) => {
         const address: string = approvedPages && approvedPages[slug] ? approvedPages[slug].id! : '';
         return this.arwikiQuery.getTXsData([address]);

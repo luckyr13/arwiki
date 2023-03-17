@@ -37,6 +37,7 @@ import { EmojisComponent } from '../../shared/emojis/emojis.component';
 import { DialogCompareComponent } from '../../shared/dialog-compare/dialog-compare.component';
 import { ArwikiLangsService } from '../../core/arwiki-contracts/arwiki-langs.service';
 import { ArwikiCategoriesService } from '../../core/arwiki-contracts/arwiki-categories.service';
+import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
 
 @Component({
   templateUrl: './edit.component.html',
@@ -131,7 +132,8 @@ export class EditComponent implements OnInit, OnDestroy {
     private _route: ActivatedRoute,
     private _overlay: Overlay,
     private _arwikiTokenLangsContract: ArwikiLangsService,
-    private _arwikiCategories: ArwikiCategoriesService
+    private _arwikiCategories: ArwikiCategoriesService,
+    private _arwikiPages: ArwikiPagesService
   ) { }
 
   ngOnInit(): void {
@@ -457,7 +459,7 @@ export class EditComponent implements OnInit, OnDestroy {
     _langCode: string
   ) {
     const verifiedPagesList: string[] = [];
-    return this._arwikiTokenContract.getApprovedPages(
+    return this._arwikiPages.getApprovedPages(
         _langCode,
         -1
       ).pipe(

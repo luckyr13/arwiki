@@ -17,6 +17,7 @@ declare const window: any;
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
 import {MatTable} from '@angular/material/table';
+import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
 
 @Component({
   selector: 'app-history-updates-approved',
@@ -42,7 +43,8 @@ export class HistoryUpdatesApprovedComponent implements OnInit, OnDestroy {
     private _arweave: ArweaveService,
     private _auth: AuthService,
     private _userSettings: UserSettingsService,
-    private _arwikiTokenContract: ArwikiTokenContract
+    private _arwikiTokenContract: ArwikiTokenContract,
+    private _arwikiPages: ArwikiPagesService
   ) {
   }
 
@@ -62,7 +64,7 @@ export class HistoryUpdatesApprovedComponent implements OnInit, OnDestroy {
     this.pages = [];
     this.loading = true;
 
-    this.myPagesSubscription = this._arwikiTokenContract.getApprovedPages(this.routeLang, -1)
+    this.myPagesSubscription = this._arwikiPages.getApprovedPages(this.routeLang, -1)
     .subscribe({
       next: (allApprovedPages: ArwikiPageIndex) => {
         const finalPages: ArwikiPage[] = [];

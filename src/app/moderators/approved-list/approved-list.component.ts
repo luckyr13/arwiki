@@ -21,6 +21,7 @@ import { DialogSearchPageUpdateComponent } from '../dialog-search-page-update/di
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
 import { ArwikiCategoriesService } from '../../core/arwiki-contracts/arwiki-categories.service';
+import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
 
 @Component({
   templateUrl: './approved-list.component.html',
@@ -56,7 +57,8 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
     private _route: ActivatedRoute,
     private _userSettings: UserSettingsService,
     private _arwikiToken: ArwikiTokenContract,
-    private _arwikiCategories: ArwikiCategoriesService
+    private _arwikiCategories: ArwikiCategoriesService,
+    private _arwikiPages: ArwikiPagesService
   ) { }
 
   async ngOnInit() {
@@ -89,7 +91,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
       .getCategories()
       .pipe(
         switchMap((categories: ArwikiCategoryIndex) => {
-          return this._arwikiToken.getApprovedPages(
+          return this._arwikiPages.getApprovedPages(
             this.routeLang,
             -1
           );
@@ -278,7 +280,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
         switchMap((result: any) => {
           if (result) {
             this.loadingStopStake = true;
-            return this._arwikiToken.stopStaking(
+            return this._arwikiPages.stopStaking(
               _slug,
               this.routeLang,
               this._auth.getPrivateKey(),
@@ -330,7 +332,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
         const newPageValue = +_newPageValue;
         if (Number.isInteger(newPageValue) && newPageValue > 0) {
           this.loadingUpdateSponsorPageIntoIndex = true;
-          return this._arwikiToken.updatePageSponsor(
+          return this._arwikiPages.updatePageSponsor(
             _slug,
             _category_slug,
             this.routeLang,

@@ -11,6 +11,7 @@ import ArdbTransaction from 'ardb/lib/models/transaction';
 import { UserSettingsService } from '../../core/user-settings.service';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
+import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
 
 @Component({
   templateUrl: './results.component.html',
@@ -45,7 +46,8 @@ export class ResultsComponent implements OnInit, OnDestroy {
     private _route: ActivatedRoute,
     private _userSettings: UserSettingsService,
     private _router: Router,
-    private _location: Location
+    private _location: Location,
+    private _arwikiPages: ArwikiPagesService
    ) { }
 
   async ngOnInit() {
@@ -147,7 +149,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
       .pipe(
         switchMap((_adminList: string[]) => {
           adminList = _adminList;
-          return this._arwikiTokenContract.getApprovedPages(_langCode);
+          return this._arwikiPages.getApprovedPages(_langCode);
         }),
         switchMap((_verifiedPages: any) => {
           verifiedPages = _verifiedPages;
