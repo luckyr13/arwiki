@@ -20,6 +20,7 @@ import {
 } from '../../core/arwiki-contracts/arwiki-token.service';
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
+import { ArwikiCategoriesService } from '../../core/arwiki-contracts/arwiki-categories.service';
 
 @Component({
   templateUrl: './pending-list.component.html',
@@ -47,7 +48,8 @@ export class PendingListComponent implements OnInit, OnDestroy {
     public _dialog: MatDialog,
     private _route: ActivatedRoute,
     private _userSettings: UserSettingsService,
-    private _arwikiTokenContract: ArwikiTokenContract
+    private _arwikiTokenContract: ArwikiTokenContract,
+    private _arwikiCategories: ArwikiCategoriesService
   ) { }
 
   async ngOnInit() {
@@ -74,7 +76,7 @@ export class PendingListComponent implements OnInit, OnDestroy {
     }
     let allPendingPages: ArwikiPageIndex = {};
 
-    this.pendingPagesSubscription = this._arwikiTokenContract
+    this.pendingPagesSubscription = this._arwikiCategories
       .getCategories()
       .pipe(
         switchMap((categories: ArwikiCategoryIndex) => {

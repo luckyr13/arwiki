@@ -17,6 +17,7 @@ import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.se
 import { DialogConfirmAmountComponent } from '../../shared/dialog-confirm-amount/dialog-confirm-amount.component';
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
+import { ArwikiCategoriesService } from '../../core/arwiki-contracts/arwiki-categories.service';
 
 @Component({
   selector: 'app-deleted-list',
@@ -44,7 +45,8 @@ export class DeletedListComponent implements OnInit, OnDestroy {
     public _dialog: MatDialog,
     private _route: ActivatedRoute,
     private _userSettings: UserSettingsService,
-    private _arwikiToken: ArwikiTokenContract
+    private _arwikiToken: ArwikiTokenContract,
+    private _arwikiCategories: ArwikiCategoriesService
   ) { }
 
   async ngOnInit() {
@@ -132,7 +134,7 @@ export class DeletedListComponent implements OnInit, OnDestroy {
     let allVerifiedPages: string[] = [];
     let allPages: any = {};
     let allInactivePages: string[] = [];
-    return this._arwikiToken
+    return this._arwikiCategories
       .getCategories()
       .pipe(
         switchMap((categories: ArwikiCategoryIndex) => {

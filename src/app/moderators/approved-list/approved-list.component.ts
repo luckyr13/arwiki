@@ -20,6 +20,7 @@ import { DialogConfirmAmountComponent } from '../../shared/dialog-confirm-amount
 import { DialogSearchPageUpdateComponent } from '../dialog-search-page-update/dialog-search-page-update.component';
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
+import { ArwikiCategoriesService } from '../../core/arwiki-contracts/arwiki-categories.service';
 
 @Component({
   templateUrl: './approved-list.component.html',
@@ -54,7 +55,8 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
     public _dialog: MatDialog,
     private _route: ActivatedRoute,
     private _userSettings: UserSettingsService,
-    private _arwikiToken: ArwikiTokenContract
+    private _arwikiToken: ArwikiTokenContract,
+    private _arwikiCategories: ArwikiCategoriesService
   ) { }
 
   async ngOnInit() {
@@ -83,7 +85,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
     const owners = this._auth.getAdminList();
     let verifiedPages: string[] = [];
     let allVerifiedPages: any = {};
-    this.approvedPagesSubscription = this._arwikiToken
+    this.approvedPagesSubscription = this._arwikiCategories
       .getCategories()
       .pipe(
         switchMap((categories: ArwikiCategoryIndex) => {

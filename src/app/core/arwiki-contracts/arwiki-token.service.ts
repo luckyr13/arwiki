@@ -5,7 +5,6 @@ import { map, tap } from 'rxjs/operators';
 import { JWKInterface } from 'arweave/node/lib/wallet';
 import { ArwikiKYVE } from '../arwiki-kyve';
 import { ArwikiPageIndex } from '../interfaces/arwiki-page-index';
-import { ArwikiCategoryIndex } from '../interfaces/arwiki-category-index';
 import { WarpContractsService } from '../warp-contracts.service';
 import { ArwikiVote } from '../interfaces/arwiki-vote';
 
@@ -522,29 +521,7 @@ export class ArwikiTokenContract
     );
   }
 
-  /*
-  *  @dev Get active Categories
-  */
-  getCategories(onlyActive = true): Observable<ArwikiCategoryIndex> {
-    return this.getState().pipe(
-      map((_state: any) => {
-        const categories: ArwikiCategoryIndex = Object
-          .keys(_state.categories)
-          .reduce((accum: ArwikiCategoryIndex, slug)=> {
-              if (_state.categories[slug].active && onlyActive) {
-                accum[slug] = _state.categories[slug];
-                accum[slug].slug = slug;
-              } else {
-                accum[slug] = _state.categories[slug];
-                accum[slug].slug = slug;
-              }
-              return accum;
-            }, {});
-        return categories;
-      })
-    );
-  }
-
+  
   /*
   * @dev Transfer wiki tokens
   */
@@ -764,14 +741,6 @@ export class ArwikiTokenContract
     }, {});
     return pages;
   
-  }
-
-  /*
-  *  @dev Get Categories
-  */
-  getCategoriesFromLocal(): ArwikiCategoryIndex {
-    const state = this._state;
-    return {...state.categories};
   }
 
 

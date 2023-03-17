@@ -11,6 +11,7 @@ import { ArwikiCategory } from '../../core/interfaces/arwiki-category';
 import { ArwikiLang } from '../../core/interfaces/arwiki-lang';
 import { Location } from '@angular/common';
 import { ArwikiLangsService } from '../../core/arwiki-contracts/arwiki-langs.service';
+import { ArwikiCategoriesService } from '../../core/arwiki-contracts/arwiki-categories.service';
 
 @Component({
   selector: 'app-sitemap',
@@ -39,7 +40,8 @@ export class SitemapComponent implements OnInit, AfterViewInit, OnDestroy {
     private _route: ActivatedRoute,
     private _liveAnnouncer: LiveAnnouncer,
     private _location: Location,
-    private _arwikiTokenLangs: ArwikiLangsService) { }
+    private _arwikiTokenLangs: ArwikiLangsService,
+    private _arwikiCategories: ArwikiCategoriesService) { }
 
   ngOnInit(): void {
 
@@ -73,7 +75,7 @@ export class SitemapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   initCategories() {
-    const categories = this._arwikiToken.getCategoriesFromLocal();
+    const categories = this._arwikiCategories.getCategoriesFromLocal();
     const categoriesAsArray: ArwikiCategory[] = Object.values(categories);
     categoriesAsArray.sort((a: ArwikiCategory, b: ArwikiCategory) => {
       return a.order - b.order;

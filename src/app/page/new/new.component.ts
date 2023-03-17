@@ -33,6 +33,7 @@ import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { EmojisComponent } from '../../shared/emojis/emojis.component';
 import { ArwikiLangsService } from '../../core/arwiki-contracts/arwiki-langs.service';
+import { ArwikiCategoriesService } from '../../core/arwiki-contracts/arwiki-categories.service';
 
 @Component({
   templateUrl: './new.component.html',
@@ -110,7 +111,8 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
     private _arwikiTokenContract: ArwikiTokenContract,
     private _route: ActivatedRoute,
     private _overlay: Overlay,
-    private _arwikiTokenLangsContract: ArwikiLangsService
+    private _arwikiTokenLangsContract: ArwikiLangsService,
+    private _arwikiCategories: ArwikiCategoriesService
   ) { }
 
   ngOnInit(): void {
@@ -119,7 +121,7 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
     this.arwiki = new Arwiki(this._arweave.arweave);
   	this.getDefaultTheme();
 
-    this.categoryListSubscription = this._arwikiTokenContract
+    this.categoryListSubscription = this._arwikiCategories
       .getCategories()
       .subscribe({
         next: (state: ArwikiCategoryIndex) => {

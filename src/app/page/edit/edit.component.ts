@@ -36,6 +36,7 @@ import { ComponentPortal } from '@angular/cdk/portal';
 import { EmojisComponent } from '../../shared/emojis/emojis.component';
 import { DialogCompareComponent } from '../../shared/dialog-compare/dialog-compare.component';
 import { ArwikiLangsService } from '../../core/arwiki-contracts/arwiki-langs.service';
+import { ArwikiCategoriesService } from '../../core/arwiki-contracts/arwiki-categories.service';
 
 @Component({
   templateUrl: './edit.component.html',
@@ -129,7 +130,8 @@ export class EditComponent implements OnInit, OnDestroy {
     private _arwikiTokenContract: ArwikiTokenContract,
     private _route: ActivatedRoute,
     private _overlay: Overlay,
-    private _arwikiTokenLangsContract: ArwikiLangsService
+    private _arwikiTokenLangsContract: ArwikiLangsService,
+    private _arwikiCategories: ArwikiCategoriesService
   ) { }
 
   ngOnInit(): void {
@@ -143,7 +145,7 @@ export class EditComponent implements OnInit, OnDestroy {
     this.arwiki = new Arwiki(this._arweave.arweave);
   	this.getDefaultTheme();
     
-    this.categoryListSubscription = this._arwikiTokenContract
+    this.categoryListSubscription = this._arwikiCategories
       .getCategories()
       .subscribe({
         next: (state: ArwikiCategoryIndex) => {

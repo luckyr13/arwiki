@@ -15,6 +15,7 @@ import ArdbTransaction from 'ardb/lib/models/transaction';
 import {PageEvent} from '@angular/material/paginator';
 import {TranslateService} from '@ngx-translate/core';
 import { ArwikiCategoryIndex } from '../../core/interfaces/arwiki-category-index';
+import { ArwikiCategoriesService } from '../../core/arwiki-contracts/arwiki-categories.service';
 
 @Component({
   templateUrl: './view-detail.component.html',
@@ -48,7 +49,8 @@ export class ViewDetailComponent implements OnInit {
   	private _route: ActivatedRoute,
     private _location: Location,
     private _userSettings: UserSettingsService,
-    private _translate: TranslateService
+    private _translate: TranslateService,
+    private _arwikiCategories: ArwikiCategoriesService
  	) { }
 
   async ngOnInit() {
@@ -130,7 +132,7 @@ export class ViewDetailComponent implements OnInit {
     let adminList: string[] = [];
     let verifiedPages: string[] = [];
     let allApprovedPages: ArwikiPageIndex = {};
-    return this._arwikiTokenContract.getCategories()
+    return this._arwikiCategories.getCategories()
       .pipe(
         switchMap((categoriesContractState) => {
           this.categories = categoriesContractState;
