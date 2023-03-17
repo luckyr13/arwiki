@@ -3,7 +3,6 @@ import { Observable, of, from } from 'rxjs';
 import { ArweaveService } from '../arweave.service';
 import { map, tap } from 'rxjs/operators';
 import { JWKInterface } from 'arweave/node/lib/wallet';
-import { ArwikiKYVE } from '../arwiki-kyve';
 import { WarpContractsService } from '../warp-contracts.service';
 
 @Injectable({
@@ -28,7 +27,6 @@ export class ArwikiTokenContract
 
   private _state: any = {};
 	private _adminList: string[] = [];
-  private _arwikiKYVE: ArwikiKYVE;
 
 	get contractAddress() {
 		return this._contractAddress;
@@ -37,42 +35,12 @@ export class ArwikiTokenContract
 	constructor(
     private _arweave: ArweaveService,
     private _warp: WarpContractsService
-  ) {
-    this._arwikiKYVE = new ArwikiKYVE(_arweave.arweave);
-	}
-
-	deployNewContract() {
-		
-	}
-
-  getStateFromKYVE(reload: boolean = false) {
-    if (Object.keys(this._state).length > 0 && !reload) {
-      return of(this._state);
-    }
-    return this._arwikiKYVE.getLastStates()
-      .pipe(
-        map((_kyveRes: any) => {
-          this._state = {};
-          this._adminList = [];
-          if (_kyveRes && _kyveRes[0]) {
-            _kyveRes = JSON.parse(_kyveRes[0]);
-            this._state = _kyveRes.state;
-            this._adminList = Object.keys(this._state.roles).filter((address) => {
-              return this._state.roles[address].toUpperCase() === 'MODERATOR';
-            });
-          } else {
-            throw Error('Error loading contract state :(');
-          }
-          return this._state;
-          
-        })
-      );
-  }
+  ) { }
 
   /*
   *  @dev Get full contract state as Observable
   */
-  getStateFromContract(reload: boolean = false): Observable<any> {
+  getState(reload: boolean = false): Observable<any> {
     const obs = new Observable<any>((subscriber) => {
       if (Object.keys(this._state).length > 0 && !reload) {
         subscriber.next(this._state);
@@ -105,17 +73,6 @@ export class ArwikiTokenContract
     return obs;
   }
 
-	/*
-	*	@dev Return state
-	*/
-	getState(reload: boolean = false, useKYVE: boolean = false): Observable<any> {
-		if (useKYVE) {
-      return this.getStateFromKYVE(reload);
-    }
-    else {
-      return this.getStateFromContract(reload);
-    }
-	}
 
   /*
   *  @dev Return state
