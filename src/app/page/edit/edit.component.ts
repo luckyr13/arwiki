@@ -35,7 +35,7 @@ import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { EmojisComponent } from '../../shared/emojis/emojis.component';
 import { DialogCompareComponent } from '../../shared/dialog-compare/dialog-compare.component';
-import { ArwikiTokenLangsService } from '../../core/arwiki-contracts/arwiki-langs.service';
+import { ArwikiLangsService } from '../../core/arwiki-contracts/arwiki-langs.service';
 
 @Component({
   templateUrl: './edit.component.html',
@@ -129,7 +129,7 @@ export class EditComponent implements OnInit, OnDestroy {
     private _arwikiTokenContract: ArwikiTokenContract,
     private _route: ActivatedRoute,
     private _overlay: Overlay,
-    private _arwikiTokenLangsContract: ArwikiTokenLangsService
+    private _arwikiTokenLangsContract: ArwikiLangsService
   ) { }
 
   ngOnInit(): void {

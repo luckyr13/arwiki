@@ -12,7 +12,7 @@ import { ArwikiLangIndex } from '../core/interfaces/arwiki-lang-index';
 import { ArweaveService } from '../core/arweave.service';
 import { ArwikiTokenContract } from '../core/arwiki-contracts/arwiki-token.service';
 import { AuthService } from '../auth/auth.service';
-import { ArwikiTokenLangsService } from '../core/arwiki-contracts/arwiki-langs.service';
+import { ArwikiLangsService } from '../core/arwiki-contracts/arwiki-langs.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +25,7 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
     private _arweave: ArweaveService,
     private _arwikiTokenContract: ArwikiTokenContract,
     private _auth: AuthService,
-    private _arwikiTokenLangsContract: ArwikiTokenLangsService
+    private _arwikiTokenLangsContract: ArwikiLangsService
 	) {
 
 	}

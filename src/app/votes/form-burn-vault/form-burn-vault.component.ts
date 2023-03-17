@@ -9,8 +9,8 @@ import {
 } from '../../core/arwiki-contracts/arwiki-token.service';
 import { UtilsService } from '../../core/utils.service';
 import { 
-  ArwikiTokenVotesService 
-} from '../../core/arwiki-contracts/arwiki-token-votes.service';
+  ArwikiVotesService 
+} from '../../core/arwiki-contracts/arwiki-votes.service';
 import { 
   arwikiVersion 
 } from '../../core/arwiki';
@@ -49,7 +49,7 @@ export class FormBurnVaultComponent implements OnInit, OnDestroy {
     private _arweave: ArweaveService,
     private _tokenContract: ArwikiTokenContract,
     private _utils: UtilsService,
-    private _tokenContractVotes: ArwikiTokenVotesService,
+    private _tokenContractVotes: ArwikiVotesService,
     private _auth: AuthService) {
   }
 

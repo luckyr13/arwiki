@@ -10,7 +10,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import { ArwikiCategory } from '../../core/interfaces/arwiki-category';
 import { ArwikiLang } from '../../core/interfaces/arwiki-lang';
 import { Location } from '@angular/common';
-import { ArwikiTokenLangsService } from '../../core/arwiki-contracts/arwiki-langs.service';
+import { ArwikiLangsService } from '../../core/arwiki-contracts/arwiki-langs.service';
 
 @Component({
   selector: 'app-sitemap',
@@ -39,7 +39,7 @@ export class SitemapComponent implements OnInit, AfterViewInit, OnDestroy {
     private _route: ActivatedRoute,
     private _liveAnnouncer: LiveAnnouncer,
     private _location: Location,
-    private _arwikiTokenLangs: ArwikiTokenLangsService) { }
+    private _arwikiTokenLangs: ArwikiLangsService) { }
 
   ngOnInit(): void {
 

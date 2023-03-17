@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
 import { ArwikiLang } from '../../core/interfaces/arwiki-lang';
-import { ArwikiTokenLangsService } from '../../core/arwiki-contracts/arwiki-langs.service';
+import { ArwikiLangsService } from '../../core/arwiki-contracts/arwiki-langs.service';
 import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import {
@@ -30,7 +30,7 @@ export class LanguagesComponent implements OnInit, OnDestroy {
 
   constructor(
     private _location: Location,
-    private _tokenContractLangs: ArwikiTokenLangsService,
+    private _tokenContractLangs: ArwikiLangsService,
     private _dialog: MatDialog,
     private _userSettings: UserSettingsService) {
 

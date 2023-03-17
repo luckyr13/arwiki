@@ -11,7 +11,7 @@ import {
 import { 
   AuthService 
 } from '../../auth/auth.service';
-import { ArwikiTokenLangsService } from '../../core/arwiki-contracts/arwiki-langs.service';
+import { ArwikiLangsService } from '../../core/arwiki-contracts/arwiki-langs.service';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { ArwikiLang } from '../../core/interfaces/arwiki-lang';
 
@@ -62,7 +62,7 @@ export class DialogEditLanguageComponent implements OnInit, OnDestroy {
 
   constructor(
     private _arweave: ArweaveService,
-    private _tokenLangsContract: ArwikiTokenLangsService,
+    private _tokenLangsContract: ArwikiLangsService,
     private _utils: UtilsService,
     private _auth: AuthService,
     @Inject(MAT_DIALOG_DATA) public data: {

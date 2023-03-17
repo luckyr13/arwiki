@@ -18,8 +18,8 @@ import { DialogVotedComponent } from '../dialog-voted/dialog-voted.component';
 import { DialogNewVoteComponent } from '../dialog-new-vote/dialog-new-vote.component';
 import { Router } from '@angular/router';
 import { 
-  ArwikiTokenVotesService 
-} from '../../core/arwiki-contracts/arwiki-token-votes.service';
+  ArwikiVotesService 
+} from '../../core/arwiki-contracts/arwiki-votes.service';
 
 @Component({
   selector: 'app-list',
@@ -48,7 +48,7 @@ export class ListComponent implements OnInit, OnDestroy {
     private _utils: UtilsService,
     private _auth: AuthService,
     private _router: Router,
-    private _tokenContractVotes: ArwikiTokenVotesService) {
+    private _tokenContractVotes: ArwikiVotesService) {
 
   }
 

@@ -8,7 +8,7 @@ import { Observable, map } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class ArwikiTokenVotesService {
+export class ArwikiVotesService {
   constructor(
     private _arwikiToken: ArwikiTokenContract,
     private _warp: WarpContractsService) { }

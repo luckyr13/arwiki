@@ -9,7 +9,7 @@ import { ArwikiLangIndex } from '../interfaces/arwiki-lang-index';
 @Injectable({
   providedIn: 'root'
 })
-export class ArwikiTokenLangsService {
+export class ArwikiLangsService {
   constructor(
     private _arwikiToken: ArwikiTokenContract,
     private _warp: WarpContractsService) { }

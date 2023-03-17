@@ -5,7 +5,7 @@ import { ArweaveService } from '../../core/arweave.service';
 import { UtilsService } from '../../core/utils.service';
 import { UserSettingsService } from '../../core/user-settings.service';
 import { ArwikiLangIndex } from '../../core/interfaces/arwiki-lang-index';
-import { ArwikiTokenLangsService } from '../../core/arwiki-contracts/arwiki-langs.service';
+import { ArwikiLangsService } from '../../core/arwiki-contracts/arwiki-langs.service';
 
 @Component({
   templateUrl: './dialog-select-language.component.html',
@@ -24,7 +24,7 @@ export class DialogSelectLanguageComponent implements OnInit, OnDestroy {
   	private _arweave: ArweaveService,
   	private _utils: UtilsService,
     private _userSettings: UserSettingsService,
-    private _arwikiTokenLangs: ArwikiTokenLangsService
+    private _arwikiTokenLangs: ArwikiLangsService
   ) { }
 
   ngOnInit(): void {

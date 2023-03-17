@@ -32,7 +32,7 @@ declare const window: any;
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { EmojisComponent } from '../../shared/emojis/emojis.component';
-import { ArwikiTokenLangsService } from '../../core/arwiki-contracts/arwiki-langs.service';
+import { ArwikiLangsService } from '../../core/arwiki-contracts/arwiki-langs.service';
 
 @Component({
   templateUrl: './new.component.html',
@@ -110,7 +110,7 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
     private _arwikiTokenContract: ArwikiTokenContract,
     private _route: ActivatedRoute,
     private _overlay: Overlay,
-    private _arwikiTokenLangsContract: ArwikiTokenLangsService
+    private _arwikiTokenLangsContract: ArwikiLangsService
   ) { }
 
   ngOnInit(): void {
