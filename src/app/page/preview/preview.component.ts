@@ -17,7 +17,6 @@ import 'prismjs/components/prism-rust';
 import 'prismjs/components/prism-go';
 import 'prismjs/components/prism-jsx';
 import 'prismjs/components/prism-json';
-declare const window: any;
 
 
 @Component({
@@ -29,7 +28,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
 	pageSubscription: Subscription = Subscription.EMPTY;
   page: any;
   loadingPage: boolean = false;
-  arwikiQuery: ArwikiQuery|null = null;
+  arwikiQuery!: ArwikiQuery;
   baseURL: string = this._arweave.baseURL;
   pageDataSubscription: Subscription = Subscription.EMPTY;
   routeLang = '';
@@ -67,18 +66,18 @@ export class PreviewComponent implements OnInit, OnDestroy {
 
   loadPageTXData(contractAddress: string) {
     this.loadingPage = true;
-    this.pageSubscription = this.arwikiQuery!.getTXsData([contractAddress]).subscribe({
+    this.pageSubscription = this.arwikiQuery.getTXsData([contractAddress]).subscribe({
       next: (txData: ArdbTransaction[]|ArdbBlock[]) => {
         if (txData && txData.length) {
           const p = txData[0];
           const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
           this.page = {
             id: pTX.id,
-            title: this.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title'),
-            slug: this.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug'),
-            category: this.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category'),
-            language: this.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang'),
-            img: this.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img'),
+            title: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title'),
+            slug: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug'),
+            category: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category'),
+            language: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang'),
+            img: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img'),
             owner: pTX.owner.address,
             block: pTX.block
           };
@@ -86,7 +85,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
           this.pageDataSubscription = this.loadPageData(contractAddress).subscribe({
             next: async (data: string|Response) => {
               const res = typeof data === 'string' ? `${data}` : data.ok ? await data.text() : '';
-              this.htmlContent = this.markdownToHTML(res);
+              this.htmlContent = this._utils.markdownToHTML(res);
               this.loadingPage = false;
               
               window.setTimeout(() => {
@@ -113,24 +112,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
     return this._arweave.getDataAsStringObs(address!);
   }
 
-  markdownToHTML(_markdown: string) {
-  	var html = marked.parse(_markdown);
-		var clean = DOMPurify.sanitize(html);
-		return clean;
-  }
-
   goBack() {
     this._location.back();
-  }
-
-
-  searchKeyNameInTags(_arr: any[], _key: string) {
-    let res = '';
-    for (const a of _arr) {
-      if (a.name.toUpperCase() === _key.toUpperCase()) {
-        return a.value;
-      }
-    }
-    return res;
   }
 }
