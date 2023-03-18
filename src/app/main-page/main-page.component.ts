@@ -311,9 +311,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
   *  @dev Sanitize HTML
   */
   markdownToHTML(_markdown: string) {
-    var html = marked.parse(_markdown);
-    var clean = DOMPurify.sanitize(html);
-    return html;
+    return this._utils.markdownToHTML(_markdown);
   }
 
   getDefaultTheme() {
