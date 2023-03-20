@@ -1,8 +1,9 @@
 <app-moderators-menu title="{{ 'MODERATORS.PENDING_PAGE.TITLE_PENDING' | translate }}"></app-moderators-menu>
 <mat-spinner color="accent" class="spinner-center" *ngIf="loadingPendingPages"></mat-spinner>
 <div class="container page-container fadeIn">
-	<div class="row" *ngIf="!loadingInsertPageIntoIndex && !loadingRejectPage">
-
+	<div
+		class="row"
+		*ngIf="!loadingInsertPageIntoIndex && !loadingRejectPage && !loadingPendingPages">
 		<div 
 			class="col-12 card-page fadeIn" 
 			*ngIf="!loadingPendingPages && (!pages || !getKeys(pages).length)">
@@ -82,6 +83,17 @@
 					</a>
 				</div>
 			</mat-card>
+		</div>
+		<div
+			class="col-12 text-center"
+			*ngIf="!hideBtnMoreArticles">
+			<button
+				mat-flat-button 
+				class="btn-more-articles"
+				[disabled]="loadingNextPendingArticles"
+				(click)="nextPendingArticles()">
+				{{ 'GENERAL.BUTTONS.MORE_ARTICLES' | translate }}
+			</button>
 		</div>
 	</div>
 	<div 

@@ -36,6 +36,8 @@ import 'prismjs/components/prism-json';
 import { DialogVotePageComponent } from '../../shared/dialog-vote-page/dialog-vote-page.component';
 import {TranslateService} from '@ngx-translate/core';
 import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
+import { ArwikiPageSponsorService } from '../../core/arwiki-contracts/arwiki-page-sponsor.service';
+import { ArwikiAdminsService } from '../../core/arwiki-contracts/arwiki-admins.service';
 
 @Component({
   templateUrl: './view-detail.component.html',
@@ -93,7 +95,9 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     public _dialog: MatDialog,
     private _bottomSheetShare: MatBottomSheet,
     private _translate: TranslateService,
-    private _arwikiPages: ArwikiPagesService
+    private _arwikiPages: ArwikiPagesService,
+    private _arwikiPageSponsor: ArwikiPageSponsorService,
+    private _arwikiAdmins: ArwikiAdminsService
   ) { }
 
  
@@ -497,7 +501,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
           const newPageValue = +_newPageValue;
           if (Number.isInteger(newPageValue) && newPageValue > 0) {
             this.loadingUpdateSponsorPage = true;
-            return this._arwikiPages.updatePageSponsor(
+            return this._arwikiPageSponsor.updatePageSponsor(
               _slug,
               _category_slug,
               this.routeLang,
@@ -551,7 +555,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
         // Create "delete" tx
         this.loadingStopStake = true;
         try {
-          const tx = await this._arwikiPages.stopStaking(
+          const tx = await this._arwikiPageSponsor.stopStaking(
             _slug,
             this.routeLang,
             this._auth.getPrivateKey(),
@@ -601,7 +605,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     _maxHeight: number,
     _limit: number = 30
   ) {
-    return this._arwikiTokenContract.getAdminList()
+    return this._arwikiAdmins.getAdminList()
       .pipe(
         switchMap((_adminList: string[]) => {
           return this.arwikiQuery.getVerifiedTagsFromSlug(_adminList, _slug, _langCode, _limit, _maxHeight);

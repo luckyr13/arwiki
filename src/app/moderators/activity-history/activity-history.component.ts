@@ -11,7 +11,7 @@ import { UserSettingsService } from '../../core/user-settings.service';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { Direction } from '@angular/cdk/bidi';
 import { DialogDonateComponent } from '../../shared/dialog-donate/dialog-donate.component';
-
+import { ArwikiAdminsService } from '../../core/arwiki-contracts/arwiki-admins.service';
 
 @Component({
   selector: 'app-activity-history',
@@ -36,7 +36,8 @@ export class ActivityHistoryComponent implements OnInit, OnDestroy {
     private _location: Location,
     private _arwikiToken: ArwikiTokenContract,
     public _dialog: MatDialog,
-    private _userSettings: UserSettingsService,) {
+    private _userSettings: UserSettingsService,
+    private _arwikiAdmins: ArwikiAdminsService) {
     
   }
 
@@ -104,7 +105,9 @@ export class ActivityHistoryComponent implements OnInit, OnDestroy {
   }
 
   isAdminCheck(address: string) {
-    this.isAdminSubscription = this._arwikiToken.isAdmin(address).subscribe({
+    this.isAdminSubscription = this._arwikiAdmins.isAdmin(
+      address
+    ).subscribe({
       next: (isAdmin) => {
         this.isAdmin = false;
         if (isAdmin) {

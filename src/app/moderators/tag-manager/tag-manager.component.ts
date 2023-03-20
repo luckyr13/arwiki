@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, from } from 'rxjs';
 import { ArweaveService } from '../../core/arweave.service';
 import { UtilsService } from '../../core/utils.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
@@ -17,6 +17,7 @@ import { switchMap } from 'rxjs/operators';
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
 import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
+import { ArwikiAdminsService } from '../../core/arwiki-contracts/arwiki-admins.service';
 
 @Component({
   templateUrl: './tag-manager.component.html',
@@ -50,14 +51,15 @@ export class TagManagerComponent implements OnInit, OnDestroy {
     private _dialog: MatDialog,
     private _auth: AuthService,
     private _arwikiToken: ArwikiTokenContract,
-    private _arwikiPages: ArwikiPagesService
+    private _arwikiPages: ArwikiPagesService,
+    private _arwikiAdmins: ArwikiAdminsService
   ) { }
 
   get newTags() {
     return this.frmTags.get('tags');
   }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.routeLang = this.route.snapshot.paramMap.get('lang')!;
      // Init arwiki 
     this._arwiki = new Arwiki(this._arweave.arweave);
@@ -65,18 +67,13 @@ export class TagManagerComponent implements OnInit, OnDestroy {
   	const slug = this.route.snapshot.paramMap.get('slug')!;
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
     this.loadPageTXData(slug);
-    await this.loadTags(slug);
-
+    this.loadTags(slug);
   	
   }
 
   ngOnDestroy() {
-  	if (this.pageSubscription) {
-      this.pageSubscription.unsubscribe();
-    }
-    if (this.tagsSubscription) {
-      this.tagsSubscription.unsubscribe();
-    }
+    this.pageSubscription.unsubscribe();
+    this.tagsSubscription.unsubscribe();
   }
 
   loadPageTXData(slug: string) {
@@ -109,24 +106,27 @@ export class TagManagerComponent implements OnInit, OnDestroy {
     });
   }
 
-  async loadTags(slug: string) {
+  loadTags(slug: string) {
     const maxTags = 100;
     let networkInfo;
     let maxHeight = 0;
-    try {
-      networkInfo = await this._arweave.arweave.network.getInfo();
-      maxHeight = networkInfo.height;
-    } catch (error) {
-      this._utils.message(`${error}`, 'error');
-      return;
-    }
-
-    this.tagsSubscription = this.arwikiQuery.getVerifiedTagsFromSlug(
-      this._auth.getAdminList(), 
-      slug,
-      this.routeLang,
-      maxTags,
-      maxHeight,
+    
+    this.tagsSubscription = from(
+      this._arweave.arweave.network.getInfo()
+    ).pipe(
+      switchMap((networkInfo) => {
+        maxHeight = networkInfo.height;
+        return this._arwikiAdmins.getAdminList();
+      }),
+      switchMap((adminList) => {
+        return this.arwikiQuery.getVerifiedTagsFromSlug(
+          adminList,
+          slug,
+          this.routeLang,
+          maxTags,
+          maxHeight,
+        );
+      })
     ).subscribe({
       next: (tags: ArdbTransaction[]|ArdbBlock[]) => {
         this.currentTags = [];
@@ -135,8 +135,7 @@ export class TagManagerComponent implements OnInit, OnDestroy {
           this.currentTags.push(
             this.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Tag')
           );
-        }
-        
+        }     
       },
       error: (error) => {
         this._utils.message(error, 'error');

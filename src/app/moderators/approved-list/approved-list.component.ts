@@ -22,6 +22,7 @@ import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
 import { ArwikiCategoriesService } from '../../core/arwiki-contracts/arwiki-categories.service';
 import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
+import { ArwikiPageSponsorService } from '../../core/arwiki-contracts/arwiki-page-sponsor.service';
 
 @Component({
   templateUrl: './approved-list.component.html',
@@ -58,12 +59,12 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
     private _userSettings: UserSettingsService,
     private _arwikiToken: ArwikiTokenContract,
     private _arwikiCategories: ArwikiCategoriesService,
-    private _arwikiPages: ArwikiPagesService
+    private _arwikiPages: ArwikiPagesService,
+    private _arwikiPageSponsor: ArwikiPageSponsorService
   ) { }
 
   async ngOnInit() {
     this.myAddress = this._auth.getMainAddressSnapshot();
-    const adminList: any[] = this._auth.getAdminList();
     this.routeLang = this._route.snapshot.paramMap.get('lang')!;
 
     // Init arwiki 
@@ -84,7 +85,6 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const owners = this._auth.getAdminList();
     let verifiedPages: string[] = [];
     let allVerifiedPages: any = {};
     this.approvedPagesSubscription = this._arwikiCategories
@@ -280,7 +280,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
         switchMap((result: any) => {
           if (result) {
             this.loadingStopStake = true;
-            return this._arwikiPages.stopStaking(
+            return this._arwikiPageSponsor.stopStaking(
               _slug,
               this.routeLang,
               this._auth.getPrivateKey(),
@@ -332,7 +332,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
         const newPageValue = +_newPageValue;
         if (Number.isInteger(newPageValue) && newPageValue > 0) {
           this.loadingUpdateSponsorPageIntoIndex = true;
-          return this._arwikiPages.updatePageSponsor(
+          return this._arwikiPageSponsor.updatePageSponsor(
             _slug,
             _category_slug,
             this.routeLang,

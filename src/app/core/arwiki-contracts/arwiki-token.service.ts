@@ -26,7 +26,6 @@ export class ArwikiTokenContract
   // private _contractAddress = 'aYnwKbqL603IKdP-Ba_kG73K7EeURTeF1jUoz4YJqxA';
 
   private _state: any = {};
-	private _adminList: string[] = [];
 
 	get contractAddress() {
 		return this._contractAddress;
@@ -55,9 +54,9 @@ export class ArwikiTokenContract
               cachedValue.state : {};
             this._state = state;
 
-            this._adminList = Object.keys(this._state.roles).filter((address) => {
-              return this._state.roles[address].toUpperCase() === 'MODERATOR';
-            });
+            //this._adminList = Object.keys(this._state.roles).filter((address) => {
+            //  return this._state.roles[address].toUpperCase() === 'MODERATOR';
+            //});
 
             subscriber.next(this._state);
             subscriber.complete();
@@ -80,32 +79,6 @@ export class ArwikiTokenContract
   getStateFromLocal(): any {
     return this._state;
   }
-
-	/*
-	*	@dev Get only the admin list from full state contract
-	*/
-	getAdminList(): Observable<string[]> {
-		return this.getState().pipe(
-			map((_state: any) => {
-				this._adminList = Object.keys(_state.roles).filter((address) => {
-					return _state.roles[address].toUpperCase() === 'MODERATOR';
-				});
-
-				return this._adminList;
-			})
-		);
-	}
-
-	/*
-	*	@dev Get only the admin list from full state contract
-	*/
-	isAdmin(address: string): Observable<boolean> {
-		return this.getAdminList().pipe(
-			map( (admin_list: string[]) => {
-				return Array.prototype.indexOf.call(admin_list, address) >= 0; 
-			})
-		);
-	}
 
 	/*
 	*	@dev Execute read function on PST contract
@@ -218,9 +191,6 @@ export class ArwikiTokenContract
     }
     return {result: {target, unlockedBalance, vaultBalance, stakingBalance}};
   }
-
-  
-
 
   /*
   * @dev Create vote proposal for new Moderator

@@ -18,6 +18,7 @@ declare const window: any;
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
 import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
+import { ArwikiAdminsService } from '../../core/arwiki-contracts/arwiki-admins.service';
 
 @Component({
   selector: 'app-my-pages',
@@ -48,12 +49,12 @@ export class MyPagesComponent implements OnInit, OnDestroy {
     private _route: ActivatedRoute,
     private _location: Location,
     private _arwikiTokenContract: ArwikiTokenContract,
-    private _arwikiPages: ArwikiPagesService
+    private _arwikiPages: ArwikiPagesService,
+    private _arwikiAdmins: ArwikiAdminsService
   ) { }
 
   ngOnInit() {
     // Get language from route
-
     this.routeLang = this._route.snapshot.paramMap.get('lang')!;
     this._route.paramMap.subscribe(params => {
       const lang = params.get('lang');
@@ -89,19 +90,22 @@ export class MyPagesComponent implements OnInit, OnDestroy {
   getMyArWikiPages() {
     this.loading = true;
     let myPagesTX: ArdbTransaction[]|ArdbBlock[] = [];
-    const adminList = this._auth.getAdminList();
+    let myPagesList: string[] = [];
+    const address = this._auth.getMainAddressSnapshot();
 
     this.myPagesSubscription = this.arwikiQuery!.getMyArWikiPages(
-      this._auth.getMainAddressSnapshot(),
+      address,
       this.routeLang
     ).pipe(
       switchMap((pages: ArdbTransaction[]|ArdbBlock[]) => {
         myPagesTX = pages;
-        const myPagesList = [];
 
         for (let p of pages) {
           myPagesList.push(p.id);
         }
+        return this._arwikiAdmins.getAdminList();
+      }),
+      switchMap((adminList) => {
         return this.arwikiQuery.getRejectedPagesByIds(adminList, myPagesList);
       }),
       switchMap((rejectedPages: ArdbTransaction[]|ArdbBlock[]) => {

@@ -19,8 +19,8 @@ import { ArwikiLang } from '../core/interfaces/arwiki-lang';
 import { Direction } from '@angular/cdk/bidi';
 import { of } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
-declare const window: any;
 import { UserProfile } from '../core/interfaces/user-profile';
+import { ArwikiAdminsService } from '../core/arwiki-contracts/arwiki-admins.service';
 
 @Component({
   selector: 'app-main-toolbar',
@@ -45,6 +45,7 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   profileImage: string = 'assets/img/blank-profile.png';
   profileSubscription = Subscription.EMPTY;
   profile: UserProfile|null = null;
+  adminsSubscription = Subscription.EMPTY;
 
   constructor(
     private _auth: AuthService,
@@ -55,6 +56,7 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
     private _route: ActivatedRoute,
     private _router: Router,
     private _dialog: MatDialog,
+    private _arwikiAdmins: ArwikiAdminsService
   ) {}
 
   get searchQry() {
@@ -76,6 +78,7 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
       if (_address) {
         this.isLoggedIn = true;
         this.updateProfileData();
+        this.validateIfUserIsModerator(_address);
       }
     });
 
@@ -120,6 +123,7 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.profileSubscription.unsubscribe();
+    this.adminsSubscription.unsubscribe();
   }
 
   /*
@@ -224,13 +228,20 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   }
 
   ellipsis(s: string) {
-    const minLength = 12;
-    const sliceLength = 5;
+    return this._utils.ellipsis(s);
+  }
 
-    if (!s || typeof s !== 'string') {
-      return '';
-    }
-
-    return s && s.length < minLength ? s : `${s.substring(0, sliceLength)}...${s.substring(s.length - sliceLength, s.length)}`;
+  validateIfUserIsModerator(address:string) {
+    this.adminsSubscription = this._arwikiAdmins.isAdmin(
+      address
+    ).subscribe({
+      next: (isAdmin) => {
+        this._auth.updateUserIsModerator(isAdmin);
+      },
+      error: (error) => {
+        this._utils.message(error, 'error');
+      }
+    })
+    
   }
 }

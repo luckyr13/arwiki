@@ -19,6 +19,8 @@ import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
 import { ArwikiCategoriesService } from '../../core/arwiki-contracts/arwiki-categories.service';
 import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
+import { ArwikiPageSponsorService } from '../../core/arwiki-contracts/arwiki-page-sponsor.service';
+import { ArwikiAdminsService } from '../../core/arwiki-contracts/arwiki-admins.service';
 
 @Component({
   selector: 'app-deleted-list',
@@ -48,12 +50,13 @@ export class DeletedListComponent implements OnInit, OnDestroy {
     private _userSettings: UserSettingsService,
     private _arwikiToken: ArwikiTokenContract,
     private _arwikiCategories: ArwikiCategoriesService,
-    private _arwikiPages: ArwikiPagesService
+    private _arwikiPages: ArwikiPagesService,
+    private _arwikiPageSponsor: ArwikiPageSponsorService,
+    private _arwikiAdmins: ArwikiAdminsService
   ) { }
 
   async ngOnInit() {
     this.myAddress = this._auth.getMainAddressSnapshot();
-    const adminList: any[] = this._auth.getAdminList();
     this.routeLang = this._route.snapshot.paramMap.get('lang')!;
 
     // Init arwiki 
@@ -132,13 +135,17 @@ export class DeletedListComponent implements OnInit, OnDestroy {
   }
 
   getDeletedPages(numPages: number, maxHeight: number) {
-    const owners = this._auth.getAdminList();
+    let owners: string[] = [];
     let allVerifiedPages: string[] = [];
     let allPages: any = {};
     let allInactivePages: string[] = [];
-    return this._arwikiCategories
-      .getCategories()
+
+    return this._arwikiAdmins.getAdminList()
       .pipe(
+        switchMap((admins) => {
+          owners = admins;
+          return this._arwikiCategories.getCategories();
+        }),
         switchMap((categories: ArwikiCategoryIndex) => {
           return this._arwikiPages.getAllPages(
             this.routeLang,
@@ -230,7 +237,7 @@ export class DeletedListComponent implements OnInit, OnDestroy {
         const newPageValue = +_newPageValue;
         if (Number.isInteger(newPageValue) && newPageValue > 0) {
           this.loadingReactivatePageIntoIndex = true;
-          return this._arwikiPages.updatePageSponsor(
+          return this._arwikiPageSponsor.updatePageSponsor(
             _slug,
             _category_slug,
             this.routeLang,

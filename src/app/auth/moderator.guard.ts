@@ -7,7 +7,7 @@ import { ArwikiTokenContract } from '../core/arwiki-contracts/arwiki-token.servi
 import { ArweaveService } from '../core/arweave.service';
 import { UtilsService } from '../core/utils.service';
 import { UserSettingsService } from '../core/user-settings.service';
-declare const window: any;
+import { ArwikiAdminsService } from '../core/arwiki-contracts/arwiki-admins.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,8 @@ export class ModeratorGuard implements CanActivate, CanActivateChild {
     private _arweave: ArweaveService,
     private _arwikiTokenContract: ArwikiTokenContract,
     private _utils: UtilsService,
-    private _userSettings: UserSettingsService
+    private _userSettings: UserSettingsService,
+    private _arwikiAdmins: ArwikiAdminsService
   ) {}
 
   canActivate(
@@ -38,13 +39,11 @@ export class ModeratorGuard implements CanActivate, CanActivateChild {
   isUserModerator() {
     const address = this._auth.getMainAddressSnapshot();
     this._userSettings.updateMainToolbarLoading(true);
-    return (this._arwikiTokenContract.getAdminList()
+    return (this._arwikiAdmins.getAdminList()
       .pipe(
         switchMap((_adminList: string[]) => {
           const isAdmin = _adminList.indexOf(address) >= 0;
-          // Save a copy of the admin list 
-          this._auth.setAdminList(_adminList);
-
+          
           this._userSettings.updateMainToolbarLoading(false);
           if (isAdmin) {
             return of(true);

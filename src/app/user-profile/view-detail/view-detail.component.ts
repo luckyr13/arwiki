@@ -14,6 +14,7 @@ import { DialogDonateComponent } from '../../shared/dialog-donate/dialog-donate.
 import { ArwikiLang } from '../../core/interfaces/arwiki-lang';
 import { Router } from '@angular/router';
 import { ArwikiLangsService } from '../../core/arwiki-contracts/arwiki-langs.service';
+import { ArwikiAdminsService } from '../../core/arwiki-contracts/arwiki-admins.service';
 
 @Component({
   selector: 'app-view-detail',
@@ -42,7 +43,8 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     public _dialog: MatDialog,
     private _userSettings: UserSettingsService,
     private _router: Router,
-    private _arwikiTokenLangs: ArwikiLangsService) {
+    private _arwikiTokenLangs: ArwikiLangsService,
+    private _arwikiAdmins: ArwikiAdminsService) {
     
   }
 
@@ -112,7 +114,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   }
 
   isAdminCheck(address: string) {
-    this.isAdminSubscription = this._arwikiToken.isAdmin(address).subscribe({
+    this.isAdminSubscription = this._arwikiAdmins.isAdmin(address).subscribe({
       next: (isAdmin) => {
         this.isAdmin = false;
         if (isAdmin) {

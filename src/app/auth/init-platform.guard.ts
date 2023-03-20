@@ -13,6 +13,7 @@ import { ArweaveService } from '../core/arweave.service';
 import { ArwikiTokenContract } from '../core/arwiki-contracts/arwiki-token.service';
 import { AuthService } from '../auth/auth.service';
 import { ArwikiLangsService } from '../core/arwiki-contracts/arwiki-langs.service';
+import { ArwikiAdminsService } from '../core/arwiki-contracts/arwiki-admins.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,8 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
     private _arweave: ArweaveService,
     private _arwikiTokenContract: ArwikiTokenContract,
     private _auth: AuthService,
-    private _arwikiTokenLangsContract: ArwikiLangsService
+    private _arwikiTokenLangsContract: ArwikiLangsService,
+    private _arwikiAdmins: ArwikiAdminsService
 	) {
 
 	}
@@ -160,12 +162,10 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
     const address = this._auth.getMainAddressSnapshot();
     this._userSettings.updateMainToolbarLoading(true);
     this._auth.updateUserIsModerator(false);
-    return (this._arwikiTokenContract.getAdminList()
+    return (this._arwikiAdmins.getAdminList()
       .pipe(
         switchMap((_adminList: string[]) => {
           const isAdmin = _adminList.indexOf(address) >= 0;
-          // Save a copy of the admin list 
-          this._auth.setAdminList(_adminList);
 
           this._userSettings.updateMainToolbarLoading(false);
           if (isAdmin) {

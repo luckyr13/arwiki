@@ -12,6 +12,7 @@ import { UserSettingsService } from '../../core/user-settings.service';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
+import { ArwikiAdminsService } from '../../core/arwiki-contracts/arwiki-admins.service';
 
 @Component({
   templateUrl: './results.component.html',
@@ -47,7 +48,8 @@ export class ResultsComponent implements OnInit, OnDestroy {
     private _userSettings: UserSettingsService,
     private _router: Router,
     private _location: Location,
-    private _arwikiPages: ArwikiPagesService
+    private _arwikiPages: ArwikiPagesService,
+    private _arwikiAdmins: ArwikiAdminsService
    ) { }
 
   async ngOnInit() {
@@ -145,7 +147,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
     const qry = _queries.map(e => e.toLowerCase().trim());
     let adminList: string[] = [];
     let verifiedPages: any = {};
-    return this._arwikiTokenContract.getAdminList()
+    return this._arwikiAdmins.getAdminList()
       .pipe(
         switchMap((_adminList: string[]) => {
           adminList = _adminList;
