@@ -40,11 +40,10 @@
 						[address]="p.id"
 						[isAddress]="false">{{ 'PAGE.LABEL_ID' | translate }}: </app-arweave-address>
 				</div>
-				<!--
 				<div class="mini-text">
-					<app-arweave-address [address]="pages[p].owner">{{ 'PAGE.LABEL_OWNER' | translate }}: </app-arweave-address>
+					<app-arweave-address [address]="p.owner!">{{ 'PAGE.LABEL_OWNER' | translate }}: </app-arweave-address>
 				</div>
-				-->
+				
 				<div class="mini-text" *ngIf="p.block && p.block.height">
 					<strong>{{ 'PAGE.LABEL_BLOCK_HEIGHT' | translate }}:</strong>
 					{{ p.block.height }} 
@@ -58,7 +57,7 @@
 					<a
 						mat-flat-button
 						matTooltip="Approve and sponsor page"
-						(click)="confirmValidateArWikiPage(p.slug, p.id, p.category, p.value!)"
+						(click)="confirmValidateArWikiPage(p.owner!, p.slug, p.id, p.category, p.value!)"
 						class="approve-btn">
 						<mat-icon>done</mat-icon>
 						Approve

@@ -73,13 +73,14 @@ export class PendingListComponent implements OnInit, OnDestroy {
   }
   
   confirmValidateArWikiPage(
+    _author: string,
     _slug: string,
     _pageId: string,
     _category_slug: string,
     _pageValue: number
   ) {
-    const _author = '';
     const defLang = this._userSettings.getDefaultLang();
+    const order = 0;
     let direction: Direction = defLang.writing_system === 'LTR' ? 
       'ltr' : 'rtl';
 
@@ -93,19 +94,19 @@ export class PendingListComponent implements OnInit, OnDestroy {
       direction: direction
     });
 
-
     dialogRef.afterClosed().pipe(
       switchMap((_newPageValue: number) => {
         const newPageValue = +_newPageValue;
         if (Number.isInteger(newPageValue) && newPageValue > 0) {
           this.loadingInsertPageIntoIndex = true;
           return this._arwikiPages.approvePage(
-            _pageId,
             _author,
+            _pageId,
             _slug,
             _category_slug,
             this.routeLang,
             newPageValue,
+            order,
             this._auth.getPrivateKey(),
             arwikiVersion[0],
           ); 
@@ -134,9 +135,17 @@ export class PendingListComponent implements OnInit, OnDestroy {
         }
       },
       error: (error) => {
-        console.error('confirmValidation', error);
         this.insertPageTxErrorMessage = `Error!`;
-        this._utils.message(`Error!`, 'error');
+        if (typeof error === 'string') {
+          this.insertPageTxErrorMessage = error;
+          this._utils.message(`Error: ${error}`, 'error');
+        } else if (typeof error === 'object' && error && error.message) {
+          this.insertPageTxErrorMessage = error.message;
+          this._utils.message(`Error: ${this.insertPageTxErrorMessage}`, 'error');
+        } else {
+          this._utils.message(`Error!`, 'error');
+        }
+        console.error('confirmValidation', error);
       }
     });
   }
@@ -186,9 +195,17 @@ export class PendingListComponent implements OnInit, OnDestroy {
         }
       },
       error: (error) => {
-        console.error('reject', error);
         this.rejectPageTxErrorMessage = `Error!`;
-        this._utils.message(`Error!`, 'error');
+        if (typeof error === 'string') {
+          this.rejectPageTxErrorMessage = error;
+          this._utils.message(`Error: ${error}`, 'error');
+        } else if (typeof error === 'object' && error && error.message) {
+          this.rejectPageTxErrorMessage = error.message;
+          this._utils.message(`Error: ${this.rejectPageTxErrorMessage}`, 'error');
+        } else {
+          this._utils.message(`Error!`, 'error');
+        }
+        console.error('confirmRejectArWikiPage', error);
       }
     });
   }
@@ -237,7 +254,7 @@ export class PendingListComponent implements OnInit, OnDestroy {
               img: this.arwikiQueryPending.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img'),
               block: pTX.block,
               value: this.arwikiQueryPending.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Value'),
-              
+              owner: pTX.owner.address
             };
           }
           return of(allPendingPages);
@@ -343,7 +360,7 @@ export class PendingListComponent implements OnInit, OnDestroy {
               img: this.arwikiQueryPending.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img'),
               block: pTX.block,
               value: this.arwikiQueryPending.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Value'),
-              
+              owner: pTX.owner.address
             };
           }
           

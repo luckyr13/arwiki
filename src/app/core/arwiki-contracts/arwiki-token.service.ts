@@ -20,7 +20,7 @@ export class ArwikiTokenContract
 
   // One holder
   // private _contractAddress = '2nZIuLR0g9EqhDm7M-5Si0QeJfhL07oYLlkrHTVvHQE';
-  private _contractAddress = 'hF0MwosnBZT1mbUTI9-xGqnS-ISzMu5mA-JvyLPHQmI';
+  private _contractAddress = 'A1sj6ocQy9Q8I5UXTUc5gKRSMkq8IZpwWvRqr7JIJOU';
 
   // Multi level
   // private _contractAddress = 'aYnwKbqL603IKdP-Ba_kG73K7EeURTeF1jUoz4YJqxA';

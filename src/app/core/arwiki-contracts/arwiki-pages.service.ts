@@ -52,12 +52,13 @@ export class ArwikiPagesService {
   * with custom tags (Arwiki-Type: Validation)
   */
   approvePage(
-    _pageId: string,
     _author: string,
+    _pageId: string,
     _slug: string,
     _category: string,
     _langCode: string,
     _pageValue: number,
+    _order: number,
     _privateKey: any,
     _arwikiVersion: string
   ) {
@@ -75,12 +76,14 @@ export class ArwikiPagesService {
     ];
     const input = {
       function: 'approvePage',
-      author: _author,
       pageTX: _pageId,
       langCode: _langCode,
       category: _category,
       slug: _slug,
-      pageValue: `${_pageValue}`
+      pageValue: `${_pageValue}`,
+      order: _order,
+      author: _author
+
     };
 
     return this._warp.writeInteraction(
