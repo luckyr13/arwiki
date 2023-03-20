@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { ArwikiTokenContract } from './arwiki-token.service';
 import { WarpContractsService } from '../warp-contracts.service';
 import { JWKInterface } from 'arweave/web/lib/wallet';
-import { ArwikiLang } from '../interfaces/arwiki-lang';
 import { Observable, map } from 'rxjs';
 import { ArwikiLangIndex } from '../interfaces/arwiki-lang-index';
 
