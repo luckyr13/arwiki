@@ -253,8 +253,8 @@ export class ArwikiPagesService {
     );
   }
 
-    /*
-  * @dev Pages can be rejected
+  /*
+  * @dev Pending Pages can be rejected
   * if an admin creates a Reject TX (Arwiki-Type: PageRejected)
   */
   async createRejectTXForArwikiPage(

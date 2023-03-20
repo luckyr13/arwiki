@@ -180,9 +180,9 @@ export class PendingListComponent implements OnInit, OnDestroy {
         if (_reason) {
           this.loadingRejectPage = true;
           const jwk = this._auth.getPrivateKey();
-          return this._arwikiPages.createRejectTXForArwikiPage(
+          return from(this._arwikiPages.createRejectTXForArwikiPage(
             _pageId, _slug, this.routeLang, _reason, jwk, arwikiVersion[0]
-          );
+          ));
         }
         
         return of(null);
