@@ -73,14 +73,7 @@ export class ArweaveAddressComponent implements OnInit, OnDestroy, OnChanges {
 
   
   ellipsis(s: string) {
-    const minLength = 12;
-    const sliceLength = 5;
-
-    if (!s || typeof s !== 'string') {
-      return '';
-    }
-
-    return s && s.length < minLength ? s : `${s.substring(0, sliceLength)}...${s.substring(s.length - sliceLength, s.length)}`;
+    return this._utils.ellipsis(s);
   }
 
 }

@@ -100,7 +100,7 @@ export class FileManagerDialogComponent implements OnInit, OnDestroy {
   }
 
   ellipsis(s: string) {
-    return this._ellipsis(s);
+    return this._utils.ellipsis(s);
   }
 
   getFileUrl(tx: string) {
@@ -147,16 +147,5 @@ export class FileManagerDialogComponent implements OnInit, OnDestroy {
 
 
     return ``;
-  }
-  
-  private _ellipsis(s: string) {
-    const minLength = 12;
-    const sliceLength = 5;
-
-    if (!s || typeof s !== 'string') {
-      return '';
-    }
-
-    return s && s.length < minLength ? s : `${s.substring(0, sliceLength)}...${s.substring(s.length - sliceLength, s.length)}`;
   }
 }

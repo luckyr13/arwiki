@@ -75,4 +75,17 @@ export class UtilsService {
   removeHTMLfromStr(_html: string) {
     return DOMPurify.sanitize(_html, {ALLOWED_TAGS: []});
   }
+  
+  underscoreToSpace(_s: string) {
+    return _s.replace(/[_]/gi, ' ');
+  }
+
+  ellipsis(s: string, minLength=12, sliceLength=5) {
+    if (!s || typeof s !== 'string') {
+      return '';
+    }
+
+    return s && s.length < minLength ? s : `${s.substring(0, sliceLength)}...${s.substring(s.length - sliceLength, s.length)}`;
+  }
+
 }
