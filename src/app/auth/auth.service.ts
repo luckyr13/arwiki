@@ -10,6 +10,7 @@ import { AddressKey } from './../core/interfaces/address-key';
 import { ProfileService } from './../core/profile.service';
 import { UserProfile } from './../core/interfaces/user-profile';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -21,8 +22,6 @@ export class AuthService {
   private _arKey: JWKInterface|'use_wallet'|undefined = undefined;
   // User's arweave public address
   private _mainAddress: string = '';
-  // Save a temporal copy of the admin list
-  private _adminList: string[] = [];
   // Login method 
   private _method: string = '';
 
@@ -36,13 +35,6 @@ export class AuthService {
 
   get loginMethod(): string {
     return this._method;
-  }
-  getAdminList() {
-    return this._adminList;
-  }
-
-  setAdminList(admins: string[]) {
-    this._adminList = admins;
   }
 
   constructor(
@@ -117,12 +109,6 @@ export class AuthService {
       storage.setItem('ARKEY', arKeyEncrypted)
     }
     this.account.next(mainAddress);
-    const isAdmin = this.getAdminList().indexOf(mainAddress) >= 0;
-    if (isAdmin) {
-      this.updateUserIsModerator(true);
-    } else {
-      this.updateUserIsModerator(false);
-    }
   }
 
   public addressChangeListener(mainAddress: string, stayLoggedIn: boolean, method: string) {
@@ -271,6 +257,5 @@ export class AuthService {
         || !!window.localStorage.getItem('STAY_LOGGED_IN');
     return stayLoggedIn;
   }
-
 
 }
