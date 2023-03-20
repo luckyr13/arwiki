@@ -225,6 +225,11 @@ export class MainPageComponent implements OnInit, OnDestroy {
             sponsor: sponsor
           });
         }
+        // Sort desc
+        Array.prototype.sort.call(latestPages, (a, b) => {
+          return b.lastUpdateAt! - a.lastUpdateAt!;
+        });
+
         return of(latestPages);
       })
     ).subscribe({
@@ -395,6 +400,10 @@ export class MainPageComponent implements OnInit, OnDestroy {
             sponsor: sponsor
           });
         }
+        // Sort desc
+        Array.prototype.sort.call(latestPages, (a, b) => {
+          return b.lastUpdateAt! - a.lastUpdateAt!;
+        });
         return of(latestPages);
       })
     ).subscribe({
