@@ -81,7 +81,7 @@ export class ViewDetailComponent implements OnInit {
       this.category,
       this.routeLang
     ).subscribe({
-      next: async (finalRes: ArwikiPage[]) => {
+      next: (finalRes: ArwikiPage[]) => {
         this.pages = finalRes;
         this.loadingPages = false;
         this.paginatorLength = this.pages ? this.pages.length : 0;
@@ -186,27 +186,23 @@ export class ViewDetailComponent implements OnInit {
               category: category,
               img: img,
               id: id,
-              language: this.routeLang
+              language: this.routeLang,
+              order: order
+            });
+          }
 
-            });
-          }
           // Lexicographical sort
-          for (let cat in finalRes) {
-            Array.prototype.sort.call(finalRes[cat], (a, b) => {
-              return a.title.localeCompare(b.title);
-            });
-          }
+          Array.prototype.sort.call(finalRes, (a, b) => {
+            return a.title.localeCompare(b.title);
+          });
 
           // Sort by order
-          for (let cat in finalRes) {
-            Array.prototype.sort.call(finalRes[cat], (a, b) => {
-              return a.order - b.order;
-            });
-          }
+          Array.prototype.sort.call(finalRes, (a, b) => {
+            return a.order - b.order;
+          });
           
           return of(finalRes);
         }),
-
 
 
       );
