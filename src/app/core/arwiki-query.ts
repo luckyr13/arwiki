@@ -980,4 +980,8 @@ export class ArwikiQuery {
     });
     return obs;
   }
+
+  getNextResults() {
+    return from(this._ardb.next());
+  }
 }
