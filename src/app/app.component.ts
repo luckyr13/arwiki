@@ -4,9 +4,11 @@ import { UserSettingsService } from './core/user-settings.service';
 import { MatSidenavContainer } from '@angular/material/sidenav';
 import { map, Subscription, switchMap, of } from 'rxjs';
 import { AddressKey } from './core/interfaces/address-key';
+/*
 import { 
   PasswordDialogComponent 
 } from './shared/password-dialog/password-dialog.component';
+*/
 import { ArweaveService } from './core/arweave.service';
 import { SubtleCryptoService } from './core/subtle-crypto.service';
 import { JWKInterface } from 'arweave/web/lib/wallet';
@@ -101,12 +103,13 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
           })
 
           
-        } else if (error == 'Error: LaunchPasswordModal') {
+        }
+        // DEPRECATED
+        // else if (error == 'Error: LaunchPasswordModal') {
           // Launch password modal
-          this.passwordDialog();
-          
-
-        } else {
+          // this.passwordDialog();
+        // }
+        else {
           this._utils.message(error, 'error');
         }
       }
@@ -201,6 +204,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
     });
   }
 
+  /*
+  // DEPRECATED
   passwordDialog() {
     const dialogRef = this._dialog.open(PasswordDialogComponent, {
       data: {
@@ -246,6 +251,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
       }
     });
   }
+  */
 
   
 
