@@ -5,7 +5,7 @@ import { ArweaveService } from '../../core/arweave.service';
 import { AuthService } from '../../auth/auth.service';
 import { UtilsService } from '../../core/utils.service';
 import { arwikiVersion } from '../../core/arwiki';
-import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
+import { ArwikiPageVotesService } from '../../core/arwiki-contracts/arwiki-page-votes.service';
 
 @Component({
   selector: 'app-dialog-vote-page',
@@ -28,7 +28,7 @@ export class DialogVotePageComponent implements OnInit, OnDestroy {
   	private _arweave: ArweaveService,
   	private _auth: AuthService,
   	private _utils: UtilsService,
-    private _arwikiPages: ArwikiPagesService) { }
+    private _arwikiPageVotes: ArwikiPageVotesService) { }
 
   ngOnInit(): void {
   	if (this.data.mainAddress) {
@@ -83,7 +83,7 @@ export class DialogVotePageComponent implements OnInit, OnDestroy {
       return;
     }
   	
-  	this.voteAndDonateSubscription = this._arwikiPages
+  	this.voteAndDonateSubscription = this._arwikiPageVotes
 			.votePage(
 		    sponsor,
 		    `${amount}`,

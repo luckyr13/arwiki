@@ -21,6 +21,7 @@ import {
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
 import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
+import { ArwikiPageUpdatesService } from '../../core/arwiki-contracts/arwiki-page-updates.service';
 
 @Component({
   selector: 'app-page-updates',
@@ -47,11 +48,11 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
     private _route: ActivatedRoute,
     private _userSettings: UserSettingsService,
     private _arwikiTokenContract: ArwikiTokenContract,
-    private _arwikiPages: ArwikiPagesService
+    private _arwikiPages: ArwikiPagesService,
+    private _arwikiPageUpdates: ArwikiPageUpdatesService
   ) { }
 
   async ngOnInit() {
-    const adminList: any[] = this._auth.getAdminList();
     this.routeLang = this._route.snapshot.paramMap.get('lang')!;
     this.pageSlug = this._route.snapshot.paramMap.get('slug')!;
 
@@ -176,7 +177,7 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
         const newPageValue = +_newPageValue;
         if (Number.isInteger(newPageValue) && newPageValue > 0) {
           this.loadingInsertPageIntoIndex = true;
-          return this._arwikiPages.approvePageUpdate(
+          return this._arwikiPageUpdates.approvePageUpdate(
             _pageId,
             _author,
             _slug,

@@ -138,146 +138,14 @@ export class ArwikiPagesService {
             slug: slug,
             ..._state.pages[_langCode][slug]
           };
+          const numUpdates = _state.pages[_langCode][slug].updates.length;
+          acum[slug].id = _state.pages[_langCode][slug].updates[numUpdates - 1].tx;
+          acum[slug].lastUpdateAt = _state.pages[_langCode][slug].updates[numUpdates - 1].at;
+          
           return acum;
         }, {});
         return pages;
       })
-    );
-  }
-
-  /*
-  * @dev Stop stake and sponsorship
-  */
-  stopStaking(
-    _slug: string,
-    _langCode: string,
-    _privateKey: any,
-    _arwikiVersion: string
-  ) {
-    const jwk = _privateKey;
-    const tags = [
-      {name: 'Service', value: 'ArWiki'},
-      {name: 'Arwiki-Type', value: 'StopStake'},
-      {name: 'Arwiki-Page-Slug', value: _slug},
-      {name: 'Arwiki-Page-Lang', value: _langCode},
-      {name: 'Arwiki-Version', value: _arwikiVersion},
-    ];
-    const input = {
-      function: 'stopPageSponsorshipAndDeactivatePage',
-      langCode: _langCode,
-      slug: _slug
-    };
-
-    return this._warp.writeInteraction(
-      this._arwikiToken.contractAddress, jwk, input, tags
-    );
-  }
-
-  /*
-  * @dev All pages updates needs to be validated first 
-  * to be listed on the Arwiki. Validations are special TXs
-  * with custom tags (Arwiki-Type: Validation)
-  */
-  approvePageUpdate(
-    _pageId: string,
-    _author: string,
-    _slug: string,
-    _category: string,
-    _langCode: string,
-    _pageValue: number,
-    _privateKey: any,
-    _arwikiVersion: string
-  ) {
-    const jwk = _privateKey;
-    const tags = [
-      {name: 'Service', value: 'ArWiki'},
-      {name: 'Arwiki-Type', value: 'PageUpdateValidation'},
-      {name: 'Arwiki-Page-Id', value: _pageId},
-      {name: 'Arwiki-Page-Slug', value: _slug},
-      {name: 'Arwiki-Page-Category', value: _category},
-      {name: 'Arwiki-Page-Lang', value: _langCode},
-      {name: 'Arwiki-Page-Value', value: `${_pageValue}`},
-      {name: 'Arwiki-Version', value: _arwikiVersion},
-    ];
-    const input = {
-      function: 'addPageUpdate',
-      updateTX: _pageId,
-      langCode: _langCode,
-      slug: _slug,
-      author: _author,
-      pageValue: _pageValue
-    };
-
-    return this._warp.writeInteraction(
-      this._arwikiToken.contractAddress, jwk, input, tags
-    );
-  }
-
-  /*
-  * @dev Update sponsor
-  * Note: This can reactivate an inactive page
-  */
-  updatePageSponsor(
-    _slug: string,
-    _category: string,
-    _langCode: string,
-    _pageValue: number,
-    _privateKey: any,
-    _arwikiVersion: string
-  ) {
-    const jwk = _privateKey;
-    const tags = [
-      {name: 'Service', value: 'ArWiki'},
-      {name: 'Arwiki-Type', value: 'UpdateSponsor'},
-      {name: 'Arwiki-Page-Slug', value: _slug},
-      {name: 'Arwiki-Page-Category', value: _category},
-      {name: 'Arwiki-Page-Lang', value: _langCode},
-      {name: 'Arwiki-Page-Value', value: `${_pageValue}`},
-      {name: 'Arwiki-Version', value: _arwikiVersion},
-    ];
-    const input = {
-      function: 'updatePageSponsor',
-      langCode: _langCode,
-      slug: _slug,
-      pageValue: `${_pageValue}`
-    };
-
-    return this._warp.writeInteraction(
-      this._arwikiToken.contractAddress, jwk, input, tags
-    );
-  }
-
-  /*
-  * @dev Upvote/downvote page
-  */
-  // Deprecated
-  votePage(
-    _target: string,
-    _qty: string,
-    _lang: string,
-    _slug: string,
-    _vote: boolean,
-    _privateKey: any,
-    _arwikiVersion: string
-  ) {
-    const jwk = _privateKey;
-    const tags = [
-      {name: 'Service', value: 'ArWiki'},
-      {name: 'Arwiki-Type', value: 'VotePageAndDonate'},
-      {name: 'Arwiki-Version', value: _arwikiVersion},
-    ];
-    const input = {
-      function: 'votePage',
-      langCode: _lang,
-      slug: _slug,
-      vote: _vote,
-    };
-    _qty = this._arweave.arToWinston(_qty);
-    const transfer = {target: _target, winstonQty: _qty};
-    const strict = true;
-    const disableBundler = true;
-    return this._warp.writeInteraction(
-      this._arwikiToken.contractAddress, jwk, input, tags, transfer, strict, disableBundler
     );
   }
 
@@ -380,6 +248,39 @@ export class ArwikiPagesService {
         return pages;
       })
     );
+  }
+
+    /*
+  * @dev Pages can be rejected
+  * if an admin creates a Reject TX (Arwiki-Type: PageRejected)
+  */
+  async createRejectTXForArwikiPage(
+    _pageId: string,
+    _slug: string,
+    _langCode: string,
+    _reason: string,
+    _privateKey: any,
+    _arwikiVersion: string
+  ) {
+    const jwk = _privateKey;
+    const data = `${_reason}`.trim();
+    const tx = await this._arweave.arweave.createTransaction({
+      data
+    }, jwk);
+    tx.addTag('Content-Type', 'text/plain');
+    tx.addTag('Service', 'ArWiki');
+    tx.addTag('Arwiki-Type', 'PageRejected');
+    tx.addTag('Arwiki-Page-Id', _pageId);
+    tx.addTag('Arwiki-Page-Slug', _slug);
+    tx.addTag('Arwiki-Page-Lang', _langCode);
+    tx.addTag('Arwiki-Page-Reason', _reason);
+    tx.addTag('Arwiki-Version', _arwikiVersion);
+    await this._arweave.arweave.transactions.sign(tx, jwk);
+    const response = await this._arweave.arweave.transactions.post(tx);
+    if (response.status != 200) {
+      throw Error(`Error ${response.statusText}`);
+    }
+    return tx.id;
   }
 
 
