@@ -1,0 +1,29 @@
+<mat-card class="card-image text-center">
+	<ng-container
+		*ngIf="img && ((dataInfo.size && (dataInfo.size/1000) <= secureMaxImageSizeKB) || showImageAnyway)">
+		<img src="{{ baseURL + img }}">
+	</ng-container>
+	<ng-container *ngIf="!img">
+		<div>No image.</div>
+	</ng-container>
+	<div
+		*ngIf="dataInfo.size && (dataInfo.size/1000) > secureMaxImageSizeKB"
+		class="yellow text-center">
+		Warning: Image size {{ dataInfo.size/1000 }}kb > {{ secureMaxImageSizeKB }}kb
+		<br>
+		<button
+			mat-flat-button
+			*ngIf="!showImageAnyway"
+			color="accent"
+			(click)="showImageAnyway = true">Show image anyway</button>
+	</div>
+	<div class="text-right img-info" *ngIf="imgTX">
+		{{ dataInfo.size!/1000 }} kb ({{ dataInfo.type }})
+	</div>
+	<div *ngIf="invalidImage">Invalid Image.</div>
+	<app-arweave-address
+		class="img-address"
+		*ngIf="imgTX"
+		[address]="imgTX"
+		[isAddress]="false">Image tx:</app-arweave-address>
+</mat-card>

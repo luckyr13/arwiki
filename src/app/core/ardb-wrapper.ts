@@ -100,4 +100,17 @@ export class ArdbWrapper {
     return obs;
   }
 
+  /*
+  *  @dev Helper class for searching a key in an array of tags
+  */
+  searchKeyNameInTags(_arr: any[], _key: string) {
+    let res = '';
+    for (const a of _arr) {
+      if (a.name === _key) {
+        return a.value;
+      }
+    }
+    return res;
+  }
+
 }

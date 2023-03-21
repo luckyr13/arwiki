@@ -52,6 +52,7 @@ import { DialogStampComponent } from './dialog-stamp/dialog-stamp.component';
 import {MatSortModule} from '@angular/material/sort';
 import { ChartComponent } from './chart/chart.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { SafeImageContainerComponent } from './safe-image-container/safe-image-container.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     FileManagerDialogComponent,
     UploadFileDialogComponent,
     DialogStampComponent,
-    ChartComponent
+    ChartComponent,
+    SafeImageContainerComponent
   ],
   imports: [
     CommonModule,
@@ -137,7 +139,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     MatCheckboxModule,
     MatSortModule,
     MatSlideToggleModule,
-    ChartComponent
+    ChartComponent,
+    SafeImageContainerComponent
   ],
   // entryComponents: [DialogSelectLanguageComponent]
 })

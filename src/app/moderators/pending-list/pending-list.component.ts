@@ -34,7 +34,6 @@ export class PendingListComponent implements OnInit, OnDestroy {
   insertPageTxErrorMessage: string = '';
   arwikiQueryPending!: ArwikiQuery;
   routeLang: string = '';
-  baseURL = this._arweave.baseURL;
   loadingRejectPage: boolean = false;
   rejectPageTxMessage: string = '';
   rejectPageTxErrorMessage: string = '';
@@ -245,6 +244,9 @@ export class PendingListComponent implements OnInit, OnDestroy {
         switchMap((pendingPages: ArdbTransaction[]|ArdbBlock[]) => {
           for (let p of pendingPages) {
             const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
+            const contentType = pTX.data.type ?
+              pTX.data.type :
+              this.arwikiQueryPending.searchKeyNameInTags(pTX.tags, 'Content-Type');
             allPendingPages[pTX.id] = {
               id: pTX.id,
               title: this.arwikiQueryPending.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title'),
@@ -254,7 +256,8 @@ export class PendingListComponent implements OnInit, OnDestroy {
               img: this.arwikiQueryPending.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img'),
               block: pTX.block,
               value: this.arwikiQueryPending.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Value'),
-              owner: pTX.owner.address
+              owner: pTX.owner.address,
+              dataInfo: { size: pTX.data.size, type: contentType }
             };
           }
           return of(allPendingPages);
@@ -351,6 +354,9 @@ export class PendingListComponent implements OnInit, OnDestroy {
           }
           for (let p of pendingPages) {
             const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
+            const contentType = pTX.data.type ?
+              pTX.data.type :
+              this.arwikiQueryPending.searchKeyNameInTags(pTX.tags, 'Content-Type');
             allPendingPages[pTX.id] = {
               id: pTX.id,
               title: this.arwikiQueryPending.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title'),
@@ -360,7 +366,8 @@ export class PendingListComponent implements OnInit, OnDestroy {
               img: this.arwikiQueryPending.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img'),
               block: pTX.block,
               value: this.arwikiQueryPending.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Value'),
-              owner: pTX.owner.address
+              owner: pTX.owner.address,
+              dataInfo: { size: pTX.data.size, type: contentType }
             };
           }
           

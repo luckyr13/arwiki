@@ -19,4 +19,5 @@ export interface ArwikiPage {
 	showInMainPage?: boolean;
 	nft?: string;
 	owner?: string;
+	dataInfo?: { size: string|number, type: string };
 }

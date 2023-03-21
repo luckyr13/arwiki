@@ -11,13 +11,12 @@
 		</div>
 
 		<div class="col-12 col-md-6 card-page fadeIn" *ngFor="let p of pages">
-			<mat-card >
+			<mat-card>
 				<h2 class="link" routerLink="../../preview/{{p.id}}">
 					{{ p.title }} 
 				</h2>
-				<mat-card *ngIf="p.img" class="card-image text-center">
-					<img src="{{ baseURL + p.img }}">
-				</mat-card>
+				<app-safe-image-container
+					[imgTX]="p.img!"></app-safe-image-container>
 				<div>
 					{{ 'PAGE.LABEL_SLUG' | translate }}: {{  p.slug }}
 				</div>
@@ -29,6 +28,18 @@
 				</div>
 				<div>
 					Page value: {{ p.value }} $WIKI 
+				</div>
+				<div *ngIf="p.dataInfo && p.dataInfo.size">
+					Data size: {{ p.dataInfo.size }} bytes
+				</div>
+				<div *ngIf="!p.dataInfo || (p.dataInfo && !p.dataInfo.size)" class="red">
+					Data size: Unknown
+				</div>
+				<div *ngIf="p.dataInfo && p.dataInfo.type">
+					Data Type: {{ p.dataInfo.type }}
+				</div>
+				<div *ngIf="!p.dataInfo || (p.dataInfo && !p.dataInfo.type)" class="red">
+					Data Type: Unknown
 				</div>
 			  <hr class="mbt20">
 			  <div class="red mini-text" *ngIf="!p.block || !p.block.height">

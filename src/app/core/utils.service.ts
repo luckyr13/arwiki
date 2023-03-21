@@ -88,4 +88,12 @@ export class UtilsService {
     return s && s.length < minLength ? s : `${s.substring(0, sliceLength)}...${s.substring(s.length - sliceLength, s.length)}`;
   }
 
+  validateImageMIMEType(type: string) {
+    const validMIME = [
+      'image/bmp', 'image/jpeg', 'image/x-png',
+      'image/png', 'image/gif'
+    ];
+    return (validMIME.indexOf(type) >= 0);
+  }
+
 }
