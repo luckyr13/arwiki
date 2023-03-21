@@ -57,7 +57,7 @@
   	<div class="menu-spacer"></div>
 	  <button 
 	  	mat-flat-button 
-	  	mat-dialog-close 
+	  	[mat-dialog-close]="transferTX" 
 	  	cdkFocusInitial>{{ 'DIALOGS.TXT_CLOSE' | translate }}</button>
 	</mat-dialog-actions>
 </form>

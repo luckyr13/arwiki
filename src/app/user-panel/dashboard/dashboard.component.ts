@@ -25,7 +25,7 @@ import {
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-	mainAddress: string = this._auth.getMainAddressSnapshot();
+	mainAddress: string = '';
 	balance: string = '';
 	balancePST: string = '';
   balancePSTVault: string = '';
@@ -69,7 +69,27 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.loadInitialValues();
+    this._route.paramMap.subscribe(async params => {
+      const lang = params.get('lang');
+      this.routeLang = lang!;
+    });
+  }
+
+  loadInitialValues() {
+    this.mainAddress = this._auth.getMainAddressSnapshot();
+    this.loadArweaveBalance();
+    this.loadPSTBalance();
+    this.loadTotalSupply();
+    this.loadNetworkInfo();
+    this.loadTokenInfo();
+    this.loadPSTSettings();
+    
+  }
+
+  loadArweaveBalance() {
     this.loadingBalance = true;
+    this.balance = '';
     this.balanceSubscription = this._arweave
       .getAccountBalance(this.mainAddress)
       .subscribe({
@@ -82,8 +102,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.loadingBalance = false;
         }
       });
+  }
 
+  loadPSTBalance() {
     this.loadingBalancePST = true;
+    this.balancePST = ``;
+    this.balancePSTVault = ``;
+    this.balancePSTStaked = ``;
+
     this.balancePSTSubscription = this._arwikiTokenContract
       .getBalanceAndTotalSupply(this.mainAddress, true)
       .subscribe({
@@ -105,9 +131,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.loadingBalancePST = false;
         }
       });
+  }
 
-    
+  loadTotalSupply() {
     this.loadingTotalSupply = true;
+    this.totalSupply = 0;
     this.totalSupplySubscription = this._arwikiTokenContract
       .getTotalSupply()
       .subscribe({
@@ -120,8 +148,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.loadingTotalSupply = false;
         }
       });
+  }
 
+  loadVault() {
     this.loadingAllBalances = true;
+    this.vault = [];
     this.allBalancesSubscription = this._arwikiTokenContract
       .getAllBalances()
       .subscribe({
@@ -135,24 +166,29 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.loadingAllBalances = false;
         }
       });
+  }
 
-      this.networkInfoSubscription = from(
-        this._arweave.arweave.network.getInfo()
-      ).subscribe({
-        next: (networkInfo: any) => {
-          this.currentHeight = networkInfo.height;
-        },
-        error: (error) => {
-          this._utils.message(error, 'error');
+  loadNetworkInfo() {
+    this.networkInfoSubscription = from(
+      this._arweave.arweave.network.getInfo()
+    ).subscribe({
+      next: (networkInfo: any) => {
+        this.currentHeight = networkInfo.height;
+      },
+      error: (error) => {
+        this._utils.message(error, 'error');
+      }
+    });
+  }
 
-        }
-      });
-
+  loadTokenInfo() {
     this.tokenNameTickerSubscription = this._arwikiTokenContract.getTokenNameAndTicker().subscribe((res) => {
       this.tokenName = res.name;
       this.tokenTicker = res.ticker;
     });
+  }
 
+  loadPSTSettings() {
     this.pstSettingsSubscription = this._arwikiTokenContract
       .getSettings()
       .subscribe({
@@ -212,12 +248,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.loadingSettings = false;
         }
       });
-
-    this._route.paramMap.subscribe(async params => {
-      const lang = params.get('lang');
-      this.routeLang = lang!;
-    });
-
   }
 
   ngOnDestroy() {
@@ -249,9 +279,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
       disableClose: true
     });
 
-    dialogRef.afterClosed().subscribe(async (res) => {
-      
-
+    dialogRef.afterClosed().subscribe(async (resTX) => {
+      if (resTX) {
+        this.loadInitialValues();
+      }
     });
   }
 
