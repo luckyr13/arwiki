@@ -35,11 +35,8 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
   arwikiQuery!: ArwikiQuery;
   routeLang: string = '';
   loadingDeletePage: boolean = false;
-  deleteTxMessage: string = '';
   stopStakeTxMessage: string = '';
   loadingStopStake: boolean = false;
-  loadingSetMainPage: boolean = false;
-  setMainTxMessage: string = '';
   private _arwiki!: Arwiki;
   myAddress: string = '';
   currentBlockHeight: number = 0;
@@ -74,26 +71,20 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
     // Get pages
     this.loadingApprovedPages = true;
-    const numPages = 100;
-    let networkInfo;
     let maxHeight = 0;
-    try {
-      networkInfo = await this._arweave.arweave.network.getInfo();
-      maxHeight = networkInfo.height;
-    } catch (error) {
-      this._utils.message(`${error}`, 'error');
-      return;
-    }
 
     let verifiedPages: string[] = [];
     let allVerifiedPages: any = {};
-    this.approvedPagesSubscription = this._arwikiCategories
-      .getCategories()
-      .pipe(
-        switchMap((categories: ArwikiCategoryIndex) => {
+    this.approvedPagesSubscription = from(
+        this._arweave.arweave.network.getInfo()
+      ).pipe(
+        switchMap((networkInfo) => {
+          maxHeight = networkInfo.height;
+          const reloadState = true;
           return this._arwikiPages.getApprovedPages(
             this.routeLang,
-            -1
+            -1,
+            reloadState
           );
         }),
         switchMap((_approvedPages: ArwikiPageIndex) => {
@@ -106,20 +97,28 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
         }),
         switchMap((pages: ArdbTransaction[]|ArdbBlock[]) => {
           let tmp_res: ArwikiPage[] = [];
+
           for (let p of pages) {
             const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
-            const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
+            const id = pTX.id;
+            const tmpSlug = Object.keys(allVerifiedPages).find((s) => {
+              return allVerifiedPages[s].id === id;
+            });
+            const slug = tmpSlug ? tmpSlug : '';
+            const category = allVerifiedPages[slug].category;
+
             tmp_res.push({
-              id: pTX.id,
+              id: id,
               title: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title'),
               slug: slug,
-              category: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category'),
-              language: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang'),
+              category: category,
+              language: this.routeLang,
               value: allVerifiedPages[slug].value,
               img: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img'),
               block: pTX.block,
               lastUpdateAt: allVerifiedPages[slug].lastUpdateAt,
-              sponsor: allVerifiedPages[slug].sponsor           
+              sponsor: allVerifiedPages[slug].sponsor,
+              owner: pTX.owner.address       
             });
           }
           return of(tmp_res);
@@ -159,94 +158,8 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
     }
   }
 
-  underscoreToSpace(_s: string) {
-    return _s.replace(/[_]/gi, ' ');
-  }
-
-
   timestampToDate(_time: number) {
-    let d = new Date(_time * 1000);
-    return d;
-  }
-
-  confirmDeleteArWikiPage(
-    _slug: string,
-    _pageId: string,
-    _category_slug: string
-  ) {
-    const defLang = this._userSettings.getDefaultLang();
-    let direction: Direction = defLang.writing_system === 'LTR' ? 
-      'ltr' : 'rtl';
-
-    const dialogRef = this._dialog.open(DialogConfirmComponent, {
-      data: {
-        title: 'Are you sure?',
-        content: 'You are about to unlist (hide) an arwiki page from the index. Do you want to proceed?'
-      },
-      direction: direction
-    });
-
-    dialogRef.afterClosed().subscribe(async (result) => {
-      if (result) {
-        // Create "delete" tx
-        this.loadingDeletePage = true;
-        try {
-          const tx = await this._arwiki.createDeleteTXForArwikiPage(
-            _pageId,
-            _slug,
-            _category_slug,
-            this.routeLang,
-            this._auth.getPrivateKey()
-          ); 
-
-          this.deleteTxMessage = tx;
-          this._utils.message('Success!', 'success');
-        } catch (error) {
-          this._utils.message(`${error}`, 'error');
-        }
-
-      }
-    });
-  }
-
-  confirmSetMainArWikiPage(
-    _slug: string,
-    _pageId: string,
-    _category_slug: string
-  ) {
-    const defLang = this._userSettings.getDefaultLang();
-    let direction: Direction = defLang.writing_system === 'LTR' ? 
-      'ltr' : 'rtl';
-
-    const dialogRef = this._dialog.open(DialogConfirmComponent, {
-      data: {
-        title: 'Are you sure?',
-        content: `You are about to set ${_slug} as the main page. Do you want to proceed?`
-      },
-      direction: direction
-    });
-
-    dialogRef.afterClosed().subscribe(async (result) => {
-      if (result) {
-        // Create "Mainpage" tx
-        this.loadingSetMainPage = true;
-        try {
-          const tx = await this._arwiki.createMainPageTXForArwikiPage(
-            _pageId,
-            _slug,
-            _category_slug,
-            this.routeLang,
-            this._auth.getPrivateKey()
-          ); 
-
-          this.setMainTxMessage = tx;
-          this._utils.message('Success!', 'success');
-        } catch (error) {
-          this._utils.message(`${error}`, 'error');
-        }
-
-      }
-    });
+    return this._utils.timestampToDate(_time);
   }
 
   async getCurrentHeight(): Promise<number> {
@@ -290,16 +203,32 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
           return of(null);
         })
       ).subscribe({
-        next: (tx) => {
+        next: (res) => {
+          let tx = '';
+          if (res && Object.prototype.hasOwnProperty.call(res, 'originalTxId')) {
+            tx = res.originalTxId;
+          } else if (res && Object.prototype.hasOwnProperty.call(res, 'bundlrResponse') &&
+            res.bundlrResponse && Object.prototype.hasOwnProperty.call(res.bundlrResponse, 'id')) {
+            tx = res.bundlrResponse.id;
+          }
+
           if (tx) {
             this.stopStakeTxMessage = `${tx}`;
             this._utils.message('Success!', 'success');
+          } else {
+            this._utils.message('Error!', 'error');
           }
           //this.loadingStopStake = false;
         },
         error: (error) => {
-          this._utils.message(`${error}`, 'error');
-          //this.loadingStopStake = false;
+          if (typeof error === 'string') {
+            this._utils.message(`Error: ${error}`, 'error');
+          } else if (typeof error === 'object' && error && error.message) {
+            this._utils.message(`Error: ${error.message}`, 'error');
+          } else {
+            this._utils.message(`Error!`, 'error');
+          }
+          console.error('confirmStopStake', error);
         }
       });
   }
@@ -347,15 +276,33 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
         return of(null);
       })
     ).subscribe({
-      next: (tx) => {
+      next: (res) => {
+        let tx = '';
+        if (res && Object.prototype.hasOwnProperty.call(res, 'originalTxId')) {
+          tx = res.originalTxId;
+        } else if (res && Object.prototype.hasOwnProperty.call(res, 'bundlrResponse') &&
+          res.bundlrResponse && Object.prototype.hasOwnProperty.call(res.bundlrResponse, 'id')) {
+          tx = res.bundlrResponse.id;
+        }
+
         if (tx) {
           this.updateSponsorPageTxMessage = `${tx}`;
           this._utils.message('Success!', 'success');
+        } else {
+          this._utils.message('Error!', 'error');
         }
       },
       error: (error) => {
-        this.updateSponsorPageTxErrorMessage = `${error}`;
-        this._utils.message(`${error}`, 'error');
+        if (typeof error === 'string') {
+          this.updateSponsorPageTxErrorMessage = `${error}`;
+          this._utils.message(`Error: ${error}`, 'error');
+        } else if (typeof error === 'object' && error && error.message) {
+          this.updateSponsorPageTxErrorMessage = `${error.message}`;
+          this._utils.message(`Error: ${error.message}`, 'error');
+        } else {
+          this._utils.message(`Error!`, 'error');
+        }
+        console.error('confirmSponsorArWikiPage', error);
       }
     });
   }

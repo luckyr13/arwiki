@@ -164,6 +164,8 @@ export class Arwiki {
   * if an admin creates a MainPage TX (Arwiki-Type: MainPage)
   * Note: The latest MainPage TX would be the considered as the main page
   */
+  // DEPRECATED
+  /*
   async createMainPageTXForArwikiPage(
     _pageId: string,
     _slug: string,
@@ -191,6 +193,7 @@ export class Arwiki {
     }
     return tx.id;
   }
+  */
 
   /*
   * @dev Anyone can create a page update
