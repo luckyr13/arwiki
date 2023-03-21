@@ -1,28 +1,30 @@
-<div class="footer fadeIn">
-	<div class="row-col-logo">
-		{{ 'FOOTER.LBL_POWERED' | translate }}
-		<br>
-		<a href="https://arweave.org" target="_blank">
-			<img class="arweave-gray-logo" src="./assets/img/arweave-gray-logo.png">
-		</a>
+<div class="footer fadeIn container-fluid">
+	<div class="row">
+		<div class="col-12 text-center row-col-logo">
+			{{ 'FOOTER.LBL_POWERED' | translate }}
+			<br>
+			<a href="https://arweave.org" target="_blank">
+				<img class="arweave-gray-logo" src="./assets/img/arweave-gray-logo.png">
+			</a>
+		</div>
+		<div class="col-12 text-left row-col-social-media">
+			<span class="follow-us-label">{{ 'FOOTER.LBL_SOCIAL_MEDIA' | translate }}</span>
+			<a href="https://discord.gg/mn8j66r4x3" target="_blank">
+				<img class="arweave-gray-logo" src="./assets/img/social-media/discord2.png">
+			</a>
+			<a href="https://github.com/luckyr13/arwiki" target="_blank">
+				<img class="arweave-gray-logo" src="./assets/img/social-media/github2.png">
+			</a>
+			<a href="https://twitter.com/TheArWiki" target="_blank">
+				<img class="arweave-gray-logo" src="./assets/img/social-media/twitterWhite.png">
+			</a>
+			<a href="https://publicsquare.social/#/gXHKPxr7R8ItdidbzzWZLo_ww5JVVFi-fOUxcL6Fnfg" target="_blank">
+				<img class="arweave-gray-logo" src="./assets/img/social-media/publicSquareIcon.png">
+			</a>
+		</div>
 	</div>
-	<div class="row-col-social-media">
-		<span class="follow-us-label">{{ 'FOOTER.LBL_SOCIAL_MEDIA' | translate }}</span>
-		<a href="https://discord.gg/mn8j66r4x3" target="_blank">
-			<img class="arweave-gray-logo" src="./assets/img/social-media/discord2.png">
-		</a>
-		<a href="https://github.com/luckyr13/arwiki" target="_blank">
-			<img class="arweave-gray-logo" src="./assets/img/social-media/github2.png">
-		</a>
-		<a href="https://twitter.com/TheArWiki" target="_blank">
-			<img class="arweave-gray-logo" src="./assets/img/social-media/twitterWhite.png">
-		</a>
-		<a href="https://publicsquare.social/#/gXHKPxr7R8ItdidbzzWZLo_ww5JVVFi-fOUxcL6Fnfg" target="_blank">
-			<img class="arweave-gray-logo" src="./assets/img/social-media/publicSquareIcon.png">
-		</a>
-	</div>
-	<div class="text-right app-info">
-		<div class="footer-links text-left">
+	<div class="text-right app-info row">
+		<div class="footer-links col-12 col-md-10 text-left">
 			<!--
 			<ul>
 				<li>
@@ -42,10 +44,10 @@
 				</li>
 			</ul>
 			-->
-
 		</div>
-		<div class="app-version text-right">
+		<div class="app-version col-12 col-md-2 text-right">
 			ArWiki v{{ arwikiV }}
 		</div>
 	</div>
+	
 </div>
