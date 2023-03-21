@@ -297,7 +297,10 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
             });
             const slug = tmpSlug ? tmpSlug : '';
             const category = this.allApprovedPages[slug].category;
-
+            const contentType = pTX.data.type ?
+              pTX.data.type :
+              this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Content-Type');
+            
             tmp_res.push({
               id: id,
               title: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title'),
@@ -309,7 +312,8 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
               block: pTX.block,
               lastUpdateAt: this.allApprovedPages[slug].lastUpdateAt,
               sponsor: this.allApprovedPages[slug].sponsor,
-              owner: pTX.owner.address       
+              owner: pTX.owner.address,
+              dataInfo: { size: pTX.data.size, type: contentType }    
             });
           }
 
@@ -371,7 +375,9 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
           const category = this.allApprovedPages[slug].category;
 
           const sponsor = this.allApprovedPages[slug].sponsor;
-          
+          const contentType = pTX.data.type ?
+              pTX.data.type :
+              this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Content-Type');
           latestPages.push({
             title: title,
             slug: slug,
@@ -381,7 +387,9 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
             block: block,
             language: this.routeLang,
             lastUpdateAt: this.allApprovedPages[slug].lastUpdateAt,
-            sponsor: sponsor
+            sponsor: sponsor,
+            owner: owner,
+            dataInfo: { size: pTX.data.size, type: contentType }
           });
         }
         // Sort desc

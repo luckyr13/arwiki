@@ -46,6 +46,18 @@
 				<div>
 					Page value: {{ p.value }} $WIKI 
 				</div>
+				<div *ngIf="p.dataInfo && p.dataInfo.size">
+					Data size: {{ p.dataInfo.size }} bytes
+				</div>
+				<div *ngIf="!p.dataInfo || (p.dataInfo && !p.dataInfo.size)" class="red">
+					Data size: Unknown
+				</div>
+				<div *ngIf="p.dataInfo && p.dataInfo.type">
+					Data Type: {{ p.dataInfo.type }}
+				</div>
+				<div *ngIf="!p.dataInfo || (p.dataInfo && !p.dataInfo.type)" class="red">
+					Data Type: Unknown
+				</div>
 			  <hr class="mbt20">
 				<div class="mini-text"> 
 					<app-arweave-address 
