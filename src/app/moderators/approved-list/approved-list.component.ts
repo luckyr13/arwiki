@@ -36,6 +36,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
   routeLang: string = '';
   loadingDeletePage: boolean = false;
   stopStakeTxMessage: string = '';
+  stopStakeErrorMessage: string = '';
   loadingStopStake: boolean = false;
   private _arwiki!: Arwiki;
   myAddress: string = '';
@@ -121,6 +122,11 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
               owner: pTX.owner.address       
             });
           }
+
+          // Sort by lastUpdateAt
+          Array.prototype.sort.call(tmp_res, (a, b) => {
+            return b.lastUpdateAt - a.lastUpdateAt;
+          });
           return of(tmp_res);
         })
       
@@ -153,9 +159,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
   *	@dev Destroy subscriptions
   */
   ngOnDestroy() {
-    if (this.approvedPagesSubscription) {
-      this.approvedPagesSubscription.unsubscribe();
-    }
+    this.approvedPagesSubscription.unsubscribe();
   }
 
   timestampToDate(_time: number) {
@@ -216,14 +220,18 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
             this.stopStakeTxMessage = `${tx}`;
             this._utils.message('Success!', 'success');
           } else {
+            this.stopStakeErrorMessage = 'Error';
             this._utils.message('Error!', 'error');
           }
           //this.loadingStopStake = false;
         },
         error: (error) => {
+          this.stopStakeErrorMessage = 'Error';
           if (typeof error === 'string') {
+            this.stopStakeErrorMessage = error;
             this._utils.message(`Error: ${error}`, 'error');
           } else if (typeof error === 'object' && error && error.message) {
+            this.stopStakeErrorMessage = error.message;
             this._utils.message(`Error: ${error.message}`, 'error');
           } else {
             this._utils.message(`Error!`, 'error');

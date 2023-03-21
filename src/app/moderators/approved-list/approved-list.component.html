@@ -134,13 +134,13 @@
 	</div>
 
 
-	<div class="row fadeIn" *ngIf="loadingStopStake && !stopStakeTxMessage">
+	<div class="row fadeIn" *ngIf="loadingStopStake && !stopStakeTxMessage && !stopStakeErrorMessage">
 		<div class="col text-center">
 			<mat-spinner class="spinner-center"></mat-spinner>
 			<h1 class="text-center">🚀 Hold on! Your transaction is processing ...</h1>
 		</div>
 	</div>
-	<div class="row fadeIn" *ngIf="stopStakeTxMessage">
+	<div class="row fadeIn" *ngIf="stopStakeTxMessage && !stopStakeErrorMessage">
 		<div class="col text-center">
 			<h1 class="text-center">💥 Sponsorship successfully stopped!</h1>
 			<p class="text-center">TxID: {{ stopStakeTxMessage }}</p>
@@ -150,7 +150,12 @@
 				href="https://viewblock.io/arweave/tx/{{stopStakeTxMessage}}" 
 				class="text-center">https://viewblock.io/arweave/tx/{{ stopStakeTxMessage }}
 			</a>
-			
+		</div>
+	</div>
+	<div class="row fadeIn" *ngIf="stopStakeErrorMessage">
+		<div class="col text-center">
+			<h1 class="text-center">Oops! something went wrong</h1>
+			<p class="text-center">{{ stopStakeErrorMessage }}</p>
 		</div>
 	</div>
 
