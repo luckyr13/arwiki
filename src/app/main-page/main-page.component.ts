@@ -59,6 +59,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     { img: './assets/img/partners/pn-coinbase.png', alt: 'Coinbase', href:'' },
   ];
   numLatestArticles = 8;
+  incrementNumLatestArticles = 4;
   allApprovedPages: ArwikiPageIndex = {};
   nextLatestArticlesSubscription = Subscription.EMPTY;
   loadingNextLatestArticles = false;
@@ -86,7 +87,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
     this.getSubmenu();
 
     // Load latest articles
-    this.numLatestArticles = 8;
     this.getLatestArticles(this.numLatestArticles);
 
     // Load main article
@@ -234,7 +234,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
       })
     ).subscribe({
       next: async (pages: ArwikiPage[]) => {
-        // Sort desc
         this.latestArticles = pages;
         
         this.loadingLatestArticles = false;
@@ -351,13 +350,13 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
 
   nextLatestArticles(increment: number) {
-    const from = this.numLatestArticles;
+    const fromPos = this.numLatestArticles;
     this.numLatestArticles += increment;
     this.loadingNextLatestArticles = true;
 
     // Slice array
     let verifiedPages = Array.prototype.slice.call(
-      this.allLatestArticles, from, this.numLatestArticles
+      this.allLatestArticles, fromPos, this.numLatestArticles
     );
     verifiedPages = verifiedPages.map((slug) => {
       return this.allApprovedPages[slug].id!;

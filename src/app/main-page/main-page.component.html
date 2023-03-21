@@ -97,7 +97,7 @@
 				mat-flat-button 
 				class="btn-more-articles"
 				[disabled]="loadingNextLatestArticles"
-				(click)="nextLatestArticles(4)">
+				(click)="nextLatestArticles(incrementNumLatestArticles)">
 				{{ 'GENERAL.BUTTONS.MORE_ARTICLES' | translate }}
 			</button>
 		</div>
