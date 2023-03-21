@@ -131,6 +131,18 @@
 				</div>
 			</mat-card>
 		</div>
+		<div
+			class="col-12 text-center btn-more-container"
+			*ngIf="!hideBtnMoreArticles && !loadingApprovedPages">
+			<button
+				mat-flat-button 
+				class="btn-more-articles"
+				[disabled]="loadingNextArticles"
+				(click)="nextArticles(incrementNumArticles)">
+				{{ 'GENERAL.BUTTONS.MORE_ARTICLES' | translate }}
+			</button>
+		</div>
+
 	</div>
 
 

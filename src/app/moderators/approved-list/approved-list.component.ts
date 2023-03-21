@@ -48,6 +48,14 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
   loadingUpdateSponsorPageIntoIndex: boolean = false;
   loadingPendingUpdates: boolean = false;
 
+  allApprovedPages: ArwikiPageIndex = {};
+  numArticles = 8;
+  incrementNumArticles = 4;
+  nextArticlesSubscription = Subscription.EMPTY;
+  loadingNextArticles = false;
+  hideBtnMoreArticles = false;
+  allArticlesBySlug: string[] = [];
+
   constructor(
   	private _arweave: ArweaveService,
     private _auth: AuthService,
@@ -64,94 +72,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     this.myAddress = this._auth.getMainAddressSnapshot();
     this.routeLang = this._route.snapshot.paramMap.get('lang')!;
-
-    // Init arwiki 
-    this._arwiki = new Arwiki(this._arweave.arweave);
-
-    // Init ardb
-    this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
-    // Get pages
-    this.loadingApprovedPages = true;
-    let maxHeight = 0;
-
-    let verifiedPages: string[] = [];
-    let allVerifiedPages: any = {};
-    this.approvedPagesSubscription = from(
-        this._arweave.arweave.network.getInfo()
-      ).pipe(
-        switchMap((networkInfo) => {
-          maxHeight = networkInfo.height;
-          const reloadState = true;
-          return this._arwikiPages.getApprovedPages(
-            this.routeLang,
-            -1,
-            reloadState
-          );
-        }),
-        switchMap((_approvedPages: ArwikiPageIndex) => {
-          allVerifiedPages = _approvedPages;
-          verifiedPages = Object.keys(_approvedPages).map((slug) => {
-            return _approvedPages[slug].id!;
-          });
-
-          return this.arwikiQuery.getTXsData(verifiedPages);
-        }),
-        switchMap((pages: ArdbTransaction[]|ArdbBlock[]) => {
-          let tmp_res: ArwikiPage[] = [];
-
-          for (let p of pages) {
-            const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
-            const id = pTX.id;
-            const tmpSlug = Object.keys(allVerifiedPages).find((s) => {
-              return allVerifiedPages[s].id === id;
-            });
-            const slug = tmpSlug ? tmpSlug : '';
-            const category = allVerifiedPages[slug].category;
-
-            tmp_res.push({
-              id: id,
-              title: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title'),
-              slug: slug,
-              category: category,
-              language: this.routeLang,
-              value: allVerifiedPages[slug].value,
-              img: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img'),
-              block: pTX.block,
-              lastUpdateAt: allVerifiedPages[slug].lastUpdateAt,
-              sponsor: allVerifiedPages[slug].sponsor,
-              owner: pTX.owner.address       
-            });
-          }
-
-          // Sort by lastUpdateAt
-          Array.prototype.sort.call(tmp_res, (a, b) => {
-            return b.lastUpdateAt - a.lastUpdateAt;
-          });
-          return of(tmp_res);
-        })
-      
-
-      ).subscribe({
-      next: async (pages: ArwikiPage[]) => {
-        this.pages = pages;
-        this.loadingApprovedPages = false;
-        
-      },
-      error: (error) => {
-        this._utils.message(error, 'error');
-        this.loadingApprovedPages = false;
-      }
-    });
-
-
-    this.heightSubscription = from(this.getCurrentHeight()).subscribe({
-      next: (height)  => {
-        this.currentBlockHeight = height;
-      },
-      error: (error) => {
-        this._utils.message(error, 'error');
-      }
-    });
+    this.loadApprovedPages(this.numArticles);
 
   }
 
@@ -164,18 +85,6 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
 
   timestampToDate(_time: number) {
     return this._utils.timestampToDate(_time);
-  }
-
-  async getCurrentHeight(): Promise<number> {
-    let networkInfo: any = {};
-    let maxHeight = 0;
-    try {
-      networkInfo = await this._arweave.arweave.network.getInfo();
-      maxHeight = networkInfo.height ? networkInfo.height : 0;
-    } catch (error) {
-      throw Error(`${error}`);
-    }
-    return maxHeight;
   }
 
   confirmStopStake(
@@ -331,6 +240,165 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(async (res) => {
       
 
+    });
+  }
+
+  loadApprovedPages(numArticles: number) {
+    // Init ardb
+    this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
+    // Get pages
+    this.loadingApprovedPages = true;
+    this.pages = [];
+    this.allApprovedPages = {};
+    this.allArticlesBySlug = [];
+
+    let maxHeight = 0;
+
+    let verifiedPages: string[] = [];
+    this.approvedPagesSubscription = from(
+        this._arweave.arweave.network.getInfo()
+      ).pipe(
+        switchMap((networkInfo) => {
+          maxHeight = networkInfo.height;
+          const reloadState = true;
+          return this._arwikiPages.getApprovedPages(
+            this.routeLang,
+            -1,
+            reloadState
+          );
+        }),
+        switchMap((_approvedPages: ArwikiPageIndex) => {
+          this.allApprovedPages = _approvedPages;
+
+          // Sort desc
+          verifiedPages = Array.prototype.sort.call(Object.keys(_approvedPages), (a, b) => {
+            return _approvedPages[b].lastUpdateAt! - _approvedPages[a].lastUpdateAt!;
+          });
+          // Get a copy
+          this.allArticlesBySlug = [...verifiedPages];
+
+          // Slice array
+          verifiedPages = Array.prototype.slice.call(verifiedPages, 0, numArticles);
+
+          verifiedPages = verifiedPages.map((slug) => {
+            return _approvedPages[slug].id!;
+          });
+
+          return this.arwikiQuery.getTXsData(verifiedPages);
+        }),
+        switchMap((pages: ArdbTransaction[]|ArdbBlock[]) => {
+          let tmp_res: ArwikiPage[] = [];
+
+          for (let p of pages) {
+            const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
+            const id = pTX.id;
+            const tmpSlug = Object.keys(this.allApprovedPages).find((s) => {
+              return this.allApprovedPages[s].id === id;
+            });
+            const slug = tmpSlug ? tmpSlug : '';
+            const category = this.allApprovedPages[slug].category;
+
+            tmp_res.push({
+              id: id,
+              title: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title'),
+              slug: slug,
+              category: category,
+              language: this.routeLang,
+              value: this.allApprovedPages[slug].value,
+              img: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img'),
+              block: pTX.block,
+              lastUpdateAt: this.allApprovedPages[slug].lastUpdateAt,
+              sponsor: this.allApprovedPages[slug].sponsor,
+              owner: pTX.owner.address       
+            });
+          }
+
+          // Sort by lastUpdateAt
+          Array.prototype.sort.call(tmp_res, (a, b) => {
+            return b.lastUpdateAt - a.lastUpdateAt;
+          });
+          return of(tmp_res);
+        })
+      
+
+      ).subscribe({
+      next: async (pages: ArwikiPage[]) => {
+        this.pages = pages;
+        this.loadingApprovedPages = false;
+        
+      },
+      error: (error) => {
+        this._utils.message(error, 'error');
+        this.loadingApprovedPages = false;
+      }
+    });
+  }
+
+  nextArticles(increment: number) {
+    const fromPos = this.numArticles;
+    this.numArticles += increment;
+    this.loadingNextArticles = true;
+
+    // Slice array
+    let verifiedPages = Array.prototype.slice.call(
+      this.allArticlesBySlug, fromPos, this.numArticles
+    );
+    verifiedPages = verifiedPages.map((slug) => {
+      return this.allApprovedPages[slug].id!;
+    });
+
+    if (!verifiedPages || !verifiedPages.length) {
+      this.hideBtnMoreArticles = true;
+    }
+
+    this.nextArticlesSubscription = this.arwikiQuery.getTXsData(verifiedPages).pipe(
+      switchMap((pages: ArdbTransaction[]|ArdbBlock[]) => {
+        const latestPages: ArwikiPage[] = [];
+        for (let p of pages) {
+          const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
+          const title = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title');
+          //const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
+          //const category = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category');
+          const img = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img');
+          //const language = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang');
+          const owner = pTX.owner.address;
+          const id = pTX.id;
+          const block = pTX.block;
+          const tmpSlug = Object.keys(this.allApprovedPages).find((s) => {
+            return this.allApprovedPages[s].id === id;
+          });
+          const slug = tmpSlug ? tmpSlug : '';
+          const category = this.allApprovedPages[slug].category;
+
+          const sponsor = this.allApprovedPages[slug].sponsor;
+          
+          latestPages.push({
+            title: title,
+            slug: slug,
+            category: category,
+            img: img,
+            id: id,
+            block: block,
+            language: this.routeLang,
+            lastUpdateAt: this.allApprovedPages[slug].lastUpdateAt,
+            sponsor: sponsor
+          });
+        }
+        // Sort desc
+        Array.prototype.sort.call(latestPages, (a, b) => {
+          return b.lastUpdateAt! - a.lastUpdateAt!;
+        });
+        return of(latestPages);
+      })
+    ).subscribe({
+      next: async (pages: ArwikiPage[]) => {
+        this.pages.push(...pages);
+        this.loadingNextArticles = false;
+      },
+      error: (error) => {
+        this._utils.message(error, 'error');
+        this.loadingNextArticles = false;
+      }
     });
   }
 
