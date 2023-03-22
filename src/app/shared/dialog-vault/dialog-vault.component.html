@@ -4,30 +4,35 @@
 </h2>
 	<mat-dialog-content>
 		<mat-tab-group color="accent" class=" container">
-		  <mat-tab label="Lock balance" class="tab-container row">
-		  	<div *ngIf="loadingSendTokens" class="col-12">
-					<div *ngIf="!transferTX" class="text-center">
+		  <mat-tab 
+		  	label="Lock balance"
+		  	class="tab-container row"
+		  	[disabled]="loadingLockVault || loadingUnlockVault">
+		  	<div *ngIf="loadingLockVault" class="col-12">
+					<div *ngIf="!lockVaultTX" class="text-center">
 						<mat-progress-bar mode="indeterminate"></mat-progress-bar>
 						🔐 Locking tokens, please hold on ...
 					</div>
-					<div *ngIf="transferTX">
+				</div>
+				<div>
+					<div *ngIf="lockVaultTX">
 				    <div>
 				    	🥳 Tokens locked! You can follow your tx status here:
 				    	<a 
 								mat-button 
 								target="_blank"
-								href="https://viewblock.io/arweave/tx/{{transferTX}}" 
-								class="text-center">https://viewblock.io/arweave/tx/{{ transferTX }}
+								href="https://viewblock.io/arweave/tx/{{lockVaultTX}}" 
+								class="text-center">https://viewblock.io/arweave/tx/{{ lockVaultTX }}
 							</a>	
 				    </div>
 				    <div>You can close this window now.</div>
 					</div>
-					<div *ngIf="errorMsg">
-				    Error: {{errorMsg  }}
+					<div *ngIf="errorLockMsg">
+				    Error: {{errorLockMsg  }}
 					</div>
 				</div>
-		  	<form [formGroup]="frmTransfer" (ngSubmit)="onSubmit()" class="frm-transfer col-12">
-					<ng-container *ngIf="!loadingSendTokens">
+		  	<form [formGroup]="frmVault" (ngSubmit)="onSubmit()" class="frm-transfer col-12">
+					<ng-container *ngIf="!loadingLockVault && !lockVaultTX && !errorLockMsg">
 					  <mat-form-field class="col-12" color="accent" appearance="outline" hintLabel="Min lock length: {{ data.lockMinLength }} blocks {{ formatBlocks(data.lockMinLength) }}">
 					    <mat-label>Block length</mat-label>
 					    <input 
@@ -59,12 +64,15 @@
 				  	class="big-btn"
 				  	type="submit" 
 				  	color="accent"
-				  	[disabled]="!frmTransfer.valid || loadingSendTokens">
+				  	*ngIf="!errorLockMsg && !lockVaultTX"
+				  	[disabled]="!frmVault.valid || loadingLockVault">
 				  	<mat-icon>lock</mat-icon> Lock balance
 				  </button>
 				</form>
 		  </mat-tab>
-		  <mat-tab label="View vault">
+		  <mat-tab
+		  	label="View vault"
+		  	[disabled]="loadingLockVault || loadingUnlockVault">
 		  	<div class="tab-container">
 		  		<table mat-table [dataSource]="dataSource">
 					  <ng-container matColumnDef="balance">
@@ -106,13 +114,17 @@
 				  </mat-paginator>
 		  	</div>
 		  </mat-tab>
-		  <mat-tab label="Unlock vault">
+		  <mat-tab
+		  	label="Unlock vault"
+		  	[disabled]="loadingLockVault || loadingUnlockVault">
 		  	<div class="tab-container">
 		  		<div *ngIf="loadingUnlockVault">
 						<div *ngIf="!unlockVaultTX" class="text-center">
 							<mat-progress-bar mode="indeterminate"></mat-progress-bar>
 							🔑 Unlocking vault, please hold on ...
 						</div>
+					</div>
+					<div *ngIf="!loadingUnlockVault">
 						<div *ngIf="unlockVaultTX">
 					    <div>
 					    	🥳 Tokens unlocked! You can follow your tx status here:
@@ -125,8 +137,8 @@
 					    </div>
 					    <div>You can close this window now.</div>
 						</div>
-						<div *ngIf="errorMsg">
-					    Error: {{errorMsg  }}
+						<div *ngIf="errorUnlockMsg">
+					    Error: {{ errorUnlockMsg }}
 						</div>
 					</div>
 		  		<button 
@@ -135,6 +147,7 @@
 				  	type="button"
 				  	color="accent"
 				  	[disabled]="loadingUnlockVault"
+				  	*ngIf="!errorUnlockMsg && !unlockVaultTX"
 				  	(click)="unlockVault()">
 				  	<mat-icon class="yellow">vpn_key</mat-icon> Unlock vault
 				  </button>
@@ -147,6 +160,6 @@
 	<mat-dialog-actions align="end">
 	  <button 
 	  	mat-flat-button 
-	  	mat-dialog-close 
+	  	[mat-dialog-close]="lockVaultTX || unlockVaultTX" 
 	  	cdkFocusInitial>Close</button>
 	</mat-dialog-actions>

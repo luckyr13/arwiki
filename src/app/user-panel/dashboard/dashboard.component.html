@@ -122,7 +122,10 @@
 			<mat-tab-group color="accent">
 			  <mat-tab label="Community Members">
 			  	<ng-template matTabContent>
-			  		<app-community-members [lang]="routeLang"></app-community-members>
+			  		<app-community-members
+			  			*ngIf="allBalances && allBalances.length"
+			  			[lang]="routeLang"
+			  			[balances]="allBalances"></app-community-members>
 			  	</ng-template>
 			  </mat-tab>
 			  <mat-tab label="PST Info">

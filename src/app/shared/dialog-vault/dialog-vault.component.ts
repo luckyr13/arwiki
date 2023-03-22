@@ -18,7 +18,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./dialog-vault.component.scss']
 })
 export class DialogVaultComponent implements OnInit, AfterViewInit, OnDestroy  {
-  frmTransfer: UntypedFormGroup = new UntypedFormGroup({
+  frmVault: UntypedFormGroup = new UntypedFormGroup({
 		lockLength: new UntypedFormControl(
       this.data.lockMinLength, [Validators.required]
     ),
@@ -26,9 +26,10 @@ export class DialogVaultComponent implements OnInit, AfterViewInit, OnDestroy  {
       '0', [Validators.required, Validators.min(1)]
     )
 	});
-	loadingSendTokens: boolean = false;
-	transferTX: string = '';
-  errorMsg: string = '';
+	loadingLockVault: boolean = false;
+	lockVaultTX: string = '';
+  errorLockMsg: string = '';
+  errorUnlockMsg: string = '';
   columnsToDisplay = ['balance', 'lockedLength', 'page', 'status'];
   dataSource!: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -66,11 +67,11 @@ export class DialogVaultComponent implements OnInit, AfterViewInit, OnDestroy  {
 
 
   public get amount() {
-  	return this.frmTransfer.get('amount');
+  	return this.frmVault.get('amount');
   }
 
   public get lockLength() {
-  	return this.frmTransfer.get('lockLength');
+  	return this.frmVault.get('lockLength');
   }
 
 
@@ -84,7 +85,8 @@ export class DialogVaultComponent implements OnInit, AfterViewInit, OnDestroy  {
   async lockTokensInVault(
     lockLength: number, amount: number
   ) {
-    this.loadingSendTokens = true;
+    this.loadingLockVault = true;
+    this.errorLockMsg = '';
     this.lockVaultSubscription = this._arwikiTokenContract.lockTokensInVault(
         lockLength,
         amount,
@@ -100,12 +102,14 @@ export class DialogVaultComponent implements OnInit, AfterViewInit, OnDestroy  {
             tx = res.bundlrResponse.id;
           }
 
-          this.transferTX = `${tx}`;
+          this.lockVaultTX = `${tx}`;
+          this.loadingLockVault = false;
         }, 
         error: (error) => {
-          console.error('lockTokensInVault', error);
-          this.errorMsg = `Error locking tokens!`;
+          this.loadingLockVault = false;
+          this.errorLockMsg = `Error locking tokens!`;
           this._utils.message(`Error locking tokens!`, 'error');
+          console.error('lockTokensInVault', error);
         }
       })
     
@@ -117,6 +121,7 @@ export class DialogVaultComponent implements OnInit, AfterViewInit, OnDestroy  {
 
   unlockVault() {
     this.loadingUnlockVault = true;
+    this.errorUnlockMsg = '';
     this.unlockVaultSubscription = this._arwikiTokenContract
       .unlockVault(
         this._auth.getPrivateKey(),
@@ -132,11 +137,13 @@ export class DialogVaultComponent implements OnInit, AfterViewInit, OnDestroy  {
           }
 
           this.unlockVaultTX = `${tx}`;
+          this.loadingUnlockVault = false;
         },
         error: (error) => {
-          console.error('unlockVault', error);
-          this.errorMsg = `Error unlocking vault!`;
+          this.loadingUnlockVault = false;
+          this.errorUnlockMsg = `Error unlocking vault!`;
           this._utils.message(`Error unlocking vault!`, 'error');
+          console.error('unlockVault', error);
         }
       });
   }

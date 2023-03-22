@@ -20,7 +20,7 @@ export class ArwikiTokenContract
 
   // One holder
   // private _contractAddress = '2nZIuLR0g9EqhDm7M-5Si0QeJfhL07oYLlkrHTVvHQE';
-  private _contractAddress = 'A1sj6ocQy9Q8I5UXTUc5gKRSMkq8IZpwWvRqr7JIJOU';
+  private _contractAddress = 'FBF6LiAtREEaGu5ejKbEdRZcUn16yqQeVIwcjgysWTc';
 
   // Multi level
   // private _contractAddress = 'aYnwKbqL603IKdP-Ba_kG73K7EeURTeF1jUoz4YJqxA';
@@ -250,13 +250,13 @@ export class ArwikiTokenContract
   /*
   *  @dev Get all balances variables
   */
-  getAllBalances(): Observable<any> {
-    return this.getState().pipe(
+  getAllBalances(_reload=false): Observable<any> {
+    return this.getState(_reload).pipe(
       map((_state: any) => {
         const res = {
           'vault': _state.vault,
           'stakes': _state.stakes,
-          'balance': _state.balances
+          'balances': _state.balances
         };
         return res;
       })

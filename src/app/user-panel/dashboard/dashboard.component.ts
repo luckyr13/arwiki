@@ -18,6 +18,7 @@ import {
 import { 
   DialogVaultComponent 
 } from '../../shared/dialog-vault/dialog-vault.component';
+import { ArwikiUserBalance } from '../../core/interfaces/arwiki-user-balance'
 
 @Component({
   selector: 'app-dashboard',
@@ -39,9 +40,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   loadingSettings: boolean = false;
   loadingAllBalances: boolean = false;
   txmessage: string = '';
-  lastTransactionID: Observable<string> = this._arweave.getLastTransactionID(
-    this.mainAddress
-  );
   loadingTotalSupply: boolean = false;
   totalSupplySubscription: Subscription = Subscription.EMPTY;
   totalSupply: number = 0;
@@ -56,6 +54,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   tokenNameTickerSubscription = Subscription.EMPTY;
   pstSettings: any = [];
   pstSettingsSubscription: Subscription = Subscription.EMPTY;
+  allBalances: ArwikiUserBalance[] = [];
   
   constructor(
   	private _utils: UtilsService,
@@ -74,7 +73,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       const lang = params.get('lang');
       this.routeLang = lang!;
     });
+
   }
+
 
   loadInitialValues() {
     this.mainAddress = this._auth.getMainAddressSnapshot();
@@ -84,7 +85,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.loadNetworkInfo();
     this.loadTokenInfo();
     this.loadPSTSettings();
-    
+    this.loadVaultAndBalances();
   }
 
   loadArweaveBalance() {
@@ -150,15 +151,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
       });
   }
 
-  loadVault() {
+  loadVaultAndBalances() {
     this.loadingAllBalances = true;
     this.vault = [];
     this.allBalancesSubscription = this._arwikiTokenContract
-      .getAllBalances()
+      .getAllBalances(true)
       .subscribe({
         next: (res: any) => {
           this.vault = Object.prototype.hasOwnProperty.call(res.vault, this.mainAddress) ?
              res.vault[this.mainAddress] : [];
+
+          this.allBalances = Object.values(this.getTotalBalances(res));
+
           this.loadingAllBalances = false;
         },
         error: (error) => {
@@ -303,9 +307,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
       disableClose: true
     });
 
-    dialogRef.afterClosed().subscribe(async (res) => {
-      
-
+    dialogRef.afterClosed().subscribe(async (resTX) => {
+      if (resTX) {
+        this.loadInitialValues();
+      }
     });
   }
 
@@ -348,5 +353,28 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   formatBlocks(len: number): string {
     return this._arweave.formatBlocks(len);
+  }
+
+  getTotalBalances(balances: {balances: any, vault: any, stakes: any}): Record<string, ArwikiUserBalance> {
+    const vault = balances.vault;
+    const stakes = balances.stakes;
+    const balance = balances.balances;
+    const totalBalances: Record<string, ArwikiUserBalance> = {};
+    let targets = [...Object.keys(balance), ...Object.keys(vault), ...Object.keys(stakes)];
+
+    targets = targets.filter((v, i) => { return targets.indexOf(v) >= 0 });
+    targets.forEach((t) => {
+      const detail = this._arwikiTokenContract.getBalanceDetail(t, balance, vault, stakes);
+      const total = detail.result.unlockedBalance + detail.result.vaultBalance + detail.result.stakingBalance;
+      totalBalances[detail.result.target] = {
+        address: detail.result.target,
+        available: detail.result.unlockedBalance,
+        vault: detail.result.vaultBalance,
+        staked: detail.result.stakingBalance,
+        totalBalance: total
+      }
+    });
+
+    return totalBalances;    
   }
 }
