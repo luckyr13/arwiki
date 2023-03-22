@@ -21,6 +21,7 @@ import { ArwikiCategoriesService } from '../../core/arwiki-contracts/arwiki-cate
 import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
 import { ArwikiPageSponsorService } from '../../core/arwiki-contracts/arwiki-page-sponsor.service';
 import { ArwikiAdminsService } from '../../core/arwiki-contracts/arwiki-admins.service';
+import { ArwikiPageIndex } from '../../core/interfaces/arwiki-page-index';
 
 @Component({
   selector: 'app-deleted-list',
@@ -40,6 +41,7 @@ export class DeletedListComponent implements OnInit, OnDestroy {
   loadingReactivatePageIntoIndex: boolean = false;
   updatePageTxMessage: string = '';
   updatePageTxErrorMessage: string = '';
+  allApprovedPages: ArwikiPageIndex = {};
 
   constructor(
   	private _arweave: ArweaveService,
@@ -55,7 +57,7 @@ export class DeletedListComponent implements OnInit, OnDestroy {
     private _arwikiAdmins: ArwikiAdminsService
   ) { }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.myAddress = this._auth.getMainAddressSnapshot();
     this.routeLang = this._route.snapshot.paramMap.get('lang')!;
 
@@ -66,19 +68,8 @@ export class DeletedListComponent implements OnInit, OnDestroy {
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
     // Get pages
     this.loadingPages = true;
-    const numPages = 100;
-    let networkInfo;
-    let maxHeight = 0;
-    try {
-      networkInfo = await this._arweave.arweave.network.getInfo();
-      maxHeight = networkInfo.height;
-    } catch (error) {
-      this._utils.message(`${error}`, 'error');
-      return;
-    }
-
     
-    this.pagesSubscription = this.getDeletedPages(numPages, maxHeight).subscribe({
+    this.pagesSubscription = this.getDeletedPages().subscribe({
       next: async (pages: ArwikiPage[]) => {
         this.pages = pages;
         this.loadingPages = false;
@@ -134,76 +125,58 @@ export class DeletedListComponent implements OnInit, OnDestroy {
     return maxHeight;
   }
 
-  getDeletedPages(numPages: number, maxHeight: number) {
-    let owners: string[] = [];
-    let allVerifiedPages: string[] = [];
-    let allPages: any = {};
+  getDeletedPages() {
     let allInactivePages: string[] = [];
-
-    return this._arwikiAdmins.getAdminList()
+    let maxHeight = 0;
+    
+    return from(this._arweave.arweave.network.getInfo())
       .pipe(
-        switchMap((admins) => {
-          owners = admins;
-          return this._arwikiCategories.getCategories();
-        }),
-        switchMap((categories: ArwikiCategoryIndex) => {
+        switchMap((networkInfo) => {
+          maxHeight = networkInfo.height;
+          const reload = true;
           return this._arwikiPages.getAllPages(
             this.routeLang,
-            -1
+            -1,
+            reload
           );
         }),
         switchMap((_allPages) => {
-          allPages = _allPages;
-          allVerifiedPages = Object.keys(allPages)
-            .map((slug) => {
-              return allPages[slug].content;
-            });
-          allInactivePages = Object.keys(allPages)
+          this.allApprovedPages = _allPages;
+          
+          allInactivePages = Object.keys(this.allApprovedPages)
             .filter((slug) => {
-              return !allPages[slug].active;
+              return !this.allApprovedPages[slug].active;
             })
             .map((slug) => {
-              return allPages[slug].content;
+              return this.allApprovedPages[slug].id;
             });
-
-          return this.arwikiQuery.getAllDeletedPages(
-            owners,
-            this.routeLang,
-            numPages,
-            maxHeight
-          );
-        }),
-        switchMap((deletedPagesTX: ArdbTransaction[]|ArdbBlock[]) => {
-          const deletedPagesDict: Record<string,boolean> = {};
-          for (const p of deletedPagesTX) {
-            const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
-            const arwikiId = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Id');
-            deletedPagesDict[arwikiId] = true;
-          }
-
-          let finalList = allVerifiedPages.filter((vpId) => {
-            return deletedPagesDict[vpId];
-          });
-          finalList = finalList.concat(allInactivePages);
-
           
-          return this.arwikiQuery.getTXsData(finalList);
+          return this.arwikiQuery.getTXsData(allInactivePages);
         }),
         switchMap((pages: ArdbTransaction[]|ArdbBlock[]) => {
           let tmp_res: ArwikiPage[] = [];
           for (let p of pages) {
             const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
-            const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
+            const id = pTX.id;
+            const tmpSlug = Object.keys(this.allApprovedPages).find((s) => {
+              return this.allApprovedPages[s].id === id;
+            });
+            const slug = tmpSlug ? tmpSlug : '';
+            const contentType = pTX.data.type ?
+              pTX.data.type :
+              this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Content-Type');
             tmp_res.push({
               id: pTX.id,
               title: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title'),
               slug: slug,
-              category: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category'),
-              language: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang'),
-              value: allPages[slug].value,
+              category: this.allApprovedPages[slug].category,
+              language: this.routeLang,
+              img: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img'),
+              value: this.allApprovedPages[slug].value,
               block: pTX.block,
-              lastUpdateAt: allPages[slug].lastUpdateAt,
-              sponsor: allPages[slug].sponsor,            
+              lastUpdateAt: this.allApprovedPages[slug].lastUpdateAt,
+              sponsor: this.allApprovedPages[slug].sponsor,
+              dataInfo: { size: pTX.data.size, type: contentType }       
             });
           }
           return of(tmp_res);

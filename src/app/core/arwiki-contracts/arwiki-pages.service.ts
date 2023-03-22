@@ -125,9 +125,10 @@ export class ArwikiPagesService {
   */
   getAllPages(
     _langCode: string,
-    _numPages: number = -1
+    _numPages: number = -1,
+    _reload=false
   ): Observable<any> {
-    return this._arwikiToken.getState().pipe(
+    return this._arwikiToken.getState(_reload).pipe(
       map((_state: any) => {
         let pageCounter = 0;
         const pagesIds = Object.keys(_state.pages[_langCode]).filter((slug) => {
