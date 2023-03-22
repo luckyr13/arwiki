@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ArweaveService } from '../../core/arweave.service';
-import { Observable, Subscription, EMPTY, of } from 'rxjs';
+import { Observable, Subscription, EMPTY, of, from } from 'rxjs';
 import { AuthService } from '../../auth/auth.service';
 import { UtilsService } from '../../core/utils.service';
 import { switchMap } from 'rxjs/operators';
@@ -52,7 +52,7 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
     private _arwikiPageUpdates: ArwikiPageUpdatesService
   ) { }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.routeLang = this._route.snapshot.paramMap.get('lang')!;
     this.pageSlug = this._route.snapshot.paramMap.get('slug')!;
 
@@ -62,24 +62,20 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
     // Get pages
     this.loadingPendingPages = true;
     const numPages = 100;
-    let networkInfo;
     let maxHeight = 0;
-    try {
-      networkInfo = await this._arweave.arweave.network.getInfo();
-      maxHeight = networkInfo.height;
-    } catch (error) {
-      this._utils.message(`${error}`, 'error');
-      return;
-    }
 
-    this.pendingPagesSubscription = this.arwikiQuery
-      .getPendingPagesUpdates(
-        this.routeLang,
-        this.pageSlug,
-        numPages,
-        maxHeight
-      )
-      .pipe(
+    this.pendingPagesSubscription = from(
+      this._arweave.arweave.network.getInfo()
+    ).pipe(
+        switchMap((networkInfo) => {
+          maxHeight = networkInfo.height;
+          return this.arwikiQuery.getPendingPagesUpdates(
+            this.routeLang,
+            this.pageSlug,
+            numPages,
+            maxHeight
+          );
+        }),
         switchMap((pendingPages: ArdbTransaction[]|ArdbBlock[]) => {
           let tmp_res: ArwikiPageIndex = {};
           for (let p of pendingPages) {

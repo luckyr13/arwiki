@@ -2,7 +2,6 @@
 <mat-spinner class="spinner-center" *ngIf="loadingPendingPages"></mat-spinner>
 <div class="container page-container fadeIn">
 	<div class="row" *ngIf="!loadingInsertPageIntoIndex">
-
 		<div 
 			class="col-12 card-page fadeIn" 
 			*ngIf="!loadingPendingPages && (!pages || !getKeys(pages).length)">
