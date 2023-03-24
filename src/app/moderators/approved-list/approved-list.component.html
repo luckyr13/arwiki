@@ -53,6 +53,15 @@
 				<div *ngIf="!p.dataInfo || (p.dataInfo && !p.dataInfo.type)" class="red">
 					Data Type: Unknown
 				</div>
+				<div>
+					<span>Status: </span>
+					<span class="active-label" *ngIf="p.active">
+            {{ 'GENERAL.LABELS.ACTIVE' | translate }}
+          </span>
+					<span class="inactive-label" *ngIf="!p.active">
+            {{ 'GENERAL.LABELS.INACTIVE' | translate }}
+          </span>
+				</div>
 			  <hr class="mbt20">
 				<div class="mini-text"> 
 					<app-arweave-address 

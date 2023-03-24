@@ -41,7 +41,6 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
   private _arwiki!: Arwiki;
   myAddress: string = '';
   currentBlockHeight: number = 0;
-  heightSubscription: Subscription = Subscription.EMPTY;
   baseURL = this._arweave.baseURL;
   updateSponsorPageTxMessage: string = '';
   updateSponsorPageTxErrorMessage: string = '';
@@ -81,6 +80,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
   */
   ngOnDestroy() {
     this.approvedPagesSubscription.unsubscribe();
+    this.nextArticlesSubscription.unsubscribe();
   }
 
   timestampToDate(_time: number) {
@@ -261,7 +261,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
         switchMap((networkInfo) => {
           maxHeight = networkInfo.height;
           const reloadState = true;
-          return this._arwikiPages.getApprovedPages(
+          return this._arwikiPages.getAllPages(
             this.routeLang,
             -1,
             reloadState
@@ -313,7 +313,8 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
               lastUpdateAt: this.allApprovedPages[slug].lastUpdateAt,
               sponsor: this.allApprovedPages[slug].sponsor,
               owner: pTX.owner.address,
-              dataInfo: { size: pTX.data.size, type: contentType }    
+              dataInfo: { size: pTX.data.size, type: contentType },
+              active: this.allApprovedPages[slug].active  
             });
           }
 
@@ -389,7 +390,8 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
             lastUpdateAt: this.allApprovedPages[slug].lastUpdateAt,
             sponsor: sponsor,
             owner: owner,
-            dataInfo: { size: pTX.data.size, type: contentType }
+            dataInfo: { size: pTX.data.size, type: contentType },
+            active: this.allApprovedPages[slug].active  
           });
         }
         // Sort desc
