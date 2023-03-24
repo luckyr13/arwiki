@@ -69,21 +69,21 @@
 
         <ng-container matColumnDef="active">
           <th mat-header-cell *matHeaderCellDef>
-            {{ 'MODERATORS.LANGUAGES.TBL_COL_STATUS' | translate }}
+            {{ 'GENERAL.LABELS.STATUS' | translate }}
           </th>
           <td mat-cell *matCellDef="let element">
             <span class="active-label" *ngIf="element.active">
-              {{ 'MODERATORS.LANGUAGES.TBL_COL_STATUS_ACTIVE' | translate }}
+              {{ 'GENERAL.LABELS.ACTIVE' | translate }}
             </span>
             <span class="inactive-label" *ngIf="!element.active">
-              {{ 'MODERATORS.LANGUAGES.TBL_COL_STATUS_INACTIVE' | translate }}
+              {{ 'GENERAL.LABELS.INACTIVE' | translate }}
             </span>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>
-            {{ 'MODERATORS.LANGUAGES.TBL_COL_ACTIONS' | translate }}
+            {{ 'GENERAL.LABELS.ACTIONS' | translate }}
           </th>
           <td mat-cell *matCellDef="let element">
             <button

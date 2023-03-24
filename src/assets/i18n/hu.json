@@ -141,11 +141,7 @@
 			"TBL_COL_CODE": "Code",
 			"TBL_COL_WRITING_SYSTEM": "Writing System",
 			"TBL_COL_NATIVE_NAME": "Native Name",
-			"TBL_COL_ISO_NAME": "ISO Name",
-			"TBL_COL_STATUS": "Status",
-			"TBL_COL_ACTIONS": "Actions",
-			"TBL_COL_STATUS_ACTIVE": "Active",
-			"TBL_COL_STATUS_INACTIVE": "Inactive"
+			"TBL_COL_ISO_NAME": "ISO Name"
 		}
 	},
 	"CATEGORY": {
@@ -168,10 +164,15 @@
 			"BTN_VIEW_HISTORY": "Előzmények megtekintése",
 			"BTN_STOP_STAKING": "Halmozás leállítása",
 			"BTN_EDIT_PROFILE": "Profil szerkesztése",
-			"BTN_DONORS_LIST": "Donor helyezés"
+			"BTN_DONORS_LIST": "Donor helyezés",
+			"EDIT": "Szerkesztés"
 		},
 		"LABELS": {
-			"NO_RESULTS": "Nincs eredmény"
+			"NO_RESULTS": "Nincs eredmény",
+			"ACTIVE": "Aktív",
+			"INACTIVE": "Inaktív",
+			"STATUS": "Status",
+			"ACTIONS": "Actions"
 		},
 		"CARDS": {
 			"ARTICLE": {
@@ -306,7 +307,6 @@
 			"COLUMN_SPONSOR": "Támogató",
 			"COLUMN_ACCEPTED_AT": "Elfogadva ekkor",
 			"COLUMN_VALUE": "Érték",
-			"COLUMN_STATUS": "Állapot",
 			"LABEL_ITEMS_PER_PAGE": "Elem az oldalon:",
 			"TITLE_OTHER_LANGS": "Más nyelvek",
 			"COLUMN_CODE": "Kód",
@@ -314,9 +314,7 @@
 			"COLUMN_NATIVE_NAME": "Eredeti Név",
 			"COLUMN_WRITING_SYS": "Írásrendszer",
 			"COLUMN_PAGES": "Oldalak",
-			"LABEL_NO_MATCH": "Nem szűrhető adat ",
-			"LABEL_ACTIVE": "Aktív",
-			"LABEL_INACTIVE": "Inaktív"
+			"LABEL_NO_MATCH": "Nem szűrhető adat "
 		},
 		"RESULTS": {
 			"TITLE": "Keresési Eredmények",

@@ -141,11 +141,7 @@
 			"TBL_COL_CODE": "Code",
 			"TBL_COL_WRITING_SYSTEM": "Writing System",
 			"TBL_COL_NATIVE_NAME": "Native Name",
-			"TBL_COL_ISO_NAME": "ISO Name",
-			"TBL_COL_STATUS": "Status",
-			"TBL_COL_ACTIONS": "Actions",
-			"TBL_COL_STATUS_ACTIVE": "Active",
-			"TBL_COL_STATUS_INACTIVE": "Inactive"
+			"TBL_COL_ISO_NAME": "ISO Name"
 		}
 	},
 	"CATEGORY": {
@@ -168,10 +164,15 @@
 			"BTN_VIEW_HISTORY": "Переглянути історію",
 			"BTN_STOP_STAKING": "Припиніть робити ставки",
 			"BTN_EDIT_PROFILE": "Редагувати профіль",
-			"BTN_DONORS_LIST": "Рейтинг донорів"
+			"BTN_DONORS_LIST": "Рейтинг донорів",
+			"EDIT": "Редагувати"
 		},
 		"LABELS": {
-			"NO_RESULTS": "Немає результатів"
+			"NO_RESULTS": "Немає результатів",
+			"ACTIVE": "Активний",
+			"INACTIVE": "Неактивний",
+			"STATUS": "Status",
+			"ACTIONS": "Actions"
 		},
 		"CARDS": {
 			"ARTICLE": {
@@ -305,7 +306,6 @@
 			"COLUMN_SPONSOR": "Спонсор",
 			"COLUMN_ACCEPTED_AT": "Прийнято в",
 			"COLUMN_VALUE": "Значення",
-			"COLUMN_STATUS": "Статус",
 			"LABEL_ITEMS_PER_PAGE": "Елементів на сторінці:",
 			"TITLE_OTHER_LANGS": "Інші мови",
 			"COLUMN_CODE": "Код",
@@ -313,9 +313,7 @@
 			"COLUMN_NATIVE_NAME": "Рідне Ім'я",
 			"COLUMN_WRITING_SYS": "Система Письма",
 			"COLUMN_PAGES": "Сторінки",
-			"LABEL_NO_MATCH": "Немає даних, що відповідають фільтру ",
-			"LABEL_ACTIVE": "Активний",
-			"LABEL_INACTIVE": "Неактивний"
+			"LABEL_NO_MATCH": "Немає даних, що відповідають фільтру "
 		},
 		"RESULTS": {
 			"TITLE": "Результати пошуку",

@@ -107,13 +107,13 @@
 
 			    <!-- Status Column -->
 			    <ng-container matColumnDef="active">
-			      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'SEARCH.SITEMAP.COLUMN_STATUS' | translate }} </th>
+			      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'GENERAL.LABELS.STATUS' | translate }} </th>
 			      <td mat-cell *matCellDef="let row" class="text-center">
 			      	<span class="active-label" *ngIf="row.active">
-			      		{{ 'SEARCH.SITEMAP.LABEL_ACTIVE' | translate }}
+			      		{{ 'GENERAL.LABELS.ACTIVE' | translate }}
 			      	</span>
 			      	<span class="inactive-label" *ngIf="!row.active">
-			      		{{ 'SEARCH.SITEMAP.LABEL_INACTIVE' | translate }}
+			      		{{ 'GENERAL.LABELS.INACTIVE' | translate }}
 			      	</span>
 
 			      </td>
@@ -193,13 +193,13 @@
 
 			    <!-- Active Column -->
 			    <ng-container matColumnDef="active">
-			      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'SEARCH.SITEMAP.COLUMN_STATUS' | translate }} </th>
+			      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'GENERAL.LABELS.STATUS' | translate }} </th>
 			      <td mat-cell *matCellDef="let row">
 			      	<span class="active-label" *ngIf="row.active">
-			      		{{ 'SEARCH.SITEMAP.LABEL_ACTIVE' | translate }}
+			      		{{ 'GENERAL.LABELS.ACTIVE' | translate }}
 			      	</span>
 			      	<span class="inactive-label" *ngIf="!row.active">
-			      		{{ 'SEARCH.SITEMAP.LABEL_INACTIVE' | translate }}
+			      		{{ 'GENERAL.LABELS.INACTIVE' | translate }}
 			      	</span>
 			      </td>
 			    </ng-container>

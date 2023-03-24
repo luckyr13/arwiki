@@ -141,11 +141,7 @@
 			"TBL_COL_CODE": "Code",
 			"TBL_COL_WRITING_SYSTEM": "Writing System",
 			"TBL_COL_NATIVE_NAME": "Native Name",
-			"TBL_COL_ISO_NAME": "ISO Name",
-			"TBL_COL_STATUS": "Status",
-			"TBL_COL_ACTIONS": "Actions",
-			"TBL_COL_STATUS_ACTIVE": "Active",
-			"TBL_COL_STATUS_INACTIVE": "Inactive"
+			"TBL_COL_ISO_NAME": "ISO Name"
 		}
 	},
 	"CATEGORY": {
@@ -168,10 +164,15 @@
 			"BTN_VIEW_HISTORY": "Ver historial",
 			"BTN_STOP_STAKING": "Dejar de apostar",
 			"BTN_EDIT_PROFILE": "Editar perfil",
-			"BTN_DONORS_LIST": "Clasificación de donantes"
+			"BTN_DONORS_LIST": "Clasificación de donantes",
+			"EDIT": "Editar"
 		},
 		"LABELS": {
-			"NO_RESULTS": "No hay resultados"
+			"NO_RESULTS": "No hay resultados",
+			"ACTIVE": "Activo",
+			"INACTIVE": "Inactivo",
+			"STATUS": "Estatus",
+			"ACTIONS": "Acciones"
 		},
 		"CARDS": {
 			"ARTICLE": {
@@ -306,7 +307,6 @@
 			"COLUMN_SPONSOR": "Patrocinador",
 			"COLUMN_ACCEPTED_AT": "Aceptado en",
 			"COLUMN_VALUE": "Valor",
-			"COLUMN_STATUS": "Estatus",
 			"LABEL_ITEMS_PER_PAGE": "Elementos por página:",
 			"TITLE_OTHER_LANGS": "Otros Idiomas",
 			"COLUMN_CODE": "Código",
@@ -314,9 +314,7 @@
 			"COLUMN_NATIVE_NAME": "Nombre nativo",
 			"COLUMN_WRITING_SYS": "Sistema de Escritura",
 			"COLUMN_PAGES": "Páginas",
-			"LABEL_NO_MATCH": "No hay datos que coincidan con el filtro ",
-			"LABEL_ACTIVE": "Activo",
-			"LABEL_INACTIVE": "Inactivo"
+			"LABEL_NO_MATCH": "No hay datos que coincidan con el filtro "
 		},
 		"RESULTS": {
 			"TITLE": "Resultados de Búsqueda",

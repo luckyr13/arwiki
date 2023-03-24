@@ -122,8 +122,8 @@
 		"TXT_CONFIRM": "Alright! Let's do it!",
 		"TITLE_LOGIN_FIRST": "Please login first",
 		"CONTENT_LOGIN_FIRST": "You need to login first. 👾",
-		"TITLE_UPVOTE": "Page Upvote",
-		"TITLE_DOWNVOTE": "Page Downvote",
+		"TITLE_UPVOTE": "Upvote page",
+		"TITLE_DOWNVOTE": "Downvote page",
 		"TXT_SUBMIT": "Submit",
 		"INPUT_SEL_DEFAULT": "Select an Option"
 	},
@@ -141,11 +141,7 @@
 			"TBL_COL_CODE": "Code",
 			"TBL_COL_WRITING_SYSTEM": "Writing System",
 			"TBL_COL_NATIVE_NAME": "Native Name",
-			"TBL_COL_ISO_NAME": "ISO Name",
-			"TBL_COL_STATUS": "Status",
-			"TBL_COL_ACTIONS": "Actions",
-			"TBL_COL_STATUS_ACTIVE": "Active",
-			"TBL_COL_STATUS_INACTIVE": "Inactive"
+			"TBL_COL_ISO_NAME": "ISO Name"
 		}
 	},
 	"CATEGORY": {
@@ -168,10 +164,15 @@
 			"BTN_VIEW_HISTORY": "View history",
 			"BTN_STOP_STAKING": "Stop staking",
 			"BTN_EDIT_PROFILE": "Edit profile",
-			"BTN_DONORS_LIST": "Donor ranking"
+			"BTN_DONORS_LIST": "Donor ranking",
+			"EDIT": "Edit"
 		},
 		"LABELS": {
-			"NO_RESULTS": "No results"
+			"NO_RESULTS": "No results",
+			"ACTIVE": "Active",
+			"INACTIVE": "Inactive",
+			"STATUS": "Status",
+			"ACTIONS": "Actions"
 		},
 		"CARDS": {
 			"ARTICLE": {
@@ -218,7 +219,6 @@
 		"TAB_DONATIONS_MADE": "Donations Made",
 		"TAB_DONATIONS_RECEIVED": "Donations Received",
 		"TAB_PAGES_SPONSORED": "Pages Sponsored",
-		"NOT_FOUND": "Profile not found.",
 		"LABEL_TOTAL": "Total:",
 		"COLUMN_RECIPIENT": "Recipient",
 		"COLUMN_AMOUNT": "Amount",
@@ -306,7 +306,6 @@
 			"COLUMN_SPONSOR": "Sponsor",
 			"COLUMN_ACCEPTED_AT": "Accepted at",
 			"COLUMN_VALUE": "Value",
-			"COLUMN_STATUS": "Status",
 			"LABEL_ITEMS_PER_PAGE": "Items per page:",
 			"TITLE_OTHER_LANGS": "Other Languages",
 			"COLUMN_CODE": "Code",
@@ -314,9 +313,7 @@
 			"COLUMN_NATIVE_NAME": "Native Name",
 			"COLUMN_WRITING_SYS": "Writing System",
 			"COLUMN_PAGES": "Pages",
-			"LABEL_NO_MATCH": "No data matching the filter ",
-			"LABEL_ACTIVE": "Active",
-			"LABEL_INACTIVE": "Inactive"
+			"LABEL_NO_MATCH": "No data matching the filter "
 		},
 		"RESULTS": {
 			"TITLE": "Search Results",
