@@ -1,0 +1,25 @@
+<h2>
+	{{ 'SEARCH.SITEMAP.TITLE_CATEGORIES' | translate }}
+</h2>
+<ul class="categories-list" *ngIf="categories && categories.length">
+	<li *ngFor="let c of categories">
+		<div class="cat-title">
+			<strong>{{ 'MAIN_MENU.' + c.slug | translate }} </strong>
+			<span class="active-label" *ngIf="c.active">Active</span>
+    	<span class="inactive-label" *ngIf="!c.active">Inactive</span>
+		</div>
+		<div class="secondary-txt">
+			<strong>{{ 'SEARCH.SITEMAP.LABEL_ORDER' | translate }} </strong>{{ c.order }}
+			<strong>{{ 'SEARCH.SITEMAP.LABEL_SLUG' | translate }} </strong>
+			<a
+				class="cat-slug"
+    		[routerLink]="['/', routeLang, 'category', c.slug]">
+    		{{ c.slug }}
+    	</a>
+    	<strong>{{ 'SEARCH.SITEMAP.LABEL_PAGES' | translate }} </strong>{{ numPagesByCategory[c.slug] || '0' }}
+		</div>
+	</li>
+</ul>
+<div class="total-pages">
+	<strong>{{ 'SEARCH.SITEMAP.LABEL_TOTAL_PAGES' | translate }} </strong><span>{{ totalPages() }}</span>
+</div>

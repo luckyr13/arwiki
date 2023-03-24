@@ -37,7 +37,7 @@ export class ArwikiPagesService {
           return _state.pages[_langCode][slug].active;
         });
         const pages: ArwikiPageIndex = pagesIds.reduce((acum: any, slug) => {
-          acum[slug] = JSON.parse(JSON.stringify(_state.pages[_langCode][slug]));
+          acum[slug] = this._utils.cloneObject(_state.pages[_langCode][slug]);
           const numUpdates = _state.pages[_langCode][slug].updates.length;
           acum[slug].id = _state.pages[_langCode][slug].updates[numUpdates - 1].tx;
           acum[slug].lastUpdateAt = _state.pages[_langCode][slug].updates[numUpdates - 1].at;
@@ -244,7 +244,7 @@ export class ArwikiPagesService {
           return _state.pages[_langCode][slug].active;
         });
         const pages: ArwikiPageIndex = pagesIds.reduce((acum: any, slug) => {
-          acum[slug] = JSON.parse(JSON.stringify(_state.pages[_langCode][slug]));
+          acum[slug] = this._utils.cloneObject(_state.pages[_langCode][slug]);
           const numUpdates = _state.pages[_langCode][slug].updates.length;
           acum[slug].slug = slug;
           acum[slug].id = _state.pages[_langCode][slug].updates[numUpdates - 1].tx;
@@ -288,6 +288,39 @@ export class ArwikiPagesService {
       throw Error(`Error ${response.statusText}`);
     }
     return tx.id;
+  }
+
+  /*
+  *  @dev Get the full structure for all pages
+  */
+  getAllPagesByLangCode(
+    _onlyActive=false,
+    _reload=false
+  ): Observable<any> {
+    return this._arwikiToken.getState(_reload).pipe(
+      map((_state: any) => {
+        let pageCounter = 0;
+        const pagesLangsCodes = Object.keys(_state.pages);
+        const pages = pagesLangsCodes.reduce((acum: any, langCode) => {
+          acum[langCode] = {
+            ...this._utils.cloneObject(_state.pages[langCode])
+          };
+          const tmpPages = this._utils.cloneObject(acum[langCode]);
+          for (let slug in tmpPages) {
+            if (_onlyActive && !acum[langCode][slug].active) {
+              delete acum[langCode][slug];
+              continue;
+            }
+            acum[langCode][slug].slug = slug;
+            const numUpdates = acum[langCode][slug].updates.length;
+            acum[langCode][slug].id = acum[langCode][slug].updates[numUpdates - 1].tx;
+            acum[langCode][slug].lastUpdateAt = acum[langCode][slug].updates[numUpdates - 1].at;
+          }         
+          return acum;
+        }, {});
+        return pages;
+      })
+    );
   }
 
 
