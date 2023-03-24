@@ -93,6 +93,8 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
     const defLang = this._userSettings.getDefaultLang();
     let direction: Direction = defLang.writing_system === 'LTR' ? 
       'ltr' : 'rtl';
+    this.stopStakeErrorMessage = '';
+    this.stopStakeTxMessage = '';
 
     const dialogRef = this._dialog.open(DialogConfirmComponent, {
       data: {
@@ -162,6 +164,8 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
     const defLang = this._userSettings.getDefaultLang();
     let direction: Direction = defLang.writing_system === 'LTR' ? 
       'ltr' : 'rtl';
+    this.updateSponsorPageTxErrorMessage = '';
+    this.updateSponsorPageTxMessage = '';
 
     const dialogRef = this._dialog.open(DialogConfirmAmountComponent, {
       data: {
