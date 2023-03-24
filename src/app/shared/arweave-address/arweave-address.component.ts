@@ -34,7 +34,10 @@ export class ArweaveAddressComponent implements OnInit, OnDestroy, OnChanges {
     private _vouch: VouchDaoService) {}
 
   ngOnInit() {
-    if (this.isAddress && this.address) {
+    // Show Vouched button
+    if (this.isAddress &&
+      this.address &&
+      this.showVouchedBtn) {
       this.vouchedSubscription = this._vouch.isVouched(this.address).subscribe({
         next: (res) => {
           this.vouched = res;
@@ -43,9 +46,14 @@ export class ArweaveAddressComponent implements OnInit, OnDestroy, OnChanges {
           console.error('VouchDao: ', error);
         }
       });
-
+    }
+    // Show profile detail
+    if (this.isAddress &&
+      this.address &&
+      (this.showProfileImage || this.showHandleInAddress)) {
       this.updateProfileData();
     }
+
   }
 
   ngOnChanges() {
