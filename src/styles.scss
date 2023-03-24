@@ -788,3 +788,17 @@ p {
 .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mat-mdc-floating-label {
   top: 28px !important;
 }
+.active-label {
+  padding: 4px;
+  background-color: #49AF41;
+  color: #FFF;
+  font-size: 10px;
+  border-radius: 6px;
+}
+.inactive-label {
+  padding: 4px;
+  background-color: #E20000;
+  color: #FFF;
+  font-size: 10px;
+  border-radius: 6px;
+}
