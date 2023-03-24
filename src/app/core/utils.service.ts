@@ -96,4 +96,8 @@ export class UtilsService {
     return (validMIME.indexOf(type) >= 0);
   }
 
+  cloneObject(obj: any) {
+    return JSON.parse(JSON.stringify(obj));
+  }
+
 }

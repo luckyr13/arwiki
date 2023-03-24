@@ -4,6 +4,7 @@ import { WarpContractsService } from '../warp-contracts.service';
 import { JWKInterface } from 'arweave/web/lib/wallet';
 import { ArwikiVote } from '../interfaces/arwiki-vote';
 import { Observable, map } from 'rxjs';
+import { UtilsService } from '../utils.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ import { Observable, map } from 'rxjs';
 export class ArwikiVotesService {
   constructor(
     private _arwikiToken: ArwikiTokenContract,
-    private _warp: WarpContractsService) { }
+    private _warp: WarpContractsService,
+    private _utils: UtilsService) { }
 
   addVoteMintTokens(
     _recipient: string,
@@ -130,7 +132,7 @@ export class ArwikiVotesService {
   getVotes(reload: boolean = false): Observable<ArwikiVote[]> {
     return this._arwikiToken.getState(reload).pipe(
       map((_state: any) => {
-        const votes = _state.votes;
+        const votes = this._utils.cloneObject(_state.votes);
         return [...votes];
       })
     );

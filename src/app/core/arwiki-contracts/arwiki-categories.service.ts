@@ -4,6 +4,7 @@ import { WarpContractsService } from '../warp-contracts.service';
 import { JWKInterface } from 'arweave/web/lib/wallet';
 import { Observable, map } from 'rxjs';
 import { ArwikiCategoryIndex } from '../interfaces/arwiki-category-index';
+import { UtilsService } from '../utils.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ export class ArwikiCategoriesService {
 
   constructor(
     private _arwikiToken: ArwikiTokenContract,
-    private _warp: WarpContractsService) { }
+    private _warp: WarpContractsService,
+    private _utils: UtilsService) { }
 
   /*
   *  @dev Get active Categories
@@ -24,10 +26,10 @@ export class ArwikiCategoriesService {
           .keys(_state.categories)
           .reduce((accum: ArwikiCategoryIndex, slug)=> {
               if (_state.categories[slug].active && onlyActive) {
-                accum[slug] = {..._state.categories[slug]};
+                accum[slug] = {...this._utils.cloneObject(_state.categories[slug])};
                 accum[slug].slug = slug;
               } else {
-                accum[slug] = {..._state.categories[slug]};
+                accum[slug] = {...this._utils.cloneObject(_state.categories[slug])};
                 accum[slug].slug = slug;
               }
               return accum;

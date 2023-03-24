@@ -4,6 +4,7 @@ import { WarpContractsService } from '../warp-contracts.service';
 import { Observable, map } from 'rxjs';
 import { ArwikiPageIndex } from '../interfaces/arwiki-page-index';
 import { ArweaveService } from '../arweave.service';
+import { UtilsService } from '../utils.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ export class ArwikiPagesService {
   constructor(
     private _arwikiToken: ArwikiTokenContract,
     private _warp: WarpContractsService,
-    private _arweave: ArweaveService,) { }
+    private _arweave: ArweaveService,
+    private _utils: UtilsService) { }
 
   /*
   *  @dev Get the list of approved and active pages from full state contract
@@ -141,7 +143,7 @@ export class ArwikiPagesService {
         const pages = pagesIds.reduce((acum: any, slug) => {
           acum[slug] = {
             slug: slug,
-            ..._state.pages[_langCode][slug]
+            ...this._utils.cloneObject(_state.pages[_langCode][slug])
           };
           const numUpdates = _state.pages[_langCode][slug].updates.length;
           acum[slug].id = _state.pages[_langCode][slug].updates[numUpdates - 1].tx;
@@ -218,7 +220,7 @@ export class ArwikiPagesService {
         slug: slug,
         id: _state.pages[_langCode][slug].updates[numUpdates - 1].tx,
         lastUpdateAt: _state.pages[_langCode][slug].updates[numUpdates - 1].at,
-        ..._state.pages[_langCode][slug]
+        ...this._utils.cloneObject(_state.pages[_langCode][slug])
       };
       return acum;
     }, {});

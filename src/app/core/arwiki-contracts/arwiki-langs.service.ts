@@ -4,6 +4,7 @@ import { WarpContractsService } from '../warp-contracts.service';
 import { JWKInterface } from 'arweave/web/lib/wallet';
 import { Observable, map } from 'rxjs';
 import { ArwikiLangIndex } from '../interfaces/arwiki-lang-index';
+import { UtilsService } from '../utils.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ import { ArwikiLangIndex } from '../interfaces/arwiki-lang-index';
 export class ArwikiLangsService {
   constructor(
     private _arwikiToken: ArwikiTokenContract,
-    private _warp: WarpContractsService) { }
+    private _warp: WarpContractsService,
+    private _utils: UtilsService) { }
 
   /*
   *  @dev Get languages
@@ -23,10 +25,10 @@ export class ArwikiLangsService {
           .keys(_state.languages)
           .reduce((accum: ArwikiLangIndex, code)=> {
               if (_state.languages[code].active && onlyActive) {
-                accum[code] = _state.languages[code];
+                accum[code] = this._utils.cloneObject(_state.languages[code]);
                 accum[code].code = code;
               } else {
-                accum[code] = _state.languages[code];
+                accum[code] = this._utils.cloneObject(_state.languages[code]);
                 accum[code].code = code;
               }
               return accum;
