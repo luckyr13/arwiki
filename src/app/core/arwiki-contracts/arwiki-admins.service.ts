@@ -40,4 +40,32 @@ export class ArwikiAdminsService {
       })
     );
   }
+
+  /*
+  * @dev Create vote proposal for new Moderator
+  */
+  registerAdmin(
+    _target: string,
+    _privateKey: any,
+    _arwikiVersion: string
+  ) {
+    const jwk = _privateKey;
+    const tags = [
+      {name: 'Service', value: 'ArWiki'},
+      {name: 'Arwiki-Type', value: 'ProposeModerator'},
+      {name: 'Arwiki-Version', value: _arwikiVersion},
+    ];
+    const input = {
+      function: 'propose',
+      type: 'set',
+      key: 'role',
+      recipient: _target,
+      value: 'Moderator',
+      note: 'New Moderator'
+    };
+    return this._warp.writeInteraction(
+      this._arwikiToken.contractAddress, jwk, input, tags
+    );
+  }
+
 }

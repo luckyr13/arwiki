@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { UtilsService } from '../../core/utils.service';
-import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.service';
+import { ArwikiAdminsService } from '../../core/arwiki-contracts/arwiki-admins.service';
 import { Subscription, from } from 'rxjs';
 import { ArweaveService } from '../../core/arweave.service';
 import { AuthService } from '../../auth/auth.service';
@@ -21,7 +21,7 @@ export class AddAdminComponent implements OnInit, OnDestroy {
 
   constructor(
     private _utils: UtilsService,
-    private _arwikiTokenContract: ArwikiTokenContract,
+    private _arwikiAdmins: ArwikiAdminsService,
     private _auth: AuthService,
     private _arweave: ArweaveService
   ) { }
@@ -45,7 +45,7 @@ export class AddAdminComponent implements OnInit, OnDestroy {
     this.formLoading = true;
     this.newAdminAddress.disable();
     
-    this.saveAdminSubscription = from(this._arwikiTokenContract.registerAdmin(
+    this.saveAdminSubscription = from(this._arwikiAdmins.registerAdmin(
       address,
       this._auth.getPrivateKey(),
       arwikiVersion[0]

@@ -4,6 +4,7 @@ import { ArweaveService } from '../arweave.service';
 import { map, tap } from 'rxjs/operators';
 import { JWKInterface } from 'arweave/node/lib/wallet';
 import { WarpContractsService } from '../warp-contracts.service';
+import { UtilsService } from '../utils.service';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +34,8 @@ export class ArwikiTokenContract
 
 	constructor(
     private _arweave: ArweaveService,
-    private _warp: WarpContractsService
+    private _warp: WarpContractsService,
+    private _utils: UtilsService
   ) { }
 
   /*
@@ -77,7 +79,7 @@ export class ArwikiTokenContract
   *  @dev Return state
   */
   getStateFromLocal(): any {
-    return this._state;
+    return this._utils.cloneObject(this._state);
   }
 
 	/*
@@ -160,7 +162,8 @@ export class ArwikiTokenContract
 	getSettings(reload = false): Observable<any> {
 		return this.getState(reload).pipe(
 			map((_state: any) => {
-				const settings = new Map(_state.settings);
+        const settings_obj = this._utils.cloneObject(_state.settings);
+				const settings = new Map(settings_obj);
 				return settings;
 			})
 		);
@@ -191,34 +194,6 @@ export class ArwikiTokenContract
     }
     return {result: {target, unlockedBalance, vaultBalance, stakingBalance}};
   }
-
-  /*
-  * @dev Create vote proposal for new Moderator
-  */
-  registerAdmin(
-    _target: string,
-    _privateKey: any,
-    _arwikiVersion: string
-  ) {
-    const jwk = _privateKey;
-    const tags = [
-      {name: 'Service', value: 'ArWiki'},
-      {name: 'Arwiki-Type', value: 'ProposeModerator'},
-      {name: 'Arwiki-Version', value: _arwikiVersion},
-    ];
-    const input = {
-      function: 'propose',
-      type: 'set',
-      key: 'role',
-      recipient: _target,
-      value: 'Moderator',
-      note: 'New Moderator'
-    };
-    return this._warp.writeInteraction(
-      this._contractAddress, jwk, input, tags
-    );
-  }
-
   
   /*
   * @dev Transfer wiki tokens
@@ -254,9 +229,9 @@ export class ArwikiTokenContract
     return this.getState(_reload).pipe(
       map((_state: any) => {
         const res = {
-          'vault': _state.vault,
-          'stakes': _state.stakes,
-          'balances': _state.balances
+          'vault': this._utils.cloneObject(_state.vault),
+          'stakes': this._utils.cloneObject(_state.stakes),
+          'balances': this._utils.cloneObject(_state.balances)
         };
         return res;
       })
@@ -316,7 +291,7 @@ export class ArwikiTokenContract
   *  @dev Get balances
   */
   getBalancesFromLocal(): { balances: any, vault: any, stakes: any } {
-    const state = {...this._state};
+    const state = {...this._utils.cloneObject(this._state)};
     return { balances: { ...state.balances }, vault: { ...state.vault }, stakes: { ...state.stakes } };
   }
 
