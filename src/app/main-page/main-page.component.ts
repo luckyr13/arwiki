@@ -58,7 +58,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     { img: './assets/img/partners/pn-usv.png', alt: 'USV', href:'' },
     { img: './assets/img/partners/pn-coinbase.png', alt: 'Coinbase', href:'' },
   ];
-  numLatestArticles = 8;
+  numLatestArticles = 4;
   incrementNumLatestArticles = 4;
   allApprovedPages: ArwikiPageIndex = {};
   nextLatestArticlesSubscription = Subscription.EMPTY;
