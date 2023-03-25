@@ -3,14 +3,27 @@
 	<span>Pending updates</span>
 </h2>
 <mat-dialog-content>
-  <p *ngIf="loadingPendingPages">Loading ...</p>
-  <ng-container *ngIf="!loadingPendingPages">
+  <p *ngIf="loadingPendingUpdates">Loading ...</p>
+  <ng-container
+  *ngIf="!loadingPendingUpdates && pages && pages.length">
   	<div *ngFor="let p of pages">
 	  	<p>
 		  	<button mat-button (click)="viewUpdates(p.slug)">{{ p.title }} </button>
 		  </p>
 	  </div>
   </ng-container>
+  <div
+		class="col-12 text-center btn-more-container"
+		*ngIf="!hideBtnMoreUpdates && !loadingPendingUpdates">
+		<button
+			mat-flat-button 
+			class="btn-more-articles"
+			[disabled]="loadingNextUpdates"
+			(click)="nextUpdates()">
+			{{ 'GENERAL.BUTTONS.MORE_ARTICLES' | translate }}
+		</button>
+	</div>
+
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close cdkFocusInitial>Cancel</button>
