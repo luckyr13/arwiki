@@ -48,12 +48,13 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
   loadingPendingUpdates: boolean = false;
 
   allApprovedPages: ArwikiPageIndex = {};
-  numArticles = 8;
+  numArticles = 4;
   incrementNumArticles = 4;
   nextArticlesSubscription = Subscription.EMPTY;
   loadingNextArticles = false;
   hideBtnMoreArticles = false;
   allArticlesBySlug: string[] = [];
+  totalResults = 0;
 
   constructor(
   	private _arweave: ArweaveService,
@@ -320,6 +321,8 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
               dataInfo: { size: pTX.data.size, type: contentType },
               active: this.allApprovedPages[slug].active  
             });
+
+            this.totalResults += 1;
           }
 
           // Sort by lastUpdateAt
@@ -397,6 +400,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
             dataInfo: { size: pTX.data.size, type: contentType },
             active: this.allApprovedPages[slug].active  
           });
+          this.totalResults += 1;
         }
         // Sort desc
         Array.prototype.sort.call(latestPages, (a, b) => {

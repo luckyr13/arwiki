@@ -44,6 +44,7 @@ export class PendingListComponent implements OnInit, OnDestroy {
   numRejectedPages = 100;
   adminList: string[] = [];
   maxHeight = 0;
+  totalResults = 0;
 
   constructor(
   	private _arweave: ArweaveService,
@@ -259,6 +260,7 @@ export class PendingListComponent implements OnInit, OnDestroy {
               owner: pTX.owner.address,
               dataInfo: { size: pTX.data.size, type: contentType }
             };
+            this.totalResults += 1;
           }
           return of(allPendingPages);
         }),
@@ -339,7 +341,6 @@ export class PendingListComponent implements OnInit, OnDestroy {
     this.loadingNextPendingArticles = true;
     const arwikiQueryRejected = new ArwikiQuery(this._arweave.arweave);
     let allPendingPages: ArwikiPageIndex = {};
-
     this.nextResultsSubscription = this.arwikiQueryPending.getNextResults()
       .pipe(
         switchMap((pendingPages: ArdbTransaction[]|ArdbBlock[]|ArdbTransaction|ArdbBlock) => {
@@ -369,8 +370,9 @@ export class PendingListComponent implements OnInit, OnDestroy {
               owner: pTX.owner.address,
               dataInfo: { size: pTX.data.size, type: contentType }
             };
+            this.totalResults += 1;
           }
-          
+
           return of(allPendingPages);
         }),
         switchMap((pendingPages: ArwikiPageIndex) => {
