@@ -3,19 +3,21 @@
 	<span>Pending updates</span>
 </h2>
 <mat-dialog-content>
-	<section class="filter">
-	  <mat-checkbox
-	  	[disabled]="loadingPendingUpdates">Accepted</mat-checkbox>
-	  <mat-checkbox
-	  	[disabled]="loadingPendingUpdates">Rejected</mat-checkbox>
-	  <mat-checkbox
-	  	[disabled]="loadingPendingUpdates">Pending</mat-checkbox>
-	</section>
+	<form [formGroup]="filterForm" *ngIf="!loadingPendingUpdates">
+		<section class="filter">
+		  <mat-checkbox
+		  	formControlName="accepted">Accepted</mat-checkbox>
+		  <mat-checkbox
+		  	formControlName="rejected">Rejected</mat-checkbox>
+		  <mat-checkbox
+		  	formControlName="pending">Pending</mat-checkbox>
+		</section>
+	</form>
   <p *ngIf="loadingPendingUpdates">Loading ...</p>
   <ng-container
   *ngIf="!loadingPendingUpdates && pages && pages.length">
   	<div *ngFor="let p of pages">
-	  	<div *ngIf="p.status === 'pending'">
+	  	<div *ngIf="p.status === 'pending' && pending.value">
 	  		<h4>
 	  			<a class="link" (click)="viewUpdates(p.page.slug)">
 	  				Title: {{ p.page.title }}
@@ -35,14 +37,9 @@
 	  		<div class="text-right">
 	  			Status: <span class="warning-label">{{ p.status }}</span>
 	  		</div>
-		  	<button 
-		  		class="btn-view-updates"
-		  		mat-button
-		  		(click)="viewUpdates(p.page.slug)">
-		  		<mat-icon>archive</mat-icon> View updates</button>
 		  	<hr>
 		  </div>
-		  <div *ngIf="p.status === 'accepted'">
+		  <div *ngIf="p.status === 'accepted' && accepted.value">
 		  	<h4>Title: {{ p.page.title }}</h4>
 	  		<h5>Slug: {{ p.page.slug }} </h5>
 	  		<div>Timestamp: {{ timestampToDate(p.page.block.timestamp) }}</div>

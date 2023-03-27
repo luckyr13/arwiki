@@ -18,6 +18,7 @@ import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
 import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
 import { ArwikiPageUpdate } from '../../core/interfaces/arwiki-page-update';
+import { FormGroup, FormControl } from '@angular/forms';
 
 interface ArwikiPendingUpdate {
   page: ArwikiPage;
@@ -36,11 +37,16 @@ export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
   pendingPagesSubscription: Subscription = Subscription.EMPTY;
   arwikiQuery!: ArwikiQuery;
   langCode: string = '';
-  numPages = 6;
+  numPages = 10;
   hideBtnMoreUpdates = false;
   loadingNextUpdates = false;
   nextUpdatesSubscription = Subscription.EMPTY;
   totalResults = 0;
+  filterForm = new FormGroup({
+    accepted: new FormControl(false),
+    rejected: new FormControl(false),
+    pending: new FormControl(true)
+  });
 
   constructor(
   	@Inject(MAT_DIALOG_DATA) public data: any,
@@ -51,6 +57,18 @@ export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
     public _dialogRef: MatDialogRef<DialogSearchPageUpdateComponent>,
     private _arwikiPages: ArwikiPagesService
   ) { }
+
+  get accepted() {
+    return this.filterForm.get('accepted')!;
+  }
+
+  get rejected() {
+    return this.filterForm.get('rejected')!;
+  }
+
+  get pending() {
+    return this.filterForm.get('pending')!;
+  }
 
   ngOnInit() {
   	this.langCode = this.data.langCode;
