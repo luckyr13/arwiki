@@ -23,7 +23,7 @@
 		</div>
 		<form
 			class="col-12"
-			[formGroup]="filterForm" *ngIf="!loadingApprovedPages">
+			[formGroup]="filterForm" *ngIf="!loadingApprovedPages && pages && pages.length">
 			<section class="filter">
 			  <mat-checkbox
 			  	formControlName="active">Active</mat-checkbox>
