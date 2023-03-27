@@ -23,6 +23,7 @@ import ArdbTransaction from 'ardb/lib/models/transaction';
 import { ArwikiCategoriesService } from '../../core/arwiki-contracts/arwiki-categories.service';
 import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
 import { ArwikiPageSponsorService } from '../../core/arwiki-contracts/arwiki-page-sponsor.service';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   templateUrl: './approved-list.component.html',
@@ -55,6 +56,10 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
   hideBtnMoreArticles = false;
   allArticlesBySlug: string[] = [];
   totalResults = 0;
+  filterForm = new FormGroup({
+    active: new FormControl(true),
+    inactive: new FormControl(true)
+  });
 
   constructor(
   	private _arweave: ArweaveService,
@@ -68,6 +73,14 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
     private _arwikiPages: ArwikiPagesService,
     private _arwikiPageSponsor: ArwikiPageSponsorService
   ) { }
+
+  get active() {
+    return this.filterForm.get('active')!;
+  }
+
+  get inactive() {
+    return this.filterForm.get('inactive')!;
+  }
 
   async ngOnInit() {
     this.myAddress = this._auth.getMainAddressSnapshot();
