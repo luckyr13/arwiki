@@ -85,10 +85,10 @@
 	<div class="row" *ngIf="!loadingLatestArticles">
 		<div class="col-12 col-md-6" *ngFor="let article of latestArticles">
 			<app-article-card 
-							[article]="article" 
-							[routeLang]="routeLang" 
-							[defaultTheme]="defaultTheme"
-							[baseURL]="baseURL"></app-article-card>
+				[article]="article" 
+				[routeLang]="routeLang" 
+				[defaultTheme]="defaultTheme"
+				[baseURL]="baseURL"></app-article-card>
 		</div>
 		<div
 			class="col-12 text-center"

@@ -17,6 +17,7 @@ export class ArticleCardComponent implements OnInit, OnDestroy {
   @Input() routeLang: string = '';
   @Input() baseURL: string = '';
   @Input() defaultTheme: string = '';
+  @Input() showSponsor = false;
 
   loadingData = false;
   articleDataSubscription = Subscription.EMPTY;

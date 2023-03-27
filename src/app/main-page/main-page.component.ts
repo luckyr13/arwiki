@@ -119,6 +119,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
         next: async (txs: ArdbTransaction[]|ArdbBlock[]) => {
           for (let p of txs) {
             const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
+            
             const title = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title');
             const img = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img');
             const id = pTX.id;
