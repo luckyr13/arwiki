@@ -17,6 +17,13 @@ import { MatDialogRef } from '@angular/material/dialog';
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
 import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
+import { ArwikiPageUpdate } from '../../core/interfaces/arwiki-page-update';
+
+interface ArwikiPendingUpdate {
+  page: ArwikiPage;
+  status:'accepted'|'rejected'|'pending';
+  updateInfo: ArwikiPageUpdate|null
+}
 
 @Component({
   selector: 'app-dialog-search-page-update',
@@ -25,7 +32,7 @@ import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.ser
 })
 export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
 	loadingPendingUpdates: boolean = false;
-  pages: ArwikiPage[] = [];
+  pages: ArwikiPendingUpdate[] = [];
   pendingPagesSubscription: Subscription = Subscription.EMPTY;
   arwikiQuery!: ArwikiQuery;
   langCode: string = '';
@@ -33,6 +40,7 @@ export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
   hideBtnMoreUpdates = false;
   loadingNextUpdates = false;
   nextUpdatesSubscription = Subscription.EMPTY;
+  totalResults = 0;
 
   constructor(
   	@Inject(MAT_DIALOG_DATA) public data: any,
@@ -60,6 +68,7 @@ export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
     // Get pages
     this.loadingPendingUpdates = true;
     let maxHeight = 0;
+    this.totalResults = 0;
    
     this.pendingPagesSubscription = from(
       this._arweave.arweave.network.getInfo()
@@ -85,40 +94,50 @@ export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
             language: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang'),
             img: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img'),
             block: pTX.block,
-            value: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Value'),
-            
+            value: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Value'),       
           };
+          this.totalResults += 1;
         }
         return of(tmp_res);
       }),
       switchMap((pendingPages: ArwikiPageIndex) => {
         return (
-          this._arwikiPages.getApprovedPages(this.langCode, -1)
+          this._arwikiPages.getAllPages(this.langCode, -1)
             .pipe(
               switchMap((_approvedPages: ArwikiPageIndex) => {
-                let tmp_res: ArwikiPageIndex = {};
-                let verifiedUpdates: string[] = [];
-                for (const approvedSlug of Object.keys(_approvedPages)) {
-                  const updates = _approvedPages[approvedSlug].updates!.map((c: any) => {
-                    return c.tx;
-                  });
-                  verifiedUpdates = verifiedUpdates.concat(updates);
+                let tmp_filtered_res: ArwikiPendingUpdate[] = [];
+                let verifiedUpdates: Record<string, ArwikiPageUpdate> = {};
+                const approvedPagesSlugs = Object.keys(_approvedPages);
+                for (const approvedSlug of approvedPagesSlugs) {
+                  for (const upd of _approvedPages[approvedSlug].updates!) {
+                    verifiedUpdates[upd.tx] = upd; 
+                  }
                 }
 
                 // Check pending updates against verified updates
                 for (let pId in pendingPages) {
-                  if (!(verifiedUpdates.indexOf(pId) >= 0)) {
-                    tmp_res[pId] = pendingPages[pId];
+                  if (!(pId in verifiedUpdates)) {
+                    tmp_filtered_res.push({ 
+                      page: pendingPages[pId],
+                      status: 'pending',
+                      updateInfo: null
+                    });
+                  } else {
+                    tmp_filtered_res.push({ 
+                      page: pendingPages[pId],
+                      status: 'accepted',
+                      updateInfo: verifiedUpdates[pId]
+                    });
                   }
                 }
-                return of(tmp_res);
+                return of(tmp_filtered_res);
               })
             )
         );
       })
     ).subscribe({
-      next: (pages: ArwikiPageIndex) => {
-        this.pages = Object.values(pages);
+      next: (pages: ArwikiPendingUpdate[]) => {
+        this.pages = pages;
         this.loadingPendingUpdates = false;
 
       },
@@ -174,6 +193,8 @@ export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
               value: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Value'),
               
             };
+
+            this.totalResults += 1;
           }
           return of(tmp_res);
         }),
@@ -182,29 +203,39 @@ export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
             this._arwikiPages.getApprovedPages(this.langCode, -1)
               .pipe(
                 switchMap((_approvedPages: ArwikiPageIndex) => {
-                  let tmp_res: ArwikiPageIndex = {};
-                  let verifiedUpdates: string[] = [];
-                  for (const approvedSlug of Object.keys(_approvedPages)) {
-                    const updates = _approvedPages[approvedSlug].updates!.map((c: any) => {
-                      return c.tx;
-                    });
-                    verifiedUpdates = verifiedUpdates.concat(updates);
+                  let tmp_filtered_res: ArwikiPendingUpdate[] = [];
+                  let verifiedUpdates: Record<string, ArwikiPageUpdate> = {};
+                  const approvedPagesSlugs = Object.keys(_approvedPages);
+                  for (const approvedSlug of approvedPagesSlugs) {
+                    for (const upd of _approvedPages[approvedSlug].updates!) {
+                      verifiedUpdates[upd.tx] = upd; 
+                    }
                   }
 
                   // Check pending updates against verified updates
                   for (let pId in pendingPages) {
-                    if (!(verifiedUpdates.indexOf(pId) >= 0)) {
-                      tmp_res[pId] = pendingPages[pId];
+                    if (!(pId in verifiedUpdates)) {
+                      tmp_filtered_res.push({ 
+                        page: pendingPages[pId],
+                        status: 'pending',
+                        updateInfo: null
+                      });
+                    } else {
+                      tmp_filtered_res.push({ 
+                        page: pendingPages[pId],
+                        status: 'accepted',
+                        updateInfo: verifiedUpdates[pId]
+                      });
                     }
                   }
-                  return of(tmp_res);
+                  return of(tmp_filtered_res);
                 })
               )
           );
         })
       ).subscribe({
         next: (pages) => {
-          this.pages.push(...Object.values(pages));
+          this.pages.push(...pages);
           this.loadingNextUpdates = false;
         },
         error: (error) => {
@@ -212,6 +243,10 @@ export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
           this.loadingNextUpdates = false;
         }
       })
+  }
+
+  timestampToDate(timestamp: number) {
+    return this._utils.timestampToDate(timestamp);
   }
 
 }
