@@ -239,7 +239,8 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
         langCode: defLang.code
       },
       direction: direction,
-      disableClose: true
+      disableClose: true,
+      width: '600px'
     });
 
     dialogRef.afterClosed().subscribe(async (res) => {
