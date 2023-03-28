@@ -1,5 +1,5 @@
 <mat-nav-list>
-  <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+  <mat-progress-bar color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
   <mat-checkbox class="option" (change)="setStayLoggedIn($event)">
     {{ 'LOGIN_DIALOG.STAYLOGGEDIN' | translate }}
   </mat-checkbox>
