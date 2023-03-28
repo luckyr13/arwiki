@@ -1,96 +1,122 @@
 <app-moderators-menu title="Pending updates"></app-moderators-menu>
-<mat-spinner class="spinner-center" *ngIf="loadingPendingPages"></mat-spinner>
+<mat-spinner class="spinner-center" color="accent" *ngIf="loadingPendingPages"></mat-spinner>
 <div class="container page-container fadeIn">
 	<div class="row" *ngIf="!loadingInsertPageIntoIndex">
+		<form
+			class="col-12"
+			[formGroup]="filterForm" *ngIf="!loadingPendingPages && pages && pages.length">
+			<section class="filter">
+			  <mat-checkbox
+			  	formControlName="accepted">Accepted</mat-checkbox>
+			  <mat-checkbox
+			  	formControlName="rejected">Rejected</mat-checkbox>
+			  <mat-checkbox
+			  	formControlName="pending">Pending</mat-checkbox>
+			</section>
+		</form>
+
 		<div 
 			class="col-12 card-page fadeIn" 
-			*ngIf="!loadingPendingPages && (!pages || !getKeys(pages).length)">
+			*ngIf="!loadingPendingPages && (!pages || !pages.length)">
 			{{ 'MODERATORS.LABEL_NO_RESULTS' | translate }}
 		</div>
-
-		<div class="col-12 col-md-6 card-page fadeIn" *ngFor="let p of getKeys(pages)">
-			<mat-card >
-				<h2 class="link" routerLink="../../../preview/{{pages[p].id}}">
-					{{ pages[p].title }} 
-				</h2>
-				<mat-card *ngIf="pages[p].img" class="card-image text-center">
-					<img src="{{ baseURL + pages[p].img }}">
+		<ng-container *ngFor="let p of pages">
+			<div
+				*ngIf="(p.status === 'accepted' && accepted.value) || (p.status === 'rejected' && rejected.value) || (p.status === 'pending' && pending.value)"
+				class="col-12 col-md-6 card-page fadeIn" >
+				<mat-card class="card-article">
+					<h2 class="link" routerLink="../../../preview/{{p.page.id}}">
+						{{ p.page.title }} 
+					</h2>
+					<mat-card *ngIf="p.page.img" class="card-image text-center">
+						<app-safe-image-container
+						[imgTX]="p.page.img!"></app-safe-image-container>
+					</mat-card>
+					<div>
+						{{ 'PAGE.LABEL_SLUG' | translate }}: {{  p.page.slug }}
+					</div>
+					<div>
+						{{ 'PAGE.LABEL_CATEGORY' | translate }}: {{ p.page.category }}
+					</div>
+					<div>
+						{{ 'PAGE.LABEL_LANGUAGE' | translate }}: {{ p.page.language }}
+					</div>
+					<div>
+						Page value: {{ p.page.value }} $WIKI 
+					</div>
+					<div class="text-right">
+		  			Status: 
+		  			<span *ngIf="p.status === 'accepted'"
+		  				class="active-label">{{ p.status }}</span>
+		  			<span *ngIf="p.status === 'rejected'"
+		  				class="inactive-label">{{ p.status }}</span>
+		  			<span *ngIf="p.status === 'pending'"
+		  				class="warning-label">{{ p.status }}</span>
+		  		</div>
+				  <hr class="mbt20">
+				  <div class="red mini-text" *ngIf="!p.page.block || !p.page.block.height">
+						<strong>{{ 'PAGE.LABEL_TX_STATUS' | translate }}: </strong>
+						{{ 'PAGE.STATUS_TX_PENDING' | translate }} 
+					</div>
+					<div class="mini-text"> 
+						<app-arweave-address 
+							[address]="p.page.id"
+							[isAddress]="false">{{ 'PAGE.LABEL_ID' | translate }}: </app-arweave-address>
+					</div>
+					<!--
+					<div class="mini-text">
+						<app-arweave-address [address]="pages[p].owner">{{ 'PAGE.LABEL_OWNER' | translate }}: </app-arweave-address>
+					</div>
+					-->
+					<div class="mini-text" *ngIf="p.page.block && p.page.block.height">
+						<strong>{{ 'PAGE.LABEL_BLOCK_HEIGHT' | translate }}:</strong>
+						{{ p.page.block.height }} 
+					</div>
+					<div class="mini-text" *ngIf="p.page.block && p.page.block.timestamp">
+						<strong>{{ 'PAGE.LABEL_BLOCK_TIMESTAMP' | translate }}:</strong>
+						{{ timestampToDate(p.page.block.timestamp) | date:'short' }} 
+					</div>
+					
+					<div class="text-right">
+						<a
+							mat-flat-button
+							matTooltip="Approve page update"
+							(click)="confirmValidateArWikiPage(p.page.slug, p.page.id, p.page.category, p.page.value!)"
+							class="approve-btn card-btn">
+							<mat-icon>done</mat-icon>
+							Approve
+						</a>
+						<a 
+							mat-flat-button
+							color="primary"
+							matTooltip="Preview"
+							routerLink="../../../preview/{{p.page.id}}"
+							class="card-btn">
+							<mat-icon>visibility</mat-icon>
+							Preview
+						</a>
+						<a 
+							mat-flat-button
+							color="primary"
+							matTooltip="Original"
+							routerLink="../../../{{p.page.slug}}"
+							class="card-btn">
+							<mat-icon>visibility</mat-icon>
+							Original
+						</a>
+						<a 
+							mat-flat-button
+							color="primary"
+							matTooltip="Compare versions"
+							(click)="compare(p.page.id, p.page.slug)"
+							class="card-btn">
+							<mat-icon>difference</mat-icon>
+							Differences
+						</a>
+					</div>
 				</mat-card>
-				<div>
-					{{ 'PAGE.LABEL_SLUG' | translate }}: {{  pages[p].slug }}
-				</div>
-				<div>
-					{{ 'PAGE.LABEL_CATEGORY' | translate }}: {{ pages[p].category }}
-				</div>
-				<div>
-					{{ 'PAGE.LABEL_LANGUAGE' | translate }}: {{ pages[p].language }}
-				</div>
-				<div>
-					Page value: {{ pages[p].value }} $WIKI 
-				</div>
-			  <hr class="mbt20">
-			  <div class="red mini-text" *ngIf="!pages[p].block || !pages[p].block.height">
-					<strong>{{ 'PAGE.LABEL_TX_STATUS' | translate }}: </strong>
-					{{ 'PAGE.STATUS_TX_PENDING' | translate }} 
-				</div>
-				<div class="mini-text"> 
-					<app-arweave-address 
-						[address]="pages[p].id"
-						[isAddress]="false">{{ 'PAGE.LABEL_ID' | translate }}: </app-arweave-address>
-				</div>
-				<!--
-				<div class="mini-text">
-					<app-arweave-address [address]="pages[p].owner">{{ 'PAGE.LABEL_OWNER' | translate }}: </app-arweave-address>
-				</div>
-				-->
-				<div class="mini-text" *ngIf="pages[p].block && pages[p].block.height">
-					<strong>{{ 'PAGE.LABEL_BLOCK_HEIGHT' | translate }}:</strong>
-					{{ pages[p].block.height }} 
-				</div>
-				<div class="mini-text" *ngIf="pages[p].block && pages[p].block.timestamp">
-					<strong>{{ 'PAGE.LABEL_BLOCK_TIMESTAMP' | translate }}:</strong>
-					{{ timestampToDate(pages[p].block.timestamp) | date:'short' }} 
-				</div>
-				
-				<div class="text-right">
-					<a
-						mat-flat-button
-						matTooltip="Approve page update"
-						(click)="confirmValidateArWikiPage(pages[p].slug, pages[p].id, pages[p].category, pages[p].value!)"
-						class="approve-btn card-btn">
-						<mat-icon>done</mat-icon>
-						Approve
-					</a>
-					<a 
-						mat-flat-button
-						color="primary"
-						matTooltip="Preview"
-						routerLink="../../../preview/{{pages[p].id}}"
-						class="card-btn">
-						<mat-icon>visibility</mat-icon>
-						Preview
-					</a>
-					<a 
-						mat-flat-button
-						color="primary"
-						matTooltip="Original"
-						routerLink="../../../{{pages[p].slug}}"
-						class="card-btn">
-						<mat-icon>visibility</mat-icon>
-						Original
-					</a>
-					<a 
-						mat-flat-button
-						color="primary"
-						matTooltip="Compare versions"
-						(click)="compare(pages[p].id, pages[p].slug)"
-						class="card-btn">
-						<mat-icon>difference</mat-icon>
-						Differences
-					</a>
-				</div>
-			</mat-card>
-		</div>
+			</div>
+		</ng-container>
 	</div>
 	<div
 		class="row fadeIn" 

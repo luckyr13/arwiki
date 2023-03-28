@@ -22,6 +22,9 @@ import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
 import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
 import { ArwikiPageUpdatesService } from '../../core/arwiki-contracts/arwiki-page-updates.service';
+import { FormGroup, FormControl } from '@angular/forms';
+import { ArwikiPendingUpdate } from '../../core/interfaces/arwiki-pending-update';
+import { ArwikiPageUpdate } from '../../core/interfaces/arwiki-page-update';
 
 @Component({
   selector: 'app-page-updates',
@@ -30,7 +33,7 @@ import { ArwikiPageUpdatesService } from '../../core/arwiki-contracts/arwiki-pag
 })
 export class PageUpdatesComponent implements OnInit , OnDestroy {
 	loadingPendingPages: boolean = false;
-  pages: ArwikiPageIndex = {};
+  pages: ArwikiPendingUpdate[] = [];
   pendingPagesSubscription: Subscription = Subscription.EMPTY;
   loadingInsertPageIntoIndex: boolean = false;
   insertPageTxMessage: string = '';
@@ -39,6 +42,11 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
   routeLang: string = '';
   baseURL = this._arweave.baseURL;
   pageSlug: string = '';
+  filterForm = new FormGroup({
+    accepted: new FormControl(false),
+    rejected: new FormControl(false),
+    pending: new FormControl(true),
+  });
 
   constructor(
   	private _arweave: ArweaveService,
@@ -51,6 +59,18 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
     private _arwikiPages: ArwikiPagesService,
     private _arwikiPageUpdates: ArwikiPageUpdatesService
   ) { }
+
+  get accepted() {
+    return this.filterForm.get('accepted')!;
+  }
+
+  get rejected() {
+    return this.filterForm.get('rejected')!;
+  }
+
+  get pending() {
+    return this.filterForm.get('pending')!;
+  }
 
   ngOnInit() {
     this.routeLang = this._route.snapshot.paramMap.get('lang')!;
@@ -96,34 +116,43 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
         }),
         switchMap((pendingPages: ArwikiPageIndex) => {
           return (
-            this._arwikiPages.getApprovedPages(this.routeLang, -1)
+            this._arwikiPages.getAllPages(this.routeLang, -1)
               .pipe(
                 switchMap((_approvedPages: ArwikiPageIndex) => {
-                  let tmp_res: ArwikiPageIndex = {};
-                  let verifiedUpdates: string[] = [];
-                  for (const approvedSlug of Object.keys(_approvedPages)) {
-                    const updates = _approvedPages[approvedSlug].updates!.map((c: any) => {
-                      return c.tx;
-                    });
-                    verifiedUpdates = verifiedUpdates.concat(updates);
+                  let tmp_filtered_res: ArwikiPendingUpdate[] = [];
+                  let verifiedUpdates: Record<string, ArwikiPageUpdate> = {};
+                  const approvedPagesSlugs = Object.keys(_approvedPages);
+                  for (const approvedSlug of approvedPagesSlugs) {
+                    for (const upd of _approvedPages[approvedSlug].updates!) {
+                      verifiedUpdates[upd.tx] = upd; 
+                    }
                   }
 
                   // Check pending updates against verified updates
                   for (let pId in pendingPages) {
-                    if (!(verifiedUpdates.indexOf(pId) >= 0)) {
-                      tmp_res[pId] = pendingPages[pId];
+                    if (!(pId in verifiedUpdates)) {
+                      tmp_filtered_res.push({ 
+                        page: pendingPages[pId],
+                        status: 'pending',
+                        updateInfo: null
+                      });
+                    } else {
+                      tmp_filtered_res.push({ 
+                        page: pendingPages[pId],
+                        status: 'accepted',
+                        updateInfo: verifiedUpdates[pId]
+                      });
                     }
                   }
-                  return of(tmp_res);
+                  return of(tmp_filtered_res);
                 })
               )
           );
         })
       ).subscribe({
-        next: async (pages: ArwikiPageIndex) => {
+        next: async (pages: ArwikiPendingUpdate[]) => {
           this.pages = pages;
           this.loadingPendingPages = false;
-
         },
         error: (error) => {
           this._utils.message(error, 'error');
@@ -137,15 +166,12 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
   *	@dev Destroy subscriptions
   */
   ngOnDestroy() {
-    if (this.pendingPagesSubscription) {
-      this.pendingPagesSubscription.unsubscribe();
-    }
+    this.pendingPagesSubscription.unsubscribe();
   }
 
   underscoreToSpace(_s: string) {
-    return _s.replace(/[_]/gi, ' ');
+    return this._utils.underscoreToSpace(_s);
   }
-
   
   confirmValidateArWikiPage(
     _slug: string,
@@ -204,8 +230,7 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
   }
 
   timestampToDate(_time: number) {
-    let d = new Date(_time * 1000);
-    return d;
+    return this._utils.timestampToDate(_time);
   }
 
   getKeys(d: any) {
