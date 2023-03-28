@@ -20,6 +20,12 @@ import ArdbTransaction from 'ardb/lib/models/transaction';
 import { ArwikiCategoriesService } from '../../core/arwiki-contracts/arwiki-categories.service';
 import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
 import { ArwikiAdminsService } from '../../core/arwiki-contracts/arwiki-admins.service';
+import { FormGroup, FormControl } from '@angular/forms';
+
+interface ArwikiPendingPage {
+  page: ArwikiPage;
+  status:'accepted'|'rejected'|'pending';
+}
 
 @Component({
   templateUrl: './pending-list.component.html',
@@ -27,7 +33,7 @@ import { ArwikiAdminsService } from '../../core/arwiki-contracts/arwiki-admins.s
 })
 export class PendingListComponent implements OnInit, OnDestroy {
 	loadingPendingPages: boolean = false;
-  pages: ArwikiPage[] = [];
+  pages: ArwikiPendingPage[] = [];
   pendingPagesSubscription: Subscription = Subscription.EMPTY;
   loadingInsertPageIntoIndex: boolean = false;
   insertPageTxMessage: string = '';
@@ -45,6 +51,11 @@ export class PendingListComponent implements OnInit, OnDestroy {
   adminList: string[] = [];
   maxHeight = 0;
   totalResults = 0;
+  filterForm = new FormGroup({
+    accepted: new FormControl(false),
+    rejected: new FormControl(false),
+    pending: new FormControl(true),
+  });
 
   constructor(
   	private _arweave: ArweaveService,
@@ -57,6 +68,18 @@ export class PendingListComponent implements OnInit, OnDestroy {
     private _arwikiPages: ArwikiPagesService,
     private _arwikiAdmins: ArwikiAdminsService
   ) { }
+
+  get accepted() {
+    return this.filterForm.get('accepted')!;
+  }
+
+  get rejected() {
+    return this.filterForm.get('rejected')!;
+  }
+
+  get pending() {
+    return this.filterForm.get('pending')!;
+  }
 
   ngOnInit() {
     this.routeLang = this._route.snapshot.paramMap.get('lang')!;
@@ -220,7 +243,6 @@ export class PendingListComponent implements OnInit, OnDestroy {
 
     // Get pages
     this.loadingPendingPages = true;
-    let allPendingPages: ArwikiPageIndex = {};
     this.pages = [];
 
     this.pendingPagesSubscription = from(
@@ -232,7 +254,8 @@ export class PendingListComponent implements OnInit, OnDestroy {
         }),
         switchMap((admins) => {
           this.adminList = admins;
-          return this._arwikiCategories.getCategories()
+          const onlyActiveCategories = false;
+          return this._arwikiCategories.getCategories(onlyActiveCategories);
         }),
         switchMap((categories: ArwikiCategoryIndex) => {
           return this.arwikiQueryPending.getPendingPages(
@@ -243,6 +266,7 @@ export class PendingListComponent implements OnInit, OnDestroy {
           );
         }),
         switchMap((pendingPages: ArdbTransaction[]|ArdbBlock[]) => {
+          let allPendingPages: ArwikiPageIndex = {};
           for (let p of pendingPages) {
             const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
             const contentType = pTX.data.type ?
@@ -269,10 +293,8 @@ export class PendingListComponent implements OnInit, OnDestroy {
             this._arwikiPages.getAllPages(this.routeLang, -1)
               .pipe(
                 switchMap((_approvedPages) => {
-                  let tmp_res: ArwikiPageIndex = {};
-                  const verifiedPages: string[] = Object.keys(_approvedPages).map((slug) => {
-                    return _approvedPages[slug].id;
-                  });
+                  let tmp_res: Record<string, ArwikiPendingPage> = {};
+                  
                   // Check pending pages against verified page updates
                   const appr: ArwikiPage[] = Object.values(_approvedPages);
                   const allUpdates: string[] = [];
@@ -284,7 +306,15 @@ export class PendingListComponent implements OnInit, OnDestroy {
                   }
                   for (let pId in pendingPages) {
                     if (!(allUpdates.indexOf(pId) >= 0)) {
-                      tmp_res[pId] = pendingPages[pId];
+                      tmp_res[pId] = {
+                        page: pendingPages[pId],
+                        status: 'pending'
+                      };
+                    } else {
+                      tmp_res[pId] = {
+                        page: pendingPages[pId],
+                        status: 'accepted'
+                      };
                     }
                   }
 
@@ -293,18 +323,20 @@ export class PendingListComponent implements OnInit, OnDestroy {
               )
           );
         }),
-        switchMap((pendingPages: ArwikiPageIndex) => {
+        switchMap((pendingPages: Record<string, ArwikiPendingPage>) => {
+          const pendingFiltered = Object.keys(pendingPages).filter((id) => {
+            return pendingPages[id].status === 'pending'
+          });
           return (
             arwikiQueryRejected.getRejectedPagesByIds(
                 this.adminList,
-                Object.keys(pendingPages),
+                pendingFiltered,
                 this.numRejectedPages,
                 this.maxHeight
               )
               .pipe(
                 switchMap((_rejectedIntersection: ArdbTransaction[]|ArdbBlock[]) => {
                   let rejected: string[] = [];
-                  let finalIndex: ArwikiPage[] = [];
 
                   for (let p of _rejectedIntersection) {
                     const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
@@ -313,19 +345,19 @@ export class PendingListComponent implements OnInit, OnDestroy {
                   }
 
                   for (let pId in pendingPages) {
-                    if (rejected.indexOf(pId) < 0) {
-                      finalIndex.push(pendingPages[pId]);
+                    if (rejected.indexOf(pId) >= 0) {
+                      pendingPages[pId].status = 'rejected';
                     }
                   }
 
-                  return of(finalIndex);
+                  return of(Object.values(pendingPages));
                 })
               )
           );
         }),
 
       ).subscribe({
-        next: async (pages: ArwikiPage[]) => {
+        next: async (pages: ArwikiPendingPage[]) => {
           this.pages = pages;
           this.loadingPendingPages = false;
           
@@ -380,10 +412,8 @@ export class PendingListComponent implements OnInit, OnDestroy {
             this._arwikiPages.getAllPages(this.routeLang, -1)
               .pipe(
                 switchMap((_approvedPages) => {
-                  let tmp_res: ArwikiPageIndex = {};
-                  const verifiedPages: string[] = Object.keys(_approvedPages).map((slug) => {
-                    return _approvedPages[slug].id;
-                  });
+                  let tmp_res: Record<string, ArwikiPendingPage> = {};
+                  
                   // Check pending pages against verified page updates
                   const appr: ArwikiPage[] = Object.values(_approvedPages);
                   const allUpdates: string[] = [];
@@ -395,7 +425,15 @@ export class PendingListComponent implements OnInit, OnDestroy {
                   }
                   for (let pId in pendingPages) {
                     if (!(allUpdates.indexOf(pId) >= 0)) {
-                      tmp_res[pId] = pendingPages[pId];
+                      tmp_res[pId] = {
+                        page: pendingPages[pId],
+                        status: 'pending'
+                      };
+                    } else {
+                      tmp_res[pId] = {
+                        page: pendingPages[pId],
+                        status: 'accepted'
+                      };
                     }
                   }
 
@@ -404,18 +442,20 @@ export class PendingListComponent implements OnInit, OnDestroy {
               )
           );
         }),
-        switchMap((pendingPages: ArwikiPageIndex) => {
+        switchMap((pendingPages: Record<string, ArwikiPendingPage>) => {
+          const pendingFiltered = Object.keys(pendingPages).filter((id) => {
+            return pendingPages[id].status === 'pending'
+          });
           return (
             arwikiQueryRejected.getRejectedPagesByIds(
                 this.adminList,
-                Object.keys(pendingPages),
+                pendingFiltered,
                 this.numRejectedPages,
                 this.maxHeight
               )
               .pipe(
                 switchMap((_rejectedIntersection: ArdbTransaction[]|ArdbBlock[]) => {
                   let rejected: string[] = [];
-                  let finalIndex: ArwikiPage[] = [];
 
                   for (let p of _rejectedIntersection) {
                     const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
@@ -424,12 +464,12 @@ export class PendingListComponent implements OnInit, OnDestroy {
                   }
 
                   for (let pId in pendingPages) {
-                    if (rejected.indexOf(pId) < 0) {
-                      finalIndex.push(pendingPages[pId]);
+                    if (rejected.indexOf(pId) >= 0) {
+                      pendingPages[pId].status = 'rejected';
                     }
                   }
 
-                  return of(finalIndex);
+                  return of(Object.values(pendingPages));
                 })
               )
           );
