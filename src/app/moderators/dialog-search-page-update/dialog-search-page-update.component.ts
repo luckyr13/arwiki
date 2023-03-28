@@ -23,7 +23,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 interface ArwikiPendingUpdate {
   page: ArwikiPage;
   status:'accepted'|'rejected'|'pending';
-  updateInfo: ArwikiPageUpdate|null
+  updateInfo: ArwikiPageUpdate|null;
 }
 
 @Component({
