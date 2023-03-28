@@ -41,6 +41,7 @@ export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
     rejected: new FormControl(false),
     pending: new FormControl(true)
   });
+  allApprovedPages: ArwikiPageIndex = {};
 
   constructor(
   	@Inject(MAT_DIALOG_DATA) public data: any,
@@ -117,6 +118,7 @@ export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
           this._arwikiPages.getAllPages(this.langCode, -1)
             .pipe(
               switchMap((_approvedPages: ArwikiPageIndex) => {
+                this.allApprovedPages = _approvedPages;
                 let tmp_filtered_res: ArwikiPendingUpdate[] = [];
                 let verifiedUpdates: Record<string, ArwikiPageUpdate> = {};
                 const approvedPagesSlugs = Object.keys(_approvedPages);
@@ -211,39 +213,32 @@ export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
           return of(tmp_res);
         }),
         switchMap((pendingPages: ArwikiPageIndex) => {
-          return (
-            this._arwikiPages.getApprovedPages(this.langCode, -1)
-              .pipe(
-                switchMap((_approvedPages: ArwikiPageIndex) => {
-                  let tmp_filtered_res: ArwikiPendingUpdate[] = [];
-                  let verifiedUpdates: Record<string, ArwikiPageUpdate> = {};
-                  const approvedPagesSlugs = Object.keys(_approvedPages);
-                  for (const approvedSlug of approvedPagesSlugs) {
-                    for (const upd of _approvedPages[approvedSlug].updates!) {
-                      verifiedUpdates[upd.tx] = upd; 
-                    }
-                  }
+          let tmp_filtered_res: ArwikiPendingUpdate[] = [];
+          let verifiedUpdates: Record<string, ArwikiPageUpdate> = {};
+          const approvedPagesSlugs = Object.keys(this.allApprovedPages);
+          for (const approvedSlug of approvedPagesSlugs) {
+            for (const upd of this.allApprovedPages[approvedSlug].updates!) {
+              verifiedUpdates[upd.tx] = upd; 
+            }
+          }
 
-                  // Check pending updates against verified updates
-                  for (let pId in pendingPages) {
-                    if (!(pId in verifiedUpdates)) {
-                      tmp_filtered_res.push({ 
-                        page: pendingPages[pId],
-                        status: 'pending',
-                        updateInfo: null
-                      });
-                    } else {
-                      tmp_filtered_res.push({ 
-                        page: pendingPages[pId],
-                        status: 'accepted',
-                        updateInfo: verifiedUpdates[pId]
-                      });
-                    }
-                  }
-                  return of(tmp_filtered_res);
-                })
-              )
-          );
+          // Check pending updates against verified updates
+          for (let pId in pendingPages) {
+            if (!(pId in verifiedUpdates)) {
+              tmp_filtered_res.push({ 
+                page: pendingPages[pId],
+                status: 'pending',
+                updateInfo: null
+              });
+            } else {
+              tmp_filtered_res.push({ 
+                page: pendingPages[pId],
+                status: 'accepted',
+                updateInfo: verifiedUpdates[pId]
+              });
+            }
+          }
+          return of(tmp_filtered_res);         
         })
       ).subscribe({
         next: (pages) => {

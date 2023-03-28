@@ -52,6 +52,7 @@ export class PendingListComponent implements OnInit, OnDestroy {
     rejected: new FormControl(false),
     pending: new FormControl(true),
   });
+  allApprovedPages: ArwikiPageIndex = {};
 
   constructor(
   	private _arweave: ArweaveService,
@@ -289,6 +290,7 @@ export class PendingListComponent implements OnInit, OnDestroy {
             this._arwikiPages.getAllPages(this.routeLang, -1)
               .pipe(
                 switchMap((_approvedPages) => {
+                  this.allApprovedPages = _approvedPages; 
                   let tmp_res: Record<string, ArwikiPendingPage> = {};
                   
                   // Check pending pages against verified page updates
@@ -404,39 +406,33 @@ export class PendingListComponent implements OnInit, OnDestroy {
           return of(allPendingPages);
         }),
         switchMap((pendingPages: ArwikiPageIndex) => {
-          return (
-            this._arwikiPages.getAllPages(this.routeLang, -1)
-              .pipe(
-                switchMap((_approvedPages) => {
-                  let tmp_res: Record<string, ArwikiPendingPage> = {};
-                  
-                  // Check pending pages against verified page updates
-                  const appr: ArwikiPage[] = Object.values(_approvedPages);
-                  const allUpdates: string[] = [];
-                  for (const page of appr) {
-                    const updates = page.updates!.map((u) => {
-                      return u.tx;
-                    });
-                    allUpdates.push(...updates);
-                  }
-                  for (let pId in pendingPages) {
-                    if (!(allUpdates.indexOf(pId) >= 0)) {
-                      tmp_res[pId] = {
-                        page: pendingPages[pId],
-                        status: 'pending'
-                      };
-                    } else {
-                      tmp_res[pId] = {
-                        page: pendingPages[pId],
-                        status: 'accepted'
-                      };
-                    }
-                  }
+          
+          let tmp_res: Record<string, ArwikiPendingPage> = {};
+          
+          // Check pending pages against verified page updates
+          const appr: ArwikiPage[] = Object.values(this.allApprovedPages);
+          const allUpdates: string[] = [];
+          for (const page of appr) {
+            const updates = page.updates!.map((u) => {
+              return u.tx;
+            });
+            allUpdates.push(...updates);
+          }
+          for (let pId in pendingPages) {
+            if (!(allUpdates.indexOf(pId) >= 0)) {
+              tmp_res[pId] = {
+                page: pendingPages[pId],
+                status: 'pending'
+              };
+            } else {
+              tmp_res[pId] = {
+                page: pendingPages[pId],
+                status: 'accepted'
+              };
+            }
+          }
 
-                  return of(tmp_res);
-                })
-              )
-          );
+          return of(tmp_res);
         }),
         switchMap((pendingPages: Record<string, ArwikiPendingPage>) => {
           const pendingFiltered = Object.keys(pendingPages).filter((id) => {
