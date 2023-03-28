@@ -117,6 +117,22 @@
 				</mat-card>
 			</div>
 		</ng-container>
+		<div
+			class="col-12 text-center btn-more-container"
+			*ngIf="!hideBtnMoreUpdates && !loadingPendingPages">
+			<button
+				mat-flat-button 
+				class="btn-more-articles"
+				[disabled]="loadingNextUpdates"
+				(click)="nextUpdates()">
+				{{ 'GENERAL.BUTTONS.MORE_ARTICLES' | translate }}
+			</button>
+		</div>
+		<div
+			*ngIf="!loadingPendingPages"
+			class="col-12 total-results text-right">
+			Total results: {{ totalResults }}
+		</div>
 	</div>
 	<div
 		class="row fadeIn" 

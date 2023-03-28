@@ -47,6 +47,12 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
     rejected: new FormControl(false),
     pending: new FormControl(true),
   });
+  numPages = 2;
+  totalResults = 0;
+  hideBtnMoreUpdates = false;
+  loadingNextUpdates = false;
+  nextUpdatesSubscription = Subscription.EMPTY;
+  allApprovedPages: ArwikiPageIndex = {};
 
   constructor(
   	private _arweave: ArweaveService,
@@ -81,7 +87,6 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
 
     // Get pages
     this.loadingPendingPages = true;
-    const numPages = 100;
     let maxHeight = 0;
 
     this.pendingPagesSubscription = from(
@@ -92,7 +97,7 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
           return this.arwikiQuery.getPendingPagesUpdates(
             this.routeLang,
             this.pageSlug,
-            numPages,
+            this.numPages,
             maxHeight
           );
         }),
@@ -111,6 +116,7 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
               value: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Value'),
               
             };
+            this.totalResults += 1;
           }
           return of(tmp_res);
         }),
@@ -119,6 +125,7 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
             this._arwikiPages.getAllPages(this.routeLang, -1)
               .pipe(
                 switchMap((_approvedPages: ArwikiPageIndex) => {
+                  this.allApprovedPages = _approvedPages;
                   let tmp_filtered_res: ArwikiPendingUpdate[] = [];
                   let verifiedUpdates: Record<string, ArwikiPageUpdate> = {};
                   const approvedPagesSlugs = Object.keys(_approvedPages);
@@ -167,6 +174,7 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
   */
   ngOnDestroy() {
     this.pendingPagesSubscription.unsubscribe();
+    this.nextUpdatesSubscription.unsubscribe();
   }
 
   underscoreToSpace(_s: string) {
@@ -259,6 +267,82 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
         this._utils.message(`${error}`, 'error');
       }
     });
+  }
+
+  
+  nextUpdates() {
+    this.loadingNextUpdates = true;
+    this.nextUpdatesSubscription = this.arwikiQuery.getNextResults()
+      .pipe(
+        switchMap((pendingPages: ArdbTransaction[]|ArdbBlock[]|ArdbTransaction|ArdbBlock) => {
+          // Fix       
+          if (pendingPages && !Array.isArray(pendingPages)) {
+            pendingPages = [pendingPages] as ArdbTransaction[];
+          } else if (Array.isArray(pendingPages)) {
+            pendingPages = pendingPages as ArdbTransaction[];
+          } else {
+            this.hideBtnMoreUpdates = true;
+            throw Error('End of results');
+          }
+
+          let tmp_res: ArwikiPageIndex = {};
+
+          for (let p of pendingPages) {
+            const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
+            tmp_res[pTX.id] = {
+              id: pTX.id,
+              title: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title'),
+              slug: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug'),
+              category: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category'),
+              language: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Lang'),
+              img: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img'),
+              block: pTX.block,
+              value: this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Value'),
+              
+            };
+
+            this.totalResults += 1;
+          }
+          return of(tmp_res);
+        }),
+        switchMap((pendingPages: ArwikiPageIndex) => {
+          let tmp_filtered_res: ArwikiPendingUpdate[] = [];
+          let verifiedUpdates: Record<string, ArwikiPageUpdate> = {};
+          const approvedPagesSlugs = Object.keys(this.allApprovedPages);
+          for (const approvedSlug of approvedPagesSlugs) {
+            for (const upd of this.allApprovedPages[approvedSlug].updates!) {
+              verifiedUpdates[upd.tx] = upd; 
+            }
+          }
+
+          // Check pending updates against verified updates
+          for (let pId in pendingPages) {
+            if (!(pId in verifiedUpdates)) {
+              tmp_filtered_res.push({ 
+                page: pendingPages[pId],
+                status: 'pending',
+                updateInfo: null
+              });
+            } else {
+              tmp_filtered_res.push({ 
+                page: pendingPages[pId],
+                status: 'accepted',
+                updateInfo: verifiedUpdates[pId]
+              });
+            }
+          }
+          return of(tmp_filtered_res);         
+        })
+      ).subscribe({
+        next: (pages) => {
+          this.pages.push(...pages);
+          this.loadingNextUpdates = false;
+        },
+        error: (error) => {
+          this._utils.message(error, 'error');
+          this.loadingNextUpdates = false;
+        }
+      })
   }
 
 }
