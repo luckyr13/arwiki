@@ -92,7 +92,7 @@
 						<a
 							mat-flat-button
 							matTooltip="Approve and sponsor page"
-							*ngIf="p.status === 'rejected' || p.status === 'pending'"
+							*ngIf="p.status === 'pending'"
 							(click)="confirmValidateArWikiPage(p.page.owner!, p.page.slug, p.page.id, p.page.category, p.page.value!)"
 							class="approve-btn">
 							<mat-icon>done</mat-icon>
