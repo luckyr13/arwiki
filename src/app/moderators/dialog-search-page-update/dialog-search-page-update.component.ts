@@ -8,7 +8,6 @@ import { ArwikiPageIndex } from '../../core/interfaces/arwiki-page-index';
 import { ArwikiQuery } from '../../core/arwiki-query';
 import { UtilsService } from '../../core/utils.service';
 import { ArweaveService } from '../../core/arweave.service';
-import {  } from 'rxjs';
 import { 
   ArwikiTokenContract 
 } from '../../core/arwiki-contracts/arwiki-token.service';
@@ -19,12 +18,7 @@ import ArdbTransaction from 'ardb/lib/models/transaction';
 import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
 import { ArwikiPageUpdate } from '../../core/interfaces/arwiki-page-update';
 import { FormGroup, FormControl } from '@angular/forms';
-
-interface ArwikiPendingUpdate {
-  page: ArwikiPage;
-  status:'accepted'|'rejected'|'pending';
-  updateInfo: ArwikiPageUpdate|null;
-}
+import { ArwikiPendingUpdate } from '../../core/interfaces/arwiki-pending-update';
 
 @Component({
   selector: 'app-dialog-search-page-update',

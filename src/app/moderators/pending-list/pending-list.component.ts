@@ -21,11 +21,7 @@ import { ArwikiCategoriesService } from '../../core/arwiki-contracts/arwiki-cate
 import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
 import { ArwikiAdminsService } from '../../core/arwiki-contracts/arwiki-admins.service';
 import { FormGroup, FormControl } from '@angular/forms';
-
-interface ArwikiPendingPage {
-  page: ArwikiPage;
-  status:'accepted'|'rejected'|'pending';
-}
+import { ArwikiPendingPage } from '../../core/interfaces/arwiki-pending-page';
 
 @Component({
   templateUrl: './pending-list.component.html',
