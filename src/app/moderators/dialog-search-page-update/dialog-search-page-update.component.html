@@ -57,6 +57,20 @@
 	  		</div>
 		  	<hr>
 		  </div>
+		  <div *ngIf="p.status === 'rejected' && rejected.value">
+		  	<h4>Title: {{ p.page.title }}</h4>
+	  		<h5>Slug: {{ p.page.slug }} </h5>
+	  		<div>Timestamp: {{ timestampToDate(p.page.block.timestamp) }}</div>
+	  		<app-arweave-address
+		  		[isAddress]="false"
+		  		class="justify-right"
+		  		[address]="p.page.id"
+		  		>TX: </app-arweave-address>
+	  		<div class="text-right">
+	  			Status: <span class="inactive-label">{{ p.status }}</span>
+	  		</div>
+		  	<hr>
+		  </div>
 	  </div>
   </ng-container>
   <div

@@ -55,4 +55,37 @@ export class ArwikiPageUpdatesService {
       this._arwikiToken.contractAddress, jwk, input, tags
     );
   }
+
+  /*
+  * @dev Pending updates can be rejected
+  * if an admin creates a Reject TX (Arwiki-Type: PageUpdateRejected)
+  */
+  async createRejectTXForArwikiPageUpdate(
+    _pageId: string,
+    _slug: string,
+    _langCode: string,
+    _reason: string,
+    _privateKey: any,
+    _arwikiVersion: string
+  ) {
+    const jwk = _privateKey;
+    const data = `${_reason}`.trim();
+    const tx = await this._arweave.arweave.createTransaction({
+      data
+    }, jwk);
+    tx.addTag('Content-Type', 'text/plain');
+    tx.addTag('Service', 'ArWiki');
+    tx.addTag('Arwiki-Type', 'PageUpdateRejected');
+    tx.addTag('Arwiki-Page-Id', _pageId);
+    tx.addTag('Arwiki-Page-Slug', _slug);
+    tx.addTag('Arwiki-Page-Lang', _langCode);
+    tx.addTag('Arwiki-Page-Reason', _reason);
+    tx.addTag('Arwiki-Version', _arwikiVersion);
+    await this._arweave.arweave.transactions.sign(tx, jwk);
+    const response = await this._arweave.arweave.transactions.post(tx);
+    if (response.status != 200) {
+      throw Error(`Error ${response.statusText}`);
+    }
+    return tx.id;
+  }
 }

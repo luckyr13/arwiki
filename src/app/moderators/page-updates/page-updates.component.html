@@ -1,7 +1,7 @@
 <app-moderators-menu title="Pending updates"></app-moderators-menu>
 <mat-spinner class="spinner-center" color="accent" *ngIf="loadingPendingPages"></mat-spinner>
 <div class="container page-container fadeIn">
-	<div class="row" *ngIf="!loadingInsertPageIntoIndex">
+	<div class="row" *ngIf="!loadingInteraction">
 		<form
 			class="col-12"
 			[formGroup]="filterForm" *ngIf="!loadingPendingPages && pages && pages.length">
@@ -63,11 +63,9 @@
 							[address]="p.page.id"
 							[isAddress]="false">{{ 'PAGE.LABEL_ID' | translate }}: </app-arweave-address>
 					</div>
-					<!--
 					<div class="mini-text">
-						<app-arweave-address [address]="pages[p].owner">{{ 'PAGE.LABEL_OWNER' | translate }}: </app-arweave-address>
+						<app-arweave-address [address]="p.page.owner!">{{ 'PAGE.LABEL_OWNER' | translate }}: </app-arweave-address>
 					</div>
-					-->
 					<div class="mini-text" *ngIf="p.page.block && p.page.block.height">
 						<strong>{{ 'PAGE.LABEL_BLOCK_HEIGHT' | translate }}:</strong>
 						{{ p.page.block.height }} 
@@ -81,10 +79,19 @@
 						<a
 							mat-flat-button
 							matTooltip="Approve page update"
-							(click)="confirmValidateArWikiPage(p.page.slug, p.page.id, p.page.category, p.page.value!)"
+							(click)="confirmApproveArWikiPageUpdate(p.page.slug, p.page.id, p.page.category, p.page.value!)"
 							class="approve-btn card-btn">
 							<mat-icon>done</mat-icon>
 							Approve
+						</a>
+						<a
+							mat-flat-button
+							color="warn"
+							matTooltip="Reject page update"
+							(click)="confirmRejectArWikiPageUpdate(p.page.slug, p.page.id)"
+							class="card-btn">
+							<mat-icon>delete</mat-icon>
+							Reject
 						</a>
 						<a 
 							mat-flat-button
@@ -136,28 +143,40 @@
 	</div>
 	<div
 		class="row fadeIn" 
-		*ngIf="loadingInsertPageIntoIndex && (!insertPageTxMessage && !insertPageTxErrorMessage)">
+		*ngIf="loadingInteraction && (!acceptUpdateTx && !interactionErrorMessage)">
 		<div class="col text-center">
 			<mat-spinner class="spinner-center"></mat-spinner>
 			<h1 class="text-center">🚀 Hold on! We are almost there!</h1>
 		</div>
 	</div>
-	<div class="row fadeIn" *ngIf="insertPageTxMessage">
+	<div class="row fadeIn" *ngIf="acceptUpdateTx">
 		<div class="col text-center">
-			<h1 class="text-center">🥳 Page successfully approved!</h1>
-			<p class="text-center">TxID: {{ insertPageTxMessage }}</p>
+			<h1 class="text-center">🥳 Update approved!</h1>
+			<p class="text-center">TxID: {{ acceptUpdateTx }}</p>
 			<a 
 				mat-button 
 				target="_blank"
-				href="https://viewblock.io/arweave/tx/{{insertPageTxMessage}}" 
-				class="text-center">https://viewblock.io/arweave/tx/{{ insertPageTxMessage }}
+				href="https://viewblock.io/arweave/tx/{{acceptUpdateTx}}" 
+				class="text-center">https://viewblock.io/arweave/tx/{{ acceptUpdateTx }}
 			</a>		
 		</div>
 	</div>
-	<div class="row fadeIn" *ngIf="insertPageTxErrorMessage">
+	<div class="row fadeIn" *ngIf="rejectUpdateTx">
+		<div class="col text-center">
+			<h1 class="text-center">🥳 Update rejected!</h1>
+			<p class="text-center">TxID: {{ rejectUpdateTx }}</p>
+			<a 
+				mat-button 
+				target="_blank"
+				href="https://viewblock.io/arweave/tx/{{rejectUpdateTx}}" 
+				class="text-center">https://viewblock.io/arweave/tx/{{ rejectUpdateTx }}
+			</a>		
+		</div>
+	</div>
+	<div class="row fadeIn" *ngIf="interactionErrorMessage">
 		<div class="col text-center">
 			<h1 class="text-center">Oops! something went wrong</h1>
-			<p class="text-center">{{ insertPageTxErrorMessage }}</p>
+			<p class="text-center">{{ interactionErrorMessage }}</p>
 		</div>
 	</div>
 

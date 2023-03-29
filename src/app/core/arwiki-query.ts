@@ -984,4 +984,49 @@ export class ArwikiQuery {
   getNextResults() {
     return from(this._ardb.next());
   }
+
+  /*
+  * @dev
+  */
+  getRejectedPageUpdatesByIds(
+    owners: string[],
+    ids: string[],
+    limit: number = 100,
+    maxHeight: number = 0
+  ): Observable<ArdbTransaction[]|ArdbBlock[]> {
+    const tags = [
+      {
+        name: 'Service',
+        values: ['ArWiki'],
+      },
+      {
+        name: 'Arwiki-Type',
+        values: ['PageUpdateRejected'],
+      },
+      {
+        name: 'Arwiki-Page-Id',
+        values: ids,
+      },
+      {
+        name: 'Arwiki-Version',
+        values: arwikiVersion,
+      } 
+    ];
+
+    const obs = new Observable<ArdbTransaction[]|ArdbBlock[]>((subscriber) => {
+      this._ardb!.search('transactions')
+        .limit(limit)
+        .from(owners)
+        .max(maxHeight)
+        .tags(tags).find().then((res: ArdbTransaction[]|ArdbBlock[]) => {
+          subscriber.next(res);
+          subscriber.complete();
+        })
+        .catch((error) => {
+          subscriber.error(error);
+        });
+
+    });
+    return obs;
+  }
 }

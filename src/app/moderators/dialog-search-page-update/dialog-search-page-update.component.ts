@@ -19,6 +19,7 @@ import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.ser
 import { ArwikiPageUpdate } from '../../core/interfaces/arwiki-page-update';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ArwikiPendingUpdate } from '../../core/interfaces/arwiki-pending-update';
+import { ArwikiAdminsService } from '../../core/arwiki-contracts/arwiki-admins.service';
 
 @Component({
   selector: 'app-dialog-search-page-update',
@@ -42,6 +43,9 @@ export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
     pending: new FormControl(true)
   });
   allApprovedPages: ArwikiPageIndex = {};
+  adminList: string[] = [];
+  numRejectedPages = 100;
+  maxHeight = 0;
 
   constructor(
   	@Inject(MAT_DIALOG_DATA) public data: any,
@@ -50,7 +54,8 @@ export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
     private _arwikiTokenContract: ArwikiTokenContract,
     private _router: Router,
     public _dialogRef: MatDialogRef<DialogSearchPageUpdateComponent>,
-    private _arwikiPages: ArwikiPagesService
+    private _arwikiPages: ArwikiPagesService,
+    private _arwikiAdmins: ArwikiAdminsService
   ) { }
 
   get accepted() {
@@ -80,18 +85,23 @@ export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
   getUpdates() {
     // Get pages
     this.loadingPendingUpdates = true;
-    let maxHeight = 0;
     this.totalResults = 0;
+    const arwikiQueryRejected = new ArwikiQuery(this._arweave.arweave);
+
    
     this.pendingPagesSubscription = from(
       this._arweave.arweave.network.getInfo()
     ).pipe(
       switchMap((networkInfo) => {
-        maxHeight = networkInfo.height;
+        this.maxHeight = networkInfo.height;
+        return this._arwikiAdmins.getAdminList()
+      }),
+      switchMap((admins) => {
+        this.adminList = admins;
         return this.arwikiQuery.getPendingPagesUpdatesByLang(
           this.langCode,
           this.numPages,
-          maxHeight
+          this.maxHeight
         );
       }),
       switchMap((pendingPages: ArdbTransaction[]|ArdbBlock[]) => {
@@ -119,7 +129,7 @@ export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
             .pipe(
               switchMap((_approvedPages: ArwikiPageIndex) => {
                 this.allApprovedPages = _approvedPages;
-                let tmp_filtered_res: ArwikiPendingUpdate[] = [];
+                let tmp_filtered_res: Record<string, ArwikiPendingUpdate> = {};
                 let verifiedUpdates: Record<string, ArwikiPageUpdate> = {};
                 const approvedPagesSlugs = Object.keys(_approvedPages);
                 for (const approvedSlug of approvedPagesSlugs) {
@@ -131,24 +141,56 @@ export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
                 // Check pending updates against verified updates
                 for (let pId in pendingPages) {
                   if (!(pId in verifiedUpdates)) {
-                    tmp_filtered_res.push({ 
+                    tmp_filtered_res[pId] = { 
                       page: pendingPages[pId],
                       status: 'pending',
                       updateInfo: null
-                    });
+                    };
                   } else {
-                    tmp_filtered_res.push({ 
+                    tmp_filtered_res[pId] = { 
                       page: pendingPages[pId],
                       status: 'accepted',
                       updateInfo: verifiedUpdates[pId]
-                    });
+                    };
                   }
                 }
                 return of(tmp_filtered_res);
               })
             )
         );
-      })
+      }),
+      switchMap((pendingPages: Record<string, ArwikiPendingUpdate>) => {
+        const pendingFiltered = Object.keys(pendingPages).filter((id) => {
+          return pendingPages[id].status === 'pending'
+        });
+        return (
+          arwikiQueryRejected.getRejectedPageUpdatesByIds(
+              this.adminList,
+              pendingFiltered,
+              this.numRejectedPages,
+              this.maxHeight
+            )
+            .pipe(
+              switchMap((_rejectedIntersection: ArdbTransaction[]|ArdbBlock[]) => {
+                let rejected: string[] = [];
+
+                for (let p of _rejectedIntersection) {
+                  const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
+                  const rejectedId = arwikiQueryRejected.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Id');
+                  rejected.push(rejectedId);
+                }
+
+                for (let pId in pendingPages) {
+                  if (rejected.indexOf(pId) >= 0) {
+                    pendingPages[pId].status = 'rejected';
+                  }
+                }
+
+                return of(Object.values(pendingPages));
+              })
+            )
+        );
+      }),
     ).subscribe({
       next: (pages: ArwikiPendingUpdate[]) => {
         this.pages = pages;
@@ -179,6 +221,8 @@ export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
 
   nextUpdates() {
     this.loadingNextUpdates = true;
+    const arwikiQueryRejected = new ArwikiQuery(this._arweave.arweave);
+    
     this.nextUpdatesSubscription = this.arwikiQuery.getNextResults()
       .pipe(
         switchMap((pendingPages: ArdbTransaction[]|ArdbBlock[]|ArdbTransaction|ArdbBlock) => {
@@ -213,7 +257,7 @@ export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
           return of(tmp_res);
         }),
         switchMap((pendingPages: ArwikiPageIndex) => {
-          let tmp_filtered_res: ArwikiPendingUpdate[] = [];
+          let tmp_filtered_res: Record<string, ArwikiPendingUpdate> = {};
           let verifiedUpdates: Record<string, ArwikiPageUpdate> = {};
           const approvedPagesSlugs = Object.keys(this.allApprovedPages);
           for (const approvedSlug of approvedPagesSlugs) {
@@ -225,21 +269,53 @@ export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
           // Check pending updates against verified updates
           for (let pId in pendingPages) {
             if (!(pId in verifiedUpdates)) {
-              tmp_filtered_res.push({ 
+              tmp_filtered_res[pId] = { 
                 page: pendingPages[pId],
                 status: 'pending',
                 updateInfo: null
-              });
+              } ;
             } else {
-              tmp_filtered_res.push({ 
+              tmp_filtered_res[pId] = { 
                 page: pendingPages[pId],
                 status: 'accepted',
                 updateInfo: verifiedUpdates[pId]
-              });
+              };
             }
           }
           return of(tmp_filtered_res);         
-        })
+        }),
+        switchMap((pendingPages: Record<string, ArwikiPendingUpdate>) => {
+          const pendingFiltered = Object.keys(pendingPages).filter((id) => {
+            return pendingPages[id].status === 'pending'
+          });
+          return (
+            arwikiQueryRejected.getRejectedPageUpdatesByIds(
+                this.adminList,
+                pendingFiltered,
+                this.numRejectedPages,
+                this.maxHeight
+              )
+              .pipe(
+                switchMap((_rejectedIntersection: ArdbTransaction[]|ArdbBlock[]) => {
+                  let rejected: string[] = [];
+
+                  for (let p of _rejectedIntersection) {
+                    const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
+                    const rejectedId = arwikiQueryRejected.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Id');
+                    rejected.push(rejectedId);
+                  }
+
+                  for (let pId in pendingPages) {
+                    if (rejected.indexOf(pId) >= 0) {
+                      pendingPages[pId].status = 'rejected';
+                    }
+                  }
+
+                  return of(Object.values(pendingPages));
+                })
+              )
+          );
+        }),
       ).subscribe({
         next: (pages) => {
           this.pages.push(...pages);
