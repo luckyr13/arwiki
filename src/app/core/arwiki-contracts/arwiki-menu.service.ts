@@ -12,6 +12,8 @@ import { ArweaveService } from '../arweave.service';
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
 import { ArwikiPagesService } from './arwiki-pages.service';
+import { ArwikiCategory } from '../interfaces/arwiki-category';
+import { UtilsService } from '../utils.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,24 +25,35 @@ export class ArwikiMenuService {
     private _warp: WarpContractsService,
     private _arwikiCategories: ArwikiCategoriesService,
     private _arweave: ArweaveService,
-    private _arwikiPages: ArwikiPagesService) { }
+    private _arwikiPages: ArwikiPagesService,
+    private _utils: UtilsService) { }
 
   /*
   * @dev
   */
   getMainMenu(
     _langCode: string,
-    _onlyShowInMenuOptions = true
+    _onlyShowInMenuOptions=true,
+    _onlyActiveCategories=true,
+    _onlyActivePages=true,
+    _reload=false
   ) {
     const arwikiQuery: ArwikiQuery = new ArwikiQuery(this._arweave.arweave);
     let globalCat: ArwikiCategoryIndex = {};
     let globalPages: ArwikiPageIndex = {};
 
-    return this._arwikiCategories.getCategories(_langCode)
-      .pipe(
+    return this._arwikiCategories.getCategories(
+      _langCode,
+      _onlyActiveCategories,
+      _reload
+    ).pipe(
         switchMap((_categories: ArwikiCategoryIndex) => {
           globalCat = _categories;
-          return this._arwikiPages.getApprovedPagesByCategory(_langCode, Object.keys(_categories));
+          return this._arwikiPages.getApprovedPagesByCategory(
+            _langCode,
+            Object.keys(_categories),
+            _onlyActivePages
+          );
         }),
         switchMap((_approvedPages) => {
           globalPages = _approvedPages;
@@ -131,6 +144,17 @@ export class ArwikiMenuService {
           });
       }
     }
+    // Sort
+    tmpMenu.sort((subCat1, subCat2) => {
+      return categories[subCat2.category_slug].label.localeCompare(
+        categories[subCat1.category_slug].label
+      );
+    }).sort((subCat1, subCat2) => {
+      return (
+          categories[subCat2.category_slug].order
+        - categories[subCat1.category_slug].order
+      );
+    });
 
     return tmpMenu;
   }
@@ -156,10 +180,41 @@ export class ArwikiMenuService {
               slugs[i])
           });
       }
-
     }
+    // Sort
+    subcategories.sort((subCat1, subCat2) => {
+      return categories[subCat2.category_slug].label.localeCompare(
+        categories[subCat1.category_slug].label
+      );
+    }).sort((subCat1, subCat2) => {
+      return (
+          categories[subCat2.category_slug].order
+        - categories[subCat1.category_slug].order
+      );
+    });
 
     return subcategories;
+  }
+
+  flatMenu(
+    tmpMenu: ArwikiMenuCategory[],
+    categories: ArwikiCategoryIndex): ArwikiCategory[] {
+    const menu = this._utils.cloneObject(tmpMenu);
+    const finalMenu: ArwikiCategory[] = [];
+    if (menu.length === 0) {
+      return [];
+    }
+    menu.reverse();
+    const numCats = menu.length;
+    for (let i = 0; i < numCats; i++) {
+      const children = menu[i].subcategories;
+      finalMenu.push(categories[menu[i].category_slug]);
+      if (children && children.length) {
+        finalMenu.push(...this.flatMenu(children, categories));
+      }
+    }
+
+    return finalMenu;
   }
 
 }
