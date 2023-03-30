@@ -62,10 +62,10 @@ export class ViewDetailComponent implements OnInit {
     this.routeLang = this._route.snapshot.paramMap.get('lang')!;
     this.getDefaultTheme();
 
-    this._route.paramMap.subscribe(async params => {
+    this._route.paramMap.subscribe(params => {
       this.routeLang = params.get('lang')!;
       this.category = params.get('category')!;
-      await this._loadContent();
+      this._loadContent();
     });
 
   }
@@ -103,21 +103,6 @@ export class ViewDetailComponent implements OnInit {
     this.subscriptionTranslation.unsubscribe();
 
   }
-
-  sanitizeMarkdown(_s: string) {
-    _s = _s.replace(/[#*=\[\]]/gi, '')
-    let res: string = `${_s.substring(0, 250)} ...`;
-    return res;
-  }
-
-  
-  sanitizeImg(_img: string) {
-    let res: string = _img.indexOf('http') >= 0 ?
-      _img :
-      _img ? `${this.baseURL}${_img}` : '';
-    return res;
-  }
-
 
   goBack() {
     this._location.back();
