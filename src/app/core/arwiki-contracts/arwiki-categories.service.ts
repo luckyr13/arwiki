@@ -25,14 +25,19 @@ export class ArwikiCategoriesService {
     reload=false): Observable<ArwikiCategoryIndex> {
     return this._arwikiToken.getState(reload).pipe(
       map((_state: any) => {
+        if (!Object.prototype.hasOwnProperty.call(
+            _state.categories, lang
+           )) {
+          return {};
+        }
         const categories: ArwikiCategoryIndex = Object
-          .keys(_state.categories)
+          .keys(_state.categories[lang])
           .reduce((accum: ArwikiCategoryIndex, slug)=> {
-              if (_state.categories[slug].active && onlyActive) {
-                accum[slug] = {...this._utils.cloneObject(_state.categories[slug])};
+              if (_state.categories[lang][slug].active && onlyActive) {
+                accum[slug] = {...this._utils.cloneObject(_state.categories[lang][slug])};
                 accum[slug].slug = slug;
               } else {
-                accum[slug] = {...this._utils.cloneObject(_state.categories[slug])};
+                accum[slug] = {...this._utils.cloneObject(_state.categories[lang][slug])};
                 accum[slug].slug = slug;
               }
               return accum;
