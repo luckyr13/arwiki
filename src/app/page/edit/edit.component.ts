@@ -148,7 +148,7 @@ export class EditComponent implements OnInit, OnDestroy {
   	this.getDefaultTheme();
     
     this.categoryListSubscription = this._arwikiCategories
-      .getCategories()
+      .getCategories(this.routeLang)
       .subscribe({
         next: (state: ArwikiCategoryIndex) => {
           this.categoryList = [];

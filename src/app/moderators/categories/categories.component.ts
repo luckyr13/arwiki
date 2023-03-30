@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { Direction } from '@angular/cdk/bidi';
 import { UserSettingsService } from '../../core/user-settings.service';
+import { ArwikiCategoriesService } from '../../core/arwiki-contracts/arwiki-categories.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-categories',
@@ -19,11 +21,14 @@ export class CategoriesComponent implements OnInit, OnDestroy {
     'slug'
   ];
   dataSource: ArwikiCategory[] = [];
+  routeLang: string = '';
 
   constructor(
     private _location: Location,
     private _dialog: MatDialog,
-    private _userSettings: UserSettingsService) {
+    private _userSettings: UserSettingsService,
+    private _arwikiCategories: ArwikiCategoriesService,
+    private _route: ActivatedRoute,) {
 
   }
 
@@ -32,11 +37,30 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.loadCategoriesTable(false);
+    this.routeLang = this._route.snapshot.paramMap.get('lang')!;
+    const reload = true;
+    const onlyActive = false;
+    this.loadCategoriesTable(this.routeLang, onlyActive, reload);
   }
 
-  loadCategoriesTable(reload: boolean) {
-    // this.loading = true;
+  loadCategoriesTable(
+    langCode: string,
+    onlyActive: boolean,
+    reload: boolean) {
+    this.loading = true;
+    this.categoriesSubscription = this._arwikiCategories.getCategories(
+        langCode, onlyActive, reload
+      ).subscribe({
+        next: (langs) => {
+          this.categories = langs;
+          this.dataSource = Object.values(this.categories);
+          this.loading = false;
+        },
+        error: (error) => {
+          this.loading = false;
+          console.error('ErrorLang:', error);
+        }
+      });
 
   }
 

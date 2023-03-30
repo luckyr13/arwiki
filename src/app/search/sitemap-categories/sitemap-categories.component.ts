@@ -33,6 +33,7 @@ export class SitemapCategoriesComponent implements OnInit, OnDestroy {
   initCategories() {
     const onlyActiveCategories = false;
     this.categoriesSubscription = this._arwikiCategories.getCategories(
+      this.routeLang,
       onlyActiveCategories
     ).subscribe({
       next: (categories) => {

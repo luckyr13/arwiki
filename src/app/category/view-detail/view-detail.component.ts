@@ -133,7 +133,7 @@ export class ViewDetailComponent implements OnInit {
     let adminList: string[] = [];
     let verifiedPages: string[] = [];
     let allApprovedPages: ArwikiPageIndex = {};
-    return this._arwikiCategories.getCategories()
+    return this._arwikiCategories.getCategories(_langCode)
       .pipe(
         switchMap((categoriesContractState) => {
           this.categories = categoriesContractState;

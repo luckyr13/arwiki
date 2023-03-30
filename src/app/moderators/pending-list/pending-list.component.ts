@@ -252,7 +252,10 @@ export class PendingListComponent implements OnInit, OnDestroy {
         switchMap((admins) => {
           this.adminList = admins;
           const onlyActiveCategories = false;
-          return this._arwikiCategories.getCategories(onlyActiveCategories);
+          return this._arwikiCategories.getCategories(
+            this.routeLang,
+            onlyActiveCategories
+          );
         }),
         switchMap((categories: ArwikiCategoryIndex) => {
           return this.arwikiQueryPending.getPendingPages(

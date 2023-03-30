@@ -19,7 +19,10 @@ export class ArwikiCategoriesService {
   /*
   *  @dev Get active Categories
   */
-  getCategories(onlyActive=true, reload=false): Observable<ArwikiCategoryIndex> {
+  getCategories(
+    lang: string,
+    onlyActive=true,
+    reload=false): Observable<ArwikiCategoryIndex> {
     return this._arwikiToken.getState(reload).pipe(
       map((_state: any) => {
         const categories: ArwikiCategoryIndex = Object
@@ -37,14 +40,6 @@ export class ArwikiCategoriesService {
         return categories;
       })
     );
-  }
-
-  /*
-  *  @dev Get Categories
-  */
-  getCategoriesFromLocal(): ArwikiCategoryIndex {
-    const state = this._arwikiToken.getStateFromLocal();
-    return {...state.categories};
   }
 
 }

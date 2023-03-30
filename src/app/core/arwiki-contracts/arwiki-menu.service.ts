@@ -36,7 +36,7 @@ export class ArwikiMenuService {
     let globalCat: ArwikiCategoryIndex = {};
     let globalPages: ArwikiPageIndex = {};
 
-    return this._arwikiCategories.getCategories()
+    return this._arwikiCategories.getCategories(_langCode)
       .pipe(
         switchMap((_categories: ArwikiCategoryIndex) => {
           globalCat = _categories;
