@@ -432,12 +432,11 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
         const pages = data.catPages;
         
-
         this.menu = this._arwikiMenu.generateMenu(
           {...this.categories},
           {...pages}
         );
-        
+
       },
       error: (error) => {
         this.loadingSubmenu = false;
