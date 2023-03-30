@@ -10,9 +10,9 @@ import {
 } from './shared/password-dialog/password-dialog.component';
 */
 import { ArweaveService } from './core/arweave.service';
-import { SubtleCryptoService } from './core/subtle-crypto.service';
+// import { SubtleCryptoService } from './core/subtle-crypto.service';
 import { JWKInterface } from 'arweave/web/lib/wallet';
-import * as b64 from 'base64-js';
+// import * as b64 from 'base64-js';
 import { AuthService } from './auth/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { 
@@ -47,7 +47,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
     private _auth: AuthService,
     private _arweave: ArweaveService,
     private _dialog: MatDialog,
-    private _crypto: SubtleCryptoService,
     private _utils: UtilsService
   ) {
     // this language will be used as a fallback when a translation isn't found in the current language
