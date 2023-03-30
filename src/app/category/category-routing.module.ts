@@ -5,8 +5,13 @@ import { AuthGuard } from '../auth/auth.guard';
 
 const routes: Routes = [
 	{
-		path: ':category',
-		component: ViewDetailComponent
+		path: '',
+		children: [
+			{
+				path: ':category',
+				component: ViewDetailComponent
+			}
+		]
 	}
 ];
 
