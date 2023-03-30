@@ -36,7 +36,7 @@ export class ArwikiCategoriesService {
               if (_state.categories[lang][slug].active && onlyActive) {
                 accum[slug] = {...this._utils.cloneObject(_state.categories[lang][slug])};
                 accum[slug].slug = slug;
-              } else {
+              } else if (!onlyActive) {
                 accum[slug] = {...this._utils.cloneObject(_state.categories[lang][slug])};
                 accum[slug].slug = slug;
               }

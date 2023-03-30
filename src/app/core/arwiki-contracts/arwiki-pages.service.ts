@@ -234,12 +234,16 @@ export class ArwikiPagesService {
   getApprovedPagesByCategory(
     _langCode: string,
     _categories: string[],
+    _onlyActivePages=true
   ): Observable<ArwikiPageIndex> {
     return this._arwikiToken.getState().pipe(
       map((_state: any) => {
         const pagesIds = Object.keys(_state.pages[_langCode]).filter((slug) => {
           if (_categories.indexOf(_state.pages[_langCode][slug].category) < 0) {
             return false;
+          }
+          if (!_onlyActivePages) {
+            return true;
           }
           return _state.pages[_langCode][slug].active;
         });

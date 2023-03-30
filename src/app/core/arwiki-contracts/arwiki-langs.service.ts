@@ -27,7 +27,7 @@ export class ArwikiLangsService {
               if (_state.languages[code].active && onlyActive) {
                 accum[code] = this._utils.cloneObject(_state.languages[code]);
                 accum[code].code = code;
-              } else {
+              } else if (!onlyActive) {
                 accum[code] = this._utils.cloneObject(_state.languages[code]);
                 accum[code].code = code;
               }
