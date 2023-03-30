@@ -5,15 +5,15 @@ import { UtilsService } from '../../core/utils.service';
 import {MatBottomSheetRef} from '@angular/material/bottom-sheet';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { 
-  PasswordDialogComponent 
-} from '../../shared/password-dialog/password-dialog.component';
+//import { 
+//  PasswordDialogComponent 
+//} from '../../shared/password-dialog/password-dialog.component';
 // import { SubtleCryptoService } from '../../core/subtle-crypto.service';
 // import * as b64 from 'base64-js';
 import { UserSettingsService } from '../../core/user-settings.service';
 import { Direction } from '@angular/cdk/bidi';
 import { JWKInterface } from 'arweave/web/lib/wallet';
-import { AddressKey } from '../../core/interfaces/address-key';
+// import { AddressKey } from '../../core/interfaces/address-key';
 
 @Component({
   selector: 'app-bottom-sheet-login',
@@ -24,7 +24,7 @@ export class BottomSheetLoginComponent implements OnInit, OnDestroy {
   login$: Subscription = Subscription.EMPTY;
   loading: boolean = false;
   stayLoggedIn: boolean = false;
-  encryptSubscription = Subscription.EMPTY;
+  //encryptSubscription = Subscription.EMPTY;
 
   constructor(
     private _auth: AuthService,
@@ -48,7 +48,7 @@ export class BottomSheetLoginComponent implements OnInit, OnDestroy {
   */
   ngOnDestroy(): void {
     this.login$.unsubscribe();
-    this.encryptSubscription.unsubscribe();
+    // this.encryptSubscription.unsubscribe();
   }
 
   setStayLoggedIn(event: any) {

@@ -58,11 +58,11 @@ export class AuthService {
         const stayLoggedIn = this.getStayLoggedIn();
         const storage = stayLoggedIn ? window.localStorage : window.sessionStorage;
         const method = storage.getItem('METHOD'); 
-        const arkey = storage.getItem('ARKEY');
+        // const arkey = storage.getItem('ARKEY');
 
         this._mainAddress = '';
         this._method = '';
-        this._arKey = undefined;
+        // this._arKey = undefined;
 
         if (method === 'arweavewebwallet') {
           // this.resumeArweaveWalletSessionDialog(method!);
@@ -79,12 +79,15 @@ export class AuthService {
               }
             });
           });
-        } else if (method === 'upload_file' && arkey) {
-          // Decrypt
-          // Launch password modal
+        } 
+        // else if (method === 'upload_file' && arkey) {
+          // Decrypt (Deprecated)
+          // Launch password modal 
           // this.passwordDialog(arkey);
-          throw Error('LaunchPasswordModal');
-        } else {
+          // Throw dialog
+          // throw Error('LaunchPasswordModal');
+        //}
+        else {
           subscriber.next(false);
           subscriber.complete();
         }
