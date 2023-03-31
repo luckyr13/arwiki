@@ -202,14 +202,18 @@ $arwiki-orange-theme: mat.define-light-theme((
 ));
 
 // Orange
-.arwiki-orange {
+.arwiki-orange, .arwiki-yellow {
   @include mat.all-component-colors($arwiki-orange-theme);
-  .footer{background-color:#D5C663;color:#2a2a2a}
+
   .footer .arweave-gray-logo{filter:invert(1)}a{color:#000}
   .editor-preview pre,.editor-preview-side pre{
     background-color:#1f1f1f !important; color: #FFFFFF !important;
   }
+  
   .invert-colors{filter:invert(1);}
+}
+.arwiki-orange{
+  .footer{background-color:#D5C663;color:#2a2a2a}
   .container-partners{background-color: #EDDD6E !important;}
   .fade-out{background-image: url('/assets/img/bottom-fade-orange.png') !important}
   .CodeMirror, .editor-preview, .editor-preview-side, .editor-toolbar.fullscreen {
@@ -235,54 +239,9 @@ $arwiki-orange-theme: mat.define-light-theme((
 }
 
 // Yellow theme
-$arwiki-yellow-palette: (
- 50: #EDDD6E,
- 100: #EDDD6E,
- 200: #EDDD6E,
- 300: #D5C663,
- 400: #D5C663,
- 500: #D5C663,
- 600: #D5C663,
- 700: #D5C663,
- 800: #D5C663,
- 900: #D5C663,
- contrast: (
-   50: rgba(black, 0.87),
-   100: rgba(black, 0.87),
-   200: rgba(black, 0.87),
-   300: white,
-   400: white,
-   500: white,
-   600: white,
-   700: white,
-   800: white,
-   900: white,
- )
-);
-
-$arwiki-yellow-theme-primary: mat.define-palette($arwiki-yellow-palette, 50, 300, 400);
-$arwiki-yellow-theme-accent: mat.define-palette(mat.$grey-palette, 900);
-
-// Create the theme object. A theme consists of configurations for individual
-// theming systems such as "color" or "typography".
-$arwiki-yellow-theme: mat.define-light-theme((
-  color: (
-    primary: $arwiki-yellow-theme-primary,
-    accent: $arwiki-yellow-theme-accent,
-    warn: $theme-warn,
-  ),
-  typography: $theme-typography
-));
-
 // Yellow
 .arwiki-yellow {
-  @include mat.all-component-colors($arwiki-yellow-theme);
   .footer{background-color:#b0b0b0;color:#2a2a2a}
-  .footer .arweave-gray-logo{filter:invert(1)}a{color:#000}
-  .editor-preview pre,.editor-preview-side pre{
-    background-color:#1f1f1f !important; color: #FFFFFF !important;
-  }
-  .invert-colors{filter:invert(1);}
   .container-partners{
     background-color: #F8FD89 !important;
   }
