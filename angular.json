@@ -53,7 +53,8 @@
               "warp-contracts",
               "dompurify",
               "marked",
-              "prismjs"
+              "prismjs",
+              "ardb"
             ],
             "serviceWorker": true,
             "ngswConfigPath": "ngsw-config.json"
