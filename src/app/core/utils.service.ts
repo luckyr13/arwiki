@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import { marked } from 'marked';
+import { marked } from 'marked-latest';
 import DOMPurify from 'dompurify';
 
 @Injectable({
