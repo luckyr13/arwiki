@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { marked } from 'marked-latest';
+import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import { Observable, Subscription, from } from 'rxjs';
 import { catchError } from 'rxjs/operators';

@@ -3,7 +3,7 @@ import {
   ChangeDetectorRef, ViewChild, ElementRef
 } from '@angular/core';
 import { ArwikiQuery } from '../../core/arwiki-query';
-import { marked } from 'marked-latest';
+import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import { Observable, Subscription, of} from 'rxjs';
 import { ArweaveService } from '../../core/arweave.service';

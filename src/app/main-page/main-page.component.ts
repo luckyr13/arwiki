@@ -11,7 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ArwikiCategoryIndex } from '../core/interfaces/arwiki-category-index';
 import { ArwikiPage } from '../core/interfaces/arwiki-page';
 import { ArwikiPageIndex } from '../core/interfaces/arwiki-page-index';
-import { marked } from 'marked-latest';
+import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
