@@ -117,8 +117,6 @@ export class FormSetSettingsComponent implements OnInit, OnDestroy {
     if (option === 'quorum' || option === 'support' ||
       option === 'lockMinLength' || option === 'lockMaxLength' ||
       option === 'voteLength' || option === 'pageApprovalLength' || 
-      option === 'noteVoteMaxLength' || option === 'keyVoteMaxLength' || 
-      option === 'roleValueVoteMaxLength' || option === 'pageSlugMaxLength' || 
       option === 'other_numeric') {
       value = +this.numericValue.value!;
     } else if (option === 'communityLogo' || 
@@ -206,9 +204,7 @@ export class FormSetSettingsComponent implements OnInit, OnDestroy {
       return;
     } else if (option === 'quorum' || option === 'support' ||
       option === 'lockMinLength' || option === 'lockMaxLength' ||
-      option === 'voteLength' || option === 'pageApprovalLength' || 
-      option === 'noteVoteMaxLength' || option === 'keyVoteMaxLength' || 
-      option === 'roleValueVoteMaxLength' || option === 'pageSlugMaxLength' || 
+      option === 'voteLength' || option === 'pageApprovalLength' ||
       option === 'other_numeric') {
       this.setValidatorNumericValue();
     } else if (option === 'communityLogo' || 

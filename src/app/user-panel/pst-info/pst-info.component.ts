@@ -79,31 +79,6 @@ export class PstInfoComponent implements OnInit, OnDestroy {
               formatFunction: (val: any) => ''
             },
             {
-              key: 'noteVoteMaxLength',
-              label: 'Max length for notes (Vote)',
-              formatFunction: (val: any) => `${val} characters`
-            },
-            {
-              key: 'keyVoteMaxLength',
-              label: 'Max length for keys (Vote)',
-              formatFunction: (val: any) => `${val} characters`
-            },
-            {
-              key: 'roleValueVoteMaxLength',
-              label: 'Max length for roles (Vote)',
-              formatFunction: (val: any) => `${val} characters`
-            },
-            {
-              key: 'pageSlugMaxLength',
-              label: 'Max length for slugs',
-              formatFunction: (val: any) => `${val} characters`
-            },
-            {
-              key: 'keyStringValueVoteMaxLength',
-              label: 'Value max length',
-              formatFunction: (val: any) => `${val} characters`
-            },
-            {
               key: 'moderatorsMinVaultBalance',
               label: 'Moderator\'s Min Vault',
               formatFunction: (val: any) => `${val} $WIKI`
