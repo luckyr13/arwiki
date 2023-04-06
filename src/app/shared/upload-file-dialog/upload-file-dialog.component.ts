@@ -6,6 +6,7 @@ import { AuthService } from '../../auth/auth.service';
 import Transaction from 'arweave/web/lib/transaction';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { UntypedFormControl } from '@angular/forms';
+import { DispatchResult } from 'arconnect';
 
 /*
 *  Based on Drag and Drop tutorial:
@@ -290,7 +291,7 @@ export class UploadFileDialogComponent implements OnInit, OnDestroy {
             this.progressObj);
         })
       ).subscribe({
-      next: (tx: Transaction|{id: string, type: string}) => {
+      next: (tx: Transaction|{id: string, type: string}|DispatchResult) => {
         this.close({ id: tx.id, type: type});
       },
       error: (error: any) => {
