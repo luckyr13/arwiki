@@ -16,7 +16,7 @@
 	</div>
 </div>
 <div class="container fadeIn" *ngIf="!loading" >
-	<h1 class="page-title col-12">
+	<h1>
 		Privacy Settings
 	</h1>
 	<div class="row" *ngIf="!loading">
@@ -30,7 +30,7 @@
 				{{ sessionStorage | json }}
 			</p>
 			<p class="text-right">
-				<button mat-button color="warn" (click)="clearSession()">
+				<button mat-flat-button color="warn" (click)="clearSession()">
 					<mat-icon>delete</mat-icon> Clear session
 				</button>
 			</p>

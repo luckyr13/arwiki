@@ -12,6 +12,7 @@ const routes: Routes = [
     path: 'error',
     component: ErrorComponent
   },
+  { path: 'settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule) },
   {
     path: '',
     canActivateChild: [InitPlatformGuard],
@@ -37,7 +38,6 @@ const routes: Routes = [
       },
       { path: ':lang/badges', loadChildren: () => import('./badges/badges.module').then(m => m.BadgesModule) },
       { path: ':lang/votes', loadChildren: () => import('./votes/votes.module').then(m => m.VotesModule) },
-      { path: ':lang/settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule) },
       {
         path: ':lang/moderators',
         loadChildren: () => import('./moderators/moderators.module').then(m => m.ModeratorsModule),

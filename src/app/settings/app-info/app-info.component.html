@@ -16,7 +16,7 @@
 	</div>
 </div>
 <div class="container fadeIn" *ngIf="!loading" >
-	<h1 class="page-title col-12">
+	<h1>
 		App Info
 	</h1>
 	<div class="row" *ngIf="!loading">
@@ -27,6 +27,21 @@
 			<p>
 				App version: {{ appVersion }}
 			</p>
+			<p *ngIf="networkInfo">
+				<app-arweave-address
+					[address]="networkInfo.contractAddress"
+					[isAddress]="false"
+					[showArCodeLink]="true"
+					[showSonArContractLink]="true">Contract Src:</app-arweave-address>
+			</p>
+		</div>
+		<div class="col-12 text-center btn-container">
+			<button
+				mat-flat-button
+				color="accent"
+				[routerLink]="['/']">
+				<mat-icon>home</mat-icon> Go to Main Page
+			</button>
 		</div>
 	</div>
 </div>

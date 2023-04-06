@@ -3,7 +3,7 @@ import {
   Warp, Contract, WarpFactory,
   EvalStateResult, LoggerFactory, ConsoleLoggerFactory,
   ArWallet, Tags, ArTransfer,
-  WriteInteractionResponse  } from 'warp-contracts'
+  WriteInteractionResponse, CacheOptions  } from 'warp-contracts'
 import { ArweaveService } from './arweave.service';
 import { Observable, from } from 'rxjs';
 import { SortKeyCacheResult } from 'warp-contracts/lib/types/cache/SortKeyCache';
@@ -12,12 +12,30 @@ import { SortKeyCacheResult } from 'warp-contracts/lib/types/cache/SortKeyCache'
   providedIn: 'root'
 })
 export class WarpContractsService {
-  private readonly _warp: Warp;
+  private _warp!: Warp;
 
   constructor(_arweave: ArweaveService) {
     LoggerFactory.use(new ConsoleLoggerFactory());
     LoggerFactory.INST.logLevel('fatal');
-    this._warp = WarpFactory.forMainnet(undefined, undefined, _arweave.arweave);
+    
+  }
+
+  initWarp(
+    _arweave: ArweaveService,
+    _cacheOptions: CacheOptions|undefined = undefined,
+    _useArweaveGw: boolean|undefined = undefined) {
+    this._warp = WarpFactory.forMainnet(
+      _cacheOptions, _useArweaveGw, _arweave.arweave
+    );
+  }
+
+  initLocalWarp(
+    _port: number,
+    _arweave: ArweaveService,
+    _cacheOptions: CacheOptions|undefined = undefined) {
+    this._warp = WarpFactory.forLocal(
+      _port, _arweave.arweave, _cacheOptions
+    );
   }
 
   get warp(): Warp {

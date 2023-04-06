@@ -16,38 +16,185 @@
 	</div>
 </div>
 <div class="container fadeIn" *ngIf="!loading" >
-	<h1 class="page-title col-12">
+	<h1>
 		Network Info
 	</h1>
+	<h2>
+		Configure Gateway
+	</h2>
+	<form [formGroup]="formGateway" (ngSubmit)="onSubmit()">
+		<div class="row" *ngIf="!loading">
+			<div class="col-12 col-md-4">
+				<mat-form-field color="accent" appearance="fill" class="w100">
+				  <mat-label>Select protocol</mat-label>
+				  <mat-select formControlName="protocol">
+				    <mat-option value="http">http</mat-option>
+				    <mat-option value="https">https</mat-option>
+				  </mat-select>
+				</mat-form-field>
+			</div>
+			<div class="col-12 col-md-4">
+				<mat-form-field color="accent" appearance="fill" class="w100">
+				  <mat-label>Host</mat-label>
+				  <input matInput formControlName="host">
+				</mat-form-field>
+			</div>
+			<div class="col-12 col-md-4">
+				<mat-form-field color="accent" appearance="fill" class="w100">
+				  <mat-label>port</mat-label>
+				  <input
+				  	matInput
+				  	type="number"
+				  	min="0"
+				  	max="65535"
+				  	formControlName="port">
+				</mat-form-field>
+			</div>
+			<div class="col-12">
+				<mat-form-field color="accent" appearance="fill" class="w100">
+				  <mat-label>Contract Src</mat-label>
+				  <input 
+				  	matInput 
+				  	formControlName="contractAddress"
+				  	maxlength="43">
+				</mat-form-field>
+			</div>
+			<div class="col-12 text-right">
+				<section>
+				  <mat-checkbox
+				  	formControlName="useArweaveGW">
+				  	useArweaveGW (warp-contracts setting)
+				  </mat-checkbox>
+				</section>
+			</div>
+			<div class="col-12 text-right save-btn-container">
+				<button 
+					mat-flat-button
+					color="accent"
+					[disabled]="!formGateway.valid">
+					<mat-icon>save</mat-icon> Save and reload app
+				</button>
+			</div>
+		</div>
+	</form>
+	<h2>
+		Gateway details
+	</h2>
 	<div class="row" *ngIf="!loading">
+		<div class="col-12 table-container">
+			<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+			  <ng-container matColumnDef="status">
+			    <th mat-header-cell *matHeaderCellDef>
+			    	Status
+			    </th>
+			    <td mat-cell *matCellDef="let element">
+			    	<span 
+							class="active-label"
+							*ngIf="element.status">
+							{{ 'GENERAL.LABELS.ACTIVE' | translate }}
+						</span>
+						<span 
+							class="inactive-label"
+							*ngIf="!element.status">
+							{{ 'GENERAL.LABELS.INACTIVE' | translate }}
+						</span>
+			    </td>
+			  </ng-container>
+			  <ng-container matColumnDef="network">
+			    <th mat-header-cell *matHeaderCellDef>
+			    	Network
+			    </th>
+			    <td mat-cell *matCellDef="let element">
+			    	{{ element.network }}
+			    </td>
+			  </ng-container>
+			  <ng-container matColumnDef="version">
+			    <th mat-header-cell *matHeaderCellDef>
+			    	Version
+			    </th>
+			    <td mat-cell *matCellDef="let element">
+			    	{{ element.version }}
+			    </td>
+			  </ng-container>
+			  <ng-container matColumnDef="release">
+			    <th mat-header-cell *matHeaderCellDef>
+			    	Release
+			    </th>
+			    <td mat-cell *matCellDef="let element">
+			    	{{ element.release }}
+			    </td>
+			  </ng-container>
+			  <ng-container matColumnDef="height">
+			    <th mat-header-cell *matHeaderCellDef>
+			    	Height
+			    </th>
+			    <td mat-cell *matCellDef="let element">
+			    	{{ element.height }}
+			    </td>
+			  </ng-container>
+			  <ng-container matColumnDef="current">
+			    <th mat-header-cell *matHeaderCellDef>
+			    	Current
+			    </th>
+			    <td mat-cell *matCellDef="let element">
+			    	{{ element.current }}
+			    </td>
+			  </ng-container>
+			  <ng-container matColumnDef="blocks">
+			    <th mat-header-cell *matHeaderCellDef>
+			    	Blocks
+			    </th>
+			    <td mat-cell *matCellDef="let element">
+			    	{{ element.blocks }}
+			    </td>
+			  </ng-container>
+			  <ng-container matColumnDef="peers">
+			    <th mat-header-cell *matHeaderCellDef>
+			    	Peers
+			    </th>
+			    <td mat-cell *matCellDef="let element">
+			    	{{ element.peers }}
+			    </td>
+			  </ng-container>
+			  <ng-container matColumnDef="queue">
+			    <th mat-header-cell *matHeaderCellDef>
+			    	Queue
+			    </th>
+			    <td mat-cell *matCellDef="let element">
+			    	{{ element.queue }}
+			    </td>
+			  </ng-container>
+			  <ng-container matColumnDef="latency">
+			    <th mat-header-cell *matHeaderCellDef>
+			    	Latency
+			    </th>
+			    <td mat-cell *matCellDef="let element">
+			    	{{ element.latency }}
+			    </td>
+			  </ng-container>
+			  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+			  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+			</table>
+
+		</div>
+	</div>
+	<h2>
+		Wallet Config
+	</h2>
+	<div class="row">
 		<div class="col-12">
 			<p>
-				Network: {{ this.network }}
+				Status: 
+				
 			</p>
-			<p>
-				Version: {{ this.version }}
-			</p>
-			<p>
-				Release: {{ this.release }}
-			</p>
-			<p>
-				Height: {{ this.height }}
-			</p>
-			<p>
-				Current: {{ this.current }}
-			</p>
-			<p>
-				Blocks: {{ this.blocks }}
-			</p>
-			<p>
-				Peers: {{ this.peers }}
-			</p>
-			<p>
-				Queue Length: {{ this.queue_length }}
-			</p>
-			<p>
-				Node State Latency: {{ this.node_state_latency }}
-			</p>
+		</div>
+		<div class="col-12 text-center">
+			<button
+				mat-flat-button
+				color="accent"
+				[routerLink]="['/']">
+				<mat-icon>home</mat-icon> Go to Main Page
+			</button>
 		</div>
 	</div>
 </div>

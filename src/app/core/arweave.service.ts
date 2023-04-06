@@ -9,38 +9,46 @@ import { JWKInterface } from 'arweave/web/lib/wallet';
 import { arwikiVersion } from './arwiki';
 import { ArweaveWebWallet } from 'arweave-wallet-connector';
 import { AddressKey } from './interfaces/address-key';
-declare const window: any;
 import { HttpClient } from '@angular/common/http';
-import { PermissionType } from 'arconnect';
+import { PermissionType, AppInfo, GatewayConfig, DispatchResult } from 'arconnect';
 export const arweaveAddressLength = 43;
+import {ArweaveGateway} from '../core/interfaces/arweave-gateway';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArweaveService {
-  public readonly arweave: Arweave;
-  public readonly host: string = 'arweave.net';
-  public readonly protocol: string = 'https';
-  public readonly port: number = 443;
-  public readonly baseURL: string = `${this.protocol}://${this.host}:${this.port}/`;
+  public arweave!: Arweave;
+  public host: string = '';
+  public protocol: 'http'|'https' = 'https';
+  public port: number = 0;
+  public baseURL: string = ``;
   // Block time: Around 2 minutes
-  public readonly blockToSeconds: number = 0.5 / 60;
-  arweaveWebWallet = new ArweaveWebWallet({
+  public readonly blockToSeconds: number = 0.5 / 60; 
+  public readonly appInfo: AppInfo = {
     name: 'ArWiki',
     logo: 'https://arweave.net/wJGdli6nMQKCyCdtCewn84ba9-WsJ80-GS-KtKdkCLg'
-  });
-  public readonly appInfo = { name: 'ArWiki', logo: '' };
+  };
   // Limit: 120kb
   public dataSizeLimitDispatch = 120000;
+  public arweaveWebWallet = new ArweaveWebWallet(this.appInfo);
 
   constructor(private _http: HttpClient) {
+    this.arweaveWebWallet.setUrl('arweave.app');
+  }
+
+  initArweave(_network: ArweaveGateway) {
+    this.host = _network.host;
+    this.port = _network.port;
+    this.protocol = _network.protocol;
+
+    this.baseURL = `${this.protocol}://${this.host}:${this.port}/`;
+    
     this.arweave = Arweave.init({
       host: this.host,
       port: this.port,
       protocol: this.protocol,
     });
-    
-    this.arweaveWebWallet.setUrl('arweave.app');
   }
 
   /*
@@ -89,7 +97,15 @@ export class ArweaveService {
             }
             try {
               if (finalPermissions.length) {
-                await window.arweaveWallet.connect(finalPermissions);
+                await window.arweaveWallet.connect(
+                  finalPermissions,
+                  this.appInfo,
+                  { 
+                    host: this.host,
+                    port: this.port,
+                    protocol: this.protocol
+                  }
+                );
               }
               const address = await this.arweave.wallets.getAddress();
               subscriber.next(address);
@@ -273,7 +289,7 @@ export class ArweaveService {
     tags: {name: string, value: string}[],
     loginMethod: string,
     disableDispatch: boolean,
-    externalProgressObj?: {completed: string, uploaded: string, total: string}|undefined|null): Promise<Transaction|{id: string, type: string}> {
+    externalProgressObj?: {completed: string, uploaded: string, total: string}|undefined|null): Promise<Transaction|{id: string, type: string}|DispatchResult> {
     // Check if the login method allows dispatch
     if (!disableDispatch) {
       if (loginMethod !== 'arconnect' && loginMethod !== 'arweavewebwallet') {
@@ -496,7 +512,7 @@ export class ArweaveService {
       tags: {name: string, value: string}[],
       method: string,
       disableDispatch: boolean,
-      externalProgressObj?: {completed: string, uploaded: string, total: string}|undefined|null): Observable<Transaction | {id: string, type: string}> {
+      externalProgressObj?: {completed: string, uploaded: string, total: string}|undefined|null): Observable<Transaction | {id: string, type: string}|DispatchResult> {
     return from(this._uploadFileToArweave(fileBin, contentType, key, tags, method, disableDispatch, externalProgressObj));
   }
 

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
+import { UserSettingsService } from '../core/user-settings.service';
 
 @Component({
   selector: 'app-settings',
@@ -8,27 +7,20 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
-  routeLang = '';
-  
-  constructor(
-    private _router: Router,
-    private _route: ActivatedRoute) { }
+  mainToolbarLoading = true;
+  isMainToolbarVisible = false;
 
-  ngOnInit(): void {
-    const routeLang = this._route.snapshot.paramMap.get('lang')!;
-    
-    if (routeLang) {
-      this.routeLang = routeLang;
-    }
-
-    this._route.paramMap.subscribe((params) => {
-      const routeLang = params.get('lang');
-      
-      if (routeLang) {
-        this.routeLang = routeLang;
-      }
-    });
+  constructor(private _userSettings: UserSettingsService) {
 
   }
+
+  ngOnInit(): void {
+    this._userSettings.mainToolbarLoadingStream.subscribe((_loading) => {
+      this.mainToolbarLoading = _loading;
+    });
+    this._userSettings.updateMainToolbarLoading(false);
+    this.isMainToolbarVisible = this._userSettings.mainToolbarVisibility;
+  }
+
 
 }

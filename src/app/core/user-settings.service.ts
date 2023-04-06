@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
 import {ArwikiLang} from '../core/interfaces/arwiki-lang';
+import {ArweaveGateway} from '../core/interfaces/arweave-gateway';
 declare const window: any;
 declare const document: any;
 
@@ -16,6 +17,14 @@ export class UserSettingsService {
     writing_system: "LTR",
     iso_name: "English",
     active: true
+  };
+  
+  _defaultNetwork: ArweaveGateway = {
+    host: "arweave.net",
+    port: 443,
+    protocol: 'https',
+    useArweaveGW: false,
+    contractAddress: 'PSegUIrh8ZSaFbQ-SZp4XHcnFhRkWknZjU4CDZzSjCs'
   };
 
   // Observable
@@ -36,6 +45,16 @@ export class UserSettingsService {
 
   public updateDefaultThemeObservable(_path: string) {
     this._defaultThemeSource.next(_path);
+  }
+
+  // Observable
+  private _settingsNetworkSource = new Subject<ArweaveGateway>();
+
+  // Observable stream
+  public settingsNetworkStream = this._settingsNetworkSource.asObservable();
+
+  public updateSettingsNetworkObservable(_network: ArweaveGateway) {
+    this._settingsNetworkSource.next(_network);
   }
 
   // Observable source
@@ -63,8 +82,9 @@ export class UserSettingsService {
 
   // Observable stream
   public mainToolbarVisibilityStream = this._mainToolbarVisibilitySource.asObservable();
-
+  public mainToolbarVisibility = false;
   public updateMainToolbarVisiblity(_visible: boolean) {
+    this.mainToolbarVisibility = _visible;
     this._mainToolbarVisibilitySource.next(_visible);
   }
 
@@ -78,7 +98,6 @@ export class UserSettingsService {
     this._scrollTopSource.next(_scroll);
   }
 
-
   constructor(
     private _translate: TranslateService
    ) {
@@ -88,6 +107,7 @@ export class UserSettingsService {
   initSettings() {
     const dtheme = window.localStorage.getItem('defaultTheme');
     const dlang = JSON.parse(window.localStorage.getItem('defaultLang'));
+    const dnetwork = JSON.parse(window.localStorage.getItem('defaultNetwork'));
 
     // Default settings
     if (dtheme) {
@@ -98,6 +118,9 @@ export class UserSettingsService {
     if (dlang && dlang.code) {
       this.setDefaultLang(dlang);
     }
+    if (dnetwork && dnetwork.host) {
+      this.setDefaultNetwork(dnetwork);
+    }
   }
 
   getDefaultTheme(): string {
@@ -106,6 +129,10 @@ export class UserSettingsService {
 
   getDefaultLang(): ArwikiLang {
   	return this._defaultLang;
+  }
+
+  getDefaultNetwork(): ArweaveGateway {
+    return this._defaultNetwork;
   }
 
   setDefaultTheme(_theme: string) {
@@ -143,6 +170,7 @@ export class UserSettingsService {
   	this._defaultTheme = 'arwiki-light';
   	window.localStorage.removeItem('defaultTheme');
   	window.localStorage.removeItem('defaultLang');
+    window.localStorage.removeItem('defaultNetwork');
   }
 
   /*
@@ -192,6 +220,22 @@ export class UserSettingsService {
     const to = document.getElementById(to_id);
     const toData = to.getBoundingClientRect();
     container.scrollTop += toData.top + offset;
+  }
+
+  setDefaultNetwork(_network: ArweaveGateway) {
+    if (_network) {
+      let def = '';
+      try {
+        def = JSON.stringify(_network);
+        this._defaultNetwork = _network;
+      } catch (err) {
+        // this._defaultLang = {};
+        throw Error('setDefaultNetwork: Error ' + err);
+      }
+     
+      window.localStorage.setItem('defaultNetwork', def);
+      this.updateSettingsNetworkObservable(this._defaultNetwork);
+    }
   }
 
 }

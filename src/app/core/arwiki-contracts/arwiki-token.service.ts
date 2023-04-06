@@ -17,20 +17,27 @@ export class ArwikiTokenContract
   // New contract demo (ArWiki v2)
   // Single level
   // private _contractAddress = 'JGrP0IV4aVOAx1lgozOjQhZkUVv8-y1xfUcCR9ra8QQ';
-  // private _contractAddress = '85laIArWvKoJ1SZBvBzM6yUmVD-JbnS5EsV67Dya83k';
+  // APRIL-06-2023
+  // private _contractAddress = 'PSegUIrh8ZSaFbQ-SZp4XHcnFhRkWknZjU4CDZzSjCs';
+  private _contractAddress = '';
 
   // One holder
   // private _contractAddress = '2nZIuLR0g9EqhDm7M-5Si0QeJfhL07oYLlkrHTVvHQE';
-  private _contractAddress = 'FBF6LiAtREEaGu5ejKbEdRZcUn16yqQeVIwcjgysWTc';
+  // private _contractAddress = '0e6vq_6cJIgU6LYeegGUC0EYXUqQNEJv2aYnn_CLzDM';
 
   // Multi level
   // private _contractAddress = 'aYnwKbqL603IKdP-Ba_kG73K7EeURTeF1jUoz4YJqxA';
+  // private _contractAddress = 'EfCrM1eH5K4Qfy5yudfI9gnGCrmwRFhQppKGExGtlRY';
 
-  private _state: any = {};
+  private _state: any|null = null;
 
 	get contractAddress() {
 		return this._contractAddress;
 	}
+
+  set contractAddress(address: string) {
+    this._contractAddress = address;
+  }
 
 	constructor(
     private _arweave: ArweaveService,
@@ -43,7 +50,7 @@ export class ArwikiTokenContract
   */
   getState(reload: boolean = false): Observable<any> {
     const obs = new Observable<any>((subscriber) => {
-      if (Object.keys(this._state).length > 0 && !reload) {
+      if (this._state && !reload) {
         subscriber.next(this._state);
         subscriber.complete();
       } else {
@@ -69,17 +76,11 @@ export class ArwikiTokenContract
 
       }
 
+      return { unsubscribe() { } };
+
     });
 
     return obs;
-  }
-
-
-  /*
-  *  @dev Return state
-  */
-  getStateFromLocal(): any {
-    return this._utils.cloneObject(this._state);
   }
 
 	/*
@@ -284,15 +285,6 @@ export class ArwikiTokenContract
     return this._warp.writeInteraction(
       this._contractAddress, jwk, input, tags
     );
-  }
-
-
-  /*
-  *  @dev Get balances
-  */
-  getBalancesFromLocal(): { balances: any, vault: any, stakes: any } {
-    const state = {...this._utils.cloneObject(this._state)};
-    return { balances: { ...state.balances }, vault: { ...state.vault }, stakes: { ...state.stakes } };
   }
 
   /*

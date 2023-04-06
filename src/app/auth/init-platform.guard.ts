@@ -14,6 +14,8 @@ import { ArwikiTokenContract } from '../core/arwiki-contracts/arwiki-token.servi
 import { AuthService } from '../auth/auth.service';
 import { ArwikiLangsService } from '../core/arwiki-contracts/arwiki-langs.service';
 import { ArwikiAdminsService } from '../core/arwiki-contracts/arwiki-admins.service';
+import { WarpContractsService } from '../core/warp-contracts.service';
+import { ArweaveGateway } from '../core/interfaces/arweave-gateway';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +29,8 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
     private _arwikiTokenContract: ArwikiTokenContract,
     private _auth: AuthService,
     private _arwikiTokenLangsContract: ArwikiLangsService,
-    private _arwikiAdmins: ArwikiAdminsService
+    private _arwikiAdmins: ArwikiAdminsService,
+    private _warp: WarpContractsService
 	) {
 
 	}
@@ -35,14 +38,21 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    // Init network settings
+    this.initNetwork();
+
     // Validate language from route parameters
     const langPath = this.getLangFromRoute(route, state);
     return this.loadInitialValidations(langPath, route, state);
   }
 
+
   canActivateChild(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    // Init network settings
+    this.initNetwork();
+
     // Validate language from route parameters
     const langPath = this.getLangFromRoute(route, state);
     return this.loadInitialValidations(langPath, route, state);
@@ -181,6 +191,49 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
         }) 
       )
     );
+  }
+
+  initArweave(gatewayConfig: ArweaveGateway) {
+    this._arweave.initArweave(gatewayConfig);    
+  }
+
+  initWarp(gatewayConfig: ArweaveGateway) {
+    const useArweaveGW = gatewayConfig.useArweaveGW;
+    const cacheOptions = undefined;
+    if (gatewayConfig.host === 'localhost' ||
+        gatewayConfig.host === '127.0.0.1') {
+      this._warp.initLocalWarp(
+        gatewayConfig.port,
+        this._arweave,
+        cacheOptions
+      );
+    } else {
+      this._warp.initWarp(
+        this._arweave,
+        cacheOptions,
+        useArweaveGW
+      );
+    }
+    
+  }
+
+  initMainContract(gatewayConfig: ArweaveGateway) {
+    const address = gatewayConfig.contractAddress;
+    this._arwikiTokenContract.contractAddress = address;
+  }
+
+  initNetwork() {
+    // Set default network
+    const currentDefaultNetwork = this._userSettings.getDefaultNetwork();
+
+    // Init Arweave
+    this.initArweave(currentDefaultNetwork);
+
+    // Init Warp
+    this.initWarp(currentDefaultNetwork);
+
+    // Init contract
+    this.initMainContract(currentDefaultNetwork);
   }
 
 

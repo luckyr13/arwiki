@@ -1,5 +1,11 @@
-<div class="mt-main"></div>
-<div>
+<div class="mt-main" *ngIf="isMainToolbarVisible"></div>
+<ng-container *ngIf="!mainToolbarLoading">
+  <mat-toolbar class="fadeIn" color="default">
+    <mat-icon 
+      aria-hidden="false"
+      aria-label="Settings">settings</mat-icon>
+    <span>&nbsp;Settings</span>
+  </mat-toolbar>
   <nav 
     mat-tab-nav-bar 
     class="mat-elevation-z1"
@@ -7,7 +13,7 @@
     <a 
       class="action-btn-wrapper"
       mat-tab-link 
-      [routerLink]="['/', routeLang, 'settings', 'app-info']"
+      [routerLink]="['/', 'settings', 'app-info']"
       routerLinkActive="active"
       #rlApplication="routerLinkActive"
       [active]="rlApplication.isActive"> 
@@ -18,7 +24,7 @@
     <a
       class="action-btn-wrapper"
       mat-tab-link 
-      [routerLink]="['/', routeLang, 'settings', 'network']"
+      [routerLink]="['/', 'settings', 'network']"
       routerLinkActive="active"
       #rlNetwork="routerLinkActive"
       [active]="rlNetwork.isActive">
@@ -29,7 +35,7 @@
     <a
       class="action-btn-wrapper"
       mat-tab-link 
-      [routerLink]="['/', routeLang, 'settings', 'privacy']"
+      [routerLink]="['/', 'settings', 'privacy']"
       routerLinkActive="active"
       #rlWallet="routerLinkActive"
       [active]="rlWallet.isActive">
@@ -40,4 +46,4 @@
     
   </nav>
   <mat-tab-nav-panel #tabPanel><router-outlet></router-outlet></mat-tab-nav-panel>
-</div>
+</ng-container>
