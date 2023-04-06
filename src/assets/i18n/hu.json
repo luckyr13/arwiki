@@ -165,7 +165,8 @@
 			"BTN_STOP_STAKING": "Halmozás leállítása",
 			"BTN_EDIT_PROFILE": "Profil szerkesztése",
 			"BTN_DONORS_LIST": "Donor helyezés",
-			"EDIT": "Szerkesztés"
+			"EDIT": "Szerkesztés",
+			"OPEN_SONAR": "Open in SonAr"
 		},
 		"LABELS": {
 			"NO_RESULTS": "Nincs eredmény",

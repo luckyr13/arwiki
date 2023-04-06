@@ -165,7 +165,8 @@
 			"BTN_STOP_STAKING": "Припиніть робити ставки",
 			"BTN_EDIT_PROFILE": "Редагувати профіль",
 			"BTN_DONORS_LIST": "Рейтинг донорів",
-			"EDIT": "Редагувати"
+			"EDIT": "Редагувати",
+			"OPEN_SONAR": "Open in SonAr"
 		},
 		"LABELS": {
 			"NO_RESULTS": "Немає результатів",

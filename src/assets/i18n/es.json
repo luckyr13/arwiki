@@ -165,7 +165,8 @@
 			"BTN_STOP_STAKING": "Dejar de apostar",
 			"BTN_EDIT_PROFILE": "Editar perfil",
 			"BTN_DONORS_LIST": "Clasificación de donantes",
-			"EDIT": "Editar"
+			"EDIT": "Editar",
+			"OPEN_SONAR": "Open in SonAr"
 		},
 		"LABELS": {
 			"NO_RESULTS": "No hay resultados",

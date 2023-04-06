@@ -165,7 +165,8 @@
 			"BTN_STOP_STAKING": "Stop staking",
 			"BTN_EDIT_PROFILE": "Edit profile",
 			"BTN_DONORS_LIST": "Donor ranking",
-			"EDIT": "Edit"
+			"EDIT": "Edit",
+			"OPEN_SONAR": "Open in SonAr"
 		},
 		"LABELS": {
 			"NO_RESULTS": "결과 없음",
