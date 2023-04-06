@@ -46,7 +46,7 @@ export class LanguagesComponent implements OnInit, OnDestroy {
 
   loadLangsTable(reload: boolean) {
     this.loading = true;
-    const onlyActive = true;
+    const onlyActive = false;
     this.langsSubscription = this._tokenContractLangs.getLanguages(
         onlyActive, reload
       ).subscribe({
