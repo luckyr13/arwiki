@@ -11,7 +11,7 @@
   <ng-container matColumnDef="slug">
     <th mat-header-cell *matHeaderCellDef> {{ 'PROFILE.COLUMN_SLUG' | translate }} </th>
     <td mat-cell  *matCellDef="let element">
-    	<a mat-button class="ellipsis word-break" [routerLink]="['/', element.language, element.slug]">{{element.slug}}</a>
+    	<a class="ellipsis word-break" [routerLink]="['/', element.language, element.slug]">{{element.slug}}</a>
     </td>
   </ng-container>
   <ng-container matColumnDef="title">
@@ -23,7 +23,7 @@
   <ng-container matColumnDef="category">
     <th mat-header-cell *matHeaderCellDef> {{ 'PROFILE.COLUMN_CATEGORY' | translate }} </th>
     <td mat-cell *matCellDef="let element">
-    	<a mat-button href="./#/{{element.language}}/category/{{element.category}}">{{element.category}}</a>
+    	<a [routerLink]="['/', element.language, 'category', element.category]">{{element.category}}</a>
     </td>
   </ng-container>
   <ng-container matColumnDef="id">
@@ -48,7 +48,7 @@
 <div class="text-right" *ngIf="!loading && pages && pages.length">
   <button [disabled]="loadingMore" *ngIf="!eof" mat-button (click)="loadMoreResults()">
     <mat-spinner diameter="22" mode="indeterminate" class="spinner-icon" color="primary" *ngIf="loadingMore"></mat-spinner>
-    {{ 'PROFILE.LOAD_MORE' | translate }}
+    + {{ 'PROFILE.LOAD_MORE' | translate }}
   </button>
 </div>
 <p *ngIf="!loading && (!pages || !pages.length)">

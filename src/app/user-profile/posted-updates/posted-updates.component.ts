@@ -65,7 +65,7 @@ export class PostedUpdatesComponent implements OnInit, OnDestroy, OnChanges {
 
   getMyArWikiUpdates() {
     let myPagesTX: ArdbTransaction[]|ArdbBlock[] = [];
-    const maxPages = 100;
+    const maxPages = 10;
     this.pages = [];
     this.loading = true;
 
@@ -88,7 +88,7 @@ export class PostedUpdatesComponent implements OnInit, OnDestroy, OnChanges {
           myPagesList.push(p.id);
         }
         
-        return this._arwikiPages.getApprovedPages(this.routeLang, -1);
+        return this._arwikiPages.getAllPages(this.routeLang, -1);
       })
     )
     .subscribe({
@@ -103,7 +103,10 @@ export class PostedUpdatesComponent implements OnInit, OnDestroy, OnChanges {
           const img = this.sanitizeImg(this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img'));
           const id = pTX.id;
           const pageValue = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Value');
-          const extraData: any = allApprovedPages[slug].updates!.find((o) => { return o.tx === id });
+          let extraData: any = {};
+          if (allApprovedPages[slug] && allApprovedPages[slug].updates) {
+            extraData = allApprovedPages[slug].updates!.find((o) => { return o.tx === id });
+          }
           const at = extraData && extraData.at ? extraData.at : 0;
           const approvedBy = extraData && extraData.approvedBy ? extraData.approvedBy : '';
 
@@ -182,7 +185,7 @@ export class PostedUpdatesComponent implements OnInit, OnDestroy, OnChanges {
           return of({});
         }
         
-        return this._arwikiPages.getApprovedPages(this.routeLang, -1);
+        return this._arwikiPages.getAllPages(this.routeLang, -1);
       })
     ).subscribe({
       next: (allApprovedPages: ArwikiPageIndex) => {
@@ -196,7 +199,10 @@ export class PostedUpdatesComponent implements OnInit, OnDestroy, OnChanges {
           const img = this.sanitizeImg(this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img'));
           const id = pTX.id;
           const pageValue = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Value');
-          const extraData: any = allApprovedPages[slug].updates!.find((o) => { return o.tx === id });
+          let extraData: any = {};
+          if (allApprovedPages[slug] && allApprovedPages[slug].updates) {
+            extraData = allApprovedPages[slug].updates!.find((o) => { return o.tx === id });
+          }
           const at = extraData && extraData.at ? extraData.at : 0;
           const approvedBy = extraData && extraData.approvedBy ? extraData.approvedBy : '';
 

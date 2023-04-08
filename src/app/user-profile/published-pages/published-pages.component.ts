@@ -110,7 +110,7 @@ export class PublishedPagesComponent implements OnInit, OnDestroy, OnChanges {
           });
           const extraData: any = allApprovedPages[slug] && !!update
             ? allApprovedPages[slug] : {};
-          const start = extraData.lastUpdateAt ? extraData.lastUpdateAt : 0;
+          const start = update && update.at ? +update.at : 0;
           const sponsor = extraData.sponsor ? extraData.sponsor : '';
           const active = extraData.active;
 
@@ -218,7 +218,7 @@ export class PublishedPagesComponent implements OnInit, OnDestroy, OnChanges {
           });
           const extraData: any = allApprovedPages[slug] && !!update
             ? allApprovedPages[slug] : {};
-          const start = extraData.lastUpdateAt ? extraData.lastUpdateAt : 0;
+          const start = update && update.at ? +update.at : 0;
           const pageRewardAt = extraData.pageRewardAt ? extraData.pageRewardAt : 0;
           const sponsor = extraData.sponsor ? extraData.sponsor : '';
           const active = extraData.active;
