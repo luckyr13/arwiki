@@ -1,4 +1,4 @@
-<mat-progress-bar mode="indeterminate" class="loader" color="primary" *ngIf="loading"></mat-progress-bar>
+<mat-progress-bar mode="indeterminate" class="loader" color="accent" *ngIf="loading"></mat-progress-bar>
 <h2>{{ 'PROFILE.TAB_DONATIONS_RECEIVED' | translate }}</h2>
 <h3>{{ 'PROFILE.LABEL_TOTAL' | translate }} {{total}} AR</h3>
 <table mat-table [dataSource]="donations" class="mat-elevation-z8" *ngIf="!loading && donations && donations.length">
