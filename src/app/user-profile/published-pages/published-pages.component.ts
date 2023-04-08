@@ -36,7 +36,8 @@ export class PublishedPagesComponent implements OnInit, OnDestroy, OnChanges {
   baseURL: string = this._arweave.baseURL;
   lockButtons: boolean = false;
   displayedColumns: string[] = [
-    'img', 'title', 'slug', 'category', 'id', 'start'
+    'img', 'title', 'slug', 'category',
+    'id', 'start', 'active'
   ];
   loadingMore = false;
   @ViewChild(MatTable) table: MatTable<any>|null = null;
@@ -67,7 +68,7 @@ export class PublishedPagesComponent implements OnInit, OnDestroy, OnChanges {
 
   getMyArWikiPages() {
     let myPagesTX: ArdbTransaction[]|ArdbBlock[] = [];
-    const maxPages = 100;
+    const maxPages = 10;
     this.pages = [];
     this.loading = true;
 
@@ -84,11 +85,12 @@ export class PublishedPagesComponent implements OnInit, OnDestroy, OnChanges {
       }),
       switchMap((pages: ArdbTransaction[]|ArdbBlock[]) => {
         myPagesTX = pages;
-        return this._arwikiPages.getApprovedPages(this.routeLang, -1);
+        return this._arwikiPages.getAllPages(this.routeLang, -1);
       })
     )
     .subscribe({
       next: (allApprovedPages: ArwikiPageIndex) => {
+
         const finalPages: ArwikiPage[] = [];
         for (let p of myPagesTX) {
           const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
@@ -99,11 +101,18 @@ export class PublishedPagesComponent implements OnInit, OnDestroy, OnChanges {
           const img = this.sanitizeImg(this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img'));
           const id = pTX.id;
           const pageValue = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Value');
-          const extraData: any = allApprovedPages[slug] && allApprovedPages[slug].rawContent == id 
+          const updates = allApprovedPages[slug] &&
+            allApprovedPages[slug].updates ?
+            allApprovedPages[slug].updates :
+            [];
+          const update = updates!.find((v) => {
+            return v.tx === id;
+          });
+          const extraData: any = allApprovedPages[slug] && !!update
             ? allApprovedPages[slug] : {};
-          const start = extraData.start ? extraData.start : 0;
-          const pageRewardAt = extraData.pageRewardAt ? extraData.pageRewardAt : 0;
+          const start = extraData.lastUpdateAt ? extraData.lastUpdateAt : 0;
           const sponsor = extraData.sponsor ? extraData.sponsor : '';
+          const active = extraData.active;
 
           if (!start) {
             continue;
@@ -119,7 +128,8 @@ export class PublishedPagesComponent implements OnInit, OnDestroy, OnChanges {
             value: pageValue,
             block: pTX.block,
             lastUpdateAt: start,
-            sponsor
+            sponsor,
+            active
           });
         }
 
@@ -184,7 +194,7 @@ export class PublishedPagesComponent implements OnInit, OnDestroy, OnChanges {
           return of({});
         }
         
-        return this._arwikiPages.getApprovedPages(this.routeLang, -1);
+        return this._arwikiPages.getAllPages(this.routeLang, -1);
       })
     ).subscribe({
       next: (allApprovedPages: ArwikiPageIndex) => {
@@ -199,11 +209,19 @@ export class PublishedPagesComponent implements OnInit, OnDestroy, OnChanges {
           const owner = pTX.owner.address;
           const id = pTX.id;
           const pageValue = this._arwikiQuery!.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Value');
-          const extraData: any = allApprovedPages[slug] && allApprovedPages[slug].rawContent == id 
+          const updates = allApprovedPages[slug] &&
+            allApprovedPages[slug].updates ?
+            allApprovedPages[slug].updates :
+            [];
+          const update = updates!.find((v) => {
+            return v.tx === id;
+          });
+          const extraData: any = allApprovedPages[slug] && !!update
             ? allApprovedPages[slug] : {};
-          const start = extraData.start ? extraData.start : 0;
+          const start = extraData.lastUpdateAt ? extraData.lastUpdateAt : 0;
           const pageRewardAt = extraData.pageRewardAt ? extraData.pageRewardAt : 0;
           const sponsor = extraData.sponsor ? extraData.sponsor : '';
+          const active = extraData.active;
 
           if (!start) {
             continue;
@@ -219,7 +237,8 @@ export class PublishedPagesComponent implements OnInit, OnDestroy, OnChanges {
             value: pageValue,
             block: pTX.block,
             lastUpdateAt: start,
-            sponsor
+            sponsor,
+            active
           });
         }
 
