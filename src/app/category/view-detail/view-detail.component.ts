@@ -13,7 +13,6 @@ import { UserSettingsService } from '../../core/user-settings.service';
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
 import {PageEvent} from '@angular/material/paginator';
-import {TranslateService} from '@ngx-translate/core';
 import { ArwikiCategoryIndex } from '../../core/interfaces/arwiki-category-index';
 import { ArwikiCategoriesService } from '../../core/arwiki-contracts/arwiki-categories.service';
 import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
@@ -36,12 +35,9 @@ export class ViewDetailComponent implements OnInit {
   paginatorPageSize = 4;
   paginatorPageIndex = 0;
   paginatorPageSizeOptions = [4, 12, 24];
-  categoryName = '';
-  subscriptionTranslation = Subscription.EMPTY;
   categories: ArwikiCategoryIndex = {};
   childrenCategories: string[] = [];
   parentCategories: string[] = [];
-  categoriesTranslations: Record<string, string> = {};
 
   constructor(
   	private _arweave: ArweaveService,
@@ -50,7 +46,6 @@ export class ViewDetailComponent implements OnInit {
   	private _route: ActivatedRoute,
     private _location: Location,
     private _userSettings: UserSettingsService,
-    private _translate: TranslateService,
     private _arwikiCategories: ArwikiCategoriesService,
     private _arwikiPages: ArwikiPagesService
  	) { }
@@ -76,6 +71,7 @@ export class ViewDetailComponent implements OnInit {
     let networkInfo;
     let maxHeight = 0;
     this.paginatorPageIndex = 0;
+    this.errorLoadingCategory = false;
     
     this.pagesSubscription = this.getPagesByCategory(
       this.category,
@@ -100,7 +96,6 @@ export class ViewDetailComponent implements OnInit {
 
   ngOnDestroy() {
 		this.pagesSubscription.unsubscribe();
-    this.subscriptionTranslation.unsubscribe();
 
   }
 
@@ -128,7 +123,6 @@ export class ViewDetailComponent implements OnInit {
             throw new Error('Invalid category!');
           }
 
-          this.translateCategoryName(_category);
           this.childrenCategories = this.getChildrenCategories(_category);
           this.parentCategories = this.getParentCategories(_category);
 
@@ -220,22 +214,6 @@ export class ViewDetailComponent implements OnInit {
   }
 
 
-  translateCategoryName(_category: string) {
-    this.categoryName = '';
-    const tkey = 'MAIN_MENU.' + _category;
-    this.subscriptionTranslation = this._translate.get(tkey).subscribe({
-      next: (res) => {
-        if (res !== tkey) {
-          this.categoryName = res;
-        } else {
-          this.categoryName = this.categories[_category].label;
-        }
-      },
-      error: () => {
-        console.error('Error loading translations!');
-      }
-    })
-  }
 
   getChildrenCategories(cat_slug: string) {
     const catSlugs = Object.keys(this.categories);
@@ -274,32 +252,8 @@ export class ViewDetailComponent implements OnInit {
       parents.push(newParent);
       newParent = this.findParentCat(newParent);
     }
-    // Translate names
-    this.translateParentCategoryNames(parents);
     parents.reverse();
     return parents;
   }
 
-  translateParentCategoryNames(parentCategories: string[]) {
-    for (const pc of parentCategories) {
-      this.categoriesTranslations[pc] = '';
-      const tkey = 'MAIN_MENU.' + pc;
-      this.subscriptionTranslation = this._translate.get(tkey).subscribe({
-        next: (res) => {
-          if (res !== tkey) {
-            this.categoriesTranslations[pc] = res;
-          } else {
-            this.categoriesTranslations[pc] = this.categories[pc].label;
-          }
-        },
-        error: () => {
-          console.error('Error loading translations!');
-        }
-      })
-    }
-    
-  }
-
-
- 
 }

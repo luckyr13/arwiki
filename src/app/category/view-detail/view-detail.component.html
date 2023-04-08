@@ -10,10 +10,10 @@
 					<a
 						class="parent-cat-link"
 						[routerLink]="['/', routeLang, 'category', parentCatSlug]">
-					{{ categoriesTranslations[categories[parentCatSlug].slug] }}</a> >
+					{{ categories[parentCatSlug].label }}</a> >
 				</span>
 			</ng-container>
-			<span>{{ categoryName }}</span>
+			<span>{{ categories[category].label }}</span>
 		</h2>
 		<div class="text-right page-title-buttons col-12 col-md-3">
 	    <button 
@@ -68,7 +68,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="row" *ngIf="!loadingPages">
+	<div class="row" *ngIf="!loadingPages && !errorLoadingCategory">
 		<div class="col-12 col-md-6 card-page fadeIn" *ngFor="let p of paginatedResults()">
 			<app-article-card 
 					[article]="p" 
