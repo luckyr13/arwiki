@@ -10,7 +10,7 @@
 			    <ng-container matColumnDef="slug">
 			      <th mat-header-cell *matHeaderCellDef> {{ 'PROFILE.COLUMN_SLUG' | translate }} </th>
 			      <td mat-cell *matCellDef="let row">
-			      	<a mat-button
+			      	<a 
 			      		class="btn-ellipsis"
 			      		[routerLink]="['/', routeLang, row.slug]">{{row.slug}}</a>
 			      </td>
@@ -20,7 +20,7 @@
 			    <ng-container matColumnDef="category">
 			      <th mat-header-cell *matHeaderCellDef> {{ 'PROFILE.COLUMN_CATEGORY' | translate }} </th>
 			      <td mat-cell *matCellDef="let row">
-			      	<a mat-button
+			      	<a 
 			      		[routerLink]="['/', routeLang, 'category', row.category]">
 			      		{{ 'MAIN_MENU.' + row.category | translate }}
 			      	</a>

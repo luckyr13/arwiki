@@ -41,7 +41,7 @@ export class ArwikiPagesService {
           const numUpdates = _state.pages[_langCode][slug].updates.length;
           acum[slug].id = _state.pages[_langCode][slug].updates[numUpdates - 1].tx;
           acum[slug].lastUpdateAt = _state.pages[_langCode][slug].updates[numUpdates - 1].at;
-          
+          acum[slug].slug = slug;
           return acum;
         }, {});
         return pages;
@@ -195,36 +195,6 @@ export class ArwikiPagesService {
         return langs;
       })
     );
-  }
-
-  /*
-  *  @dev Get the list of all pages from full state contract
-  * @param _numPages: -1 returns all values
-  */
-  getAllPagesFromLocalState(
-    _langCode: string,
-    _numPages: number = -1
-  ): any {
-    const _state = this._arwikiToken.getStateFromLocal();
-    let pageCounter = 0;
-    const pagesIds = Object.keys(_state.pages[_langCode]).filter((slug) => {
-      if (pageCounter >= _numPages && _numPages !== -1) {
-        return false;
-      }
-      pageCounter++;
-      return true;
-    });
-    const pages = pagesIds.reduce((acum: any, slug) => {
-      const numUpdates = _state.pages[_langCode][slug].updates.length;
-      acum[slug] = {
-        slug: slug,
-        id: _state.pages[_langCode][slug].updates[numUpdates - 1].tx,
-        lastUpdateAt: _state.pages[_langCode][slug].updates[numUpdates - 1].at,
-        ...this._utils.cloneObject(_state.pages[_langCode][slug])
-      };
-      return acum;
-    }, {});
-    return pages;
   }
 
   /*
