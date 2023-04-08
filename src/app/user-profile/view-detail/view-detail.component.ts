@@ -33,6 +33,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   routeLang = '';
   selLanguage = '';
   languages: ArwikiLang[]  = [];
+  languagesSubscription = Subscription.EMPTY;
 
   constructor(
     private _auth: AuthService,
@@ -59,7 +60,6 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     }
     if (routeLang) {
       this.routeLang = routeLang;
-      this.selLanguage = this.routeLang;
     }
 
     this._route.paramMap.subscribe((params) => {
@@ -74,7 +74,6 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
       }
       if (routeLang) {
         this.routeLang = routeLang;
-        this.selLanguage = this.routeLang;
       }
     });
 
@@ -82,8 +81,8 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     this._auth.account$.subscribe((account) => {
       this.currentAddress = account;
     });
-
-    this.languages = Object.values(this._arwikiTokenLangs.getLanguagesFromLocal());
+    // Get langs
+    this.getLanguages();    
     
   }
 
@@ -165,6 +164,22 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
 
   updateLang(lang: string) {
     this._router.navigate(['/', lang, 'user', this.address]);
+  }
+
+  getLanguages() {
+    const onlyActive = true;
+    this.languagesSubscription = this._arwikiTokenLangs.getLanguages(
+      onlyActive
+    ).subscribe({
+      next: (langs) => {
+        this.languages = Object.values(langs);
+        this.selLanguage = this.routeLang;
+      },
+      error: (error) => {
+        this._utils.message('Error loading langs', 'error');
+        console.error('getLanguages', error);
+      }
+    })
   }
 
 

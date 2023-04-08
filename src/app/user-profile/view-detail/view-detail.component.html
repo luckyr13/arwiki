@@ -118,12 +118,14 @@
 				[isAddress]="true">{{ 'PROFILE.ADDRESS' | translate }} </app-arweave-address>
 		</div>
 	</div>
-	<div class="row fadeIn" *ngIf="address && !loadingProfile">
+	<div
+		class="row fadeIn"
+		*ngIf="address && !loadingProfile && languages && languages.length">
 		<h2 class="col-12 col-md-6">
 			{{ 'PROFILE.SECONDARY_TITLE' | translate }}
 		</h2>
 		<div class="col-12 col-md-6 text-right">
-			<mat-form-field appearance="fill">
+			<mat-form-field appearance="fill" color="accent">
 		    <mat-label>{{ 'PROFILE.LANGUAGE' | translate }}</mat-label>
 		    <mat-select
 		    	[(ngModel)]="selLanguage"
@@ -137,7 +139,9 @@
 		    </mat-select>
 		  </mat-form-field>
 		</div>
-		<div class="col-12 history">
+		<div
+			class="col-12 history"
+			*ngIf="languages && languages.length">
 			<mat-tab-group color="accent">
 				<!--
 					<mat-tab

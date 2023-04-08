@@ -95,13 +95,4 @@ export class ArwikiLangsService {
     );
   }
 
-  /*
-  *  @dev Get Lang
-  */
-  getLanguagesFromLocal(): ArwikiLangIndex {
-    const state = this._arwikiToken.getStateFromLocal();
-    return {...state.languages};
-  }
-
-
 }
