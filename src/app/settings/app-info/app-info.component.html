@@ -5,6 +5,12 @@
 	class="fadeIn"></mat-progress-bar>
 <div class="fadeIn mb20" color="default">
 	<div class="text-right page-title-buttons">	
+	  <button
+			mat-button
+			color="accent"
+			[routerLink]="['/']">
+			<mat-icon>home</mat-icon> {{ 'MAIN_MENU.HOME' | translate }}
+		</button>
     <button 
     	type="button"
 	  	mat-button
@@ -34,14 +40,6 @@
 					[showArCodeLink]="true"
 					[showSonArContractLink]="true">Contract Src:</app-arweave-address>
 			</p>
-		</div>
-		<div class="col-12 text-center btn-container">
-			<button
-				mat-flat-button
-				color="accent"
-				[routerLink]="['/']">
-				<mat-icon>home</mat-icon> Go to Main Page
-			</button>
 		</div>
 	</div>
 </div>

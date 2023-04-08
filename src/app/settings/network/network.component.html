@@ -5,6 +5,12 @@
 	class="fadeIn"></mat-progress-bar>
 <div class="fadeIn mb20" color="default">
 	<div class="text-right page-title-buttons">	
+	  <button
+			mat-button
+			color="accent"
+			[routerLink]="['/']">
+			<mat-icon>home</mat-icon> {{ 'MAIN_MENU.HOME' | translate }}
+		</button>
     <button 
     	type="button"
 	  	mat-button
@@ -175,26 +181,6 @@
 			  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 			  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 			</table>
-
-		</div>
-	</div>
-	<h2>
-		Wallet Config
-	</h2>
-	<div class="row">
-		<div class="col-12">
-			<p>
-				Status: 
-				
-			</p>
-		</div>
-		<div class="col-12 text-center">
-			<button
-				mat-flat-button
-				color="accent"
-				[routerLink]="['/']">
-				<mat-icon>home</mat-icon> Go to Main Page
-			</button>
 		</div>
 	</div>
 </div>

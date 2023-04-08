@@ -5,6 +5,12 @@
 	class="fadeIn"></mat-progress-bar>
 <div class="fadeIn mb20" color="default">
 	<div class="text-right page-title-buttons">	
+	  <button
+			mat-button
+			color="accent"
+			[routerLink]="['/']">
+			<mat-icon>home</mat-icon> {{ 'MAIN_MENU.HOME' | translate }}
+		</button>
     <button 
     	type="button"
 	  	mat-button
