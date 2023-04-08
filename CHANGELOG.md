@@ -1,5 +1,18 @@
 # ArWiki versions
 
+## 2.0.2
+- Settings > Network: Add Configure Gateway
+- /core/arwiki-contracts services (Refactored)
+- Moderators > Pending List (Updated)
+- Moderators > Approved Pages (Updated)
+- Dashboard (Updated)
+- Moderators > Page Updates (Updated)
+- Main page: Reduce number of articles
+- Sitemap (Updated)
+- Markdown editor SimpleMDE dependencies (Fixed)
+- Profile detail (Fixed)
+- Core libs (Updated)
+
 ## 2.0.1
 - Moderators > Languages added
 - Categories module updated
