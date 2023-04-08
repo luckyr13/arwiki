@@ -6,7 +6,7 @@
     <mat-panel-title
       class="subheader"
       [ngStyle]="{ 'padding-left': leftPadding() }">
-      {{ translations['MAIN_MENU.' + menuOption.category_slug] }}
+      {{ categories[menuOption.category_slug].label }}
     </mat-panel-title>
   </mat-expansion-panel-header>
   <a mat-list-item 

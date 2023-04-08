@@ -3,7 +3,6 @@ import { ArwikiCategoryIndex } from '../../core/interfaces/arwiki-category-index
 import { ArwikiPage } from '../../core/interfaces/arwiki-page';
 import { Router } from '@angular/router';
 import { ArwikiMenuCategory } from '../../core/interfaces/arwiki-menu-category';
-import {TranslateService} from '@ngx-translate/core';
 import { Subscription, of, startWith, delay } from 'rxjs';
 
 @Component({
@@ -17,12 +16,9 @@ export class SubMenuMainPageComponent implements OnInit, OnDestroy {
   
   @Input('menu') menu: ArwikiMenuCategory[] = [];
   @Input('level') level = 0;
-  translations: Record<string, string> = {};
-  subscriptionTranslation = Subscription.EMPTY;
 
   constructor(
-    private _router: Router,
-    private _translate: TranslateService) {
+    private _router: Router) {
 
   }
 
@@ -40,27 +36,9 @@ export class SubMenuMainPageComponent implements OnInit, OnDestroy {
       return this.categories[a.category_slug].order - this.categories[b.category_slug].order;
     });
 
-    // Load menu translations
-    for (let menuOption of this.menu) {
-      const tkey = 'MAIN_MENU.' + menuOption.category_slug;
-      this.subscriptionTranslation = this._translate.get(tkey).subscribe({
-        next: (res) => {
-          if (res !== tkey) {
-            this.translations[tkey] = res;
-          } else {
-            this.translations[tkey] = this.categories[menuOption.category_slug].label;
-          }
-        },
-        error: () => {
-          console.error('Error loading translations!');
-        }
-      })
-    }
-
   }
 
   ngOnDestroy() {
-    this.subscriptionTranslation.unsubscribe();
   }
 
   leftPadding() {
