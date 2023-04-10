@@ -65,7 +65,7 @@ export class PostedUpdatesComponent implements OnInit, OnDestroy, OnChanges {
 
   getMyArWikiUpdates() {
     let myPagesTX: ArdbTransaction[]|ArdbBlock[] = [];
-    const maxPages = 10;
+    const maxPages = 100;
     this.pages = [];
     this.loading = true;
 
