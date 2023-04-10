@@ -1,20 +1,36 @@
-.categories-list {
-  padding-left: 22px;
-  list-style: none;
-  margin-top: 0px;
+.mt-main {
+  height:10px;
+  margin-top: 47px;
 }
-.cat-title {
-  font-size: 22px;
+
+@media (min-width: 600px) {
+  .mt-main {
+    margin-top: 54px;
+  }
 }
-.secondary-txt {
-  font-size: 12px;
+
+mat-toolbar {
+  font-family: "Roboto Mono", monospace;
 }
-.cat-slug {
-  padding-left: 4px;
-  padding-right: 4px;
-}
-.total-pages {
-  font-size: 14px;
-  padding-left: 22px;
+
+.mb20 {
   margin-bottom: 20px;
+}
+
+.mat-toolbar {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.row-table {
+  margin-bottom: 20px;
+}
+.table-container {
+  overflow: auto;
+}
+.buttons-container {
+  margin-bottom: 20px;
+}
+.col-max-width {
+  max-width: 220px;
 }
