@@ -31,8 +31,8 @@ import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { EmojisComponent } from '../../shared/emojis/emojis.component';
 import { ArwikiLangsService } from '../../core/arwiki-contracts/arwiki-langs.service';
-import { ArwikiCategoriesService } from '../../core/arwiki-contracts/arwiki-categories.service';
 import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
+import { ArwikiMenuService } from '../../core/arwiki-contracts/arwiki-menu.service';
 
 @Component({
   templateUrl: './new.component.html',
@@ -111,8 +111,8 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
     private _route: ActivatedRoute,
     private _overlay: Overlay,
     private _arwikiTokenLangsContract: ArwikiLangsService,
-    private _arwikiCategories: ArwikiCategoriesService,
-    private _arwikiPages: ArwikiPagesService
+    private _arwikiPages: ArwikiPagesService,
+    private _arwikiMenu: ArwikiMenuService
   ) { }
 
   ngOnInit(): void {
@@ -120,46 +120,9 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
     this.arwiki = new Arwiki(this._arweave.arweave);
   	this.getDefaultTheme();
-
-    this.categoryListSubscription = this._arwikiCategories
-      .getCategories(this.routeLang)
-      .subscribe({
-        next: (state: ArwikiCategoryIndex) => {
-          this.categoryList = [];
-          for (const c0 of Object.keys(state)) {
-            if (state[c0].active) {
-              this.categoryList.push(state[c0]);
-            }
-          }
-        },
-        error: (error) => {
-          this._utils.message(error, 'error');
-        }
-      })
-
-    // DIsable title and slug while loading langs combo
-    this.title!.disable();
-    this.slug!.disable();
-    this.languageListSubscription = this._arwikiTokenLangsContract
-      .getLanguages()
-      .subscribe({
-        next: (state: ArwikiLangIndex) => {
-          this.languageList = [];
-          for (const l0 of Object.keys(state)) {
-            if (state[l0].active) {
-              this.languageList.push(state[l0]);
-            }
-          }
-          this.language!.setValue(this.routeLang);
-          this.title!.enable();
-          this.slug!.enable();
-    
-        },
-        error: (error) => {
-          this._utils.message(error, 'error');
-        }
-      })
-
+    // Load and fill form fields
+    this.loadCategories();
+    this.loadLangsCombo();
 
   }
 
@@ -539,6 +502,62 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
       data, 'text/plain', jwk, tags,
       loginMethod, _disableDispatch
     );
+  }
+
+  loadLangsCombo() {
+    // DIsable title and slug while loading langs combo
+    this.title!.disable();
+    this.slug!.disable();
+    const onlyActive = true;
+    this.languageListSubscription = this._arwikiTokenLangsContract
+      .getLanguages(onlyActive)
+      .subscribe({
+        next: (state: ArwikiLangIndex) => {
+          this.languageList = [];
+          for (const l0 of Object.keys(state)) {
+            this.languageList.push(state[l0]);
+          }
+          this.language!.setValue(this.routeLang);
+          this.title!.enable();
+          this.slug!.enable();
+    
+        },
+        error: (error) => {
+          this._utils.message(error, 'error');
+        }
+      });
+  }
+
+  loadCategories(reload: boolean = false) {
+    const langCode = this.routeLang;
+    const onlyShowInMenuOptions = false;
+    const onlyActiveCategories = true;
+    const onlyActivePages = false;
+    this.categoryListSubscription = this._arwikiMenu.getMainMenu(
+      this.routeLang,
+      onlyShowInMenuOptions,
+      onlyActiveCategories,
+      onlyActivePages
+    ).subscribe({
+      next: (data) => {
+        const categories = data.categories;
+        const pages = data.catPages;
+        const categoriesPages = pages;
+        
+        const menu = this._arwikiMenu.generateMenu(
+          {...categories},
+          {...pages}
+        );
+
+        this.categoryList = this._arwikiMenu.flatMenu(menu, categories);
+
+
+      },
+      error: (error) => {
+        this._utils.message(error, 'error');
+      }
+    })
+
   }
 
 

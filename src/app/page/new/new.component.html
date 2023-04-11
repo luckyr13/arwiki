@@ -69,7 +69,8 @@
 					  <mat-select 
 					  	formControlName="category">
 					    <mat-option *ngFor="let cat of categoryList" [value]="cat.slug">
-					      {{ cat.label }}
+					      <span>{{ cat.label }}</span>&nbsp;
+					      <div class="small-txt" *ngIf="cat.parent_id">({{cat.parent_id}})</div>
 					    </mat-option>
 					  </mat-select>
 					</mat-form-field>

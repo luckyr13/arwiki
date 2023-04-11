@@ -65,7 +65,6 @@ export class SitemapCategoriesComponent implements OnInit, OnDestroy, OnChanges 
   loadCategoriesTable(reload: boolean) {
     this.loading = true;
     const langCode = this.routeLang;
-    const onlyActive = false;
     this.totalPages = 0;
 
     this.dataSource = [];
