@@ -217,4 +217,23 @@ export class ArwikiMenuService {
     return finalMenu;
   }
 
+  /*
+  * @dev
+  */
+  getMainMenuOnlyCategories(
+    _langCode: string,
+    _onlyActiveCategories=true,
+    _reload=false
+  ) {
+    return this._arwikiCategories.getCategories(
+      _langCode,
+      _onlyActiveCategories,
+      _reload
+    ).pipe(
+      switchMap((_categories: ArwikiCategoryIndex) => {
+        return of({ categories: _categories });
+      }),
+    );
+  }
+
 }

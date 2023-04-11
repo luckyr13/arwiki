@@ -530,23 +530,17 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   loadCategories(reload: boolean = false) {
     const langCode = this.routeLang;
-    const onlyShowInMenuOptions = false;
     const onlyActiveCategories = true;
-    const onlyActivePages = false;
-    this.categoryListSubscription = this._arwikiMenu.getMainMenu(
+    this.categoryListSubscription = this._arwikiMenu.getMainMenuOnlyCategories(
       this.routeLang,
-      onlyShowInMenuOptions,
-      onlyActiveCategories,
-      onlyActivePages
+      onlyActiveCategories
     ).subscribe({
       next: (data) => {
         const categories = data.categories;
-        const pages = data.catPages;
-        const categoriesPages = pages;
         
         const menu = this._arwikiMenu.generateMenu(
           {...categories},
-          {...pages}
+          {}
         );
 
         this.categoryList = this._arwikiMenu.flatMenu(menu, categories);
