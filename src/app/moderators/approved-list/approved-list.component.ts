@@ -412,7 +412,8 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
             sponsor: sponsor,
             owner: owner,
             dataInfo: { size: pTX.data.size, type: contentType },
-            active: this.allApprovedPages[slug].active  
+            active: this.allApprovedPages[slug].active,
+            value: this.allApprovedPages[slug].value
           });
           this.totalResults += 1;
         }
