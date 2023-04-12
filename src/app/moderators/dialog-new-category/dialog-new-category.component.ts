@@ -201,6 +201,7 @@ export class DialogNewCategoryComponent implements OnInit, OnDestroy {
   transformSlug(slug: string) {
     let newSlug = slug.trim().toLowerCase();
     newSlug = newSlug.replace(/ /gi, '_');
+    newSlug = newSlug.replace(/[^A-Za-z0-9-_]/gi, '')
     this.slug.setValue(newSlug);
   }
 
