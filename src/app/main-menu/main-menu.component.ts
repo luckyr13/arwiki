@@ -21,6 +21,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   menu: ArwikiMenuCategory[] = [];
   categories: ArwikiCategoryIndex = {};
   defaultTheme: string = '';
+  previousLang = '';
 
   constructor(
       private _userSettings: UserSettingsService,
@@ -36,7 +37,8 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     this._userSettings.routeLangStream.subscribe(async (data) => {
       if (data != this.routerLang) {
         this.routerLang = data;
-        if (this.routerLang) {
+        if (this.routerLang && this.routerLang != this.previousLang) {
+          this.previousLang = this.routerLang;
           await this.getMenu();
         }  
       }
