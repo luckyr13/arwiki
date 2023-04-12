@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, OnChanges} from '@angular/core';
 import { ArweaveService } from '../../core/arweave.service';
 import { ArdbWrapper } from '../../core/ardb-wrapper';
 import { UtilsService } from '../../core/utils.service';
@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './safe-image-container.component.html',
   styleUrls: ['./safe-image-container.component.scss']
 })
-export class SafeImageContainerComponent implements OnInit, OnDestroy {
+export class SafeImageContainerComponent implements OnInit, OnDestroy, OnChanges {
   baseURL = this._arweave.baseURL;
   @Input('imgTX') imgTX: string = '';
   img: string = '';
@@ -28,6 +28,10 @@ export class SafeImageContainerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    
+  }
+
+  ngOnChanges() {
     this.ardbWrapper = new ArdbWrapper(this._arweave.arweave);
     if (this.imgTX && !this.isValidAddress(this.imgTX)) {
       this.img = '';
