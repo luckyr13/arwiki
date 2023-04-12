@@ -19,10 +19,11 @@ import { DialogNewLanguageComponent } from './dialog-new-language/dialog-new-lan
 import { DialogEditLanguageComponent } from './dialog-edit-language/dialog-edit-language.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { PagesComponent } from './pages/pages.component';
+import { DialogNewCategoryComponent } from './dialog-new-category/dialog-new-category.component';
 
 
 @NgModule({
-  declarations: [PendingListComponent, MenuComponent, AddAdminComponent, ViewAdminListComponent, ApprovedListComponent, TagManagerComponent, DeletedListComponent, PageUpdatesComponent, DialogSearchPageUpdateComponent, ActivityHistoryComponent, HistoryPagesRejectedComponent, HistoryUpdatesApprovedComponent, LanguagesComponent, DialogNewLanguageComponent, DialogEditLanguageComponent, CategoriesComponent, PagesComponent],
+  declarations: [PendingListComponent, MenuComponent, AddAdminComponent, ViewAdminListComponent, ApprovedListComponent, TagManagerComponent, DeletedListComponent, PageUpdatesComponent, DialogSearchPageUpdateComponent, ActivityHistoryComponent, HistoryPagesRejectedComponent, HistoryUpdatesApprovedComponent, LanguagesComponent, DialogNewLanguageComponent, DialogEditLanguageComponent, CategoriesComponent, PagesComponent, DialogNewCategoryComponent],
   imports: [
     CommonModule,
     ModeratorsRoutingModule,

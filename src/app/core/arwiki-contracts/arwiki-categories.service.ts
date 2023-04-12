@@ -47,4 +47,33 @@ export class ArwikiCategoriesService {
     );
   }
 
+  addCategory(
+    _label: string,
+    _slug: string,
+    _parent: string,
+    _order: number,
+    _languageCode: string,
+    _privateKey: JWKInterface|'use_wallet',
+    _arwikiVersion: string
+  ) {
+    const jwk = _privateKey;
+    const tags = [
+      {name: 'Service', value: 'ArWiki'},
+      {name: 'Arwiki-Type', value: 'AddCategory'},
+      {name: 'Arwiki-Version', value: _arwikiVersion},
+    ];
+    const input = {
+      function: 'addCategory',
+      langCode: _languageCode,
+      label: _label,
+      slug: _slug,
+      parent: _parent,
+      order: _order
+    };
+    
+    return this._warp.writeInteraction(
+      this._arwikiToken.contractAddress, jwk, input, tags
+    );
+  }
+
 }

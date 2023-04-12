@@ -1,0 +1,120 @@
+<h2 mat-dialog-title>
+	Add Category
+</h2>
+<mat-progress-bar 
+	color="accent"
+	mode="indeterminate"
+	*ngIf="loadingSubmit"
+	class="fadeIn"></mat-progress-bar>
+<form
+	[formGroup]="newCategoryForm"
+	(ngSubmit)="onSubmit()">
+	<mat-dialog-content>
+		<div *ngIf="!tx && !error">
+			<mat-form-field 
+				class="w100" 
+				appearance="outline"
+				color="accent">
+				<mat-label>
+					Label
+				</mat-label>
+				<input
+					matInput
+					[maxlength]="maxLengthLabel"
+					autocomplete="off"
+					formControlName="label" required>
+				<mat-error ></mat-error>
+			</mat-form-field>
+
+			<mat-form-field 
+				class="w100" 
+				appearance="outline"
+				color="accent">
+				<mat-label>
+					Slug
+				</mat-label>
+				<input
+					matInput
+					[maxlength]="maxLengthSlug"
+					(change)="transformSlug(slug.value!)"
+					[maxlength]="maxLengthSlug"
+					autocomplete="off"
+					formControlName="slug" required>
+				<mat-error ></mat-error>
+			</mat-form-field>
+
+
+			<mat-form-field
+		  	class="w100"
+		  	color="accent"
+		  	appearance="outline">
+		  	<mat-label *ngIf="!categoryList || !categoryList.length">{{ 'CREATE_PAGE.FRM_LOADING' | translate }}</mat-label>
+			  <mat-label *ngIf="categoryList && categoryList.length">
+			  	Parent
+			  </mat-label>
+			  <mat-select 
+			  	formControlName="parent">
+			  	<mat-option value="">{{ 'DIALOGS.INPUT_SEL_DEFAULT' | translate }}</mat-option>
+			    <mat-option *ngFor="let cat of categoryList" [value]="cat.slug">
+			      <span>{{ cat.label }}</span>&nbsp;
+			      <div class="small-txt" *ngIf="cat.parent_id">({{cat.parent_id}})</div>
+			    </mat-option>
+			  </mat-select>
+		  </mat-form-field>
+
+		  <mat-form-field 
+				class="w100" 
+				appearance="outline"
+				color="accent">
+				<mat-label>
+					Order
+				</mat-label>
+				<input
+					matInput
+					min="0"
+					max="999999999999"
+					type="number"
+					autocomplete="off"
+					formControlName="order" required>
+				<mat-error ></mat-error>
+			</mat-form-field>
+
+			<mat-form-field 
+				class="w100" 
+				appearance="outline"
+				color="accent">
+				<mat-label>
+					Language
+				</mat-label>
+				<input
+					matInput
+					[maxlength]="maxLengthLangCode"
+					autocomplete="off"
+					formControlName="languageCode" required>
+				<mat-error ></mat-error>
+			</mat-form-field>
+		</div>
+		<div *ngIf="tx">
+			New language added. TX ID: {{ tx }}
+		</div>
+		<div *ngIf="error">
+			Error: {{ error }}
+		</div>
+	</mat-dialog-content>
+	<mat-dialog-actions>
+	  <button
+	  	color="accent" 
+	  	mat-flat-button
+	  	*ngIf="!tx && !error"
+	  	[disabled]="!newCategoryForm.valid || loadingSubmit">
+	  	{{ 'DIALOGS.TXT_SUBMIT' | translate }}
+	  </button>
+	  <div class="menu-spacer"></div>
+	  <button 
+	  	mat-button
+	  	[mat-dialog-close]="tx"
+	  	[disabled]="loadingSubmit">
+	  	{{ 'DIALOGS.TXT_CLOSE' | translate }}
+	  </button>
+	</mat-dialog-actions>
+</form>
