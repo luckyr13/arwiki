@@ -24,7 +24,7 @@ export class UserSettingsService {
     port: 443,
     protocol: 'https',
     useArweaveGW: false,
-    contractAddress: 'PSegUIrh8ZSaFbQ-SZp4XHcnFhRkWknZjU4CDZzSjCs'
+    contractAddress: 'O3S3xsYrhn3DlDAkCwZCQMLjojx0o_EO7I1Q5kZEsqE'
   };
 
   // Observable

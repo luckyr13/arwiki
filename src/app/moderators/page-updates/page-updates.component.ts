@@ -258,6 +258,7 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
         const newPageValue = +_newPageValue;
         if (Number.isInteger(newPageValue) && newPageValue > 0) {
           this.loadingInteraction = true;
+          const order = 0;
           return this._arwikiPageUpdates.approvePageUpdate(
             _pageId,
             _author,
@@ -265,6 +266,7 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
             _category_slug,
             this.routeLang,
             newPageValue,
+            order,
             this._auth.getPrivateKey(),
             arwikiVersion[0],
           );
