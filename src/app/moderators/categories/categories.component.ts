@@ -12,6 +12,9 @@ import { UtilsService } from '../../core/utils.service';
 import {
   DialogNewCategoryComponent 
 } from '../dialog-new-category/dialog-new-category.component';
+import {
+  DialogEditCategoryComponent 
+} from '../dialog-edit-category/dialog-edit-category.component';
 
 @Component({
   selector: 'app-categories',
@@ -94,6 +97,31 @@ export class CategoriesComponent implements OnInit, OnDestroy {
       width: '650px',
       data: {
         langCode: this.routeLang
+      },
+      direction: direction,
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe((tx: string) => {
+      if (tx) {
+        // Reload
+        const reload = true;
+        this.loadCategoriesTable(reload);
+      }
+    });
+  }
+
+  openEditCategoryModal(slug: string) {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+    const category = this.categories[slug];
+
+    const dialogRef = this._dialog.open(DialogEditCategoryComponent, {
+      width: '650px',
+      data: {
+        langCode: this.routeLang,
+        category: category
       },
       direction: direction,
       disableClose: true

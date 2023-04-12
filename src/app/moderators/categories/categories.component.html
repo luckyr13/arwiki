@@ -80,7 +80,8 @@
           </th>
           <td mat-cell *matCellDef="let element">
             <button
-              mat-button>
+              mat-button
+              (click)="openEditCategoryModal(element.slug)">
               <mat-icon color="accent">edit</mat-icon>
               {{ 'GENERAL.BUTTONS.EDIT' | translate }}
             </button>

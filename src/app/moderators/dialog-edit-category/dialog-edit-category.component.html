@@ -1,5 +1,5 @@
 <h2 mat-dialog-title>
-	Add Category
+	Edit Category
 </h2>
 <mat-progress-bar 
 	color="accent"
@@ -7,7 +7,7 @@
 	*ngIf="loadingSubmit"
 	class="fadeIn"></mat-progress-bar>
 <form
-	[formGroup]="newCategoryForm"
+	[formGroup]="editCategoryForm"
 	(ngSubmit)="onSubmit()">
 	<mat-dialog-content>
 		<div *ngIf="!tx && !error">
@@ -93,9 +93,21 @@
 					formControlName="languageCode" required>
 				<mat-error ></mat-error>
 			</mat-form-field>
+
+			<div class="text-right">
+				<mat-slide-toggle formControlName="active">
+					<span *ngIf="active.value">
+						{{ 'GENERAL.LABELS.ACTIVE' | translate }}
+					</span>
+					<span *ngIf="!active.value">
+						{{ 'GENERAL.LABELS.INACTIVE' | translate }}
+					</span>
+				</mat-slide-toggle>
+			</div>
+
 		</div>
 		<div *ngIf="tx">
-			New category added. TX ID: {{ tx }}
+			Category updated. TX ID: {{ tx }}
 		</div>
 		<div *ngIf="error">
 			Error: {{ error }}
@@ -106,7 +118,7 @@
 	  	color="accent" 
 	  	mat-flat-button
 	  	*ngIf="!tx && !error"
-	  	[disabled]="!newCategoryForm.valid || loadingSubmit">
+	  	[disabled]="!editCategoryForm.valid || loadingSubmit">
 	  	{{ 'DIALOGS.TXT_SUBMIT' | translate }}
 	  </button>
 	  <div class="menu-spacer"></div>
