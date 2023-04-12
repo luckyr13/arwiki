@@ -33,8 +33,8 @@ export class SafeImageContainerComponent implements OnInit, OnDestroy, OnChanges
 
   ngOnChanges() {
     this.ardbWrapper = new ArdbWrapper(this._arweave.arweave);
+    this.img = '';
     if (this.imgTX && !this.isValidAddress(this.imgTX)) {
-      this.img = '';
       this.invalidImage = true;
     } else if (this.imgTX) {
       this.loadImageMetadata();
