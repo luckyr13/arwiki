@@ -1,0 +1,115 @@
+.content {
+	padding: 20px;
+	min-height: 128px;
+	max-width: 880px;
+	min-width: 200px;
+}
+
+.title-text {
+	float: left;
+	width: 70%;
+	font-weight: bold;
+}
+
+.title-buttons {
+	float: left;
+	width: 30%;
+	text-align: right;
+	margin-top: -6px;
+}
+
+.mat-mdc-dialog-container {
+	padding: 0px;
+}
+
+.mat-mdc-dialog-content {
+	border-top: 1px solid;
+}
+
+
+@media (min-width: 420px) {
+	.content {
+		max-width: 880px;
+		min-width: 400px;
+	}
+
+}
+
+
+@media (min-width: 820px) {
+	.content {
+		max-width: 880px;
+		min-width: 800px;
+	}
+}
+
+.search-container {
+  padding: 0px 20px 0px 20px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.search-container .mat-mdc-form-field {
+  width: 100%;
+}
+
+.search-container p {
+  display: flex;
+  flex-direction: column;
+}
+.search-container button {
+  margin-left: 0px;
+  margin-top: 0px;
+  margin-bottom: 20px;
+  border-radius: 50px;
+}
+
+@media (min-width: 700px) {
+  .search-container {
+  }
+  .search-container p {
+    flex-direction: row;
+  }
+
+  .search-container button {
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+}
+
+.loader {
+	margin: 0 auto;
+	margin-top: 10px;
+}
+
+.results {
+
+}
+
+.results span {
+	margin-right: 6px;
+	background-color: black;
+	color: white;
+	padding: 2px;
+	font-size: 12px;
+}
+
+.image-container {
+	text-align: center;
+}
+.image-container img {
+	max-width: 100%;
+}
+
+.action-panel {
+	padding: 10px;
+	text-align: center;
+}
+
+.video-container {
+	text-align: center;
+}
+.video-container video {
+	max-width: 100%;
+}

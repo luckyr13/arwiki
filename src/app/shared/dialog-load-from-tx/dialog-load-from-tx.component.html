@@ -1,0 +1,67 @@
+<h2 mat-dialog-title class="title-text">
+  Search TX (type: {{ data.type }})
+</h2>
+<div class="title-buttons">
+  <button
+    mat-icon-button
+    aria-label="Close window"
+    (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<div class="clear-both"></div>
+<mat-dialog-content
+  class="content border-right-special">
+  <div class="search-container">
+
+    <form [formGroup]="searchForm" (ngSubmit)="onSubmitSearch()">
+      <p>
+        <mat-form-field appearance="fill" color="accent">
+          <mat-label>Search the blockweave</mat-label>
+          <input
+            matInput 
+            required
+            placeholder="Introduce an Arweave transaction ID"
+            autocomplete="off" 
+            formControlName="query">
+        </mat-form-field>
+        <button 
+          type="submit"
+          [disabled]="!searchForm.valid"
+          mat-flat-button color="accent"><mat-icon>search</mat-icon> </button>
+      </p>
+    </form>
+    <mat-spinner class="loader" *ngIf="loading" color="accent" diameter="24"></mat-spinner>
+    <div class="results" *ngIf="isValidSubstory && !error">
+      <span *ngIf="appName">App-Name: {{ appName }}</span>
+      <span *ngIf="application">Application: {{ application }}</span>
+      <span *ngIf="storyContentType">Content-Type: {{ storyContentType }}</span>
+      <span *ngIf="storyType">Story type: {{ storyType }}</span>
+      <span *ngIf="owner">Owner: {{ owner }}</span>
+      <div class="action-panel">
+        <a mat-flat-button color="accent" (click)="insertSubstory(txId)">Insert</a>
+      </div>
+      <p *ngIf="txtContent && finalType === 'text'">
+        {{ txtContent }}
+      </p>
+      <p class="image-container" *ngIf="finalType === 'image'">
+        <app-safe-image-container [imgTX]="txId"></app-safe-image-container>
+      </p>
+      <p class="video-container" *ngIf="finalType === 'video'">
+        <video controls preload="none" poster="assets/images/videoPoster.jpg">
+          <source [src]="getFileUrl(txId)">
+          Your browser does not support the video tag.
+        </video>
+      </p>
+      <p class="audio-container" *ngIf="finalType === 'audio'">
+        <audio controls preload="none">
+          <source [src]="getFileUrl(txId)">
+          Your browser does not support the audio tag.
+        </audio>
+      </p>
+    </div>
+    <div *ngIf="error">
+        {{ error }}
+    </div>
+  </div>
+</mat-dialog-content>

@@ -53,6 +53,7 @@ import {MatSortModule} from '@angular/material/sort';
 import { ChartComponent } from './chart/chart.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { SafeImageContainerComponent } from './safe-image-container/safe-image-container.component';
+import { DialogLoadFromTxComponent } from './dialog-load-from-tx/dialog-load-from-tx.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import { SafeImageContainerComponent } from './safe-image-container/safe-image-c
     UploadFileDialogComponent,
     DialogStampComponent,
     ChartComponent,
-    SafeImageContainerComponent
+    SafeImageContainerComponent,
+    DialogLoadFromTxComponent
   ],
   imports: [
     CommonModule,
