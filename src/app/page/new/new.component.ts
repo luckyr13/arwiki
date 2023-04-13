@@ -33,6 +33,10 @@ import { EmojisComponent } from '../../shared/emojis/emojis.component';
 import { ArwikiLangsService } from '../../core/arwiki-contracts/arwiki-langs.service';
 import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
 import { ArwikiMenuService } from '../../core/arwiki-contracts/arwiki-menu.service';
+import {
+  DialogLoadFromTxComponent 
+} from '../../shared/dialog-load-from-tx/dialog-load-from-tx.component';
+
 
 @Component({
   templateUrl: './new.component.html',
@@ -250,26 +254,26 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   updateSlug(s: string) {
-    this.slug!.setValue(s.replace(/ /gi, '-'));
+    this.slug!.setValue(this.cleanSlug(s));
     this.verifySlug(this.slug!.value);
   }
 
-  async verifySlug(_slug: string) {
+  cleanSlug(s: string) {
+    let newValue = s.replace(/ /gi, '-');
+    newValue = newValue.replace(/[^A-Za-z0-9-_]/gi, '');
+    return newValue;
+  }
+
+  verifySlug(_slug: string) {
+    this.slug!.setValue(this.cleanSlug(_slug));
     const _langCode = this.language!.value;
     this.slug!.disable();
     let networkInfo;
     let maxHeight = 0;
-    try {
-      networkInfo = await this._arweave.arweave.network.getInfo();
-      maxHeight = networkInfo.height;
-    } catch (error) {
-      this._utils.message(`${error}`, 'error');
-      this.slug!.setValue('');
-      this.slug!.enable();
-    }
-
+    _slug = this.slug!.value;
+    
     this.verifySlugSubscription = this.isPageBySlugAlreadyTaken(
-        _slug, _langCode, maxHeight
+        _slug, _langCode
       ).subscribe({
         next: (taken) => {
           // Slug already taken
@@ -314,9 +318,7 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
   */
   isPageBySlugAlreadyTaken(
     _slug: string,
-    _langCode: string,
-    _maxHeight: number,
-    _limit: number = 20
+    _langCode: string
   ) {
     let categoriesCS: any = {};
 
@@ -324,7 +326,7 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
     let stakingPages: any = {};
 
     const verifiedPagesDict: Record<string,boolean> = {};
-    return this._arwikiPages.getApprovedPages(_langCode, -1)
+    return this._arwikiPages.getAllPages(_langCode, -1)
       .pipe(
         switchMap((approvedPages) => {
           return of(!!approvedPages[_slug]);
@@ -552,6 +554,38 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     })
 
+  }
+
+  resetImage() {
+    this.previewImgUrlTX = '';
+    this.previewImgUrl = '';
+  }
+
+  loadFromTx(type: string) {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
+    const dialogRef = this._dialog.open(
+      DialogLoadFromTxComponent,
+      {
+        restoreFocus: false,
+        autoFocus: false,
+        disableClose: true,
+        data: {
+          type: type,
+          address: this.authorAddress
+        },
+        direction: direction,
+        width: '800px'
+      });
+
+    // Manually restore focus to the menu trigger
+    dialogRef.afterClosed().subscribe((res: {tx: string, type:'text'|'image'|'audio'|'video'|'', content: string}) => { 
+      if (res) {
+        this.setPreviewImage(res.tx);
+      }
+    });
   }
 
 

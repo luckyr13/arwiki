@@ -103,14 +103,22 @@
 					  	[theme]="getSkeletonLoaderThemeNgStyle()"
 					  	*ngIf="!previewImgUrl"
 					  	></ngx-skeleton-loader>
-					  <img
-					  	*ngIf="previewImgUrl"
-					  	[src]="previewImgUrl"
-					  	class="card-preview-img"
-					  	>
+					  <app-safe-image-container
+					 		class="card-preview-img"
+					 		[imgTX]="previewImgUrlTX"></app-safe-image-container>
 
 					</mat-card>
 					<div class="text-right img-action-panel">
+						<button 
+							class="btn-upload-file"
+				    	mat-flat-button
+				    	[disabled]="loadingFrm"
+				    	type="button"
+				    	color="primary"
+				    	(click)="loadFromTx('image')">
+				    	<mat-icon>search</mat-icon>
+				    	Load from TX
+				    </button>
 						<button 
 							class="btn-upload-file"
 				    	mat-flat-button
@@ -130,6 +138,16 @@
 				    	color="primary">
 				    	<mat-icon>upload</mat-icon>
 				    	{{ 'CREATE_PAGE.FRM_UPLOAD_FILE' | translate }}
+				    </button>
+				    <button 
+							class="btn-upload-file"
+				    	mat-flat-button
+				    	[disabled]="loadingFrm"
+				    	type="button"
+				    	(click)="resetImage()"
+				    	color="primary">
+				    	<mat-icon>restart_alt</mat-icon>
+				    	Reset image
 				    </button>
 					</div>
 				</div>

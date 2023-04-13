@@ -38,6 +38,9 @@ import { DialogCompareComponent } from '../../shared/dialog-compare/dialog-compa
 import { ArwikiLangsService } from '../../core/arwiki-contracts/arwiki-langs.service';
 import { ArwikiCategoriesService } from '../../core/arwiki-contracts/arwiki-categories.service';
 import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
+import {
+  DialogLoadFromTxComponent 
+} from '../../shared/dialog-load-from-tx/dialog-load-from-tx.component';
 
 @Component({
   templateUrl: './edit.component.html',
@@ -624,6 +627,38 @@ export class EditComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         this._utils.message(`${error}`, 'error');
+      }
+    });
+  }
+
+  resetImage() {
+    this.previewImgUrlTX = '';
+    this.previewImgUrl = '';
+  }
+
+  loadFromTx(type: string) {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
+    const dialogRef = this._dialog.open(
+      DialogLoadFromTxComponent,
+      {
+        restoreFocus: false,
+        autoFocus: false,
+        disableClose: true,
+        data: {
+          type: type,
+          address: this.authorAddress
+        },
+        direction: direction,
+        width: '800px'
+      });
+
+    // Manually restore focus to the menu trigger
+    dialogRef.afterClosed().subscribe((res: {tx: string, type:'text'|'image'|'audio'|'video'|'', content: string}) => { 
+      if (res) {
+        this.setPreviewImage(res.tx);
       }
     });
   }
