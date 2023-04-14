@@ -49,8 +49,7 @@
 		"MENU_SEARCH_BROWSE": "Mapa del sitio",
 		"MENU_USER_VOTES": "Votes",
 		"MENU_MODERATOR_LANGUAGES": "Manage languages",
-		"MENU_MODERATOR_CATEGORIES": "Manage categories",
-		"MENU_MODERATOR_PAGES": "Manage pages"
+		"MENU_MODERATOR_CATEGORIES": "Manage categories"
 	},
 	"MAIN_PAGE": {
 		"TITLE_L1": "¡Bienvenido a la permaweb!",
