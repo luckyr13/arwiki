@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, Input, OnChanges } from '@angular/core';
 import { Location } from '@angular/common';
 import { ArwikiCategory } from '../../core/interfaces/arwiki-category';
-import { Subscription } from 'rxjs';
+import { Subscription, switchMap, of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { Direction } from '@angular/cdk/bidi';
 import { UserSettingsService } from '../../core/user-settings.service';
@@ -13,6 +13,9 @@ import { ArwikiPage } from '../../core/interfaces/arwiki-page';
 import { Router } from '@angular/router';
 import { ArwikiLangsService } from '../../core/arwiki-contracts/arwiki-langs.service';
 import { ArwikiLang } from '../../core/interfaces/arwiki-lang';
+import { ArwikiCategoryIndex } from '../../core/interfaces/arwiki-category-index';
+import { ArwikiPageIndex } from '../../core/interfaces/arwiki-page-index';
+import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
 
 @Component({
   selector: 'app-sitemap-categories',
@@ -43,7 +46,8 @@ export class SitemapCategoriesComponent implements OnInit, OnDestroy, OnChanges 
     private _arwikiMenu: ArwikiMenuService,
     private _utils: UtilsService,
     private _router: Router,
-    private _arwikiTokenLangs: ArwikiLangsService) {
+    private _arwikiTokenLangs: ArwikiLangsService,
+    private _arwikiPages: ArwikiPagesService) {
 
   }
 
@@ -71,7 +75,7 @@ export class SitemapCategoriesComponent implements OnInit, OnDestroy, OnChanges 
     const onlyShowInMenuOptions = false;
     const onlyActiveCategories = false;
     const onlyActivePages = false;
-    this.categoriesSubscription = this._arwikiMenu.getMainMenuNoMetadata(
+    this.categoriesSubscription = this.getCategoriesAndPages(
       this.routeLang,
       onlyShowInMenuOptions,
       onlyActiveCategories,
@@ -127,6 +131,83 @@ export class SitemapCategoriesComponent implements OnInit, OnDestroy, OnChanges 
         console.error('getLanguages', error);
       }
     })
+  }
+
+  /*
+  * @dev
+  */
+  getCategoriesAndPages(
+    _langCode: string,
+    _onlyShowInMenuOptions=true,
+    _onlyActiveCategories=true,
+    _onlyActivePages=true,
+    _reload=false
+  ) {
+    let globalCat: ArwikiCategoryIndex = {};
+    let globalPages: ArwikiPageIndex = {};
+
+    return this._arwikiCategories.getCategories(
+      _langCode,
+      _onlyActiveCategories,
+      _reload
+    ).pipe(
+        switchMap((_categories: ArwikiCategoryIndex) => {
+          globalCat = _categories;
+          return this._arwikiPages.getApprovedPagesByCategory(
+            _langCode,
+            Object.keys(_categories),
+            _onlyActivePages
+          );
+        }),
+        switchMap((_approvedPages) => {
+          globalPages = _approvedPages;
+          const finalRes: Record<string, ArwikiPage[]> = {};
+
+          // Sort asc by block height
+          //let verifiedPages = Array.prototype.sort.call(Object.keys(_approvedPages), (a, b) => {
+          //  return _approvedPages[a].lastUpdateAt! - _approvedPages[b].lastUpdateAt!;
+          //});
+          let verifiedPages = Object.keys(_approvedPages);
+
+          verifiedPages = verifiedPages.map((slug) => {
+            return _approvedPages[slug].id!;
+          });
+
+          for (let p of verifiedPages) {
+            const id = p;
+            const tmpSlug = Object.keys(globalPages).find((s) => {
+              return globalPages[s].id === id;
+            });
+            const slug = tmpSlug ? tmpSlug : '';
+            const category = globalPages[slug].category;
+            const order = globalPages[slug].order;
+
+            if (!globalPages[slug].showInMenu && _onlyShowInMenuOptions) {
+              continue;
+            }
+
+            if (!Object.prototype.hasOwnProperty.call(finalRes, category)) {
+              finalRes[category] = [];
+            }
+            
+            finalRes[category].push({
+              title: '',
+              slug: slug,
+              category: category,
+              id: id,
+              language: _langCode,
+              order: order
+            });
+          }
+
+          // Sort pages
+          for (let cat in finalRes) {
+            this._arwikiMenu.sortPages(finalRes[cat]);
+          }
+
+          return of({ categories: globalCat, catPages: finalRes });
+        })
+      );
   }
 
 }

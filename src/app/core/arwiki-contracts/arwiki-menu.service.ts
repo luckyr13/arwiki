@@ -103,20 +103,10 @@ export class ArwikiMenuService {
             });
           }
 
-          // Lexicographical sort
+          // Sort pages
           for (let cat in finalRes) {
-            Array.prototype.sort.call(finalRes[cat], (a, b) => {
-              return a.title.localeCompare(b.title);
-            });
+            this.sortPages(finalRes[cat]);
           }
-
-          // Sort by order
-          for (let cat in finalRes) {
-            Array.prototype.sort.call(finalRes[cat], (a, b) => {
-              return a.order - b.order;
-            });
-          }
-          
 
           return of({ categories: globalCat, catPages: finalRes });
         })
@@ -217,91 +207,15 @@ export class ArwikiMenuService {
     return finalMenu;
   }
 
-  /*
-  * @dev
-  */
-  getMainMenuNoMetadata(
-    _langCode: string,
-    _onlyShowInMenuOptions=true,
-    _onlyActiveCategories=true,
-    _onlyActivePages=true,
-    _reload=false
-  ) {
-    const arwikiQuery: ArwikiQuery = new ArwikiQuery(this._arweave.arweave);
-    let globalCat: ArwikiCategoryIndex = {};
-    let globalPages: ArwikiPageIndex = {};
-
-    return this._arwikiCategories.getCategories(
-      _langCode,
-      _onlyActiveCategories,
-      _reload
-    ).pipe(
-        switchMap((_categories: ArwikiCategoryIndex) => {
-          globalCat = _categories;
-          return this._arwikiPages.getApprovedPagesByCategory(
-            _langCode,
-            Object.keys(_categories),
-            _onlyActivePages
-          );
-        }),
-        switchMap((_approvedPages) => {
-          globalPages = _approvedPages;
-          const finalRes: Record<string, ArwikiPage[]> = {};
-
-          // Sort asc by block height
-          //let verifiedPages = Array.prototype.sort.call(Object.keys(_approvedPages), (a, b) => {
-          //  return _approvedPages[a].lastUpdateAt! - _approvedPages[b].lastUpdateAt!;
-          //});
-          let verifiedPages = Object.keys(_approvedPages);
-
-          verifiedPages = verifiedPages.map((slug) => {
-            return _approvedPages[slug].id!;
-          });
-
-          for (let p of verifiedPages) {
-            const id = p;
-            const tmpSlug = Object.keys(globalPages).find((s) => {
-              return globalPages[s].id === id;
-            });
-            const slug = tmpSlug ? tmpSlug : '';
-            const category = globalPages[slug].category;
-            const order = globalPages[slug].order;
-
-            if (!globalPages[slug].showInMenu && _onlyShowInMenuOptions) {
-              continue;
-            }
-
-            if (!Object.prototype.hasOwnProperty.call(finalRes, category)) {
-              finalRes[category] = [];
-            }
-            
-            finalRes[category].push({
-              title: '',
-              slug: slug,
-              category: category,
-              id: id,
-              language: _langCode,
-              order: order
-            });
-          }
-
-          // Lexicographical sort
-          for (let cat in finalRes) {
-            Array.prototype.sort.call(finalRes[cat], (a, b) => {
-              return a.title.localeCompare(b.title);
-            });
-          }
-
-          // Sort by order
-          for (let cat in finalRes) {
-            Array.prototype.sort.call(finalRes[cat], (a, b) => {
-              return a.order - b.order;
-            });
-          }
-
-          return of({ categories: globalCat, catPages: finalRes });
-        })
-      );
+  sortPages(pages: ArwikiPage[]) {
+    // Lexicographical sort
+    Array.prototype.sort.call(pages, (a, b) => {
+      return a.title.localeCompare(b.title);
+    });
+    // Sort by order
+    Array.prototype.sort.call(pages, (a, b) => {
+      return a.order - b.order;
+    });
   }
 
 }

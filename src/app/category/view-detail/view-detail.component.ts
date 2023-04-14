@@ -16,6 +16,7 @@ import {PageEvent} from '@angular/material/paginator';
 import { ArwikiCategoryIndex } from '../../core/interfaces/arwiki-category-index';
 import { ArwikiCategoriesService } from '../../core/arwiki-contracts/arwiki-categories.service';
 import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
+import { ArwikiMenuService } from '../../core/arwiki-contracts/arwiki-menu.service';
 
 @Component({
   templateUrl: './view-detail.component.html',
@@ -47,7 +48,8 @@ export class ViewDetailComponent implements OnInit {
     private _location: Location,
     private _userSettings: UserSettingsService,
     private _arwikiCategories: ArwikiCategoriesService,
-    private _arwikiPages: ArwikiPagesService
+    private _arwikiPages: ArwikiPagesService,
+    private _arwikiMenu: ArwikiMenuService
  	) { }
 
   async ngOnInit() {
@@ -110,7 +112,6 @@ export class ViewDetailComponent implements OnInit {
     _category: string,
     _langCode: string
   ): Observable<ArwikiPage[]> {
-    let adminList: string[] = [];
     let verifiedPages: string[] = [];
     let allApprovedPages: ArwikiPageIndex = {};
     return this._arwikiCategories.getCategories(_langCode)
@@ -171,14 +172,7 @@ export class ViewDetailComponent implements OnInit {
           }
 
           // Lexicographical sort
-          Array.prototype.sort.call(finalRes, (a, b) => {
-            return a.title.localeCompare(b.title);
-          });
-
-          // Sort by order
-          Array.prototype.sort.call(finalRes, (a, b) => {
-            return a.order - b.order;
-          });
+          this._arwikiMenu.sortPages(finalRes);
           
           return of(finalRes);
         }),
