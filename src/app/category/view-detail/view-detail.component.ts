@@ -70,8 +70,6 @@ export class ViewDetailComponent implements OnInit {
 
   private _loadContent() {
     this.loadingPages = true;
-    let networkInfo;
-    let maxHeight = 0;
     this.paginatorPageIndex = 0;
     this.errorLoadingCategory = false;
     
