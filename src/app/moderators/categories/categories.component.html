@@ -85,6 +85,12 @@
               <mat-icon color="accent">edit</mat-icon>
               {{ 'GENERAL.BUTTONS.EDIT' | translate }}
             </button>
+            <button
+              mat-button
+              [routerLink]="['/', routeLang, 'moderators', 'categories', element.slug]">
+              <mat-icon color="accent">article</mat-icon>
+              Pages
+            </button>
           </td>
         </ng-container>
 

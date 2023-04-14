@@ -47,7 +47,7 @@ const routes: Routes = [
 				path: 'categories', component: CategoriesComponent
 			},
 			{
-				path: 'pages', component: PagesComponent
+				path: 'categories/:slug', component: PagesComponent
 			},
 			{
 				path: '', redirectTo: 'pending', pathMatch: 'full'
