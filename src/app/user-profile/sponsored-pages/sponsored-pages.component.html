@@ -22,7 +22,7 @@
 			      <td mat-cell *matCellDef="let row">
 			      	<a 
 			      		[routerLink]="['/', routeLang, 'category', row.category]">
-			      		{{ 'MAIN_MENU.' + row.category | translate }}
+			      		{{ row.category }}
 			      	</a>
 			      </td>
 			    </ng-container>
