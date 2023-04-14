@@ -71,7 +71,7 @@ export class SitemapCategoriesComponent implements OnInit, OnDestroy, OnChanges 
     const onlyShowInMenuOptions = false;
     const onlyActiveCategories = false;
     const onlyActivePages = false;
-    this.categoriesSubscription = this._arwikiMenu.getMainMenu(
+    this.categoriesSubscription = this._arwikiMenu.getMainMenuNoMetadata(
       this.routeLang,
       onlyShowInMenuOptions,
       onlyActiveCategories,
