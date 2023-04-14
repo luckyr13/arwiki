@@ -36,6 +36,7 @@ import { ArwikiMenuService } from '../../core/arwiki-contracts/arwiki-menu.servi
 import {
   DialogLoadFromTxComponent 
 } from '../../shared/dialog-load-from-tx/dialog-load-from-tx.component';
+import { ArwikiCategoriesService } from '../../core/arwiki-contracts/arwiki-categories.service';
 
 
 @Component({
@@ -116,7 +117,8 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
     private _overlay: Overlay,
     private _arwikiTokenLangsContract: ArwikiLangsService,
     private _arwikiPages: ArwikiPagesService,
-    private _arwikiMenu: ArwikiMenuService
+    private _arwikiMenu: ArwikiMenuService,
+    private _arwikiCategories: ArwikiCategoriesService
   ) { }
 
   ngOnInit(): void {
@@ -533,12 +535,11 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
   loadCategories(reload: boolean = false) {
     const langCode = this.routeLang;
     const onlyActiveCategories = true;
-    this.categoryListSubscription = this._arwikiMenu.getMainMenuOnlyCategories(
+    this.categoryListSubscription = this._arwikiCategories.getCategories(
       this.routeLang,
       onlyActiveCategories
     ).subscribe({
-      next: (data) => {
-        const categories = data.categories;
+      next: (categories) => {
         
         const menu = this._arwikiMenu.generateMenu(
           {...categories},

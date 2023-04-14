@@ -15,6 +15,7 @@ import {
 import {
   DialogEditCategoryComponent 
 } from '../dialog-edit-category/dialog-edit-category.component';
+import { ArwikiCategoryIndex } from '../../core/interfaces/arwiki-category-index';
 
 @Component({
   selector: 'app-categories',
@@ -59,14 +60,14 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 
     this.dataSource = [];
     const onlyActiveCategories = false;
-    this.categoriesSubscription = this._arwikiMenu.getMainMenuOnlyCategories(
+    this.categoriesSubscription = this._arwikiCategories.getCategories(
       this.routeLang,
       onlyActiveCategories,
       reload
     ).subscribe({
-      next: (data) => {
+      next: (categories: ArwikiCategoryIndex) => {
         this.loading = false;
-        this.categories = data.categories;
+        this.categories = categories;
 
         const menu = this._arwikiMenu.generateMenu(
           {...this.categories},

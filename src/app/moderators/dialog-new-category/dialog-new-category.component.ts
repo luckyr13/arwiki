@@ -177,13 +177,11 @@ export class DialogNewCategoryComponent implements OnInit, OnDestroy {
     loadCategories(reload: boolean = false) {
     const langCode = this.data.langCode;
     const onlyActiveCategories = true;
-    this.categoryListSubscription = this._arwikiMenu.getMainMenuOnlyCategories(
+    this.categoryListSubscription = this._arwikiCategories.getCategories(
       langCode,
       onlyActiveCategories
     ).subscribe({
-      next: (data) => {
-        const categories = data.categories;
-        
+      next: (categories) => {
         const menu = this._arwikiMenu.generateMenu(
           {...categories},
           {}
