@@ -5,6 +5,7 @@ import { Observable, map } from 'rxjs';
 import { ArwikiPageIndex } from '../interfaces/arwiki-page-index';
 import { ArweaveService } from '../arweave.service';
 import { UtilsService } from '../utils.service';
+import { ArwikiPage } from '../interfaces/arwiki-page';
 
 @Injectable({
   providedIn: 'root'
@@ -170,12 +171,12 @@ export class ArwikiPagesService {
             Object.prototype.hasOwnProperty.call(_state.pages, _langCode) &&
             Object.prototype.hasOwnProperty.call(_state.pages[_langCode], _slug) 
           ) {
-          let page = _state.pages[_langCode][_slug];
+          let page = this._utils.cloneObject(
+            _state.pages[_langCode][_slug]
+          );
           if (page.updates.length > 0) {
             return page.updates[page.updates.length - 1].tx;
           }
-
-          return page.content;
         }
         return null;
       })
@@ -293,6 +294,34 @@ export class ArwikiPagesService {
           return acum;
         }, {});
         return pages;
+      })
+    );
+  }
+
+  /*
+  *  @dev 
+  */
+  getPage(
+    _langCode: string,
+    _slug: string
+  ): Observable<ArwikiPage|null> {
+    return this._arwikiToken.getState().pipe(
+      map((_state: any) => {
+        if (_state &&
+            Object.prototype.hasOwnProperty.call(_state, 'pages') &&
+            Object.prototype.hasOwnProperty.call(_state.pages, _langCode) &&
+            Object.prototype.hasOwnProperty.call(_state.pages[_langCode], _slug) 
+          ) {
+          let page = this._utils.cloneObject(
+            _state.pages[_langCode][_slug]
+          );
+          page.slug = _slug;
+          const numUpdates = page.updates.length;
+          page.id = page.updates[numUpdates - 1].tx;
+          page.lastUpdateAt = page.updates[numUpdates - 1].at;
+          return page;
+        }
+        return null;
       })
     );
   }
