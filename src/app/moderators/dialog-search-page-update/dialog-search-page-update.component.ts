@@ -140,6 +140,12 @@ export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
 
                 // Check pending updates against verified updates
                 for (let pId in pendingPages) {
+                  // Verify slug
+                  if (!(pendingPages[pId].slug in this.allApprovedPages)) {
+                    continue;
+                  }
+
+                  // Check in updates
                   if (!(pId in verifiedUpdates)) {
                     tmp_filtered_res[pId] = { 
                       page: pendingPages[pId],
@@ -268,6 +274,12 @@ export class DialogSearchPageUpdateComponent implements OnInit, OnDestroy {
 
           // Check pending updates against verified updates
           for (let pId in pendingPages) {
+            // Verify slug
+            if (!(pendingPages[pId].slug in this.allApprovedPages)) {
+              continue;
+            }
+            
+            // Check in updates
             if (!(pId in verifiedUpdates)) {
               tmp_filtered_res[pId] = { 
                 page: pendingPages[pId],
