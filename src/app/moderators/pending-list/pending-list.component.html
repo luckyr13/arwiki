@@ -27,7 +27,9 @@
 				class="col-12 col-md-6 card-page fadeIn"
 				*ngIf="(accepted.value && p.status === 'accepted') || (rejected.value && p.status === 'rejected') || (pending.value && p.status === 'pending')">
 				<mat-card>
-					<h2 class="link" routerLink="../../preview/{{p.page.id}}">
+					<h2 
+						class="link" 
+						[routerLink]="['/', routeLang, 'preview', p.page.id]">
 						{{ p.page.title }} 
 					</h2>
 					<app-safe-image-container
@@ -36,7 +38,8 @@
 						{{ 'PAGE.LABEL_SLUG' | translate }}: {{  p.page.slug }}
 					</div>
 					<div>
-						{{ 'PAGE.LABEL_CATEGORY' | translate }}: {{ p.page.category }}
+						{{ 'PAGE.LABEL_CATEGORY' | translate }}: 
+						<a [routerLink]="['/', routeLang, 'category', p.page.category]">{{ p.page.category }}</a>
 					</div>
 					<div>
 						{{ 'PAGE.LABEL_LANGUAGE' | translate }}: {{ p.page.language }}
@@ -113,7 +116,7 @@
 							mat-flat-button
 							color="primary"
 							matTooltip="Preview"
-							routerLink="../../preview/{{p.page.id}}">
+							[routerLink]="['/', routeLang, 'preview', p.page.id]">
 							<mat-icon>visibility</mat-icon>
 							Preview
 						</a>
