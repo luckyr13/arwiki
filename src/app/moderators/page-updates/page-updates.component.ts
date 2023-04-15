@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ArweaveService } from '../../core/arweave.service';
-import { Observable, Subscription, EMPTY, of, from } from 'rxjs';
+import { 
+  Observable, Subscription,
+  EMPTY, of, from, switchMap } from 'rxjs';
 import { AuthService } from '../../auth/auth.service';
 import { UtilsService } from '../../core/utils.service';
-import { switchMap } from 'rxjs/operators';
 import {MatDialog} from '@angular/material/dialog';
 import { DialogConfirmAmountComponent } from '../../shared/dialog-confirm-amount/dialog-confirm-amount.component';
 import { DialogCompareComponent } from '../../shared/dialog-compare/dialog-compare.component';
@@ -27,6 +28,7 @@ import { ArwikiPendingUpdate } from '../../core/interfaces/arwiki-pending-update
 import { ArwikiPageUpdate } from '../../core/interfaces/arwiki-page-update';
 import { DialogRejectReasonComponent } from '../../shared/dialog-reject-reason/dialog-reject-reason.component';
 import { ArwikiAdminsService } from '../../core/arwiki-contracts/arwiki-admins.service';
+import { ArdbWrapper } from '../../core/ardb-wrapper';
 
 @Component({
   selector: 'app-page-updates',
@@ -59,6 +61,8 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
   adminList: string[] = [];
   numRejectedPages = 100;
   maxHeight = 0;
+  originalPageSubscription: Subscription = Subscription.EMPTY;
+  originalPage: ArwikiPage|null = null;
 
   constructor(
   	private _arweave: ArweaveService,
@@ -89,10 +93,11 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
     this.routeLang = this._route.snapshot.paramMap.get('lang')!;
     this.pageSlug = this._route.snapshot.paramMap.get('slug')!;
 
-    
-
     // Get pages
     this.getPendingPages();
+
+    // Get original
+    this.getOriginalPage(this.pageSlug);
 
   }
 
@@ -500,6 +505,33 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
           this._utils.message(`Error!`, 'error');
         }
         console.error('confirmRejectArWikiPageUpdate', error);
+      }
+    });
+  }
+
+  getOriginalPage(slug: string) {
+    const ardb = new ArdbWrapper(this._arweave.arweave);
+    this.originalPageSubscription = this._arwikiPages.getPage(
+      this.routeLang, slug
+    ).pipe(
+      switchMap((page: ArwikiPage|null) => {
+        
+        if (page) {
+          this.originalPage = page;
+          return ardb.searchOneTransactionById(page.id);
+        }
+        return of(null);
+      })
+    ).subscribe({
+      next: (pTX: ArdbTransaction|null) => {
+        if (this.originalPage && pTX) {
+          this.originalPage.title = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title');
+          this.originalPage.img = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img');
+        }
+        
+      },
+      error: (error) => {
+        this._utils.message(error, 'error');
       }
     });
   }

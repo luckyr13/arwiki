@@ -25,7 +25,9 @@
 				*ngIf="(p.status === 'accepted' && accepted.value) || (p.status === 'rejected' && rejected.value) || (p.status === 'pending' && pending.value)"
 				class="col-12 col-md-6 card-page fadeIn" >
 				<mat-card class="card-article">
-					<h2 class="link" routerLink="../../../preview/{{p.page.id}}">
+					<h2
+						class="link"
+						[routerLink]="['/', routeLang, 'preview', p.page.id]">
 						{{ p.page.title }} 
 					</h2>
 					<mat-card *ngIf="p.page.img" class="card-image text-center">
@@ -36,7 +38,9 @@
 						{{ 'PAGE.LABEL_SLUG' | translate }}: {{  p.page.slug }}
 					</div>
 					<div>
-						{{ 'PAGE.LABEL_CATEGORY' | translate }}: {{ p.page.category }}
+						{{ 'PAGE.LABEL_CATEGORY' | translate }}:
+						<a
+							[routerLink]="['/', routeLang, 'category', p.page.category]">{{ p.page.category }}</a>
 					</div>
 					<div>
 						{{ 'PAGE.LABEL_LANGUAGE' | translate }}: {{ p.page.language }}
@@ -74,6 +78,30 @@
 						<strong>{{ 'PAGE.LABEL_BLOCK_TIMESTAMP' | translate }}:</strong>
 						{{ timestampToDate(p.page.block.timestamp) | date:'short' }} 
 					</div>
+				  <hr class="mbt20">
+					<div *ngIf="originalPage" class="red mini-text">
+						<div *ngIf="originalPage.title != p.page.title">
+							<strong>+ Title is different!</strong>
+							<br>
+							Original: {{ originalPage.title }}
+						</div>
+						<div *ngIf="originalPage.img != p.page.img">
+							<strong>+ Image is different!</strong>
+							<br>
+							Original: {{ originalPage.img }}
+							<br>
+							<div class="original-img">
+								<app-safe-image-container
+									[imgTX]="originalPage.img!"></app-safe-image-container>
+							</div>
+						</div>
+						<div *ngIf="originalPage.category != p.page.category">
+							<strong>+ Category is different!</strong>
+							<br>
+							Original: {{ originalPage.category }}
+						</div>
+					</div>
+				  <hr class="mbt20">
 					
 					<div class="text-right">
 						<a
