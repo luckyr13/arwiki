@@ -8,7 +8,8 @@
   <mat-icon 
     aria-hidden="false"
     aria-label="Categories">category</mat-icon>
-  <span>&nbsp;Categories > {{ category_slug }}</span>
+  <span>
+    &nbsp;<a [routerLink]="['/', routeLang, 'moderators', 'categories']">Categories</a>&nbsp;> {{ category_slug }}</span>
   <div class="menu-spacer"></div>
   <div class="text-right page-title-buttons"> 
     <button 
@@ -59,6 +60,57 @@
           </th>
           <td mat-cell *matCellDef="let element"> {{element.order}} </td>
         </ng-container>
+        <ng-container matColumnDef="showInMenu">
+          <th mat-header-cell *matHeaderCellDef>
+            showInMenu
+          </th>
+          <td mat-cell *matCellDef="let element"> 
+            <span class="active-label" *ngIf="element.showInMenu">
+              {{ 'GENERAL.LABELS.ACTIVE' | translate }}
+            </span>
+            <span class="inactive-label" *ngIf="!element.showInMenu">
+              {{ 'GENERAL.LABELS.INACTIVE' | translate }}
+            </span>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="showInMainPage">
+          <th mat-header-cell *matHeaderCellDef>
+            showInMainPage
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <span class="active-label" *ngIf="element.showInMainPage">
+              {{ 'GENERAL.LABELS.ACTIVE' | translate }}
+            </span>
+            <span class="inactive-label" *ngIf="!element.showInMainPage">
+              {{ 'GENERAL.LABELS.INACTIVE' | translate }}
+            </span>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="showInFooter">
+          <th mat-header-cell *matHeaderCellDef>
+            showInFooter
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <span class="active-label" *ngIf="element.showInFooter">
+              {{ 'GENERAL.LABELS.ACTIVE' | translate }}
+            </span>
+            <span class="inactive-label" *ngIf="!element.showInFooter">
+              {{ 'GENERAL.LABELS.INACTIVE' | translate }}
+            </span>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="nft">
+          <th mat-header-cell *matHeaderCellDef>
+            NFT
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <app-arweave-address 
+              class="addressurl" 
+              [isAddress]="false"
+              [showArCodeLink]="true"
+              [address]="element.nft"></app-arweave-address>
+          </td>
+        </ng-container>
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>
             Actions
@@ -68,7 +120,12 @@
               mat-button
               [routerLink]="['/', routeLang, element.slug, 'edit']">
               <mat-icon color="accent">edit</mat-icon>
-              {{ 'GENERAL.BUTTONS.EDIT' | translate }}
+              Page
+            </button>
+            <button
+              mat-button>
+              <mat-icon color="accent">edit</mat-icon>
+              Properties
             </button>
 
           </td>

@@ -26,13 +26,12 @@ export class PagesComponent implements OnInit, OnDestroy {
   loading = false;
   pagesSubscription = Subscription.EMPTY;
   displayedColumns: string[] = [
-    'title', 'slug', 'order', 'actions'
+    'title', 'slug', 'order', 'showInMenu',
+    'showInMainPage', 'showInFooter', 'nft', 'actions'
   ];
   category_slug = '';
   routeLang = '';
   categories: ArwikiCategoryIndex = {};
-  childrenCategories: string[] = [];
-  parentCategories: string[] = [];
   arwikiQuery!: ArwikiQuery;
   pages: ArwikiPage[] = [];
 
@@ -103,9 +102,6 @@ export class PagesComponent implements OnInit, OnDestroy {
             throw new Error('Invalid category!');
           }
 
-          this.childrenCategories = this.getChildrenCategories(_category);
-          this.parentCategories = this.getParentCategories(_category);
-
           return this._arwikiPages.getApprovedPages(
             _langCode,
             -1
@@ -113,11 +109,9 @@ export class PagesComponent implements OnInit, OnDestroy {
         }),
         switchMap((_approvedPages: ArwikiPageIndex) => {
           allApprovedPages = _approvedPages;
-          const allChildrenCategories = this.getAllChildrenCategories(_category);
           verifiedPages = Object.keys(_approvedPages)
             .filter((slug) => {
-              return (_approvedPages[slug].category === _category ||
-                  allChildrenCategories.indexOf(_approvedPages[slug].category) >= 0);
+              return (_approvedPages[slug].category === _category);
             }).map((slug) => {
               return _approvedPages[slug].id!;
             })
@@ -138,6 +132,10 @@ export class PagesComponent implements OnInit, OnDestroy {
             const category = allApprovedPages[slug].category;
             const order = allApprovedPages[slug].order;
             const sponsor = allApprovedPages[slug].sponsor;
+            const showInMenu = allApprovedPages[slug].showInMenu;
+            const showInMainPage = allApprovedPages[slug].showInMainPage;
+            const showInFooter = allApprovedPages[slug].showInFooter;
+            const nft = allApprovedPages[slug].nft;
 
             finalRes.push({
               title: title,
@@ -146,7 +144,11 @@ export class PagesComponent implements OnInit, OnDestroy {
               img: img,
               id: id,
               language: this.routeLang,
-              order: order
+              order: order,
+              showInMenu: showInMenu,
+              showInMainPage: showInMainPage,
+              showInFooter: showInFooter,
+              nft: nft
             });
           }
 
@@ -160,44 +162,4 @@ export class PagesComponent implements OnInit, OnDestroy {
       );
   }
 
-  getChildrenCategories(cat_slug: string) {
-    const catSlugs = Object.keys(this.categories);
-    const children: string[] = [];
-    for (let cat of catSlugs) {
-      if (this.categories[cat].parent_id === cat_slug) {
-        children.push(cat);
-      }
-    }
-    return children;
-  }
-
-  getParentCategories(cat_slug: string) {
-    const parents: string[] = [];
-    let newParent = this.findParentCat(cat_slug);
-    while(newParent) {
-      parents.push(newParent);
-      newParent = this.findParentCat(newParent);
-    }
-    parents.reverse();
-    return parents;
-  }
-
-  getAllChildrenCategories(cat_slug: string) {
-    const catSlugs = Object.keys(this.categories);
-    const children: string[] = [];
-    for (let cat of catSlugs) {
-      if (this.categories[cat].parent_id === cat_slug) {
-        children.push(cat);
-        const newChildren = this.getAllChildrenCategories(this.categories[cat].slug);
-        if (newChildren && newChildren.length) {
-          children.push(...newChildren);
-        }
-      }
-    }
-    return children;
-  }
-
-  findParentCat(cat_slug: string) {
-    return this.categories[cat_slug].parent_id;
-  }
 }
