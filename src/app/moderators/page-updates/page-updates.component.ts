@@ -234,9 +234,9 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
     _slug: string,
     _pageId: string,
     _category_slug: string,
-    _pageValue: number
+    _pageValue: number,
+    _author: string
   ) {
-    const _author = '';
     const defLang = this._userSettings.getDefaultLang();
     let direction: Direction = defLang.writing_system === 'LTR' ? 
       'ltr' : 'rtl';
