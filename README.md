@@ -23,7 +23,7 @@ ArWiki Smartweave contracts source code.
 
 ## ArWiki PST Contract
 
-- Arweave Contract Address: ewepANKEVffP0cm_XKjwTYhSBqaiQrJbVrCcBiWqw-s
+- Arweave Contract Address: `ewepANKEVffP0cm_XKjwTYhSBqaiQrJbVrCcBiWqw-s`
 - ArWiki V1: https://v1.arwiki.wiki
 - ArWiki V1: https://arweave.net/3grbkF0_puAQbeWaUF6SZrXn1qrhp2EpW1vkWNWvGqc
 - ArCode: https://arcode.studio/#/ewepANKEVffP0cm_XKjwTYhSBqaiQrJbVrCcBiWqw-s
@@ -71,6 +71,8 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 https://arwiki.wiki/#/zh/main
 
-- Korean ArWiki: [Ethan Lee](https://twitter.com/eungholee27)
+- Korean ArWiki:
+
+[Ethan Lee](https://twitter.com/eungholee27)
 
 https://arwiki.wiki/#/ko/main
