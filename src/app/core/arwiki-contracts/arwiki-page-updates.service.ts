@@ -28,7 +28,6 @@ export class ArwikiPageUpdatesService {
     _category: string,
     _langCode: string,
     _pageValue: number,
-    _order: number,
     _privateKey: any,
     _arwikiVersion: string
   ) {
@@ -50,7 +49,7 @@ export class ArwikiPageUpdatesService {
       slug: _slug,
       author: _author,
       pageValue: _pageValue,
-      order: _order
+      category: _category
     };
 
     return this._warp.writeInteraction(

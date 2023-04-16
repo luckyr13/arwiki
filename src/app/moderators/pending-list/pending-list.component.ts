@@ -100,7 +100,6 @@ export class PendingListComponent implements OnInit, OnDestroy {
     _pageValue: number
   ) {
     const defLang = this._userSettings.getDefaultLang();
-    const order = 0;
     let direction: Direction = defLang.writing_system === 'LTR' ? 
       'ltr' : 'rtl';
 
@@ -126,7 +125,6 @@ export class PendingListComponent implements OnInit, OnDestroy {
             _category_slug,
             this.routeLang,
             newPageValue,
-            order,
             this._auth.getPrivateKey(),
             arwikiVersion[0],
           ); 

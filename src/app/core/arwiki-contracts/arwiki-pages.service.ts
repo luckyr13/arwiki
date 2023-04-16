@@ -62,7 +62,6 @@ export class ArwikiPagesService {
     _category: string,
     _langCode: string,
     _pageValue: number,
-    _order: number,
     _privateKey: any,
     _arwikiVersion: string
   ) {
@@ -85,7 +84,6 @@ export class ArwikiPagesService {
       category: _category,
       slug: _slug,
       pageValue: `${_pageValue}`,
-      order: _order,
       author: _author
 
     };
