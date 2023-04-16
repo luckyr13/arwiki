@@ -13,12 +13,21 @@ You can visit the ArWiki using the next links:
 - ArWiki: https://arwiki.wiki
 - Arwiki (GitHub pages demo): http://luckyr13.github.io/arwiki
 - ArWiki: https://arwiki.arweave.dev
+- ArWiki: https://arwiki.g8way.io
+
+
+## ArWiki Contracts: Smartweave contracts for ArWiki
+
+ArWiki Smartweave contracts source code.
+
+- Github: https://github.com/luckyr13/arwiki-contracts
 
 ## ArWiki PST Contract
 
-Arweave Contract Address: ewepANKEVffP0cm_XKjwTYhSBqaiQrJbVrCcBiWqw-s
-
-Community: https://community.xyz/#ewepANKEVffP0cm_XKjwTYhSBqaiQrJbVrCcBiWqw-s
+- ArWiki V1: https://v1.arwiki.wiki
+- Arweave Contract Address: ewepANKEVffP0cm_XKjwTYhSBqaiQrJbVrCcBiWqw-s
+- ArCode: https://arcode.studio/#/ewepANKEVffP0cm_XKjwTYhSBqaiQrJbVrCcBiWqw-s
+- SonAr: https://sonar.warp.cc/#/app/contract/ewepANKEVffP0cm_XKjwTYhSBqaiQrJbVrCcBiWqw-s
 
 ## Feedback, comments and help
 
@@ -61,6 +70,7 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 [Vophan](https://github.com/skyf0cker)
 
 https://arwiki.wiki/#/zh/main
+
 - Korean ArWiki: [Ethan Lee](https://twitter.com/eungholee27)
 
 https://arwiki.wiki/#/ko/main
