@@ -171,7 +171,12 @@ export class EditComponent implements OnInit, OnDestroy {
     
         },
         error: (error) => {
-          this._utils.message(error, 'error');
+          if (typeof error === 'string') {
+            this._utils.message(error, 'error');
+          } else if (error && Object.prototype.hasOwnProperty.call(error, 'message')) {
+            this._utils.message(error.message, 'error');
+          }
+          console.error('loadLangs', error);
         }
       })
 
@@ -275,8 +280,13 @@ export class EditComponent implements OnInit, OnDestroy {
         }, 20000);
       },
       error: (error) => {
-        this._utils.message(`${error}`, 'error');
         this.disableForm(false);
+        if (typeof error === 'string') {
+          this._utils.message(error, 'error');
+        } else if (error && Object.prototype.hasOwnProperty.call(error, 'message')) {
+          this._utils.message(error.message, 'error');
+        }
+        console.error('onSubmit', error);
       }
     });
 
@@ -433,10 +443,16 @@ export class EditComponent implements OnInit, OnDestroy {
 
       },
       error: (error) => {
-        this._utils.message(error, 'error')
         this.loadingPageData = false;
         this.pageData.rawContent = '';
         this.pageNotFound = true;
+
+        if (typeof error === 'string') {
+          this._utils.message(error, 'error');
+        } else if (error && Object.prototype.hasOwnProperty.call(error, 'message')) {
+          this._utils.message(error.message, 'error');
+        }
+        console.error('loadPageData', error);
       }
     });
 
@@ -614,7 +630,12 @@ export class EditComponent implements OnInit, OnDestroy {
         
       },
       error: (error) => {
-        this._utils.message(`${error}`, 'error');
+        if (typeof error === 'string') {
+          this._utils.message(error, 'error');
+        } else if (error && Object.prototype.hasOwnProperty.call(error, 'message')) {
+          this._utils.message(error.message, 'error');
+        }
+        console.error('compare', error);
       }
     });
   }
@@ -667,7 +688,12 @@ export class EditComponent implements OnInit, OnDestroy {
 
         },
         error: (error) => {
-          this._utils.message(error, 'error');
+          if (typeof error === 'string') {
+            this._utils.message(error, 'error');
+          } else if (error && Object.prototype.hasOwnProperty.call(error, 'message')) {
+            this._utils.message(error.message, 'error');
+          }
+          console.error('_loadCategories', error);
         }
       })
 

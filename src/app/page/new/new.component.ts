@@ -220,8 +220,14 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
         }, 20000);
       },
       error: (error) => {
-        this._utils.message(`${error}`, 'error');
         this.disableForm(false);
+        if (typeof error === 'string') {
+          this._utils.message(error, 'error');
+        } else if (error && Object.prototype.hasOwnProperty.call(error, 'message')) {
+          this._utils.message(error.message, 'error');
+        }
+        console.error('onSubmit', error);
+
       }
     });
   	
@@ -289,9 +295,15 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
           this.slug!.enable();
         },
         error: (error) => {
-          this._utils.message(error, 'error');
           this.slug!.setValue('');
           this.slug!.enable();
+
+          if (typeof error === 'string') {
+            this._utils.message(error, 'error');
+          } else if (error && Object.prototype.hasOwnProperty.call(error, 'message')) {
+            this._utils.message(error.message, 'error');
+          }
+          console.error('verifySlug', error);
         }
       });
   }
@@ -527,7 +539,12 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
     
         },
         error: (error) => {
-          this._utils.message(error, 'error');
+          if (typeof error === 'string') {
+            this._utils.message(error, 'error');
+          } else if (error && Object.prototype.hasOwnProperty.call(error, 'message')) {
+            this._utils.message(error.message, 'error');
+          }
+          console.error('loadLangsCombo', error);
         }
       });
   }
@@ -551,7 +568,12 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
 
       },
       error: (error) => {
-        this._utils.message(error, 'error');
+        if (typeof error === 'string') {
+          this._utils.message(error, 'error');
+        } else if (error && Object.prototype.hasOwnProperty.call(error, 'message')) {
+          this._utils.message(error.message, 'error');
+        }
+        console.error('loadCategories', error);
       }
     })
 
