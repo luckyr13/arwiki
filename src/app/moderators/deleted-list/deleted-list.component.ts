@@ -225,15 +225,30 @@ export class DeletedListComponent implements OnInit, OnDestroy {
         return of(null);
       })
     ).subscribe({
-      next: (tx) => {
+      next: (res) => {
+        let tx = '';
+        if (res && Object.prototype.hasOwnProperty.call(res, 'originalTxId')) {
+          tx = res.originalTxId;
+        } else if (res && Object.prototype.hasOwnProperty.call(res, 'bundlrResponse') &&
+          res.bundlrResponse && Object.prototype.hasOwnProperty.call(res.bundlrResponse, 'id')) {
+          tx = res.bundlrResponse.id;
+        }
         if (tx) {
           this.updatePageTxMessage = `${tx}`;
           this._utils.message('Success!', 'success');
         }
+
       },
       error: (error) => {
-        this.updatePageTxErrorMessage = `${error}`;
-        this._utils.message(`${error}`, 'error');
+        this.updatePageTxErrorMessage = `Error!`;
+        if (typeof error === 'string') {
+          this._utils.message(error, 'error');
+          this.updatePageTxErrorMessage = `${error}`;
+        } else if (error && Object.prototype.hasOwnProperty.call(error, 'message')) {
+          this._utils.message(error.message, 'error');
+          this.updatePageTxErrorMessage = `${error.message}`;
+        }
+        console.error('confirmReactivateArWikiPage', error);
       }
     });
   }
