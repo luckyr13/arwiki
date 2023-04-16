@@ -11,7 +11,6 @@ ArWiki is an Arweave dapp, a web3 website that lives on the permaweb.
 You can visit the ArWiki using the next links: 
 
 - ArWiki: https://arwiki.wiki
-- Arwiki (GitHub pages demo): http://luckyr13.github.io/arwiki
 - ArWiki: https://arwiki.arweave.dev
 - ArWiki: https://arwiki.g8way.io
 
