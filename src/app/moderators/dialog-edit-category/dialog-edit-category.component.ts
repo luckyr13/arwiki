@@ -216,12 +216,6 @@ export class DialogEditCategoryComponent implements OnInit, OnDestroy {
 
   }
 
-  transformSlug(slug: string) {
-    let newSlug = slug.trim().toLowerCase();
-    newSlug = newSlug.replace(/ /gi, '_');
-    this.slug.setValue(newSlug);
-  }
-
   initFormValues(category: ArwikiCategory) {
     this.slug.disable();
     this.slug.setValue(category.slug);
