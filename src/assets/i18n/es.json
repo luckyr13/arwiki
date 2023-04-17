@@ -3,24 +3,7 @@
 		"SECONDARY_TITLE": "¡Bienvenido a la permaweb!"
 	},
 	"MAIN_MENU": {
-		"HOME": "Página principal",
-		"ABOUT": "Acerca de",
-		"the_arweave_project": "El Proyecto Arweave",
-		"the_arweave_protocol": "El Protocolo Arweave",
-		"profit_sharing": "Reparto de utilidades",
-		"mining": "Minería",
-		"building_on_arweave": "Construyendo sobre Arweave",
-		"resources": "Recursos",
-		"users": "Users",
-		"wallets": "Wallets",
-		"builders": "Builders",
-		"devtools": "DevTools",
-		"8pin_tutorial": "8Pin Tutorial",
-		"creating_a_dapp": "Creating a dApp",
-		"arweave_protocol": "Arweave protocol",
-		"mining_mechanism": "Mining Mechanism",
-		"packages_and_apis": "Packages & APIs",
-		"builders_tutorials": "Tutorials"
+		"HOME": "Página principal"
 	},
 	"MAIN_TOOLBAR": {
 		"TOOLTIP_LOGIN": "Iniciar sesión",

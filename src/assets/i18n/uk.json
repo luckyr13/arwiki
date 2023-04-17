@@ -3,24 +3,7 @@
 		"SECONDARY_TITLE": "Ласкаво просимо до permaweb!"
 	},
 	"MAIN_MENU": {
-		"HOME": "Додому",
-		"ABOUT": "Про",
-		"the_arweave_project": "Проект Arweave",
-		"the_arweave_protocol": "Протокол Arweave",
-		"profit_sharing": "Участь у прибутках",
-		"mining": "Майнінг",
-		"building_on_arweave": "Створення на Arweave",
-		"resources": "Ресурси",
-		"users": "Users",
-		"wallets": "Wallets",
-		"builders": "Builders",
-		"devtools": "DevTools",
-		"8pin_tutorial": "8Pin Tutorial",
-		"creating_a_dapp": "Creating a dApp",
-		"arweave_protocol": "Arweave protocol",
-		"mining_mechanism": "Mining Mechanism",
-		"packages_and_apis": "Packages & APIs",
-		"builders_tutorials": "Tutorials"
+		"HOME": "Додому"
 	},
 	"MAIN_TOOLBAR": {
 		"TOOLTIP_LOGIN": "Логін",
