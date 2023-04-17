@@ -6,6 +6,7 @@ import { ArwikiPageIndex } from '../interfaces/arwiki-page-index';
 import { ArweaveService } from '../arweave.service';
 import { UtilsService } from '../utils.service';
 import { ArwikiPage } from '../interfaces/arwiki-page';
+import { JWKInterface } from 'arweave/web/lib/wallet';
 
 @Injectable({
   providedIn: 'root'
@@ -321,6 +322,39 @@ export class ArwikiPagesService {
         }
         return null;
       })
+    );
+  }
+
+  updatePageProperties(
+    _slug: string,
+    _order: number,
+    _nft: string,
+    _showInMenu: boolean,
+    _showInMainPage: boolean,
+    _showInFooter: boolean,
+    _languageCode: string,
+    _privateKey: JWKInterface|'use_wallet',
+    _arwikiVersion: string
+  ) {
+    const jwk = _privateKey;
+    const tags = [
+      {name: 'Service', value: 'ArWiki'},
+      {name: 'Arwiki-Type', value: 'UpdatePageProperties'},
+      {name: 'Arwiki-Version', value: _arwikiVersion},
+    ];
+    const input = {
+      function: 'updatePageProperties',
+      langCode: _languageCode,
+      slug: _slug,
+      order: _order,
+      nft: _nft,
+      showInMenu: _showInMenu,
+      showInMainPage: _showInMainPage,
+      showInFooter: _showInFooter
+    };
+    
+    return this._warp.writeInteraction(
+      this._arwikiToken.contractAddress, jwk, input, tags
     );
   }
 

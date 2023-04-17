@@ -1,0 +1,123 @@
+<h2 mat-dialog-title>
+	Edit Page Properties
+</h2>
+<mat-progress-bar 
+	color="accent"
+	mode="indeterminate"
+	*ngIf="loadingSubmit"
+	class="fadeIn"></mat-progress-bar>
+<form
+	[formGroup]="editPagePropertiesForm"
+	(ngSubmit)="onSubmit()">
+	<mat-dialog-content>
+		<div *ngIf="!tx && !error">
+			<mat-form-field 
+				class="w100" 
+				appearance="outline"
+				color="accent">
+				<mat-label>
+					Slug
+				</mat-label>
+				<input
+					matInput
+					autocomplete="off"
+					formControlName="slug" required>
+				<mat-error ></mat-error>
+			</mat-form-field>
+
+			<mat-form-field 
+				class="w100" 
+				appearance="outline"
+				color="accent">
+				<mat-label>
+					Language
+				</mat-label>
+				<input
+					matInput
+					[maxlength]="maxLengthLangCode"
+					autocomplete="off"
+					formControlName="languageCode" required>
+				<mat-error ></mat-error>
+			</mat-form-field>
+
+			<mat-form-field 
+				class="w100" 
+				appearance="outline"
+				color="accent">
+				<mat-label>
+					Order
+				</mat-label>
+				<input
+					matInput
+					min="0"
+					max="999999999999"
+					type="number"
+					autocomplete="off"
+					formControlName="order" required>
+				<mat-error ></mat-error>
+			</mat-form-field>
+
+			<mat-form-field 
+				class="w100" 
+				appearance="outline"
+				color="accent">
+				<mat-label>
+					NFT
+				</mat-label>
+				<input
+					matInput
+					autocomplete="off"
+					[maxlength]="maxLengthArweaveAddress"
+					[minlength]="maxLengthArweaveAddress"
+					formControlName="nft">
+				<button 
+					type="button"
+					mat-icon-button matSuffix [attr.aria-label]="'Generate NFT'">
+		      <mat-icon>add_circle</mat-icon>
+		    </button>
+				<mat-error ></mat-error>
+			</mat-form-field>
+
+			<div class="text-right">
+				<mat-slide-toggle formControlName="showInMenu">
+					showInMenu
+				</mat-slide-toggle>
+				<mat-slide-toggle 
+					class="left-margin-slide"
+					formControlName="showInMainPage">
+					showInMainPage
+				</mat-slide-toggle>
+				<mat-slide-toggle
+					class="left-margin-slide"
+					formControlName="showInFooter">
+					showInFooter
+				</mat-slide-toggle>
+			</div>
+			
+		</div>
+		<div>
+		</div>
+		<div *ngIf="tx">
+			Category updated. TX ID: {{ tx }}
+		</div>
+		<div *ngIf="error">
+			Error: {{ error }}
+		</div>
+	</mat-dialog-content>
+	<mat-dialog-actions>
+	  <button
+	  	color="accent" 
+	  	mat-flat-button
+	  	*ngIf="!tx && !error"
+	  	[disabled]="!editPagePropertiesForm.valid || loadingSubmit">
+	  	{{ 'DIALOGS.TXT_SUBMIT' | translate }}
+	  </button>
+	  <div class="menu-spacer"></div>
+	  <button 
+	  	mat-button
+	  	[mat-dialog-close]="tx"
+	  	[disabled]="loadingSubmit">
+	  	{{ 'DIALOGS.TXT_CLOSE' | translate }}
+	  </button>
+	</mat-dialog-actions>
+</form>

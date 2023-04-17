@@ -16,6 +16,9 @@ import { Subscription, of, Observable, switchMap } from 'rxjs';
 import ArdbTransaction from 'ardb/lib/models/transaction';
 import ArdbBlock from 'ardb/lib/models/block';
 import { UtilsService } from '../../core/utils.service';
+import {
+  DialogEditPagePropertiesComponent 
+} from '../dialog-edit-page-properties/dialog-edit-page-properties.component';
 
 @Component({
   selector: 'app-pages',
@@ -57,16 +60,19 @@ export class PagesComponent implements OnInit, OnDestroy {
     this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
     this.routeLang = this._route.snapshot.paramMap.get('lang')!;
     this.category_slug = this._route.snapshot.paramMap.get('slug')!;
-    
-    this._loadContent();
+    const reload = true;
+    this._loadContent(reload);
   }
 
-  private _loadContent() {
+  private _loadContent(reload: boolean) {
     this.loading = true;
+    this.pages = [];
+    this.categories = {};
     
     this.pagesSubscription = this.getPagesByCategory(
       this.category_slug,
-      this.routeLang
+      this.routeLang,
+      reload
     ).subscribe({
       next: (finalRes: ArwikiPage[]) => {
         this.pages = finalRes;
@@ -88,12 +94,16 @@ export class PagesComponent implements OnInit, OnDestroy {
   */
   getPagesByCategory(
     _category: string,
-    _langCode: string
+    _langCode: string,
+    _reloadPages: boolean
   ): Observable<ArwikiPage[]> {
     let verifiedPages: string[] = [];
     let allApprovedPages: ArwikiPageIndex = {};
-    return this._arwikiCategories.getCategories(_langCode)
-      .pipe(
+    const onlyActiveCategories = false;
+    return this._arwikiCategories.getCategories(
+      _langCode,
+      onlyActiveCategories
+    ).pipe(
         switchMap((categoriesContractState) => {
           this.categories = categoriesContractState;
 
@@ -104,7 +114,8 @@ export class PagesComponent implements OnInit, OnDestroy {
 
           return this._arwikiPages.getApprovedPages(
             _langCode,
-            -1
+            -1,
+            _reloadPages
           );
         }),
         switchMap((_approvedPages: ArwikiPageIndex) => {
@@ -160,6 +171,33 @@ export class PagesComponent implements OnInit, OnDestroy {
 
 
       );
+  }
+
+  openEditPagePropertiesModal(slug: string, langCode: string) {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+    const page = this.pages.find((p) => {
+      return p.slug === slug;
+    });
+
+    const dialogRef = this._dialog.open(DialogEditPagePropertiesComponent, {
+      width: '650px',
+      data: {
+        langCode: langCode,
+        page: page
+      },
+      direction: direction,
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe((tx: string) => {
+      if (tx) {
+        // Reload
+        const reload = true;
+        this._loadContent(reload);
+      }
+    });
   }
 
 }
