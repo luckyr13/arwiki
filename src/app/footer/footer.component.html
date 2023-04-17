@@ -25,25 +25,13 @@
 	</div>
 	<div class="text-right app-info row">
 		<div class="footer-links col-12 col-md-10 text-left">
-			<!--
-			<ul>
-				<li>
-					<a routerLink="{{ routerLang }}/info/privacy-policy">
-						Privacy Policy
-					</a>
-				</li>
-				<li>
-					<a routerLink="{{ routerLang }}/info/cookies-policy">
-						Cookie Policy
-					</a>
-				</li>
-				<li>
-					<a routerLink="{{ routerLang }}/settings/privacy">
-						Privacy Settings
+			<ul *ngIf="footerLinks && footerLinks.length">
+				<li *ngFor="let fl of footerLinks">
+					<a [routerLink]="fl.url">
+						{{ fl.label }}
 					</a>
 				</li>
 			</ul>
-			-->
 		</div>
 		<div class="app-version col-12 col-md-2 text-right">
 			ArWiki v{{ arwikiV }}
