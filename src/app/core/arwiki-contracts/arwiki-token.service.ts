@@ -13,22 +13,8 @@ export class ArwikiTokenContract
 {
   // Old Contract (ArWiki v1)
   // private _contractAddress: string = 'ewepANKEVffP0cm_XKjwTYhSBqaiQrJbVrCcBiWqw-s';
-  
-  // New contract demo (ArWiki v2)
-  // Single level
-  // private _contractAddress = 'JGrP0IV4aVOAx1lgozOjQhZkUVv8-y1xfUcCR9ra8QQ';
-  // APRIL-06-2023
-  // private _contractAddress = 'PSegUIrh8ZSaFbQ-SZp4XHcnFhRkWknZjU4CDZzSjCs';
+  // Contract address comes from core/user-settings.service
   private _contractAddress = '';
-
-  // One holder
-  // private _contractAddress = '2nZIuLR0g9EqhDm7M-5Si0QeJfhL07oYLlkrHTVvHQE';
-  // private _contractAddress = '0e6vq_6cJIgU6LYeegGUC0EYXUqQNEJv2aYnn_CLzDM';
-
-  // Multi level
-  // private _contractAddress = 'aYnwKbqL603IKdP-Ba_kG73K7EeURTeF1jUoz4YJqxA';
-  // private _contractAddress = 'EfCrM1eH5K4Qfy5yudfI9gnGCrmwRFhQppKGExGtlRY';
-
   private _state: any|null = null;
 
 	get contractAddress() {
