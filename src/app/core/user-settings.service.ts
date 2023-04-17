@@ -98,6 +98,8 @@ export class UserSettingsService {
     this._scrollTopSource.next(_scroll);
   }
 
+  private _cookiesAccepted = false;
+
   constructor(
     private _translate: TranslateService
    ) {
@@ -108,6 +110,7 @@ export class UserSettingsService {
     const dtheme = window.localStorage.getItem('defaultTheme');
     const dlang = JSON.parse(window.localStorage.getItem('defaultLang'));
     const dnetwork = JSON.parse(window.localStorage.getItem('defaultNetwork'));
+    const dcookiesAccepted = JSON.parse(window.localStorage.getItem('cookiesAccepted'));
 
     // Default settings
     if (dtheme) {
@@ -121,6 +124,9 @@ export class UserSettingsService {
     if (dnetwork && dnetwork.host) {
       this.setDefaultNetwork(dnetwork);
     }
+    if (dcookiesAccepted) {
+      this.setCookiesAccepted(dcookiesAccepted);
+    }
   }
 
   getDefaultTheme(): string {
@@ -133,6 +139,10 @@ export class UserSettingsService {
 
   getDefaultNetwork(): ArweaveGateway {
     return this._defaultNetwork;
+  }
+
+  getCookiesAccepted(): boolean {
+    return this._cookiesAccepted;
   }
 
   setDefaultTheme(_theme: string) {
@@ -164,6 +174,13 @@ export class UserSettingsService {
       this._translate.use(this._defaultLang.code);
       this.updateSettingsLangObservable(this._defaultLang);
   	}
+  }
+
+  setCookiesAccepted(_cookiesAccepted: boolean) {
+    if (_cookiesAccepted) {
+      this._cookiesAccepted = _cookiesAccepted;
+      window.localStorage.setItem('cookiesAccepted', this._cookiesAccepted);
+    }
   }
 
   resetUserSettings() {

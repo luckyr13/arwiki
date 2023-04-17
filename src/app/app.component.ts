@@ -20,6 +20,8 @@ import {
 } from './shared/dialog-confirm/dialog-confirm.component';
 import { UtilsService } from './core/utils.service';
 declare const window: any;
+import { DialogCookiesMsgComponent } from './shared/dialog-cookies-msg/dialog-cookies-msg.component';
+import { Direction } from '@angular/cdk/bidi';
 
 @Component({
   selector: 'app-root',
@@ -127,8 +129,11 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
       this.mainToolbarIsVisible = res;
     })
 
-
-
+    window.setTimeout(() => {
+      if (!this._userSettings.getCookiesAccepted()) {
+        this.displayCookiesMessage();
+      }
+    }, 1200);
   }
 
   getRandomInt(max: number) {
@@ -173,6 +178,10 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
     content: string,
     title: string
   ) {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
     const dialogRef = this._dialog.open(DialogConfirmComponent, {
       data: {
         title: title,
@@ -180,6 +189,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
       },
       disableClose: true,
       width: '400px',
+      direction: direction
     });
     dialogRef.afterClosed().subscribe(async result => {
       if (result) {
@@ -252,7 +262,30 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
   }
   */
 
-  
+  displayCookiesMessage() {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
+    let dialogRef = this._dialog.open(DialogCookiesMsgComponent, {
+      hasBackdrop: false,
+      position: { bottom: '0px' },
+      direction: direction,
+      autoFocus: false,
+      disableClose: true,
+      closeOnNavigation: false
+    });
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'accept') {
+
+      } else if (result === 'learn-more') {
+
+      }
+    });
+
+  }
 
 
     

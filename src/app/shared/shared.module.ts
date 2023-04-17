@@ -54,6 +54,7 @@ import { ChartComponent } from './chart/chart.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { SafeImageContainerComponent } from './safe-image-container/safe-image-container.component';
 import { DialogLoadFromTxComponent } from './dialog-load-from-tx/dialog-load-from-tx.component';
+import { DialogCookiesMsgComponent } from './dialog-cookies-msg/dialog-cookies-msg.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,8 @@ import { DialogLoadFromTxComponent } from './dialog-load-from-tx/dialog-load-fro
     DialogStampComponent,
     ChartComponent,
     SafeImageContainerComponent,
-    DialogLoadFromTxComponent
+    DialogLoadFromTxComponent,
+    DialogCookiesMsgComponent
   ],
   imports: [
     CommonModule,
