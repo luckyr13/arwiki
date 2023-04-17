@@ -1,5 +1,16 @@
 # ArWiki versions
 
+## 2.0.3
+- Sitemap (Updated)
+- Moderators > Categories > Add/Update Category (Updated)
+- Fix bug in menu
+- Update Add/Edit page preview image actions
+- Moderators > Categories > Pages > Add Edit Properties (Updated)
+- Moderators > Page Updates > Show differences (Updated)
+- Load footer links from contract
+- Update Main Smartweave contract (add updatePageProperties)
+- Add Cookies banner
+
 ## 2.0.2
 - Settings > Network: Add Configure Gateway
 - /core/arwiki-contracts services (Refactored)
