@@ -122,7 +122,7 @@
 	</div>
 </div>
 
-<div class="fadeIn container-partners" [class.dark]="this.defaultTheme === 'arwiki-dark'">
+<div class="fadeIn container-partners" [class.dark]="this.defaultTheme === 'arwiki-dark'" *ngIf="partners && partners.length">
 	<h2 class="text-center">{{ 'FOOTER.LBL_PARTNERS' | translate }}</h2>
 	<div class="container">
 		<div class="row justify-content-center">

@@ -45,18 +45,9 @@ export class MainPageComponent implements OnInit, OnDestroy {
   loadingMainPageTX: boolean = false;
   mainLogo: string = '';
   partners: any[] = [
+    /*
     { img: './assets/img/partners/arweaveAppBalancedHGrayF.png', alt: 'Arweave.app', href:'https://arweave.app' },
-    { img: './assets/img/partners/arconnectGray2.png', alt: 'ArConnect', href:'https://arconnect.io' },
-    { img: './assets/img/partners/warpGray.png', alt: 'Warp Contracts', href:'https://warp.cc' },
-    { img: './assets/img/partners/arIOGray.png', alt: 'Ar.io', href:'https://ar.io' },
-    { img: './assets/img/partners/permaDAOGray.png', alt: 'PermaDAO', href:'https://permadao.com' },
-    { img: './assets/img/partners/spheronGray.png', alt: 'Spheron', href:'https://spheron.network' },
-    { img: './assets/img/partners/communityLogoGray.png', alt: 'Community.XYZ', href:'https://community.xyz' },
-
-    { img: './assets/img/partners/pn-1kx.png', alt: '1kx', href:'' },
-    { img: './assets/img/partners/pn-a16z.png', alt: 'a16z', href:'' },
-    { img: './assets/img/partners/pn-usv.png', alt: 'USV', href:'' },
-    { img: './assets/img/partners/pn-coinbase.png', alt: 'Coinbase', href:'' },
+    */
   ];
   numLatestArticles = 4;
   incrementNumLatestArticles = 4;
