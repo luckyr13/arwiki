@@ -1,7 +1,7 @@
 <div mat-dialog-content>
-	<p><mat-icon class="cookie-size">cookie</mat-icon> This website uses cookies and similar technologies to enhance your user experience.</p></div>
+	<p><mat-icon class="cookie-size">cookie</mat-icon> {{  'COOKIES_CONSENT.MSG' | translate }}</p></div>
 <div mat-dialog-actions align="end">
-  <button mat-flat-button color="primary" (click)="acceptCookies()">Accept</button>
+  <button mat-flat-button color="primary" (click)="acceptCookies()">{{  'COOKIES_CONSENT.ACCEPT' | translate }}</button>
   &nbsp;
-  <button mat-flat-button color="primary" (click)="learnMore()">Learn More</button>
+  <button mat-flat-button color="primary" (click)="learnMore()">{{  'COOKIES_CONSENT.LEARN_MORE' | translate }}</button>
 </div>

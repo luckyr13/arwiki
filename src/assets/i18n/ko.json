@@ -341,20 +341,15 @@
 		"TITLE": "Votes",
 		"BTN_NEW_VOTE": "New vote"
 	},
-	"INFO": {
-		"PRIVACY_POLICY": {
-			"BREADCRUMB": "Privacy Policy",
-			"MAIN_TITLE": "Privacy Policy"
-		},
-		"COOKIES_POLICY": {
-			"BREADCRUMB": "Cookie Policy",
-			"MAIN_TITLE": "Cookie Policy"
-		}
-	},
 	"SETTINGS": {
 		"TITLE": "Settings",
 		"APP_INFO": "App info",
 		"NETWORK": "Network",
 		"PRIVACY": "Privacy Settings"
+	},
+	"COOKIES_CONSENT": {
+		"MSG": "This website uses cookies and similar technologies to enhance your user experience.",
+		"ACCEPT": "Accept",
+		"LEARN_MORE": "Learn more"
 	}
 }
