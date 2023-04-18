@@ -36,7 +36,7 @@ ArWiki Smartweave contracts source code.
 
 ## List of changes
 
-Please read our [CHANGELOG](https://github.com/luckyr13/arwiki/CHANGELOG.md) file for more information about changes in our platform.
+Please read our [CHANGELOG](https://github.com/luckyr13/arwiki/blob/master/CHANGELOG.md) file for more information about changes in our platform.
 
 ## Feedback, comments and help
 
