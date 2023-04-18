@@ -78,7 +78,22 @@ Contributors:
 
 [Ethan Lee](https://twitter.com/eungholee27)
 
+
 - Ukrainian ArWiki: https://arwiki.wiki/#/uk/main
+
+Contributors:
+
+[v1def](https://github.com/v1def)
+
+[Miguelito and Tetiana](https://youtube.com/cryptotv666)
+
+
+- Hungarian ArWiki: https://arwiki.wiki/#/hu/main
+
+Contributors:
+
+[martonlederer](https://github.com/martonlederer)
+
 
 - Spanish ArWiki: https://arwiki.wiki/#/es/main
 
