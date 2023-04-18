@@ -21,13 +21,22 @@ ArWiki Smartweave contracts source code.
 
 - Github: https://github.com/luckyr13/arwiki-contracts
 
-## ArWiki PST Contract
+## ArWiki V2
+
+- Arweave Contract Address: `hKg-xAisBqGb5F3Zs1opv9TsvMQpO24jJWxhFUrUvm8`
+- ArWiki V2: https://arwiki.wiki
+
+## ArWiki V1
 
 - Arweave Contract Address: `ewepANKEVffP0cm_XKjwTYhSBqaiQrJbVrCcBiWqw-s`
 - ArWiki V1: https://v1.arwiki.wiki
 - ArWiki V1: https://arweave.net/3grbkF0_puAQbeWaUF6SZrXn1qrhp2EpW1vkWNWvGqc
 - ArCode: https://arcode.studio/#/ewepANKEVffP0cm_XKjwTYhSBqaiQrJbVrCcBiWqw-s
 - SonAr: https://sonar.warp.cc/#/app/contract/ewepANKEVffP0cm_XKjwTYhSBqaiQrJbVrCcBiWqw-s
+
+## List of changes
+
+Please read our [CHANGELOG](https://github.com/luckyr13/arwiki/CHANGELOG.md) file for more information about changes in our platform.
 
 ## Feedback, comments and help
 

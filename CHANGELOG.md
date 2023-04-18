@@ -1,7 +1,7 @@
 # ArWiki versions
 
 ## 2.0.4
-- Backup (2023-04-18):
+- Backup (2023-04-18): https://arweave.net/v7YFnLheVcFQQWW047afqMqsUymst-9LA5OKMIRtFwU
 - Contract: `hKg-xAisBqGb5F3Zs1opv9TsvMQpO24jJWxhFUrUvm8`
 - Remove Partners in footer (for neutrality)
 - Translate Cookies Consent banner
