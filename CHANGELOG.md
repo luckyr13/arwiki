@@ -1,7 +1,15 @@
 # ArWiki versions
 
+## 2.0.4
+- Backup (2023-04-18):
+- Contract: `hKg-xAisBqGb5F3Zs1opv9TsvMQpO24jJWxhFUrUvm8`
+- Remove Partners in footer (for neutrality)
+- Translate Cookies Consent banner
+- Fix approvePageUpdate bug in contract
+
 ## 2.0.3
 - Backup (2023-04-17): https://arweave.net/Tz8E4vxVT0IF56TDTjF9IjB3NZz4ClURNTWjImCB2ws
+- Contract (Testing): `sPAX2ZKAT930en0pJxDSL8KgomNFWqD-CpCOVuYkHYU`
 - Sitemap (Updated)
 - Moderators > Categories > Add/Update Category (Updated)
 - Fix bug in menu
@@ -37,6 +45,7 @@
 
 ## 1.9.4
 - Backup (2023-03-01): https://arweave.net/3grbkF0_puAQbeWaUF6SZrXn1qrhp2EpW1vkWNWvGqc
+- Contract: `ewepANKEVffP0cm_XKjwTYhSBqaiQrJbVrCcBiWqw-s`
 - Login by keyfile removed
 - Fixed login methods: arweave.app and ArConnect
 
