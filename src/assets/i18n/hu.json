@@ -323,7 +323,10 @@
 		"LABEL_TOTAL_SUPPLY": "Teljes pénzmennyiség",
 		"LABEL_PST_ADDRESS": "PST Contract Cím",
 		"COLUMN_LABEL": "Címke",
-		"COLUMN_VALUE": "Érték"
+		"COLUMN_VALUE": "Érték",
+		"COMMUNITY_MEMBERS": "Community Members",
+		"PST_INFO": "PST Info",
+		"MODERATORS_TITLE": "Moderátorok"
 	},
 	"TOKEN_TRANSFER_DIALOG": {
 		"TITLE": "{{ ticker }} Token Átutalása",

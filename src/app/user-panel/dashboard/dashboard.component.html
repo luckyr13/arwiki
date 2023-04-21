@@ -83,6 +83,7 @@
 			  			<app-arweave-address
 			  				[isAddress]="false"
 			  				[showArCodeLink]="true"
+		  					[showSonArContractLink]="true"
 			  				[address]="getPSTContractAddress()">Contract: </app-arweave-address>
 			  		</li>
 			  	</ul>
@@ -120,7 +121,8 @@
 	<div class="row">
 		<div class="col-12">
 			<mat-tab-group color="accent">
-			  <mat-tab label="Community Members">
+			  <mat-tab
+			  	label="{{ 'DASHBOARD.COMMUNITY_MEMBERS' | translate }}">
 			  	<ng-template matTabContent>
 			  		<app-community-members
 			  			*ngIf="allBalances && allBalances.length"
@@ -128,9 +130,16 @@
 			  			[balances]="allBalances"></app-community-members>
 			  	</ng-template>
 			  </mat-tab>
-			  <mat-tab label="PST Info">
+			  <mat-tab
+			  	label="{{ 'DASHBOARD.PST_INFO' | translate }}">
 			  	<ng-template matTabContent>
 			  		<app-pst-info></app-pst-info>
+			  	</ng-template>
+			  </mat-tab>
+			  <mat-tab
+			  	label="{{ 'DASHBOARD.MODERATORS_TITLE' | translate }}">
+			  	<ng-template matTabContent>
+			  		<app-moderators-list></app-moderators-list>
 			  	</ng-template>
 			  </mat-tab>
 			</mat-tab-group>

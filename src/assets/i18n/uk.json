@@ -322,7 +322,10 @@
 		"LABEL_TOTAL_SUPPLY": "Загальна пропозиція",
 		"LABEL_PST_ADDRESS": "Адреса контракту PST",
 		"COLUMN_LABEL": "Мітка",
-		"COLUMN_VALUE": "Значення"
+		"COLUMN_VALUE": "Значення",
+		"COMMUNITY_MEMBERS": "Community Members",
+		"PST_INFO": "PST Info",
+		"MODERATORS_TITLE": "Модератори"
 	},
 	"TOKEN_TRANSFER_DIALOG": {
 		"TITLE": "Передача токенів {{ ticker }}",

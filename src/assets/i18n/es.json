@@ -323,7 +323,10 @@
 		"LABEL_TOTAL_SUPPLY": "Suministro Total",
 		"LABEL_PST_ADDRESS": "Dirección del Contrato PST",
 		"COLUMN_LABEL": "Etiqueta",
-		"COLUMN_VALUE": "Valor"
+		"COLUMN_VALUE": "Valor",
+		"COMMUNITY_MEMBERS": "Miembros de la comunidad",
+		"PST_INFO": "Información del PST",
+		"MODERATORS_TITLE": "Moderadores"
 	},
 	"TOKEN_TRANSFER_DIALOG": {
 		"TITLE": "Transferencia de token {{ ticker }}",

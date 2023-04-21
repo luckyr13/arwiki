@@ -1,0 +1,9 @@
+<div class="container page-container fadeIn">
+	<div class="row fadeIn">
+		<mat-list class="col-12">
+		  <mat-list-item *ngFor="let admin of adminList">
+		  	<app-arweave-address [address]="admin" [lang]="routerLang"></app-arweave-address>
+		  </mat-list-item>
+		</mat-list>
+	</div>
+</div>

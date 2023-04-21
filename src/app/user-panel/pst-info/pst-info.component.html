@@ -1,29 +1,19 @@
 <div class="container">
 	<div class="row">
-		<div class="col-12 mini-text mb20">
+		<div class="col-12 mb20">
 			<mat-card>
-				<div class="addressurl">
-					<div class="card-row-container  text-center">
-						<span class="ellipsis text-center ">
-							<strong>Visit Community: </strong>
-							<a 
-								href="https://community.xyz/#{{ getPSTContractAddress() }}"
-								target="_blank">https://community.xyz/#{{ getPSTContractAddress() }}</a>
-						</span>
-					</div>
-				</div>
 
 				<app-arweave-address 
 					class="addressurl" 
 					[isAddress]="false"
 		  		[showArCodeLink]="true"
+		  		[showSonArContractLink]="true"
 					address="{{ getPSTContractAddress() }}">
 					{{ 'DASHBOARD.LABEL_PST_ADDRESS' | translate }}
 				</app-arweave-address>
 				
 			</mat-card>
 		</div>
-
 		<div class="col-12 mini-text mb20">
 			<table mat-table [dataSource]="daoSettings" class="mat-elevation-z8 settings-table">
 			  <!--- Note that these columns can be defined in any order.

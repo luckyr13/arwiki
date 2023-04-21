@@ -323,7 +323,10 @@
 		"LABEL_TOTAL_SUPPLY": "Total supply",
 		"LABEL_PST_ADDRESS": "PST Contract Address",
 		"COLUMN_LABEL": "Label",
-		"COLUMN_VALUE": "Value"
+		"COLUMN_VALUE": "Value",
+		"COMMUNITY_MEMBERS": "Community Members",
+		"PST_INFO": "PST Info",
+		"MODERATORS_TITLE": "版主"
 	},
 	"TOKEN_TRANSFER_DIALOG": {
 		"TITLE": "{{ ticker }} Token Transfer",
