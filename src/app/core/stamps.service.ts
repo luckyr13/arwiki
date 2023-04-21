@@ -1,51 +1,41 @@
 import { Injectable } from '@angular/core';
-import { StampsState } from './interfaces/stamps-state';
-import { Observable, from, catchError, of, tap } from 'rxjs';
-import { HttpClient, HttpHeaders} from '@angular/common/http';
+import Stamps, { StampJS, CountResult } from '@permaweb/stampjs';
+import { Warp } from 'warp-contracts';
+import { from, Observable } from 'rxjs';
 
 /*
 *  Stamps Protocol service
-*  Based on: https://arweave.net/MSqnfUogtkqDpTQYQDKIqAS4eMOhp8DfxUW-Hgs5TL0
+*  Based on: 
+*    https://protocol_stamps.arweave.dev/
+*    https://github.com/twilson63/stamp-protocol/tree/main/packages/stampjs
 */
 
 @Injectable({
   providedIn: 'root'
 })
 export class StampsService {
-  public readonly STAMPCOIN = 'aSMILD7cEJr93i7TAVzzMjtci_sGkXcWnqpDkG6UGcA'
-  public readonly CACHE = `https://cache.permapages.app/${this.STAMPCOIN}`;
-  private _state: StampsState|null = null;
+  stamps: StampJS|null = null;
 
-  constructor(private _http: HttpClient) { }
+  constructor() { }
 
-  public getState(): Observable<StampsState|null> {
-    return this._http.get<StampsState>(this.CACHE).pipe(
-        tap((state: StampsState)=> {
-          if (state) {
-            this._state = state;
-          }
-        }),
-        catchError((error) => {
-          /*
-           warp.contract(STAMPCOIN)
-          .setEvaluationOptions({
-            allowUnsafeClient: true
-          })
-          .readState()
-          */
-          console.error('getState', error);
-          return of(null);
-        })
-      );
+  init(warp: Warp) {
+    // initialize - passing a warp instance
+    this.stamps = Stamps.init({warp});
   }
 
-  public getStampCount(txId: string) {
-    if (!this._state) {
-      return 0;
-    }
-    const stamps = Object.values(this._state.stamps).filter(s => s.asset === txId);
-    return stamps.length;
+  stamp(tx: string, qty: number, tags: {name: string, value:string}[]): Observable<any> {
+    return from(this.stamps!.stamp(tx, qty, tags));
   }
 
+  count(tx: string): Observable<CountResult> {
+    return from(this.stamps!.count(tx));
+  }
 
+  counts(assets: string[]): Observable<CountResult[]> {
+    return from(this.stamps!.counts(assets));
+  }
+
+  balance(address: string): Observable<number> {
+    return from(this.stamps!.balance(address));
+  }
 }
