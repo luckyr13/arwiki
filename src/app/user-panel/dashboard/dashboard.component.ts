@@ -161,8 +161,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.vault = Object.prototype.hasOwnProperty.call(res.vault, this.mainAddress) ?
              res.vault[this.mainAddress] : [];
 
-          this.allBalances = Object.values(this.getTotalBalances(res));
-
+          const tmpAllBalances = Object.values(this.getTotalBalances(res));
+          tmpAllBalances.sort((a, b) => {
+            return b.totalBalance - a.totalBalance;
+          });
+          this.allBalances = tmpAllBalances;
           this.loadingAllBalances = false;
         },
         error: (error) => {
