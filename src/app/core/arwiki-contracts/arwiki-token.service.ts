@@ -5,7 +5,7 @@ import { map, tap } from 'rxjs/operators';
 import { JWKInterface } from 'arweave/node/lib/wallet';
 import { WarpContractsService } from '../warp-contracts.service';
 import { UtilsService } from '../utils.service';
-import { arwikiVersion, serviceName } from './arwiki';
+import { arwikiVersion, serviceName } from '../arwiki';
 
 @Injectable({
   providedIn: 'root'

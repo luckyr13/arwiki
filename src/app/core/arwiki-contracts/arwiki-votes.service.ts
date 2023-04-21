@@ -5,7 +5,7 @@ import { JWKInterface } from 'arweave/web/lib/wallet';
 import { ArwikiVote } from '../interfaces/arwiki-vote';
 import { Observable, map } from 'rxjs';
 import { UtilsService } from '../utils.service';
-import { arwikiVersion, serviceName } from './arwiki';
+import { arwikiVersion, serviceName } from '../arwiki';
 
 @Injectable({
   providedIn: 'root'

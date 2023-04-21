@@ -7,7 +7,7 @@ import { ArweaveService } from '../arweave.service';
 import { UtilsService } from '../utils.service';
 import { ArwikiPage } from '../interfaces/arwiki-page';
 import { JWKInterface } from 'arweave/web/lib/wallet';
-import { arwikiVersion, serviceName } from './arwiki';
+import { arwikiVersion, serviceName } from '../arwiki';
 
 @Injectable({
   providedIn: 'root'

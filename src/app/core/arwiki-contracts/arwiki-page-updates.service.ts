@@ -4,7 +4,7 @@ import { WarpContractsService } from '../warp-contracts.service';
 import { Observable, map } from 'rxjs';
 import { ArwikiPageIndex } from '../interfaces/arwiki-page-index';
 import { ArweaveService } from '../arweave.service';
-import { arwikiVersion, serviceName } from './arwiki';
+import { arwikiVersion, serviceName } from '../arwiki';
 
 @Injectable({
   providedIn: 'root'
