@@ -5,6 +5,7 @@ import { JWKInterface } from 'arweave/web/lib/wallet';
 import { Observable, map } from 'rxjs';
 import { ArwikiLangIndex } from '../interfaces/arwiki-lang-index';
 import { UtilsService } from '../utils.service';
+import { arwikiVersion, serviceName } from '../arwiki';
 
 @Injectable({
   providedIn: 'root'
@@ -49,7 +50,7 @@ export class ArwikiLangsService {
   ) {
     const jwk = _privateKey;
     const tags = [
-      {name: 'Service', value: 'ArWiki'},
+      {name: 'Service', value: serviceName},
       {name: 'Arwiki-Type', value: 'AddLanguage'},
       {name: 'Arwiki-Version', value: _arwikiVersion},
     ];
@@ -77,7 +78,7 @@ export class ArwikiLangsService {
   ) {
     const jwk = _privateKey;
     const tags = [
-      {name: 'Service', value: 'ArWiki'},
+      {name: 'Service', value: serviceName},
       {name: 'Arwiki-Type', value: 'UpdateLanguage'},
       {name: 'Arwiki-Version', value: _arwikiVersion},
     ];

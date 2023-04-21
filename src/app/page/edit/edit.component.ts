@@ -25,7 +25,7 @@ import * as SimpleMDE from 'simplemde';
 import { ArwikiCategory } from '../../core/interfaces/arwiki-category';
 import { ArwikiCategoryIndex } from '../../core/interfaces/arwiki-category-index';
 import { Direction } from '@angular/cdk/bidi';
-import { Arwiki, arwikiVersion } from '../../core/arwiki';
+import { Arwiki, arwikiVersion, serviceName } from '../../core/arwiki';
 import { ArwikiPage } from '../../core/interfaces/arwiki-page';
 declare const document: any;
 declare const window: any;
@@ -593,7 +593,7 @@ export class EditComponent implements OnInit, OnDestroy {
     const data = _newPage.rawContent;
     const loginMethod = this._auth.loginMethod;
     const tags: {name: string, value: string}[] = [
-      { name: 'Service', value: 'ArWiki' },
+      { name: 'Service', value: serviceName },
       { name: 'Arwiki-Type', value: 'PageUpdate' },
       { name: 'Arwiki-Page-Id', value: _newPage.id },
       { name: 'Arwiki-Page-Slug', value: _newPage.slug },

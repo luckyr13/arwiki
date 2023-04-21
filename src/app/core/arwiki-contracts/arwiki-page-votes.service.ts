@@ -4,6 +4,7 @@ import { WarpContractsService } from '../warp-contracts.service';
 import { Observable, map } from 'rxjs';
 import { ArwikiPageIndex } from '../interfaces/arwiki-page-index';
 import { ArweaveService } from '../arweave.service';
+import { arwikiVersion, serviceName } from './arwiki';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +33,7 @@ export class ArwikiPageVotesService {
   ) {
     const jwk = _privateKey;
     const tags = [
-      {name: 'Service', value: 'ArWiki'},
+      {name: 'Service', value: serviceName},
       {name: 'Arwiki-Type', value: 'VotePageAndDonate'},
       {name: 'Arwiki-Version', value: _arwikiVersion},
     ];

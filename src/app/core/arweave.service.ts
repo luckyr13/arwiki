@@ -6,7 +6,7 @@ import { NetworkInfoInterface } from 'arweave/web/network';
 import { TransactionStatusResponse } from 'arweave/web/transactions';
 import Transaction from 'arweave/web/lib/transaction';
 import { JWKInterface } from 'arweave/web/lib/wallet';
-import { arwikiVersion } from './arwiki';
+import { arwikiVersion, serviceName } from './arwiki';
 import { ArweaveWebWallet } from 'arweave-wallet-connector';
 import { AddressKey } from './interfaces/address-key';
 import { HttpClient } from '@angular/common/http';
@@ -26,7 +26,7 @@ export class ArweaveService {
   // Block time: Around 2 minutes
   public readonly blockToSeconds: number = 0.5 / 60; 
   public readonly appInfo: AppInfo = {
-    name: 'ArWiki',
+    name: serviceName,
     logo: 'https://arweave.net/wJGdli6nMQKCyCdtCewn84ba9-WsJ80-GS-KtKdkCLg'
   };
   // Limit: 120kb
@@ -395,7 +395,7 @@ export class ArweaveService {
     const tx = await this.arweave.createTransaction({ 
       target: _to, quantity: this.arweave.ar.arToWinston(_fee) 
     }, jwk)
-    tx.addTag('Service', 'ArWiki');
+    tx.addTag('Service', serviceName);
     tx.addTag('Arwiki-Type', 'Donation');
     tx.addTag('Arwiki-Version', arwikiVersion[0]);
 

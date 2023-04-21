@@ -2,8 +2,17 @@ import Arweave from 'arweave';
 import { ArwikiPage } from './interfaces/arwiki-page';
 
 /*
+*  Service name
+*  The name for the protocol
+*  Note: Only change this value if you want to create/use 
+*        a new protocol/fork.
+*/
+export const serviceName = 'ArWiki';
+
+/*
 * Arwiki protocol versions supported by the system
-* arwikiVersion[0] the first position must contain the latest supported protocol version
+* Note: arwikiVersion[0] the first position [0]
+*       must contain the latest supported protocol version
 */
 export const arwikiVersion = ['0.8'];
 
@@ -38,7 +47,7 @@ export class Arwiki {
       data: _newPage.rawContent
     }, jwk);
     tx.addTag('Content-Type', 'text/plain');
-    tx.addTag('Service', 'ArWiki');
+    tx.addTag('Service', serviceName);
     tx.addTag('Arwiki-Type', 'Page');
     tx.addTag('Arwiki-Page-Slug', _newPage.slug);
     tx.addTag('Arwiki-Page-Category', _newPage.category);
@@ -75,7 +84,7 @@ export class Arwiki {
       data: JSON.stringify(data)
     }, jwk);
     tx.addTag('Content-Type', 'text/json');
-    tx.addTag('Service', 'ArWiki');
+    tx.addTag('Service', serviceName);
     tx.addTag('Arwiki-Type', 'Validation');
     tx.addTag('Arwiki-Page-Id', _pageId);
     tx.addTag('Arwiki-Page-Slug', _slug);
@@ -111,7 +120,7 @@ export class Arwiki {
       data: JSON.stringify(data)
     }, jwk);
     tx.addTag('Content-Type', 'text/json');
-    tx.addTag('Service', 'ArWiki');
+    tx.addTag('Service', serviceName);
     tx.addTag('Arwiki-Type', 'PageTag');
     tx.addTag('Arwiki-Page-Id', _pageId);
     tx.addTag('Arwiki-Page-Slug', _slug);
@@ -144,7 +153,7 @@ export class Arwiki {
       data: JSON.stringify(data)
     }, jwk);
     tx.addTag('Content-Type', 'text/json');
-    tx.addTag('Service', 'ArWiki');
+    tx.addTag('Service', serviceName);
     tx.addTag('Arwiki-Type', 'DeletePage');
     tx.addTag('Arwiki-Page-Id', _pageId);
     tx.addTag('Arwiki-Page-Slug', _slug);
@@ -179,7 +188,7 @@ export class Arwiki {
       data: JSON.stringify(data)
     }, jwk);
     tx.addTag('Content-Type', 'text/json');
-    tx.addTag('Service', 'ArWiki');
+    tx.addTag('Service', serviceName);
     tx.addTag('Arwiki-Type', 'MainPage');
     tx.addTag('Arwiki-Page-Id', _pageId);
     tx.addTag('Arwiki-Page-Slug', _slug);
@@ -208,7 +217,7 @@ export class Arwiki {
       data: _newPage.rawContent
     }, jwk);
     tx.addTag('Content-Type', 'text/plain');
-    tx.addTag('Service', 'ArWiki');
+    tx.addTag('Service', serviceName);
     tx.addTag('Arwiki-Type', 'PageUpdate');
     tx.addTag('Arwiki-Page-Id', _newPage.id);
     tx.addTag('Arwiki-Page-Slug', _newPage.slug);

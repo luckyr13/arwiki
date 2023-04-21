@@ -3,6 +3,7 @@ import { ArwikiTokenContract } from './arwiki-token.service';
 import { WarpContractsService } from '../warp-contracts.service';
 import { Observable, map } from 'rxjs';
 import { ArweaveService } from '../arweave.service';
+import { arwikiVersion, serviceName } from './arwiki';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,7 @@ export class ArwikiPageSponsorService {
   ) {
     const jwk = _privateKey;
     const tags = [
-      {name: 'Service', value: 'ArWiki'},
+      {name: 'Service', value: serviceName},
       {name: 'Arwiki-Type', value: 'StopStake'},
       {name: 'Arwiki-Page-Slug', value: _slug},
       {name: 'Arwiki-Page-Lang', value: _langCode},
@@ -56,7 +57,7 @@ export class ArwikiPageSponsorService {
   ) {
     const jwk = _privateKey;
     const tags = [
-      {name: 'Service', value: 'ArWiki'},
+      {name: 'Service', value: serviceName},
       {name: 'Arwiki-Type', value: 'UpdateSponsor'},
       {name: 'Arwiki-Page-Slug', value: _slug},
       {name: 'Arwiki-Page-Category', value: _category},

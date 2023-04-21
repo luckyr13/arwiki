@@ -4,6 +4,7 @@ import { WarpContractsService } from '../warp-contracts.service';
 import { Observable, map } from 'rxjs';
 import { ArwikiPageIndex } from '../interfaces/arwiki-page-index';
 import { ArweaveService } from '../arweave.service';
+import { arwikiVersion, serviceName } from './arwiki';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +34,7 @@ export class ArwikiPageUpdatesService {
   ) {
     const jwk = _privateKey;
     const tags = [
-      {name: 'Service', value: 'ArWiki'},
+      {name: 'Service', value: serviceName},
       {name: 'Arwiki-Type', value: 'PageUpdateValidation'},
       {name: 'Arwiki-Page-Id', value: _pageId},
       {name: 'Arwiki-Page-Slug', value: _slug},
@@ -75,7 +76,7 @@ export class ArwikiPageUpdatesService {
       data
     }, jwk);
     tx.addTag('Content-Type', 'text/plain');
-    tx.addTag('Service', 'ArWiki');
+    tx.addTag('Service', serviceName);
     tx.addTag('Arwiki-Type', 'PageUpdateRejected');
     tx.addTag('Arwiki-Page-Id', _pageId);
     tx.addTag('Arwiki-Page-Slug', _slug);

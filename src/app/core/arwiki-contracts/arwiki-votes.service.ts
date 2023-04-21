@@ -5,6 +5,7 @@ import { JWKInterface } from 'arweave/web/lib/wallet';
 import { ArwikiVote } from '../interfaces/arwiki-vote';
 import { Observable, map } from 'rxjs';
 import { UtilsService } from '../utils.service';
+import { arwikiVersion, serviceName } from './arwiki';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +32,7 @@ export class ArwikiVotesService {
     }
     const jwk = _privateKey;
     const tags = [
-      {name: 'Service', value: 'ArWiki'},
+      {name: 'Service', value: serviceName},
       {name: 'Arwiki-Type', value: 'VoteProposal'},
       {name: 'Arwiki-Version', value: _arwikiVersion},
     ];
@@ -58,7 +59,7 @@ export class ArwikiVotesService {
     const type = 'burnVault';
     const jwk = _privateKey;
     const tags = [
-      {name: 'Service', value: 'ArWiki'},
+      {name: 'Service', value: serviceName},
       {name: 'Arwiki-Type', value: 'VoteProposal'},
       {name: 'Arwiki-Version', value: _arwikiVersion},
     ];
@@ -82,7 +83,7 @@ export class ArwikiVotesService {
     const type = 'indicative';
     const jwk = _privateKey;
     const tags = [
-      {name: 'Service', value: 'ArWiki'},
+      {name: 'Service', value: serviceName},
       {name: 'Arwiki-Type', value: 'VoteProposal'},
       {name: 'Arwiki-Version', value: _arwikiVersion},
     ];
@@ -108,7 +109,7 @@ export class ArwikiVotesService {
     const type = 'set';
     const jwk = _privateKey;
     const tags = [
-      {name: 'Service', value: 'ArWiki'},
+      {name: 'Service', value: serviceName},
       {name: 'Arwiki-Type', value: 'VoteProposal'},
       {name: 'Arwiki-Version', value: _arwikiVersion},
     ];
@@ -148,7 +149,7 @@ export class ArwikiVotesService {
   ) {
     const jwk = _privateKey;
     const tags = [
-      {name: 'Service', value: 'ArWiki'},
+      {name: 'Service', value: serviceName},
       {name: 'Arwiki-Type', value: 'FinalizeVote'},
       {name: 'Arwiki-Version', value: _arwikiVersion},
     ];
@@ -172,7 +173,7 @@ export class ArwikiVotesService {
   ) {
     const jwk = _privateKey;
     const tags = [
-      {name: 'Service', value: 'ArWiki'},
+      {name: 'Service', value: serviceName},
       {name: 'Arwiki-Type', value: 'SubmitVote'},
       {name: 'Arwiki-Version', value: _arwikiVersion},
     ];

@@ -2,7 +2,7 @@ import ArDB from 'ardb';
 import { Observable, of, from } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import Arweave from 'arweave';
-import { arwikiVersion } from './arwiki';
+import { arwikiVersion, serviceName } from './arwiki';
 import ArdbBlock from 'ardb/lib/models/block';
 import ArdbTransaction from 'ardb/lib/models/transaction';
 
@@ -32,7 +32,7 @@ export class ArwikiQuery {
     const tags = [
       {
         name: 'Service',
-        values: ['ArWiki'],
+        values: [serviceName],
       },
       {
         name: 'Arwiki-Type',
@@ -80,7 +80,7 @@ export class ArwikiQuery {
     const tags = [
       {
         name: 'Service',
-        values: ['ArWiki'],
+        values: [serviceName],
       },
       {
         name: 'Arwiki-Type',
@@ -124,7 +124,7 @@ export class ArwikiQuery {
     const tags = [
       {
         name: 'Service',
-        values: ['ArWiki'],
+        values: [serviceName],
       },
       {
         name: 'Arwiki-Type',
@@ -190,7 +190,7 @@ export class ArwikiQuery {
     const tags = [
       {
         name: 'Service',
-        values: ['ArWiki'],
+        values: [serviceName],
       },
       {
         name: 'Arwiki-Type',
@@ -252,7 +252,7 @@ export class ArwikiQuery {
     const tags = [
       {
         name: 'Service',
-        values: ['ArWiki'],
+        values: [serviceName],
       },
       {
         name: 'Arwiki-Type',
@@ -303,7 +303,7 @@ export class ArwikiQuery {
     const tags = [
       {
         name: 'Service',
-        values: ['ArWiki'],
+        values: [serviceName],
       },
       {
         name: 'Arwiki-Type',
@@ -362,7 +362,7 @@ export class ArwikiQuery {
     const tags = [
       {
         name: 'Service',
-        values: ['ArWiki'],
+        values: [serviceName],
       },
       {
         name: 'Arwiki-Type',
@@ -408,7 +408,7 @@ export class ArwikiQuery {
     const tags = [
       {
         name: 'Service',
-        values: ['ArWiki'],
+        values: [serviceName],
       },
       {
         name: 'Arwiki-Type',
@@ -459,7 +459,7 @@ export class ArwikiQuery {
     const tags = [
       {
         name: 'Service',
-        values: ['ArWiki'],
+        values: [serviceName],
       },
       {
         name: 'Arwiki-Type',
@@ -509,7 +509,7 @@ export class ArwikiQuery {
     const tags = [
       {
         name: 'Service',
-        values: ['ArWiki'],
+        values: [serviceName],
       },
       {
         name: 'Arwiki-Type',
@@ -579,7 +579,7 @@ export class ArwikiQuery {
     const tags = [
       {
         name: 'Service',
-        values: ['ArWiki'],
+        values: [serviceName],
       },
       {
         name: 'Arwiki-Type',
@@ -630,7 +630,7 @@ export class ArwikiQuery {
     const tags = [
       {
         name: 'Service',
-        values: ['ArWiki'],
+        values: [serviceName],
       },
       {
         name: 'Arwiki-Type',
@@ -675,7 +675,7 @@ export class ArwikiQuery {
     const tags = [
       {
         name: 'Service',
-        values: ['ArWiki'],
+        values: [serviceName],
       },
       {
         name: 'Arwiki-Type',
@@ -722,7 +722,7 @@ export class ArwikiQuery {
     const tags = [
       {
         name: 'Service',
-        values: ['ArWiki'],
+        values: [serviceName],
       },
       {
         name: 'Arwiki-Type',
@@ -768,7 +768,7 @@ export class ArwikiQuery {
     const tags = [
       {
         name: 'Service',
-        values: ['ArWiki'],
+        values: [serviceName],
       },
       {
         name: 'Arwiki-Type',
@@ -811,7 +811,7 @@ export class ArwikiQuery {
     const tags = [
       {
         name: 'Service',
-        values: ['ArWiki'],
+        values: [serviceName],
       },
       {
         name: 'Arwiki-Type',
@@ -859,7 +859,7 @@ export class ArwikiQuery {
     const tags = [
       {
         name: 'Service',
-        values: ['ArWiki'],
+        values: [serviceName],
       },
       {
         name: 'Arwiki-Type',
@@ -901,7 +901,7 @@ export class ArwikiQuery {
     const tags = [
       {
         name: 'Service',
-        values: ['ArWiki'],
+        values: [serviceName],
       },
       {
         name: 'Arwiki-Type',
@@ -945,7 +945,7 @@ export class ArwikiQuery {
     const tags = [
       {
         name: 'Service',
-        values: ['ArWiki'],
+        values: [serviceName],
       },
       {
         name: 'Arwiki-Type',
@@ -997,7 +997,7 @@ export class ArwikiQuery {
     const tags = [
       {
         name: 'Service',
-        values: ['ArWiki'],
+        values: [serviceName],
       },
       {
         name: 'Arwiki-Type',

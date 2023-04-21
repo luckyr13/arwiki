@@ -25,7 +25,7 @@ import * as SimpleMDE from 'simplemde';
 import { ArwikiCategory } from '../../core/interfaces/arwiki-category';
 import { ArwikiCategoryIndex } from '../../core/interfaces/arwiki-category-index';
 import { Direction } from '@angular/cdk/bidi';
-import { Arwiki, arwikiVersion } from '../../core/arwiki';
+import { Arwiki, arwikiVersion, serviceName } from '../../core/arwiki';
 import { ArwikiPage } from '../../core/interfaces/arwiki-page';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
@@ -502,7 +502,7 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
     const data = _newPage.rawContent;
     const loginMethod = this._auth.loginMethod;
     const tags: {name: string, value: string}[] = [
-      { name: 'Service', value: 'ArWiki' },
+      { name: 'Service', value: serviceName },
       { name: 'Arwiki-Type', value: 'Page' },
       { name: 'Arwiki-Page-Slug', value: _newPage.slug },
       { name: 'Arwiki-Page-Category', value: _newPage.category },

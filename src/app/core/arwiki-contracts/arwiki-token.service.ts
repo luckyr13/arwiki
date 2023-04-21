@@ -5,6 +5,7 @@ import { map, tap } from 'rxjs/operators';
 import { JWKInterface } from 'arweave/node/lib/wallet';
 import { WarpContractsService } from '../warp-contracts.service';
 import { UtilsService } from '../utils.service';
+import { arwikiVersion, serviceName } from './arwiki';
 
 @Injectable({
   providedIn: 'root'
@@ -193,7 +194,7 @@ export class ArwikiTokenContract
   ) {
     const jwk = _privateKey;
     const tags = [
-      {name: 'Service', value: 'ArWiki'},
+      {name: 'Service', value: serviceName},
       {name: 'Arwiki-Type', value: 'TransferTokens'},
       {name: 'Arwiki-Version', value: _arwikiVersion},
     ];
@@ -236,7 +237,7 @@ export class ArwikiTokenContract
   ) {
     const jwk = _privateKey;
     const tags = [
-      {name: 'Service', value: 'ArWiki'},
+      {name: 'Service', value: serviceName},
       {name: 'Arwiki-Type', value: 'LockInVault'},
       {name: 'Arwiki-Version', value: _arwikiVersion},
     ];
@@ -260,7 +261,7 @@ export class ArwikiTokenContract
   ) {
     const jwk = _privateKey;
     const tags = [
-      {name: 'Service', value: 'ArWiki'},
+      {name: 'Service', value: serviceName},
       {name: 'Arwiki-Type', value: 'UnlockVault'},
       {name: 'Arwiki-Version', value: _arwikiVersion},
     ];

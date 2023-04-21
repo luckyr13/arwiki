@@ -7,6 +7,7 @@ import { ArweaveService } from '../arweave.service';
 import { UtilsService } from '../utils.service';
 import { ArwikiPage } from '../interfaces/arwiki-page';
 import { JWKInterface } from 'arweave/web/lib/wallet';
+import { arwikiVersion, serviceName } from './arwiki';
 
 @Injectable({
   providedIn: 'root'
@@ -69,7 +70,7 @@ export class ArwikiPagesService {
 
     const jwk = _privateKey;
     const tags = [
-      {name: 'Service', value: 'ArWiki'},
+      {name: 'Service', value: serviceName},
       {name: 'Arwiki-Type', value: 'Validation'},
       {name: 'Arwiki-Page-Id', value: _pageId},
       {name: 'Arwiki-Page-Slug', value: _slug},
@@ -249,7 +250,7 @@ export class ArwikiPagesService {
       data
     }, jwk);
     tx.addTag('Content-Type', 'text/plain');
-    tx.addTag('Service', 'ArWiki');
+    tx.addTag('Service', serviceName);
     tx.addTag('Arwiki-Type', 'PageRejected');
     tx.addTag('Arwiki-Page-Id', _pageId);
     tx.addTag('Arwiki-Page-Slug', _slug);
@@ -338,7 +339,7 @@ export class ArwikiPagesService {
   ) {
     const jwk = _privateKey;
     const tags = [
-      {name: 'Service', value: 'ArWiki'},
+      {name: 'Service', value: serviceName},
       {name: 'Arwiki-Type', value: 'UpdatePageProperties'},
       {name: 'Arwiki-Version', value: _arwikiVersion},
     ];

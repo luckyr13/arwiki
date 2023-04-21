@@ -5,6 +5,7 @@ import { JWKInterface } from 'arweave/web/lib/wallet';
 import { Observable, map } from 'rxjs';
 import { ArwikiCategoryIndex } from '../interfaces/arwiki-category-index';
 import { UtilsService } from '../utils.service';
+import { arwikiVersion, serviceName } from './arwiki';
 
 @Injectable({
   providedIn: 'root'
@@ -58,7 +59,7 @@ export class ArwikiCategoriesService {
   ) {
     const jwk = _privateKey;
     const tags = [
-      {name: 'Service', value: 'ArWiki'},
+      {name: 'Service', value: serviceName},
       {name: 'Arwiki-Type', value: 'AddCategory'},
       {name: 'Arwiki-Version', value: _arwikiVersion},
     ];
@@ -88,7 +89,7 @@ export class ArwikiCategoriesService {
   ) {
     const jwk = _privateKey;
     const tags = [
-      {name: 'Service', value: 'ArWiki'},
+      {name: 'Service', value: serviceName},
       {name: 'Arwiki-Type', value: 'UpdateCategory'},
       {name: 'Arwiki-Version', value: _arwikiVersion},
     ];
