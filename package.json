@@ -23,6 +23,7 @@
     "@angular/service-worker": "^15.2.7",
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
+    "@permaweb/stampjs": "^0.0.15",
     "animate.css": "^4.1.1",
     "ardb": "^1.1.10",
     "arweave": "^1.13.7",
