@@ -245,6 +245,7 @@ export class EditComponent implements OnInit, OnDestroy {
     const content = this.simplemde.value();
     const img = this.previewImgUrlTX;
     const pageValue = this.pageValue!.value;
+    const pageId = this.pageId.value;
 
     if (!content) {
       this._utils.message('Please add some content to your page :)', 'error');
@@ -258,7 +259,7 @@ export class EditComponent implements OnInit, OnDestroy {
 
   	// Save data 
     const newPage: ArwikiPage = {
-        id: '',
+        id: pageId,
         title: title,
         slug: slug,
         category: category,
