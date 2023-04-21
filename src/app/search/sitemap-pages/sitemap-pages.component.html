@@ -42,7 +42,7 @@
     <ng-container matColumnDef="value">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'SEARCH.SITEMAP.COLUMN_VALUE' | translate }}</th>
       <td mat-cell *matCellDef="let row" class="text-center">
-      	{{ row.value }} <span class="wiki">$WIKI</span>
+      	{{ row.value }} <span class="wiki">{{ ticker }}</span>
       </td>
     </ng-container>
 

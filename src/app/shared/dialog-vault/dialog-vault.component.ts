@@ -11,6 +11,7 @@ import { UtilsService } from '../../core/utils.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import { Subscription } from 'rxjs';
+import { UserSettingsService } from '../../core/user-settings.service';
 
 @Component({
   selector: 'app-dialog-vault',
@@ -37,9 +38,11 @@ export class DialogVaultComponent implements OnInit, AfterViewInit, OnDestroy  {
   unlockVaultTX: string = '';
   lockVaultSubscription: Subscription = Subscription.EMPTY;
   unlockVaultSubscription: Subscription = Subscription.EMPTY;
+  ticker = '';
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<any>(this.data.vault);
+    this.ticker = this._userSettings.getTokenTicker();
   }
 
   ngAfterViewInit() {
@@ -62,7 +65,8 @@ export class DialogVaultComponent implements OnInit, AfterViewInit, OnDestroy  {
   	private _arwikiTokenContract: ArwikiTokenContract,
   	private _auth: AuthService,
   	private _utils: UtilsService,
-    public _dialogRef: MatDialogRef<DialogVaultComponent>
+    public _dialogRef: MatDialogRef<DialogVaultComponent>,
+    private _userSettings: UserSettingsService
   ) { }
 
 

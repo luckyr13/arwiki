@@ -74,6 +74,11 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
           switchMap((_tokenContractState: any) => {
             // Loader
             console.log('Arwiki state loaded succesfully!');
+
+            // Set token ticker
+            const ticker = _tokenContractState.ticker ? 
+              _tokenContractState.ticker : '';
+            this._userSettings.setTokenTicker(ticker);
             
             this._userSettings.updateMainToolbarLoading(false);
             return of(isValidLang);

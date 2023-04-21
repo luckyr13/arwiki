@@ -315,9 +315,9 @@
 		"BTN_TRANSFER": "Token utoalás",
 		"BTN_VAULT": "Széf",
 		"LABEL_TOTAL_AR_BALANCE": "Össz. AR egyenleg",
-		"LABEL_WIKI_UNLOCKED": "$WIKI elérhető",
-		"LABEL_WIKI_IN_VAULT": "$WIKI a széfben",
-		"LABEL_WIKI_STAKED": "$WIKI halmozva",
+		"LABEL_WIKI_UNLOCKED": "{{ ticker }} elérhető",
+		"LABEL_WIKI_IN_VAULT": "{{ ticker }} a széfben",
+		"LABEL_WIKI_STAKED": "{{ ticker }} halmozva",
 		"LABEL_LAST_TX_PROCESSED": "Utolsó feldolgozott tranzakció",
 		"TITLE_SECONDARY": "PST Beállítások",
 		"LABEL_TOTAL_SUPPLY": "Teljes pénzmennyiség",
@@ -326,7 +326,7 @@
 		"COLUMN_VALUE": "Érték"
 	},
 	"TOKEN_TRANSFER_DIALOG": {
-		"TITLE": "$WIKI Token Átutalása",
+		"TITLE": "{{ ticker }} Token Átutalása",
 		"RECIPIENT": "Címzett",
 		"AMOUNT": "Mennyiség",
 		"MAX": "Az összes elküldése",
@@ -334,7 +334,7 @@
 		"TOKENS_SENT": "🥳 Tokenek elküldve! Itt megtekintheted az utalás állapotát:",
 		"SEND": "Küldés",
 		"CLOSE_MSG": "Már bezárhatod az oldalt.",
-		"TOTAL_AVAILABLE": "Összes elérhető $WIKI:"
+		"TOTAL_AVAILABLE": "Összes elérhető {{ ticker }}:"
 	},
 	"VOTES": {
 		"BREADCRUMB_LABEL": "Votes",

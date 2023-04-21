@@ -315,9 +315,9 @@
 		"BTN_TRANSFER": "Transferir tokens",
 		"BTN_VAULT": "Bóveda",
 		"LABEL_TOTAL_AR_BALANCE": "Saldo AR Total",
-		"LABEL_WIKI_UNLOCKED": "$WIKI desbloqueado",
-		"LABEL_WIKI_IN_VAULT": "$WIKI en bóveda",
-		"LABEL_WIKI_STAKED": "$WIKI apostado",
+		"LABEL_WIKI_UNLOCKED": "{{ ticker }} desbloqueado",
+		"LABEL_WIKI_IN_VAULT": "{{ ticker }} en bóveda",
+		"LABEL_WIKI_STAKED": "{{ ticker }} apostado",
 		"LABEL_LAST_TX_PROCESSED": "Última transacción procesada",
 		"TITLE_SECONDARY": "Configuración de PST",
 		"LABEL_TOTAL_SUPPLY": "Suministro Total",
@@ -326,7 +326,7 @@
 		"COLUMN_VALUE": "Valor"
 	},
 	"TOKEN_TRANSFER_DIALOG": {
-		"TITLE": "Transferencia de token $WIKI",
+		"TITLE": "Transferencia de token {{ ticker }}",
 		"RECIPIENT": "Destinatario",
 		"AMOUNT": "Cantidad",
 		"MAX": "Usar máximo disponible",
@@ -334,7 +334,7 @@
 		"TOKENS_SENT": "🥳 Tokens enviados! Puede seguir el estado de su tx aquí:",
 		"SEND": "Enviar",
 		"CLOSE_MSG": "Puede cerrar esta ventana ahora.",
-		"TOTAL_AVAILABLE": "$WIKI total disponible:"
+		"TOTAL_AVAILABLE": "{{ ticker }} total disponible:"
 	},
 	"VOTES": {
 		"BREADCRUMB_LABEL": "Votes",

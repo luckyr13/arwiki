@@ -36,6 +36,7 @@ export class MyUpdatesComponent implements OnInit , OnDestroy {
   loadingAction: boolean = false;
   rewardSubscription: Subscription = Subscription.EMPTY;
   rewardTX: string = '';
+  ticker = '';
 
   constructor(
     private _router: Router,
@@ -76,6 +77,8 @@ export class MyUpdatesComponent implements OnInit , OnDestroy {
         this._utils.message(error, 'error');
       }
     });
+    
+    this.ticker = this._userSettings.getTokenTicker();
   }
 
 

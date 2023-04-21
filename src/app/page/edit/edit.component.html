@@ -56,7 +56,7 @@
 		    		<mat-hint class="small-hint" align="end">{{slug!.value.length}} / 150</mat-hint>
 					</mat-form-field>
 					<div class="w100" appearance="outline">
-					  <p>Page value in $WIKI tokens</p>
+					  <p>Page value in {{ ticker }} tokens</p>
 					  <mat-slider 
 					  	color="accent"
 					  	class="w100" 
@@ -68,7 +68,7 @@
 					  	step="1">
 					  		<input matSliderThumb formControlName="pageValue" >
 					  	</mat-slider>
-					  <div class="mat-hint small-hint text-right">{{pageValue!.value}} $WIKI tokens</div>
+					  <div class="mat-hint small-hint text-right">{{pageValue!.value}} {{ ticker }} tokens</div>
 					</div>
 					
 					<mat-form-field class="w50" appearance="outline" color="accent">

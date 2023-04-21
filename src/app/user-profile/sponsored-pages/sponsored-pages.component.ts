@@ -5,6 +5,7 @@ import {
 import { ArwikiPage } from '../../core/interfaces/arwiki-page';
 import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
 import { Subscription } from 'rxjs';
+import { UserSettingsService } from '../../core/user-settings.service';
 
 @Component({
   selector: 'app-sponsored-pages',
@@ -18,13 +19,16 @@ export class SponsoredPagesComponent implements OnInit, OnChanges {
   pages: ArwikiPage[] = [];
   displayedColumns: string[] = ['slug', 'category', 'value'];
   pagesSubscription = Subscription.EMPTY;
+  ticker = '';
 
   constructor(
     private _arwikiToken: ArwikiTokenContract,
-    private _arwikiPages: ArwikiPagesService) { }
+    private _arwikiPages: ArwikiPagesService,
+    private _userSettings: UserSettingsService) { }
 
   ngOnInit(): void {
     this.initTableAllPages();
+    this.ticker = this._userSettings.getTokenTicker();
   }
 
   ngOnChanges() {

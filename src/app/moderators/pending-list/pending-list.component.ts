@@ -53,6 +53,7 @@ export class PendingListComponent implements OnInit, OnDestroy {
     pending: new FormControl(true),
   });
   allApprovedPages: ArwikiPageIndex = {};
+  ticker = '';
 
   constructor(
   	private _arweave: ArweaveService,
@@ -82,6 +83,8 @@ export class PendingListComponent implements OnInit, OnDestroy {
     this.routeLang = this._route.snapshot.paramMap.get('lang')!;
 
     this.getPendingPages();
+    
+    this.ticker = this._userSettings.getTokenTicker();
   }
 
   /*
@@ -130,7 +133,7 @@ export class PendingListComponent implements OnInit, OnDestroy {
           ); 
 
         } else if (newPageValue === 0) {
-          throw Error('Stake must be greater than 0 $WIKI tokens');
+          throw Error('Stake must be greater than 0 ' + this.ticker + ' tokens');
         }
         
         return of(null);

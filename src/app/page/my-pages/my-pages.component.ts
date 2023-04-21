@@ -39,6 +39,7 @@ export class MyPagesComponent implements OnInit, OnDestroy {
   rewardSubscription: Subscription = Subscription.EMPTY;
   rewardTX: string = '';
   rejectedPagesTX: any = {};
+  ticker = '';
 
   constructor(
     private _router: Router,
@@ -79,6 +80,8 @@ export class MyPagesComponent implements OnInit, OnDestroy {
         this._utils.message(error, 'error');
       }
     });
+    
+    this.ticker = this._userSettings.getTokenTicker();
   }
 
 

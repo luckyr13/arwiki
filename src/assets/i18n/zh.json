@@ -315,9 +315,9 @@
 		"BTN_TRANSFER": "Token transfer",
 		"BTN_VAULT": "Vault",
 		"LABEL_TOTAL_AR_BALANCE": "Total AR Balance",
-		"LABEL_WIKI_UNLOCKED": "$WIKI unlocked",
-		"LABEL_WIKI_IN_VAULT": "$WIKI in vault",
-		"LABEL_WIKI_STAKED": "$WIKI staked",
+		"LABEL_WIKI_UNLOCKED": "{{ ticker }} unlocked",
+		"LABEL_WIKI_IN_VAULT": "{{ ticker }} in vault",
+		"LABEL_WIKI_STAKED": "{{ ticker }} staked",
 		"LABEL_LAST_TX_PROCESSED": "Last tx processed",
 		"TITLE_SECONDARY": "PST Settings",
 		"LABEL_TOTAL_SUPPLY": "Total supply",
@@ -326,7 +326,7 @@
 		"COLUMN_VALUE": "Value"
 	},
 	"TOKEN_TRANSFER_DIALOG": {
-		"TITLE": "$WIKI Token Transfer",
+		"TITLE": "{{ ticker }} Token Transfer",
 		"RECIPIENT": "Recipient",
 		"AMOUNT": "Amount",
 		"MAX": "Use maximum available",
@@ -334,7 +334,7 @@
 		"TOKENS_SENT": "🥳 Tokens sent! You can follow your tx status here:",
 		"SEND": "Send",
 		"CLOSE_MSG": "You can close this window now.",
-		"TOTAL_AVAILABLE": "Total $WIKI available:"
+		"TOTAL_AVAILABLE": "Total {{ ticker }} available:"
 	},
 	"VOTES": {
 		"BREADCRUMB_LABEL": "Votes",

@@ -60,6 +60,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
     active: new FormControl(true),
     inactive: new FormControl(true)
   });
+  ticker = '';
 
   constructor(
   	private _arweave: ArweaveService,
@@ -86,7 +87,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
     this.myAddress = this._auth.getMainAddressSnapshot();
     this.routeLang = this._route.snapshot.paramMap.get('lang')!;
     this.loadApprovedPages(this.numArticles);
-
+    this.ticker = this._userSettings.getTokenTicker();
   }
 
   /*
@@ -186,7 +187,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
         title: 'Are you sure?',
         content: `You are about to be the new sponsor for this arwiki page. Do you want to proceed?`,
         pageValue: _pageValue + 1,
-        second_content: 'Please define the amount of $WIKI tokens to stake:'
+        second_content: 'Please define the amount of ' + this.ticker + ' tokens to stake:'
       },
       direction: direction
     });
@@ -205,7 +206,7 @@ export class ApprovedListComponent implements OnInit, OnDestroy {
             arwikiVersion[0],
           ); 
         } else if (newPageValue === 0) {
-          throw Error('Stake must be greater than 0 $WIKI tokens');
+          throw Error('Stake must be greater than 0 ' + this.ticker + ' tokens');
         }
         
         return of(null);

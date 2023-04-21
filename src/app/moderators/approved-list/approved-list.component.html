@@ -50,7 +50,7 @@
 						{{ 'PAGE.LABEL_LANGUAGE' | translate }}: {{ p.language }}
 					</div>
 					<div>
-						Page value: {{ p.value }} $WIKI 
+						Page value: {{ p.value }} {{ ticker }}
 					</div>
 					<div *ngIf="p.dataInfo && p.dataInfo.size">
 						Data size: {{ p.dataInfo.size }} bytes

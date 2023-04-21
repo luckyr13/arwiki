@@ -8,6 +8,7 @@ import { ArwikiPage } from '../../core/interfaces/arwiki-page';
 import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
 import { Subscription } from 'rxjs';
 import { UtilsService } from '../../core/utils.service';
+import { UserSettingsService } from '../../core/user-settings.service';
 
 @Component({
   selector: 'app-sitemap-pages',
@@ -22,10 +23,12 @@ export class SitemapPagesComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('pagesPaginator') paginator!: MatPaginator;
   @Input('routeLang') routeLang = '';
   pagesSubscription = Subscription.EMPTY;
+  ticker = '';
 
   constructor(
     private _arwikiPages: ArwikiPagesService,
-    private _utils: UtilsService) { }
+    private _utils: UtilsService,
+    private _userSettings: UserSettingsService) { }
 
   initTableAllPages() {
     this.dataSource = new MatTableDataSource<ArwikiPage>([]);
@@ -59,6 +62,7 @@ export class SitemapPagesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.initTableAllPages();
+    this.ticker = this._userSettings.getTokenTicker();
   }
 
   ngAfterViewInit() {

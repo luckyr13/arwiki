@@ -3,6 +3,7 @@ import { ArwikiTokenContract } from '../../core/arwiki-contracts/arwiki-token.se
 import { Subscription } from 'rxjs';
 import { ArweaveService } from '../../core/arweave.service';
 import { UtilsService } from '../../core/utils.service';
+import { UserSettingsService } from '../../core/user-settings.service';
 
 @Component({
   selector: 'app-pst-info',
@@ -17,15 +18,18 @@ export class PstInfoComponent implements OnInit, OnDestroy {
   loadingSettings = false;
   lockMinLength: number = 0;
   lockMaxLength: number = 0;
+  ticker = '';
 
   constructor(
     private _arwikiTokenContract: ArwikiTokenContract,
     private _arweave: ArweaveService,
     private _utils: UtilsService,
+    private _userSettings: UserSettingsService
     ) { }
 
   ngOnInit(): void {
     this.loadingSettings = true;
+    this.ticker = this._userSettings.getTokenTicker();
     this.pstSettingsSubscription = this._arwikiTokenContract
       .getSettings()
       .subscribe({
@@ -81,7 +85,7 @@ export class PstInfoComponent implements OnInit, OnDestroy {
             {
               key: 'moderatorsMinVaultBalance',
               label: 'Moderator\'s Min Vault',
-              formatFunction: (val: any) => `${val} $WIKI`
+              formatFunction: (val: any) => `${val} ${this.ticker}`
             }
             
           ];

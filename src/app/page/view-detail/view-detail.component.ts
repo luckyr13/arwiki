@@ -81,6 +81,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   private _stampsDialogRef: MatDialogRef<any>|null = null;
   getTranslationsSubscription = Subscription.EMPTY;
   pageOwner = '';
+  ticker = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -136,6 +137,8 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
         this._stampsDialogRef.close();
       }
     })
+
+    this.ticker = this._userSettings.getTokenTicker();
 
   }
 
@@ -490,7 +493,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
         title: 'Are you sure?',
         content: `You are about to be the new sponsor for this arwiki page. Do you want to proceed?`,
         pageValue: _pageValue + 1,
-        second_content: 'Please define the amount of $WIKI tokens to stake:'
+        second_content: 'Please define the amount of ' + this.ticker + ' tokens to stake:'
       },
       direction: direction,
       disableClose: true
@@ -510,7 +513,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
               arwikiVersion[0],
             ); 
           } else if (newPageValue === 0) {
-            throw Error('Stake must be greater than 0 $WIKI tokens');
+            throw Error('Stake must be greater than 0 ' + this.ticker + ' tokens');
           }
           return of(null);
         })

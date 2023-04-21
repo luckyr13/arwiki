@@ -45,17 +45,17 @@
 					    	formControlName="lockLength">
 					    <mat-hint class="link" (click)="lockLength!.setValue(data.lockMaxLength)" align="end">Use max</mat-hint>
 					  </mat-form-field>
-					  <mat-form-field class="col-12" color="accent" appearance="outline" hintLabel="Total $WIKI available: {{ data.balance }}">
+					  <mat-form-field class="col-12" color="accent" appearance="outline" hintLabel="Total {{ ticker }} available: {{ data.balance }}">
 					    <mat-label>Amount</mat-label>
 					    <input 
 					    	matInput 
-					    	placeholder="$WIKI amount" 
+					    	placeholder="{{ ticker }} amount" 
 					    	type="number"
 					    	 min="0" 
 					    	[max]="data.balance" 
 					    	formControlName="amount"
 					    	autocomplete="off">
-				    	<span matSuffix>$WIKI</span>
+				    	<span matSuffix>{{ ticker }}</span>
 					    <mat-hint class="link" (click)="amount!.setValue(data.balance)" align="end">Use max</mat-hint>
 					  </mat-form-field>
 					</ng-container>

@@ -60,11 +60,11 @@
 		</div>
 		<div class="col-12 col-md-6 scoreboard">
 			<app-balance-card
-				label="$WIKI balance"
+				label="{{ ticker }} balance"
 				icon="account_balance"
 				[balance]="'' + getMyTotalBalance()"
 				[loading]="loadingBalancePST"
-				unit="$WIKI"
+				[unit]="ticker"
 				></app-balance-card>
 		</div>
 	</div>
@@ -74,10 +74,10 @@
 			  <mat-card-title>Token Info</mat-card-title>
 			  <mat-card-content>
 			  	<ul class="token-info">
-			  		<li><strong>Token Ticker:</strong> {{ tokenTicker }}</li>
+			  		<li><strong>Token Ticker:</strong> {{ ticker }}</li>
 			  		<li>
 			  			<strong>{{ 'DASHBOARD.LABEL_TOTAL_SUPPLY' | translate }}</strong>
-			  			<span class="bn"> {{ totalSupply }}</span> {{ tokenTicker }}
+			  			<span class="bn"> {{ totalSupply }}</span> {{ ticker }}
 			  		</li>
 			  		<li>
 			  			<app-arweave-address
@@ -96,10 +96,10 @@
 	  			<app-arweave-address [address]="mainAddress">Wallet: </app-arweave-address>
 			  	<ul class="token-info">
 			  		<li><strong>My total balance:</strong>
-			  			<span class="bn"> {{ getMyTotalBalance() }}</span> {{ tokenTicker }}</li>
-			  		<li><strong>{{ 'DASHBOARD.LABEL_WIKI_UNLOCKED' | translate }}</strong> {{ balancePST }} {{ tokenTicker }}</li>
-			  		<li><strong>{{ 'DASHBOARD.LABEL_WIKI_IN_VAULT' | translate }}</strong> {{ balancePSTVault }} {{ tokenTicker }}</li>
-			  		<li><strong>{{ 'DASHBOARD.LABEL_WIKI_STAKED' | translate }}</strong> {{ balancePSTStaked }} {{ tokenTicker }}</li>
+			  			<span class="bn"> {{ getMyTotalBalance() }}</span> {{ ticker }}</li>
+			  		<li><strong>{{ 'DASHBOARD.LABEL_WIKI_UNLOCKED' | translate:{ ticker: ticker } }}</strong> {{ balancePST }} {{ ticker }}</li>
+			  		<li><strong>{{ 'DASHBOARD.LABEL_WIKI_IN_VAULT' | translate:{ ticker: ticker } }}</strong> {{ balancePSTVault }} {{ ticker }}</li>
+			  		<li><strong>{{ 'DASHBOARD.LABEL_WIKI_STAKED' | translate:{ ticker: ticker } }}</strong> {{ balancePSTStaked }} {{ ticker }}</li>
 			  	</ul>
 			  </mat-card-content>
 			</mat-card>

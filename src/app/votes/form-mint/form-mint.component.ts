@@ -17,6 +17,7 @@ import {
 import { 
   AuthService 
 } from '../../auth/auth.service';
+import { UserSettingsService } from '../../core/user-settings.service';
 
 @Component({
   selector: 'app-form-mint',
@@ -50,13 +51,15 @@ export class FormMintComponent implements OnInit, OnDestroy {
   tx = '';
   error = '';
   submitVoteSubscription = Subscription.EMPTY;
+  ticker = '';
 
   constructor(
     private _arweave: ArweaveService,
     private _tokenContract: ArwikiTokenContract,
     private _tokenContractVotes: ArwikiVotesService,
     private _utils: UtilsService,
-    private _auth: AuthService) {
+    private _auth: AuthService,
+    private _userSettings: UserSettingsService) {
   }
 
   public get recipient() {
@@ -81,6 +84,7 @@ export class FormMintComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loading = true;
+    this.ticker = this._userSettings.getTokenTicker();
     this.getContractSettingsSubscription = this._tokenContract.getSettings()
       .subscribe({
         next: (settings) => {

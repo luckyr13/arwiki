@@ -63,6 +63,7 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
   maxHeight = 0;
   originalPageSubscription: Subscription = Subscription.EMPTY;
   originalPage: ArwikiPage|null = null;
+  ticker = '';
 
   constructor(
   	private _arweave: ArweaveService,
@@ -98,6 +99,8 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
 
     // Get original
     this.getOriginalPage(this.pageSlug);
+
+    this.ticker = this._userSettings.getTokenTicker();
 
   }
 
@@ -252,7 +255,7 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
       data: {
         title: 'Are you sure?',
         content: `You are about to approve a new arwiki page update. Do you want to proceed?`,
-        second_content: 'Please define the page update value in $WIKI tokens:',
+        second_content: 'Please define the page update value in ' + this.ticker + ' tokens:',
         pageValue: _pageValue
       },
       direction: direction
@@ -274,7 +277,7 @@ export class PageUpdatesComponent implements OnInit , OnDestroy {
             arwikiVersion[0],
           );
         } else if (newPageValue === 0) {
-          throw Error('Stake must be greater than 0 $WIKI tokens');
+          throw Error('Stake must be greater than 0 ' + this.ticker + ' tokens');
         }
         
         return of(null);

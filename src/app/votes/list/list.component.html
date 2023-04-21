@@ -57,7 +57,7 @@
 				</mat-card-header>
 				<mat-card-content>
 					<p *ngIf="vote.value">Value: {{ vote.value }}</p>
-					<p *ngIf="vote.qty">Qty: {{ vote.qty }} $WIKI</p>
+					<p *ngIf="vote.qty">Qty: {{ vote.qty }} {{ ticker }}</p>
 					<p *ngIf="vote.lockLength">Lock Length: {{ vote.lockLength }} blocks ({{ formatBlocks(vote.lockLength) }})</p>
 					<p *ngIf="vote.recipient">
 						<app-arweave-address

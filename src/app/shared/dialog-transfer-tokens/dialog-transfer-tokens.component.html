@@ -6,23 +6,23 @@
 	<mat-dialog-content class="row">
 			<ng-container *ngIf="!loadingSendTokens">
 			  <mat-form-field appearance="outline" color="accent" class="col-12">
-			    <mat-label>{{ 'TOKEN_TRANSFER_DIALOG.RECIPIENT' | translate }}</mat-label>
+			    <mat-label>{{ 'TOKEN_TRANSFER_DIALOG.RECIPIENT' | translate:{ ticker: ticker } }}</mat-label>
 			    <input 
 			    	matInput 
 			    	placeholder="Arweave address" 
 			    	autocomplete="off" 
 			    	formControlName="recipient">
 			  </mat-form-field>
-			  <mat-form-field appearance="outline" hintLabel="{{ 'TOKEN_TRANSFER_DIALOG.TOTAL_AVAILABLE' | translate }} {{ data.balance }}"  color="accent"  class="col-12">
+			  <mat-form-field appearance="outline" hintLabel="{{ 'TOKEN_TRANSFER_DIALOG.TOTAL_AVAILABLE' | translate:{ ticker: ticker } }} {{ data.balance }}"  color="accent"  class="col-12">
 			    <mat-label>{{ 'TOKEN_TRANSFER_DIALOG.AMOUNT' | translate }}</mat-label>
 			    <input 
 			    	matInput 
-			    	placeholder="$WIKI amount" 
+			    	placeholder="{{ ticker }} amount" 
 			    	type="number" min="0" 
 			    	[max]="data.balance" 
 			    	formControlName="amount"
 			    	autocomplete="off">
-		    	<span matSuffix>$WIKI</span>
+		    	<span matSuffix>{{ ticker }}</span>
 			    <mat-hint class="link" (click)="amount!.setValue(data.balance)" align="end">{{ 'TOKEN_TRANSFER_DIALOG.MAX' | translate }}</mat-hint>
 			  </mat-form-field>
 			</ng-container>

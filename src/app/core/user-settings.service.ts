@@ -24,8 +24,13 @@ export class UserSettingsService {
     port: 443,
     protocol: 'https',
     useArweaveGW: false,
+    // Current stable contract
     contractAddress: 'hKg-xAisBqGb5F3Zs1opv9TsvMQpO24jJWxhFUrUvm8'
+    // Testing contract
+    // contractAddress: 'kYoC3ShwsS8XSCyxM1_sLiMGmm-xrDBvxYEcx1-Dh1s'
   };
+
+  _tokenTicker = '';
 
   // Observable
   private _settingsLangSource = new Subject<ArwikiLang>();
@@ -145,6 +150,10 @@ export class UserSettingsService {
     return this._cookiesAccepted;
   }
 
+  getTokenTicker(): string {
+    return this._tokenTicker;
+  }
+
   setDefaultTheme(_theme: string) {
   	if (_theme) {
     	this._defaultTheme = _theme;
@@ -181,6 +190,10 @@ export class UserSettingsService {
       this._cookiesAccepted = _cookiesAccepted;
       window.localStorage.setItem('cookiesAccepted', this._cookiesAccepted);
     }
+  }
+
+  setTokenTicker(ticker: string) {
+    this._tokenTicker = ticker;
   }
 
   resetUserSettings() {

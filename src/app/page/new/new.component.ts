@@ -80,6 +80,7 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
   overlayRef: OverlayRef|null = null;
   loadEditorSubscription: Subscription = Subscription.EMPTY;
   @ViewChild('frmTextareaEditor') frmTextareaEditor!: ElementRef;
+  ticker = '';
 
   public get title() {
 		return this.frmNew.get('title');
@@ -129,6 +130,7 @@ export class NewComponent implements OnInit, OnDestroy, AfterViewInit {
     // Load and fill form fields
     this.loadCategories();
     this.loadLangsCombo();
+    this.ticker = this._userSettings.getTokenTicker();
 
   }
 

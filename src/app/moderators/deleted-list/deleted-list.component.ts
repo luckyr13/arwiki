@@ -42,6 +42,7 @@ export class DeletedListComponent implements OnInit, OnDestroy {
   updatePageTxMessage: string = '';
   updatePageTxErrorMessage: string = '';
   allApprovedPages: ArwikiPageIndex = {};
+  ticker = '';
 
   constructor(
   	private _arweave: ArweaveService,
@@ -90,6 +91,8 @@ export class DeletedListComponent implements OnInit, OnDestroy {
         this._utils.message(error, 'error');
       }
     });
+
+    this.ticker = this._userSettings.getTokenTicker();
 
   }
 
@@ -200,7 +203,7 @@ export class DeletedListComponent implements OnInit, OnDestroy {
         title: 'Are you sure?',
         content: `You are about to reactivate an old arwiki page. Do you want to proceed?`,
         pageValue: _pageValue + 1,
-        second_content: 'Please define the amount of $WIKI tokens to stake:'
+        second_content: 'Please define the amount of ' + this.ticker + ' tokens to stake:'
       },
       direction: direction
     });
@@ -219,7 +222,7 @@ export class DeletedListComponent implements OnInit, OnDestroy {
             arwikiVersion[0],
           ); 
         } else if (newPageValue === 0) {
-          throw Error('Stake must be greater than 0 $WIKI tokens');
+          throw Error('Stake must be greater than 0 ' + this.ticker + ' tokens');
         }
         
         return of(null);

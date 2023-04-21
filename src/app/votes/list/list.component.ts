@@ -38,6 +38,7 @@ export class ListComponent implements OnInit, OnDestroy {
   submitVoteSubscription = Subscription.EMPTY;
   errorMessage = '';
   wallet = '';
+  ticker = '';
 
   constructor(
     private _location: Location,
@@ -56,6 +57,7 @@ export class ListComponent implements OnInit, OnDestroy {
     this.getVotesData();
 
     this.wallet = this._auth.getMainAddressSnapshot();
+    this.ticker = this._userSettings.getTokenTicker();
 
   }
 

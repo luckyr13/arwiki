@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { UntypedFormControl } from '@angular/forms';
+import { UserSettingsService } from '../../core/user-settings.service';
 
 @Component({
   selector: 'app-dialog-confirm-amount',
@@ -10,7 +11,11 @@ import { UntypedFormControl } from '@angular/forms';
 export class DialogConfirmAmountComponent implements OnInit {
 	pageValue: UntypedFormControl = new UntypedFormControl(0);
   maxValue = 0;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
+  ticker = '';
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private _userSettings: UserSettingsService) { }
 
   ngOnInit(): void {
     const pageValue = +this.data.pageValue;
@@ -18,6 +23,7 @@ export class DialogConfirmAmountComponent implements OnInit {
       // this.pageValue.setValue(pageValue);
       this.maxValue = 1000 + pageValue;
     }
+    this.ticker = this._userSettings.getTokenTicker();
   }
 
   formatLabel(value: number): string {

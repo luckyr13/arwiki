@@ -154,7 +154,7 @@
 		  	<app-arweave-address [isAddress]="false" [address]="pageData.id">{{ 'PAGE.LABEL_PAGE_TX' | translate }} </app-arweave-address>
 		  </p>
 		  <p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageExtraMetadata.value">
-		  	<strong>{{ 'PAGE.LABEL_PAGE_VALUE' | translate }} </strong>{{ pageExtraMetadata.value }} $WIKI
+		  	<strong>{{ 'PAGE.LABEL_PAGE_VALUE' | translate }} </strong>{{ pageExtraMetadata.value }} {{ ticker }}
 		  </p>
 		</div>
 	</div>

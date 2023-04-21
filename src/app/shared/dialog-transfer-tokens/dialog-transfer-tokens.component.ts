@@ -9,6 +9,7 @@ import { AuthService } from '../../auth/auth.service';
 import { arwikiVersion } from '../../core/arwiki';
 import { UtilsService } from '../../core/utils.service';
 import { Subscription } from 'rxjs';
+import { UserSettingsService } from '../../core/user-settings.service';
 
 @Component({
   selector: 'app-dialog-transfer-tokens',
@@ -23,6 +24,7 @@ export class DialogTransferTokensComponent implements OnInit, OnDestroy {
 	loadingSendTokens: boolean = false;
 	transferTX: string = '';
   transferSubscription: Subscription = Subscription.EMPTY;
+  ticker = '';
 
   constructor(
   	@Inject(MAT_DIALOG_DATA) public data: any,
@@ -30,10 +32,12 @@ export class DialogTransferTokensComponent implements OnInit, OnDestroy {
   	private _arwikiTokenContract: ArwikiTokenContract,
   	private _auth: AuthService,
   	private _utils: UtilsService,
-    public _dialogRef: MatDialogRef<DialogTransferTokensComponent>
+    public _dialogRef: MatDialogRef<DialogTransferTokensComponent>,
+    private _userSettings: UserSettingsService
   ) { }
 
   ngOnInit(): void {
+    this.ticker = this._userSettings.getTokenTicker();
   }
   ngOnDestroy() {
     if (this.transferSubscription) {

@@ -50,7 +50,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   routeLang = '';
   chartMyBalanceItems: {name: string, value: number}[] = [];
   tokenName = '';
-  tokenTicker = '';
+  ticker = '';
   tokenNameTickerSubscription = Subscription.EMPTY;
   pstSettings: any = [];
   pstSettingsSubscription: Subscription = Subscription.EMPTY;
@@ -68,12 +68,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.ticker = this._userSettings.getTokenTicker();
     this.loadInitialValues();
     this._route.paramMap.subscribe(async params => {
       const lang = params.get('lang');
       this.routeLang = lang!;
     });
-
   }
 
 
@@ -188,7 +188,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   loadTokenInfo() {
     this.tokenNameTickerSubscription = this._arwikiTokenContract.getTokenNameAndTicker().subscribe((res) => {
       this.tokenName = res.name;
-      this.tokenTicker = res.ticker;
     });
   }
 
@@ -259,6 +258,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.balancePSTSubscription.unsubscribe();
     this.allBalancesSubscription.unsubscribe();
     this.networkInfoSubscription.unsubscribe();
+    this.tokenNameTickerSubscription.unsubscribe();
   }
 
   goBack() {
@@ -322,17 +322,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
     let balances: { value: number, name: string }[] = [];
 
     if (unlockedBalance) {
-      balances.push({ name: '$WIKI Available', value: unlockedBalance});
+      balances.push({ name: this.ticker + ' Available', value: unlockedBalance});
     }
     if (vaultBalance) {
-      balances.push({ name: '$WIKI in Vault', value: vaultBalance});
+      balances.push({ name: this.ticker + ' in Vault', value: vaultBalance});
     }
     if (stakingBalance) {
-      balances.push({ name: '$WIKI Staked', value: stakingBalance});
+      balances.push({ name: this.ticker + ' Staked', value: stakingBalance});
     }
     if (totalSupply) {
       const tmpTotal = totalSupply - (unlockedBalance + vaultBalance + stakingBalance);
-      balances.push({ name: 'Total $WIKI Supply', value: tmpTotal });
+      balances.push({ name: 'Total ' + this.ticker + ' Supply', value: tmpTotal });
     }
     this.chartMyBalanceItems = balances;
   }

@@ -97,6 +97,7 @@ export class EditComponent implements OnInit, OnDestroy {
   overlayRef: OverlayRef|null = null;
   emojisPortal: ComponentPortal<EmojisComponent>|null = null;
   savingPageSubscription = Subscription.EMPTY;
+  ticker = '';
 
   public get title() {
 		return this.frmNew.get('title')!;
@@ -181,6 +182,7 @@ export class EditComponent implements OnInit, OnDestroy {
       })
 
     this.loadPageData(this.routeSlug, this.routeLang);
+    this.ticker = this._userSettings.getTokenTicker();
 
   }
 
