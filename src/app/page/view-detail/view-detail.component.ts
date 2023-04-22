@@ -38,6 +38,8 @@ import {TranslateService} from '@ngx-translate/core';
 import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
 import { ArwikiPageSponsorService } from '../../core/arwiki-contracts/arwiki-page-sponsor.service';
 import { ArwikiAdminsService } from '../../core/arwiki-contracts/arwiki-admins.service';
+import { StampsWrapper } from '../../core/stamps-wrapper';
+import { WarpContractsService } from '../../core/warp-contracts.service';
 
 @Component({
   templateUrl: './view-detail.component.html',
@@ -82,6 +84,8 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   getTranslationsSubscription = Subscription.EMPTY;
   pageOwner = '';
   ticker = '';
+  stampsSubscription = Subscription.EMPTY;
+  stampsWrapper: StampsWrapper|null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -98,7 +102,8 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     private _translate: TranslateService,
     private _arwikiPages: ArwikiPagesService,
     private _arwikiPageSponsor: ArwikiPageSponsorService,
-    private _arwikiAdmins: ArwikiAdminsService
+    private _arwikiAdmins: ArwikiAdminsService,
+    private _warp: WarpContractsService
   ) { }
 
  
@@ -107,6 +112,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     Prism.manual = true;
 
   	this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
+    this.stampsWrapper = new StampsWrapper(this._warp.warp);
 
     //const tmpPageData: ArwikiPage = this.route.snapshot.data[0];
     //this.updateMetaTags(tmpPageData);
@@ -282,6 +288,9 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
             }
           });
 
+          // Load STAMPS count
+          this.getStamps(this.pageData.nft);
+
   			} else {
           this.pageData.rawContent = '';
           this.pageNotFound = true;
@@ -306,6 +315,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     this.tagsSubscription.unsubscribe();
     this.contentSubscription.unsubscribe();
     this.getTranslationsSubscription.unsubscribe();
+    this.stampsSubscription.unsubscribe();
   }
 
   goBack() {
@@ -624,7 +634,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
       );
   }
 
-  stamp(slug: string, lang: string) {
+  stamp(slug: string, lang: string, nft: string) {
     const defLang = this._userSettings.getDefaultLang();
     let direction: Direction = defLang.writing_system === 'LTR' ? 
       'ltr' : 'rtl';
@@ -633,7 +643,8 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
       data: {
         address: this.mainAddress,
         slug: slug,
-        lang: lang
+        lang: lang,
+        nft: nft
       },
       direction: direction,
       disableClose: true
@@ -642,9 +653,29 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     this._stampsDialogRef.afterClosed().subscribe(async (result) => {
       this._stampsDialogRef = null;
       if (result) {
-        this._utils.message('Coming soon!', 'warning');
+        // Reload Stamps number
+        this.getStamps(nft);
+        this._utils.message('Success!', 'success');
       }
     });
+  }
+
+  getStamps(nft: string|undefined) {
+    this.stamps = 0;
+    if (!nft) {
+      return;
+    }
+    this.stampsSubscription = this.stampsWrapper!.count(nft).subscribe({
+      next: (stampsCount) => {
+        this.stamps = stampsCount.total;
+      },
+      error: () => {
+        console.log('Error loading stamps');
+      }
+    });
+  }
+
+  claim(nft: string) {
   }
 
 }

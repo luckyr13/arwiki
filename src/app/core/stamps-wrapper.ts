@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import Stamps, { StampJS, CountResult } from '@permaweb/stampjs';
 import { Warp } from 'warp-contracts';
 import { from, Observable } from 'rxjs';
@@ -10,15 +9,10 @@ import { from, Observable } from 'rxjs';
 *    https://github.com/twilson63/stamp-protocol/tree/main/packages/stampjs
 */
 
-@Injectable({
-  providedIn: 'root'
-})
-export class StampsService {
-  stamps: StampJS|null = null;
+export class StampsWrapper {
+  stamps: StampJS;
 
-  constructor() { }
-
-  init(warp: Warp) {
+  constructor(warp: Warp) {
     // initialize - passing a warp instance
     this.stamps = Stamps.init({warp});
   }

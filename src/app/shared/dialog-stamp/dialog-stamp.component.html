@@ -19,27 +19,26 @@
 		Stamping page ...
 	</div>
 </div>
-<mat-dialog-content class="container container-stamp fadeIn" *ngIf="!loadingVouchStatus && !loadingStampPage">
-	<ng-container *ngIf="data.address && isVouched">
-	  <div class="row">
-	  	<p class="col-12 text-center">
-	  		✅Address <strong>{{ data.address }}</strong><br />Vouched!
-	  	</p>
+<mat-dialog-content class="container container-stamp fadeIn" >
+	<ng-container
+		*ngIf="!loadingVouchStatus && !loadingStampPage && !errorMsg && !stampTxMessage">			
+		<div class="row" *ngIf="data.address">
 	  	<p class="col-12 text-center">
 	  		<button 
 	  			class="stamp-btn"
 	  			(click)="stamp()"
 	  			color="primary" mat-raised-button>
-	  			<span class="mat-icon">
-				  	<img class="invert-colors" width="28px" src="assets/img/stampWhite.png">
-				  </span>
+			  	<img class="invert-colors stamp-icon" width="28px" src="assets/img/stampWhite.png">
 					<span> Stamp Page</span>
 	  		</button>
 	  	</p>
+		</div>
+		<div class="row" *ngIf="isVouched">
+	  	<p class="col-12 text-center">
+	  		✅Address <strong>{{ data.address }}</strong><br />Vouched!
+	  	</p>
 	  </div>
-	</ng-container>
-	<ng-container *ngIf="data.address && !isVouched">
-	  <div class="row">
+		<div class="row" *ngIf="!isVouched">
 	  	<p class="col-12 text-center">
 	  		❌Address <strong>{{ data.address }}</strong><br />Not Vouched!
 	  	</p>
@@ -50,15 +49,21 @@
 	  		<img src="assets/img/vouchdao.png">
 	  	</p>
 	  </div>
+		<ng-container *ngIf="!data.address">
+			<div class="row">
+		  	<p class="col-12 text-center">
+		  		Please login first.
+		  	</p>
+		  </div>
+		</ng-container>
 	</ng-container>
-	<ng-container *ngIf="!data.address">
-		<div class="row">
-	  	<p class="col-12 text-center">
-	  		Please login first.
-	  	</p>
-	  </div>
-	</ng-container>
+	<div *ngIf="errorMsg" class="text-center">
+		{{ errorMsg }}
+	</div>
+	<div *ngIf="stampTxMessage" class="text-center">
+		Succes!. Tx: {{ stampTxMessage }}
+	</div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close cdkFocusInitial>Close</button>
+  <button mat-button [mat-dialog-close]="stampTxMessage" cdkFocusInitial>Close</button>
 </mat-dialog-actions>

@@ -30,7 +30,7 @@
 		  	class="btn-toolbar vote-btn" 
 		  	color="accent"
 		  	[disabled]="!pageData.nft"
-		  	(click)="stamp(routeSlug, routeLang)">
+		  	(click)="stamp(routeSlug, routeLang, pageData.nft!)">
 	    	<img class="invert-colors icon-stamp material-icons" src="assets/img/stampWhite.png">
 		    {{ stamps }} STAMPS
 		  </button>
@@ -220,6 +220,16 @@
 					[routerLink]="['/', routeLang, routeSlug, 'history']">
 			    <mat-icon>history</mat-icon>
 			    {{ 'GENERAL.BUTTONS.BTN_VIEW_HISTORY' | translate }}
+			  </button>
+			  <button 
+		    	type="button"
+			  	mat-button 
+			  	class="btn-toolbar" 
+			  	color="accent"
+			  	*ngIf="pageData.nft"
+			  	(click)="claim(pageData.nft)">
+			    <mat-icon>loyalty</mat-icon>
+			    Claim NFT
 			  </button>
 			</div>
 		</div>
