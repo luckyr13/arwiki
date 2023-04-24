@@ -79,6 +79,14 @@
 	</a>
 	<a 
 		class="action-btn"
+		matTooltip="img.arweave.dev"
+		target="_blank"
+		*ngIf="!isAddress && address && showImgArweaveLink"
+		href="https://img.arweave.dev/#/show/{{address}}">
+		<mat-icon [inline]="true">open_in_new</mat-icon>
+	</a>
+	<a 
+		class="action-btn"
 		matTooltip="{{ 'GENERAL.BUTTONS.COPY_ADDRESS' | translate }}"
 		target="_blank"
 		*ngIf="address"
