@@ -20,6 +20,7 @@ export class ArweaveAddressComponent implements OnInit, OnDestroy, OnChanges {
   @Input() showHandleInAddress: boolean = true;
   @Input() showArCodeLink: boolean = false;
   @Input() showSonArContractLink: boolean = false;
+  @Input() showImgArweaveLink: boolean = false;
   @Input() showVouchedBtn: boolean = true;
   vouchedSubscription = Subscription.EMPTY;
   

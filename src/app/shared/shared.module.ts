@@ -55,6 +55,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { SafeImageContainerComponent } from './safe-image-container/safe-image-container.component';
 import { DialogLoadFromTxComponent } from './dialog-load-from-tx/dialog-load-from-tx.component';
 import { DialogCookiesMsgComponent } from './dialog-cookies-msg/dialog-cookies-msg.component';
+import { DialogClaimNftComponent } from './dialog-claim-nft/dialog-claim-nft.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { DialogCookiesMsgComponent } from './dialog-cookies-msg/dialog-cookies-m
     ChartComponent,
     SafeImageContainerComponent,
     DialogLoadFromTxComponent,
-    DialogCookiesMsgComponent
+    DialogCookiesMsgComponent,
+    DialogClaimNftComponent
   ],
   imports: [
     CommonModule,

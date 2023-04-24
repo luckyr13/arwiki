@@ -32,7 +32,11 @@
 		  	[disabled]="!pageData.nft"
 		  	(click)="stamp(routeSlug, routeLang, pageData.nft!)">
 	    	<img class="invert-colors icon-stamp material-icons" src="assets/img/stampWhite.png">
-		    {{ stamps }} STAMPS
+	    	<mat-spinner
+	    		*ngIf="loadingStampsCounter"
+	    		color="accent"
+	    		diameter="16"></mat-spinner>
+		    <span *ngIf="!loadingStampsCounter">{{ stamps }} STAMPS</span>
 		  </button>
 	    <button 
 	    	type="button"
@@ -155,6 +159,14 @@
 		  </p>
 		  <p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageExtraMetadata.value">
 		  	<strong>{{ 'PAGE.LABEL_PAGE_VALUE' | translate }} </strong>{{ pageExtraMetadata.value }} {{ ticker }}
+		  </p>
+		  <p class="text-left mini-text fadeIn col-12 col-md-6" *ngIf="pageData.nft">
+		  	<app-arweave-address
+		  		[isAddress]="false"
+		  		[showArCodeLink]="true"
+		  		[showSonArContractLink]="true"
+		  		[showImgArweaveLink]="true"
+		  		[address]="pageData.nft">NFT: </app-arweave-address>
 		  </p>
 		</div>
 	</div>

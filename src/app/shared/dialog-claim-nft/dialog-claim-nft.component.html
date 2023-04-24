@@ -1,0 +1,44 @@
+<h2 mat-dialog-title class="title-text">
+  Claim NFT!
+</h2>
+<div class="title-buttons">
+  <button
+    mat-icon-button
+    aria-label="Close window"
+    (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<div class="clear-both"></div>
+<mat-progress-bar 
+  color="accent"
+  mode="indeterminate"
+  *ngIf="loading"
+  class="fadeIn"></mat-progress-bar>
+<mat-dialog-content
+  class="content">
+  <ng-container *ngIf="!loading && !errorMsg && !transferTX">
+	  <div >
+		  Page: {{ data.langCode }}/{{ data.slug }}<br>
+		  New owner: {{ data.sponsor }}<br>
+		  NFT: {{ data.nft }}<br>
+		  NFT Owner: {{ nftOwner }}
+	  </div>
+	  <div
+	  	*ngIf="data.sponsor !== nftOwner"
+	  	class="text-center btn-transfer-container">
+	  	<button 
+	  		mat-flat-button
+	  		(click)="transfer()"
+	  		color="accent">Transfer NFT to {{ data.sponsor }}</button>
+	  </div>
+	</ng-container>
+	<ng-container *ngIf="!loading">
+		<div *ngIf="errorMsg">
+			Error: {{ errorMsg }}
+		</div>
+		<div *ngIf="transferTX">
+			Success! Tx: {{ transferTX }}
+		</div>
+	</ng-container>
+</mat-dialog-content>

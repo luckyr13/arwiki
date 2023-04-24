@@ -40,6 +40,7 @@ import { ArwikiPageSponsorService } from '../../core/arwiki-contracts/arwiki-pag
 import { ArwikiAdminsService } from '../../core/arwiki-contracts/arwiki-admins.service';
 import { StampsWrapper } from '../../core/stamps-wrapper';
 import { WarpContractsService } from '../../core/warp-contracts.service';
+import { DialogClaimNftComponent } from '../../shared/dialog-claim-nft/dialog-claim-nft.component';
 
 @Component({
   templateUrl: './view-detail.component.html',
@@ -86,6 +87,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   ticker = '';
   stampsSubscription = Subscription.EMPTY;
   stampsWrapper: StampsWrapper|null = null;
+  loadingStampsCounter = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -662,20 +664,50 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
 
   getStamps(nft: string|undefined) {
     this.stamps = 0;
+    this.loadingStampsCounter = true;
     if (!nft) {
+      this.loadingStampsCounter = false;
       return;
     }
     this.stampsSubscription = this.stampsWrapper!.count(nft).subscribe({
       next: (stampsCount) => {
+        this.loadingStampsCounter = false;
         this.stamps = stampsCount.total;
       },
       error: () => {
+        this.loadingStampsCounter = false;
         console.log('Error loading stamps');
       }
     });
   }
 
   claim(nft: string) {
+    if (!this.mainAddress) {
+      this.dialogLoginFirst();
+      return;
+    }
+    
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
+    const dialogRef = this._dialog.open(DialogClaimNftComponent, {
+      data: {
+        langCode: defLang.code,
+        slug: this.pageData.slug,
+        sponsor: this.pageExtraMetadata.sponsor,
+        nft: this.pageData.nft
+      },
+      direction: direction,
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(async (result) => {
+      if (result) {
+        
+
+      }
+    });
   }
 
 }
