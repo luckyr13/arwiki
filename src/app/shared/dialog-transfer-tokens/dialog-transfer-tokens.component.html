@@ -1,12 +1,12 @@
 <h2 mat-dialog-title>
 	<mat-icon class="title-icon">send</mat-icon>
-	<span>{{ 'TOKEN_TRANSFER_DIALOG.TITLE' | translate }}</span>
+	<span>{{ 'TOKEN_TRANSFER_DIALOG.TITLE' | translate:{ ticker: ticker } }}</span>
 </h2>
 <form [formGroup]="frmTransfer" (ngSubmit)="onSubmit()" class="container">
 	<mat-dialog-content class="row">
 			<ng-container *ngIf="!loadingSendTokens">
 			  <mat-form-field appearance="outline" color="accent" class="col-12">
-			    <mat-label>{{ 'TOKEN_TRANSFER_DIALOG.RECIPIENT' | translate:{ ticker: ticker } }}</mat-label>
+			    <mat-label>{{ 'TOKEN_TRANSFER_DIALOG.RECIPIENT' | translate }}</mat-label>
 			    <input 
 			    	matInput 
 			    	placeholder="Arweave address" 
