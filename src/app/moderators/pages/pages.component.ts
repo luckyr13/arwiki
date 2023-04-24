@@ -159,7 +159,8 @@ export class PagesComponent implements OnInit, OnDestroy {
               showInMenu: showInMenu,
               showInMainPage: showInMainPage,
               showInFooter: showInFooter,
-              nft: nft
+              nft: nft,
+              sponsor: sponsor
             });
           }
 

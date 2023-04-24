@@ -22,10 +22,11 @@ import { PagesComponent } from './pages/pages.component';
 import { DialogNewCategoryComponent } from './dialog-new-category/dialog-new-category.component';
 import { DialogEditCategoryComponent } from './dialog-edit-category/dialog-edit-category.component';
 import { DialogEditPagePropertiesComponent } from './dialog-edit-page-properties/dialog-edit-page-properties.component';
+import { DialogCreateNftComponent } from './dialog-create-nft/dialog-create-nft.component';
 
 
 @NgModule({
-  declarations: [PendingListComponent, MenuComponent, AddAdminComponent, ViewAdminListComponent, ApprovedListComponent, TagManagerComponent, DeletedListComponent, PageUpdatesComponent, DialogSearchPageUpdateComponent, ActivityHistoryComponent, HistoryPagesRejectedComponent, HistoryUpdatesApprovedComponent, LanguagesComponent, DialogNewLanguageComponent, DialogEditLanguageComponent, CategoriesComponent, PagesComponent, DialogNewCategoryComponent, DialogEditCategoryComponent, DialogEditPagePropertiesComponent],
+  declarations: [PendingListComponent, MenuComponent, AddAdminComponent, ViewAdminListComponent, ApprovedListComponent, TagManagerComponent, DeletedListComponent, PageUpdatesComponent, DialogSearchPageUpdateComponent, ActivityHistoryComponent, HistoryPagesRejectedComponent, HistoryUpdatesApprovedComponent, LanguagesComponent, DialogNewLanguageComponent, DialogEditLanguageComponent, CategoriesComponent, PagesComponent, DialogNewCategoryComponent, DialogEditCategoryComponent, DialogEditPagePropertiesComponent, DialogCreateNftComponent],
   imports: [
     CommonModule,
     ModeratorsRoutingModule,

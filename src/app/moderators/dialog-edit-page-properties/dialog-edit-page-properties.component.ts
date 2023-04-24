@@ -15,7 +15,12 @@ import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.ser
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { ArwikiMenuService } from '../../core/arwiki-contracts/arwiki-menu.service';
 import { ArwikiPage } from '../../core/interfaces/arwiki-page';
-
+import {
+  DialogCreateNftComponent 
+} from '../dialog-create-nft/dialog-create-nft.component';
+import { MatDialog } from '@angular/material/dialog';
+import { UserSettingsService } from '../../core/user-settings.service';
+import { Direction } from '@angular/cdk/bidi';
 
 @Component({
   selector: 'app-dialog-edit-page-properties',
@@ -87,7 +92,9 @@ export class DialogEditPagePropertiesComponent implements OnInit, OnDestroy {
       langCode: string,
       page: ArwikiPage
     },
-    private _arwikiMenu: ArwikiMenuService) {
+    private _arwikiMenu: ArwikiMenuService,
+    private _dialog: MatDialog,
+    private _userSettings: UserSettingsService) {
   }
 
   public get slug() {
@@ -207,6 +214,34 @@ export class DialogEditPagePropertiesComponent implements OnInit, OnDestroy {
     this.showInMenu.setValue(page.showInMenu!);
     this.showInMainPage.setValue(page.showInMainPage!);
     this.showInFooter.setValue(page.showInFooter!);
+  }
+
+
+  openCreateNftModal(slug: string, langCode: string) {
+    const defLang = this._userSettings.getDefaultLang();
+    let direction: Direction = defLang.writing_system === 'LTR' ? 
+      'ltr' : 'rtl';
+
+
+    const dialogRef = this._dialog.open(DialogCreateNftComponent, {
+      width: '650px',
+      data: {
+        langCode: langCode,
+        slug: slug,
+        img: this.data.page.img,
+        sponsor: this.data.page.sponsor,
+        title: this.data.page.title,
+      },
+      direction: direction,
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe((tx: string) => {
+      if (tx) {
+        // Insert tx id
+        this.nft.setValue(tx);
+      }
+    });
   }
 
 }

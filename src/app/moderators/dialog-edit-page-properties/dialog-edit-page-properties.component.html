@@ -72,6 +72,7 @@
 					formControlName="nft">
 				<button 
 					type="button"
+					(click)="openCreateNftModal(data.page.slug, data.langCode)"
 					mat-icon-button matSuffix [attr.aria-label]="'Generate NFT'">
 		      <mat-icon>add_circle</mat-icon>
 		    </button>

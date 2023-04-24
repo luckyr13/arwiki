@@ -1,0 +1,42 @@
+<h2 mat-dialog-title>
+	Create NFT
+</h2>
+<mat-progress-bar 
+	color="accent"
+	mode="indeterminate"
+	*ngIf="loading"
+	class="fadeIn"></mat-progress-bar>
+
+<mat-dialog-content>
+	<div *ngIf="!tx && !error">
+		NFT: {{ data.title }}/{{ data.langCode }}/{{ data.slug }}
+		<div class="img-container">
+			<app-safe-image-container [imgTX]="data.img"></app-safe-image-container>
+		</div>
+		<app-arweave-address [address]="data.sponsor">Owner: </app-arweave-address>
+		
+
+	</div>
+	<div *ngIf="tx">
+		NFT Created. TX ID: {{ tx }}
+	</div>
+	<div *ngIf="error">
+		Error: {{ error }}
+	</div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button
+  	color="accent" 
+  	mat-flat-button
+  	*ngIf="!tx && !error"
+  	[disabled]="loading">
+  	Create and insert
+  </button>
+  <div class="menu-spacer"></div>
+  <button 
+  	mat-button
+  	[mat-dialog-close]="tx"
+  	[disabled]="loading">
+  	{{ 'DIALOGS.TXT_CLOSE' | translate }}
+  </button>
+</mat-dialog-actions>
