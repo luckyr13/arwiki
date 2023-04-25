@@ -636,7 +636,7 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
       );
   }
 
-  stamp(slug: string, lang: string, nft: string) {
+  stamp(slug: string, lang: string, nft: string, sponsor: string) {
     const defLang = this._userSettings.getDefaultLang();
     let direction: Direction = defLang.writing_system === 'LTR' ? 
       'ltr' : 'rtl';

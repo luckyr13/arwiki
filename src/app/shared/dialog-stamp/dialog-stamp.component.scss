@@ -20,11 +20,11 @@
 }
 .footer-logo {
 	text-align: center;
-	margin-top: 40px;
+	margin-top: 12px;
 }
 .footer-logo img {
 	filter: drop-shadow(5px 5px 10px #FFFFFF);
-	width: 150px;
+	width: 120px;
 }
 .stamp-btn {
 	font-size: 18px;
@@ -37,4 +37,15 @@
 	width: 28px;
 	float: left;
 	margin-right: 6px;
+}
+.slider-balance {
+	width: 60%;
+}
+.super-stamp-msg {
+	max-width:400px;
+	margin: 0 auto;
+}
+.balance-container {
+	width: 250px;
+	margin: 0 auto;
 }

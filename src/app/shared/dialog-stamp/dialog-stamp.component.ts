@@ -4,6 +4,7 @@ import { StampsWrapper } from '../../core/stamps-wrapper';
 import { VouchDaoService } from '../../core/vouch-dao.service';
 import { Observable, Subscription } from 'rxjs';
 import { WarpContractsService } from '../../core/warp-contracts.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-dialog-stamp',
@@ -19,10 +20,20 @@ export class DialogStampComponent implements OnInit, OnDestroy {
   stampsWrapper: StampsWrapper;
   stampingSubscription = Subscription.EMPTY;
   stampTxMessage = '';
+  stampTokenBalance = 0;
+  stampTokenBalanceSubscription = Subscription.EMPTY;
+  loadingStampBalance = false;
+  stampsTokenQty = new FormControl(0);
+  nftOwner = '';
+  loadingNFTOwner = false;
+  nftOwnerSubscription = Subscription.EMPTY;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: {
-      address: string, slug: string, lang: string, nft: string
+      address: string,
+      slug: string,
+      lang: string,
+      nft: string
     },
     private _vouchdao: VouchDaoService,
     public _dialogRef: MatDialogRef<DialogStampComponent>,
@@ -49,19 +60,25 @@ export class DialogStampComponent implements OnInit, OnDestroy {
             this.loadingVouchStatus = false;
           }
         });
+      // Get STAMP token balance
+      this.getStampTokenBalance();
     }
   }
 
   ngOnDestroy() {
     this.vouchStatusSubscription.unsubscribe();
     this.stampingSubscription.unsubscribe();
+    this.stampTokenBalanceSubscription.unsubscribe();
+    this.nftOwnerSubscription.unsubscribe();
   }
 
   stamp() {
     let res = false;
     this.loadingStampPage = true;
     const nft = this.data.nft;
-    this.stampingSubscription = this.stampsWrapper.stamp(nft, 0, []).subscribe({
+    const stampTokensSent = this.stampsTokenQty.value ? this.stampsTokenQty.value :
+      0;
+    this.stampingSubscription = this.stampsWrapper.stamp(nft, stampTokensSent, []).subscribe({
       next: (res) => {
         let tx = '';
         if (res && Object.prototype.hasOwnProperty.call(res, 'originalTxId')) {
@@ -95,5 +112,23 @@ export class DialogStampComponent implements OnInit, OnDestroy {
 
     // this._dialogRef.close(res);
   }
+
+  getStampTokenBalance() {
+    this.stampTokenBalance = 0;
+    this.loadingStampBalance = true;
+    this.stampTokenBalanceSubscription = this.stampsWrapper.balance(
+      this.data.address
+    ).subscribe({
+      next: (balance) => {
+        this.stampTokenBalance = balance;
+        this.loadingStampBalance = false;
+      },
+      error: (error) => {
+        this.loadingStampBalance = false;
+        console.error('getStampTokenBalance', error);
+      }
+    });
+  }
+
 
 }

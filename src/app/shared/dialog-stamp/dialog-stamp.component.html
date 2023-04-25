@@ -1,68 +1,93 @@
 <h2 mat-dialog-title>
-	<span class="mat-icon title-icon">
-  	<img class="invert-colors" width="40px" src="assets/img/stampWhite.png">
+  <span class="mat-icon title-icon">
+    <img class="invert-colors" width="40px" src="assets/img/stampWhite.png">
   </span>
-	<span>Stamp page</span>
+  <span>Stamp page</span>
 </h2>
-<div *ngIf="loadingVouchStatus || loadingStampPage" class="fadeIn">
-	<mat-progress-bar 
-	  color="accent"
-	  mode="indeterminate"
-	  class="fadeIn"></mat-progress-bar>
-	<div class="text-center" *ngIf="loadingVouchStatus">
-		Validating Vouch status ...
-	</div>
-	<div class="footer-logo" *ngIf="loadingVouchStatus">
-		<img src="assets/img/vouchdao.png">
-	</div>
-	<div class="text-center" *ngIf="loadingStampPage">
-		Stamping page ...
-	</div>
-</div>
+<mat-progress-bar 
+    color="accent"
+    mode="indeterminate"
+    class="fadeIn"
+    *ngIf="loadingVouchStatus || loadingStampPage || loadingStampBalance"></mat-progress-bar>
 <mat-dialog-content class="container container-stamp fadeIn" >
-	<ng-container
-		*ngIf="!loadingVouchStatus && !loadingStampPage && !errorMsg && !stampTxMessage">			
-		<div class="row" *ngIf="data.address">
-	  	<p class="col-12 text-center">
-	  		<button 
-	  			class="stamp-btn"
-	  			(click)="stamp()"
-	  			color="primary" mat-raised-button>
-			  	<img class="invert-colors stamp-icon" width="28px" src="assets/img/stampWhite.png">
-					<span> Stamp Page</span>
-	  		</button>
-	  	</p>
-		</div>
-		<div class="row" *ngIf="isVouched">
-	  	<p class="col-12 text-center">
-	  		✅Address <strong>{{ data.address }}</strong><br />Vouched!
-	  	</p>
-	  </div>
-		<div class="row" *ngIf="!isVouched">
-	  	<p class="col-12 text-center">
-	  		❌Address <strong>{{ data.address }}</strong><br />Not Vouched!
-	  	</p>
-	  	<p class="col-12 text-center">
-	  		Vouch your wallet in <a target="_blank" href="https://www.vouchdao.xyz/">https://www.vouchdao.xyz/</a> 
-	  	</p>
-	  	<p class="col-12 footer-logo">
-	  		<img src="assets/img/vouchdao.png">
-	  	</p>
-	  </div>
-		<ng-container *ngIf="!data.address">
-			<div class="row">
-		  	<p class="col-12 text-center">
-		  		Please login first.
-		  	</p>
-		  </div>
-		</ng-container>
-	</ng-container>
-	<div *ngIf="errorMsg" class="text-center">
-		{{ errorMsg }}
-	</div>
-	<div *ngIf="stampTxMessage" class="text-center">
-		Succes!. Tx: {{ stampTxMessage }}
-	</div>
+  <ng-container *ngIf="loadingVouchStatus || loadingStampPage || loadingStampBalance" class="fadeIn">
+    <div class="text-center" *ngIf="loadingVouchStatus">
+      Validating Vouch status ...
+    </div>
+    <div class="footer-logo" *ngIf="loadingVouchStatus">
+      <img src="assets/img/vouchdao.png">
+    </div>
+    <div class="text-center" *ngIf="loadingStampPage">
+      Stamping page ...
+    </div>
+  </ng-container>
+  <ng-container
+    *ngIf="!loadingVouchStatus && !loadingStampPage && !errorMsg && !stampTxMessage && data.address">   
+    <div class="row">
+      <p class="col-12 text-center balance-container">
+        STAMP Token Balance: {{ stampTokenBalance - stampsTokenQty.value! }}
+      </p>
+      <p class="col-12 text-center" *ngIf="stampTokenBalance">
+        <mat-slider 
+          min="0"
+          [max]="stampTokenBalance"
+          step="0.01"
+          color="accent" 
+          class="slider-balance">
+          <input 
+            matSliderThumb
+            [formControl]="stampsTokenQty">
+        </mat-slider>
+        <br>
+      </p>
+      <p class="col-12 text-center mini-text super-stamp-msg" *ngIf="stampTokenBalance">
+        {{ stampsTokenQty.value }} Tokens being sent as a super stamp 
+        will be transferred to the page sponsor (NFT owner).
+      </p>
+    </div>
+    <div class="row">
+      <p class="col-12 text-center">
+        <button 
+          class="stamp-btn"
+          [disabled]="loadingStampBalance"
+          (click)="stamp()"
+          color="primary" mat-raised-button>
+          <img class="invert-colors stamp-icon" width="28px" src="assets/img/stampWhite.png">
+          <span *ngIf="!stampsTokenQty.value"> Stamp Page</span>
+          <span *ngIf="stampsTokenQty.value"> Super Stamp Page</span>
+        </button>
+      </p>
+    </div>
+    <div class="row mini-text" *ngIf="isVouched">
+      <p class="col-12 text-right">
+        ✅ Vouched!
+      </p>
+    </div>
+    <div class="row mini-text" *ngIf="!isVouched">
+      <p class="col-12 text-center">
+        ❌ Not Vouched!
+      </p>
+      <p class="col-12 text-center">
+        Vouch your wallet in <a target="_blank" href="https://www.vouchdao.xyz/">https://www.vouchdao.xyz/</a> 
+      </p>
+      <p class="col-12 footer-logo">
+        <img src="assets/img/vouchdao.png">
+      </p>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="!data.address">
+    <div class="row">
+      <p class="col-12 text-center">
+        Please login first.
+      </p>
+    </div>
+  </ng-container>
+  <div *ngIf="errorMsg" class="text-center">
+    {{ errorMsg }}
+  </div>
+  <div *ngIf="stampTxMessage" class="text-center">
+    Success!. Tx: {{ stampTxMessage }}
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button [mat-dialog-close]="stampTxMessage" cdkFocusInitial>Close</button>
