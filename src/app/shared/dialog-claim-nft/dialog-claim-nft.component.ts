@@ -1,9 +1,9 @@
 import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import { WarpContractsService } from '../../core/warp-contracts.service';
 import { Subscription } from 'rxjs';
-import { serviceName, arwikiVersion } from '../../core/arwiki';
+import { arwikiVersion } from '../../core/arwiki';
 import { AuthService } from '../../auth/auth.service';
+import { ArwikiAtomicNftService } from '../../core/arwiki-contracts/arwiki-atomic-nft.service';
 
 @Component({
   selector: 'app-dialog-claim-nft',
@@ -26,8 +26,8 @@ export class DialogClaimNftComponent implements OnInit, OnDestroy {
       sponsor: string,
       nft: string
     },
-    private _warp: WarpContractsService,
-    private _auth: AuthService
+    private _auth: AuthService,
+    private _atomicNft: ArwikiAtomicNftService
   ) { }
 
 
@@ -49,12 +49,11 @@ export class DialogClaimNftComponent implements OnInit, OnDestroy {
       return;
     }
     this.loading = true;
-    this.nftStateSubscription = this._warp.readState(this.data.nft).subscribe({
+    this.nftStateSubscription = this._atomicNft.getState(this.data.nft).subscribe({
       next: (state) => {
-        if (state && state.cachedValue && state.cachedValue.state) {
-          const cachedState = state.cachedValue.state as any;
-          const balances = cachedState.balances ? 
-            cachedState.balances : {};
+        if (state) {
+          const balances = state.balances ? 
+            state.balances : {};
           for (const address in balances) {
             if (balances[address] > 0) {
               this.nftOwner = address;
@@ -75,19 +74,11 @@ export class DialogClaimNftComponent implements OnInit, OnDestroy {
   transfer() {
     this.loading = true;
     const jwk = this._auth.getPrivateKey();
-    const tags = [
-      {name: 'Service', value: serviceName},
-      {name: 'Arwiki-Type', value: 'TransferTokens'},
-      {name: 'Arwiki-Version', value: arwikiVersion[0]},
-    ];
-    const input = {
-      function: 'transfer',
-      target: this.data.sponsor,
-      qty: 1,
-    };
+    const qty = 1;
+    const target = this.data.sponsor;
     
-    this.nftTransferSubscription = this._warp.writeInteraction(
-      this.data.nft, jwk, input, tags
+    this.nftTransferSubscription = this._atomicNft.transfer(
+      target, qty, this.data.nft, jwk, arwikiVersion[0]
     ).subscribe({
       next: (res) => {
         let tx = '';
