@@ -1,15 +1,14 @@
 import { 
   Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { ArweaveService } from '../../core/arweave.service';
-import { Subscription } from 'rxjs';
+import { Subscription, switchMap } from 'rxjs';
 import { UtilsService } from '../../core/utils.service';
-import { 
-  arwikiVersion 
-} from '../../core/arwiki';
 import { 
   AuthService 
 } from '../../auth/auth.service';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { ArwikiAtomicNftService } from '../../core/arwiki-contracts/arwiki-atomic-nft.service';
+import { UserSettingsService } from '../../core/user-settings.service';
 
 @Component({
   selector: 'app-dialog-create-nft',
@@ -32,7 +31,9 @@ export class DialogCreateNftComponent implements OnInit, OnDestroy {
       img: string,
       sponsor: string,
       title: string
-    }) {
+    },
+    private _arwikiAtomicNFT: ArwikiAtomicNftService,
+    private _userSettings: UserSettingsService) {
   }
 
   ngOnInit() {
@@ -44,8 +45,52 @@ export class DialogCreateNftComponent implements OnInit, OnDestroy {
   }
 
 
-  onSubmit() {
-    
+  createNFT() {
+    this.loading = true;
+    const qty = 1;
+    const target = this.data.sponsor;
+    const linkedContractAddress = this._userSettings.getDefaultNetwork().contractAddress;
+    const title = this.data.title;
+    const langCode = this.data.langCode;
+    const slug = this.data.slug;
+    const img = this.data.img;
+    const disableBundling = false;
+    const method = this._auth.loginMethod;
+    const jwk = this._auth.getPrivateKey();
+
+    this.submitSubscription = this._arweave.getNetworkInfo().pipe(
+      switchMap((networkInfo) => {
+        const createdAt = networkInfo.height;
+        return this._arwikiAtomicNFT.createNFT(
+          target,
+          qty,
+          linkedContractAddress,
+          title,
+          langCode,
+          slug,
+          img,
+          jwk,
+          method,
+          createdAt,
+          disableBundling
+        );
+      })
+    ).subscribe({
+      next: (res) => {
+        if (res && res.contractTxId) {
+          this.tx = res.contractTxId;
+        }
+        this.loading = false;
+      },
+      error: (error) => {
+        this._utils.message(error, 'error');
+        this.error = error;
+        console.error(error);
+        this.loading = false;
+      }
+    })
+
+
       
   }
 

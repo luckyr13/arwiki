@@ -18,7 +18,13 @@
 
 	</div>
 	<div *ngIf="tx">
-		NFT Created. TX ID: {{ tx }}
+		NFT Created. TX ID: {{ tx }}<br>
+		<button
+	  	color="accent" 
+	  	mat-flat-button
+	  	[mat-dialog-close]="tx">
+	  	Insert NFT Address
+	  </button>
 	</div>
 	<div *ngIf="error">
 		Error: {{ error }}
@@ -29,13 +35,14 @@
   	color="accent" 
   	mat-flat-button
   	*ngIf="!tx && !error"
-  	[disabled]="loading">
-  	Create and insert
+  	[disabled]="loading"
+  	(click)="createNFT()">
+  	Create
   </button>
   <div class="menu-spacer"></div>
   <button 
   	mat-button
-  	[mat-dialog-close]="tx"
+  	mat-dialog-close
   	[disabled]="loading">
   	{{ 'DIALOGS.TXT_CLOSE' | translate }}
   </button>
