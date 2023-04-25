@@ -13,6 +13,7 @@ import { HttpClient } from '@angular/common/http';
 import { PermissionType, AppInfo, GatewayConfig, DispatchResult } from 'arconnect';
 export const arweaveAddressLength = 43;
 import {ArweaveGateway} from '../core/interfaces/arweave-gateway';
+import { InjectedArweaveSigner } from 'warp-contracts-plugin-deploy';
 
 @Injectable({
   providedIn: 'root'
@@ -87,7 +88,8 @@ export class ArweaveService {
           .then(async (permissions: PermissionType[]) => {
             const customPermissions: PermissionType[] = [
               'ACCESS_ADDRESS', 'ACCESS_ALL_ADDRESSES',
-              'SIGN_TRANSACTION', 'DISPATCH'
+              'SIGN_TRANSACTION', 'DISPATCH',
+              'ACCESS_PUBLIC_KEY', 'SIGNATURE' 
             ];
             const finalPermissions: PermissionType[] = [];
             for (let i = 0; i < customPermissions.length; i++) {
@@ -592,4 +594,22 @@ export class ArweaveService {
     }
     return imgUrl;
   }
+
+
+  public async getUserSigner(method: string): Promise<InjectedArweaveSigner|null> {
+    if (method === 'arweavewebwallet') {
+      const userSigner = new InjectedArweaveSigner(
+        this.arweaveWebWallet
+      );
+      return userSigner;
+    } else if (method === 'arconnect') {
+      const userSigner = new InjectedArweaveSigner(
+        window.arweaveWallet
+      );
+      await userSigner.setPublicKey();
+      return userSigner;
+    }
+    return null;
+  }
+
 }
