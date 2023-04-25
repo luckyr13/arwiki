@@ -3,10 +3,13 @@ import {
   Warp, Contract, WarpFactory,
   EvalStateResult, LoggerFactory, ConsoleLoggerFactory,
   ArWallet, Tags, ArTransfer,
-  WriteInteractionResponse, CacheOptions  } from 'warp-contracts'
+  WriteInteractionResponse, CacheOptions, ContractData,
+  ContractDeploy, FromSrcTxContractData
+} from 'warp-contracts'
 import { ArweaveService } from './arweave.service';
 import { Observable, from } from 'rxjs';
 import { SortKeyCacheResult } from 'warp-contracts/lib/types/cache/SortKeyCache';
+import { DeployPlugin } from 'warp-contracts-plugin-deploy';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +29,7 @@ export class WarpContractsService {
     _useArweaveGw: boolean|undefined = undefined) {
     this._warp = WarpFactory.forMainnet(
       _cacheOptions, _useArweaveGw, _arweave.arweave
-    );
+    ).use(new DeployPlugin());
   }
 
   initLocalWarp(
@@ -35,7 +38,7 @@ export class WarpContractsService {
     _cacheOptions: CacheOptions|undefined = undefined) {
     this._warp = WarpFactory.forLocal(
       _port, _arweave.arweave, _cacheOptions
-    );
+    ).use(new DeployPlugin());
   }
 
   get warp(): Warp {
@@ -65,5 +68,18 @@ export class WarpContractsService {
     const options = { tags: tags, strict: strict, transfer: transfer, disableBundling: disableBundling };
 
     return from(contract.writeInteraction(input, options));
+  }
+
+  public async createContract(
+      contract: ContractData,
+      disableBundling?: boolean
+    ): Promise<ContractDeploy> {
+    return await this.warp.deploy(contract, disableBundling);
+  }
+
+  public async createContractFromTX(
+      contract: FromSrcTxContractData, disableBundling?: boolean
+    ): Promise<ContractDeploy> {
+    return await this.warp.deployFromSourceTx(contract, disableBundling);
   }
 }
