@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, from } from 'rxjs';
+import { Observable, of, from, switchMap } from 'rxjs';
 import { ArweaveService } from '../arweave.service';
 import { map, tap } from 'rxjs/operators';
 import { JWKInterface } from 'arweave/node/lib/wallet';
+import { FromSrcTxContractData, ArWallet } from 'warp-contracts';
 import { WarpContractsService } from '../warp-contracts.service';
 import { UtilsService } from '../utils.service';
 import { serviceName } from '../arwiki';
@@ -12,6 +13,8 @@ import { serviceName } from '../arwiki';
 })
 export class ArwikiAtomicNftService
 {
+  private readonly _nftContractSrc = 'DyHtOIQToIUedjKBOZEa8Zo8bxkyAIVWGpbXUyHXddA';
+
   constructor(
     private _arweave: ArweaveService,
     private _warp: WarpContractsService,
@@ -84,24 +87,24 @@ export class ArwikiAtomicNftService
     langCode: string,
     slug: string,
     img: string,
-    contentType: string,
     jwk: JWKInterface|'use_wallet',
     method: string,
     createdAt: number,
-    arwikiVersion: string
+    disableBundling?: boolean
   ) {
     if (!img) {
       throw new Error('NFT must have an img');
     }
+    const description = `ArWiki page: https://arwiki.wiki/#/${langCode}/${slug}`;
+    const wallet: ArWallet = jwk;
     const initialState = JSON.stringify({
       balances: {
-        target: qty
+        [target]: qty
       },
       title: title,
       name: `${langCode}/${slug}`,
-      description: `ArWiki page: ${langCode}/${slug}`,
+      description: description,
       ticker: `ARWIKI_${langCode}_${slug}`,
-      contentType: "",
       createdAt: createdAt,
       linkedContract: linkedContractAddress,
       linkedProperties: {
@@ -109,7 +112,7 @@ export class ArwikiAtomicNftService
         langCode: langCode
       }
     });
-    const data =  JSON.stringify({
+    const manifest =  JSON.stringify({
       manifest: "arweave/paths",
       version: "0.1.0",
       index: {
@@ -122,8 +125,32 @@ export class ArwikiAtomicNftService
       }
     });
 
-    // TODO
-    // return contractDeployment
+    const tags: {name: string; value: string;}[] = [
+      { name: 'Type', value: 'image' },
+      { name: 'Title', value: title },
+      { name: 'Description', value: description }
+    ];
+
+    const contract: FromSrcTxContractData = {
+      srcTxId: this._nftContractSrc,
+      initState: initialState,
+      wallet: wallet,
+      tags: tags,
+      data: { 'Content-Type': 'application/x.arweave-manifest+json', body: manifest }
+    };
+
+    if (!disableBundling) {
+      return from(this._arweave.getUserSigner(method)).pipe(
+        switchMap((wallet) => {
+          if (wallet) {
+            contract.wallet = wallet;
+          }
+          return this._warp.createContractFromTX(contract, disableBundling);
+        })
+      );
+    }
+
+    return this._warp.createContractFromTX(contract, disableBundling);
 
   }
 
