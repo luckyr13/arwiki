@@ -1,7 +1,7 @@
 # ArWiki versions
 
 ## 2.0.5
-- Backup (2023-04-25): 
+- Backup (2023-04-25): https://arweave.net/lJR9OTkSillY7LwQTTiAMxIc1ObM0bq6MirEixlrcz4
 - New ArWiki contract address: `3aaQyrURqe_EuCsjJBWWtUOryIVSvtVaCdIrs76LcGo`
 - Moderators > Categories > Pages > Create NFT dialog (ready!)
 - Pages > STAMP page (ready!)
