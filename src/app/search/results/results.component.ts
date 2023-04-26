@@ -191,11 +191,16 @@ export class ResultsComponent implements OnInit, OnDestroy {
           for (let p of txs) {
             const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
             const title = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title');
-            const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
-            const category = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category');
+            //const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
+            //const category = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category');
             const img = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img');
             const owner = pTX.owner.address;
             const id = pTX.id;
+            const tmpSlug = Object.keys(verifiedPages).find((s) => {
+              return verifiedPages[s].id === id;
+            });
+            const slug = tmpSlug ? tmpSlug : '';
+            const category = verifiedPages[slug].category;
             
             finalRes.push({
               title: title,

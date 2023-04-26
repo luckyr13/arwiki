@@ -100,7 +100,7 @@ export class MyUpdatesComponent implements OnInit , OnDestroy {
       })
     )
     .subscribe({
-      next: (allVerifiedPages: any) => {
+      next: (allVerifiedPages) => {
         const finalPages: ArwikiPage[] = [];
         for (let p of myPagesTX) {
           const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
@@ -112,8 +112,13 @@ export class MyUpdatesComponent implements OnInit , OnDestroy {
           const owner = pTX.owner.address;
           const id = pTX.id;
           const pageValue = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Value');
-          const extraData = allVerifiedPages[slug] && allVerifiedPages[slug].content == id 
-            ? allVerifiedPages[slug] : {};
+          let extraData: any = {};
+          for (const s in allVerifiedPages) {
+            if (allVerifiedPages[s].updates &&
+                allVerifiedPages[s].updates!.find((u) => { return u.tx === id })) {
+              extraData = allVerifiedPages[s];
+            }
+          }
           const start = extraData.start ? extraData.start : 0;
           const pageRewardAt = extraData.pageRewardAt ? extraData.pageRewardAt : 0;
           const sponsor = extraData.sponsor ? extraData.sponsor : '';

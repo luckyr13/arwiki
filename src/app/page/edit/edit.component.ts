@@ -362,14 +362,17 @@ export class EditComponent implements OnInit, OnDestroy {
         for (let p of data) {
           const pTX: ArdbTransaction = new ArdbTransaction(p, this._arweave.arweave);
           const title = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Title');
-          const slug = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Slug');
-          const category = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Category');
           const img = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Img');
           const owner = pTX.owner.address;
           const id = pTX.id;
           const block = pTX.block;
           const extraMetadata = this.pageExtraMetadata;
 
+          const tmpSlug = extraMetadata.slug;
+          const slug = tmpSlug ? tmpSlug : '';
+          const category = extraMetadata.category;
+          const order = extraMetadata.order;
+          const sponsor = extraMetadata.sponsor;
           
           finalRes.push({
             title: title,

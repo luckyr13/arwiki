@@ -139,8 +139,13 @@ export class MyPagesComponent implements OnInit, OnDestroy {
           const owner = pTX.owner.address;
           const id = pTX.id;
           const pageValue = this.arwikiQuery.searchKeyNameInTags(pTX.tags, 'Arwiki-Page-Value');
-          const extraData: any = allApprovedPages[slug] && allApprovedPages[slug].id == id 
-            ? allApprovedPages[slug] : {};
+          let extraData: any = {};
+          for (const s in allApprovedPages) {
+            if (allApprovedPages[s].updates &&
+                allApprovedPages[s].updates!.find((u) => { return u.tx === id })) {
+              extraData = allApprovedPages[s];
+            }
+          }
           const start = extraData.start ? extraData.start : 0;
           const pageRewardAt = extraData.pageRewardAt ? extraData.pageRewardAt : 0;
           const sponsor = extraData.sponsor ? extraData.sponsor : '';
