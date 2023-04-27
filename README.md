@@ -23,7 +23,7 @@ ArWiki Smartweave contracts source code.
 
 ## ArWiki V2
 
-- Arweave Contract Address: `hKg-xAisBqGb5F3Zs1opv9TsvMQpO24jJWxhFUrUvm8`
+- Arweave Contract Address: `jrfpo_Ihv2cHiUi0rsq0ZbI76GdS9kciRPmjvyRIFqM`
 - ArWiki V2: https://arwiki.wiki
 
 ## ArWiki V1
