@@ -25,7 +25,7 @@ export class UserSettingsService {
     protocol: 'https',
     useArweaveGW: false,
     // Current stable contract
-    contractAddress: '3aaQyrURqe_EuCsjJBWWtUOryIVSvtVaCdIrs76LcGo'
+    contractAddress: 'jrfpo_Ihv2cHiUi0rsq0ZbI76GdS9kciRPmjvyRIFqM'
     // Testing contract
     // contractAddress: 'kYoC3ShwsS8XSCyxM1_sLiMGmm-xrDBvxYEcx1-Dh1s'
   };
