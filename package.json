@@ -36,11 +36,11 @@
     "marked": "^4.3.0",
     "ngx-skeleton-loader": "^7.0.0",
     "prismjs": "^1.29.0",
-    "rxjs": "~7.8.0",
+    "rxjs": "^7.8.1",
     "simplemde": "^1.11.2",
     "tslib": "^2.3.0",
     "vouchdao": "^0.2.6",
-    "warp-contracts": "^1.4.2",
+    "warp-contracts": "^1.4.4",
     "warp-contracts-plugin-deploy": "^1.0.7",
     "zone.js": "^0.13.0"
   },
