@@ -21,6 +21,7 @@ import { of } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
 import { UserProfile } from '../core/interfaces/user-profile';
 import { ArwikiAdminsService } from '../core/arwiki-contracts/arwiki-admins.service';
+import { ArwikiTokenContract } from '../core/arwiki-contracts/arwiki-token.service';
 
 @Component({
   selector: 'app-main-toolbar',
@@ -37,7 +38,11 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
   loading = this._userSettings.mainToolbarLoadingStream;
   routerLang: string = '';
   defaultTheme: string = '';
-  appName: string = 'Arweave';
+  // Default AppName
+  // Set the appName here to override the value from contract
+  // Set as empty string if you want to fetch the value from contract
+  // state.settings communityAppName
+  appName: string = '';
   maintoolbarVisible: boolean = false;
   frmSearch: UntypedFormGroup = new UntypedFormGroup({
     'searchQry': new UntypedFormControl('', [Validators.required])
@@ -56,7 +61,8 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
     private _route: ActivatedRoute,
     private _router: Router,
     private _dialog: MatDialog,
-    private _arwikiAdmins: ArwikiAdminsService
+    private _arwikiAdmins: ArwikiAdminsService,
+    private _arwikiToken: ArwikiTokenContract
   ) {}
 
   get searchQry() {
@@ -99,6 +105,11 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
     // Load profile image
     if (this.isLoggedIn) {
       this.updateProfileData();
+    }
+
+    // Load app name
+    if (!this.appName) {
+      this.getAppName();
     }
 
   }
@@ -243,5 +254,19 @@ export class MainToolbarComponent implements OnInit, OnDestroy {
       }
     })
     
+  }
+
+  getAppName() {
+    this.appName = this._userSettings.getAppName();
+    this._userSettings.appNameStream.subscribe({
+      next: (appName) => {
+        if (appName) {
+          this.appName = appName;
+        }
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    })
   }
 }

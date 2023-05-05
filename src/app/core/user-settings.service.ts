@@ -27,10 +27,12 @@ export class UserSettingsService {
     // Current stable contract
     contractAddress: 'jrfpo_Ihv2cHiUi0rsq0ZbI76GdS9kciRPmjvyRIFqM'
     // Testing contract
-    // contractAddress: 'kYoC3ShwsS8XSCyxM1_sLiMGmm-xrDBvxYEcx1-Dh1s'
+    // contractAddress: 'pEtfsFjKR3O5OEeMGYFlLBwV_-7NmXSTy6DlMHqFjJQ'
   };
 
-  _tokenTicker = '';
+  private _tokenTicker = '';
+  private _appName = '';
+  private _appLogo = '';
 
   // Observable
   private _settingsLangSource = new Subject<ArwikiLang>();
@@ -101,6 +103,36 @@ export class UserSettingsService {
 
   public updateScrollTop(_scroll: number) {
     this._scrollTopSource.next(_scroll);
+  }
+
+  // Observable string source
+  private _appNameSource = new Subject<string>();
+
+  // Observable string stream
+  public appNameStream = this._appNameSource.asObservable();
+
+  public updateAppNameObservable(appName: string) {
+    this._appName = appName;
+    this._appNameSource.next(appName);
+  }
+
+  public getAppName() {
+    return this._appName;
+  }
+
+  // Observable string source
+  private _appLogoSource = new Subject<string>();
+
+  // Observable string stream
+  public appLogoStream = this._appLogoSource.asObservable();
+
+  public updateAppLogoObservable(appLogo: string) {
+    this._appLogo = appLogo;
+    this._appLogoSource.next(appLogo);
+  }
+
+  public getAppLogo() {
+    return this._appLogo;
   }
 
   private _cookiesAccepted = false;
@@ -201,6 +233,7 @@ export class UserSettingsService {
   	window.localStorage.removeItem('defaultTheme');
   	window.localStorage.removeItem('defaultLang');
     window.localStorage.removeItem('defaultNetwork');
+    window.localStorage.removeItem('cookiesAccepted');
   }
 
   /*

@@ -79,6 +79,20 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
             const ticker = _tokenContractState.ticker ? 
               _tokenContractState.ticker : '';
             this._userSettings.setTokenTicker(ticker);
+
+            // Set app name
+            if (_tokenContractState && _tokenContractState.settings) {
+              const settings = new Map(_tokenContractState.settings);
+              const appName: string|undefined = settings.get('communityAppName') as string|undefined;
+              const appLogo: string|undefined = settings.get('communityLogo') as string|undefined;
+              
+              if (appName) {
+                this._userSettings.updateAppNameObservable(appName.trim());
+              }
+              if (appLogo) {
+                this._userSettings.updateAppLogoObservable(appLogo.trim());
+              }
+            }
             
             this._userSettings.updateMainToolbarLoading(false);
             return of(isValidLang);
