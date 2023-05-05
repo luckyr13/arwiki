@@ -30,8 +30,16 @@ export class MainPageComponent implements OnInit, OnDestroy {
 	defaultTheme: string = '';
 	loadingSubmenu: boolean = false;
   appName: string = 'Arweave';
-  appLogoLight: string = './assets/img/arweave-dark.png';
+  // Default Logos
+  // Set the appLogo value here to override the value from contract
+  // Set as empty string if you want to fetch the value from contract
+  // state.settings communityLogo
+  mainLogo: string = '';
+
+  // Default logo (in black color)
+  // This value will be used if the logo is not defined in the contract
   appLogoDark: string = './assets/img/arweave-light.png';
+
   loadingLatestArticles: boolean = false;
   latestArticles: ArwikiPage[] = [];
   allLatestArticles: string[] = [];
@@ -43,7 +51,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
   mainPage: ArwikiPage|null = null;
   mainPageSubscription: Subscription = Subscription.EMPTY;
   loadingMainPageTX: boolean = false;
-  mainLogo: string = '';
   partners: any[] = [
     /*
     { img: './assets/img/partners/arweaveAppBalancedHGrayF.png', alt: 'Arweave.app', href:'https://arweave.app' },
@@ -312,26 +319,37 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
   getDefaultTheme() {
     this.defaultTheme = this._userSettings.getDefaultTheme();
-    this.mainLogo = this.getMainLogo();
+    this.getMainLogo();
     this._userSettings.defaultThemeStream.subscribe(
       (theme) => {
         this.defaultTheme = theme;
-        this.mainLogo = this.getMainLogo();
       }
     );
   }
 
   getMainLogo() {
-    if ((this.defaultTheme === 'arwiki-light' || 
-      this.defaultTheme === 'arwiki-orange' || 
-      this.defaultTheme === 'arwiki-yellow' || 
-      this.defaultTheme === 'arwiki-peach') && this.appLogoLight) {
-      return this.appLogoLight;
-    } else if (this.defaultTheme === 'arwiki-dark' && this.appLogoDark) {
-      return this.appLogoDark;
+    const baseUrl = this._arweave.baseURL;
+    const tmpLogo = this._userSettings.getAppLogo();
+    if (tmpLogo) {
+      this.mainLogo = `${baseUrl}${tmpLogo}`;
     }
+    this._userSettings.appLogoStream.subscribe({
+      next: (logo) => {
+        if (logo) {
+          this.mainLogo = `${baseUrl}${logo}`;
+        } else {
+          this.mainLogo = this.appLogoDark;
+        }
 
-    return '';
+      },
+      error: (error) => {
+        console.error('getMainLogo', error);
+      }
+    });
+  }
+
+  isDarkTheme() {
+    return this._userSettings.isDarkTheme(this.defaultTheme);
   }
 
   sortedPartners() {

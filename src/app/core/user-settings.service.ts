@@ -301,4 +301,12 @@ export class UserSettingsService {
     }
   }
 
+  isDarkTheme(theme: string) {
+    const dark = ['arwiki-dark'];
+    if (dark.indexOf(theme) >= 0) {
+      return true;
+    }
+    return false;
+  }
+
 }

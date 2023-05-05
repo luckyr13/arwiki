@@ -9,7 +9,8 @@
 			<div *ngIf="loadingMainPageTX" class="fadeIn loadingMsg">
 				<img
           class="main-logo animate__animated animate__flipInY"
-          [src]="mainLogo">
+          [src]="mainLogo"
+          [ngClass]="{ darkThemeLogo: isDarkTheme() }">
 				<h3 class="text-left animate__animated animate__pulse animate__infinite">
 					{{ 'LOADING.LOADING_LABEL' | translate }}
 				</h3>
@@ -18,7 +19,8 @@
 			<div *ngIf="!loadingMainPageTX && mainPage" class="fadeIn">
 				<img
           class="main-logo"
-          [src]="mainLogo">
+          [src]="mainLogo"
+          [ngClass]="{ darkThemeLogo: isDarkTheme() }">
 				<h1 class="text-left main-title fadeIn">
 					{{ mainPage.title }}
 				</h1>
@@ -32,7 +34,8 @@
 			<div *ngIf="!loadingMainPageTX && !mainPage" class="fadeIn">
 				<img
           class="main-logo"
-          [src]="mainLogo">
+          [src]="mainLogo"
+          [ngClass]="{ darkThemeLogo: isDarkTheme() }">
 				
 				<h1 *ngIf="!loadingMainPageTX" class="text-left main-title fadeIn">
 					{{ 'MAIN_PAGE.TITLE_L1' | translate }}
