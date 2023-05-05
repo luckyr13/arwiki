@@ -86,6 +86,11 @@ export class PstInfoComponent implements OnInit, OnDestroy {
               key: 'moderatorsMinVaultBalance',
               label: 'Moderator\'s Min Vault',
               formatFunction: (val: any) => `${val} ${this.ticker}`
+            },
+            {
+              key: 'communityAppName',
+              label: 'App name',
+              formatFunction: (val: any) => ''
             }
             
           ];
