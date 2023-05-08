@@ -332,6 +332,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
     const tmpLogo = this._userSettings.getAppLogo();
     if (tmpLogo) {
       this.mainLogo = `${baseUrl}${tmpLogo}`;
+    } else {
+      this.mainLogo = this.appLogoDark;
     }
     this._userSettings.appLogoStream.subscribe({
       next: (logo) => {
