@@ -4,6 +4,8 @@ import { ArwikiPage } from './interfaces/arwiki-page';
 /*
 *  Service name
 *  The name for the protocol
+*  Empty string: Reads value from the contract or
+*  define the protocol name here to override this behavior.
 *  Note: Only change this value if you want to create/use 
 *        a new protocol/fork.
 */
@@ -11,6 +13,8 @@ export let serviceName = '';
 
 /*
 * Arwiki protocol versions supported by the system
+*  Empty string: Reads value from the contract or
+*  define the protocol version here to override this behavior.
 * Note: arwikiVersion[0] the first position [0]
 *       must contain the latest supported protocol version
 */
