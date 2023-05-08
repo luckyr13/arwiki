@@ -82,18 +82,20 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
             // Set token ticker
             const ticker = _tokenContractState.ticker ? 
               _tokenContractState.ticker : '';
-            this._userSettings.setTokenTicker(ticker);
+            if (!this._userSettings.getTokenTicker()) {
+              this._userSettings.setTokenTicker(ticker);
+            }
 
-            // Set app name and default logo
             if (_tokenContractState && _tokenContractState.settings) {
               const settings = new Map(_tokenContractState.settings);
               const appName: string|undefined = settings.get('communityAppName') as string|undefined;
               const appLogo: string|undefined = settings.get('communityLogo') as string|undefined;
               
-              if (appName) {
+              // Set app name and default logo
+              if (appName && !this._userSettings.getAppName()) {
                 this._userSettings.updateAppNameObservable(appName.trim());
               }
-              if (appLogo) {
+              if (appLogo && !this._userSettings.getAppLogo()) {
                 this._userSettings.updateAppLogoObservable(appLogo.trim());
               }
 
@@ -101,14 +103,34 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
               const protocolName: string|undefined = settings.get('protocolName') as string|undefined;
               let protocolVersion: string|undefined = settings.get('protocolVersion') as string|undefined;
               
-              if (protocolName && !serviceName) {
+              if (this._userSettings.getProtocolName() && !serviceName) {
+                updateServiceName(this._userSettings.getProtocolName());
+              } else if (protocolName && !serviceName) {
                 this._userSettings.updateProtocolNameObservable(protocolName.trim());
                 updateServiceName(this._userSettings.getProtocolName());
               }
-              if (protocolVersion && (!arwikiVersion || !arwikiVersion.length)) {
+
+              if (this._userSettings.getProtocolVersion() && 
+                  (!arwikiVersion || !arwikiVersion.length)) {
+                updateArwikiVersion(this._userSettings.getProtocolVersion());
+              } else if (protocolVersion && (!arwikiVersion || !arwikiVersion.length)) {
                 this._userSettings.updateProtocolVersionObservable(protocolVersion.trim());
-                updateArwikiVersion(this._userSettings.getProtocolVersion())
+                updateArwikiVersion(this._userSettings.getProtocolVersion());
               }
+
+              // Set social media links
+              const socialMediaLinks = this._userSettings.getSocialMediaLinks();
+              for (const socialMediaKey in socialMediaLinks) {
+                const tmpSocialMediaLink: string|undefined = settings.get(socialMediaKey) as string|undefined;
+                if (tmpSocialMediaLink && !socialMediaLinks[socialMediaKey]) {
+                  this._userSettings.updatesocialMediaLinks(
+                    socialMediaKey,
+                    tmpSocialMediaLink
+                  );
+                }
+              }
+              this._userSettings.updatesocialMediaLinksObservable();
+              
             }
             
             this._userSettings.updateMainToolbarLoading(false);

@@ -23,6 +23,7 @@ export class FooterComponent implements OnInit, OnDestroy {
   footerLinks: Array<{label:string, url:string[]}> = [];
   footerLinksSubscription = Subscription.EMPTY;
   arwikiQuery!: ArwikiQuery;
+  socialMediaLinks: {socialMedia: string, link: string}[] = [];
 
   constructor(
     private _userSettings: UserSettingsService,
@@ -46,6 +47,7 @@ export class FooterComponent implements OnInit, OnDestroy {
     });
 
     this.loadFooterLinks(this.routerLang);
+    this.loadSocialMediaLinks();
   }
 
   ngOnDestroy() {
@@ -100,6 +102,43 @@ export class FooterComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         console.error('loadFooterLinks', error);
+      }
+    });
+  }
+
+  loadSocialMediaLinks() {
+    const tmpLinks = this._userSettings.getSocialMediaLinks();
+    const tmpFooterSocialMedia: {socialMedia: string, link: string}[] = [];
+    if (tmpLinks) {
+      for (const key in tmpLinks) {
+        if (tmpLinks[key]) {
+          tmpFooterSocialMedia.push({
+            socialMedia: key,
+            link: tmpLinks[key]
+          });
+        }
+      }
+    }
+    
+    this._userSettings.socialMediaLinksStream.subscribe({
+      next: (smLinks) => {
+        const tmpFooterSocialMedia: {socialMedia: string, link: string}[] = [];
+        if (smLinks) {
+          for (const key in smLinks) {
+            if (smLinks[key]) {
+              tmpFooterSocialMedia.push({
+                socialMedia: key,
+                link: smLinks[key]
+              });
+            }
+          }
+        }
+        if (tmpFooterSocialMedia && tmpFooterSocialMedia.length) {
+          this.socialMediaLinks = tmpFooterSocialMedia;
+        }
+      },
+      error: (error) => {
+        console.error('loadSocialMediaLinks', error);
       }
     });
   }

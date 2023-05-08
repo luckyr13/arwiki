@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
 import {ArwikiLang} from '../core/interfaces/arwiki-lang';
 import {ArweaveGateway} from '../core/interfaces/arweave-gateway';
+import { UtilsService } from './utils.service';
+
 declare const window: any;
 declare const document: any;
 
@@ -27,15 +29,17 @@ export class UserSettingsService {
     // Current stable contract
     contractAddress: 'jrfpo_Ihv2cHiUi0rsq0ZbI76GdS9kciRPmjvyRIFqM'
     // Testing contract
-    // contractAddress: 'pEtfsFjKR3O5OEeMGYFlLBwV_-7NmXSTy6DlMHqFjJQ'
+    // contractAddress: 'NUQkXe-8Akd5jw13hzWzfdepGg07Fg_HHimXCqy8BM4'
   };
 
+  // Empty strings on this values if you
+  // want to read the values from the contract state (settings array)
+  // or set the values to override this behavior.
   private _tokenTicker = '';
   private _appName = '';
   private _appLogo = '';
   private _protocolName = '';
   private _protocolVersion = '';
-
   private _socialMediaLinks: Record<string, string> = {
     'socialMediaGitHub': '',
     'socialMediaDiscord': '',
@@ -45,8 +49,7 @@ export class UserSettingsService {
     'socialMediaFacebook': '',
     'socialMediaPublicSquare': '',
     'socialMediaNarrative': ''
-  }
-
+  };
 
   // Observable
   private _settingsLangSource = new Subject<ArwikiLang>();
@@ -183,24 +186,62 @@ export class UserSettingsService {
   }
 
   // Observable string source
-  private _socialMediaLinksSource = new Subject<Record<string, string>>();
+  private _socialMediaLinksSource = new BehaviorSubject<Record<string, string>>({});
 
   // Observable string stream
   public socialMediaLinksStream = this._socialMediaLinksSource.asObservable();
 
-  public updatesocialMediaLinksObservable(socialMedia: string, link: string) {
-    this._socialMediaLinks[socialMedia] = link;
+  public updatesocialMediaLinks(socialMedia: string, handleOrLink: string) {
+    switch(socialMedia) {
+      case 'socialMediaGitHub':
+        this._socialMediaLinks[socialMedia] = `https://github.com/${handleOrLink}`;
+      break;
+      case 'socialMediaDiscord':
+        this._socialMediaLinks[socialMedia] = handleOrLink;
+
+      break;
+      case 'socialMediaTwitter':
+        this._socialMediaLinks[socialMedia] = `https://twitter.com/${handleOrLink}`;
+        
+      break;
+      case 'socialMediaYoutube':
+        this._socialMediaLinks[socialMedia] = `https://youtube.com/${handleOrLink}`;
+        
+      break;
+      case 'socialMediaInstagram':
+        this._socialMediaLinks[socialMedia] = `https://instagram.com/${handleOrLink}`;
+        
+      break;
+      case 'socialMediaFacebook':
+        this._socialMediaLinks[socialMedia] = `https://facebook.com/${handleOrLink}`;
+        
+      break;
+      case 'socialMediaPublicSquare':
+        this._socialMediaLinks[socialMedia] = `https://publicsquare.social/#/${handleOrLink}`;
+        
+      break;
+      case 'socialMediaNarrative':
+        this._socialMediaLinks[socialMedia] = `https://narrative.social/#/${handleOrLink}`;
+        
+      break;
+      default:
+        // Do nothing
+    }
+  }
+
+  public updatesocialMediaLinksObservable() {
     this._socialMediaLinksSource.next(this._socialMediaLinks);
   }
 
   public getSocialMediaLinks() {
-    return this._socialMediaLinks;
+    return this._utils.cloneObject(this._socialMediaLinks);
   }
 
   private _cookiesAccepted = false;
 
   constructor(
-    private _translate: TranslateService
+    private _translate: TranslateService,
+    private _utils: UtilsService
    ) {
   	this.initSettings();
   }
