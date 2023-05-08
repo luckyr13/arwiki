@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { arwikiVersion, arwikiAppVersion } from '../../core/arwiki';
+import { arwikiVersion, arwikiAppVersion, serviceName } from '../../core/arwiki';
 import { UserSettingsService } from '../../core/user-settings.service';
 import { ArweaveGateway } from '../../core/interfaces/arweave-gateway';
 
@@ -12,6 +12,7 @@ import { ArweaveGateway } from '../../core/interfaces/arweave-gateway';
 export class AppInfoComponent implements OnInit {
   loading = false;
   arwikiVersion = '';
+  arwikiProtocol = '';
   appVersion = '';
   networkInfo: ArweaveGateway|null = null;
 
@@ -27,6 +28,7 @@ export class AppInfoComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.arwikiProtocol = serviceName;
     this.arwikiVersion = arwikiVersion[0];
     this.appVersion = arwikiAppVersion;
     this.networkInfo = this._userSettings.getDefaultNetwork();

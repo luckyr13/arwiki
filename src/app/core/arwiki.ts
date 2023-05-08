@@ -7,14 +7,22 @@ import { ArwikiPage } from './interfaces/arwiki-page';
 *  Note: Only change this value if you want to create/use 
 *        a new protocol/fork.
 */
-export const serviceName = 'ArWiki';
+export let serviceName = '';
 
 /*
 * Arwiki protocol versions supported by the system
 * Note: arwikiVersion[0] the first position [0]
 *       must contain the latest supported protocol version
 */
-export const arwikiVersion = ['0.8'];
+export const arwikiVersion: string[] = [];
+
+export function updateServiceName(name: string) {
+  serviceName = name;
+}
+
+export function updateArwikiVersion(version: string) {
+  arwikiVersion.unshift(version);
+}
 
 /*
 *  ArWiki app version

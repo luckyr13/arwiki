@@ -16,6 +16,10 @@ import { ArwikiLangsService } from '../core/arwiki-contracts/arwiki-langs.servic
 import { ArwikiAdminsService } from '../core/arwiki-contracts/arwiki-admins.service';
 import { WarpContractsService } from '../core/warp-contracts.service';
 import { ArweaveGateway } from '../core/interfaces/arweave-gateway';
+import {
+  updateServiceName, updateArwikiVersion,
+  serviceName, arwikiVersion
+} from '../core/arwiki';
 
 @Injectable({
   providedIn: 'root'
@@ -80,7 +84,7 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
               _tokenContractState.ticker : '';
             this._userSettings.setTokenTicker(ticker);
 
-            // Set app name
+            // Set app name and default logo
             if (_tokenContractState && _tokenContractState.settings) {
               const settings = new Map(_tokenContractState.settings);
               const appName: string|undefined = settings.get('communityAppName') as string|undefined;
@@ -91,6 +95,19 @@ export class InitPlatformGuard implements CanActivate, CanActivateChild {
               }
               if (appLogo) {
                 this._userSettings.updateAppLogoObservable(appLogo.trim());
+              }
+
+              // Set protocol name and version
+              const protocolName: string|undefined = settings.get('protocolName') as string|undefined;
+              let protocolVersion: string|undefined = settings.get('protocolVersion') as string|undefined;
+              
+              if (protocolName && !serviceName) {
+                this._userSettings.updateProtocolNameObservable(protocolName.trim());
+                updateServiceName(this._userSettings.getProtocolName());
+              }
+              if (protocolVersion && (!arwikiVersion || !arwikiVersion.length)) {
+                this._userSettings.updateProtocolVersionObservable(protocolVersion.trim());
+                updateArwikiVersion(this._userSettings.getProtocolVersion())
               }
             }
             

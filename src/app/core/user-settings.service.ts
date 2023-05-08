@@ -10,8 +10,8 @@ declare const document: any;
   providedIn: 'root'
 })
 export class UserSettingsService {
-	_defaultTheme: string = '';
-	_defaultLang: ArwikiLang = {
+	private _defaultTheme: string = '';
+	private _defaultLang: ArwikiLang = {
     code: "en",
     native_name: "English",
     writing_system: "LTR",
@@ -19,7 +19,7 @@ export class UserSettingsService {
     active: true
   };
   
-  _defaultNetwork: ArweaveGateway = {
+  private _defaultNetwork: ArweaveGateway = {
     host: "arweave.net",
     port: 443,
     protocol: 'https',
@@ -33,6 +33,20 @@ export class UserSettingsService {
   private _tokenTicker = '';
   private _appName = '';
   private _appLogo = '';
+  private _protocolName = '';
+  private _protocolVersion = '';
+
+  private _socialMediaLinks: Record<string, string> = {
+    'socialMediaGitHub': '',
+    'socialMediaDiscord': '',
+    'socialMediaTwitter': '',
+    'socialMediaYoutube': '',
+    'socialMediaInstagram': '',
+    'socialMediaFacebook': '',
+    'socialMediaPublicSquare': '',
+    'socialMediaNarrative': ''
+  }
+
 
   // Observable
   private _settingsLangSource = new Subject<ArwikiLang>();
@@ -133,6 +147,54 @@ export class UserSettingsService {
 
   public getAppLogo() {
     return this._appLogo;
+  }
+
+  // Observable string source
+  private _protocolNameSource = new Subject<string>();
+
+  // Observable string stream
+  public protocolNameStream = this._protocolNameSource.asObservable();
+
+  public updateProtocolNameObservable(protocol: string) {
+    this._protocolName = protocol;
+    this._protocolNameSource.next(protocol);
+  }
+
+  public getProtocolName() {
+    return this._protocolName;
+  }
+
+  // Observable string source
+  private _protocolVersionSource = new Subject<string>();
+
+  // Observable string stream
+  public protocolVersionStream = this._protocolVersionSource.asObservable();
+
+  public updateProtocolVersionObservable(version: string|number) {
+    if (typeof version === 'number') {
+      version = `${version}`;
+    }
+    this._protocolVersion = version;
+    this._protocolVersionSource.next(version);
+  }
+
+  public getProtocolVersion() {
+    return this._protocolVersion;
+  }
+
+  // Observable string source
+  private _socialMediaLinksSource = new Subject<Record<string, string>>();
+
+  // Observable string stream
+  public socialMediaLinksStream = this._socialMediaLinksSource.asObservable();
+
+  public updatesocialMediaLinksObservable(socialMedia: string, link: string) {
+    this._socialMediaLinks[socialMedia] = link;
+    this._socialMediaLinksSource.next(this._socialMediaLinks);
+  }
+
+  public getSocialMediaLinks() {
+    return this._socialMediaLinks;
   }
 
   private _cookiesAccepted = false;
