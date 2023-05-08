@@ -39,6 +39,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
   // Default logo (in black color)
   // This value will be used if the logo is not defined in the contract
   appLogoDark: string = './assets/img/arweave-light.png';
+  appLogoLight: string = './assets/img/arweave-dark.png';
 
   loadingLatestArticles: boolean = false;
   latestArticles: ArwikiPage[] = [];
@@ -333,14 +334,14 @@ export class MainPageComponent implements OnInit, OnDestroy {
     if (tmpLogo) {
       this.mainLogo = `${baseUrl}${tmpLogo}`;
     } else {
-      this.mainLogo = this.appLogoDark;
+      this.mainLogo = this.appLogoLight;
     }
     this._userSettings.appLogoStream.subscribe({
       next: (logo) => {
         if (logo) {
           this.mainLogo = `${baseUrl}${logo}`;
         } else {
-          this.mainLogo = this.appLogoDark;
+          this.mainLogo = this.appLogoLight;
         }
 
       },
