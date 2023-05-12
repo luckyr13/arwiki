@@ -1,6 +1,7 @@
 # ArWiki versions
 
 ## 2.0.6
+- Backup (2023-05-12): https://arweave.net/I4f-RwQhRoquFSP4ezgf3A-W5IhDfV1H8D_QqixQhS4
 - Get AppName, AppLogo and Social Media Links (footer) from contract state (Contract Settings).
 - Get ProtocolName and ProtocolVersion from contract state (Contract Settings).
 
