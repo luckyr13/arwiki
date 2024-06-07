@@ -225,8 +225,8 @@
 			"MSG": "Compartir en una publicación de Facebook"
 		},
 		"OPTION_2": {
-			"NAME": "Twitter",
-			"MSG": "Compartir en un tweet"
+			"NAME": "X",
+			"MSG": "Compartir en un post"
 		},
 		"OPTION_3": {
 			"NAME": "Whatsapp",

@@ -225,8 +225,8 @@
 			"MSG": "Share in a Facebook post"
 		},
 		"OPTION_2": {
-			"NAME": "Twitter",
-			"MSG": "Share in a tweet"
+			"NAME": "X",
+			"MSG": "Share in a post"
 		},
 		"OPTION_3": {
 			"NAME": "Whatsapp",

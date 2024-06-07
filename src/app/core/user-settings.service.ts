@@ -46,7 +46,7 @@ export class UserSettingsService {
   private _socialMediaLinks: Record<string, string> = {
     'socialMediaGitHub': '',
     'socialMediaDiscord': '',
-    'socialMediaTwitter': '',
+    'socialMediaX': '',
     'socialMediaYoutube': '',
     'socialMediaInstagram': '',
     'socialMediaFacebook': '',
@@ -203,8 +203,8 @@ export class UserSettingsService {
         this._socialMediaLinks[socialMedia] = handleOrLink;
 
       break;
-      case 'socialMediaTwitter':
-        this._socialMediaLinks[socialMedia] = `https://twitter.com/${handleOrLink}`;
+      case 'socialMediaX':
+        this._socialMediaLinks[socialMedia] = `https://x.com/${handleOrLink}`;
         
       break;
       case 'socialMediaYoutube':

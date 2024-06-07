@@ -128,8 +128,8 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
 
   socialLink(handle: string, service: string) {
     let ans = '';
-    if (service === 'twitter') {
-      ans = `https://twitter.com/${handle}`
+    if (service === 'x') {
+      ans = `https://x.com/${handle}`
     } else if (service === 'youtube') {
       ans = `https://youtube.com/${handle}`
     } else if (service === 'github') {

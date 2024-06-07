@@ -43,7 +43,7 @@ Please read our [CHANGELOG](https://github.com/luckyr13/arwiki/blob/master/CHANG
 Please visit our Discord channel for further support, comments or feedback: https://discord.gg/mn8j66r4x3
 
 ## ArWiki Social Media
-- Twitter: https://twitter.com/TheArWiki
+- X: https://x.com/TheArWiki
 - Discord channel: https://discord.gg/mn8j66r4x3
 
 ## Installation
@@ -64,12 +64,12 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## Special Thanks
 
-- [Sam Williams](https://twitter.com/samecwilliams)
-- [India Raybould](https://twitter.com/indiaraybould)
+- [Sam Williams](https://x.com/samecwilliams)
+- [India Raybould](https://x.com/indiaraybould)
 - [JF](https://github.com/jfbeats)
 - [Germany](https://github.com/jeremybeal11)
 - [DMac](https://github.com/DanMacDonald)
-- [Abhav](https://twitter.com/abhav_k)
+- [Abhav](https://x.com/abhav_k)
 
 ## Translations
 - Chinese ArWiki: https://arwiki.wiki/#/zh/main
@@ -85,7 +85,7 @@ Contributors:
 
 Contributors:
 
-[Ethan Lee](https://twitter.com/eungholee27)
+[Ethan Lee](https://x.com/eungholee27)
 
 
 - Ukrainian ArWiki: https://arwiki.wiki/#/uk/main

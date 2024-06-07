@@ -144,7 +144,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy  {
     console.log('%cWelcome to the arwiki!', 'background: #000; color: #FFF; font-size: 32px; padding: 10px;');
     console.log('%cPlease let us know if you find some interesting bug 😄', 'font-weight: bold;');
     console.log('%cJoin us in our Discord Channel: https://discord.gg/mn8j66r4x3', '');
-    console.log('%cFollow us on Twitter: https://twitter.com/TheArWiki', '');
+    console.log('%cFollow us on X: https://x.com/TheArWiki', '');
   
   }
 

@@ -38,10 +38,10 @@ export class BottomSheetShareComponent implements OnInit {
   			const facebookURL = `https://www.facebook.com/share.php?u=${urlencodedurl}&quote=${urlencodeddesc}&picture=${urlencodedimg}`;
   			this.openWindowPopup(facebookURL);
   		break;
-  		case 'twitter':
-  			const tweet = `${urlencodedtitle}: ${this.data.content}`.substr(0, 240);
-  			const twitterURL = `https://twitter.com/share?url=${urlencodedurl}&text=${tweet}`;
-  			this.openWindowPopup(twitterURL);
+  		case 'x':
+  			const post = `${urlencodedtitle}: ${this.data.content}`.substr(0, 240);
+  			const url = `https://x.com/share?url=${urlencodedurl}&text=${post}`;
+  			this.openWindowPopup(url);
   		break;
   		case 'whatsapp':
   			const whatsappURL = `https://wa.me/?text=${urlencodeddesc}`;
