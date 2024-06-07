@@ -15,7 +15,6 @@ import { UserSettingsService } from '../../core/user-settings.service';
 import { AuthService } from '../../auth/auth.service';
 import { switchMap } from 'rxjs/operators';
 import { DialogDonateComponent } from '../../shared/dialog-donate/dialog-donate.component';
-import { DialogStampComponent } from '../../shared/dialog-stamp/dialog-stamp.component';
 import { Direction } from '@angular/cdk/bidi';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confirm.component';
@@ -38,7 +37,6 @@ import {TranslateService} from '@ngx-translate/core';
 import { ArwikiPagesService } from '../../core/arwiki-contracts/arwiki-pages.service';
 import { ArwikiPageSponsorService } from '../../core/arwiki-contracts/arwiki-page-sponsor.service';
 import { ArwikiAdminsService } from '../../core/arwiki-contracts/arwiki-admins.service';
-import { StampsWrapper } from '../../core/stamps-wrapper';
 import { WarpContractsService } from '../../core/warp-contracts.service';
 import { DialogClaimNftComponent } from '../../shared/dialog-claim-nft/dialog-claim-nft.component';
 
@@ -80,14 +78,9 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
   translations: string[] = [];
   translationsSubscription = Subscription.EMPTY;
   readingTime: {minutes: number, seconds: number}|null = null;
-  stamps = 0;
-  private _stampsDialogRef: MatDialogRef<any>|null = null;
   getTranslationsSubscription = Subscription.EMPTY;
   pageOwner = '';
   ticker = '';
-  stampsSubscription = Subscription.EMPTY;
-  stampsWrapper: StampsWrapper|null = null;
-  loadingStampsCounter = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -114,7 +107,6 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     Prism.manual = true;
 
   	this.arwikiQuery = new ArwikiQuery(this._arweave.arweave);
-    this.stampsWrapper = new StampsWrapper(this._warp.warp);
 
     //const tmpPageData: ArwikiPage = this.route.snapshot.data[0];
     //this.updateMetaTags(tmpPageData);
@@ -141,9 +133,6 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
       this.mainAddress = _mainAddress;
       this.isUserLoggedIn = !!_mainAddress;
 
-      if (this._stampsDialogRef) {
-        this._stampsDialogRef.close();
-      }
     })
 
     this.ticker = this._userSettings.getTokenTicker();
@@ -290,8 +279,6 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
             }
           });
 
-          // Load STAMPS count
-          this.getStamps(this.pageData.nft);
 
   			} else {
           this.pageData.rawContent = '';
@@ -317,7 +304,6 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
     this.tagsSubscription.unsubscribe();
     this.contentSubscription.unsubscribe();
     this.getTranslationsSubscription.unsubscribe();
-    this.stampsSubscription.unsubscribe();
   }
 
   goBack() {
@@ -636,50 +622,6 @@ export class ViewDetailComponent implements OnInit, OnDestroy {
       );
   }
 
-  stamp(slug: string, lang: string, nft: string, sponsor: string) {
-    const defLang = this._userSettings.getDefaultLang();
-    let direction: Direction = defLang.writing_system === 'LTR' ? 
-      'ltr' : 'rtl';
-
-    this._stampsDialogRef = this._dialog.open(DialogStampComponent, {
-      data: {
-        address: this.mainAddress,
-        slug: slug,
-        lang: lang,
-        nft: nft
-      },
-      direction: direction,
-      disableClose: true
-    });
-
-    this._stampsDialogRef.afterClosed().subscribe(async (result) => {
-      this._stampsDialogRef = null;
-      if (result) {
-        // Reload Stamps number
-        this.getStamps(nft);
-        this._utils.message('Success!', 'success');
-      }
-    });
-  }
-
-  getStamps(nft: string|undefined) {
-    this.stamps = 0;
-    this.loadingStampsCounter = true;
-    if (!nft) {
-      this.loadingStampsCounter = false;
-      return;
-    }
-    this.stampsSubscription = this.stampsWrapper!.count(nft).subscribe({
-      next: (stampsCount) => {
-        this.loadingStampsCounter = false;
-        this.stamps = stampsCount.total;
-      },
-      error: () => {
-        this.loadingStampsCounter = false;
-        console.log('Error loading stamps');
-      }
-    });
-  }
 
   claim(nft: string) {
     if (!this.mainAddress) {

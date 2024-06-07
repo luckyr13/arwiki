@@ -24,20 +24,6 @@
 		    <mat-icon>share</mat-icon>
 		    {{ 'GENERAL.BUTTONS.BTN_SHARE' | translate }}
 		  </button>
-		  <button 
-	    	type="button"
-		  	mat-button 
-		  	class="btn-toolbar vote-btn" 
-		  	color="accent"
-		  	[disabled]="!pageData.nft"
-		  	(click)="stamp(routeSlug, routeLang, pageData.nft!, pageExtraMetadata.sponsor!)">
-	    	<img class="invert-colors icon-stamp material-icons" src="assets/img/stampWhite.png">
-	    	<mat-spinner
-	    		*ngIf="loadingStampsCounter"
-	    		color="accent"
-	    		diameter="16"></mat-spinner>
-		    <span *ngIf="!loadingStampsCounter">{{ stamps }} STAMPS</span>
-		  </button>
 	    <button 
 	    	type="button"
 		  	mat-button 
