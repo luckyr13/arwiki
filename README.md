@@ -108,5 +108,7 @@ Contributors:
 
 - Indonesian ArWiki: https://arwiki.wiki/#/id/main
 
+Contributors:
+
 [Megumiiiiii](https://github.com/Megumiiiiii)
 
