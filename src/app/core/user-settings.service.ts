@@ -25,9 +25,12 @@ export class UserSettingsService {
     host: "arweave.net",
     port: 443,
     protocol: 'https',
-    useArweaveGW: false,
+    useArweaveGW: true,
     // Current stable contract
-    contractAddress: 'jrfpo_Ihv2cHiUi0rsq0ZbI76GdS9kciRPmjvyRIFqM'
+    // Tx Deployed directly to Arweave network
+    contractAddress: 'mD5P_j8Sd-EbtkTraPJEebBfFQUc_4ooCEA0ylpby6w'
+    // Bundled tx
+    // jrfpo_Ihv2cHiUi0rsq0ZbI76GdS9kciRPmjvyRIFqM
     // Testing contract
     // contractAddress: 'NUQkXe-8Akd5jw13hzWzfdepGg07Fg_HHimXCqy8BM4'
   };
