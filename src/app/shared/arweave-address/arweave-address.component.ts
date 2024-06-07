@@ -4,7 +4,6 @@ import { UtilsService } from '../../core/utils.service';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../auth/auth.service';
 import { ArweaveService } from '../../core/arweave.service';
-import { VouchDaoService } from '../../core/vouch-dao.service';
 
 @Component({
   selector: 'app-arweave-address',
@@ -12,7 +11,6 @@ import { VouchDaoService } from '../../core/vouch-dao.service';
   styleUrls: ['./arweave-address.component.scss']
 })
 export class ArweaveAddressComponent implements OnInit, OnDestroy, OnChanges {
-  public vouched: boolean = false;
   @Input() address: string = '';
   @Input() isAddress: boolean = true;
   @Input() lang: string = '';
@@ -21,8 +19,6 @@ export class ArweaveAddressComponent implements OnInit, OnDestroy, OnChanges {
   @Input() showArCodeLink: boolean = false;
   @Input() showSonArContractLink: boolean = false;
   @Input() showImgArweaveLink: boolean = false;
-  @Input() showVouchedBtn: boolean = true;
-  vouchedSubscription = Subscription.EMPTY;
   
   private _profileSubscription = Subscription.EMPTY;
   public profileImage: string = 'assets/img/blank-profile.png';
@@ -32,23 +28,9 @@ export class ArweaveAddressComponent implements OnInit, OnDestroy, OnChanges {
     private _clipboard: Clipboard,
     private _utils: UtilsService,
     private _auth: AuthService,
-    private _arweave: ArweaveService,
-    private _vouch: VouchDaoService) {}
+    private _arweave: ArweaveService) {}
 
   ngOnInit() {
-    // Show Vouched button
-    if (this.isAddress &&
-      this.address &&
-      this.showVouchedBtn) {
-      this.vouchedSubscription = this._vouch.isVouched(this.address).subscribe({
-        next: (res) => {
-          this.vouched = res;
-        },
-        error: (error) => {
-          console.error('VouchDao: ', error);
-        }
-      });
-    }
     // Show profile detail
     if (this.isAddress &&
       this.address &&
