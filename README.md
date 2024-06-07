@@ -106,4 +106,7 @@ Contributors:
 
 - Spanish ArWiki: https://arwiki.wiki/#/es/main
 
+- Indonesian ArWiki: https://arwiki.wiki/#/id/main
+
+[Megumiiiiii](https://github.com/Megumiiiiii)
 
