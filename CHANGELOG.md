@@ -1,6 +1,7 @@
 # ArWiki versions
 
 ## 2.0.7
+- Backup (2024-06-07): https://arweave.net/0eRcI5PpUQGIDcBGTPCcANkUkgY85a1VGf0o7Y-q01o
 - Social Media links updated (Twitter <> X).
 - STAMPS and VouchDao disabled.
 - useArweaveGW = true by default (Warp contracts flag)
