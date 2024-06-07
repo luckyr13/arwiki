@@ -31,7 +31,7 @@ export function updateArwikiVersion(version: string) {
 /*
 *  ArWiki app version
 */
-export const arwikiAppVersion = '2.0.6';
+export const arwikiAppVersion = '2.0.7';
 
 /*
 *	@dev Main class
