@@ -11,8 +11,14 @@ ArWiki is an Arweave dapp, a web3 website that lives on the permaweb.
 You can visit the ArWiki using the next links: 
 
 - ArWiki: https://arwiki.wiki
-- ArWiki: https://arwiki.arweave.dev
-- ArWiki: https://arwiki.g8way.io
+- ArWiki: https://arwiki.arweave.net
+- ArWiki: https://arwiki.ar.io
+- ArWiki: https://wiki.arweave.net
+- ArWiki: https://wiki.ar.io
+
+## Last deployment ID:
+
+`0eRcI5PpUQGIDcBGTPCcANkUkgY85a1VGf0o7Y-q01o`
 
 
 ## ArWiki Contracts: Smartweave contracts for ArWiki
